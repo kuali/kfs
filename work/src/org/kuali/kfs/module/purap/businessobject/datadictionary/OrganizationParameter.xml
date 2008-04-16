@@ -1,78 +1,114 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.OrganizationParameter">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Organization Parameter Inquiry</title>
+  <bean id="OrganizationParameter" parent="OrganizationParameter-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="OrganizationParameter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.OrganizationParameter" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationParameter-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationParameter-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="chartOfAccountsCode" />
+    <property name="objectLabel" value="Organization Parameter" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationParameter-chartOfAccountsCode" />
+        <ref bean="OrganizationParameter-organizationCode" />
+        <ref bean="OrganizationParameter-organizationAutomaticPurchaseOrderLimit" />
+        <ref bean="OrganizationParameter-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Organization Parameter Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Look up an Organization Parameter</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="OrganizationParameter-chartOfAccountsCode" parent="OrganizationParameter-chartOfAccountsCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="organizationAutomaticPurchaseOrderLimit" required="false" />
-            </lookupFields>
+  <bean id="OrganizationParameter-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationParameter-organizationCode" parent="OrganizationParameter-organizationCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
-            </resultFields>
-        </lookup>
+  <bean id="OrganizationParameter-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit" parent="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" />
 
-        <titleAttribute>chartOfAccountsCode</titleAttribute>
+  <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="organizationAutomaticPurchaseOrderLimit" />
+    <property name="label" value="Organization APO Limit" />
+    <property name="shortLabel" value="Organization APO Limit" />
+    <property name="required" value="false" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="OrganizationParameter-versionNumber" parent="OrganizationParameter-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="OrganizationParameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
-            
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="organizationAutomaticPurchaseOrderLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Organization APO Limit</label>
-                <shortLabel>Organization APO Limit</shortLabel>
-                <required>false</required>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="OrganizationParameter-inquiryDefinition" parent="OrganizationParameter-inquiryDefinition-parentBean" />
 
-        </attributes>
-        <objectLabel>Organization Parameter</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OrganizationParameter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Parameter Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationAutomaticPurchaseOrderLimit" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationParameter-lookupDefinition" parent="OrganizationParameter-lookupDefinition-parentBean" />
+
+  <bean id="OrganizationParameter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Parameter Lookup" />
+    <property name="instructions" value="Look up an Organization Parameter" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationAutomaticPurchaseOrderLimit" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationAutomaticPurchaseOrderLimit" />
+      </list>
+    </property>
+  </bean>
+</beans>

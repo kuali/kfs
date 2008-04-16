@@ -1,298 +1,388 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransactionDetail">
-
-
-        <inquiry>
-            <title>Procurement Card Transaction Detail Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentTransactionLineNumber" />
-                <field attributeName="transactionReferenceNumber" />
-                <field attributeName="transactionBillingCurrencyCode" />
-                <field attributeName="transactionCurrencyExchangeRate" />
-                <field attributeName="transactionDate" />
-                <field attributeName="transactionOriginalCurrencyAmount" />
-                <field attributeName="transactionOriginalCurrencyCode" />
-                <field attributeName="transactionPointOfSaleCode" />
-                <field attributeName="transactionPostingDate" />
-                <field attributeName="transactionPurchaseIdentifierDescription" />
-                <field attributeName="transactionPurchaseIdentifierIndicator" />
-                <field attributeName="transactionSalesTaxAmount" />
-                <field attributeName="transactionSettlementAmount" />
-                <field attributeName="transactionTaxExemptIndicator" />
-                <field attributeName="transactionTravelAuthorizationCode" />
-                <field attributeName="transactionUnitContactName" />
-                <field attributeName="transactionCycleEndDate" />
-                <field attributeName="transactionCycleStartDate" />
-                <field attributeName="transactionTotalAmount" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <attributes>
-
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
-
-            <attribute name="financialDocumentTransactionLineNumber" forceUppercase="true">
-                <label>Financial Document Transaction Line Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionBillingCurrencyCode" forceUppercase="true">
-                <label>Transaction Billing Currency Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-
-                <control>
-                    <text size="5" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionCurrencyExchangeRate" forceUppercase="true">
-                <label>Transaction Currency Exchange Rate</label>
-                <shortLabel>Rate</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionDate" forceUppercase="true">
-                <label>Transaction Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionOriginalCurrencyAmount" forceUppercase="true">
-                <label>Transaction Original Currency Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionOriginalCurrencyCode" forceUppercase="true">
-                <label>Transaction Original Currency Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-
-                <control>
-                    <text size="5" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionPointOfSaleCode" forceUppercase="true">
-                <label>Transaction Point Of Sale Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>25</maxLength>
-
-                <control>
-                    <text size="27" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionPostingDate" forceUppercase="true">
-                <label>Transaction Posting Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionPurchaseIdentifierDescription" forceUppercase="true">
-                <label>Transaction Purchase Identifier Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>25</maxLength>
-
-                <control>
-                    <text size="27" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionPurchaseIdentifierIndicator" forceUppercase="true">
-                <label>Transaction Purchase Identifier Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="transactionReferenceNumber" forceUppercase="true">
-                <label>Transaction Reference Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>23</maxLength>
-
-                <control>
-                    <text size="25" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionSalesTaxAmount" forceUppercase="true">
-                <label>Transaction Sales Tax Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionSettlementAmount" forceUppercase="true">
-                <label>Transaction Settlement Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionTaxExemptIndicator" forceUppercase="true">
-                <label>Transaction Tax Exempt Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="transactionTravelAuthorizationCode" forceUppercase="true">
-                <label>Transaction Travel Authorization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>50</maxLength>
-
-                <control>
-                    <text size="52" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionUnitContactName" forceUppercase="true">
-                <label>Transaction Unit Contact Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>35</maxLength>
-
-                <control>
-                    <text size="37" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionCycleEndDate" forceUppercase="true">
-                <label>Transaction Cycle End Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionCycleStartDate" forceUppercase="true">
-                <label>Transaction Cycle Start Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="transactionTotalAmount" forceUppercase="true">
-                <label>Transaction Total Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardTransactionDetail" parent="ProcurementCardTransactionDetail-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProcurementCardTransactionDetail-inquiryDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProcurementCardTransactionDetail-documentNumber" />
+        <ref bean="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber" />
+        <ref bean="ProcurementCardTransactionDetail-transactionBillingCurrencyCode" />
+        <ref bean="ProcurementCardTransactionDetail-transactionCurrencyExchangeRate" />
+        <ref bean="ProcurementCardTransactionDetail-transactionDate" />
+        <ref bean="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount" />
+        <ref bean="ProcurementCardTransactionDetail-transactionOriginalCurrencyCode" />
+        <ref bean="ProcurementCardTransactionDetail-transactionPointOfSaleCode" />
+        <ref bean="ProcurementCardTransactionDetail-transactionPostingDate" />
+        <ref bean="ProcurementCardTransactionDetail-transactionPurchaseIdentifierDescription" />
+        <ref bean="ProcurementCardTransactionDetail-transactionPurchaseIdentifierIndicator" />
+        <ref bean="ProcurementCardTransactionDetail-transactionReferenceNumber" />
+        <ref bean="ProcurementCardTransactionDetail-transactionSalesTaxAmount" />
+        <ref bean="ProcurementCardTransactionDetail-transactionSettlementAmount" />
+        <ref bean="ProcurementCardTransactionDetail-transactionTaxExemptIndicator" />
+        <ref bean="ProcurementCardTransactionDetail-transactionTravelAuthorizationCode" />
+        <ref bean="ProcurementCardTransactionDetail-transactionUnitContactName" />
+        <ref bean="ProcurementCardTransactionDetail-transactionCycleEndDate" />
+        <ref bean="ProcurementCardTransactionDetail-transactionCycleStartDate" />
+        <ref bean="ProcurementCardTransactionDetail-transactionTotalAmount" />
+        <ref bean="ProcurementCardTransactionDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ProcurementCardTransactionDetail-documentNumber" parent="ProcurementCardTransactionDetail-documentNumber-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTransactionLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Transaction Line Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionBillingCurrencyCode" parent="ProcurementCardTransactionDetail-transactionBillingCurrencyCode-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionBillingCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionBillingCurrencyCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Billing Currency Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionCurrencyExchangeRate" parent="ProcurementCardTransactionDetail-transactionCurrencyExchangeRate-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionCurrencyExchangeRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionCurrencyExchangeRate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Currency Exchange Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionDate" parent="ProcurementCardTransactionDetail-transactionDate-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount" parent="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionOriginalCurrencyAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Original Currency Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyCode" parent="ProcurementCardTransactionDetail-transactionOriginalCurrencyCode-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionOriginalCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionOriginalCurrencyCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Original Currency Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionPointOfSaleCode" parent="ProcurementCardTransactionDetail-transactionPointOfSaleCode-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionPointOfSaleCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionPointOfSaleCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Point Of Sale Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="25" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionPostingDate" parent="ProcurementCardTransactionDetail-transactionPostingDate-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionPostingDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionPostingDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Posting Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionPurchaseIdentifierDescription" parent="ProcurementCardTransactionDetail-transactionPurchaseIdentifierDescription-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionPurchaseIdentifierDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionPurchaseIdentifierDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Purchase Identifier Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="25" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionPurchaseIdentifierIndicator" parent="ProcurementCardTransactionDetail-transactionPurchaseIdentifierIndicator-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionPurchaseIdentifierIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionPurchaseIdentifierIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Purchase Identifier Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionReferenceNumber" parent="ProcurementCardTransactionDetail-transactionReferenceNumber-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionReferenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Reference Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="23" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount" parent="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionSalesTaxAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionSalesTaxAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Sales Tax Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionSettlementAmount" parent="ProcurementCardTransactionDetail-transactionSettlementAmount-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionSettlementAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionSettlementAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Settlement Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionTaxExemptIndicator" parent="ProcurementCardTransactionDetail-transactionTaxExemptIndicator-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionTaxExemptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionTaxExemptIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Tax Exempt Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionTravelAuthorizationCode" parent="ProcurementCardTransactionDetail-transactionTravelAuthorizationCode-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionTravelAuthorizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionTravelAuthorizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Travel Authorization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionUnitContactName" parent="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionUnitContactName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Unit Contact Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="35" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="37" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionCycleEndDate" parent="ProcurementCardTransactionDetail-transactionCycleEndDate-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionCycleEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionCycleEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Cycle End Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionCycleStartDate" parent="ProcurementCardTransactionDetail-transactionCycleStartDate-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionCycleStartDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionCycleStartDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Cycle Start Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-transactionTotalAmount" parent="ProcurementCardTransactionDetail-transactionTotalAmount-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-transactionTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionTotalAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Total Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-versionNumber" parent="ProcurementCardTransactionDetail-versionNumber-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProcurementCardTransactionDetail-inquiryDefinition" parent="ProcurementCardTransactionDetail-inquiryDefinition-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Procurement Card Transaction Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTransactionLineNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionReferenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionBillingCurrencyCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionCurrencyExchangeRate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionOriginalCurrencyAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionOriginalCurrencyCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPointOfSaleCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPostingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPurchaseIdentifierDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPurchaseIdentifierIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionSalesTaxAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionSettlementAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionTaxExemptIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionTravelAuthorizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionUnitContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionCycleEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionCycleStartDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionTotalAmount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

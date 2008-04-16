@@ -1,88 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.ServiceBillingControl">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ServiceBillingControl" parent="ServiceBillingControl-parentBean" />
+
+  <bean id="ServiceBillingControl-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.ServiceBillingControl" />
+    <property name="inquiryDefinition" >
+      <ref bean="ServiceBillingControl-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ServiceBillingControl-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Service Billing Control" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ServiceBillingControl-chartOfAccountsCode" />
+        <ref bean="ServiceBillingControl-accountNumber" />
+        <ref bean="ServiceBillingControl-workgroupName" />
+        <ref bean="ServiceBillingControl-versionNumber" />
+        <ref bean="ServiceBillingControl-objectId" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Service Billing Control Inquiry</title>
+  <bean id="ServiceBillingControl-chartOfAccountsCode" parent="ServiceBillingControl-chartOfAccountsCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="workgroupName" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ServiceBillingControl-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="ServiceBillingControl-accountNumber" parent="ServiceBillingControl-accountNumber-parentBean" />
 
-        <lookup>
-            <title>Service Billing Control Lookup</title>
+  <bean id="ServiceBillingControl-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="ServiceBillingControl-workgroupName" parent="ServiceBillingControl-workgroupName-parentBean" />
 
-            <instructions>Lookup a Service Billing Control</instructions>
+  <bean id="ServiceBillingControl-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workgroupName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Workgroup Name" />
+    <property name="shortLabel" value="Workgroup Name" />
+    <property name="maxLength" value="70" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="WorkflowWorkgroupControlDefinition" />
+    </property>
+  </bean>
+  <bean id="ServiceBillingControl-versionNumber" parent="ServiceBillingControl-versionNumber-parentBean" />
 
-            <defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />
+  <bean id="ServiceBillingControl-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="ServiceBillingControl-objectId" parent="ServiceBillingControl-objectId-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="workgroupName" required="false" />
-            </lookupFields>
+  <bean id="ServiceBillingControl-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="workgroupName" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
 
+  <bean id="ServiceBillingControl-inquiryDefinition" parent="ServiceBillingControl-inquiryDefinition-parentBean" />
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <required>true</required>
-            </attributeReference>
+  <bean id="ServiceBillingControl-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Service Billing Control Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="workgroupName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
 
 
-            <attribute name="workgroupName" forceUppercase="true">
-                <label>Workgroup Name</label>
-                <shortLabel>Workgroup Name</shortLabel>
+  <bean id="ServiceBillingControl-lookupDefinition" parent="ServiceBillingControl-lookupDefinition-parentBean" />
 
-                <maxLength>70</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <workflowWorkgroup size="72" />
-                </control>
-            </attribute>
-
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
-
-        </attributes>
-        <objectLabel>Service Billing Control</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ServiceBillingControl-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Service Billing Control Lookup" />
+    <property name="instructions" value="Lookup a Service Billing Control" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>chartOfAccountsCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="workgroupName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="workgroupName" />
+      </list>
+    </property>
+  </bean>
+</beans>

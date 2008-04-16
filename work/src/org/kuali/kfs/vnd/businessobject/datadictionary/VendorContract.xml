@@ -1,231 +1,356 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContract">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Vendor Contract Inquiry</title>
+  <bean id="VendorContract" parent="VendorContract-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorContractName" />
-                <field attributeName="vendorContractDescription" />
-                <field attributeName="vendorCampusCode" />
-                <field attributeName="vendorContractBeginningDate" />
-                <field attributeName="vendorContractEndDate" />
-                <field attributeName="contractManagerCode" />
-                <field attributeName="vendorPaymentTermsCode" />
-                <field attributeName="vendorContractExtensionDate" />
-                <field attributeName="vendorShippingPaymentTermsCode" />
-                <field attributeName="vendorShippingTitleCode" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
-                <field attributeName="purchaseOrderCostSourceCode" />
-                <field attributeName="vendorContractGeneratedIdentifier" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="active"/>               
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="VendorContract-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContract" />
+    <property name="inquiryDefinition" >
+      <ref bean="VendorContract-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="VendorContract-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorContract-vendorContractName" />
+        <ref bean="VendorContract-vendorContractDescription" />
+        <ref bean="VendorContract-vendorCampusCode" />
+        <ref bean="VendorContract-vendorContractBeginningDate" />
+        <ref bean="VendorContract-vendorContractEndDate" />
+        <ref bean="VendorContract-contractManagerCode" />
+        <ref bean="VendorContract-vendorPaymentTermsCode" />
+        <ref bean="VendorContract-purchaseOrderCostSourceCode" />
+        <ref bean="VendorContract-purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
+        <ref bean="VendorContract-vendorContractExtensionDate" />
+        <ref bean="VendorContract-vendorShippingPaymentTermsCode" />
+        <ref bean="VendorContract-vendorShippingTitleCode" />
+        <ref bean="VendorContract-vendorB2bIndicator" />
+        <ref bean="VendorContract-organizationAutomaticPurchaseOrderLimit" />
+        <ref bean="VendorContract-vendorContractGeneratedIdentifier" />
+        <ref bean="VendorContract-vendorDetail.vendorName" />
+        <ref bean="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+        <ref bean="VendorContract-newCollectionRecord" />
+        <ref bean="VendorContract-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorContract-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorContract-versionNumber" />
+        <ref bean="VendorContract-active" />
+      </list>
+    </property>
+    <property name="collections" >
+      <list>
+        <bean parent="CollectionDefinition"
+              p:name="vendorDetail.vendorHeader.vendorSupplierDiversities"
+              p:label="Supplier Diversities"
+              p:shortLabel="Supplier Diversities" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <lookupableID>vendorContractLookupable</lookupableID>
-            
-            <title>Vendor Contract Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Vendor Contract</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorDetail.vendorName" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorContract-vendorContractName" parent="VendorContract-vendorContractName-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorCampusCode" required="false" />
-                <lookupField attributeName="contractManagerCode" required="false" />
-                <lookupField attributeName="vendorContractName" required="false" />
-                <lookupField attributeName="vendorContractDescription" required="false" />
-                <lookupField attributeName="purchaseOrderCostSourceCode" required="false" />
-                <lookupField attributeName="vendorPaymentTermsCode" required="false" />
-                <lookupField attributeName="vendorShippingPaymentTermsCode" required="false" />
-                <lookupField attributeName="vendorShippingTitleCode" required="false" />
-                <lookupField attributeName="active" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField> 
-            </lookupFields>
+  <bean id="VendorContract-vendorContractName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContractName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contract Name" />
+    <property name="shortLabel" value="Contract Name" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="VendorContract-vendorContractDescription" parent="VendorContract-vendorContractDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorDetail.vendorName" />
-                <field attributeName="vendorContractDescription" />
-                <field attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
-                <field attributeName="purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
-                <field attributeName="active"/>               
-            </resultFields>
-        </lookup>
+  <bean id="VendorContract-vendorContractDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContractDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="VendorContract-vendorCampusCode" parent="VendorContract-vendorCampusCode-parentBean" />
 
-        <attributes>
+  <bean id="VendorContract-vendorCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+    <property name="name" value="vendorCampusCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="VendorContract-vendorContractBeginningDate" parent="VendorContract-vendorContractBeginningDate-parentBean" />
 
-            <attribute name="vendorContractName" forceUppercase="false">
-                <label>Contract Name</label>
-                <shortLabel>Contract Name</shortLabel>
+  <bean id="VendorContract-vendorContractBeginningDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="vendorContractBeginningDate" />
+    <property name="label" value="Begin Date" />
+    <property name="shortLabel" value="Begin Date" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="VendorContract-vendorContractEndDate" parent="VendorContract-vendorContractEndDate-parentBean" />
 
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
+  <bean id="VendorContract-vendorContractEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="vendorContractEndDate" />
+    <property name="label" value="End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="VendorContract-contractManagerCode" parent="VendorContract-contractManagerCode-parentBean" />
 
-				<control>
-                    <text size="22" />
-                </control>
+  <bean id="VendorContract-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
+    <property name="label" value="Contract Manager" />
+    <property name="shortLabel" value="Contract Manager" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorContract-vendorPaymentTermsCode" parent="VendorContract-vendorPaymentTermsCode-parentBean" />
 
-			</attribute>
+  <bean id="VendorContract-vendorPaymentTermsCode-parentBean" abstract="true" parent="PaymentTermType-vendorPaymentTermsCode">
+    <property name="label" value="Payment Terms" />
+    <property name="shortLabel" value="Payment Terms" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTermsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorContract-purchaseOrderCostSourceCode" parent="VendorContract-purchaseOrderCostSourceCode-parentBean" />
 
-            <attribute name="vendorContractDescription" forceUppercase="false">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="VendorContract-purchaseOrderCostSourceCode-parentBean" abstract="true" parent="PurchaseOrderCostSource-purchaseOrderCostSourceCode">
+    <property name="label" value="PO Cost Source" />
+    <property name="shortLabel" value="PO Cost Source" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorContract-purchaseOrderCostSource.purchaseOrderCostSourceDescription" parent="VendorContract-purchaseOrderCostSource.purchaseOrderCostSourceDescription-parentBean" />
 
-                <maxLength>60</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <required>true</required>
-    
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="VendorContract-purchaseOrderCostSource.purchaseOrderCostSourceDescription-parentBean" abstract="true" parent="PurchaseOrderCostSource-purchaseOrderCostSourceDescription">
+    <property name="name" value="purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
+    <property name="label" value="PO Cost Source" />
+    <property name="shortLabel" value="PO Cost Source" />
+  </bean>
+  <bean id="VendorContract-vendorContractExtensionDate" parent="VendorContract-vendorContractExtensionDate-parentBean" />
 
-  			</attribute>
+  <bean id="VendorContract-vendorContractExtensionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="vendorContractExtensionDate" />
+    <property name="label" value="Extension Option Date" />
+    <property name="shortLabel" value="Extension Option Date" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorContract-vendorShippingPaymentTermsCode" parent="VendorContract-vendorShippingPaymentTermsCode-parentBean" />
 
-			<attributeReference name="vendorCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >
-                <required>true</required>
-            </attributeReference>
+  <bean id="VendorContract-vendorShippingPaymentTermsCode-parentBean" abstract="true" parent="ShippingPaymentTerms-vendorShippingPaymentTermsCode">
+    <property name="label" value="Shipping Terms" />
+    <property name="shortLabel" value="Shipping Terms" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingPaymentTermsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorContract-vendorShippingTitleCode" parent="VendorContract-vendorShippingTitleCode-parentBean" />
 
-			<attributeReference name="vendorContractBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Begin Date</label>
-                <shortLabel>Begin Date</shortLabel>
-                <required>true</required>
-			</attributeReference>
+  <bean id="VendorContract-vendorShippingTitleCode-parentBean" abstract="true" parent="ShippingTitle-vendorShippingTitleCode">
+    <property name="label" value="Shipping Title" />
+    <property name="shortLabel" value="Shipping Title" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingTitleValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorContract-vendorB2bIndicator" parent="VendorContract-vendorB2bIndicator-parentBean" />
 
-			<attributeReference name="vendorContractEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>End Date</label>
-                <shortLabel>End Date</shortLabel>
-                <required>true</required>
-			</attributeReference>
+  <bean id="VendorContract-vendorB2bIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-yesNoWithoutBlankIndicator">
+    <property name="name" value="vendorB2bIndicator" />
+    <property name="label" value="B2B Contract" />
+    <property name="shortLabel" value="B2B Contract" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorContract-organizationAutomaticPurchaseOrderLimit" parent="VendorContract-organizationAutomaticPurchaseOrderLimit-parentBean" />
 
-			<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
-                <label>Contract Manager</label>
-                <shortLabel>Contract Manager</shortLabel>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder" />
-                </control>
-            </attributeReference>			
+  <bean id="VendorContract-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="organizationAutomaticPurchaseOrderLimit" />
+    <property name="label" value="Default APO Limit" />
+    <property name="shortLabel" value="Default APO Limit" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorContract-vendorContractGeneratedIdentifier" parent="VendorContract-vendorContractGeneratedIdentifier-parentBean" />
 
-			<attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.PaymentTermType" sourceAttributeName="vendorPaymentTermsCode">
-                <label>Payment Terms</label>
-                <shortLabel>Payment Terms</shortLabel>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTermsValuesFinder" />
-                </control>
-            </attributeReference>			
+  <bean id="VendorContract-vendorContractGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContractGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Contract Generated Identifier" />
+    <property name="shortLabel" value="Vendor Contract Generated Identifier" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorContract-vendorDetail.vendorName" parent="VendorContract-vendorDetail.vendorName-parentBean" />
 
-            <attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
-                <label>PO Cost Source</label>
-                <shortLabel>PO Cost Source</shortLabel>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
-                </control>
-            </attributeReference>
+  <bean id="VendorContract-vendorDetail.vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="vendorDetail.vendorName" />
+  </bean>
+  <bean id="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" parent="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean" />
 
-            <attributeReference name="purchaseOrderCostSource.purchaseOrderCostSourceDescription" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceDescription">
-                <label>PO Cost Source</label>
-                <shortLabel>PO Cost Source</shortLabel>
-            </attributeReference>
+  <bean id="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean" abstract="true" parent="VendorSupplierDiversity-vendorSupplierDiversityCode">
+    <property name="name" value="vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+  </bean>
+  <bean id="VendorContract-newCollectionRecord" parent="VendorContract-newCollectionRecord-parentBean" />
 
-			<attributeReference name="vendorContractExtensionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Extension Option Date</label>
-                <shortLabel>Extension Option Date</shortLabel>
-                <required>false</required>
-			</attributeReference>
+  <bean id="VendorContract-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorContract-vendorHeaderGeneratedIdentifier" parent="VendorContract-vendorHeaderGeneratedIdentifier-parentBean" />
 
-			<attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.ShippingPaymentTerms" sourceAttributeName="vendorShippingPaymentTermsCode" >
-                <label>Shipping Terms</label>
-                <shortLabel>Shipping Terms</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingPaymentTermsValuesFinder" />
-                </control>
-			</attributeReference>
+  <bean id="VendorContract-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="VendorContract-vendorDetailAssignedIdentifier" parent="VendorContract-vendorDetailAssignedIdentifier-parentBean" />
 
-			<attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.ShippingTitle" sourceAttributeName="vendorShippingTitleCode" >
-                <label>Shipping Title</label>
-                <shortLabel>Shipping Title</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingTitleValuesFinder" />
-                </control>
-			</attributeReference>
+  <bean id="VendorContract-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorContract-versionNumber" parent="VendorContract-versionNumber-parentBean" />
 
-            <attributeReference name="vendorB2bIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithoutBlankIndicator">
-                <label>B2B Contract</label>
-                <shortLabel>B2B Contract</shortLabel>
-                <required>false</required>
+  <bean id="VendorContract-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorContract-active" parent="VendorContract-active-parentBean" />
 
-			</attributeReference>
+  <bean id="VendorContract-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-            <attributeReference name="organizationAutomaticPurchaseOrderLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Default APO Limit</label>
-                <shortLabel>Default APO Limit</shortLabel>
-                <required>false</required>
-            </attributeReference>
-			
-			<attribute name="vendorContractGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Contract Generated Identifier</label>
-                <shortLabel>Vendor Contract Generated Identifier</shortLabel>
-                
-				<maxLength>8</maxLength>
-                
-				<validationPattern><numeric /></validationPattern>
-                
-				<control>
-                    <hidden/>
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-			</attribute>
-			
-			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName"/>
-			<attributeReference name="vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" sourceClassName="org.kuali.module.vendor.bo.VendorSupplierDiversity" sourceAttributeName="vendorSupplierDiversityCode"/> 
-			
-			<attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
 
-            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-        </attributes>
-        
-        <collections>
-            <collection name="vendorDetail.vendorHeader.vendorSupplierDiversities">
-                <label>Supplier Diversities</label>
-                <shortLabel>Supplier Diversities</shortLabel>
-            </collection>   
-        </collections>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorContract-inquiryDefinition" parent="VendorContract-inquiryDefinition-parentBean" />
+
+  <bean id="VendorContract-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Vendor Contract Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCampusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractBeginningDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPaymentTermsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractExtensionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingPaymentTermsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingTitleCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationAutomaticPurchaseOrderLimit" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderCostSourceCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="VendorContract-lookupDefinition" parent="VendorContract-lookupDefinition-parentBean" />
+
+  <bean id="VendorContract-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Contract Lookup" />
+    <property name="lookupableID" value="vendorContractLookupable" />
+    <property name="instructions" value="Lookup a Vendor Contract" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCampusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContractName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContractDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderCostSourceCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingPaymentTermsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingTitleCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetail.vendorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContractDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

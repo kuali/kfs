@@ -1,211 +1,276 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetGlobal">
-        <attributes>
-<!--  ### Asset Detail Information ### -->
-            <attributeReference name="assetHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="organizationOwnerChartOfAccountsCode">
-                
-            </attributeReference>
+  <bean id="AssetGlobal" parent="AssetGlobal-parentBean" />
 
-            <attributeReference name="assetHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="organizationOwnerAccountNumber">
-                
-			</attributeReference>		
-			
-			
-			
-			
-			<attributeReference name="assetHeader.agencyNumber" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="agencyNumber">
-				
-			</attributeReference>
-			
-			<attributeReference name="acquisitionTypeCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="acquisitionTypeCode">
-				
-			</attributeReference>
-			
-			<attributeReference name="inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="inventoryStatusCode">
-				
-			</attributeReference>
+  <bean id="AssetGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetGlobal" />
+    <property name="objectLabel" value="Asset Global" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetGlobal-assetHeader.organizationOwnerChartOfAccountsCode" />
+        <ref bean="AssetGlobal-assetHeader.organizationOwnerAccountNumber" />
+        <ref bean="AssetGlobal-assetHeader.agencyNumber" />
+        <ref bean="AssetGlobal-acquisitionTypeCode" />
+        <ref bean="AssetGlobal-inventoryStatusCode" />
+        <ref bean="AssetGlobal-conditionCode" />
+        <ref bean="AssetGlobal-capitalAssetDescription" />
+        <ref bean="AssetGlobal-capitalAssetTypeCode" />
+        <ref bean="AssetGlobal-vendorName" />
+        <ref bean="AssetGlobal-manufacturerName" />
+        <ref bean="AssetGlobal-manufacturerModelNumber" />
+        <ref bean="AssetGlobal-organizationText" />
+        <ref bean="AssetGlobal-assetHeader.representativeUniversalIdentifier" />
+        <ref bean="AssetGlobal-assetHeader.assetRepresentative.personUserIdentifier" />
+        <ref bean="AssetGlobal-assetHeader.assetRepresentative.personName" />
+        <ref bean="AssetGlobal-lastInventoryDate" />
+        <ref bean="AssetGlobal-createDate" />
+        <ref bean="AssetGlobal-capitalAssetInServiceDate" />
+        <ref bean="AssetGlobal-capitalAssetDepreciationDate" />
+        <ref bean="AssetGlobal-landCountyName" />
+        <ref bean="AssetGlobal-landAcreageSize" />
+        <ref bean="AssetGlobal-landParcelNumber" />
+        <ref bean="AssetGlobal-financialDocumentNextLineNumber" />
+        <ref bean="AssetGlobal-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetHeader.assetRepresentative" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="assetHeader.representativeUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="assetHeader.assetRepresentative.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="assetHeader.assetRepresentative.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetHeader.organizationOwnerChartOfAccounts" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="assetHeader.organizationOwnerChartOfAccountsCode"
+                    p:targetName="chartOfAccountsCode" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetHeader.organizationOwnerAccount" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="assetHeader.organizationOwnerChartOfAccountsCode"
+                    p:targetName="chartOfAccountsCode" />
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="assetHeader.organizationOwnerAccountNumber"
+                    p:targetName="accountNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode">
-                
-            </attributeReference>
-			
-			<attributeReference name="capitalAssetDescription" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetDescription">
-				
-			</attributeReference>
-			
-            <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode">
-               <label>Asset Type Code</label>
-            </attributeReference>
-			
-			<attributeReference name="vendorName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="vendorName">
-				
-			</attributeReference>
-			
-			<attributeReference name="manufacturerName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="manufacturerName">
-				
-			</attributeReference>
-			
-			<attributeReference name="manufacturerModelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="manufacturerModelNumber">
-				
-			</attributeReference>
-			
-			<attributeReference name="organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText">
-				<label>Organization Text</label>
-			</attributeReference>
-  
-            <attributeReference name="assetHeader.representativeUniversalIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="representativeUniversalIdentifier" >
-                <label>Asset Representitive</label>
-                <displayLabelAttribute>assetHeader.assetRepresentative.personUserIdentifier</displayLabelAttribute>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-			</attributeReference>
-			
-			<attributeReference name="assetHeader.assetRepresentative.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Asset Representitive</label>
-                <required>false</required>
-                <control>
-                	<kualiUser universalIdAttributeName="assetHeader.representativeUniversalIdentifier" userIdAttributeName="assetHeader.assetRepresentative.personUserIdentifier" personNameAttributeName="assetHeader.assetRepresentative.personName" />
-                </control>
-			</attributeReference>
-				
-            <attributeReference name="assetHeader.assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Asset Representitive</label>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-			
-			<attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-				<label>Last Inventory Date</label>
-			</attributeReference>
-			
-			<attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-				<label>Create Date</label>
-			</attributeReference>
-						
-			<attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-				<label>In-service Date</label>
-			</attributeReference>
-			
-			<attributeReference name="capitalAssetDepreciationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-				<label>Deprecation Date</label>
-			</attributeReference>
-			
+<!-- Attribute Definitions -->
 
 
+  <bean id="AssetGlobal-assetHeader.organizationOwnerChartOfAccountsCode" parent="AssetGlobal-assetHeader.organizationOwnerChartOfAccountsCode-parentBean" />
 
+  <bean id="AssetGlobal-assetHeader.organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="AssetHeader-organizationOwnerChartOfAccountsCode">
+    <property name="name" value="assetHeader.organizationOwnerChartOfAccountsCode" />
+  </bean>
+  <bean id="AssetGlobal-assetHeader.organizationOwnerAccountNumber" parent="AssetGlobal-assetHeader.organizationOwnerAccountNumber-parentBean" />
 
-			<!-- 
-			<attributeReference name="landCountyName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landCountyName">
-				<label>Land Country</label>
-			</attributeReference>
-			
-			<attributeReference name="landAcreageSize" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landAcreageSize">
-				<label>Land Acreage</label>
-			</attributeReference>
-					
-			<attributeReference name="landParcelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landParcelNumber">
-				<label>Land Parcel Number</label>
-			</attributeReference>
-			-->
-	
-			<attribute name="landCountyName" forceUppercase="true">
-                <label>Land County Name</label>
-                <shortLabel>Country</shortLabel>
-                <maxLength>22</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="20" />
-                </control>
-                <summary>landCountyName</summary>
-                <description>landCountyName description...</description>
-			</attribute>
-			
-			<attribute name="landAcreageSize" forceUppercase="true">
-                <label>Land Acreage</label>
-                <shortLabel>Acreage</shortLabel>
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <text size="7" />
-                </control>
-                <summary>landAcreageSize</summary>
-                <description>landAcreageSize description...</description>
-			</attribute>			
-			
-			<attribute name="landParcelNumber" forceUppercase="true">
-                <label>Land Parcel Number</label>
-                <shortLabel>Parcel</shortLabel>
-                <maxLength>32</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="30" />
-                </control>
-                <summary>landParcelNumber</summary>
-                <description>landParcelNumber description...</description>
-			</attribute>			
-			
-<!--  ### Add Payment ### -->
-			
-			
-			<!-- display total cost -->
-            <attribute name="financialDocumentNextLineNumber" >
-                <label>Financial Document Next LineNumber</label>
-                <shortLabel>financialDocumentNextLineNumber</shortLabel>
-                <maxLength>32</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <hidden/>
-                </control>
-                <summary>financialDocumentNextLineNumber</summary>
-                <description>financialDocumentNextLineNumber description...</description>
-			</attribute>		
+  <bean id="AssetGlobal-assetHeader.organizationOwnerAccountNumber-parentBean" abstract="true" parent="AssetHeader-organizationOwnerAccountNumber">
+    <property name="name" value="assetHeader.organizationOwnerAccountNumber" />
+  </bean>
+  <bean id="AssetGlobal-assetHeader.agencyNumber" parent="AssetGlobal-assetHeader.agencyNumber-parentBean" />
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AssetGlobal-assetHeader.agencyNumber-parentBean" abstract="true" parent="AssetHeader-agencyNumber">
+    <property name="name" value="assetHeader.agencyNumber" />
+  </bean>
+  <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
 
-        </attributes>
-        
-        <relationships>
-         	<relationship objectAttributeName="assetHeader.assetRepresentative" >
-            	<primitiveAttribute sourceName="assetHeader.representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="assetHeader.assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="assetHeader.assetRepresentative.personName" targetName="personName" />
-        	</relationship>
-        	<relationship objectAttributeName="assetHeader.organizationOwnerChartOfAccounts" >
-	            <primitiveAttribute sourceName="assetHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
-	        </relationship>
-			<relationship objectAttributeName="assetHeader.organizationOwnerAccount" >
-	            <primitiveAttribute sourceName="assetHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
-	            <primitiveAttribute sourceName="assetHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
-	        </relationship>
-        	
-			
-        </relationships>
+  <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
+  </bean>
+  <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean" />
 
-        <objectLabel>Asset Global</objectLabel>
-        
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
+  </bean>
+  <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean" />
+
+  <bean id="AssetGlobal-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
+    <property name="name" value="conditionCode" />
+  </bean>
+  <bean id="AssetGlobal-capitalAssetDescription" parent="AssetGlobal-capitalAssetDescription-parentBean" />
+
+  <bean id="AssetGlobal-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
+  </bean>
+  <bean id="AssetGlobal-capitalAssetTypeCode" parent="AssetGlobal-capitalAssetTypeCode-parentBean" />
+
+  <bean id="AssetGlobal-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
+    <property name="label" value="Asset Type Code" />
+  </bean>
+  <bean id="AssetGlobal-vendorName" parent="AssetGlobal-vendorName-parentBean" />
+
+  <bean id="AssetGlobal-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
+  </bean>
+  <bean id="AssetGlobal-manufacturerName" parent="AssetGlobal-manufacturerName-parentBean" />
+
+  <bean id="AssetGlobal-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName">
+  </bean>
+  <bean id="AssetGlobal-manufacturerModelNumber" parent="AssetGlobal-manufacturerModelNumber-parentBean" />
+
+  <bean id="AssetGlobal-manufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber">
+  </bean>
+  <bean id="AssetGlobal-organizationText" parent="AssetGlobal-organizationText-parentBean" />
+
+  <bean id="AssetGlobal-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
+  </bean>
+  <bean id="AssetGlobal-assetHeader.representativeUniversalIdentifier" parent="AssetGlobal-assetHeader.representativeUniversalIdentifier-parentBean" />
+
+  <bean id="AssetGlobal-assetHeader.representativeUniversalIdentifier-parentBean" abstract="true" parent="AssetHeader-representativeUniversalIdentifier">
+    <property name="name" value="assetHeader.representativeUniversalIdentifier" />
+    <property name="label" value="Asset Representitive" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="assetHeader.assetRepresentative.personUserIdentifier" />
+  </bean>
+  <bean id="AssetGlobal-assetHeader.assetRepresentative.personUserIdentifier" parent="AssetGlobal-assetHeader.assetRepresentative.personUserIdentifier-parentBean" />
+
+  <bean id="AssetGlobal-assetHeader.assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="assetHeader.assetRepresentative.personUserIdentifier" />
+    <property name="label" value="Asset Representitive" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="assetHeader.assetRepresentative.personName"
+            p:universalIdAttributeName="assetHeader.representativeUniversalIdentifier"
+            p:userIdAttributeName="assetHeader.assetRepresentative.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="AssetGlobal-assetHeader.assetRepresentative.personName" parent="AssetGlobal-assetHeader.assetRepresentative.personName-parentBean" />
+
+  <bean id="AssetGlobal-assetHeader.assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="assetHeader.assetRepresentative.personName" />
+    <property name="label" value="Asset Representitive" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetGlobal-lastInventoryDate" parent="AssetGlobal-lastInventoryDate-parentBean" />
+
+  <bean id="AssetGlobal-lastInventoryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="lastInventoryDate" />
+    <property name="label" value="Last Inventory Date" />
+  </bean>
+  <bean id="AssetGlobal-createDate" parent="AssetGlobal-createDate-parentBean" />
+
+  <bean id="AssetGlobal-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createDate" />
+    <property name="label" value="Create Date" />
+  </bean>
+  <bean id="AssetGlobal-capitalAssetInServiceDate" parent="AssetGlobal-capitalAssetInServiceDate-parentBean" />
+
+  <bean id="AssetGlobal-capitalAssetInServiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="capitalAssetInServiceDate" />
+    <property name="label" value="In-service Date" />
+  </bean>
+  <bean id="AssetGlobal-capitalAssetDepreciationDate" parent="AssetGlobal-capitalAssetDepreciationDate-parentBean" />
+
+  <bean id="AssetGlobal-capitalAssetDepreciationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="capitalAssetDepreciationDate" />
+    <property name="label" value="Deprecation Date" />
+  </bean>
+  <bean id="AssetGlobal-landCountyName" parent="AssetGlobal-landCountyName-parentBean" />
+
+  <bean id="AssetGlobal-landCountyName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="landCountyName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Land County Name" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="landCountyName" />
+    <property name="description" value="landCountyName description..." />
+  </bean>
+  <bean id="AssetGlobal-landAcreageSize" parent="AssetGlobal-landAcreageSize-parentBean" />
+
+  <bean id="AssetGlobal-landAcreageSize-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="landAcreageSize" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Land Acreage" />
+    <property name="shortLabel" value="Acreage" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="landAcreageSize" />
+    <property name="description" value="landAcreageSize description..." />
+  </bean>
+  <bean id="AssetGlobal-landParcelNumber" parent="AssetGlobal-landParcelNumber-parentBean" />
+
+  <bean id="AssetGlobal-landParcelNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="landParcelNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Land Parcel Number" />
+    <property name="shortLabel" value="Parcel" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="landParcelNumber" />
+    <property name="description" value="landParcelNumber description..." />
+  </bean>
+  <bean id="AssetGlobal-financialDocumentNextLineNumber" parent="AssetGlobal-financialDocumentNextLineNumber-parentBean" />
+
+  <bean id="AssetGlobal-financialDocumentNextLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentNextLineNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Financial Document Next LineNumber" />
+    <property name="shortLabel" value="financialDocumentNextLineNumber" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="financialDocumentNextLineNumber" />
+    <property name="description" value="financialDocumentNextLineNumber description..." />
+  </bean>
+  <bean id="AssetGlobal-versionNumber" parent="AssetGlobal-versionNumber-parentBean" />
+
+  <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

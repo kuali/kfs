@@ -1,460 +1,653 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.EquipmentLoanOrReturn">
- 
-        <inquiry>
-            <title>Equipment Loan Or Return Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="borrowerAddress" />
-                        <field attributeName="borrowerCityName" />
-                        <field attributeName="borrowerCountryCode" />
-                        <field attributeName="borrowerPhoneNumber" />
-                        <field attributeName="borrowerStateCode" />
-                        <field attributeName="borrowerStorageAddress" />
-                        <field attributeName="borrowerStorageCityName" />
-                        <field attributeName="borrowerStorageCountryCode" />
-                        <field attributeName="borrowerStoragePhoneNumber" />
-                        <field attributeName="borrowerStorageStateCode" />
-                        <field attributeName="borrowerStorageZipCode" />
-                        <field attributeName="borrowerUniversalIdentifier" />
-                        <field attributeName="borrowerZipCode" />
-                        <field attributeName="campusTagNumber" />
-                        <field attributeName="documentNumber" />
-                        <field attributeName="expectedReturnDate" />
-                        <field attributeName="insuranceChargeAccountNumber" />
-                        <field attributeName="insuranceChartOfAccountsCode" />
-                        <field attributeName="insuranceCode" />
-                        <field attributeName="loanDate" />
-                        <field attributeName="loanReturnDate" />
-                        <field attributeName="organizationTagNumber" />
-                        <field attributeName="signatureCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
-
-        <lookup>
-            <title>Equipment Loan Or Return Lookup</title>
-
-            <instructions>Look up an Equipment Loan Or Return</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="borrowerAddress" required="false" />
-                <lookupField attributeName="borrowerCityName" required="false" />
-                <lookupField attributeName="borrowerCountryCode" required="false" />
-                <lookupField attributeName="borrowerPhoneNumber" required="false" />
-                <lookupField attributeName="borrowerStateCode" required="false" />
-                <lookupField attributeName="borrowerStorageAddress" required="false" />
-                <lookupField attributeName="borrowerStorageCityName" required="false" />
-                <lookupField attributeName="borrowerStorageCountryCode" required="false" />
-                <lookupField attributeName="borrowerStoragePhoneNumber" required="false" />
-                <lookupField attributeName="borrowerStorageStateCode" required="false" />
-                <lookupField attributeName="borrowerStorageZipCode" required="false" />
-                <lookupField attributeName="borrowerUniversalIdentifier" required="false" />
-                <lookupField attributeName="borrowerZipCode" required="false" />
-                <lookupField attributeName="campusTagNumber" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="expectedReturnDate" required="false" />
-                <lookupField attributeName="insuranceChargeAccountNumber" required="false" />
-                <lookupField attributeName="insuranceChartOfAccountsCode" required="false" />
-                <lookupField attributeName="insuranceCode" required="false" />
-                <lookupField attributeName="loanDate" required="false" />
-                <lookupField attributeName="loanReturnDate" required="false" />
-                <lookupField attributeName="organizationTagNumber" required="false" />
-                <lookupField attributeName="signatureCode" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="borrowerAddress" />
-                <field attributeName="borrowerCityName" />
-                <field attributeName="borrowerCountryCode" />
-                <field attributeName="borrowerPhoneNumber" />
-                <field attributeName="borrowerStateCode" />
-                <field attributeName="borrowerStorageAddress" />
-                <field attributeName="borrowerStorageCityName" />
-                <field attributeName="borrowerStorageCountryCode" />
-                <field attributeName="borrowerStoragePhoneNumber" />
-                <field attributeName="borrowerStorageStateCode" />
-                <field attributeName="borrowerStorageZipCode" />
-                <field attributeName="borrowerUniversalIdentifier" />
-                <field attributeName="borrowerZipCode" />
-                <field attributeName="campusTagNumber" />
-                <field attributeName="documentNumber" />
-                <field attributeName="expectedReturnDate" />
-                <field attributeName="insuranceChargeAccountNumber" />
-                <field attributeName="insuranceChartOfAccountsCode" />
-                <field attributeName="insuranceCode" />
-                <field attributeName="loanDate" />
-                <field attributeName="loanReturnDate" />
-                <field attributeName="organizationTagNumber" />
-                <field attributeName="signatureCode" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="borrowerAddress" forceUppercase="true">
-                <label>Borrower Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>borrowerAddress</summary>
-                <description>borrowerAddress description...</description>
-			</attribute>
-
-            <attribute name="borrowerCityName" forceUppercase="true">
-                <label>Borrower City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>borrowerCityName</summary>
-                <description>borrowerCityName description...</description>
-			</attribute>
-
-            <attribute name="borrowerCountryCode" forceUppercase="true">
-                <label>Borrower Country Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>borrowerCountryCode</summary>
-                <description>borrowerCountryCode description...</description>
-			</attribute>
-
-            <attribute name="borrowerPhoneNumber" forceUppercase="true">
-                <label>Borrower Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>13</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>borrowerPhoneNumber</summary>
-                <description>borrowerPhoneNumber description...</description>
-			</attribute>
-
-            <attribute name="borrowerStateCode" forceUppercase="true">
-                <label>Borrower State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>borrowerStateCode</summary>
-                <description>borrowerStateCode description...</description>
-			</attribute>
-
-            <attribute name="borrowerStorageAddress" forceUppercase="true">
-                <label>Borrower Storage Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>borrowerStorageAddress</summary>
-                <description>borrowerStorageAddress description...</description>
-			</attribute>
-
-            <attribute name="borrowerStorageCityName" forceUppercase="true">
-                <label>Borrower Storage City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>borrowerStorageCityName</summary>
-                <description>borrowerStorageCityName description...</description>
-			</attribute>
-
-            <attribute name="borrowerStorageCountryCode" forceUppercase="true">
-                <label>Borrower Storage Country Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>borrowerStorageCountryCode</summary>
-                <description>borrowerStorageCountryCode description...</description>
-			</attribute>
-
-            <attribute name="borrowerStoragePhoneNumber" forceUppercase="true">
-                <label>Borrower Storage Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>13</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>borrowerStoragePhoneNumber</summary>
-                <description>borrowerStoragePhoneNumber description...</description>
-			</attribute>
-
-            <attribute name="borrowerStorageStateCode" forceUppercase="true">
-                <label>Borrower Storage State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>borrowerStorageStateCode</summary>
-                <description>borrowerStorageStateCode description...</description>
-			</attribute>
-
-            <attribute name="borrowerStorageZipCode" forceUppercase="true">
-                <label>Borrower Storage Zip Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>borrowerStorageZipCode</summary>
-                <description>borrowerStorageZipCode description...</description>
-			</attribute>
-            <attribute name="borrowerZipCode" forceUppercase="true">
-                <label>Borrower Zip Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>borrowerZipCode</summary>
-                <description>borrowerZipCode description...</description>
-			</attribute>
-
-            <attribute name="campusTagNumber" forceUppercase="true">
-                <label>Campus Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>campusTagNumber</summary>
-                <description>campusTagNumber description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="expectedReturnDate" forceUppercase="true">
-                <label>Expected Return Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>expectedReturnDate</summary>
-                <description>expectedReturnDate description...</description>
-			</attribute>
-
-            <attribute name="insuranceChargeAccountNumber" forceUppercase="true">
-                <label>Insurance Charge Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>insuranceChargeAccountNumber</summary>
-                <description>insuranceChargeAccountNumber description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="insuranceChartOfAccountsCode" forceUppercase="true">
-                <label>Insurance Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>insuranceChartOfAccountsCode</summary>
-                <description>insuranceChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="insuranceCode" forceUppercase="true">
-                <label>Insurance Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>insuranceCode</summary>
-                <description>insuranceCode description...</description>
-			</attribute>
-
-            <attribute name="loanDate" forceUppercase="true">
-                <label>Loan Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>loanDate</summary>
-                <description>loanDate description...</description>
-			</attribute>
-
-            <attribute name="loanReturnDate" forceUppercase="true">
-                <label>Loan Return Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>loanReturnDate</summary>
-                <description>loanReturnDate description...</description>
-			</attribute>
-
-            <attribute name="organizationTagNumber" forceUppercase="true">
-                <label>Organization Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>organizationTagNumber</summary>
-                <description>organizationTagNumber description...</description>
-			</attribute>
-
-            <attribute name="signatureCode" forceUppercase="true">
-                <label>Signature Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>signatureCode</summary>
-                <description>signatureCode description...</description>
-			</attribute>
-
-			<attributeReference name="borrowerUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Borrower Person Identifier</label>
-                <shortLabel>Borrower Person ID</shortLabel>
-                <displayLabelAttribute>borrowerUniversalUser.personUserIdentifier</displayLabelAttribute>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-            <attributeReference name="borrowerUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Borrowed Person Name</label>
-                <shortLabel>Borrowed Person Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="borrowerUniversalIdentifier" userIdAttributeName="borrowerUniversalUser.personUserIdentifier" personNameAttributeName="borrowerUniversalUser.personName"/>
-                </control>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EquipmentLoanOrReturn" parent="EquipmentLoanOrReturn-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.EquipmentLoanOrReturn" />
+    <property name="inquiryDefinition" >
+      <ref bean="EquipmentLoanOrReturn-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EquipmentLoanOrReturn-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="EquipmentLoanOrReturn-borrowerAddress" />
+        <ref bean="EquipmentLoanOrReturn-borrowerCityName" />
+        <ref bean="EquipmentLoanOrReturn-borrowerCountryCode" />
+        <ref bean="EquipmentLoanOrReturn-borrowerPhoneNumber" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStateCode" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStorageAddress" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStorageCityName" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStorageCountryCode" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStoragePhoneNumber" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStorageStateCode" />
+        <ref bean="EquipmentLoanOrReturn-borrowerStorageZipCode" />
+        <ref bean="EquipmentLoanOrReturn-borrowerZipCode" />
+        <ref bean="EquipmentLoanOrReturn-campusTagNumber" />
+        <ref bean="EquipmentLoanOrReturn-documentNumber" />
+        <ref bean="EquipmentLoanOrReturn-expectedReturnDate" />
+        <ref bean="EquipmentLoanOrReturn-insuranceChargeAccountNumber" />
+        <ref bean="EquipmentLoanOrReturn-insuranceChartOfAccountsCode" />
+        <ref bean="EquipmentLoanOrReturn-insuranceCode" />
+        <ref bean="EquipmentLoanOrReturn-loanDate" />
+        <ref bean="EquipmentLoanOrReturn-loanReturnDate" />
+        <ref bean="EquipmentLoanOrReturn-organizationTagNumber" />
+        <ref bean="EquipmentLoanOrReturn-signatureCode" />
+        <ref bean="EquipmentLoanOrReturn-borrowerUniversalIdentifier" />
+        <ref bean="EquipmentLoanOrReturn-borrowerUniversalUser.personName" />
+        <ref bean="EquipmentLoanOrReturn-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="EquipmentLoanOrReturn-borrowerAddress" parent="EquipmentLoanOrReturn-borrowerAddress-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="borrowerAddress" />
+    <property name="description" value="borrowerAddress description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerCityName" parent="EquipmentLoanOrReturn-borrowerCityName-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="borrowerCityName" />
+    <property name="description" value="borrowerCityName description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerCountryCode" parent="EquipmentLoanOrReturn-borrowerCountryCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Country Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="borrowerCountryCode" />
+    <property name="description" value="borrowerCountryCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerPhoneNumber" parent="EquipmentLoanOrReturn-borrowerPhoneNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerPhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="borrowerPhoneNumber" />
+    <property name="description" value="borrowerPhoneNumber description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStateCode" parent="EquipmentLoanOrReturn-borrowerStateCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="borrowerStateCode" />
+    <property name="description" value="borrowerStateCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStorageAddress" parent="EquipmentLoanOrReturn-borrowerStorageAddress-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStorageAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStorageAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Storage Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="borrowerStorageAddress" />
+    <property name="description" value="borrowerStorageAddress description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStorageCityName" parent="EquipmentLoanOrReturn-borrowerStorageCityName-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStorageCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStorageCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Storage City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="borrowerStorageCityName" />
+    <property name="description" value="borrowerStorageCityName description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStorageCountryCode" parent="EquipmentLoanOrReturn-borrowerStorageCountryCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStorageCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStorageCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Storage Country Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="borrowerStorageCountryCode" />
+    <property name="description" value="borrowerStorageCountryCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStoragePhoneNumber" parent="EquipmentLoanOrReturn-borrowerStoragePhoneNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStoragePhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStoragePhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Storage Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="borrowerStoragePhoneNumber" />
+    <property name="description" value="borrowerStoragePhoneNumber description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStorageStateCode" parent="EquipmentLoanOrReturn-borrowerStorageStateCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStorageStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStorageStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Storage State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="borrowerStorageStateCode" />
+    <property name="description" value="borrowerStorageStateCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerStorageZipCode" parent="EquipmentLoanOrReturn-borrowerStorageZipCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerStorageZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerStorageZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Storage Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="borrowerStorageZipCode" />
+    <property name="description" value="borrowerStorageZipCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerZipCode" parent="EquipmentLoanOrReturn-borrowerZipCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="borrowerZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Borrower Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="borrowerZipCode" />
+    <property name="description" value="borrowerZipCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-campusTagNumber" parent="EquipmentLoanOrReturn-campusTagNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="campusTagNumber" />
+    <property name="description" value="campusTagNumber description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-documentNumber" parent="EquipmentLoanOrReturn-documentNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-expectedReturnDate" parent="EquipmentLoanOrReturn-expectedReturnDate-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-expectedReturnDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="expectedReturnDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Expected Return Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="expectedReturnDate" />
+    <property name="description" value="expectedReturnDate description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-insuranceChargeAccountNumber" parent="EquipmentLoanOrReturn-insuranceChargeAccountNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-insuranceChargeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="insuranceChargeAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Insurance Charge Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="insuranceChargeAccountNumber" />
+    <property name="description" value="insuranceChargeAccountNumber description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-insuranceChartOfAccountsCode" parent="EquipmentLoanOrReturn-insuranceChartOfAccountsCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-insuranceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="insuranceChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Insurance Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="insuranceChartOfAccountsCode" />
+    <property name="description" value="insuranceChartOfAccountsCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-insuranceCode" parent="EquipmentLoanOrReturn-insuranceCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-insuranceCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="insuranceCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Insurance Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="insuranceCode" />
+    <property name="description" value="insuranceCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-loanDate" parent="EquipmentLoanOrReturn-loanDate-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-loanDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="loanDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Loan Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="loanDate" />
+    <property name="description" value="loanDate description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-loanReturnDate" parent="EquipmentLoanOrReturn-loanReturnDate-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-loanReturnDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="loanReturnDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Loan Return Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="loanReturnDate" />
+    <property name="description" value="loanReturnDate description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-organizationTagNumber" parent="EquipmentLoanOrReturn-organizationTagNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="organizationTagNumber" />
+    <property name="description" value="organizationTagNumber description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-signatureCode" parent="EquipmentLoanOrReturn-signatureCode-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-signatureCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="signatureCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Signature Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="signatureCode" />
+    <property name="description" value="signatureCode description..." />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturn-borrowerUniversalIdentifier-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="borrowerUniversalIdentifier" />
+    <property name="label" value="Borrower Person Identifier" />
+    <property name="shortLabel" value="Borrower Person ID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="borrowerUniversalUser.personUserIdentifier" />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-borrowerUniversalUser.personName" parent="EquipmentLoanOrReturn-borrowerUniversalUser.personName-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-borrowerUniversalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="borrowerUniversalUser.personName" />
+    <property name="label" value="Borrowed Person Name" />
+    <property name="shortLabel" value="Borrowed Person Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="EquipmentLoanOrReturn-versionNumber" parent="EquipmentLoanOrReturn-versionNumber-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="EquipmentLoanOrReturn-inquiryDefinition" parent="EquipmentLoanOrReturn-inquiryDefinition-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Equipment Loan Or Return Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStorageAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStorageCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStorageCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStoragePhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStorageStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerStorageZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="borrowerZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expectedReturnDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="insuranceChargeAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="insuranceChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="insuranceCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanReturnDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="signatureCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="EquipmentLoanOrReturn-lookupDefinition" parent="EquipmentLoanOrReturn-lookupDefinition-parentBean" />
+
+  <bean id="EquipmentLoanOrReturn-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Equipment Loan Or Return Lookup" />
+    <property name="instructions" value="Look up an Equipment Loan Or Return" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStoragePhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expectedReturnDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="insuranceChargeAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="insuranceChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="insuranceCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="loanDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="loanReturnDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="signatureCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStoragePhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerStorageZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="borrowerZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expectedReturnDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="insuranceChargeAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="insuranceChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="insuranceCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="loanDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="loanReturnDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="signatureCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

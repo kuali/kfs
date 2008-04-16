@@ -1,137 +1,163 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.ItemType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Item Type Inquiry</title>
+  <bean id="ItemType" parent="ItemType-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemTypeDescription" />
-                <field attributeName="quantityBasedGeneralLedgerIndicator" />
-                <field attributeName="itemTypeAboveTheLineIndicator" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ItemType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ItemType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ItemType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ItemType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="itemTypeCode" />
+    <property name="objectLabel" value="Item Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ItemType-itemTypeCode" />
+        <ref bean="ItemType-itemTypeDescription" />
+        <ref bean="ItemType-quantityBasedGeneralLedgerIndicator" />
+        <ref bean="ItemType-itemTypeAboveTheLineIndicator" />
+        <ref bean="ItemType-active" />
+        <ref bean="ItemType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Item Type Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Item Type</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="itemTypeDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ItemType-itemTypeCode" parent="ItemType-itemTypeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="itemTypeCode" required="false" />
-                <lookupField attributeName="itemTypeDescription" required="false" />
-                <lookupField attributeName="quantityBasedGeneralLedgerIndicator" required="false" />
-                <lookupField attributeName="itemTypeAboveTheLineIndicator" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>           
+  <bean id="ItemType-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ItemType-itemTypeDescription" parent="ItemType-itemTypeDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemTypeDescription" />
-                <field attributeName="quantityBasedGeneralLedgerIndicator" />
-                <field attributeName="itemTypeAboveTheLineIndicator" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ItemType-itemTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ItemType-quantityBasedGeneralLedgerIndicator" parent="ItemType-quantityBasedGeneralLedgerIndicator-parentBean" />
 
-        <titleAttribute>itemTypeCode</titleAttribute>
+  <bean id="ItemType-quantityBasedGeneralLedgerIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="quantityBasedGeneralLedgerIndicator" />
+    <property name="label" value="Quantity Based General Ledger Indicator" />
+    <property name="shortLabel" value="Quantity Based" />
+  </bean>
+  <bean id="ItemType-itemTypeAboveTheLineIndicator" parent="ItemType-itemTypeAboveTheLineIndicator-parentBean" />
 
-        <attributes>
+  <bean id="ItemType-itemTypeAboveTheLineIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="itemTypeAboveTheLineIndicator" />
+    <property name="label" value="Item Type Above The Line Indicator" />
+    <property name="shortLabel" value="Above Line" />
+  </bean>
+  <bean id="ItemType-active" parent="ItemType-active-parentBean" />
 
-            <attribute name="itemTypeCode" forceUppercase="true">
-                <label>Item Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="ItemType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ItemType-versionNumber" parent="ItemType-versionNumber-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ItemType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="6" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-			</attribute>
 
-            <attribute name="itemTypeDescription" forceUppercase="true">
-                <label>Item Type Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="ItemType-inquiryDefinition" parent="ItemType-inquiryDefinition-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+  <bean id="ItemType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Item Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="quantityBasedGeneralLedgerIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemTypeAboveTheLineIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="47" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-			</attribute>
 
-<!--
-            <attribute name="quantityBasedGeneralLedgerIndicator" forceUppercase="false">
-                <label>Quantity Based General Ledger Indicator</label>
-                <shortLabel>Quantity Based</shortLabel>
+  <bean id="ItemType-lookupDefinition" parent="ItemType-lookupDefinition-parentBean" />
 
-                <maxLength>1</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
-
-            <attribute name="itemTypeAboveTheLineIndicator" forceUppercase="false">
-                <label>Item Type Above The Line Indicator</label>
-                <shortLabel>Above Line</shortLabel>
-
-                <maxLength>1</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
--->
-            <attributeReference name="quantityBasedGeneralLedgerIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" > 
-                <label>Quantity Based General Ledger Indicator</label>
-                <shortLabel>Quantity Based</shortLabel>
-
-            </attributeReference>
-
-            <attributeReference name="itemTypeAboveTheLineIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" >           
-                <label>Item Type Above The Line Indicator</label>
-                <shortLabel>Above Line</shortLabel>
-
-            </attributeReference>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Item Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ItemType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Item Type Lookup" />
+    <property name="instructions" value="Lookup an Item Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="quantityBasedGeneralLedgerIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeAboveTheLineIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="quantityBasedGeneralLedgerIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeAboveTheLineIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

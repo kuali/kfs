@@ -1,80 +1,129 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.pdp.bo.AchBank</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.pdp.rules.AchBankRule</businessRulesClass>
+  <bean id="AchBankMaintenanceDocument" parent="AchBankMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PD_VIEW_ACH</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AchBankMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.pdp.bo.AchBank" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AchBankMaintenanceDocument-EditACHBank" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="bankState"
+              p:attributeToHighlightOnFail="bankStateCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>bankRoutingNumber</value>
+      </list>
+    </property>
+    <property name="label" value="ACH Bank" />
+    <property name="shortLabel" value="AchBankMaintDoc" />
+    <property name="summary" value="Ach bank maintenance document" />
+    <property name="description" value="Document used to create or update Ach Bank objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PD"
+            p:parameterName="BANK"
+            p:parameterDetailType="AchBank" />
+    </property>
+    <property name="documentTypeName" value="AchBankMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.pdp.rules.AchBankRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ABNK" />
+    <property name="workflowProperties" >
+      <ref bean="AchBankMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PD_VIEW_ACH</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>AchBankMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ABNK</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>ACH Bank</label>
-        <shortLabel>AchBankMaintDoc</shortLabel>
 
-        <summary>Ach bank maintenance document</summary>
-        <description>Document used to create or update Ach Bank objects</description>
-        <help parameterNamespace="KFS-PD" parameterDetailType="AchBank" parameterName="BANK" />
+  <bean id="AchBankMaintenanceDocument-EditACHBank" parent="AchBankMaintenanceDocument-EditACHBank-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="bankRoutingNumber" />
-        </lockingKeys>
-        
-        <defaultExistenceChecks>
-            <reference attributeName="bankState" attributeToHighlightOnFail="bankStateCode" />        
-        </defaultExistenceChecks>
+  <bean id="AchBankMaintenanceDocument-EditACHBank-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit ACH Bank" />
+    <property name="title" value="Edit ACH Bank" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankRoutingNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankOfficeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankServiceNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankNewRoutingNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankStreetAddress"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankCityName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankStateCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankZipCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankZipExtensionCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankPhoneAreaCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankPhonePrefixNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankPhoneSuffixNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankInstitutionStatusCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankDataViewCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit ACH Bank">
-                <maintainableItems>
-                    <maintainableField name="bankRoutingNumber" required="true" />
-                    <maintainableField name="bankOfficeCode" required="true" />
-                    <maintainableField name="bankServiceNumber" required="true" />
-                    <maintainableField name="bankTypeCode" required="true" />
-               		<maintainableField name="bankNewRoutingNumber" required="true" />
-                	<maintainableField name="bankName" required="true" />
-                	<maintainableField name="bankStreetAddress" required="true" />
-                	<maintainableField name="bankCityName" required="true" />
-                	<maintainableField name="bankStateCode" required="true" />
-                	<maintainableField name="bankZipCode" required="true" />
- 					<maintainableField name="bankZipExtensionCode" required="true" />
- 					<maintainableField name="bankPhoneAreaCode" required="true" />
- 					<maintainableField name="bankPhonePrefixNumber" required="true" />
- 					<maintainableField name="bankPhoneSuffixNumber" required="true" />
- 					<maintainableField name="bankInstitutionStatusCode" required="false" />
- 					<maintainableField name="bankDataViewCode" required="false" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="AchBankMaintenanceDocument-workflowProperties" parent="AchBankMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AchBankMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

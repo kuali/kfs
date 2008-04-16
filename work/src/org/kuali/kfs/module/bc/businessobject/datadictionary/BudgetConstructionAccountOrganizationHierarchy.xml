@@ -1,165 +1,224 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionAccountOrganizationHierarchy" parent="BudgetConstructionAccountOrganizationHierarchy-parentBean" />
+
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionAccountOrganizationHierarchy-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionAccountOrganizationHierarchy-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-accountNumber" />
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-organizationChartOfAccountsCode" />
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-organizationCode" />
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-organizationLevelCode" />
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-universityFiscalYear" />
+        <ref bean="BudgetConstructionAccountOrganizationHierarchy-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Account Organization Hierarchy Inquiry</title>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-accountNumber" parent="BudgetConstructionAccountOrganizationHierarchy-accountNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationLevelCode" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-chartOfAccountsCode" parent="BudgetConstructionAccountOrganizationHierarchy-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Account Organization Hierarchy Lookup</title>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationChartOfAccountsCode" parent="BudgetConstructionAccountOrganizationHierarchy-organizationChartOfAccountsCode-parentBean" />
 
-            <instructions>Look up a Budget Construction Account Organization Hierarchy</instructions>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="organizationChartOfAccountsCode" />
+    <property name="description" value="organizationChartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationCode" parent="BudgetConstructionAccountOrganizationHierarchy-organizationCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="organizationCode" />
+    <property name="description" value="organizationCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationLevelCode" parent="BudgetConstructionAccountOrganizationHierarchy-organizationLevelCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationChartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="organizationLevelCode" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationLevelCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Level Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="organizationLevelCode" />
+    <property name="description" value="organizationLevelCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-universityFiscalYear" parent="BudgetConstructionAccountOrganizationHierarchy-universityFiscalYear-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationLevelCode" />
-                <field attributeName="universityFiscalYear" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Fiscal Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="universityFiscalYear" />
+    <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-versionNumber" parent="BudgetConstructionAccountOrganizationHierarchy-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="9" />
-                </control>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-inquiryDefinition" parent="BudgetConstructionAccountOrganizationHierarchy-inquiryDefinition-parentBean" />
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Account Organization Hierarchy Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationLevelCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-lookupDefinition" parent="BudgetConstructionAccountOrganizationHierarchy-lookupDefinition-parentBean" />
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
-                <label>Organization Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>organizationChartOfAccountsCode</summary>
-                <description>organizationChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="organizationLevelCode" forceUppercase="true">
-                <label>Organization Level Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>organizationLevelCode</summary>
-                <description>organizationLevelCode description...</description>
-			</attribute>
-
-            <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionAccountOrganizationHierarchy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Account Organization Hierarchy Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Account Organization Hierarchy" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationLevelCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationLevelCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+  </bean>
+</beans>

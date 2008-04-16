@@ -1,113 +1,156 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage">
- 
-        <inquiry>
-            <title>Purchase Order Quote Language Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="active" />
-                        <field attributeName="purchaseOrderQuoteLanguageCreateDate" />
-                        <field attributeName="purchaseOrderQuoteLanguageDescription" />
-                        <field attributeName="purchaseOrderQuoteLanguageIdentifier" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Purchase Order Quote Language Lookup</title>
+  <bean id="PurchaseOrderQuoteLanguage" parent="PurchaseOrderQuoteLanguage-parentBean" />
 
-            <instructions>Look up a Purchase Order Quote Language</instructions>
+  <bean id="PurchaseOrderQuoteLanguage-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchaseOrderQuoteLanguage-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchaseOrderQuoteLanguage-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Purchase Order Quote Language" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderQuoteLanguage-active" />
+        <ref bean="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate" />
+        <ref bean="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageDescription" />
+        <ref bean="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageIdentifier" />
+        <ref bean="PurchaseOrderQuoteLanguage-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>                
-	                <sortAttribute attributeName="purchaseOrderQuoteLanguageIdentifier" />
-                    <sortAttribute attributeName="purchaseOrderQuoteLanguageCreateDate" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>                                
-                <lookupField attributeName="purchaseOrderQuoteLanguageIdentifier" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteLanguageDescription" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteLanguageCreateDate" required="false" />
-				<lookupField attributeName="active" required="false" />                
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="purchaseOrderQuoteLanguageIdentifier" />	
-                <field attributeName="purchaseOrderQuoteLanguageDescription" />                
-				<field attributeName="purchaseOrderQuoteLanguageCreateDate" />			                
-				<field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="PurchaseOrderQuoteLanguage-active" parent="PurchaseOrderQuoteLanguage-active-parentBean" />
 
-        <attributes>
+  <bean id="PurchaseOrderQuoteLanguage-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate" parent="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate-parentBean" />
 
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="purchaseOrderQuoteLanguageCreateDate" />
+    <property name="label" value="Purchase Order Quote Language Create Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageDescription" parent="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageDescription-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteLanguageDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Purchase Order Quote Language Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageIdentifier" parent="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageIdentifier-parentBean" />
 
-                <control>
-                    <checkbox />
-                </control>
-			</attribute>
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteLanguageIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Quote Language Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteLanguage-versionNumber" parent="PurchaseOrderQuoteLanguage-versionNumber-parentBean" />
 
-            <attributeReference name="purchaseOrderQuoteLanguageCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Purchase Order Quote Language Create Date</label>
-                <shortLabel>Date</shortLabel>
-                <required>true</required>
-            </attributeReference>
+  <bean id="PurchaseOrderQuoteLanguage-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="purchaseOrderQuoteLanguageDescription" forceUppercase="false">
-                <label>Purchase Order Quote Language Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-			</attribute>
 
-            <attribute name="purchaseOrderQuoteLanguageIdentifier" forceUppercase="true">
-                <label>Purchase Order Quote Language Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="PurchaseOrderQuoteLanguage-inquiryDefinition" parent="PurchaseOrderQuoteLanguage-inquiryDefinition-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="PurchaseOrderQuoteLanguage-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purchase Order Quote Language Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteLanguageCreateDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteLanguageDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteLanguageIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <hidden/>
-                </control>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-        </attributes>
-        <objectLabel>Purchase Order Quote Language</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PurchaseOrderQuoteLanguage-lookupDefinition" parent="PurchaseOrderQuoteLanguage-lookupDefinition-parentBean" />
+
+  <bean id="PurchaseOrderQuoteLanguage-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purchase Order Quote Language Lookup" />
+    <property name="instructions" value="Look up a Purchase Order Quote Language" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteLanguageIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteLanguageDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteLanguageCreateDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteLanguageIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteLanguageDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteLanguageCreateDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

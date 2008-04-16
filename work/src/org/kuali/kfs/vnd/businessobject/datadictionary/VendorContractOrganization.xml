@@ -1,60 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <attributes>
+  <bean id="VendorContractOrganization" parent="VendorContractOrganization-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-            </attributeReference>
+  <bean id="VendorContractOrganization-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContractOrganization" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorContractOrganization-chartOfAccountsCode" />
+        <ref bean="VendorContractOrganization-organizationCode" />
+        <ref bean="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" />
+        <ref bean="VendorContractOrganization-vendorContractExcludeIndicator" />
+        <ref bean="VendorContractOrganization-vendorContractGeneratedIdentifier" />
+        <ref bean="VendorContractOrganization-newCollectionRecord" />
+        <ref bean="VendorContractOrganization-versionNumber" />
+        <ref bean="VendorContractOrganization-active" />
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-                <required>true</required>
-            </attributeReference>
+<!-- Attribute Definitions -->
 
-            <attributeReference name="vendorContractPurchaseOrderLimitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>APO Amount</label>
-                <shortLabel>APO Amount</shortLabel>
-                <required>false</required>
-            </attributeReference>
 
-            <attributeReference name="vendorContractExcludeIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithBlankIndicator">
-                <label>Exclude</label>
-                <shortLabel>Exclude</shortLabel>
-                <required>false</required>
+  <bean id="VendorContractOrganization-chartOfAccountsCode" parent="VendorContractOrganization-chartOfAccountsCode-parentBean" />
 
-            </attributeReference>
+  <bean id="VendorContractOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="VendorContractOrganization-organizationCode" parent="VendorContractOrganization-organizationCode-parentBean" />
 
-			<attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier">
-			    <label>Vendor Contract Generated Identifier</label>
-			    <shortLabel>Identifier</shortLabel>
-			    <required>false</required>
-			</attributeReference>
-			
-			<attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
+  <bean id="VendorContractOrganization-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" parent="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="vendorContractPurchaseOrderLimitAmount" />
+    <property name="label" value="APO Amount" />
+    <property name="shortLabel" value="APO Amount" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorContractOrganization-vendorContractExcludeIndicator" parent="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" />
+
+  <bean id="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-yesNoWithBlankIndicator">
+    <property name="name" value="vendorContractExcludeIndicator" />
+    <property name="label" value="Exclude" />
+    <property name="shortLabel" value="Exclude" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorContractOrganization-vendorContractGeneratedIdentifier" parent="VendorContractOrganization-vendorContractGeneratedIdentifier-parentBean" />
+
+  <bean id="VendorContractOrganization-vendorContractGeneratedIdentifier-parentBean" abstract="true" parent="VendorContract-vendorContractGeneratedIdentifier">
+    <property name="shortLabel" value="Identifier" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorContractOrganization-newCollectionRecord" parent="VendorContractOrganization-newCollectionRecord-parentBean" />
+
+  <bean id="VendorContractOrganization-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorContractOrganization-versionNumber" parent="VendorContractOrganization-versionNumber-parentBean" />
+
+  <bean id="VendorContractOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorContractOrganization-active" parent="VendorContractOrganization-active-parentBean" />
+
+  <bean id="VendorContractOrganization-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+</beans>

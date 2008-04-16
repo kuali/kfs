@@ -1,169 +1,239 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.ContractManager">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Contract Manager Inquiry</title>
+  <bean id="ContractManager" parent="ContractManager-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="contractManagerCode" />
-                <field attributeName="contractManagerUserIdentifier" />
-                <field attributeName="contractManagerName" />
-                <field attributeName="contractManagerPhoneNumber" />
-                <field attributeName="contractManagerFaxNumber" />
-                <field attributeName="contractManagerDelegationDollarLimit" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ContractManager-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.ContractManager" />
+    <property name="inquiryDefinition" >
+      <ref bean="ContractManager-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ContractManager-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="contractManagerCode" />
+    <property name="objectLabel" value="Contract Manager" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ContractManager-contractManagerCode" />
+        <ref bean="ContractManager-contractManagerDelegationDollarLimit" />
+        <ref bean="ContractManager-contractManagerFaxNumber" />
+        <ref bean="ContractManager-contractManagerName" />
+        <ref bean="ContractManager-contractManagerPhoneNumber" />
+        <ref bean="ContractManager-contractManagerSignatureImageLocationDescription" />
+        <ref bean="ContractManager-contractManagerUserIdentifier" />
+        <ref bean="ContractManager-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Contract Manager Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Contract Manager</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="contractManagerCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ContractManager-contractManagerCode" parent="ContractManager-contractManagerCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="contractManagerCode" required="false" />
-                <lookupField attributeName="contractManagerUserIdentifier" required="false" />
-                <lookupField attributeName="contractManagerName" required="false" />
-                <lookupField attributeName="contractManagerPhoneNumber" required="false" />
-                <lookupField attributeName="contractManagerFaxNumber" required="false" />
-                <lookupField attributeName="contractManagerDelegationDollarLimit" required="false" />
-                <lookupField attributeName="contractManagerSignatureImageLocationDescription" required="false" />
-            </lookupFields>
+  <bean id="ContractManager-contractManagerCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contract Manager Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ContractManager-contractManagerDelegationDollarLimit" parent="ContractManager-contractManagerDelegationDollarLimit-parentBean" />
 
-            <resultFields>
-                <field attributeName="contractManagerCode" />
-                <field attributeName="contractManagerUserIdentifier" />
-                <field attributeName="contractManagerName" />
-                <field attributeName="contractManagerPhoneNumber" />
-                <field attributeName="contractManagerFaxNumber" />
-                <field attributeName="contractManagerDelegationDollarLimit" />
-                <field attributeName="contractManagerSignatureImageLocationDescription" />
-            </resultFields>
-        </lookup>
+  <bean id="ContractManager-contractManagerDelegationDollarLimit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerDelegationDollarLimit" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contract Manager Delegation Dollar Limit" />
+    <property name="shortLabel" value="Limit" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="ContractManager-contractManagerFaxNumber" parent="ContractManager-contractManagerFaxNumber-parentBean" />
 
-        <titleAttribute>contractManagerCode</titleAttribute>
+  <bean id="ContractManager-contractManagerFaxNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerFaxNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contract Manager Fax Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ContractManager-contractManagerName" parent="ContractManager-contractManagerName-parentBean" />
 
-        <attributes>
+  <bean id="ContractManager-contractManagerName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contract Manager Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ContractManager-contractManagerPhoneNumber" parent="ContractManager-contractManagerPhoneNumber-parentBean" />
 
-            <attribute name="contractManagerCode" forceUppercase="true">
-                <label>Contract Manager Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="ContractManager-contractManagerPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerPhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contract Manager Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ContractManager-contractManagerSignatureImageLocationDescription" parent="ContractManager-contractManagerSignatureImageLocationDescription-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="ContractManager-contractManagerSignatureImageLocationDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerSignatureImageLocationDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contract Manager Signature Image Location Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ContractManager-contractManagerUserIdentifier" parent="ContractManager-contractManagerUserIdentifier-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="ContractManager-contractManagerUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractManagerUserIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contract Manager User Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+  </bean>
+  <bean id="ContractManager-versionNumber" parent="ContractManager-versionNumber-parentBean" />
 
-			</attribute>
+  <bean id="ContractManager-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="contractManagerDelegationDollarLimit" forceUppercase="false">
-                <label>Contract Manager Delegation Dollar Limit</label>
-                <shortLabel>Limit</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
 
-                <control>
-                    <text size="21" />
-                </control>
+  <bean id="ContractManager-inquiryDefinition" parent="ContractManager-inquiryDefinition-parentBean" />
 
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
+  <bean id="ContractManager-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Contract Manager Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerUserIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerFaxNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerDelegationDollarLimit" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="contractManagerFaxNumber" forceUppercase="true">
-                <label>Contract Manager Fax Number</label>
-                <shortLabel>Number</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="ContractManager-lookupDefinition" parent="ContractManager-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attribute name="contractManagerName" forceUppercase="true">
-                <label>Contract Manager Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="contractManagerPhoneNumber" forceUppercase="true">
-                <label>Contract Manager Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="contractManagerSignatureImageLocationDescription" forceUppercase="true">
-                <label>Contract Manager Signature Image Location Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="contractManagerUserIdentifier" forceUppercase="true">
-                <label>Contract Manager User Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Contract Manager</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ContractManager-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Contract Manager Lookup" />
+    <property name="instructions" value="Lookup a Contract Manager" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerFaxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerDelegationDollarLimit" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerSignatureImageLocationDescription" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerFaxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerDelegationDollarLimit" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerSignatureImageLocationDescription" />
+      </list>
+    </property>
+  </bean>
+</beans>

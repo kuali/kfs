@@ -1,123 +1,176 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.ParameterNamespace">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Parameter Module Inquiry</title>
-            <inquirySections>
-                <inquirySection title="Module Information">
-                    <inquiryFields>
-                        <field attributeName="code" />
-                        <field attributeName="name" noInquiry="true" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>
-        </inquiry>
-        <lookup>
-            <title>Parameter Module Lookup</title>
+  <bean id="ParameterNamespace" parent="ParameterNamespace-parentBean" />
 
-            <instructions>Look up a Module.</instructions>
-            <defaultSort attributeName="name" sortAscending="true" />
-            <lookupFields>
-                <lookupField attributeName="code" required="false"
-                    noLookup="true"
-                />
-                <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="active" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
-            <resultFields>
-                <field attributeName="code" forceInquiry="true" />
-                <field attributeName="name" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ParameterNamespace-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.core.bo.ParameterNamespace" />
+    <property name="inquiryDefinition" >
+      <ref bean="ParameterNamespace-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ParameterNamespace-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="name" />
+    <property name="objectLabel" value="Parameter Module" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ParameterNamespace-code" />
+        <ref bean="ParameterNamespace-name" />
+        <ref bean="ParameterNamespace-codeAndDescription" />
+        <ref bean="ParameterNamespace-active" />
+        <ref bean="ParameterNamespace-objectId" />
+        <ref bean="ParameterNamespace-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <titleAttribute>name</titleAttribute>
+<!-- Attribute Definitions -->
 
-        <attributes>
-            <attribute name="code" forceUppercase="true">
-                <label>Module Code</label>
-                <shortLabel>Module Cd</shortLabel>
-                <maxLength>20</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Code identifying the module.</summary>
-                <description>
-                    Code identifying the module.
-                </description>
-            </attribute>
-            <attribute name="name" forceUppercase="false">
-                <label>Module Name</label>
-                <shortLabel>Module Nm</shortLabel>
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>The name of the module.</summary>
-                <description>
-                    The name of the module.
-                </description>
-            </attribute>
-            <attribute name="codeAndDescription" forceUppercase="false">
-                <label>Module</label>
-                <shortLabel>Module</shortLabel>
-                <maxLength>100</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>The name of the module.</summary>
-                <description>
-                    The name of the module.
-                </description>
-            </attribute>
-            <attributeReference name="active"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="activeIndicator"
-            >
-            </attributeReference>
-            <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="objectId"
-            />
-            <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="versionNumber"
-            />
-        </attributes>
-        <objectLabel>Parameter Module</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="ParameterNamespace-code" parent="ParameterNamespace-code-parentBean" />
+
+  <bean id="ParameterNamespace-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Module Code" />
+    <property name="shortLabel" value="Module Cd" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Code identifying the module." />
+    <property name="description" value="Code identifying the module." />
+  </bean>
+  <bean id="ParameterNamespace-name" parent="ParameterNamespace-name-parentBean" />
+
+  <bean id="ParameterNamespace-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Name" />
+    <property name="shortLabel" value="Module Nm" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="The name of the module." />
+    <property name="description" value="The name of the module." />
+  </bean>
+  <bean id="ParameterNamespace-codeAndDescription" parent="ParameterNamespace-codeAndDescription-parentBean" />
+
+  <bean id="ParameterNamespace-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module" />
+    <property name="shortLabel" value="Module" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="The name of the module." />
+    <property name="description" value="The name of the module." />
+  </bean>
+  <bean id="ParameterNamespace-active" parent="ParameterNamespace-active-parentBean" />
+
+  <bean id="ParameterNamespace-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ParameterNamespace-objectId" parent="ParameterNamespace-objectId-parentBean" />
+
+  <bean id="ParameterNamespace-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="ParameterNamespace-versionNumber" parent="ParameterNamespace-versionNumber-parentBean" />
+
+  <bean id="ParameterNamespace-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ParameterNamespace-inquiryDefinition" parent="ParameterNamespace-inquiryDefinition-parentBean" />
+
+  <bean id="ParameterNamespace-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Parameter Module Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Module Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name"
+                    p:noInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ParameterNamespace-lookupDefinition" parent="ParameterNamespace-lookupDefinition-parentBean" />
+
+  <bean id="ParameterNamespace-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Parameter Module Lookup" />
+    <property name="instructions" value="Look up a Module." />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>name</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

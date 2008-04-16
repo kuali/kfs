@@ -1,63 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.routingform.bo.PersonRole</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="PersonRoleMaintenanceDocument" parent="PersonRoleMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PersonRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.PersonRole" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PersonRoleMaintenanceDocument-EditPersonRole" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>personRoleCode</value>
+      </list>
+    </property>
+    <property name="label" value="Person Role" />
+    <property name="shortLabel" value="Person Role" />
+    <property name="summary" value="Person Role maintenance document" />
+    <property name="description" value="Document used to create or update Person Role objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="PERSON_ROLE"
+            p:parameterDetailType="PersonRole" />
+    </property>
+    <property name="documentTypeName" value="PersonRoleMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PRSN" />
+    <property name="workflowProperties" >
+      <ref bean="PersonRoleMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>PersonRoleMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PRSN</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Person Role</label>
 
-        <summary>Person Role maintenance document</summary>
-        <description>Document used to create or update Person Role objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="PersonRole" parameterName="PERSON_ROLE" />
+  <bean id="PersonRoleMaintenanceDocument-EditPersonRole" parent="PersonRoleMaintenanceDocument-EditPersonRole-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="personRoleCode" />
-        </lockingKeys>
+  <bean id="PersonRoleMaintenanceDocument-EditPersonRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Person Role" />
+    <property name="title" value="Edit Person Role" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personRoleCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personRoleDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personRoleSortNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Person Role">
-                <maintainableItems>
-                    <maintainableField name="personRoleCode" required="true" />
-                    <maintainableField name="personRoleDescription" required="true" />
-                    <maintainableField name="personRoleSortNumber" required="false" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PersonRoleMaintenanceDocument-workflowProperties" parent="PersonRoleMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="PersonRoleMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

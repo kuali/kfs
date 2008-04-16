@@ -1,103 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.BenefitsType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BenefitsType" parent="BenefitsType-parentBean" />
+
+  <bean id="BenefitsType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.BenefitsType" />
+    <property name="inquiryDefinition" >
+      <ref bean="BenefitsType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BenefitsType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="positionBenefitTypeCode" />
+    <property name="objectLabel" value="Labor Benefits Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BenefitsType-positionBenefitRetirementIndicator" />
+        <ref bean="BenefitsType-positionBenefitTypeCode" />
+        <ref bean="BenefitsType-positionBenefitTypeDescription" />
+        <ref bean="BenefitsType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Labor Benefits Type Inquiry</title>
+  <bean id="BenefitsType-positionBenefitRetirementIndicator" parent="BenefitsType-positionBenefitRetirementIndicator-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="positionBenefitTypeCode" />
-                <field attributeName="positionBenefitTypeDescription" />
-                <field attributeName="positionBenefitRetirementIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BenefitsType-positionBenefitRetirementIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionBenefitRetirementIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Benefits Retirement Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="0" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="BenefitsType-positionBenefitTypeCode" parent="BenefitsType-positionBenefitTypeCode-parentBean" />
 
-        <lookup>
-            <title>Labor Benefits Type Lookup</title>
+  <bean id="BenefitsType-positionBenefitTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionBenefitTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Benefits Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="BenefitsType-positionBenefitTypeDescription" parent="BenefitsType-positionBenefitTypeDescription-parentBean" />
 
-            <instructions>Lookup an Benefits Type</instructions>
+  <bean id="BenefitsType-positionBenefitTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionBenefitTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Benefits Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="BenefitsType-versionNumber" parent="BenefitsType-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="positionBenefitTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BenefitsType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="positionBenefitTypeCode" required="false" />
-                <lookupField attributeName="positionBenefitTypeDescription" required="false" />
-                <lookupField attributeName="positionBenefitRetirementIndicator" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="positionBenefitTypeCode" />
-                <field attributeName="positionBenefitTypeDescription" />
-                <field attributeName="positionBenefitRetirementIndicator" />
-            </resultFields>
-        </lookup>
 
-        <titleAttribute>positionBenefitTypeCode</titleAttribute>
+  <bean id="BenefitsType-inquiryDefinition" parent="BenefitsType-inquiryDefinition-parentBean" />
 
-        <attributes>
+  <bean id="BenefitsType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Labor Benefits Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionBenefitTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionBenefitTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionBenefitRetirementIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="positionBenefitRetirementIndicator" forceUppercase="true">
-                <label>Labor Benefits Retirement Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>$attribute.maxLength</maxLength>
 
-                <control>
-                    <checkbox />
-                </control>
-			</attribute>
+  <bean id="BenefitsType-lookupDefinition" parent="BenefitsType-lookupDefinition-parentBean" />
 
-            <attribute name="positionBenefitTypeCode" forceUppercase="true">
-                <label>Labor Benefits Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
-
-            <attribute name="positionBenefitTypeDescription" forceUppercase="true">
-                <label>Labor Benefits Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <control>
-                    <text size="42" />
-                </control>
-			</attribute>
-
-          <attributeReference name="versionNumber" 
-                            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-                            sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Labor Benefits Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BenefitsType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Labor Benefits Type Lookup" />
+    <property name="instructions" value="Lookup an Benefits Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="positionBenefitTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionBenefitTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionBenefitRetirementIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="positionBenefitTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionBenefitTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionBenefitRetirementIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

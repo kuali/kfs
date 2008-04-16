@@ -1,68 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.budget.bo.AppointmentType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.kra.budget.rules.AppointmentTypeMaintenanceDocumentRule</businessRulesClass>
-        
+  <bean id="AppointmentTypeMaintenanceDocument" parent="AppointmentTypeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AppointmentTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.AppointmentType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AppointmentTypeMaintenanceDocument-EditAppointmentType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>appointmentTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Appointment Type" />
+    <property name="shortLabel" value="Appointment Type" />
+    <property name="summary" value="Appointment Type maintenance document" />
+    <property name="description" value="Document used to create or update AppointmentType objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="APPOINTMENT_TYPE"
+            p:parameterDetailType="AppointmentType" />
+    </property>
+    <property name="documentTypeName" value="AppointmentTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.kra.budget.rules.AppointmentTypeMaintenanceDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="APPT" />
+    <property name="workflowProperties" >
+      <ref bean="AppointmentTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-    <documentTypeName>AppointmentTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>APPT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Appointment Type</label>
 
-        <summary>Appointment Type maintenance document</summary>
-        <description>Document used to create or update AppointmentType objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="AppointmentType" parameterName="APPOINTMENT_TYPE" />
+  <bean id="AppointmentTypeMaintenanceDocument-EditAppointmentType" parent="AppointmentTypeMaintenanceDocument-EditAppointmentType-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="appointmentTypeCode" />
-        </lockingKeys>
+  <bean id="AppointmentTypeMaintenanceDocument-EditAppointmentType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Appointment Type" />
+    <property name="title" value="Edit Appointment Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="appointmentTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="appointmentTypeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="appointmentTypeAbbrieviation"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="fringeRateAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="costShareFringeRateAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="relatedAppointmentTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Appointment Type">
-                <maintainableItems>
-                    <maintainableField name="appointmentTypeCode" required="true"/>
-                    <maintainableField name="appointmentTypeDescription" required="true"/>
-                    <maintainableField name="appointmentTypeAbbrieviation" required="true"/>
-                    <maintainableField name="fringeRateAmount" required="true"/>
-                    <maintainableField name="costShareFringeRateAmount" required="true"/>
-                    <maintainableField name="relatedAppointmentTypeCode" />
-					          <maintainableField name="active">
-						          <defaultValue>true</defaultValue>
-					          </maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="AppointmentTypeMaintenanceDocument-workflowProperties" parent="AppointmentTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AppointmentTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

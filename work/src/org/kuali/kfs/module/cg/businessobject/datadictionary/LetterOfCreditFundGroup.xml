@@ -1,101 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.LetterOfCreditFundGroup">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="LetterOfCreditFundGroup" parent="LetterOfCreditFundGroup-parentBean" />
+
+  <bean id="LetterOfCreditFundGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.LetterOfCreditFundGroup" />
+    <property name="inquiryDefinition" >
+      <ref bean="LetterOfCreditFundGroup-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="LetterOfCreditFundGroup-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" />
+        <ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription" />
+        <ref bean="LetterOfCreditFundGroup-rowActiveIndicator" />
+        <ref bean="LetterOfCreditFundGroup-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Letter Of Credit Fund Group Inquiry</title>
+  <bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" parent="LetterOfCreditFundGroup-letterOfCreditFundGroupCode-parentBean" />
 
-            <inquirySections><inquirySection title="Letter of Credit Fund Group Details"><inquiryFields>
-                <field attributeName="letterOfCreditFundGroupCode" />
-                <field attributeName="letterOfCreditFundGroupDescription" />
-                <field attributeName="rowActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="letterOfCreditFundGroupCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Letter Of Credit Fund Group Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription" parent="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription-parentBean" />
 
-        <lookup>
-            <title>Letter Of Credit Fund Group Lookup</title>
+  <bean id="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="letterOfCreditFundGroupDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Letter Of Credit Fund Group Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="LetterOfCreditFundGroup-rowActiveIndicator" parent="LetterOfCreditFundGroup-rowActiveIndicator-parentBean" />
 
-            <instructions>Look up a Letter Of Credit Fund Group</instructions>
+  <bean id="LetterOfCreditFundGroup-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rowActiveIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Active Indicator" />
+    <property name="shortLabel" value="Active Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="LetterOfCreditFundGroup-versionNumber" parent="LetterOfCreditFundGroup-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="letterOfCreditFundGroupCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="LetterOfCreditFundGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="letterOfCreditFundGroupCode" required="false" />
-                <lookupField attributeName="letterOfCreditFundGroupDescription" required="false" />
-                <lookupField attributeName="rowActiveIndicator" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="letterOfCreditFundGroupCode" />
-                <field attributeName="letterOfCreditFundGroupDescription" />
-                <field attributeName="rowActiveIndicator" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="LetterOfCreditFundGroup-inquiryDefinition" parent="LetterOfCreditFundGroup-inquiryDefinition-parentBean" />
 
-            <attribute name="letterOfCreditFundGroupCode" forceUppercase="true">
-                <label>Letter Of Credit Fund Group Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="LetterOfCreditFundGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Letter Of Credit Fund Group Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Letter of Credit Fund Group Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="letterOfCreditFundGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="letterOfCreditFundGroupDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rowActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>4</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="6" />
-                </control>
 
-			</attribute>
+  <bean id="LetterOfCreditFundGroup-lookupDefinition" parent="LetterOfCreditFundGroup-lookupDefinition-parentBean" />
 
-            <attribute name="letterOfCreditFundGroupDescription" forceUppercase="true">
-                <label>Letter Of Credit Fund Group Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-			</attribute>
-
-            <attribute name="rowActiveIndicator" forceUppercase="false">
-                <label>Active Indicator</label>
-                <shortLabel>Active Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="LetterOfCreditFundGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Letter Of Credit Fund Group Lookup" />
+    <property name="instructions" value="Look up a Letter Of Credit Fund Group" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="letterOfCreditFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="letterOfCreditFundGroupDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rowActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="letterOfCreditFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="letterOfCreditFundGroupDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rowActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

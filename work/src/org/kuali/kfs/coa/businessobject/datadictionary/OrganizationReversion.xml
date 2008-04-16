@@ -1,148 +1,226 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversion">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="OrganizationReversion" parent="OrganizationReversion-parentBean" />
+
+  <bean id="OrganizationReversion-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversion" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationReversion-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationReversion-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationReversionViewer" />
+    <property name="objectLabel" value="Organization Reversion" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationReversion-organizationReversionViewer" />
+        <ref bean="OrganizationReversion-universityFiscalYear" />
+        <ref bean="OrganizationReversion-chartOfAccountsCode" />
+        <ref bean="OrganizationReversion-organizationCode" />
+        <ref bean="OrganizationReversion-budgetReversionChartOfAccountsCode" />
+        <ref bean="OrganizationReversion-budgetReversionAccountNumber" />
+        <ref bean="OrganizationReversion-cashReversionFinancialChartOfAccountsCode" />
+        <ref bean="OrganizationReversion-cashReversionAccountNumber" />
+        <ref bean="OrganizationReversion-carryForwardByObjectCodeIndicator" />
+        <ref bean="OrganizationReversion-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Organization Reversion Inquiry</title>
+  <bean id="OrganizationReversion-organizationReversionViewer" parent="OrganizationReversion-organizationReversionViewer-parentBean" />
 
-            <inquirySections>
-            	<inquirySection title="Header Text">
-            		<inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="budgetReversionChartOfAccountsCode" />
-                <field attributeName="budgetReversionAccountNumber" />
-                <field attributeName="cashReversionFinancialChartOfAccountsCode" />
-                <field attributeName="cashReversionAccountNumber" />
-                <field attributeName="carryForwardByObjectCodeIndicator" />
-            		</inquiryFields>
-            	</inquirySection>
-            	<inquirySection title="Organization Reversion Details">
-            		<inquiryFields>
-            			<inquiryCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">
-            				<field attributeName="organizationReversionCategoryCode" />
-                			<field attributeName="organizationReversionObjectCode" />
-                			<field attributeName="organizationReversionObject.financialObjectCodeName" />
-                			<field attributeName="organizationReversionCode" />
-            			</inquiryCollection>
-            		</inquiryFields>
-            	</inquirySection>
-            </inquirySections>
-        </inquiry>
+  <bean id="OrganizationReversion-organizationReversionViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReversionViewer" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversion-universityFiscalYear" parent="OrganizationReversion-universityFiscalYear-parentBean" />
 
-        <lookup>
-            <title>Organization Reversion Lookup</title>
-            
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationReversionGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global Organization Reversion" width="98" height="15"/></a>]]>
-            </menubar>
+  <bean id="OrganizationReversion-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationReversion-chartOfAccountsCode" parent="OrganizationReversion-chartOfAccountsCode-parentBean" />
 
-            <instructions>Lookup an Organization Reversion</instructions>
+  <bean id="OrganizationReversion-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationReversion-organizationCode" parent="OrganizationReversion-organizationCode-parentBean" />
 
-            <defaultSort attributeName="organizationCode" sortAscending="true" />
+  <bean id="OrganizationReversion-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="OrganizationReversion-budgetReversionChartOfAccountsCode" parent="OrganizationReversion-budgetReversionChartOfAccountsCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="budgetReversionChartOfAccountsCode" required="false" />
-                <lookupField attributeName="budgetReversionAccountNumber" required="false" />
-                <lookupField attributeName="cashReversionFinancialChartOfAccountsCode" required="false" />
-                <lookupField attributeName="cashReversionAccountNumber" required="false" />
+  <bean id="OrganizationReversion-budgetReversionChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="budgetReversionChartOfAccountsCode" />
+    <property name="label" value="Budget Reversion Chart" />
+    <property name="shortLabel" value="Budget Reversion Chart" />
+  </bean>
+  <bean id="OrganizationReversion-budgetReversionAccountNumber" parent="OrganizationReversion-budgetReversionAccountNumber-parentBean" />
+
+  <bean id="OrganizationReversion-budgetReversionAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="budgetReversionAccountNumber" />
+    <property name="label" value="Budget Reversion Account" />
+    <property name="shortLabel" value="Budget Reversion Account" />
+  </bean>
+  <bean id="OrganizationReversion-cashReversionFinancialChartOfAccountsCode" parent="OrganizationReversion-cashReversionFinancialChartOfAccountsCode-parentBean" />
+
+  <bean id="OrganizationReversion-cashReversionFinancialChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="cashReversionFinancialChartOfAccountsCode" />
+    <property name="label" value="Cash Reversion Chart" />
+    <property name="shortLabel" value="Cash Reversion Chart" />
+  </bean>
+  <bean id="OrganizationReversion-cashReversionAccountNumber" parent="OrganizationReversion-cashReversionAccountNumber-parentBean" />
+
+  <bean id="OrganizationReversion-cashReversionAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="cashReversionAccountNumber" />
+    <property name="label" value="Cash Reversion Account" />
+    <property name="shortLabel" value="Cash Reversion Account" />
+  </bean>
+  <bean id="OrganizationReversion-carryForwardByObjectCodeIndicator" parent="OrganizationReversion-carryForwardByObjectCodeIndicator-parentBean" />
+
+  <bean id="OrganizationReversion-carryForwardByObjectCodeIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="carryForwardByObjectCodeIndicator" />
+    <property name="label" value="Carry Forward by Object Code Indicator" />
+    <property name="shortLabel" value="CF by Object Code" />
+  </bean>
+  <bean id="OrganizationReversion-versionNumber" parent="OrganizationReversion-versionNumber-parentBean" />
+
+  <bean id="OrganizationReversion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
 
 
-            </lookupFields>
+  <bean id="OrganizationReversion-inquiryDefinition" parent="OrganizationReversion-inquiryDefinition-parentBean" />
 
-            <resultFields>
-            	<field attributeName="organizationReversionViewer" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="budgetReversionChartOfAccountsCode" />
-                <field attributeName="budgetReversionAccountNumber" />
-                <field attributeName="cashReversionFinancialChartOfAccountsCode" />
-                <field attributeName="cashReversionAccountNumber" />
-                <field attributeName="carryForwardByObjectCodeIndicator" />
+  <bean id="OrganizationReversion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Reversion Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetReversionChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetReversionAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashReversionFinancialChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashReversionAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="carryForwardByObjectCodeIndicator" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Reversion Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="organizationReversionDetail" />
+                <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionDetail" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationReversionCategoryCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationReversionObjectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationReversionObject.financialObjectCodeName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationReversionCode" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
 
 
-            </resultFields>
-        </lookup>
-        
-        <titleAttribute>organizationReversionViewer</titleAttribute>
+  <bean id="OrganizationReversion-lookupDefinition" parent="OrganizationReversion-lookupDefinition-parentBean" />
 
-        <attributes>
-        	<attribute name="organizationReversionViewer">
-        		<label>View</label>
-        		<maxLength>100</maxLength>
-        		<required>false</required>
-        		<control><hidden /></control>
-        	</attribute>
-        
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-            </attributeReference>
-
-            <attributeReference name="budgetReversionChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Budget Reversion Chart</label>
-                <shortLabel>Budget Reversion Chart</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="budgetReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Budget Reversion Account</label>
-                <shortLabel>Budget Reversion Account</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="cashReversionFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Cash Reversion Chart</label>
-                <shortLabel>Cash Reversion Chart</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="cashReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Cash Reversion Account</label>
-                <shortLabel>Cash Reversion Account</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="carryForwardByObjectCodeIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Carry Forward by Object Code Indicator</label>
-                <shortLabel>CF by Object Code</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        
-        <objectLabel>Organization Reversion</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="OrganizationReversion-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Reversion Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.module.chart.bo.OrganizationReversionGlobal&quot;&gt;&lt;img src=&quot;${kr.externalizable.images.url}tinybutton-createnewglobal.gif&quot; alt=&quot;create new global Organization Reversion&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
+    <property name="instructions" value="Lookup an Organization Reversion" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>organizationCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetReversionChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetReversionAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashReversionFinancialChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashReversionAccountNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionViewer" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetReversionChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetReversionAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashReversionFinancialChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashReversionAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="carryForwardByObjectCodeIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

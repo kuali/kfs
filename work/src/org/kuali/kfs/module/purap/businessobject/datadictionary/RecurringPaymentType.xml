@@ -1,94 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.RecurringPaymentType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Recurring Payment Type Inquiry</title>
+  <bean id="RecurringPaymentType" parent="RecurringPaymentType-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="recurringPaymentTypeCode" />
-                <field attributeName="recurringPaymentTypeDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RecurringPaymentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.RecurringPaymentType" />
+    <property name="inquiryDefinition" >
+      <ref bean="RecurringPaymentType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RecurringPaymentType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="recurringPaymentTypeCode" />
+    <property name="objectLabel" value="Recurring Payment Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="RecurringPaymentType-recurringPaymentTypeCode" />
+        <ref bean="RecurringPaymentType-recurringPaymentTypeDescription" />
+        <ref bean="RecurringPaymentType-active" />
+        <ref bean="RecurringPaymentType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Recurring Payment Type Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Recurring Payment Type</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="recurringPaymentTypeDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RecurringPaymentType-recurringPaymentTypeCode" parent="RecurringPaymentType-recurringPaymentTypeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="recurringPaymentTypeCode" required="false" />
-                <lookupField attributeName="recurringPaymentTypeDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="RecurringPaymentType-recurringPaymentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="recurringPaymentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Recurring Payment Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="RecurringPaymentType-recurringPaymentTypeDescription" parent="RecurringPaymentType-recurringPaymentTypeDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="recurringPaymentTypeCode" />
-                <field attributeName="recurringPaymentTypeDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="RecurringPaymentType-recurringPaymentTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="recurringPaymentTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Recurring Payment Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="RecurringPaymentType-active" parent="RecurringPaymentType-active-parentBean" />
 
-        <titleAttribute>recurringPaymentTypeCode</titleAttribute>
+  <bean id="RecurringPaymentType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="RecurringPaymentType-versionNumber" parent="RecurringPaymentType-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="RecurringPaymentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="recurringPaymentTypeCode" forceUppercase="true">
-                <label>Recurring Payment Type Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="RecurringPaymentType-inquiryDefinition" parent="RecurringPaymentType-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="RecurringPaymentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Recurring Payment Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="recurringPaymentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="recurringPaymentTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="recurringPaymentTypeDescription" forceUppercase="true">
-                <label>Recurring Payment Type Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="RecurringPaymentType-lookupDefinition" parent="RecurringPaymentType-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Recurring Payment Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RecurringPaymentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Recurring Payment Type Lookup" />
+    <property name="instructions" value="Lookup a Recurring Payment Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="recurringPaymentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="recurringPaymentTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="recurringPaymentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="recurringPaymentTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

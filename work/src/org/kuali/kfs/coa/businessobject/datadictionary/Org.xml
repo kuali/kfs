@@ -1,593 +1,843 @@
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.Org">
-
-
-        <inquiry>
-            <title>Organization Inquiry</title>
-			<inquirableClass>org.kuali.module.chart.maintenance.OrgInquirable</inquirableClass>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationName" />
-                <field attributeName="organizationManagerUniversalId" />
-                <field attributeName="organizationManagerUniversal.personUserIdentifier" />
-                <field attributeName="organizationManagerUniversal.personName" />
-                <field attributeName="responsibilityCenterCode" />
-                <field attributeName="organizationPhysicalCampusCode" />
-                <field attributeName="organizationTypeCode" />
-                <field attributeName="organizationDefaultAccountNumber" />
-                <field attributeName="organizationZipCode" />
-                <field attributeName="organizationLine1Address" />
-                <field attributeName="organizationLine2Address" />             
-                <field attributeName="organizationCityName" />
-                <field attributeName="organizationStateCode" />
-                <field attributeName="organizationCountryCode" />               
-                <field attributeName="organizationBeginDate" />
-                <field attributeName="organizationEndDate" />
-                <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToOrganizationCode" />
-                <field attributeName="organizationActiveIndicator" />
-
-                <field attributeName="editPlantAccountsSectionBlank" />
-                <field attributeName="editPlantAccountsSection" />
-
-                <field attributeName="organizationPlantChartCode" />
-                <field attributeName="organizationPlantAccountNumber" />
-                <field attributeName="campusPlantChartCode" />
-                <field attributeName="campusPlantAccountNumber" />
-
-		        <field attributeName="editHrmsUnitSectionBlank" />
-		        <field attributeName="editHrmsUnitSection" />     
-		        <field attributeName="organizationExtension.hrmsCompany" />       
-		        <field attributeName="organizationExtension.hrmsIuOrganizationAddress2" />       
-		        <field attributeName="organizationExtension.hrmsIuOrganizationAddress3" />       
-		        <field attributeName="organizationExtension.hrmsIuCampusCode" />       
-		        <field attributeName="organizationExtension.hrmsIuCampusBuilding" />              
-		        <field attributeName="organizationExtension.hrmsIuCampusRoom" />       
-		        <field attributeName="organizationExtension.hrmsIuPositionAllowedFlag" />
-		        <field attributeName="organizationExtension.hrmsIuTenureAllowedFlag" />
-		        <field attributeName="organizationExtension.hrmsIuTitleAllowedFlag" />
-		        <field attributeName="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
-		
-		        <field attributeName="organizationExtension.hrmsPersonnelApproverUniversalId" />
-		        <field attributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
-		        <field attributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
-		        
-		        <field attributeName="organizationExtension.fiscalApproverUniversalId" />
-		        <field attributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
-		        <field attributeName="organizationExtension.fiscalApproverUniversal.personName" />
-		        
-		        <field attributeName="organizationExtension.hrmsLastUpdateDate" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Organization Lookup</title>
-
-            <instructions>Lookup an Organization</instructions>
-
-            <defaultSort attributeName="chartOfAccountsCode" sortAscending="false" />
-
-            <lookupFields>
-                <lookupField attributeName="organizationName" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" forceLookup="true" />
-                <lookupField attributeName="responsibilityCenterCode" required="false" />
-                <lookupField attributeName="organizationTypeCode" required="false" />
-                <lookupField attributeName="reportsToChartOfAccountsCode" required="false"  />
-                <lookupField attributeName="reportsToOrganizationCode" required="false" />
-                <lookupField attributeName="organizationActiveIndicator" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="chartOfAccountsCode"  />
-                <field attributeName="organizationCode" />
-                <field attributeName="responsibilityCenterCode" />
-                <field attributeName="organizationTypeCode" />
-                <field attributeName="organizationName" />
-                <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToOrganizationCode" />
-                <field attributeName="organizationActiveIndicator" />               
-                <field attributeName="organizationManagerUniversal.personName" />
-            </resultFields>
-        </lookup>
-
-        <titleAttribute>organizationCode</titleAttribute>
-
-        <attributes>
-
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Org</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationName" forceUppercase="true">
-                <label>Organization Name</label>
-                <shortLabel>Org Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-
-            <attribute name="codeAndDescription" forceUppercase="false">
-                <label>Organization Code and Description</label>
-                <shortLabel>Org Code and Des</shortLabel>
-
-                <maxLength>45</maxLength>
-
-                <control>
-                    <text size="45" />
-                </control>
-            </attribute>
-
-
-            <attributeReference name="organizationManagerUniversalId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Organization Manager UserID</label>
-                <shortLabel>Manager UserID</shortLabel>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="organizationManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Organization Manager UserID</label>
-                <shortLabel>OrgMgrUserId</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="organizationManagerUniversalId" userIdAttributeName="organizationManagerUniversal.personUserIdentifier" personNameAttributeName="organizationManagerUniversal.personName" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="organizationManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Organization Manager Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attribute name="responsibilityCenterCode" forceUppercase="true">
-                <label>Responsibility Center Code</label>
-                <shortLabel>RC</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <anyCharacter exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationPhysicalCampusCode" forceUppercase="true">
-                <label>Organization Physical Campus Code</label>
-                <shortLabel>Physical Campus</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationTypeCode" forceUppercase="false">
-                <label>Organization Type</label>
-                <shortLabel>Type</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <alpha exactLength="1" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrgTypeValuesFinder" />
-                </control>
-            </attribute>
-
-            <attributeReference name="organizationDefaultAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Organization Default Account Number</label>
-                <shortLabel>Default Acct</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="organizationPlantAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Plant Account Number</label>
-                <shortLabel>Plant Acct</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="organizationPlantChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Organization Plant Chart</label>
-                <shortLabel>Plant Chart</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
-
-            <attribute name="organizationZipCode" forceUppercase="false">
-                <label>Organization Postal Code</label>
-                <shortLabel>Postal Code</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern>
-                    <zipcode />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="11" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationStateCode" forceUppercase="true">
-                <label>Organization State/Province Code</label>
-                <shortLabel>St Cd</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationCountryCode" forceUppercase="true">
-                <label>Organization Country Code</label>
-                <shortLabel>Country Cd</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-            
-            <attribute name="organizationLine1Address" forceUppercase="false">
-                <label>Organization Address Line 1</label>
-                <shortLabel>Street</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="30" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationLine2Address" forceUppercase="false">
-                <label>Organization Address Line 2</label>
-                <shortLabel>Street</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="30" />
-                </control>
-            </attribute>
-            <attribute name="organizationCityName" forceUppercase="false">
-                <label>Organization City Name</label>
-                <shortLabel>City</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="25" />
-                </control>
-            </attribute>
-
-            <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Reports to Chart Code</label>
-                <shortLabel>Rpts to Chart</shortLabel>
-                <required>true</required>
-       	 		<control>
-        	 	 <text size="2" />
-        		</control>
-            </attributeReference>
-
-            <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-                <label>Reports to Organization</label>
-                <shortLabel>Rpts to Org</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="organizationBeginDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Organization Begin Date</label>
-                <shortLabel>Begin Date</shortLabel>
-                <required>true</required>
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-            </attributeReference>
-
-            <attributeReference name="organizationEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Organization End Date</label>
-                <shortLabel>End Date</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="organizationActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Active</label>
-                <shortLabel>Act.</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="campusPlantAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Campus Plant Account Number</label>
-                <shortLabel>Plant Acct</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="campusPlantChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Campus Plant Chart Code</label>
-                <shortLabel>Chart Code</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
-
-            <attribute name="organizationInFinancialProcessingIndicator" forceUppercase="false">
-                <label>Organization In Financial Processing</label>
-                <shortLabel>In Fin Processing</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="editPlantAccountsSection" forceUppercase="false">
-                <label>EDIT PLANT ACCOUNT SECTION</label>
-                <maxLength>50</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		<attribute name="editHrmsUnitSection" forceUppercase="false">
-			<label>EDIT HRMS UNIT SECTION</label>
-			<maxLength>50</maxLength>
-       		<control><checkbox /></control>
-		</attribute>
-
-		<attribute name="organizationExtension.hrmsCompany" forceUppercase="false">
-	        <label>HRMS Company</label>
-	        <shortLabel>HRMS Company</shortLabel>
-	
-	        <maxLength>3</maxLength>
-	        <validationPattern>
-	          <alpha />
-	        </validationPattern>
-			<required>true</required>
-		
-       	 	<control>
-        	  <text size="3" />
-        	</control>
-		</attribute>
-
-		<attributeReference name="organizationExtension.hrmsIuOrganizationAddress2" 
-								sourceClassName="org.kuali.module.chart.bo.OrganizationExtension" 
-								sourceAttributeName="hrmsIuOrganizationAddress2" />
-								
-		<attributeReference name="organizationExtension.hrmsIuOrganizationAddress3" 
-								sourceClassName="org.kuali.module.chart.bo.OrganizationExtension" 
-								sourceAttributeName="hrmsIuOrganizationAddress3" />
-
-		<attributeReference name="organizationExtension.hrmsIuCampusCode" 
-								sourceClassName="org.kuali.module.chart.bo.OrganizationExtension" 
-								sourceAttributeName="hrmsIuCampusCode" />
-								
-		<attributeReference name="organizationExtension.hrmsIuCampusBuilding" 
-								sourceClassName="org.kuali.module.chart.bo.OrganizationExtension" 
-								sourceAttributeName="hrmsIuCampusBuilding" />
-      
-		<attributeReference name="organizationExtension.hrmsIuCampusRoom" 
-								sourceClassName="org.kuali.module.chart.bo.OrganizationExtension" 
-								sourceAttributeName="hrmsIuCampusRoom" />
-								
-      <attributeReference name="organizationExtension.hrmsPersonnelApproverUniversalId"
-                          sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                          sourceAttributeName="personUniversalIdentifier">
-        <label>Personnel Approver UserID</label>
-        <shortLabel>Personnel Approver UserID</shortLabel>
-        <required>false</required>
-        <control><hidden /></control>
-      </attributeReference>
-
-	  <attributeReference name="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-	  					  sourceAttributeName="personUserIdentifier">
-			<label>Personnel Approver UserID</label>
-			<shortLabel>Personnel Approver</shortLabel>
-			<required>false</required>
-			<control>
-				<kualiUser universalIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversalId" 
-							userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" 
-							personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
-			</control>
-	  </attributeReference>
-	  
-		<attributeReference name="organizationExtension.hrmsPersonnelApproverUniversal.personName" 
-							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-							sourceAttributeName="personName">
-			<label>Personnel Approver Name</label>
-			<shortLabel>Name</shortLabel>
-			<required>false</required>
-			<control> <hidden /></control>
-		</attributeReference>
-
-      <attributeReference name="organizationExtension.fiscalApproverUniversalId"
-                          sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                          sourceAttributeName="personUniversalIdentifier">
-        <label>Fiscal Approver UserID</label>
-        <shortLabel>Fiscal Approver UserID</shortLabel>
-        <required>false</required>
-        <control><hidden /></control>
-      </attributeReference>
-
-	  <attributeReference name="organizationExtension.fiscalApproverUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-	  					  sourceAttributeName="personUserIdentifier">
-			<label>Fiscal Approver UserID</label>
-			<shortLabel>Fiscal Approver</shortLabel>
-			<required>false</required>
-			<control>
-				<kualiUser universalIdAttributeName="organizationExtension.fiscalApproverUniversalId" 
-							userIdAttributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" 
-							personNameAttributeName="organizationExtension.fiscalApproverUniversal.personName" />
-			</control>
-	  </attributeReference>
-	  
-		<attributeReference name="organizationExtension.fiscalApproverUniversal.personName" 
-							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-							sourceAttributeName="personName">
-			<label>Fiscal Approver Name</label>
-			<shortLabel>Name</shortLabel>
-			<required>false</required>
-			<control><hidden /></control>
-		</attributeReference>
-
-		<attributeReference name="organizationExtension.hrmsIuPositionAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Position Allowed</label>
-			<shortLabel>Position Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-		
-		<attributeReference name="organizationExtension.hrmsIuTenureAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Tenure Allowed</label>
-			<shortLabel>Tenure Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-						
-		<attributeReference name="organizationExtension.hrmsIuTitleAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Title Allowed</label>
-			<shortLabel>Title Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-						
-		<attributeReference name="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Occupational Unit Allowed</label>
-			<shortLabel>Occupational Unit Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-
-		<attributeReference name="organizationExtension.hrmsLastUpdateDate" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericTimestamp">
-			<label>Last Update Date</label>
-			<shortLabel>Last Update Date</shortLabel>
-		</attributeReference>
-												      
-		<attributeReference name="organizationExtension.versionNumber" 
-    		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-   			sourceAttributeName="versionNumber" />
-   			
-        </attributes>
-
-        <relationships>
-            <relationship objectAttributeName="organizationManagerUniversal" >
-                <primitiveAttribute sourceName="organizationManagerUniversalId" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="organizationManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="organizationManagerUniversal.personName" targetName="personName" />
-            </relationship>
-
-            <relationship objectAttributeName="organizationExtension.hrmsPersonnelApproverUniversal" >
-                <primitiveAttribute sourceName="organizationExtension.hrmsPersonnelApproverUniversalId" targetName="personUniversalIdentifier" />
-                <supportAttribute sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-                <supportAttribute sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personName" targetName="personName" />
-            </relationship>
-
-            <relationship objectAttributeName="organizationExtension.fiscalApproverUniversal" >
-                <primitiveAttribute sourceName="organizationExtension.fiscalApproverUniversalId" targetName="personUniversalIdentifier" />
-                <supportAttribute sourceName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-                <supportAttribute sourceName="organizationExtension.fiscalApproverUniversal.personName" targetName="personName" />
-            </relationship> 
-        </relationships>
-
-        <objectLabel>Organization</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Org" parent="Org-parentBean" />
+
+  <bean id="Org-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Org" />
+    <property name="inquiryDefinition" >
+      <ref bean="Org-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Org-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationCode" />
+    <property name="objectLabel" value="Organization" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Org-chartOfAccountsCode" />
+        <ref bean="Org-organizationCode" />
+        <ref bean="Org-organizationName" />
+        <ref bean="Org-codeAndDescription" />
+        <ref bean="Org-organizationManagerUniversalId" />
+        <ref bean="Org-organizationManagerUniversal.personUserIdentifier" />
+        <ref bean="Org-organizationManagerUniversal.personName" />
+        <ref bean="Org-responsibilityCenterCode" />
+        <ref bean="Org-organizationPhysicalCampusCode" />
+        <ref bean="Org-organizationTypeCode" />
+        <ref bean="Org-organizationDefaultAccountNumber" />
+        <ref bean="Org-organizationPlantAccountNumber" />
+        <ref bean="Org-organizationPlantChartCode" />
+        <ref bean="Org-organizationZipCode" />
+        <ref bean="Org-organizationStateCode" />
+        <ref bean="Org-organizationCountryCode" />
+        <ref bean="Org-organizationLine1Address" />
+        <ref bean="Org-organizationLine2Address" />
+        <ref bean="Org-organizationCityName" />
+        <ref bean="Org-reportsToChartOfAccountsCode" />
+        <ref bean="Org-reportsToOrganizationCode" />
+        <ref bean="Org-organizationBeginDate" />
+        <ref bean="Org-organizationEndDate" />
+        <ref bean="Org-organizationActiveIndicator" />
+        <ref bean="Org-campusPlantAccountNumber" />
+        <ref bean="Org-campusPlantChartCode" />
+        <ref bean="Org-organizationInFinancialProcessingIndicator" />
+        <ref bean="Org-editPlantAccountsSection" />
+        <ref bean="Org-versionNumber" />
+        <ref bean="Org-editHrmsUnitSection" />
+        <ref bean="Org-organizationExtension.hrmsCompany" />
+        <ref bean="Org-organizationExtension.hrmsIuOrganizationAddress2" />
+        <ref bean="Org-organizationExtension.hrmsIuOrganizationAddress3" />
+        <ref bean="Org-organizationExtension.hrmsIuCampusCode" />
+        <ref bean="Org-organizationExtension.hrmsIuCampusBuilding" />
+        <ref bean="Org-organizationExtension.hrmsIuCampusRoom" />
+        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversalId" />
+        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName" />
+        <ref bean="Org-organizationExtension.fiscalApproverUniversalId" />
+        <ref bean="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+        <ref bean="Org-organizationExtension.fiscalApproverUniversal.personName" />
+        <ref bean="Org-organizationExtension.hrmsIuPositionAllowedFlag" />
+        <ref bean="Org-organizationExtension.hrmsIuTenureAllowedFlag" />
+        <ref bean="Org-organizationExtension.hrmsIuTitleAllowedFlag" />
+        <ref bean="Org-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
+        <ref bean="Org-organizationExtension.hrmsLastUpdateDate" />
+        <ref bean="Org-organizationExtension.versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationManagerUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationManagerUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="organizationManagerUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="organizationManagerUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationExtension.hrmsPersonnelApproverUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationExtension.fiscalApproverUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationExtension.fiscalApproverUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="organizationExtension.fiscalApproverUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="organizationExtension.fiscalApproverUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Org-chartOfAccountsCode" parent="Org-chartOfAccountsCode-parentBean" />
+
+  <bean id="Org-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="Org-organizationCode" parent="Org-organizationCode-parentBean" />
+
+  <bean id="Org-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Org" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="Org-organizationName" parent="Org-organizationName-parentBean" />
+
+  <bean id="Org-organizationName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Name" />
+    <property name="shortLabel" value="Org Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="Org-codeAndDescription" parent="Org-codeAndDescription-parentBean" />
+
+  <bean id="Org-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Code and Description" />
+    <property name="shortLabel" value="Org Code and Des" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="Org-organizationManagerUniversalId" parent="Org-organizationManagerUniversalId-parentBean" />
+
+  <bean id="Org-organizationManagerUniversalId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="organizationManagerUniversalId" />
+    <property name="label" value="Organization Manager UserID" />
+    <property name="shortLabel" value="Manager UserID" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Org-organizationManagerUniversal.personUserIdentifier" parent="Org-organizationManagerUniversal.personUserIdentifier-parentBean" />
+
+  <bean id="Org-organizationManagerUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="organizationManagerUniversal.personUserIdentifier" />
+    <property name="label" value="Organization Manager UserID" />
+    <property name="shortLabel" value="OrgMgrUserId" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="organizationManagerUniversal.personName"
+            p:universalIdAttributeName="organizationManagerUniversalId"
+            p:userIdAttributeName="organizationManagerUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="Org-organizationManagerUniversal.personName" parent="Org-organizationManagerUniversal.personName-parentBean" />
+
+  <bean id="Org-organizationManagerUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="organizationManagerUniversal.personName" />
+    <property name="label" value="Organization Manager Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Org-responsibilityCenterCode" parent="Org-responsibilityCenterCode-parentBean" />
+
+  <bean id="Org-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="responsibilityCenterCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Responsibility Center Code" />
+    <property name="shortLabel" value="RC" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Org-organizationPhysicalCampusCode" parent="Org-organizationPhysicalCampusCode-parentBean" />
+
+  <bean id="Org-organizationPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationPhysicalCampusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Physical Campus Code" />
+    <property name="shortLabel" value="Physical Campus" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Org-organizationTypeCode" parent="Org-organizationTypeCode-parentBean" />
+
+  <bean id="Org-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Type" />
+    <property name="shortLabel" value="Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="1" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrgTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Org-organizationDefaultAccountNumber" parent="Org-organizationDefaultAccountNumber-parentBean" />
+
+  <bean id="Org-organizationDefaultAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="organizationDefaultAccountNumber" />
+    <property name="label" value="Organization Default Account Number" />
+    <property name="shortLabel" value="Default Acct" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Org-organizationPlantAccountNumber" parent="Org-organizationPlantAccountNumber-parentBean" />
+
+  <bean id="Org-organizationPlantAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="organizationPlantAccountNumber" />
+    <property name="label" value="Plant Account Number" />
+    <property name="shortLabel" value="Plant Acct" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Org-organizationPlantChartCode" parent="Org-organizationPlantChartCode-parentBean" />
+
+  <bean id="Org-organizationPlantChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="organizationPlantChartCode" />
+    <property name="label" value="Organization Plant Chart" />
+    <property name="shortLabel" value="Plant Chart" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Org-organizationZipCode" parent="Org-organizationZipCode-parentBean" />
+
+  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationZipCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="ZipcodeValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="Org-organizationStateCode" parent="Org-organizationStateCode-parentBean" />
+
+  <bean id="Org-organizationStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization State/Province Code" />
+    <property name="shortLabel" value="St Cd" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Org-organizationCountryCode" parent="Org-organizationCountryCode-parentBean" />
+
+  <bean id="Org-organizationCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Country Code" />
+    <property name="shortLabel" value="Country Cd" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Org-organizationLine1Address" parent="Org-organizationLine1Address-parentBean" />
+
+  <bean id="Org-organizationLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationLine1Address" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Address Line 1" />
+    <property name="shortLabel" value="Street" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="Org-organizationLine2Address" parent="Org-organizationLine2Address-parentBean" />
+
+  <bean id="Org-organizationLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationLine2Address" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Address Line 2" />
+    <property name="shortLabel" value="Street" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="Org-organizationCityName" parent="Org-organizationCityName-parentBean" />
+
+  <bean id="Org-organizationCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization City Name" />
+    <property name="shortLabel" value="City" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+  </bean>
+  <bean id="Org-reportsToChartOfAccountsCode" parent="Org-reportsToChartOfAccountsCode-parentBean" />
+
+  <bean id="Org-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="reportsToChartOfAccountsCode" />
+    <property name="label" value="Reports to Chart Code" />
+    <property name="shortLabel" value="Rpts to Chart" />
+  </bean>
+  <bean id="Org-reportsToOrganizationCode" parent="Org-reportsToOrganizationCode-parentBean" />
+
+  <bean id="Org-reportsToOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="reportsToOrganizationCode" />
+    <property name="label" value="Reports to Organization" />
+    <property name="shortLabel" value="Rpts to Org" />
+  </bean>
+  <bean id="Org-organizationBeginDate" parent="Org-organizationBeginDate-parentBean" />
+
+  <bean id="Org-organizationBeginDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="organizationBeginDate" />
+    <property name="label" value="Organization Begin Date" />
+    <property name="shortLabel" value="Begin Date" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="Org-organizationEndDate" parent="Org-organizationEndDate-parentBean" />
+
+  <bean id="Org-organizationEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="organizationEndDate" />
+    <property name="label" value="Organization End Date" />
+    <property name="shortLabel" value="End Date" />
+  </bean>
+  <bean id="Org-organizationActiveIndicator" parent="Org-organizationActiveIndicator-parentBean" />
+
+  <bean id="Org-organizationActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="organizationActiveIndicator" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Act." />
+  </bean>
+  <bean id="Org-campusPlantAccountNumber" parent="Org-campusPlantAccountNumber-parentBean" />
+
+  <bean id="Org-campusPlantAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="campusPlantAccountNumber" />
+    <property name="label" value="Campus Plant Account Number" />
+    <property name="shortLabel" value="Plant Acct" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Org-campusPlantChartCode" parent="Org-campusPlantChartCode-parentBean" />
+
+  <bean id="Org-campusPlantChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="campusPlantChartCode" />
+    <property name="label" value="Campus Plant Chart Code" />
+    <property name="shortLabel" value="Chart Code" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Org-organizationInFinancialProcessingIndicator" parent="Org-organizationInFinancialProcessingIndicator-parentBean" />
+
+  <bean id="Org-organizationInFinancialProcessingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationInFinancialProcessingIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization In Financial Processing" />
+    <property name="shortLabel" value="In Fin Processing" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Org-editPlantAccountsSection" parent="Org-editPlantAccountsSection-parentBean" />
+
+  <bean id="Org-editPlantAccountsSection-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="editPlantAccountsSection" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="EDIT PLANT ACCOUNT SECTION" />
+    <property name="shortLabel" value="EDIT PLANT ACCOUNT SECTION" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Org-versionNumber" parent="Org-versionNumber-parentBean" />
+
+  <bean id="Org-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="Org-editHrmsUnitSection" parent="Org-editHrmsUnitSection-parentBean" />
+
+  <bean id="Org-editHrmsUnitSection-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="editHrmsUnitSection" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="EDIT HRMS UNIT SECTION" />
+    <property name="shortLabel" value="EDIT HRMS UNIT SECTION" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Org-organizationExtension.hrmsCompany" parent="Org-organizationExtension.hrmsCompany-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationExtension.hrmsCompany" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="HRMS Company" />
+    <property name="shortLabel" value="HRMS Company" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuOrganizationAddress2" parent="Org-organizationExtension.hrmsIuOrganizationAddress2-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuOrganizationAddress2-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuOrganizationAddress2">
+    <property name="name" value="organizationExtension.hrmsIuOrganizationAddress2" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuOrganizationAddress3" parent="Org-organizationExtension.hrmsIuOrganizationAddress3-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuOrganizationAddress3-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuOrganizationAddress3">
+    <property name="name" value="organizationExtension.hrmsIuOrganizationAddress3" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuCampusCode" parent="Org-organizationExtension.hrmsIuCampusCode-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuCampusCode-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuCampusCode">
+    <property name="name" value="organizationExtension.hrmsIuCampusCode" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuCampusBuilding" parent="Org-organizationExtension.hrmsIuCampusBuilding-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuCampusBuilding-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuCampusBuilding">
+    <property name="name" value="organizationExtension.hrmsIuCampusBuilding" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuCampusRoom" parent="Org-organizationExtension.hrmsIuCampusRoom-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuCampusRoom-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuCampusRoom">
+    <property name="name" value="organizationExtension.hrmsIuCampusRoom" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversalId" parent="Org-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversalId" />
+    <property name="label" value="Personnel Approver UserID" />
+    <property name="shortLabel" value="Personnel Approver UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" parent="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+    <property name="label" value="Personnel Approver UserID" />
+    <property name="shortLabel" value="Personnel Approver" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName"
+            p:universalIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversalId"
+            p:userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName" parent="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
+    <property name="label" value="Personnel Approver Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Org-organizationExtension.fiscalApproverUniversalId" parent="Org-organizationExtension.fiscalApproverUniversalId-parentBean" />
+
+  <bean id="Org-organizationExtension.fiscalApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="organizationExtension.fiscalApproverUniversalId" />
+    <property name="label" value="Fiscal Approver UserID" />
+    <property name="shortLabel" value="Fiscal Approver UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier" parent="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier-parentBean" />
+
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+    <property name="label" value="Fiscal Approver UserID" />
+    <property name="shortLabel" value="Fiscal Approver" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="organizationExtension.fiscalApproverUniversal.personName"
+            p:universalIdAttributeName="organizationExtension.fiscalApproverUniversalId"
+            p:userIdAttributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.personName" parent="Org-organizationExtension.fiscalApproverUniversal.personName-parentBean" />
+
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="organizationExtension.fiscalApproverUniversal.personName" />
+    <property name="label" value="Fiscal Approver Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuPositionAllowedFlag" parent="Org-organizationExtension.hrmsIuPositionAllowedFlag-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuPositionAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="organizationExtension.hrmsIuPositionAllowedFlag" />
+    <property name="label" value="Position Allowed" />
+    <property name="shortLabel" value="Position Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuTenureAllowedFlag" parent="Org-organizationExtension.hrmsIuTenureAllowedFlag-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuTenureAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="organizationExtension.hrmsIuTenureAllowedFlag" />
+    <property name="label" value="Tenure Allowed" />
+    <property name="shortLabel" value="Tenure Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuTitleAllowedFlag" parent="Org-organizationExtension.hrmsIuTitleAllowedFlag-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuTitleAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="organizationExtension.hrmsIuTitleAllowedFlag" />
+    <property name="label" value="Title Allowed" />
+    <property name="shortLabel" value="Title Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" parent="Org-organizationExtension.hrmsIuOccupationalUnitAllowedFlag-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsIuOccupationalUnitAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
+    <property name="label" value="Occupational Unit Allowed" />
+    <property name="shortLabel" value="Occupational Unit Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="Org-organizationExtension.hrmsLastUpdateDate" parent="Org-organizationExtension.hrmsLastUpdateDate-parentBean" />
+
+  <bean id="Org-organizationExtension.hrmsLastUpdateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="organizationExtension.hrmsLastUpdateDate" />
+    <property name="label" value="Last Update Date" />
+    <property name="shortLabel" value="Last Update Date" />
+  </bean>
+  <bean id="Org-organizationExtension.versionNumber" parent="Org-organizationExtension.versionNumber-parentBean" />
+
+  <bean id="Org-organizationExtension.versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="name" value="organizationExtension.versionNumber" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Org-inquiryDefinition" parent="Org-inquiryDefinition-parentBean" />
+
+  <bean id="Org-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationManagerUniversalId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationManagerUniversal.personUserIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationManagerUniversal.personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="responsibilityCenterCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationPhysicalCampusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationDefaultAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationBeginDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportsToChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportsToOrganizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="editPlantAccountsSectionBlank" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="editPlantAccountsSection" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationPlantChartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationPlantAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusPlantChartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusPlantAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="editHrmsUnitSectionBlank" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="editHrmsUnitSection" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsCompany" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuOrganizationAddress2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuOrganizationAddress3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuCampusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuCampusBuilding" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuCampusRoom" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuPositionAllowedFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuTenureAllowedFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuTitleAllowedFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversalId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.fiscalApproverUniversalId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.fiscalApproverUniversal.personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationExtension.hrmsLastUpdateDate" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.module.chart.maintenance.OrgInquirable" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Org-lookupDefinition" parent="Org-lookupDefinition-parentBean" />
+
+  <bean id="Org-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Lookup" />
+    <property name="instructions" value="Lookup an Organization" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>chartOfAccountsCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false" />
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="responsibilityCenterCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToOrganizationCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="organizationActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="responsibilityCenterCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToOrganizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationManagerUniversal.personName" />
+      </list>
+    </property>
+  </bean>
+</beans>

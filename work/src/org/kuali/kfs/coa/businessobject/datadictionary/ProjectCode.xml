@@ -1,172 +1,257 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.ProjectCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProjectCode" parent="ProjectCode-parentBean" />
+
+  <bean id="ProjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ProjectCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProjectCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProjectCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="code" />
+    <property name="objectLabel" value="Project Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProjectCode-active" />
+        <ref bean="ProjectCode-chartOfAccountsCode" />
+        <ref bean="ProjectCode-organizationCode" />
+        <ref bean="ProjectCode-projectManagerUniversalId" />
+        <ref bean="ProjectCode-projectManagerUniversal.personUserIdentifier" />
+        <ref bean="ProjectCode-projectManagerUniversal.personName" />
+        <ref bean="ProjectCode-code" />
+        <ref bean="ProjectCode-projectDescription" />
+        <ref bean="ProjectCode-name" />
+        <ref bean="ProjectCode-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="projectManagerUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="projectManagerUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="projectManagerUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="projectManagerUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Project Code Inquiry</title>
+  <bean id="ProjectCode-active" parent="ProjectCode-active-parentBean" />
 
-            <inquirySections><inquirySection title="Project Code Attributes"><inquiryFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />
-                <field attributeName="projectDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProjectCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+    <property name="shortLabel" value="Active" />
+  </bean>
+  <bean id="ProjectCode-chartOfAccountsCode" parent="ProjectCode-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Project Code Lookup</title>
+  <bean id="ProjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="ProjectCode-organizationCode" parent="ProjectCode-organizationCode-parentBean" />
 
-            <instructions>Lookup a Project Code</instructions>
+  <bean id="ProjectCode-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean" />
 
-            <defaultSort attributeName="code" sortAscending="false" />
+  <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="projectManagerUniversalId" />
+    <property name="label" value="Project Manager UserID" />
+    <property name="shortLabel" value="Mgr" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="ProjectCode-projectManagerUniversal.personUserIdentifier" parent="ProjectCode-projectManagerUniversal.personUserIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="code" required="false" />
-                <lookupField attributeName="projectManagerUniversal.personName" required="false" />
-                <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="ProjectCode-projectManagerUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="projectManagerUniversal.personUserIdentifier" />
+    <property name="label" value="Project Manager UserID" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="projectManagerUniversal.personName"
+            p:universalIdAttributeName="projectManagerUniversalId"
+            p:userIdAttributeName="projectManagerUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="ProjectCode-projectManagerUniversal.personName" parent="ProjectCode-projectManagerUniversal.personName-parentBean" />
 
-            <resultFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="active" />
-                <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />               
-            </resultFields>
-        </lookup>
+  <bean id="ProjectCode-projectManagerUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="projectManagerUniversal.personName" />
+    <property name="label" value="Project Manager Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProjectCode-code" parent="ProjectCode-code-parentBean" />
 
-        <titleAttribute>code</titleAttribute>
+  <bean id="ProjectCode-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Project" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="ProjectCode-projectDescription" parent="ProjectCode-projectDescription-parentBean" />
 
-        <attributes>
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
-                <label>Active Indicator</label>
-                <shortLabel>Active</shortLabel>
-            </attributeReference>
+  <bean id="ProjectCode-projectDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Project Description" />
+    <property name="shortLabel" value="Desc" />
+    <property name="maxLength" value="400" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+  </bean>
+  <bean id="ProjectCode-name" parent="ProjectCode-name-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="ProjectCode-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="ProjectCode-versionNumber" parent="ProjectCode-versionNumber-parentBean" />
+
+  <bean id="ProjectCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
 
 
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-                <required>true</required>
-            </attributeReference>
+  <bean id="ProjectCode-inquiryDefinition" parent="ProjectCode-inquiryDefinition-parentBean" />
 
-            <attributeReference name="projectManagerUniversalId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Project Manager UserID</label><!-- label changed for error messages -->
-                <!-- <displayLabelAttribute>projectManagerUniversal.personUserIdentifier</displayLabelAttribute> -->
-                <shortLabel>Mgr</shortLabel>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
+  <bean id="ProjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Project Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Project Code Attributes" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectManagerUniversal.personName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="projectManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Project Manager UserID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="projectManagerUniversalId" userIdAttributeName="projectManagerUniversal.personUserIdentifier" personNameAttributeName="projectManagerUniversal.personName" />
-                </control>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="projectManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Project Manager Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
 
-            <attribute name="code" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Project</shortLabel>
+  <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-            </attribute>
-
-            <attribute name="projectDescription" forceUppercase="false">
-                <label>Project Description</label>
-                <shortLabel>Desc</shortLabel>
-
-                <maxLength>400</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <textarea rows="3" cols="40" />
-                </control>
-            </attribute>
-
-            <attribute name="name" forceUppercase="true">
-                <label>Project Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-
-        <relationships>
-            <relationship objectAttributeName="projectManagerUniversal" >
-                <primitiveAttribute sourceName="projectManagerUniversalId" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="projectManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="projectManagerUniversal.personName" targetName="personName" />
-            </relationship>
-        </relationships>
-
-        <objectLabel>Project Code</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="ProjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Project Code Lookup" />
+    <property name="instructions" value="Lookup a Project Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false" />
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectManagerUniversal.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectManagerUniversal.personName"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

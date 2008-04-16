@@ -1,272 +1,374 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionAccountSummary">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionAccountSummary" parent="BudgetConstructionAccountSummary-parentBean" />
+
+  <bean id="BudgetConstructionAccountSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAccountSummary" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionAccountSummary-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionAccountSummary-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionAccountSummary-accountLineAnnualBalanceAmount" />
+        <ref bean="BudgetConstructionAccountSummary-accountNumber" />
+        <ref bean="BudgetConstructionAccountSummary-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionAccountSummary-financialBeginningBalanceLineAmount" />
+        <ref bean="BudgetConstructionAccountSummary-fundGroupCode" />
+        <ref bean="BudgetConstructionAccountSummary-incomeExpenseCode" />
+        <ref bean="BudgetConstructionAccountSummary-organizationChartOfAccountsCode" />
+        <ref bean="BudgetConstructionAccountSummary-organizationCode" />
+        <ref bean="BudgetConstructionAccountSummary-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionAccountSummary-subAccountNumber" />
+        <ref bean="BudgetConstructionAccountSummary-subFundGroupCode" />
+        <ref bean="BudgetConstructionAccountSummary-subFundSortCode" />
+        <ref bean="BudgetConstructionAccountSummary-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Account Summary Inquiry</title>
+  <bean id="BudgetConstructionAccountSummary-accountLineAnnualBalanceAmount" parent="BudgetConstructionAccountSummary-accountLineAnnualBalanceAmount-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="fundGroupCode" />
-                <field attributeName="incomeExpenseCode" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="subFundGroupCode" />
-                <field attributeName="subFundSortCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionAccountSummary-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountLineAnnualBalanceAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Line Annual Balance Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accountLineAnnualBalanceAmount" />
+    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-accountNumber" parent="BudgetConstructionAccountSummary-accountNumber-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Account Summary Lookup</title>
+  <bean id="BudgetConstructionAccountSummary-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-chartOfAccountsCode" parent="BudgetConstructionAccountSummary-chartOfAccountsCode-parentBean" />
 
-            <instructions>Look up a Budget Construction Account Summary</instructions>
+  <bean id="BudgetConstructionAccountSummary-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-financialBeginningBalanceLineAmount" parent="BudgetConstructionAccountSummary-financialBeginningBalanceLineAmount-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="organizationChartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionAccountSummary-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialBeginningBalanceLineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Beginning Balance Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialBeginningBalanceLineAmount" />
+    <property name="description" value="financialBeginningBalanceLineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-fundGroupCode" parent="BudgetConstructionAccountSummary-fundGroupCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountLineAnnualBalanceAmount" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialBeginningBalanceLineAmount" required="false" />
-                <lookupField attributeName="fundGroupCode" required="false" />
-                <lookupField attributeName="incomeExpenseCode" required="false" />
-                <lookupField attributeName="organizationChartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="subFundGroupCode" required="false" />
-                <lookupField attributeName="subFundSortCode" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionAccountSummary-fundGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fundGroupCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fund Group Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="fundGroupCode" />
+    <property name="description" value="fundGroupCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-incomeExpenseCode" parent="BudgetConstructionAccountSummary-incomeExpenseCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="fundGroupCode" />
-                <field attributeName="incomeExpenseCode" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="subFundGroupCode" />
-                <field attributeName="subFundSortCode" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionAccountSummary-incomeExpenseCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeExpenseCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Income Expense Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="incomeExpenseCode" />
+    <property name="description" value="incomeExpenseCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-organizationChartOfAccountsCode" parent="BudgetConstructionAccountSummary-organizationChartOfAccountsCode-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionAccountSummary-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="organizationChartOfAccountsCode" />
+    <property name="description" value="organizationChartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-organizationCode" parent="BudgetConstructionAccountSummary-organizationCode-parentBean" />
 
-            <attribute name="accountLineAnnualBalanceAmount" forceUppercase="true">
-                <label>Account Line Annual Balance Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BudgetConstructionAccountSummary-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="organizationCode" />
+    <property name="description" value="organizationCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-personUniversalIdentifier" parent="BudgetConstructionAccountSummary-personUniversalIdentifier-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+  <bean id="BudgetConstructionAccountSummary-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-subAccountNumber" parent="BudgetConstructionAccountSummary-subAccountNumber-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
+  <bean id="BudgetConstructionAccountSummary-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-subFundGroupCode" parent="BudgetConstructionAccountSummary-subFundGroupCode-parentBean" />
 
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
-			</attribute>
+  <bean id="BudgetConstructionAccountSummary-subFundGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subFundGroupCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Fund Group Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="subFundGroupCode" />
+    <property name="description" value="subFundGroupCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-subFundSortCode" parent="BudgetConstructionAccountSummary-subFundSortCode-parentBean" />
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="BudgetConstructionAccountSummary-subFundSortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subFundSortCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Fund Sort Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="subFundSortCode" />
+    <property name="description" value="subFundSortCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountSummary-versionNumber" parent="BudgetConstructionAccountSummary-versionNumber-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionAccountSummary-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="9" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="BudgetConstructionAccountSummary-inquiryDefinition" parent="BudgetConstructionAccountSummary-inquiryDefinition-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionAccountSummary-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Account Summary Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineAnnualBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBeginningBalanceLineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fundGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="incomeExpenseCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subFundGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subFundSortCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="4" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
 
-            <attribute name="financialBeginningBalanceLineAmount" forceUppercase="true">
-                <label>Financial Beginning Balance Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BudgetConstructionAccountSummary-lookupDefinition" parent="BudgetConstructionAccountSummary-lookupDefinition-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialBeginningBalanceLineAmount</summary>
-                <description>financialBeginningBalanceLineAmount description...</description>
-			</attribute>
-
-            <attribute name="fundGroupCode" forceUppercase="true">
-                <label>Fund Group Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>fundGroupCode</summary>
-                <description>fundGroupCode description...</description>
-			</attribute>
-
-            <attribute name="incomeExpenseCode" forceUppercase="true">
-                <label>Income Expense Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>incomeExpenseCode</summary>
-                <description>incomeExpenseCode description...</description>
-			</attribute>
-
-            <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
-                <label>Organization Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>organizationChartOfAccountsCode</summary>
-                <description>organizationChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="subFundGroupCode" forceUppercase="true">
-                <label>Sub Fund Group Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>subFundGroupCode</summary>
-                <description>subFundGroupCode description...</description>
-			</attribute>
-
-            <attribute name="subFundSortCode" forceUppercase="true">
-                <label>Sub Fund Sort Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>subFundSortCode</summary>
-                <description>subFundSortCode description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionAccountSummary-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Account Summary Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Account Summary" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBeginningBalanceLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeExpenseCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundSortCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBeginningBalanceLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeExpenseCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundSortCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

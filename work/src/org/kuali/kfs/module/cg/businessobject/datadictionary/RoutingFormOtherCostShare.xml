@@ -1,131 +1,177 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoutingFormOtherCostShare" parent="RoutingFormOtherCostShare-parentBean" />
+
+  <bean id="RoutingFormOtherCostShare-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare" />
+    <property name="inquiryDefinition" >
+      <ref bean="RoutingFormOtherCostShare-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RoutingFormOtherCostShare-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="RoutingFormOtherCostShare-routingFormCostShareAmount" />
+        <ref bean="RoutingFormOtherCostShare-routingFormCostShareSequenceNumber" />
+        <ref bean="RoutingFormOtherCostShare-routingFormCostShareSourceName" />
+        <ref bean="RoutingFormOtherCostShare-documentNumber" />
+        <ref bean="RoutingFormOtherCostShare-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Routing Form Other Cost Share Inquiry</title>
+  <bean id="RoutingFormOtherCostShare-routingFormCostShareAmount" parent="RoutingFormOtherCostShare-routingFormCostShareAmount-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="routingFormCostShareAmount" />
-                <field attributeName="routingFormCostShareSequenceNumber" />
-                <field attributeName="routingFormCostShareSourceName" />
-                <field attributeName="documentNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RoutingFormOtherCostShare-routingFormCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCostShareAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Cost Share Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="19"
+            p:scale="2"
+            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="26"
+            p:size="10" />
+    </property>
+    <property name="summary" value="routingFormCostShareAmount" />
+    <property name="description" value="routingFormCostShareAmount description..." />
+  </bean>
+  <bean id="RoutingFormOtherCostShare-routingFormCostShareSequenceNumber" parent="RoutingFormOtherCostShare-routingFormCostShareSequenceNumber-parentBean" />
 
-        <lookup>
-            <title>Routing Form Other Cost Share Lookup</title>
+  <bean id="RoutingFormOtherCostShare-routingFormCostShareSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCostShareSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Cost Share Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormCostShareSequenceNumber" />
+    <property name="description" value="routingFormCostShareSequenceNumber description..." />
+  </bean>
+  <bean id="RoutingFormOtherCostShare-routingFormCostShareSourceName" parent="RoutingFormOtherCostShare-routingFormCostShareSourceName-parentBean" />
 
-            <instructions>Look up a Routing Form Other Cost Share</instructions>
+  <bean id="RoutingFormOtherCostShare-routingFormCostShareSourceName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCostShareSourceName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Cost Share Source Name" />
+    <property name="shortLabel" value="Source" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="routingFormCostShareSourceName" />
+    <property name="description" value="routingFormCostShareSourceName description..." />
+  </bean>
+  <bean id="RoutingFormOtherCostShare-documentNumber" parent="RoutingFormOtherCostShare-documentNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="routingFormCostShareSequenceNumber" />
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RoutingFormOtherCostShare-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormOtherCostShare-versionNumber" parent="RoutingFormOtherCostShare-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="routingFormCostShareAmount" required="false" />
-                <lookupField attributeName="routingFormCostShareSequenceNumber" required="false" />
-                <lookupField attributeName="routingFormCostShareSourceName" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-            </lookupFields>
+  <bean id="RoutingFormOtherCostShare-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="routingFormCostShareAmount" />
-                <field attributeName="routingFormCostShareSequenceNumber" />
-                <field attributeName="routingFormCostShareSourceName" />
-                <field attributeName="documentNumber" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="routingFormCostShareAmount" forceUppercase="true">
-                <label>Routing Form Cost Share Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="RoutingFormOtherCostShare-inquiryDefinition" parent="RoutingFormOtherCostShare-inquiryDefinition-parentBean" />
 
-                <maxLength>19</maxLength>
+  <bean id="RoutingFormOtherCostShare-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Routing Form Other Cost Share Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormCostShareAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormCostShareSequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormCostShareSourceName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <validationPattern>
-                    <fixedPoint allowNegative="true" precision="19" scale="2" />
-                </validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <currency size="10" formattedMaxLength="26" />
-                </control>
 
-                <summary>routingFormCostShareAmount</summary>
-                <description>routingFormCostShareAmount description...</description>
-			</attribute>
+  <bean id="RoutingFormOtherCostShare-lookupDefinition" parent="RoutingFormOtherCostShare-lookupDefinition-parentBean" />
 
-            <attribute name="routingFormCostShareSequenceNumber" forceUppercase="true">
-                <label>Routing Form Cost Share Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>routingFormCostShareSequenceNumber</summary>
-                <description>routingFormCostShareSequenceNumber description...</description>
-			</attribute>
-
-            <attribute name="routingFormCostShareSourceName" forceUppercase="true">
-                <label>Routing Form Cost Share Source Name</label>
-                <shortLabel>Source</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>routingFormCostShareSourceName</summary>
-                <description>routingFormCostShareSourceName description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RoutingFormOtherCostShare-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Routing Form Other Cost Share Lookup" />
+    <property name="instructions" value="Look up a Routing Form Other Cost Share" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormCostShareAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormCostShareSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormCostShareSourceName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormCostShareAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormCostShareSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormCostShareSourceName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

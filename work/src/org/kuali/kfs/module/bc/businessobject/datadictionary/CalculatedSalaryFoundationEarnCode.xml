@@ -1,163 +1,224 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationEarnCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CalculatedSalaryFoundationEarnCode" parent="CalculatedSalaryFoundationEarnCode-parentBean" />
+
+  <bean id="CalculatedSalaryFoundationEarnCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.CalculatedSalaryFoundationEarnCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="CalculatedSalaryFoundationEarnCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CalculatedSalaryFoundationEarnCode-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CalculatedSalaryFoundationEarnCode-csfEligibleFlag" />
+        <ref bean="CalculatedSalaryFoundationEarnCode-description" />
+        <ref bean="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings" />
+        <ref bean="CalculatedSalaryFoundationEarnCode-effectiveDate" />
+        <ref bean="CalculatedSalaryFoundationEarnCode-hrmsCompany" />
+        <ref bean="CalculatedSalaryFoundationEarnCode-payGroup" />
+        <ref bean="CalculatedSalaryFoundationEarnCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Calculated Salary Foundation Earn Code Inquiry</title>
+  <bean id="CalculatedSalaryFoundationEarnCode-csfEligibleFlag" parent="CalculatedSalaryFoundationEarnCode-csfEligibleFlag-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="csfEligibleFlag" />
-                <field attributeName="description" />
-                <field attributeName="earnCodeRegularEarnings" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="hrmsCompany" />
-                <field attributeName="payGroup" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="CalculatedSalaryFoundationEarnCode-csfEligibleFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfEligibleFlag" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Csf Eligible Flag" />
+    <property name="shortLabel" value="Flag" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="csfEligibleFlag" />
+    <property name="description" value="csfEligibleFlag description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationEarnCode-description" parent="CalculatedSalaryFoundationEarnCode-description-parentBean" />
 
-        <lookup>
-            <title>Calculated Salary Foundation Earn Code Lookup</title>
+  <bean id="CalculatedSalaryFoundationEarnCode-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="description" />
+    <property name="description" value="description description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings" parent="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings-parentBean" />
 
-            <instructions>Look up a Calculated Salary Foundation Earn Code</instructions>
+  <bean id="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="earnCodeRegularEarnings" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Earn Code Regular Earnings" />
+    <property name="shortLabel" value="Earnings" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="earnCodeRegularEarnings" />
+    <property name="description" value="earnCodeRegularEarnings description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationEarnCode-effectiveDate" parent="CalculatedSalaryFoundationEarnCode-effectiveDate-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="payGroup" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="CalculatedSalaryFoundationEarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effectiveDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Effective Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="effectiveDate" />
+    <property name="description" value="effectiveDate description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationEarnCode-hrmsCompany" parent="CalculatedSalaryFoundationEarnCode-hrmsCompany-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="csfEligibleFlag" required="false" />
-                <lookupField attributeName="description" required="false" />
-                <lookupField attributeName="earnCodeRegularEarnings" required="false" />
-                <lookupField attributeName="effectiveDate" required="false" />
-                <lookupField attributeName="hrmsCompany" required="false" />
-                <lookupField attributeName="payGroup" required="false" />
-            </lookupFields>
+  <bean id="CalculatedSalaryFoundationEarnCode-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsCompany" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Hrms Company" />
+    <property name="shortLabel" value="Company" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="hrmsCompany" />
+    <property name="description" value="hrmsCompany description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationEarnCode-payGroup" parent="CalculatedSalaryFoundationEarnCode-payGroup-parentBean" />
 
-            <resultFields>
-                <field attributeName="csfEligibleFlag" />
-                <field attributeName="description" />
-                <field attributeName="earnCodeRegularEarnings" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="hrmsCompany" />
-                <field attributeName="payGroup" />
-            </resultFields>
-        </lookup>
+  <bean id="CalculatedSalaryFoundationEarnCode-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payGroup" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Group" />
+    <property name="shortLabel" value="Group" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="payGroup" />
+    <property name="description" value="payGroup description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationEarnCode-versionNumber" parent="CalculatedSalaryFoundationEarnCode-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="CalculatedSalaryFoundationEarnCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="csfEligibleFlag" forceUppercase="true">
-                <label>Csf Eligible Flag</label>
-                <shortLabel>Flag</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="3" />
-                </control>
+  <bean id="CalculatedSalaryFoundationEarnCode-inquiryDefinition" parent="CalculatedSalaryFoundationEarnCode-inquiryDefinition-parentBean" />
 
-                <summary>csfEligibleFlag</summary>
-                <description>csfEligibleFlag description...</description>
-			</attribute>
+  <bean id="CalculatedSalaryFoundationEarnCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Calculated Salary Foundation Earn Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfEligibleFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="earnCodeRegularEarnings" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effectiveDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="hrmsCompany" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payGroup" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="description" forceUppercase="true">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="32" />
-                </control>
+  <bean id="CalculatedSalaryFoundationEarnCode-lookupDefinition" parent="CalculatedSalaryFoundationEarnCode-lookupDefinition-parentBean" />
 
-                <summary>description</summary>
-                <description>description description...</description>
-			</attribute>
-
-            <attribute name="earnCodeRegularEarnings" forceUppercase="true">
-                <label>Earn Code Regular Earnings</label>
-                <shortLabel>Earnings</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>earnCodeRegularEarnings</summary>
-                <description>earnCodeRegularEarnings description...</description>
-			</attribute>
-
-            <attribute name="effectiveDate" forceUppercase="true">
-                <label>Effective Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>effectiveDate</summary>
-                <description>effectiveDate description...</description>
-			</attribute>
-
-            <attribute name="hrmsCompany" forceUppercase="true">
-                <label>Hrms Company</label>
-                <shortLabel>Company</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>hrmsCompany</summary>
-                <description>hrmsCompany description...</description>
-			</attribute>
-
-            <attribute name="payGroup" forceUppercase="true">
-                <label>Pay Group</label>
-                <shortLabel>Group</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>payGroup</summary>
-                <description>payGroup description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CalculatedSalaryFoundationEarnCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Calculated Salary Foundation Earn Code Lookup" />
+    <property name="instructions" value="Look up a Calculated Salary Foundation Earn Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="csfEligibleFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="earnCodeRegularEarnings" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payGroup" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="csfEligibleFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="earnCodeRegularEarnings" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payGroup" />
+      </list>
+    </property>
+  </bean>
+</beans>

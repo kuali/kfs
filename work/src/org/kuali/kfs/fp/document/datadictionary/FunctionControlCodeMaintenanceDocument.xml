@@ -1,61 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.financial.bo.FunctionControlCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="FunctionControlCodeMaintenanceDocument" parent="FunctionControlCodeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="FunctionControlCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.FunctionControlCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="FunctionControlCodeMaintenanceDocument-EditFunctionControlCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>financialSystemFunctionControlCode</value>
+      </list>
+    </property>
+    <property name="label" value="Function Control Code" />
+    <property name="shortLabel" value="Function Control Code" />
+    <property name="summary" value="Function Control Code Maintenance Document" />
+    <property name="description" value="Document used to create or update Function Control Code objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="FUNCTION_CONTROL_CODE"
+            p:parameterDetailType="FiscalYearFunctionControl" />
+    </property>
+    <property name="documentTypeName" value="FunctionControlCodeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="BFNC" />
+    <property name="workflowProperties" >
+      <ref bean="FunctionControlCodeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>FunctionControlCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BFNC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Function Control Code</label>
 
-        <summary>Function Control Code Maintenance Document</summary>
-        <description>Document used to create or update Function Control Code objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="FiscalYearFunctionControl" parameterName="FUNCTION_CONTROL_CODE" />
+  <bean id="FunctionControlCodeMaintenanceDocument-EditFunctionControlCode" parent="FunctionControlCodeMaintenanceDocument-EditFunctionControlCode-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="financialSystemFunctionControlCode" />
-        </lockingKeys>
+  <bean id="FunctionControlCodeMaintenanceDocument-EditFunctionControlCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Function Control Code" />
+    <property name="title" value="Edit Function Control Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialSystemFunctionControlCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialSystemFunctionDefaultIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialSystemFunctionDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Function Control Code">
-                <maintainableItems>
-                    <maintainableField name="financialSystemFunctionControlCode" required="true" />
-                    <maintainableField name="financialSystemFunctionDefaultIndicator" required="false" />
-                    <maintainableField name="financialSystemFunctionDescription" required="false" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="FunctionControlCodeMaintenanceDocument-workflowProperties" parent="FunctionControlCodeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="FunctionControlCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

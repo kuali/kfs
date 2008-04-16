@@ -1,202 +1,295 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportDefinition">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EffortCertificationReportDefinition" parent="EffortCertificationReportDefinition-parentBean" />
+
+  <bean id="EffortCertificationReportDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportDefinition" />
+    <property name="inquiryDefinition" >
+      <ref bean="EffortCertificationReportDefinition-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EffortCertificationReportDefinition-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="effortCertificationReportNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode" />
+        <ref bean="EffortCertificationReportDefinition-expenseTransferFiscalYear" />
+        <ref bean="EffortCertificationReportDefinition-universityFiscalYear" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportNumber" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportReturnDate" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportTypeCode" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode" />
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" />
+        <ref bean="EffortCertificationReportDefinition-active" />
+        <ref bean="EffortCertificationReportDefinition-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Effort Certification Report Definition Inquiry</title>
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode" parent="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportNumber" />
-                <field attributeName="effortCertificationReportPeriodTitle" />
-                <field attributeName="effortCertificationReportPeriodStatusCode" />
-                <field attributeName="effortCertificationReportBeginFiscalYear" />
-                <field attributeName="effortCertificationReportBeginPeriodCode" />
-                <field attributeName="effortCertificationReportEndFiscalYear" />
-                <field attributeName="effortCertificationReportEndPeriodCode" />
-                <!-- field attributeName="effortCertificationReportPositions.positionObjectGroup.positionObjectGroupCode" /-->
-                <field attributeName="effortCertificationReportTypeCode" />
-                <field attributeName="expenseTransferFiscalYear" />
-                <field attributeName="expenseTransferFiscalPeriodCode" />
-                <field attributeName="effortCertificationReportReturnDate" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
+    <property name="name" value="expenseTransferFiscalPeriodCode" />
+    <property name="label" value="Expense Transfer Fiscal Period Code" />
+    <property name="shortLabel" value="Expense Transfer Period Code" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="ExpenseTransferFiscalPeriodCode" />
+    <property name="description" value="ExpenseTransferFiscalPeriodCode description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear" parent="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" />
 
-        <lookup>
-            <title>Report Definition Lookup</title>
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="expenseTransferFiscalYear" />
+    <property name="label" value="Expense Transfer Fiscal Year" />
+    <property name="shortLabel" value="Expense Transfer Year" />
+    <property name="summary" value="ExpenseTransferFiscalYear" />
+    <property name="description" value="ExpenseTransferFiscalYear description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-universityFiscalYear" parent="EffortCertificationReportDefinition-universityFiscalYear-parentBean" />
 
-            <instructions>Look up an Effort Certification Report</instructions>
+  <bean id="EffortCertificationReportDefinition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportNumber" parent="EffortCertificationReportDefinition-effortCertificationReportNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="effortCertificationReportNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effortCertificationReportNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Report Number" />
+    <property name="shortLabel" value="Report Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Effort Certification Report Number" />
+    <property name="description" value="Effort Certification ReportNumber description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-				<lookupField attributeName="effortCertificationReportNumber" required="false" />
-				<lookupField attributeName="effortCertificationReportTypeCode" required="false" />
-				<lookupField attributeName="effortCertificationReportPeriodStatusCode" required="false" />
-				<lookupField attributeName="active" required="false" />
-			</lookupFields>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effortCertificationReportPeriodTitle" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Report Period Title" />
+    <property name="shortLabel" value="Report Title" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="Effort Certification ReportPeriodTitle" />
+    <property name="description" value="Effort Certification ReportPeriodTitle description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate" parent="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportNumber" />
-                <field attributeName="effortCertificationReportPeriodTitle" />
-                <field attributeName="effortCertificationReportPeriodStatusCode" />
-                <field attributeName="effortCertificationReportBeginFiscalYear" />
-                <field attributeName="effortCertificationReportBeginPeriodCode" />
-                <field attributeName="effortCertificationReportEndFiscalYear" />
-                <field attributeName="effortCertificationReportEndPeriodCode" />
-                <!-- field attributeName="effortCertificationReportPositions" /-->
-                <field attributeName="effortCertificationReportTypeCode" />
-                <field attributeName="expenseTransferFiscalYear" />
-                <field attributeName="expenseTransferFiscalPeriodCode" />
-                <field attributeName="effortCertificationReportReturnDate" />
-                <field attributeName="active" />
-            </resultFields>
-            
-        </lookup>
-        
-		<titleAttribute>effortCertificationReportNumber</titleAttribute>
-		
-        <attributes>
-			
-            <attributeReference name="expenseTransferFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-                <label>Expense Transfer Fiscal Period Code</label>
-                <shortLabel>Expense Transfer Period Code</shortLabel>
-				<control>
-					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
-				</control>
-                <summary>ExpenseTransferFiscalPeriodCode</summary>
-                <description>ExpenseTransferFiscalPeriodCode description...</description>
-			</attributeReference>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="effortCertificationReportReturnDate" />
+    <property name="label" value="Report Return Date" />
+    <property name="shortLabel" value="Report Return Date" />
+    <property name="summary" value="Effort Certification ReportReturnDate" />
+    <property name="description" value="Effort Certification ReportReturnDate description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportTypeCode" parent="EffortCertificationReportDefinition-effortCertificationReportTypeCode-parentBean" />
 
-            <attributeReference name="expenseTransferFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Expense Transfer Fiscal Year</label>
-                <shortLabel>Expense Transfer Year</shortLabel>
-				
-                <summary>ExpenseTransferFiscalYear</summary>
-                <description>ExpenseTransferFiscalYear description...</description>
-			</attributeReference>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportTypeCode-parentBean" abstract="true" parent="EffortCertificationReportType-effortCertificationReportTypeCode">
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode-parentBean" abstract="true" parent="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PeriodStatusCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" />
 
-            <attribute name="effortCertificationReportNumber" forceUppercase="true">
-                <label>Report Number</label>
-                <shortLabel>Report Number</shortLabel>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="effortCertificationReportBeginFiscalYear" />
+    <property name="label" value="Report Begin Fiscal Year" />
+    <property name="summary" value="Effort Certification ReportBeginFiscalYear" />
+    <property name="description" value="Effort Certification ReportBeginFiscalYear description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
+    <property name="name" value="effortCertificationReportBeginPeriodCode" />
+    <property name="label" value="Report Begin Period Code" />
+    <property name="shortLabel" value="Begin Period Code" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Effort Certification ReportBeginPeriodCode" />
+    <property name="description" value="Effort Certification ReportBeginPeriodCode description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="effortCertificationReportEndFiscalYear" />
+    <property name="label" value="Report End Fiscal Year" />
+    <property name="shortLabel" value="End Fiscal Year" />
+    <property name="summary" value="Effort Certification Report End Fiscal Year" />
+    <property name="description" value="Effort Certification Report End Fiscal Year description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode-parentBean" />
 
-                <summary>Effort Certification Report Number</summary>
-                <description>Effort Certification ReportNumber description...</description>
-			</attribute>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
+    <property name="name" value="effortCertificationReportEndPeriodCode" />
+    <property name="label" value="Report End Period Code" />
+    <property name="shortLabel" value="End Period Code" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Effort Certification ReportEndPeriodCode" />
+    <property name="description" value="Effort Certification ReportEndPeriodCode description..." />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode-parentBean" />
 
-            <attribute name="effortCertificationReportPeriodTitle" forceUppercase="true">
-                <label>Report Period Title</label>
-                <shortLabel>Report Title</shortLabel>
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode">
+    <property name="name" value="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" />
+    <property name="label" value="Position Object Group Code" />
+    <property name="shortLabel" value="Pos Obj Grp Cd" />
+    <property name="summary" value="Position Object Group Code" />
+    <property name="description" value="Position Object Group Code" />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-active" parent="EffortCertificationReportDefinition-active-parentBean" />
 
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+  <bean id="EffortCertificationReportDefinition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="EffortCertificationReportDefinition-versionNumber" parent="EffortCertificationReportDefinition-versionNumber-parentBean" />
 
-                <control>
-                    <text size="32" />
-                </control>
+  <bean id="EffortCertificationReportDefinition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>Effort Certification ReportPeriodTitle</summary>
-                <description>Effort Certification ReportPeriodTitle description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="effortCertificationReportReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Report Return Date</label>
-                <shortLabel>Report Return Date</shortLabel>
 
-                <summary>Effort Certification ReportReturnDate</summary>
-                <description>Effort Certification ReportReturnDate description...</description>
-			</attributeReference>
+  <bean id="EffortCertificationReportDefinition-inquiryDefinition" parent="EffortCertificationReportDefinition-inquiryDefinition-parentBean" />
 
-            <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode" >
-            	<label>Report Type Code</label>
-            </attributeReference>
-            <attributeReference name="effortCertificationReportPeriodStatusCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" sourceAttributeName="effortCertificationReportPeriodStatusCode" >
-            	<label>Report Period Status Code</label>
-            	<control>
-					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PeriodStatusCodeValuesFinder" />
-				</control>
-			</attributeReference>
+  <bean id="EffortCertificationReportDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Effort Certification Report Definition Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportPeriodTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportPeriodStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportBeginFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportBeginPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportEndFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportEndPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expenseTransferFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expenseTransferFiscalPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportReturnDate" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Report Begin Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <summary>Effort Certification ReportBeginFiscalYear</summary>
-                <description>Effort Certification ReportBeginFiscalYear description...</description>
-			</attributeReference>
 
-            <attributeReference name="effortCertificationReportBeginPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-                <label>Report Begin Period Code</label>
-                <shortLabel>Begin Period Code</shortLabel>
-				<control>
-					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
-				</control>
-				<summary>Effort Certification ReportBeginPeriodCode</summary>
-                <description>Effort Certification ReportBeginPeriodCode description...</description>
-			</attributeReference>
+  <bean id="EffortCertificationReportDefinition-lookupDefinition" parent="EffortCertificationReportDefinition-lookupDefinition-parentBean" />
 
-            <attributeReference name="effortCertificationReportEndFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Report End Fiscal Year</label>
-                <shortLabel>End Fiscal Year</shortLabel>
-
-                <summary>Effort Certification Report End Fiscal Year</summary>
-                <description>Effort Certification Report End Fiscal Year description...</description>
-			</attributeReference>
-
-            <attributeReference name="effortCertificationReportEndPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-                <label>Report End Period Code</label>
-                <shortLabel>End Period Code</shortLabel>
-				<control>
-					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
-				</control>
-                <summary>Effort Certification ReportEndPeriodCode</summary>
-                <description>Effort Certification ReportEndPeriodCode description...</description>
-			</attributeReference>
-			
-			<attributeReference name="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportPosition" sourceAttributeName="effortCertificationReportPositionObjectGroupCode">
-                <label>Position Object Group Code</label>
-                <shortLabel>Pos Obj Grp Cd</shortLabel>
-                <summary>Position Object Group Code</summary>
-                <description>Position Object Group Code</description>
-			</attributeReference>
-			
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>			
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="EffortCertificationReportDefinition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Report Definition Lookup" />
+    <property name="instructions" value="Look up an Effort Certification Report" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportPeriodStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportPeriodTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportPeriodStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportBeginFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportBeginPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportEndFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportEndPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expenseTransferFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expenseTransferFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportReturnDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

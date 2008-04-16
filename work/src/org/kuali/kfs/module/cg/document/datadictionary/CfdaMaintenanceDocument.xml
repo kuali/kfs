@@ -1,65 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cg.bo.Cfda</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="CfdaMaintenanceDocument" parent="CfdaMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CfdaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Cfda" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CfdaMaintenanceDocument-EditCatalogofFederalDomesticAssistanceReference" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>cfdaNumber</value>
+      </list>
+    </property>
+    <property name="label" value="CFDA Reference" />
+    <property name="shortLabel" value="CFDA Reference" />
+    <property name="summary" value="Catalog of Federal Domestic Assistance Reference Maintenance Document" />
+    <property name="description" value="Document used to create or update Catalog of Federal Domestic Assistance Reference objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CG"
+            p:parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE"
+            p:parameterDetailType="Cfda" />
+    </property>
+    <property name="documentTypeName" value="CfdaMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="CFDA" />
+    <property name="workflowProperties" >
+      <ref bean="CfdaMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>CfdaMaintenanceDocument</documentTypeName>
-        <documentTypeCode>CFDA</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>CFDA Reference</label>
 
-        <summary>Catalog of Federal Domestic Assistance Reference Maintenance Document</summary>
-        <description>Document used to create or update Catalog of Federal Domestic Assistance Reference objects</description>
-        <help parameterNamespace="KFS-CG" parameterDetailType="Cfda" parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE" />
+  <bean id="CfdaMaintenanceDocument-EditCatalogofFederalDomesticAssistanceReference" parent="CfdaMaintenanceDocument-EditCatalogofFederalDomesticAssistanceReference-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="cfdaNumber" />
-        </lockingKeys>
+  <bean id="CfdaMaintenanceDocument-EditCatalogofFederalDomesticAssistanceReference-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Catalog of Federal Domestic Assistance Reference" />
+    <property name="title" value="Edit Catalog of Federal Domestic Assistance Reference" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cfdaNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cfdaProgramTitleName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cfdaMaintenanceTypeId"
+              p:defaultValue="MANUAL"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cfdaStatusCode"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Catalog of Federal Domestic Assistance Reference">
-                <maintainableItems>
-                    <maintainableField name="cfdaNumber" required="true" />
-                    <maintainableField name="cfdaProgramTitleName" required="true" />
-                    <maintainableField name="cfdaMaintenanceTypeId" required="true" >
-                        <defaultValue>MANUAL</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="cfdaStatusCode" required="false">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="CfdaMaintenanceDocument-workflowProperties" parent="CfdaMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="CfdaMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

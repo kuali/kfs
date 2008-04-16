@@ -1,545 +1,779 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.ShipmentReceiving">
-
-        <inquiry>
-            <title>Shipment Receiving Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="carrierCode" />
-                <field attributeName="deliveryBuildingCode" />
-                <field attributeName="deliveryBuildingLine1Address" />
-                <field attributeName="deliveryBuildingLine2Address" />
-                <field attributeName="deliveryBuildingName" />
-                <field attributeName="deliveryBuildingRoomNumber" />
-                <field attributeName="deliveryCampusCode" />
-                <field attributeName="deliveryCityName" />
-                <field attributeName="deliveryCountryCode" />
-                <field attributeName="deliveryInstructionText" />
-                <field attributeName="deliveryPostalCode" />
-                <field attributeName="deliveryRequiredDate" />
-                <field attributeName="deliveryStateCode" />
-                <field attributeName="deliveryToEmailAddress" />
-                <field attributeName="deliveryToName" />
-                <field attributeName="deliveryToPhoneNumber" />
-                <field attributeName="purchaseOrderGeneralDescription" />
-                <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="shipmentReceivedDate" />
-                <field attributeName="shipmentReceivingIdentifier" />
-                <field attributeName="shipmentReceivingNoteText" />
-                <field attributeName="shipmentTrackingNumber" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorCountryCode" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorName" />
-                <field attributeName="vendorPostalCode" />
-                <field attributeName="vendorShippingPaymentTermsCode" />
-                <field attributeName="vendorStateCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Shipment Receiving Lookup</title>
-
-            <instructions>Lookup an Shipment Receiving</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="carrierCode" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="carrierCode" required="false" />
-                <lookupField attributeName="deliveryBuildingCode" required="false" />
-                <lookupField attributeName="deliveryBuildingLine1Address" required="false" />
-                <lookupField attributeName="deliveryBuildingLine2Address" required="false" />
-                <lookupField attributeName="deliveryBuildingName" required="false" />
-                <lookupField attributeName="deliveryBuildingRoomNumber" required="false" />
-                <lookupField attributeName="deliveryCampusCode" required="false" />
-                <lookupField attributeName="deliveryCityName" required="false" />
-                <lookupField attributeName="deliveryCountryCode" required="false" />
-                <lookupField attributeName="deliveryInstructionText" required="false" />
-                <lookupField attributeName="deliveryPostalCode" required="false" />
-                <lookupField attributeName="deliveryRequiredDate" required="false" />
-                <lookupField attributeName="deliveryStateCode" required="false" />
-                <lookupField attributeName="deliveryToEmailAddress" required="false" />
-                <lookupField attributeName="deliveryToName" required="false" />
-                <lookupField attributeName="deliveryToPhoneNumber" required="false" />
-                <lookupField attributeName="purchaseOrderGeneralDescription" required="false" />
-                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
-                <lookupField attributeName="shipmentReceivedDate" required="false" />
-                <lookupField attributeName="shipmentReceivingIdentifier" required="false" />
-                <lookupField attributeName="shipmentReceivingNoteText" required="false" />
-                <lookupField attributeName="shipmentTrackingNumber" required="false" />
-                <lookupField attributeName="vendorCityName" required="false" />
-                <lookupField attributeName="vendorCountryCode" required="false" />
-                <lookupField attributeName="vendorLine1Address" required="false" />
-                <lookupField attributeName="vendorLine2Address" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
-                <lookupField attributeName="vendorPostalCode" required="false" />
-                <lookupField attributeName="vendorShippingPaymentTermsCode" required="false" />
-                <lookupField attributeName="vendorStateCode" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="carrierCode" />
-                <field attributeName="deliveryBuildingCode" />
-                <field attributeName="deliveryBuildingLine1Address" />
-                <field attributeName="deliveryBuildingLine2Address" />
-                <field attributeName="deliveryBuildingName" />
-                <field attributeName="deliveryBuildingRoomNumber" />
-                <field attributeName="deliveryCampusCode" />
-                <field attributeName="deliveryCityName" />
-                <field attributeName="deliveryCountryCode" />
-                <field attributeName="deliveryInstructionText" />
-                <field attributeName="deliveryPostalCode" />
-                <field attributeName="deliveryRequiredDate" />
-                <field attributeName="deliveryStateCode" />
-                <field attributeName="deliveryToEmailAddress" />
-                <field attributeName="deliveryToName" />
-                <field attributeName="deliveryToPhoneNumber" />
-                <field attributeName="purchaseOrderGeneralDescription" />
-                <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="shipmentReceivedDate" />
-                <field attributeName="shipmentReceivingIdentifier" />
-                <field attributeName="shipmentReceivingNoteText" />
-                <field attributeName="shipmentTrackingNumber" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorCountryCode" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorName" />
-                <field attributeName="vendorPostalCode" />
-                <field attributeName="vendorShippingPaymentTermsCode" />
-                <field attributeName="vendorStateCode" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="carrierCode" forceUppercase="true">
-                <label>Carrier Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryBuildingCode" forceUppercase="true">
-                <label>Delivery Building Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryBuildingLine1Address" forceUppercase="true">
-                <label>Delivery Building Line1 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryBuildingLine2Address" forceUppercase="true">
-                <label>Delivery Building Line2 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryBuildingName" forceUppercase="true">
-                <label>Delivery Building Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
-                <label>Delivery Building Room Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryCampusCode" forceUppercase="true">
-                <label>Delivery Campus Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryCityName" forceUppercase="true">
-                <label>Delivery City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryCountryCode" forceUppercase="true">
-                <label>Delivery Country Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryInstructionText" forceUppercase="true">
-                <label>Delivery Instruction Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryPostalCode" forceUppercase="true">
-                <label>Delivery Postal Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryRequiredDate" forceUppercase="true">
-                <label>Delivery Required Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryStateCode" forceUppercase="true">
-                <label>Delivery State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryToEmailAddress" forceUppercase="true">
-                <label>Delivery To Email Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>100</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="102" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryToName" forceUppercase="true">
-                <label>Delivery To Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="deliveryToPhoneNumber" forceUppercase="true">
-                <label>Delivery To Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="purchaseOrderGeneralDescription" forceUppercase="true">
-                <label>Purchase Order General Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-			</attribute>
-
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-			</attribute>
-
-            <attribute name="shipmentReceivedDate" forceUppercase="true">
-                <label>Shipment Received Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-			</attribute>
-
-            <attribute name="shipmentReceivingIdentifier" forceUppercase="true">
-                <label>Shipment Receiving Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-			</attribute>
-
-            <attribute name="shipmentReceivingNoteText" forceUppercase="true">
-                <label>Shipment Receiving Note Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-			</attribute>
-
-            <attribute name="shipmentTrackingNumber" forceUppercase="true">
-                <label>Shipment Tracking Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorCityName" forceUppercase="true">
-                <label>Vendor City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorCountryCode" forceUppercase="true">
-                <label>Vendor Country Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorLine1Address" forceUppercase="true">
-                <label>Vendor Line1 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorLine2Address" forceUppercase="true">
-                <label>Vendor Line2 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorName" forceUppercase="true">
-                <label>Vendor Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorPostalCode" forceUppercase="true">
-                <label>Vendor Postal Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorShippingPaymentTermsCode" forceUppercase="true">
-                <label>Vendor Shipping Payment Terms Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorStateCode" forceUppercase="true">
-                <label>Vendor State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ShipmentReceiving" parent="ShipmentReceiving-parentBean" />
+
+  <bean id="ShipmentReceiving-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ShipmentReceiving" />
+    <property name="inquiryDefinition" >
+      <ref bean="ShipmentReceiving-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ShipmentReceiving-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ShipmentReceiving-carrierCode" />
+        <ref bean="ShipmentReceiving-deliveryBuildingCode" />
+        <ref bean="ShipmentReceiving-deliveryBuildingLine1Address" />
+        <ref bean="ShipmentReceiving-deliveryBuildingLine2Address" />
+        <ref bean="ShipmentReceiving-deliveryBuildingName" />
+        <ref bean="ShipmentReceiving-deliveryBuildingRoomNumber" />
+        <ref bean="ShipmentReceiving-deliveryCampusCode" />
+        <ref bean="ShipmentReceiving-deliveryCityName" />
+        <ref bean="ShipmentReceiving-deliveryCountryCode" />
+        <ref bean="ShipmentReceiving-deliveryInstructionText" />
+        <ref bean="ShipmentReceiving-deliveryPostalCode" />
+        <ref bean="ShipmentReceiving-deliveryRequiredDate" />
+        <ref bean="ShipmentReceiving-deliveryStateCode" />
+        <ref bean="ShipmentReceiving-deliveryToEmailAddress" />
+        <ref bean="ShipmentReceiving-deliveryToName" />
+        <ref bean="ShipmentReceiving-deliveryToPhoneNumber" />
+        <ref bean="ShipmentReceiving-purchaseOrderGeneralDescription" />
+        <ref bean="ShipmentReceiving-purchaseOrderIdentifier" />
+        <ref bean="ShipmentReceiving-shipmentReceivedDate" />
+        <ref bean="ShipmentReceiving-shipmentReceivingIdentifier" />
+        <ref bean="ShipmentReceiving-shipmentReceivingNoteText" />
+        <ref bean="ShipmentReceiving-shipmentTrackingNumber" />
+        <ref bean="ShipmentReceiving-vendorCityName" />
+        <ref bean="ShipmentReceiving-vendorCountryCode" />
+        <ref bean="ShipmentReceiving-vendorLine1Address" />
+        <ref bean="ShipmentReceiving-vendorLine2Address" />
+        <ref bean="ShipmentReceiving-vendorName" />
+        <ref bean="ShipmentReceiving-vendorPostalCode" />
+        <ref bean="ShipmentReceiving-vendorShippingPaymentTermsCode" />
+        <ref bean="ShipmentReceiving-vendorStateCode" />
+        <ref bean="ShipmentReceiving-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ShipmentReceiving-carrierCode" parent="ShipmentReceiving-carrierCode-parentBean" />
+
+  <bean id="ShipmentReceiving-carrierCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="carrierCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Carrier Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryBuildingCode" parent="ShipmentReceiving-deliveryBuildingCode-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Building Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryBuildingLine1Address" parent="ShipmentReceiving-deliveryBuildingLine1Address-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryBuildingLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingLine1Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Building Line1 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryBuildingLine2Address" parent="ShipmentReceiving-deliveryBuildingLine2Address-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryBuildingLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingLine2Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Building Line2 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryBuildingName" parent="ShipmentReceiving-deliveryBuildingName-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Building Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryBuildingRoomNumber" parent="ShipmentReceiving-deliveryBuildingRoomNumber-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryBuildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Building Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryCampusCode" parent="ShipmentReceiving-deliveryCampusCode-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryCampusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Campus Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryCityName" parent="ShipmentReceiving-deliveryCityName-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryCountryCode" parent="ShipmentReceiving-deliveryCountryCode-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Country Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryInstructionText" parent="ShipmentReceiving-deliveryInstructionText-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryInstructionText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryInstructionText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Instruction Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryPostalCode" parent="ShipmentReceiving-deliveryPostalCode-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryPostalCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Postal Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryRequiredDate" parent="ShipmentReceiving-deliveryRequiredDate-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryRequiredDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryRequiredDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Required Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryStateCode" parent="ShipmentReceiving-deliveryStateCode-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryToEmailAddress" parent="ShipmentReceiving-deliveryToEmailAddress-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryToEmailAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery To Email Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="102" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryToName" parent="ShipmentReceiving-deliveryToName-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryToName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryToName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery To Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-deliveryToPhoneNumber" parent="ShipmentReceiving-deliveryToPhoneNumber-parentBean" />
+
+  <bean id="ShipmentReceiving-deliveryToPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryToPhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery To Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-purchaseOrderGeneralDescription" parent="ShipmentReceiving-purchaseOrderGeneralDescription-parentBean" />
+
+  <bean id="ShipmentReceiving-purchaseOrderGeneralDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderGeneralDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order General Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-purchaseOrderIdentifier" parent="ShipmentReceiving-purchaseOrderIdentifier-parentBean" />
+
+  <bean id="ShipmentReceiving-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-shipmentReceivedDate" parent="ShipmentReceiving-shipmentReceivedDate-parentBean" />
+
+  <bean id="ShipmentReceiving-shipmentReceivedDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentReceivedDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipment Received Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-shipmentReceivingIdentifier" parent="ShipmentReceiving-shipmentReceivingIdentifier-parentBean" />
+
+  <bean id="ShipmentReceiving-shipmentReceivingIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentReceivingIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipment Receiving Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-shipmentReceivingNoteText" parent="ShipmentReceiving-shipmentReceivingNoteText-parentBean" />
+
+  <bean id="ShipmentReceiving-shipmentReceivingNoteText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentReceivingNoteText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipment Receiving Note Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-shipmentTrackingNumber" parent="ShipmentReceiving-shipmentTrackingNumber-parentBean" />
+
+  <bean id="ShipmentReceiving-shipmentTrackingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentTrackingNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipment Tracking Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorCityName" parent="ShipmentReceiving-vendorCityName-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorCountryCode" parent="ShipmentReceiving-vendorCountryCode-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Country Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorLine1Address" parent="ShipmentReceiving-vendorLine1Address-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorLine1Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Line1 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorLine2Address" parent="ShipmentReceiving-vendorLine2Address-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorLine2Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Line2 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorName" parent="ShipmentReceiving-vendorName-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorPostalCode" parent="ShipmentReceiving-vendorPostalCode-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorPostalCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Postal Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorShippingPaymentTermsCode" parent="ShipmentReceiving-vendorShippingPaymentTermsCode-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorShippingPaymentTermsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorShippingPaymentTermsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Shipping Payment Terms Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-vendorStateCode" parent="ShipmentReceiving-vendorStateCode-parentBean" />
+
+  <bean id="ShipmentReceiving-vendorStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ShipmentReceiving-versionNumber" parent="ShipmentReceiving-versionNumber-parentBean" />
+
+  <bean id="ShipmentReceiving-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ShipmentReceiving-inquiryDefinition" parent="ShipmentReceiving-inquiryDefinition-parentBean" />
+
+  <bean id="ShipmentReceiving-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Shipment Receiving Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="carrierCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryBuildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryBuildingLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryBuildingLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryBuildingName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryBuildingRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryCampusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryInstructionText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryPostalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryRequiredDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryToEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryToName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="deliveryToPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderGeneralDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="shipmentReceivedDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="shipmentReceivingIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="shipmentReceivingNoteText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="shipmentTrackingNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPostalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingPaymentTermsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorStateCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ShipmentReceiving-lookupDefinition" parent="ShipmentReceiving-lookupDefinition-parentBean" />
+
+  <bean id="ShipmentReceiving-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Shipment Receiving Lookup" />
+    <property name="instructions" value="Lookup an Shipment Receiving" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="carrierCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryCampusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryInstructionText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryRequiredDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryToEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryToName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryToPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderGeneralDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentReceivedDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentReceivingIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentReceivingNoteText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentTrackingNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingPaymentTermsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStateCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="carrierCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryBuildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryCampusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryInstructionText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryRequiredDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryToEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryToName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deliveryToPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderGeneralDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentReceivedDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentReceivingIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentReceivingNoteText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="shipmentTrackingNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingPaymentTermsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStateCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

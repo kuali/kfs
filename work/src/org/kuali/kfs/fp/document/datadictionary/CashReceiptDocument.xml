@@ -1,100 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.financial.document.CashReceiptDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.CashReceiptDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.CashReceiptDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CashReceiptDocument" parent="CashReceiptDocument-parentBean" />
 
-        <documentTypeName>CashReceiptDocument</documentTypeName>
-        <documentTypeCode>CR</documentTypeCode>
+  <bean id="CashReceiptDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Cash Receipt" />
+    <property name="shortLabel" value="Cash Receipt" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Cash Receipts (CR) document is used to record cash and checks received by units, for subsequent deposit into bank accounts. Cash Receipts route for verification and preparation of bank deposits. Each unit that verifies cash receipts and/or prepares bank deposits will use a Cash Management (CM) document to consolidate those Cash Receipts into bank deposits. The actual verification of the Cash Receipt will be done on the Cash Receipt document itself. In essence, the Cash Management document is the means by which a unit manages its cash drawer." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="CASH_RECEIPT"
+            p:parameterDetailType="CashReceipt" />
+    </property>
+    <property name="documentTypeName" value="CashReceiptDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.CashReceiptDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.CashReceiptDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.CashReceiptDocumentAuthorizer" />
+    <property name="documentTypeCode" value="CR" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="CashReceiptDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CashReceiptDocument-totalCheckAmount" />
+        <ref bean="CashReceiptDocument-totalCashAmount" />
+        <ref bean="CashReceiptDocument-totalCoinAmount" />
+        <ref bean="CashReceiptDocument-totalDollarAmount" />
+        <ref bean="CashReceiptDocument-documentNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <label>Cash Receipt</label>
+<!-- Attribute Definitions -->
 
-        <attributes>
-            <attributeReference name="totalCheckAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total Check Amount</label>
-                <shortLabel>Total Check Amount</shortLabel>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The total dollar amount of the check(s) involved. If adjoining pulldown is set to "Individual Checks/Batches", then the Check Detail tab is displayed below this tab.</description>
-            </attributeReference>
+  <bean id="CashReceiptDocument-totalCheckAmount" parent="CashReceiptDocument-totalCheckAmount-parentBean" />
 
-            <attributeReference name="totalCashAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total Currency Amount</label>
-                <shortLabel>Total Currency Amount</shortLabel>
+  <bean id="CashReceiptDocument-totalCheckAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalCheckAmount" />
+    <property name="label" value="Total Check Amount" />
+    <property name="shortLabel" value="Total Check Amount" />
+    <property name="description" value="The total dollar amount of the check(s) involved. If adjoining pulldown is set to &quot;Individual Checks/Batches&quot;, then the Check Detail tab is displayed below this tab." />
+  </bean>
+  <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean" />
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The total dollar amount of the currency involved.</description>
-            </attributeReference>
+  <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalCashAmount" />
+    <property name="label" value="Total Currency Amount" />
+    <property name="shortLabel" value="Total Currency Amount" />
+    <property name="description" value="The total dollar amount of the currency involved." />
+  </bean>
+  <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean" />
 
-            <attributeReference name="totalCoinAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total Coin Amount</label>
-                <shortLabel>Total Coin Amount</shortLabel>
+  <bean id="CashReceiptDocument-totalCoinAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalCoinAmount" />
+    <property name="label" value="Total Coin Amount" />
+    <property name="shortLabel" value="Total Coin Amount" />
+    <property name="description" value="The total dollar amount of the coins involved." />
+  </bean>
+  <bean id="CashReceiptDocument-totalDollarAmount" parent="CashReceiptDocument-totalDollarAmount-parentBean" />
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The total dollar amount of the coins involved.</description>
-            </attributeReference>
+  <bean id="CashReceiptDocument-totalDollarAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalDollarAmount" />
+    <property name="label" value="Cash Reconciliation Total" />
+    <property name="shortLabel" value="Cash Reconciliation Total" />
+    <property name="description" value="The sum of Total Check, Currency, and Coin Amounts. Use the &quot;recalculate&quot; button to recalculate the Sum." />
+  </bean>
+  <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean" />
 
-            <attributeReference name="totalDollarAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Cash Reconciliation Total</label>
-                <shortLabel>Cash Reconciliation Total</shortLabel>
+  <bean id="CashReceiptDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The sum of Total Check, Currency, and Coin Amounts. Use the "recalculate" button to recalculate the Sum.</description>
-            </attributeReference>
+<!-- Exported Workflow Properties -->
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
 
-        </attributes>
+  <bean id="CashReceiptDocument-workflowProperties" parent="CashReceiptDocument-workflowProperties-parentBean" />
 
-        <summary>
-            <![CDATA[&nbsp;]]>
-        </summary>
-        <description>The Cash Receipts (CR) document is used to record cash and checks received by units, for subsequent deposit into bank accounts. Cash Receipts route for verification and preparation of bank deposits. Each unit that verifies cash receipts and/or prepares bank deposits will use a Cash Management (CM) document to consolidate those Cash Receipts into bank deposits. The actual verification of the Cash Receipt will be done on the Cash Receipt document itself. In essence, the Cash Management document is the means by which a unit manages its cash drawer.</description>
-  		<help parameterNamespace="KFS-FP" parameterDetailType="CashReceipt" parameterName="CASH_RECEIPT" />
-        <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="documentHeader" />
-        		<workflowProperty path="sourceAccountingLines" />
-        		<workflowProperty path="cashReceiptHeader" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="CashReceiptDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="cashReceiptHeader" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

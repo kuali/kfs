@@ -1,118 +1,164 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProposalSubcontractor" parent="ProposalSubcontractor-parentBean" />
+
+  <bean id="ProposalSubcontractor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalSubcontractor" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalSubcontractor-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalSubcontractor-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalSubcontractor-proposalNumber" />
+        <ref bean="ProposalSubcontractor-subcontractorNumber" />
+        <ref bean="ProposalSubcontractor-proposalSubcontractorAmount" />
+        <ref bean="ProposalSubcontractor-proposalSubcontractorNumber" />
+        <ref bean="ProposalSubcontractor-proposalSubcontractorDescription" />
+        <ref bean="ProposalSubcontractor-subcontractor.subcontractorName" />
+        <ref bean="ProposalSubcontractor-newCollectionRecord" />
+        <ref bean="ProposalSubcontractor-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Proposal Subcontractor Inquiry</title>
+  <bean id="ProposalSubcontractor-proposalNumber" parent="ProposalSubcontractor-proposalNumber-parentBean" />
 
-            <inquirySections>
-				<inquirySection title="Proposal Subcontractor Details">
-					<inquiryFields>
-						<field attributeName="proposalNumber" />
-		                <field attributeName="proposalSubcontractorAmount" />
-			            <field attributeName="proposalSubcontractorNumber" />
-			            <field attributeName="subcontractorNumber" />
-			        </inquiryFields>
-				</inquirySection>
-			</inquirySections>
-        </inquiry>
+  <bean id="ProposalSubcontractor-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+  </bean>
+  <bean id="ProposalSubcontractor-subcontractorNumber" parent="ProposalSubcontractor-subcontractorNumber-parentBean" />
 
-        <lookup>
-            <title>Proposal Subcontractor Lookup</title>
+  <bean id="ProposalSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  </bean>
+  <bean id="ProposalSubcontractor-proposalSubcontractorAmount" parent="ProposalSubcontractor-proposalSubcontractorAmount-parentBean" />
 
-            <instructions>Look up a Proposal Subcontractor</instructions>
+  <bean id="ProposalSubcontractor-proposalSubcontractorAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="proposalSubcontractorAmount" />
+    <property name="description" value="Proposal Subcontractor Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="ProposalSubcontractor-proposalSubcontractorNumber" parent="ProposalSubcontractor-proposalSubcontractorNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="proposalSubcontractorNumber" />
-                    <sortAttribute attributeName="proposalNumber" />
-                    <sortAttribute attributeName="subcontractorNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ProposalSubcontractor-proposalSubcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalSubcontractorNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Proposal Subcontractor Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ProposalSubcontractor-proposalSubcontractorDescription" parent="ProposalSubcontractor-proposalSubcontractorDescription-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="proposalSubcontractorAmount" required="false" />
-                <lookupField attributeName="proposalSubcontractorNumber" required="false" />
-                <lookupField attributeName="subcontractorNumber" required="false" />
-            </lookupFields>
+  <bean id="ProposalSubcontractor-proposalSubcontractorDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalSubcontractorDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true"
+            p:maxLength="30" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="ProposalSubcontractor-subcontractor.subcontractorName" parent="ProposalSubcontractor-subcontractor.subcontractorName-parentBean" />
 
-            <resultFields>
-                <field attributeName="proposalNumber" />
-                <field attributeName="proposalSubcontractorAmount" />
-                <field attributeName="proposalSubcontractorNumber" />
-                <field attributeName="subcontractorNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="ProposalSubcontractor-subcontractor.subcontractorName-parentBean" abstract="true" parent="Subcontractor-subcontractorName">
+    <property name="name" value="subcontractor.subcontractorName" />
+    <property name="label" value="Name" />
+  </bean>
+  <bean id="ProposalSubcontractor-newCollectionRecord" parent="ProposalSubcontractor-newCollectionRecord-parentBean" />
 
-        <attributes>
+  <bean id="ProposalSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="ProposalSubcontractor-versionNumber" parent="ProposalSubcontractor-versionNumber-parentBean" />
 
-            <attributeReference name="proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
+  <bean id="ProposalSubcontractor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			<attributeReference name="subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber"/>
-
-			<attributeReference name="proposalSubcontractorAmount"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-				<description>Proposal Subcontractor Amount</description>
-				
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>				
-
-            <attribute name="proposalSubcontractorNumber" forceUppercase="true">
-                <label>Proposal Subcontractor Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-				<control>
-                    <text size="4" />
-                </control>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-			<attribute name="proposalSubcontractorDescription">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="ProposalSubcontractor-inquiryDefinition" parent="ProposalSubcontractor-inquiryDefinition-parentBean" />
 
-                <maxLength>30</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" maxLength="30"/>
-                </validationPattern>
+  <bean id="ProposalSubcontractor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Subcontractor Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Subcontractor Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalSubcontractorAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalSubcontractorNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="30" />
-                </control>
-            </attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName">
-                <label>Name</label>
-            </attributeReference>
 
-            <attributeReference name="newCollectionRecord"
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
-                                
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="ProposalSubcontractor-lookupDefinition" parent="ProposalSubcontractor-lookupDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ProposalSubcontractor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Subcontractor Lookup" />
+    <property name="instructions" value="Look up a Proposal Subcontractor" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalSubcontractorAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalSubcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalSubcontractorAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalSubcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,76 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.ObjectCons</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.chart.rules.ObjectConsRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+  <bean id="ObjectConsMaintenanceDocument" parent="ObjectConsMaintenanceDocument-parentBean" />
 
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ObjectConsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCons" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ObjectConsMaintenanceDocument-ObjectConsolidation" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>finConsolidationObjectCode</value>
+      </list>
+    </property>
+    <property name="label" value="Object Consolidation" />
+    <property name="shortLabel" value="Object Consolidation" />
+    <property name="summary" value="Object Consolidation Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="OBJECT_CONSOLIDATION"
+            p:parameterDetailType="ObjectCons" />
+    </property>
+    <property name="documentTypeName" value="ObjectConsMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectConsRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="OBJC" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/ObjectCodeService.js</value>
+        <value>../scripts/chart/objConsDocument.js</value>
+      </list>
+    </property>
+    <property name="workflowProperties" >
+      <ref bean="ObjectConsMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ObjectConsMaintenanceDocument</documentTypeName>
-        <documentTypeCode>OBJC</documentTypeCode>
-        
-        <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
-        <webScriptFile>../scripts/chart/objConsDocument.js</webScriptFile>
-        
-        <label>Object Consolidation</label>
-        <summary>Object Consolidation Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectCons" parameterName="OBJECT_CONSOLIDATION" />
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="finConsolidationObjectCode" />
-        </lockingKeys>
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
-        </defaultExistenceChecks>
+  <bean id="ObjectConsMaintenanceDocument-ObjectConsolidation" parent="ObjectConsMaintenanceDocument-ObjectConsolidation-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Object Consolidation">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="finConsolidationObjectCode" required="true" />
-                    <maintainableField name="finConsolidationObjShortName" required="true" />
-                    <maintainableField name="finConsolidationObjectName" required="true" />
-                    <maintainableField name="finConsolidationObjActiveIndicator" >
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="financialEliminationsObjectCode" webUILeaveFieldFunction="updateObjectName" />
-                    <maintainableField name="financialEliminationsObject.financialObjectCodeName" required="true" readOnly="true" />
-                    <maintainableField name="financialReportingSortCode" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ObjectConsMaintenanceDocument-ObjectConsolidation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Object Consolidation" />
+    <property name="title" value="Object Consolidation" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finConsolidationObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finConsolidationObjShortName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finConsolidationObjectName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finConsolidationObjActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialEliminationsObjectCode"
+              p:webUILeaveFieldFunction="updateObjectName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialEliminationsObject.financialObjectCodeName"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialReportingSortCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ObjectConsMaintenanceDocument-workflowProperties" parent="ObjectConsMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ObjectConsMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

@@ -1,106 +1,147 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorCustomerNumber">
-	<lookup>
-            <lookupableID>vendorCustomerNumberLookupable</lookupableID>
-            
-            <title>Vendor Customer Number Lookup</title>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-            <instructions>Lookup an Vendor Customer Number</instructions>
+  <bean id="VendorCustomerNumber" parent="VendorCustomerNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorCustomerNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorCustomerNumber-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorCustomerNumber" />
+    <property name="lookupDefinition" >
+      <ref bean="VendorCustomerNumber-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorCustomerNumber-vendorCustomerNumber" />
+        <ref bean="VendorCustomerNumber-chartOfAccountsCode" />
+        <ref bean="VendorCustomerNumber-vendorOrganizationCode" />
+        <ref bean="VendorCustomerNumber-vendorCustomerNumberGeneratedIdentifier" />
+        <ref bean="VendorCustomerNumber-newCollectionRecord" />
+        <ref bean="VendorCustomerNumber-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorCustomerNumber-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorCustomerNumber-versionNumber" />
+        <ref bean="VendorCustomerNumber-active" />
+      </list>
+    </property>
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="true" />
-                <lookupField attributeName="vendorDetailAssignedIdentifier" required="true" />
-                <lookupField attributeName="vendorCustomerNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="vendorOrganizationCode" required="false" />
-                <lookupField attributeName="active" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField> 
-            </lookupFields>
+<!-- Attribute Definitions -->
 
-            <resultFields>
-                <field attributeName="vendorCustomerNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="vendorOrganizationCode" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>	
-        <attributes>
-            <attribute name="vendorCustomerNumber" forceUppercase="false">
-                <label>Customer Number</label>
-                <shortLabel>Customer #</shortLabel>
 
-                <maxLength>30</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="VendorCustomerNumber-vendorCustomerNumber" parent="VendorCustomerNumber-vendorCustomerNumber-parentBean" />
 
-                <control>
-                    <text size="32" />
-                </control>
+  <bean id="VendorCustomerNumber-vendorCustomerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorCustomerNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Customer Number" />
+    <property name="shortLabel" value="Customer #" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
+  <bean id="VendorCustomerNumber-chartOfAccountsCode" parent="VendorCustomerNumber-chartOfAccountsCode-parentBean" />
 
-            </attribute>
+  <bean id="VendorCustomerNumber-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorCustomerNumber-vendorOrganizationCode" parent="VendorCustomerNumber-vendorOrganizationCode-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
+  <bean id="VendorCustomerNumber-vendorOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="vendorOrganizationCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="VendorCustomerNumber-vendorCustomerNumberGeneratedIdentifier" parent="VendorCustomerNumber-vendorCustomerNumberGeneratedIdentifier-parentBean" />
 
-            <attributeReference name="vendorOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode" >
-                <required>false</required>
-            </attributeReference>
+  <bean id="VendorCustomerNumber-vendorCustomerNumberGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorCustomerNumberGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Number Id" />
+    <property name="shortLabel" value="Customer # ID" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorCustomerNumber-newCollectionRecord" parent="VendorCustomerNumber-newCollectionRecord-parentBean" />
 
-            <attribute name="vendorCustomerNumberGeneratedIdentifier" forceUppercase="true">
-                <label>Customer Number Id</label>
-                <shortLabel>Customer # ID</shortLabel>
+  <bean id="VendorCustomerNumber-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorCustomerNumber-vendorHeaderGeneratedIdentifier" parent="VendorCustomerNumber-vendorHeaderGeneratedIdentifier-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
+  <bean id="VendorCustomerNumber-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="VendorCustomerNumber-vendorDetailAssignedIdentifier" parent="VendorCustomerNumber-vendorDetailAssignedIdentifier-parentBean" />
 
-                <control>
-                    <hidden />
-                </control>
+  <bean id="VendorCustomerNumber-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorCustomerNumber-versionNumber" parent="VendorCustomerNumber-versionNumber-parentBean" />
 
-            </attribute>
-            
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
+  <bean id="VendorCustomerNumber-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorCustomerNumber-active" parent="VendorCustomerNumber-active-parentBean" />
 
-            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorCustomerNumber-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="VendorCustomerNumber-lookupDefinition" parent="VendorCustomerNumber-lookupDefinition-parentBean" />
+
+  <bean id="VendorCustomerNumber-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Customer Number Lookup" />
+    <property name="lookupableID" value="vendorCustomerNumberLookupable" />
+    <property name="instructions" value="Lookup an Vendor Customer Number" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCustomerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorOrganizationCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCustomerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorOrganizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

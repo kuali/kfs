@@ -1,88 +1,151 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "../../../../../../../../rice/kns/src/main/resources/org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.effort.bo.OutstandingCertificationsByReport">
-       <lookup>
-       		<lookupableID>outstandingCertificationsByReportLookupable</lookupableID> 
-            <title>Outstanding Certifications By Report</title>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-            <instructions>Find Outstanding Reports</instructions>
+  <bean id="OutstandingCertificationsByReport" parent="OutstandingCertificationsByReport-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="effortCertificationReportNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="OutstandingCertificationsByReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.OutstandingCertificationsByReport" />
+    <property name="lookupDefinition" >
+      <ref bean="OutstandingCertificationsByReport-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="OutstandingCertificationsByReport-universityFiscalYear" />
+        <ref bean="OutstandingCertificationsByReport-effortCertificationReportNumber" />
+        <ref bean="OutstandingCertificationsByReport-chartOfAccountsCode" />
+        <ref bean="OutstandingCertificationsByReport-organizationCode" />
+        <ref bean="OutstandingCertificationsByReport-outstandingCertificationCount" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="options" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="universityFiscalYear"
+                    p:targetName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="effortCertificationReportDefinition" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="effortCertificationReportNumber"
+                    p:targetName="effortCertificationReportNumber" />
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="universityFiscalYear"
+                    p:targetName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="chart" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="chartOfAccountsCode"
+                    p:targetName="chartOfAccountsCode" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organization" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationCode"
+                    p:targetName="organizationCode" />
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="chartOfAccountsCode"
+                    p:targetName="chartOfAccountsCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <lookupFields>
-            	<lookupField attributeName="universityFiscalYear" required="true" />
-                <lookupField attributeName="effortCertificationReportNumber" />
-            </lookupFields>
+<!-- Attribute Definitions -->
 
-            <resultFields>
-            	<field attributeName="universityFiscalYear" />
-            	<field attributeName="effortCertificationReportNumber" />
-            	<field attributeName="chartOfAccountsCode" /> 
-				<field attributeName="organizationCode" /> 
-				<field attributeName="outstandingCertificationCount" /> 
-            </resultFields>
-        </lookup>
 
-        <attributes>
-			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-			
-			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
-            
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
-			
-			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode" />
-			
-			<attribute name="outstandingCertificationCount" forceUppercase="true">
-                <label>Number of Outstanding Certifications</label>
-                <shortLabel>count</shortLabel>
+  <bean id="OutstandingCertificationsByReport-universityFiscalYear" parent="OutstandingCertificationsByReport-universityFiscalYear-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="OutstandingCertificationsByReport-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="OutstandingCertificationsByReport-effortCertificationReportNumber" parent="OutstandingCertificationsByReport-effortCertificationReportNumber-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="OutstandingCertificationsByReport-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
+  </bean>
+  <bean id="OutstandingCertificationsByReport-chartOfAccountsCode" parent="OutstandingCertificationsByReport-chartOfAccountsCode-parentBean" />
 
-                <summary>Number of Outstanding Certifications</summary>
-                <description>Number of Outstanding Certifications</description>
-			</attribute>
-			
-        </attributes>
-          <relationships>
-            <relationship objectAttributeName="options" >
-				<primitiveAttribute sourceName="universityFiscalYear" targetName="universityFiscalYear" />
-            </relationship>
-            <relationship objectAttributeName="effortCertificationReportDefinition" >
-				<primitiveAttribute sourceName="effortCertificationReportNumber" targetName="effortCertificationReportNumber" />
-				<primitiveAttribute sourceName="universityFiscalYear" targetName="universityFiscalYear" />
-            </relationship>
-            <relationship objectAttributeName="chart" >
-				<primitiveAttribute sourceName="chartOfAccountsCode" targetName="chartOfAccountsCode" />
-            </relationship>
-            <relationship objectAttributeName="organization" >
-				<primitiveAttribute sourceName="organizationCode" targetName="organizationCode" />
-				<primitiveAttribute sourceName="chartOfAccountsCode" targetName="chartOfAccountsCode" />
-            </relationship>
-	    </relationships>   
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OutstandingCertificationsByReport-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OutstandingCertificationsByReport-organizationCode" parent="OutstandingCertificationsByReport-organizationCode-parentBean" />
+
+  <bean id="OutstandingCertificationsByReport-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="OutstandingCertificationsByReport-outstandingCertificationCount" parent="OutstandingCertificationsByReport-outstandingCertificationCount-parentBean" />
+
+  <bean id="OutstandingCertificationsByReport-outstandingCertificationCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="outstandingCertificationCount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Number of Outstanding Certifications" />
+    <property name="shortLabel" value="count" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Number of Outstanding Certifications" />
+    <property name="description" value="Number of Outstanding Certifications" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OutstandingCertificationsByReport-lookupDefinition" parent="OutstandingCertificationsByReport-lookupDefinition-parentBean" />
+
+  <bean id="OutstandingCertificationsByReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Outstanding Certifications By Report" />
+    <property name="lookupableID" value="outstandingCertificationsByReportLookupable" />
+    <property name="instructions" value="Find Outstanding Reports" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="outstandingCertificationCount" />
+      </list>
+    </property>
+  </bean>
+</beans>

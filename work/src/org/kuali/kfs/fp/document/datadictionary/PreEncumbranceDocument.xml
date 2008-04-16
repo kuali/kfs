@@ -1,71 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.financial.document.PreEncumbranceDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.PreEncumbranceDocumentRule</businessRulesClass>
+  <bean id="PreEncumbranceDocument" parent="PreEncumbranceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PreEncumbranceDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="allowsErrorCorrection" value="true" />
+    <property name="label" value="Pre-Encumbrance" />
+    <property name="shortLabel" value="Pre-Encumbrance" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Pre-Encumbrance (PE) document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="PRE_ENCUMBRANCE"
+            p:parameterDetailType="PreEncumbrance" />
+    </property>
+    <property name="documentTypeName" value="PreEncumbranceDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.PreEncumbranceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.PreEncumbranceDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PE" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="PreEncumbranceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PreEncumbranceDocument-reversalDate" />
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>PreEncumbranceDocument</documentTypeName>
-        <documentTypeCode>PE</documentTypeCode>
+<!-- Attribute Definitions -->
 
-        <label>Pre-Encumbrance</label>
 
-        <attributes>
-            <attributeReference name="reversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Reversal Date</label>
-                <shortLabel>Reversal Date</shortLabel>
+  <bean id="PreEncumbranceDocument-reversalDate" parent="PreEncumbranceDocument-reversalDate-parentBean" />
 
-                <required>false</required>
+  <bean id="PreEncumbranceDocument-reversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="reversalDate" />
+    <property name="label" value="Reversal Date" />
+    <property name="shortLabel" value="Reversal Date" />
+    <property name="required" value="false" />
+    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today&apos;s date. Use the calendar icon to select and format the Reversal Date." />
+  </bean>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date.</description>
-            </attributeReference>
-        </attributes>
+<!-- Exported Workflow Properties -->
 
-        <summary>
-            <![CDATA[&nbsp;]]>
-        </summary>
-        <description>The Pre-Encumbrance (PE) document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made.</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="PreEncumbrance" parameterName="PRE_ENCUMBRANCE" />
-        <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>true</allowsErrorCorrection>
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="documentHeader" />
-        		<workflowProperty path="targetAccountingLines" />
-				<workflowProperty path="sourceAccountingLines" />
-				<workflowProperty path="sourceAccountingLines.account" />
-				<workflowProperty path="targetAccountingLines.account" />
-			</workflowPropertyGroup>
-		</workflowProperties>
-    </transactionalDocument>
-</dictionaryEntry>
+
+  <bean id="PreEncumbranceDocument-workflowProperties" parent="PreEncumbranceDocument-workflowProperties-parentBean" />
+
+  <bean id="PreEncumbranceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines.account" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

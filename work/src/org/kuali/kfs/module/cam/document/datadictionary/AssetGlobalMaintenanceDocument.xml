@@ -1,168 +1,309 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.AssetGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.cams.maintenance.AssetGlobalMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+  <bean id="AssetGlobalMaintenanceDocument" parent="AssetGlobalMaintenanceDocument-parentBean" />
 
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AssetGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.cams.maintenance.AssetGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AssetGlobalMaintenanceDocument-AssetDetailInformation" />
+        <ref bean="AssetGlobalMaintenanceDocument-CampusLocation" />
+        <ref bean="AssetGlobalMaintenanceDocument-AddPayments" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="assetHeader.organizationOwnerChartOfAccounts"
+              p:attributeToHighlightOnFail="assetHeader.organizationOwnerChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="assetHeader.organizationOwnerAccount"
+              p:attributeToHighlightOnFail="assetHeader.organizationOwnerAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="assetCondition"
+              p:attributeToHighlightOnFail="conditionCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="capitalAssetType"
+              p:attributeToHighlightOnFail="capitalAssetTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Asset Global" />
+    <property name="shortLabel" value="Asset Global" />
+    <property name="summary" value="Global Asset Maintenance Document" />
+    <property name="description" value="Document used to create or update global asset document." />
+    <property name="documentTypeName" value="AssetGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="GAA" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/cams/assetGlobalMaintenanceDocument.js</value>
+      </list>
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>AssetGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>GAA</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
-        <webScriptFile>../scripts/cams/assetGlobalMaintenanceDocument.js</webScriptFile>
 
-        <label>Asset Global</label>
+  <bean id="AssetGlobalMaintenanceDocument-AssetDetailInformation" parent="AssetGlobalMaintenanceDocument-AssetDetailInformation-parentBean" />
 
-        <summary>Global Asset Maintenance Document</summary>
-        <description>Document used to create or update global asset document.</description>
+  <bean id="AssetGlobalMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Asset Detail Information" />
+    <property name="title" value="Asset Detail Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.organizationOwnerChartOfAccountsCode"
+              p:required="true"
+              p:webUILeaveFieldFunction="accountNameLookup" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.organizationOwnerAccountNumber"
+              p:required="true"
+              p:webUILeaveFieldFunction="accountNameLookup" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.agencyNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="acquisitionTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="inventoryStatusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="conditionCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="manufacturerName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="manufacturerModelNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationText" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.representativeUniversalIdentifier"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.assetRepresentative.personUserIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.assetRepresentative.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lastInventoryDate"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="createDate"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetInServiceDate"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetDepreciationDate"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="landCountyName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="landAcreageSize" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="landParcelNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentNextLineNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetHeader.versionNumber"
+              p:readOnly="true" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AssetGlobalMaintenanceDocument-CampusLocation" parent="AssetGlobalMaintenanceDocument-CampusLocation-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
+  <bean id="AssetGlobalMaintenanceDocument-CampusLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Campus Location" />
+    <property name="title" value="Campus Location" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="assetGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetGlobalDetail" />
+          <property name="summaryTitle" value="Asset Location" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="campusCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingRoomNumber"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingSubRoomNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusName"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusAddress"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusCityName"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusStateCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusZipCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusCountryCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+          <property name="maintainableCollections" >
+            <list>
+              <bean parent="MaintainableCollectionDefinition">
+                <property name="name" value="assetGlobalUniqueDetails" />
+                <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetGlobalDetail" />
+                <property name="summaryTitle" value="Asset Unique Information" />
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="serialNumber" />
+                  </list>
+                </property>
+                <property name="maintainableFields" >
+                  <list>
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="serialNumber" />
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="organizationInventoryName" />
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="organizationAssetTypeIdentifier" />
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="governmentTagNumber" />
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="campusTagNumber" />
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="nationalStockNumber" />
+                    <bean parent="MaintainableFieldDefinition"
+                          p:name="versionNumber" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="AssetGlobalMaintenanceDocument-AddPayments" parent="AssetGlobalMaintenanceDocument-AddPayments-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="assetHeader.organizationOwnerChartOfAccounts" attributeToHighlightOnFail="assetHeader.organizationOwnerChartOfAccountsCode" />
-            <reference attributeName="assetHeader.organizationOwnerAccount" attributeToHighlightOnFail="assetHeader.organizationOwnerAccountNumber" />
-            <!-- <reference attributeName="assetHeader.agency" attributeToHighlightOnFail="assetHeader.agencyNumber" /> -->
-            <reference attributeName="assetCondition" attributeToHighlightOnFail="conditionCode" />
-            <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
-        </defaultExistenceChecks>
- 
-        <maintainableSections>
-        
-            <maintainableSection title="Asset Detail Information">
-                <maintainableItems>
-					<maintainableField name="assetHeader.organizationOwnerChartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup" />
-					<maintainableField name="assetHeader.organizationOwnerAccountNumber" required="true" webUILeaveFieldFunction="accountNameLookup" />
-					<!-- org. owner -->
-					
-					<maintainableField name="assetHeader.agencyNumber" required="true" />
-					<maintainableField name="acquisitionTypeCode" required="true" />
-					<maintainableField name="inventoryStatusCode" required="true" />
-					<maintainableField name="conditionCode" required="true" />
-					<maintainableField name="capitalAssetDescription" required="true" />
-					<maintainableField name="capitalAssetTypeCode" required="true" />
-					<maintainableField name="vendorName" required="true" />
-					<maintainableField name="manufacturerName" required="true" />
-					<maintainableField name="manufacturerModelNumber" />
-					<maintainableField name="organizationText" />
-					<maintainableField name="assetHeader.representativeUniversalIdentifier" required="false" readOnly="true"/>
-					<maintainableField name="assetHeader.assetRepresentative.personUserIdentifier" required="false"/>
-					<maintainableField name="assetHeader.assetRepresentative.personName" required="false" readOnly="true"/>
-					<maintainableField name="lastInventoryDate" required="true">
-                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                    </maintainableField>
-					<maintainableField name="createDate" required="true">
-                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                    </maintainableField>
-					<maintainableField name="capitalAssetInServiceDate" required="false" readOnly="true"/>
-					<maintainableField name="capitalAssetDepreciationDate" readOnly="true"/>
-					<maintainableField name="landCountyName" required="false" />
- 				    <maintainableField name="landAcreageSize" required="false" />
-				    <maintainableField name="landParcelNumber" required="false" />
-	                <maintainableField name="versionNumber" required="false" />	
-	                <maintainableField name="financialDocumentNextLineNumber" required="false" />
-	                				
-                    <!-- TODO following is temporary fix to avoid OJB ver# exception -->
-	                <maintainableField name="assetHeader.versionNumber" required="false" readOnly="true"/>
-				</maintainableItems>
-            </maintainableSection>
-
-            <maintainableSection title="Campus Location">
-                <maintainableItems>
-               
-                   	   <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" summaryTitle="Asset Location">
-
-						<!-- <subSectionHeader name="On Campus" /> -->
-						<maintainableField name="capitalAssetNumber" required="false" readOnly="true"/>
-                        <maintainableField name="campusCode" required="true" />
-                        <maintainableField name="buildingCode" required="true" />
-                        <maintainableField name="buildingRoomNumber" required="true" />
-                        <maintainableField name="buildingSubRoomNumber" required="false" />
-						<!-- <subSectionHeader name="Off Campus" /> -->
-						<maintainableField name="offCampusName" required="true" />
-                        <maintainableField name="offCampusAddress" required="true" />
-                        <maintainableField name="offCampusCityName" required="true" />
-                        <maintainableField name="offCampusStateCode" required="true" />
-                        <maintainableField name="offCampusZipCode" required="true" />
-                        <maintainableField name="offCampusCountryCode" required="false" />
-                        <!-- maintainableField name="locationQuantity" required="false" /-->
-	                    <maintainableField name="versionNumber" required="false" />					
-                        <maintainableCollection name="assetGlobalUniqueDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" summaryTitle="Asset Unique Information">
-                        	<maintainableField name="serialNumber" required="false" />
-                        	<maintainableField name="organizationInventoryName" required="false" />
-                        	<maintainableField name="organizationAssetTypeIdentifier" required="false" />
-                        	<maintainableField name="governmentTagNumber" required="false" />
-                        	<maintainableField name="campusTagNumber" required="false" />
-                        	<maintainableField name="nationalStockNumber" required="false" />
-                        	<maintainableField name="versionNumber" required="false" />
-                        	<summaryFields >
-                        		<summaryField name="serialNumber" />
-                        	</summaryFields>
-                        </maintainableCollection>
-                        <summaryFields>
-                            <summaryField name="capitalAssetNumber" />
-                        </summaryFields>
-                     </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
-
-            <maintainableSection title="Add Payments">
-                <maintainableItems>
-                    <maintainableCollection name="assetPaymentDetails" businessObjectClass="org.kuali.module.cams.bo.AssetPaymentDetail" summaryTitle="Asset Payment">
-                    	 <maintainableField name="financialDocumentLineNumber" readOnly="true" />
-					    <maintainableField name="chartOfAccountsCode" required="true" />
-					    <maintainableField name="accountNumber" required="true" />
-					    	<!-- display acct name & org. code -->
-					    <maintainableField name="subAccountNumber" required="false" />
-					    <maintainableField name="financialObjectCode" required="true" />
-					    	<!-- display object code name -->
-					    <maintainableField name="financialSubObjectCode" required="false" />
-					    <maintainableField name="projectCode" required="false" />
-					    <maintainableField name="organizationReferenceId" required="false" />
-					    <maintainableField name="expenditureFinancialDocumentNumber" required="true" />
-					    <maintainableField name="expenditureFinancialDocumentTypeCode" required="true" />
-					    <maintainableField name="purchaseOrderNumber" required="false" />
-					    <maintainableField name="requisitionNumber" required="false" />
-					    <maintainableField name="financialDocumentPostingYear" required="true" />
-					    <maintainableField name="financialDocumentPostingPeriodCode" required="true" />
-					    <maintainableField name="accountChargeAmount" required="true" />
-					    <maintainableField name="versionNumber" required="false" />
-					    <summaryFields>
-                            <summaryField name="financialDocumentLineNumber" />
-                        </summaryFields>
-                    </maintainableCollection>
-				</maintainableItems>
-            </maintainableSection>
-
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AssetGlobalMaintenanceDocument-AddPayments-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Add Payments" />
+    <property name="title" value="Add Payments" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="assetPaymentDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetPaymentDetail" />
+          <property name="summaryTitle" value="Asset Payment" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentLineNumber" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentLineNumber"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="subAccountNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialObjectCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialSubObjectCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationReferenceId" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="expenditureFinancialDocumentNumber"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="expenditureFinancialDocumentTypeCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="purchaseOrderNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="requisitionNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentPostingYear"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentPostingPeriodCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountChargeAmount"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

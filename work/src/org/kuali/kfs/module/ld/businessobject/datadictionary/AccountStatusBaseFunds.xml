@@ -1,115 +1,192 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.AccountStatusBaseFunds">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Account Status (Base Funds) Balance Inquiry</title>
+  <bean id="AccountStatusBaseFunds" parent="AccountStatusBaseFunds-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="csfAmount" />
-				
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AccountStatusBaseFunds-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.AccountStatusBaseFunds" />
+    <property name="inquiryDefinition" >
+      <ref bean="AccountStatusBaseFunds-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AccountStatusBaseFunds-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AccountStatusBaseFunds-universityFiscalYear" />
+        <ref bean="AccountStatusBaseFunds-subAccountNumber" />
+        <ref bean="AccountStatusBaseFunds-accountNumber" />
+        <ref bean="AccountStatusBaseFunds-chartOfAccountsCode" />
+        <ref bean="AccountStatusBaseFunds-financialBalanceTypeCode" />
+        <ref bean="AccountStatusBaseFunds-financialObjectCode" />
+        <ref bean="AccountStatusBaseFunds-financialObjectTypeCode" />
+        <ref bean="AccountStatusBaseFunds-financialSubObjectCode" />
+        <ref bean="AccountStatusBaseFunds-versionNumber" />
+        <ref bean="AccountStatusBaseFunds-csfAmount" />
+        <ref bean="AccountStatusBaseFunds-baseCSFVarianceAmount" />
+        <ref bean="AccountStatusBaseFunds-baseBudgetAmount" />
+        <ref bean="AccountStatusBaseFunds-dummyBusinessObject.consolidationOption" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-	        <lookupableID>BaseFundsLookupable</lookupableID>	        
-            <title>Account Status (Base Funds) Balance Inquiry</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Look up a Account Base Funds Ledger Balance</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="subAccountNumber" />
-                    <sortAttribute attributeName="financialObjectCode" />
-                    <sortAttribute attributeName="financialSubObjectCode" />
-                    <sortAttribute attributeName="baseBudgetAmount" />
-                    <sortAttribute attributeName="csfAmount" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="AccountStatusBaseFunds-universityFiscalYear" parent="AccountStatusBaseFunds-universityFiscalYear-parentBean" />
 
-            <lookupFields>
-			    <lookupField attributeName="universityFiscalYear" required="true">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="chartOfAccountsCode" required="true" />
-                <lookupField attributeName="accountNumber" required="true" />
-                <lookupField attributeName="subAccountNumber" required="false" />				
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="dummyBusinessObject.consolidationOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
-                </lookupField>				
-            </lookupFields>
+  <bean id="AccountStatusBaseFunds-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+  </bean>
+  <bean id="AccountStatusBaseFunds-subAccountNumber" parent="AccountStatusBaseFunds-subAccountNumber-parentBean" />
 
-            <resultFields>
-            	<field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />				
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="baseBudgetAmount" />   
-                <field attributeName="csfAmount" />
-                <field attributeName="baseCSFVarianceAmount" />
-            </resultFields>
-        </lookup>
+  <bean id="AccountStatusBaseFunds-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="AccountStatusBaseFunds-accountNumber" parent="AccountStatusBaseFunds-accountNumber-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-            </attributeReference>
-			
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" >
-                <required>true</required>
-            </attributeReference>
-            
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
+  <bean id="AccountStatusBaseFunds-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="AccountStatusBaseFunds-chartOfAccountsCode" parent="AccountStatusBaseFunds-chartOfAccountsCode-parentBean" />
 
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
-			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
+  <bean id="AccountStatusBaseFunds-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="AccountStatusBaseFunds-financialBalanceTypeCode" parent="AccountStatusBaseFunds-financialBalanceTypeCode-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AccountStatusBaseFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="financialBalanceTypeCode" />
+  </bean>
+  <bean id="AccountStatusBaseFunds-financialObjectCode" parent="AccountStatusBaseFunds-financialObjectCode-parentBean" />
 
-            <attributeReference name="csfAmount" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount" />			
+  <bean id="AccountStatusBaseFunds-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="AccountStatusBaseFunds-financialObjectTypeCode" parent="AccountStatusBaseFunds-financialObjectTypeCode-parentBean" />
 
-			<attributeReference name="baseCSFVarianceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Base Budget/CSF Variance</label>
-                <shortLabel>Base Budget/CSF Variance</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-            
-			<attributeReference name="baseBudgetAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Adjusted Base Budget Amount</label>
-                <shortLabel>Base Budget</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>            
+  <bean id="AccountStatusBaseFunds-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="financialObjectTypeCode" />
+  </bean>
+  <bean id="AccountStatusBaseFunds-financialSubObjectCode" parent="AccountStatusBaseFunds-financialSubObjectCode-parentBean" />
 
-            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption"/>
+  <bean id="AccountStatusBaseFunds-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  </bean>
+  <bean id="AccountStatusBaseFunds-versionNumber" parent="AccountStatusBaseFunds-versionNumber-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AccountStatusBaseFunds-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="AccountStatusBaseFunds-csfAmount" parent="AccountStatusBaseFunds-csfAmount-parentBean" />
+
+  <bean id="AccountStatusBaseFunds-csfAmount-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfAmount">
+  </bean>
+  <bean id="AccountStatusBaseFunds-baseCSFVarianceAmount" parent="AccountStatusBaseFunds-baseCSFVarianceAmount-parentBean" />
+
+  <bean id="AccountStatusBaseFunds-baseCSFVarianceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="baseCSFVarianceAmount" />
+    <property name="label" value="Base Budget/CSF Variance" />
+    <property name="shortLabel" value="Base Budget/CSF Variance" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AccountStatusBaseFunds-baseBudgetAmount" parent="AccountStatusBaseFunds-baseBudgetAmount-parentBean" />
+
+  <bean id="AccountStatusBaseFunds-baseBudgetAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="baseBudgetAmount" />
+    <property name="label" value="Adjusted Base Budget Amount" />
+    <property name="shortLabel" value="Base Budget" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AccountStatusBaseFunds-dummyBusinessObject.consolidationOption" parent="AccountStatusBaseFunds-dummyBusinessObject.consolidationOption-parentBean" />
+
+  <bean id="AccountStatusBaseFunds-dummyBusinessObject.consolidationOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-consolidationOption">
+    <property name="name" value="dummyBusinessObject.consolidationOption" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AccountStatusBaseFunds-inquiryDefinition" parent="AccountStatusBaseFunds-inquiryDefinition-parentBean" />
+
+  <bean id="AccountStatusBaseFunds-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Account Status (Base Funds) Balance Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfAmount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AccountStatusBaseFunds-lookupDefinition" parent="AccountStatusBaseFunds-lookupDefinition-parentBean" />
+
+  <bean id="AccountStatusBaseFunds-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Account Status (Base Funds) Balance Inquiry" />
+    <property name="lookupableID" value="BaseFundsLookupable" />
+    <property name="instructions" value="Look up a Account Base Funds Ledger Balance" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="universityFiscalYear"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.consolidationOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseBudgetAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCSFVarianceAmount" />
+      </list>
+    </property>
+  </bean>
+</beans>

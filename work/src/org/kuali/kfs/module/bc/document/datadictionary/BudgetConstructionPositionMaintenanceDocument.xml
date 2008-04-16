@@ -1,87 +1,134 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.budget.bo.BudgetConstructionPosition</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <preRulesCheckClass>org.kuali.module.budget.rules.BudgetConstructionPositionPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="BudgetConstructionPositionMaintenanceDocument" parent="BudgetConstructionPositionMaintenanceDocument-parentBean" />
 
-        <documentTypeName>BudgetConstructionPositionMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BCPS</documentTypeCode>
+  <bean id="BudgetConstructionPositionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionPosition" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="BudgetConstructionPositionMaintenanceDocument-EditBCPosition" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>positionNumber</value>
+        <value>universityFiscalYear</value>
+      </list>
+    </property>
+    <property name="label" value="Budget Construction Position" />
+    <property name="shortLabel" value="BC - BC Position Maint Doc" />
+    <property name="summary" value="Budget Construction Position Maintenance Document" />
+    <property name="description" value="Document used to create or update Budget Construction Position Maintenance Document objects" />
+    <property name="documentTypeName" value="BudgetConstructionPositionMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.budget.rules.BudgetConstructionPositionPreRules" />
+    <property name="documentTypeCode" value="BCPS" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/BudgetConstructionPosition.js</value>
+        <value>../scripts/budget/budgetConstructionPositionDocument.js</value>
+      </list>
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-       
-        <webScriptFile>../dwr/interface/BudgetConstructionPosition.js</webScriptFile>
-        <webScriptFile>../scripts/budget/budgetConstructionPositionDocument.js</webScriptFile>
-        
-        <label>Budget Construction Position</label>
-        <shortLabel>BC - BC Position Maint Doc</shortLabel>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Budget Construction Position Maintenance Document</summary>
-        <description>Document used to create or update Budget Construction Position Maintenance Document objects</description>
 
-        <lockingKeys>
-            <field attributeName="positionNumber" />
-            <field attributeName="universityFiscalYear" />
-        </lockingKeys>
+  <bean id="BudgetConstructionPositionMaintenanceDocument-EditBCPosition" parent="BudgetConstructionPositionMaintenanceDocument-EditBCPosition-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit BC Position">
-                <maintainableItems>
-                    <maintainableField name="positionNumber" required="true" />
-                    <maintainableField name="positionDescription" required="true"/>
-                    <maintainableField name="universityFiscalYear" required="true" />
-	            	<maintainableField name="positionEffectiveDate" required="false"/>
-	            	<maintainableField name="positionEffectiveStatus" required="true"/>
-	            	<maintainableField name="positionStatus" required="false"/>
-	            	<maintainableField name="setidDepartment" required="false"/>
-	            	<maintainableField name="positionDepartmentIdentifier" required="true"/>
-	            	<maintainableField name="jobCode" required="false"/>
-	            	<maintainableField name="jobCodeDescription" required="false"/>
-	            	<maintainableField name="budgetedPosition" required="true"/>
-	            	<maintainableField name="confidentialPosition" required="false"/>
-	            	<maintainableField name="positionUnionCode" required="false"/>
-	            	<maintainableField name="positionRegularTemporary" required="false"/>	            	
-	            	<maintainableField name="positionStandardHoursDefault" required="true" webUILeaveFieldFunction="updateBCPositionFTE"/>
-	            	<maintainableField name="iuNormalWorkMonths" required="true" webUILeaveFieldFunction="updateBCPositionFTE"/>
-	            	<maintainableField name="iuPayMonths" required="true" webUILeaveFieldFunction="updateBCPositionFTE"  />
-	            	<maintainableField name="positionFullTimeEquivalency" required="false" readOnly="true" />
-	            	<maintainableField name="positionSalaryPlanDefault" required="true"/>
-	            	<maintainableField name="positionGradeDefault" required="true"/>
-	            	<maintainableField name="responsibilityCenterCode" required="true"/>
-	            	<maintainableField name="setidSalary" required="false"/>
-	            	<maintainableField name="setidJobCode" required="false"/>
-	            	<maintainableField name="iuDefaultObjectCode" required="true"/>
-	            	<maintainableField name="iuPositionType" required="true"/>
-	            	            	
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="BudgetConstructionPositionMaintenanceDocument-EditBCPosition-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit BC Position" />
+    <property name="title" value="Edit BC Position" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionEffectiveDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionEffectiveStatus"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionStatus" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="setidDepartment" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionDepartmentIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="jobCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="jobCodeDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetedPosition"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="confidentialPosition" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionUnionCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionRegularTemporary" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionStandardHoursDefault"
+              p:required="true"
+              p:webUILeaveFieldFunction="updateBCPositionFTE" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="iuNormalWorkMonths"
+              p:required="true"
+              p:webUILeaveFieldFunction="updateBCPositionFTE" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="iuPayMonths"
+              p:required="true"
+              p:webUILeaveFieldFunction="updateBCPositionFTE" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionFullTimeEquivalency"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionSalaryPlanDefault"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionGradeDefault"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="responsibilityCenterCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="setidSalary" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="setidJobCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="iuDefaultObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="iuPositionType"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

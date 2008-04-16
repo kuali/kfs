@@ -1,78 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.UniversityDate">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="UniversityDate" parent="UniversityDate-parentBean" />
+
+  <bean id="UniversityDate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.gl.bo.UniversityDate" />
+    <property name="inquiryDefinition" >
+      <ref bean="UniversityDate-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="UniversityDate-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="University Date" />
+    <property name="attributes" >
+      <list>
+        <ref bean="UniversityDate-universityDate" />
+        <ref bean="UniversityDate-universityFiscalYear" />
+        <ref bean="UniversityDate-universityFiscalAccountingPeriod" />
+        <ref bean="UniversityDate-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>University Date Inquiry</title>
+  <bean id="UniversityDate-universityDate" parent="UniversityDate-universityDate-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityDate" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="universityFiscalAccountingPeriod" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="UniversityDate-universityDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="universityDate" />
+    <property name="label" value="University Date" />
+    <property name="shortLabel" value="Univ Dt" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="UniversityDate-universityFiscalYear" parent="UniversityDate-universityFiscalYear-parentBean" />
 
-        <lookup>
-            <title>University Date Lookup</title>
+  <bean id="UniversityDate-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="UniversityDate-universityFiscalAccountingPeriod" parent="UniversityDate-universityFiscalAccountingPeriod-parentBean" />
 
-            <instructions>Lookup a University Date</instructions>
+  <bean id="UniversityDate-universityFiscalAccountingPeriod-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="UniversityDate-versionNumber" parent="UniversityDate-versionNumber-parentBean" />
 
-            <defaultSort attributeName="universityDate" sortAscending="true" />
-            <lookupFields>
+  <bean id="UniversityDate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <lookupField attributeName="universityDate" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="universityFiscalAccountingPeriod" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="universityDate" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="universityFiscalAccountingPeriod" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="UniversityDate-inquiryDefinition" parent="UniversityDate-inquiryDefinition-parentBean" />
 
-            <attributeReference name="universityDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>University Date</label>
-                <shortLabel>Univ Dt</shortLabel>
-                <required>true</required>
-            </attributeReference>
+  <bean id="UniversityDate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="University Date Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalAccountingPeriod" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-                <required>true</required>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="universityFiscalAccountingPeriod" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
-                <required>true</required>
-            </attributeReference>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="UniversityDate-lookupDefinition" parent="UniversityDate-lookupDefinition-parentBean" />
 
-        </attributes>
-        <objectLabel>University Date</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="UniversityDate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="University Date Lookup" />
+    <property name="instructions" value="Lookup a University Date" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>universityDate</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalAccountingPeriod" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalAccountingPeriod" />
+      </list>
+    </property>
+  </bean>
+</beans>

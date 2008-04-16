@@ -1,147 +1,206 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kfs.bo.PostalZipCode">
+  <bean id="PostalZipCode" parent="PostalZipCode-parentBean" />
+
+  <bean id="PostalZipCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.PostalZipCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="PostalZipCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PostalZipCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="postalZipCode" />
+    <property name="objectLabel" value="Postal Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PostalZipCode-postalZipCode" />
+        <ref bean="PostalZipCode-postalStateCode" />
+        <ref bean="PostalZipCode-postalCityName" />
+        <ref bean="PostalZipCode-buildingCode" />
+        <ref bean="PostalZipCode-buildingRoomNumber" />
+        <ref bean="PostalZipCode-objectId" />
+        <ref bean="PostalZipCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Postal Code Inquiry</title>
+  <bean id="PostalZipCode-postalZipCode" parent="PostalZipCode-postalZipCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="postalZipCode" />
-                <field attributeName="postalStateCode" />
-                <field attributeName="postalCityName" />
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingRoomNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PostalZipCode-postalZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Zip" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="ZipcodeValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="Postal Code" />
+    <property name="description" value="Postal Code either in 5-4 format or just 5 digits" />
+  </bean>
+  <bean id="PostalZipCode-postalStateCode" parent="PostalZipCode-postalStateCode-parentBean" />
 
-        <lookup>
-            <title>Postal Code Lookup</title>
+  <bean id="PostalZipCode-postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="summary" value="State" />
+    <property name="description" value="Postal State Code" />
+  </bean>
+  <bean id="PostalZipCode-postalCityName" parent="PostalZipCode-postalCityName-parentBean" />
 
-            <instructions>Lookup a Postal Code</instructions>
+  <bean id="PostalZipCode-postalCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="City Name" />
+    <property name="shortLabel" value="City Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="35" />
+    </property>
+    <property name="summary" value="City Name" />
+    <property name="description" value="City Name" />
+  </bean>
+  <bean id="PostalZipCode-buildingCode" parent="PostalZipCode-buildingCode-parentBean" />
 
-            <defaultSort attributeName="postalZipCode" sortAscending="true" />
+  <bean id="PostalZipCode-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Code" />
+    <property name="shortLabel" value="Building" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Building Code" />
+    <property name="description" value="Building Code" />
+  </bean>
+  <bean id="PostalZipCode-buildingRoomNumber" parent="PostalZipCode-buildingRoomNumber-parentBean" />
 
-            <lookupFields>
+  <bean id="PostalZipCode-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingRoomNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building Room Number" />
+    <property name="shortLabel" value="Building Room Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Building Room Number" />
+    <property name="description" value="Building Room Number" />
+  </bean>
+  <bean id="PostalZipCode-objectId" parent="PostalZipCode-objectId-parentBean" />
 
-                <lookupField attributeName="postalZipCode" required="false" />
-                <lookupField attributeName="postalStateCode" required="false" />
-                <lookupField attributeName="postalCityName" required="false" />
-                <lookupField attributeName="buildingCode" required="false" />
-                <lookupField attributeName="buildingRoomNumber" required="false" />
-            </lookupFields>
+  <bean id="PostalZipCode-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="PostalZipCode-versionNumber" parent="PostalZipCode-versionNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="postalZipCode" />
-                <field attributeName="postalStateCode" />
-                <field attributeName="postalCityName" />
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingRoomNumber" />
-            </resultFields>
-        </lookup>
-        
-        <titleAttribute>postalZipCode</titleAttribute>
-        
-        <attributes>
+  <bean id="PostalZipCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="postalZipCode" forceUppercase="true">
-                <label>Postal Code</label>
-                <shortLabel>Zip</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>11</maxLength>
-                <validationPattern>
-                    <zipcode />
-                </validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="15" />
-                </control>
+  <bean id="PostalZipCode-inquiryDefinition" parent="PostalZipCode-inquiryDefinition-parentBean" />
 
-                <summary>Postal Code</summary>
-                <description>Postal Code either in 5-4 format or just 5 digits</description>
-            </attribute>
+  <bean id="PostalZipCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Postal Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingRoomNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
-                <label>State</label>
-                <shortLabel>State</shortLabel>
-                <required>true</required>
-                <summary>State</summary>
-                <description>Postal State Code</description>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="postalCityName" forceUppercase="true">
-                <label>City Name</label>
-                <shortLabel>City Name</shortLabel>
 
-                <maxLength>30</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="35" />
-                </control>
+  <bean id="PostalZipCode-lookupDefinition" parent="PostalZipCode-lookupDefinition-parentBean" />
 
-                <summary>City Name</summary>
-                <description>City Name</description>
-            </attribute>
-            <attribute name="buildingCode" forceUppercase="true">
-                <label>Building Code</label>
-                <shortLabel>Building</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Building Code</summary>
-                <description>Building Code</description>
-            </attribute>
-            <attribute name="buildingRoomNumber" forceUppercase="false">
-                <label>Building Room Number</label>
-                <shortLabel>Building Room Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Building Room Number</summary>
-                <description>Building Room Number</description>
-            </attribute>
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Postal Code</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PostalZipCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Postal Code Lookup" />
+    <property name="instructions" value="Lookup a Postal Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>postalZipCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postalZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postalZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

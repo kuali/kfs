@@ -1,83 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant">
+  <bean id="DisbursementVoucherPreConferenceRegistrant" parent="DisbursementVoucherPreConferenceRegistrant-parentBean" />
+
+  <bean id="DisbursementVoucherPreConferenceRegistrant-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant" />
+    <property name="attributes" >
+      <list>
+        <ref bean="DisbursementVoucherPreConferenceRegistrant-dvConferenceRegistrantName" />
+        <ref bean="DisbursementVoucherPreConferenceRegistrant-disbVchrPreConfDepartmentCd" />
+        <ref bean="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber" />
+        <ref bean="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount" />
+        <ref bean="DisbursementVoucherPreConferenceRegistrant-documentNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
+  <bean id="DisbursementVoucherPreConferenceRegistrant-dvConferenceRegistrantName" parent="DisbursementVoucherPreConferenceRegistrant-dvConferenceRegistrantName-parentBean" />
 
-        <attributes>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-dvConferenceRegistrantName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvConferenceRegistrantName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Name" />
+    <property name="shortLabel" value="Nm" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrPreConfDepartmentCd" parent="DisbursementVoucherPreConferenceRegistrant-disbVchrPreConfDepartmentCd-parentBean" />
 
-            <attribute name="dvConferenceRegistrantName">
-                <label>Name</label>
-                <shortLabel>Nm</shortLabel>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrPreConfDepartmentCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPreConfDepartmentCd" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Department Code" />
+    <property name="shortLabel" value="Dep Cd" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber" parent="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber-parentBean" />
 
-                <maxLength>40</maxLength>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvPreConferenceRequestNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Req/Instate" />
+    <property name="shortLabel" value="Req/Instate" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount" parent="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount-parentBean" />
 
-                <required>true</required>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrExpenseAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Amount" />
+    <property name="shortLabel" value="Amt" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber" parent="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" />
 
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPreConfDepartmentCd">
-                <label>Department Code</label>
-                <shortLabel>Dep Cd</shortLabel>
-
-                <maxLength>4</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-
-            <attribute name="dvPreConferenceRequestNumber">
-                <label>Req/Instate</label>
-                <shortLabel>Req/Instate</shortLabel>
-
-                <maxLength>6</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrExpenseAmount">
-                <label>Amount</label>
-                <shortLabel>Amt</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="documentNumber" />
+  </bean>
+</beans>

@@ -1,98 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.CheckBase">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CheckBase" parent="CheckBase-parentBean" />
+
+  <bean id="CheckBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.CheckBase" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CheckBase-checkNumber" />
+        <ref bean="CheckBase-checkDate" />
+        <ref bean="CheckBase-description" />
+        <ref bean="CheckBase-financialDocumentTypeCode" />
+        <ref bean="CheckBase-cashieringRecordSource" />
+        <ref bean="CheckBase-financialDocumentDepositLineNumber" />
+        <ref bean="CheckBase-amount" />
+        <ref bean="CheckBase-sequenceId" />
+        <ref bean="CheckBase-documentNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <attributes>
-            <attribute name="checkNumber" forceUppercase="false">
-                <label>Check/Batch #</label>
-                <shortLabel>Check/Batch #</shortLabel>
+  <bean id="CheckBase-checkNumber" parent="CheckBase-checkNumber-parentBean" />
 
-                <maxLength>10</maxLength>
-                <required>true</required>
+  <bean id="CheckBase-checkNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check/Batch #" />
+    <property name="shortLabel" value="Check/Batch #" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="CheckBase-checkDate" parent="CheckBase-checkDate-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
-            </attribute>
+  <bean id="CheckBase-checkDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="checkDate" />
+    <property name="label" value="Check Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="CheckBase-description" parent="CheckBase-description-parentBean" />
 
-            <attributeReference name="checkDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Check Date</label>
-                <shortLabel>Date</shortLabel>
-                <required>true</required>
-                <control>
-                    <text size="10" />
-                </control>
-            </attributeReference>
+  <bean id="CheckBase-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="CheckBase-financialDocumentTypeCode" parent="CheckBase-financialDocumentTypeCode-parentBean" />
 
-            <attribute name="description" forceUppercase="false">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="CheckBase-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Type Code" />
+    <property name="shortLabel" value="FinDocTypCd" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CheckBase-cashieringRecordSource" parent="CheckBase-cashieringRecordSource-parentBean" />
 
-                <maxLength>40</maxLength>
+  <bean id="CheckBase-cashieringRecordSource-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cashieringRecordSource" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Cashiering Record Source" />
+    <property name="shortLabel" value="CshrgRcdSrc" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CheckBase-financialDocumentDepositLineNumber" parent="CheckBase-financialDocumentDepositLineNumber-parentBean" />
 
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-            
-            <attribute name="financialDocumentTypeCode" forceUppercase="true">
-    			<label>Financial Document Type Code</label>
-                <shortLabel>FinDocTypCd</shortLabel>
+  <bean id="CheckBase-financialDocumentDepositLineNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="financialDocumentDepositLineNumber" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CheckBase-amount" parent="CheckBase-amount-parentBean" />
 
-                <maxLength>4</maxLength>
-                <required>false</required>
+  <bean id="CheckBase-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="amount" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="CheckBase-sequenceId" parent="CheckBase-sequenceId-parentBean" />
 
-                <control>
-                    <hidden />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="cashieringRecordSource" forceUppercase="true">
-    			<label>Cashiering Record Source</label>
-                <shortLabel>CshrgRcdSrc</shortLabel>
+  <bean id="CheckBase-sequenceId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="sequenceId" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="CheckBase-documentNumber" parent="CheckBase-documentNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <required>false</required>
-
-                <control>
-                    <hidden />
-                </control>
-    		</attribute>
-            
-
-            <attributeReference name="financialDocumentDepositLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="sequenceId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="CheckBase-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+</beans>

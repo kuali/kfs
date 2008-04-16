@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
@@ -140,7 +141,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
 
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.budget.document.BudgetDocument.class.getName());
-        this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
+        this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderNavigationList().toArray( new HeaderNavigation[] {} ));
     }
 
     @Override

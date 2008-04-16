@@ -1,1293 +1,2096 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.Asset">
- 
-        <inquiry>
-            <title>Asset Inquiry</title>
-			<inquirableClass>org.kuali.module.cams.web.inquirable.AssetInquirableImpl</inquirableClass>
-			             
-            <inquirySections>
-	            <inquirySection title="Asset Detail Information">
-	                <inquiryFields>
-	                    <field attributeName="capitalAssetNumber" />
-	                    <field attributeName="organizationOwnerChartOfAccountsCode" />
-	                    <field attributeName="organizationOwnerAccountNumber" />
-	                    <field attributeName="organizationOwnerAccount.organizationCode" />
-	                    <field attributeName="agencyNumber" />
-	                    <field attributeName="acquisitionTypeCode" />
-	                    <field attributeName="inventoryStatus.inventoryStatusCode" />
-	                    <field attributeName="conditionCode" />
-	                    <field attributeName="capitalAssetDescription" />
-	                    <field attributeName="capitalAssetTypeCode" />
-	                    <field attributeName="vendorName" />
-	                    <field attributeName="manufacturerName" />
-	                    <field attributeName="manufacturerModelNumber" />
-						<field attributeName="serialNumber" />
-	                    <field attributeName="campusTagNumber" />
-	                    <field attributeName="oldTagNumber" />
-	                    <field attributeName="governmentTagNumber" />
-	                    <field attributeName="nationalStockNumber" />
-	                    <field attributeName="lastInventoryDate" />
-	                    <field attributeName="createDate" />
-	                    <field attributeName="financialDocumentPostingYear" />
-	                    <field attributeName="financialDocumentPostingPeriodCode" />
-	                    <field attributeName="capitalAssetInServiceDate" />
-	                    <field attributeName="totalCostAmount" />
-	                    <field attributeName="federalContribution" />
-	                </inquiryFields>
-	            </inquirySection>
-
-	            <inquirySection title="Asset Location">
-		            <inquiryFields> 
-						<inquirySubSectionHeader name="On Campus" />
-						<field attributeName="campusCode" />
-						<field attributeName="buildingCode" />
-						<field attributeName="buildingRoomNumber" />
-						<field attributeName="buildingSubRoomNumber" />
-						
-						<inquirySubSectionHeader name="Off Campus" />					
-						<field attributeName="offCampusLocation.assetLocationContactName" />
-						<field attributeName="offCampusLocation.assetLocationStreetAddress" />
-						<field attributeName="offCampusLocation.assetLocationCityName" />
-						<field attributeName="offCampusLocation.assetLocationState.postalStateCode" />
-						<field attributeName="offCampusLocation.assetLocationZipCode" />
-						<field attributeName="offCampusLocation.assetLocationCountry.postalCountryName" />
-					</inquiryFields>
-	            </inquirySection>
-	            
-	            <inquirySection title="Organization Information">
-	                <inquiryFields>
-	                	<field attributeName="organizationInventoryName" />
-	                	<field attributeName="representativeUniversalIdentifier" />
-	                	<field attributeName="assetRepresentative.personUserIdentifier" />
-	                	<field attributeName="assetRepresentative.personName" />
-	                	<field attributeName="assetOrganization.organizationText" />
-	                	<field attributeName="assetOrganization.organizationTagNumber" />
-	                	<field attributeName="assetOrganization.organizationAssetTypeIdentifier" />
-	                	<field attributeName="receiveDate" />
-	                	<field attributeName="replacementAmount" />
-	                 </inquiryFields>
-	            </inquirySection>
-	
-	            <inquirySection title="Fabrication Information">
-	                <inquiryFields> 
-	                    <field attributeName="estimatedFabricationCompletionDate" />
-	                    <field attributeName="fabricationEstimatedTotalAmount" />				
-                        <field attributeName="estimatedFabricationLifetimeLimitNumber" />
-	                </inquiryFields>
-	            </inquirySection>
-	
-				<inquirySection title="Land Information">
-					<inquiryFields>
-						<field attributeName="landCountyName" />
-						<field attributeName="landAcreageSize" />
-						<field attributeName="landParcelNumber" />
-					</inquiryFields>
-				</inquirySection>
-
-				<inquirySection title="Payment Information" >
-	                <inquiryFields>
-	                    <inquiryCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" numberOfColumns="2" summaryTitle="Payment">
-	                        <field attributeName="chartOfAccountsCode" />
-	                        <field attributeName="accountNumber" />
-	                        <field attributeName="subAccountNumber" />
-	                        <field attributeName="financialObjectCode" />
-	                        <field attributeName="projectCode" /> 
-	                        <field attributeName="organizationReferenceId" />
-	                        <field attributeName="documentNumber" />
-	                        <field attributeName="financialDocumentTypeCode" />
-	                        <field attributeName="purchaseOrderNumber" />
-	                        <field attributeName="requisitionNumber" />
-	                        <field attributeName="financialDocumentPostingDate" />
-	                        <field attributeName="financialDocumentPostingYear" />
-	                        <field attributeName="financialDocumentPostingPeriodCode" />
-	                        <field attributeName="transferPaymentCode" />
-	                        <field attributeName="accountChargeAmount" />
-	                        <field attributeName="accumulatedPrimaryDepreciationAmount" />
-	                        <field attributeName="yearToDate" />
-	                        <field attributeName="previousYearPrimaryDepreciationAmount" />
-	                        <field attributeName="period1Depreciation1Amount" />
-	                        <field attributeName="period2Depreciation1Amount" />
-	                        <field attributeName="period3Depreciation1Amount" />
-	                        <field attributeName="period4Depreciation1Amount" />
-	                        <field attributeName="period5Depreciation1Amount" />
-	                        <field attributeName="period6Depreciation1Amount" />
-	                        <field attributeName="period7Depreciation1Amount" />
-	                        <field attributeName="period8Depreciation1Amount" />
-	                        <field attributeName="period9Depreciation1Amount" />
-	                        <field attributeName="period10Depreciation1Amount" />
-	                        <field attributeName="period11Depreciation1Amount" />
-	                        <field attributeName="period12Depreciation1Amount" />
-	                        <field attributeName="paymentSequenceNumber" />
-                            <inquirySummaryFields>
-                              <inquirySummaryField attributeName="paymentSequenceNumber" />
-                              <inquirySummaryField attributeName="financialDocumentPostingDate" />
-                              <inquirySummaryField attributeName="accountChargeAmount" />
-                            </inquirySummaryFields>
-	   		            </inquiryCollection>
-		          		<!-- TODO KFSMI-645: adding the following field makes above collection disappear -->
-	                    <!-- field attributeName="paymentTotalCost" / -->
-			        </inquiryFields>
-			    </inquirySection>
-
-	            <inquirySection title="Asset Depreciation Information">
-					 <inquiryFields>
-						<field attributeName="assetPrimaryDepreciationMethod.depreciationMethodCode" />
-						<field attributeName="capitalAssetType.depreciableLifeLimit" />
-						<field attributeName="baseAmount" />
-						<field attributeName="salvageAmount" />					
-						<field attributeName="accumulatedDepreciation" />
-						<field attributeName="bookValue" />
-						<field attributeName="yearToDateDepreciation" />
-						<field attributeName="currentMonthDepreciation" />
-						<field attributeName="prevYearDepreciation" />
-					</inquiryFields>
-				</inquirySection>
-            		
-				<inquirySection title="View Asset Merge History">	
-					    <inquiryFields>
-	                    	<inquiryCollection name="mergeHistory" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" summaryTitle="Source Asset">     
-	                		<field attributeName="capitalAssetNumber" />
-	                		<field attributeName="assetRetirementGlobal.retirementDate" />
-	                		<inquirySummaryFields>
-                              <inquirySummaryField attributeName="capitalAssetNumber" />
-                            </inquirySummaryFields>
-	                	</inquiryCollection>
-	                	</inquiryFields>
-	            </inquirySection>
-	            
-	            <inquirySection title="View Asset Separate History">
-	            	<inquiryFields>
-	                    <field attributeName="assetSeparateHistory.originalCapitalAssetNumber" />
-	                	<field attributeName="assetSeparateHistory.dispositionDate" />
-	            	</inquiryFields>
-	            </inquirySection>
-	            
-	            <inquirySection title="View Retirement Information">
-		          	<inquiryFields>
-		          		<field attributeName="retirementInfo.documentNumber" />
-		          		<field attributeName="retirementReasonCode" />
-		          		<field attributeName="retirementInfo.assetRetirementGlobal.retirementDate" />
-		          		<inquirySubSectionHeader name="Sale" />
-		          		<field attributeName="salePrice" />
-		          		<field attributeName="estimatedSellingPrice" />
-		          		<field attributeName="cashReceiptFinancialDocumentNumber" />
-		          		<field attributeName="retirementChartOfAccountsCode" />
-		          		<field attributeName="retirementAccountNumber" />
-		          		<inquirySubSectionHeader name="Stolen" />
-		          		<field attributeName="campusPoliceDepartmentCaseNumber" />
-		          		<inquirySubSectionHeader name="External Transfer/Gift" />
-		          		<field attributeName="retirementInfo.retirementContactName" />
-		          		<field attributeName="retirementInfo.retirementInstitutionName" />
-		          		<field attributeName="retirementInfo.retirementStreetAddress" />
-		          		<field attributeName="retirementInfo.retirementCityName" />
-		          		<field attributeName="retirementInfo.retirementStateCode" />
-		          		<field attributeName="retirementInfo.retirementZipCode" />
-		          		<field attributeName="retirementInfo.retirementCountryCode" />
-		          		<field attributeName="retirementInfo.retirementPhoneNumber" />          		
-		          	</inquiryFields>
-	            </inquirySection>
-	            
-	            <inquirySection title="View Equipment Loan Information">              	
-	              	<inquiryFields>
-	            		<field attributeName="loanDate" />	
-						<field attributeName="expectedReturnDate" />
-						<field attributeName="loanReturnDate" />
-						<inquirySubSectionHeader name="Borrower Address" />
-						<field attributeName="loanOrReturnInfo.borrowerUniversalUser.personName" />
-						<field attributeName="loanOrReturnInfo.borrowerAddress" />
-						<field attributeName="loanOrReturnInfo.borrowerCityName" />
-						<field attributeName="loanOrReturnInfo.borrowerState.postalStateCode" />
-						<field attributeName="loanOrReturnInfo.borrowerZipCode" />
-						<field attributeName="loanOrReturnInfo.borrowerCountry.postalCountryName" />
-						<field attributeName="loanOrReturnInfo.borrowerPhoneNumber" />
-						<inquirySubSectionHeader name="Stored at Address" />
-						<field attributeName="loanOrReturnInfo.borrowerStorageAddress" />
-						<field attributeName="loanOrReturnInfo.borrowerStorageCityName" />
-						<field attributeName="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
-						<field attributeName="loanOrReturnInfo.borrowerStorageZipCode" />
-						<field attributeName="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
-						<field attributeName="loanOrReturnInfo.borrowerStoragePhoneNumber" />
-	                </inquiryFields>
-	            </inquirySection>
-	
-	            <inquirySection title="Warranty">
-		          	<inquiryFields>
-		          		<field attributeName="assetWarranty.warrantyNumber" />
-		          		<field attributeName="assetWarranty.warrantyContactName" />
-		          		<field attributeName="assetWarranty.warrantyPhoneNumber" />
-		          		<field attributeName="assetWarranty.warrantyPurchaseOrderNumber" />
-		          		<!-- TODO KFSMI-646: Commenting in the following two causes ClassCastException -->
-		          		<!-- field attributeName="assetWarranty.warrantyBeginningDate" /-->
-		          		<!-- field attributeName="assetWarranty.warrantyEndingDate" /-->
-		          		<field attributeName="assetWarranty.warrantyText" />       		
-		          	</inquiryFields>
-	            </inquirySection>
-
-	            <inquirySection title="Repair History" >
-		          	<inquiryFields>
-		          		<inquiryCollection name="assetRepairHistory" businessObjectClass="org.kuali.module.cams.bo.AssetRepairHistory" numberOfColumns="2" >
-		          			<field attributeName="incidentDate" />
-		          			<field attributeName="problemDescription" />
-		          			<field attributeName="repairContactName" />
-		          			<field attributeName="estimatedRepairDate" />
-		          			<field attributeName="repairDate" />
-		          			<field attributeName="repairAmount" />
-		          			<field attributeName="repairSolutionDescription" />
-		          			<field attributeName="repairNoteText" />
-		          		</inquiryCollection>
-		          	</inquiryFields>
-	            </inquirySection>
-	            
-	            <inquirySection title="Components" >
-		          	<inquiryFields>
-		          		<inquiryCollection name="assetComponents" businessObjectClass="org.kuali.module.cams.bo.AssetComponent" numberOfColumns="2" >
-		          			<field attributeName="componentNumber" />
-		          			<field attributeName="componentDescription" />
-		          			<field attributeName="componentConditionCode" />
-		          			<field attributeName="componentVendorName" />
-		          			<field attributeName="componentManufacturerName" />
-		          			<field attributeName="componentManufacturerModelNumber" />
-		          			<field attributeName="componentSerialNumber" />
-		          			<field attributeName="componentOrganizationTagNumber" />
-		          			<field attributeName="componentContactPhoneNumber" />
-		          			<field attributeName="componentOrganizationText" />
-		          			<field attributeName="componentEstimatedLifetimeLimit" />
-		          			<field attributeName="componentReplacementAmount" />
-		          			<field attributeName="governmentTagNumber" />
-		          			<field attributeName="nationalStockNumber" />
-		          			<field attributeName="componentWarrantyNumber" />
-		          			<field attributeName="componentWarrantyContactName" />
-		          			<field attributeName="componentWarrantyPhoneNumber" />
-		          			<field attributeName="componentWarrantyPurchaseOrderNumber" />
-		          			<field attributeName="componentWarrantyBeginningDate" />
-		          			<field attributeName="componentWarrantyEndingDate" />
-		          			<field attributeName="componentWarrantyText" />
-		          			<inquiryCollection name="componentRepairHistory" businessObjectClass="org.kuali.module.cams.bo.ComponentRepairHistory" numberOfColumns="2" >
-								<field attributeName="componentIncidentDate" />
-								<field attributeName="componentProblemDescription" />
-								<field attributeName="componentRepairContactName" />
-								<field attributeName="componentEstimatedRepairDate" />
-								<field attributeName="componentRepairDate" />
-								<field attributeName="componentRepairAmount" />
-								<field attributeName="componentRepairSolutionDescription" />
-								<field attributeName="componentRepairNoteText" />
-		          			</inquiryCollection>
-		          		</inquiryCollection>
-		          	</inquiryFields>
-	            </inquirySection>
-
-            </inquirySections>  
-        </inquiry>
-
-        <lookup>
-            <lookupableID>assetLookupable</lookupableID>
-            <title>Asset Lookup</title>
-
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.Asset"><img src="${externalizable.images.url}tinybutton-createfabreq.gif" alt="create new fabrication request" width="161" height="15"/></a>&nbsp;<a href="lookup.do?businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementReason&conversionFields=retirementReasonCode%3AretirementReasonCode&returnLocation=maintenance.do&docFormKey=88888888"><img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]>
-                <!--[CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.Asset"><img src="${externalizable.images.url}tinybutton-createfabreq.gif" alt="create new fabrication request" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal"><img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]-->
-            </menubar>
-
-            <instructions>Look up an Asset</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-	            <lookupField attributeName="campusTagNumber" required="false" />
-	            <lookupField attributeName="capitalAssetNumber" required="false" noLookup="true" />
-	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
-	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
-	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
-	            <lookupField attributeName="agencyNumber" required="false" />
-	            <lookupField attributeName="inventoryStatusCode" required="false" />
-	            <lookupField attributeName="conditionCode" required="false" />
-                <lookupField attributeName="capitalAssetTypeCode" required="false" />
-                <lookupField attributeName="capitalAssetDescription" required="false" />
-                <lookupField attributeName="representativeUniversalIdentifier" required="false" />
-                <lookupField attributeName="assetRepresentative.personUserIdentifier" required="false" />
-                <lookupField attributeName="assetRepresentative.personName" required="false" />
-                <lookupField attributeName="organizationInventoryName" required="false" />
-                <lookupField attributeName="campusCode" required="false" />
-                <lookupField attributeName="buildingCode" required="false" />
-                <lookupField attributeName="buildingRoomNumber" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
-                <lookupField attributeName="manufacturerName" required="false" />
-                <lookupField attributeName="manufacturerModelNumber" required="false" />
-                <lookupField attributeName="serialNumber" required="false" />
-                <lookupField attributeName="nationalStockNumber" required="false" />
-                <lookupField attributeName="createDate" required="false" />
-                <lookupField attributeName="oldTagNumber" required="false" />
-                <lookupField attributeName="assetOrganization.organizationTagNumber" required="false" noLookup="true" />
-                <lookupField attributeName="governmentTagNumber" required="false" />
-                <lookupField attributeName="totalCostAmount" required="false" />
-                                
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="campusTagNumber" />
-                <field attributeName="organizationOwnerAccount.organizationCode" />
-                <field attributeName="buildingCode" />
-                <field attributeName="inventoryStatusCode" />
-                <field attributeName="capitalAssetDescription" />
-                <field attributeName="capitalAssetTypeCode" />
-                <field attributeName="capitalAssetInServiceDate" />
-            </resultFields>
-        </lookup>
-
-		<titleAttribute>capitalAssetNumber</titleAttribute>
-
-        <attributes>
-
-            <attribute name="acquisitionTypeCode" forceUppercase="true">
-                <label>Acquisition Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>acquisitionTypeCode</summary>
-                <description>acquisitionTypeCode description...</description>
-			</attribute>
-
-            <attribute name="agencyNumber" forceUppercase="true">
-                <label>Owner</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>agencyNumber</summary>
-                <description>agencyNumber description...</description>
-			</attribute>
-
-            <attribute name="buildingSubRoomNumber" forceUppercase="true">
-                <label>Building Sub Room Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>buildingSubRoomNumber</summary>
-                <description>buildingSubRoomNumber description...</description>
-			</attribute>
-
-            <attribute name="campusPoliceDepartmentCaseNumber" forceUppercase="true">
-                <label>Police Case Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>campusPoliceDepartmentCaseNumber</summary>
-                <description>campusPoliceDepartmentCaseNumber description...</description>
-			</attribute>
-
-            <attribute name="campusTagNumber" forceUppercase="true">
-                <label>Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>campusTagNumber</summary>
-                <description>campusTagNumber description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetDescription" forceUppercase="true">
-                <label>Asset Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <textarea rows="10" cols="40"/>
-                </control>
-
-                <summary>capitalAssetDescription</summary>
-                <description>capitalAssetDescription description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Asset Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute>
-
-            <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
-                <label>Cash Receipt Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>cashReceiptFinancialDocumentNumber</summary>
-                <description>cashReceiptFinancialDocumentNumber description...</description>
-			</attribute>
-
-            <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Create Date</label>
-                <shortLabel>Create Date</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="depreciationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Depreciation Date</label>
-                <shortLabel>Depreciation Date</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>In-Service Date</label>
-                <shortLabel>In Service Date</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="estimatedFabricationCompletionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Estimated Fabrication Completion Date</label>
-                <shortLabel>Estimated Fabrication Completion Date</shortLabel>
-
-            </attributeReference>
-
-            <attribute name="estimatedFabricationLifetimeLimitNumber" >
-                <label>Years expected to retain asset once fabrication is complete</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>estimatedFabricationLifetimeLimitNumber</summary>
-                <description>estimatedFabricationLifetimeLimitNumber description...</description>
-			</attribute>
-
-            <attributeReference name="estimatedSellingPrice" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-                <label>Estimated Sale Price</label>
-                <shortLabel>Price</shortLabel>
-                <summary>estimatedSellingPrice</summary>
-                <description>estimatedSellingPrice description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attributeReference name="expectedReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Expected Return Date</label>
-                <shortLabel>Expected Return Date</shortLabel>
-
-            </attributeReference>
-
-            <attributeReference name="fabricationEstimatedTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-                <label>Fabrication Estimated Total Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <summary>fabricationEstimatedTotalAmount</summary>
-                <description>fabricationEstimatedTotalAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
-                <label>Period</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialDocumentPostingPeriodCode</summary>
-                <description>financialDocumentPostingPeriodCode description...</description>
-			</attribute>
-
-            <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
-			</attributeReference>
-
-            <attribute name="insuranceChargeAccountNumber" forceUppercase="true">
-                <label>Insurance Charge Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>insuranceChargeAccountNumber</summary>
-                <description>insuranceChargeAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="insuranceChartOfAccountsCode" forceUppercase="true">
-                <label>Insurance Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>insuranceChartOfAccountsCode</summary>
-                <description>insuranceChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="inventoryScannedCode" forceUppercase="true">
-                <label>Inventory Scanned Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>inventoryScannedCode</summary>
-                <description>inventoryScannedCode description...</description>
-			</attribute>
-
-            <attributeReference name="inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode" >
-                <label>Asset Status</label>
-                <shortLabel>Code</shortLabel>
-                <control>
-                	<select
-                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-						businessObjectClass="org.kuali.module.cams.bo.AssetStatus"
-						keyAttribute="inventoryStatusCode"
-						labelAttribute="inventoryStatusName" includeKeyInLabel="true" />
-                </control>
-                <summary>inventoryStatusCode</summary>
-                <description>inventoryStatusCode description...</description>
-			</attributeReference>
-			
-            <attribute name="nationalStockNumber" forceUppercase="true">
-                <label>National Stock Number</label>
-                <shortLabel>NationalStockNumber</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>nationalStockNumber</summary>
-                <description>nationalStockNumber description...</description>
-			</attribute>
-			
-			<attribute name="governmentTagNumber" forceUppercase="true">
-                <label>Government Tag</label>
-                <shortLabel>GovernmentTagNumber</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>governmentTagNumber</summary>
-                <description>governmentTagNumber description...</description>
-			</attribute>
-
-            <attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Last Inventory Date</label>
-                <shortLabel>Last Inventory Date</shortLabel>
-
-            </attributeReference>
-
-            <attributeReference name="loanDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Loan Date</label>
-                <shortLabel>Loan Date</shortLabel>
-
-            </attributeReference>
-           
-            <attributeReference name="loanReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Return Date</label>
-                <shortLabel>Loan Return Date</shortLabel>
-
-            </attributeReference>
-
-            <attribute name="manufacturerModelNumber" forceUppercase="true">
-                <label>Model Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>manufacturerModelNumber</summary>
-                <description>manufacturerModelNumber description...</description>
-			</attribute>
-
-            <attribute name="manufacturerName" forceUppercase="true">
-                <label>Manufacturer</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>manufacturerName</summary>
-                <description>manufacturerName description...</description>
-			</attribute>
-
-            <attribute name="oldTagNumber" forceUppercase="true">
-                <label>Old Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>oldTagNumber</summary>
-                <description>oldTagNumber description...</description>
-			</attribute>
-
-            <attribute name="organizationInventoryName" forceUppercase="true">
-                <label>Organization Inventory Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>organizationInventoryName</summary>
-                <description>organizationInventoryName description...</description>
-			</attribute>
-
-            <attribute name="primaryDepreciationMethodCode" forceUppercase="true">
-                <label>Depreciation Method Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-					<select
-						valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-						businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationMethod"
-						keyAttribute="depreciationMethodCode"
-						labelAttribute="depreciationMethodName" includeKeyInLabel="true" />
-				</control>
-
-                <summary>primaryDepreciationMethodCode</summary>
-                <description>primaryDepreciationMethodCode description...</description>
-			</attribute>
-
-            <attributeReference name="receiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Receive Date</label>
-                <shortLabel>Receive Date</shortLabel>
-
-            </attributeReference>
-            
-            <attributeReference name="replacementAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Replacement Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <summary>replacementAmount</summary>
-                <description>replacementAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attribute name="retirementAccountNumber" forceUppercase="true">
-                <label>Cash Receipt Account</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>retirementAccountNumber</summary>
-                <description>retirementAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="retirementChartOfAccountsCode" forceUppercase="true">
-                <label>Cash Receipt Chart</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>retirementChartOfAccountsCode</summary>
-                <description>retirementChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="retirementFiscalYear" forceUppercase="true">
-                <label>Retirement Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>retirementFiscalYear</summary>
-                <description>retirementFiscalYear description...</description>
-			</attribute>
-
-            <attribute name="retirementPeriodCode" forceUppercase="true">
-                <label>Retirement Period Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>retirementPeriodCode</summary>
-                <description>retirementPeriodCode description...</description>
-			</attribute>
-
-            <attribute name="retirementReasonCode" forceUppercase="true">
-                <label>Retirement Reason</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>retirementReasonCode</summary>
-                <description>retirementReasonCode description...</description>
-			</attribute>
-
-            <attributeReference name="salePrice" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Sale Price</label>
-                <shortLabel>Price</shortLabel>
-                <summary>salePrice</summary>
-                <description>salePrice description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attributeReference name="salvageAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Salvage Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <summary>salvageAmount</summary>
-                <description>salvageAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attribute name="secondaryDepreciationMethodCode" forceUppercase="true">
-                <label>Secondary Depreciation Method Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>secondaryDepreciationMethodCode</summary>
-                <description>secondaryDepreciationMethodCode description...</description>
-			</attribute>
-
-            <attribute name="serialNumber" forceUppercase="true">
-                <label>Serial Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>serialNumber</summary>
-                <description>serialNumber description...</description>
-			</attribute>
-
-            <attribute name="signatureCode" forceUppercase="true">
-                <label>Signature Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>signatureCode</summary>
-                <description>signatureCode description...</description>
-			</attribute>
-
-            <attributeReference name="totalCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-                <label>Total Cost</label>
-                <shortLabel>Amount</shortLabel>
-                <summary>totalCostAmount</summary>
-                <description>totalCostAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attribute name="transferOfFundsFinancialDocumentNumber" forceUppercase="true">
-                <label>Transfer Of Funds Financial Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>transferOfFundsFinancialDocumentNumber</summary>
-                <description>transferOfFundsFinancialDocumentNumber description...</description>
-			</attribute>
-
-            <attribute name="vendorName" forceUppercase="true">
-                <label>Vendor Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>vendorName</summary>
-                <description>vendorName description...</description>
-			</attribute>
-			
-		<!-- <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/> -->
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			
-			<attributeReference name="capitalAssetType.depreciableLifeLimit" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="depreciableLifeLimit" />
-			
-			<attributeReference name="representativeUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier" >
-				<label>Asset Representative ID</label>
-				<shortLabel>Representative ID</shortLabel>
-				<displayLabelAttribute>assetRepresentative.personUserIdentifier</displayLabelAttribute>
-                <required>true</required>
-                <control>
-                	<hidden />
-                </control>
-			</attributeReference>
-			
-			<attributeReference name="assetRepresentative.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Asset Representative</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="representativeUniversalIdentifier" userIdAttributeName="assetRepresentative.personUserIdentifier" personNameAttributeName="assetRepresentative.personName" />
-                </control>
-            </attributeReference>
-			
-			<attributeReference name="assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
-				<label>Asset Representative Name</label>
-				<shortLabel>Representative</shortLabel>
-                <required>false</required>
-                <control>
-                	<hidden />
-                </control>
-			</attributeReference>
-
-			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" >
-				<label>Organization Owner Account Number</label>
-			</attributeReference>
-			
-			<attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="chartOfAccountsCode" >
-				<label>Organization Owner Chart Of Accounts Code</label>
-			</attributeReference>
-			
-			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode">
-				<label>Organization Owner Organization Code</label>
-			</attributeReference>
-			
-			<attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode" >
-				<label>Asset Type Code</label>
-			</attributeReference>
-			
-			<attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode" >
-				<label>Campus</label>
-			</attributeReference>
-			
-			<attributeReference name="buildingCode" sourceClassName="org.kuali.kfs.bo.Room" sourceAttributeName="buildingCode" >
-				<label>Building Code</label>
-			</attributeReference>
-			
-			<attributeReference name="buildingRoomNumber" sourceClassName="org.kuali.kfs.bo.Room" sourceAttributeName="buildingRoomNumber" >
-				<label>Building Room Number</label>
-			</attributeReference>
-			
-			<attributeReference name="assetOrganization.organizationTagNumber" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationTagNumber" >
-				<label>Organization Tag Number</label>
-			</attributeReference>
-			
-			<attributeReference name="assetOrganization.organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText" >
-				<label>Organization Text</label>
-			</attributeReference>		
-			
-			<attributeReference name="assetOrganization.organizationAssetTypeIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationAssetTypeIdentifier" >
-				<label>Organization Asset Type</label>
-			</attributeReference>		
-			
-			<attributeReference name="assetOrganization.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="versionNumber" />
-			
-			<attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode" >
-				<label>Asset Condition</label>
-			</attributeReference>
-			<!-- ## for use with AssetGlobal ## -->
-			<attribute name="landCountyName" forceUppercase="true">
-				<label>Land County</label>
-				<shortLabel>landCountyName</shortLabel>
-				<maxLength>4</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <control>
-                    <text size="4" />
-                </control>
-                <summary>landCountyName</summary>
-                <description>Land country name.</description>
-			</attribute>
-			
-			<attribute name="landAcreageSize">
-				<label>Land Acreage</label>
-				<shortLabel>landAcreageSize</shortLabel>
-				<maxLength>10</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>landAcreageSize</summary>
-                <description>Land acreage size.</description>
-			</attribute>
-            
-            <attribute name="landParcelNumber">
-				<label>Land Parcel Number</label>
-				<shortLabel>landParcelNumber</shortLabel>
-				<maxLength>10</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>landParcelNumber</summary>
-                <description>Land parcel number.</description>
-			</attribute>
-			
-			<attributeReference name="accumulatedDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Accumulated Depreciation</label>
-				<shortLabel>Accumulated</shortLabel>
-				<summary>Accumulated Depreciation</summary>
-				<description>Accumulated Depreciation Amount</description>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attributeReference name="baseAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Base Amount</label>
-				<shortLabel>Base</shortLabel>
-				<summary>Base Amount</summary>
-				<description>Base Amount</description>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attributeReference name="bookValue" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Book Value</label>
-				<shortLabel>Book Value</shortLabel>
-				<summary>Book Value</summary>
-				<description>Book Value</description>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attributeReference name="prevYearDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Previous Year</label>
-				<shortLabel>Previous Year</shortLabel>
-				<summary>Previous Year Depreciation</summary>
-				<description>Previous Year Depreciation</description>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attributeReference name="yearToDateDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Year To Date</label>
-				<shortLabel>Year To Date</shortLabel>
-				<summary>Year To Date Depreciation</summary>
-				<description>Year To Date Depreciation</description>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attributeReference name="currentMonthDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Current Month</label>
-				<shortLabel>Current Month</shortLabel>
-				<summary>Current Month Depreciation</summary>
-				<description>Current Month Depreciation</description>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attributeReference name="paymentTotalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Display Total Cost</label>
-                <shortLabel>Total Cost</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-            
-            <attributeReference name="federalContribution" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Federal Contribution</label>
-                <shortLabel>Contribution</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-            <!-- Warranty -->
-			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber" />
-			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName" >
-				<label>Contact Name</label>
-			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber" >
-				<label>Phone Number</label>
-			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPurchaseOrderNumber" >
-				<label>Purchase Order Number</label>
-			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyBeginningDate" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyBeginningDate" >
-				<label>Begin Date</label>
-			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate" >
-				<label>End Date</label>
-			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText" >
-				<label>Description</label>
-			</attributeReference>
-			<attributeReference name="assetWarranty.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="versionNumber"/>
-			<!-- Merge/Separate Information -->
-			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber" >
-				<label>Original Asset Number</label>
-				<shortLabel>OrigAssetNbr</shortLabel>
-			</attributeReference>
-			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate" >
-				<label>Separate Date</label>
-				<shortLabel>SeparateDate</shortLabel>
-			</attributeReference>			
-			<attributeReference name="assetDispositions.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="versionNumber"/>
-			<!-- Retirement Information -->
-			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="documentNumber" >
-				<label>Retirement Document Number</label>
-				<shortLabel>RetireDocNbr</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementReason.retirementReasonName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementReason" sourceAttributeName="retirementReasonName" >
-				<label>Retirement Reason</label>
-				<shortLabel>Reason</shortLabel>
-			</attributeReference>			
-			<attributeReference name="retirementInfo.assetRetirementGlobal.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobal" sourceAttributeName="retirementDate"/>
-			<attributeReference name="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobal" sourceAttributeName="mergedTargetCapitalAssetNumber"/>
-			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementContactName" >
-				<label>Contact Name</label>
-				<shortLabel>name</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementInstitutionName" >
-				<label>Institution</label>
-				<shortLabel>Institution</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStreetAddress" >
-				<label>Street</label>
-				<shortLabel>Street</shortLabel>			
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCityName" >
-				<label>City</label>
-				<shortLabel>City</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStateCode" >
-				<label>State</label>
-				<shortLabel>State</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementZipCode" >
-				<label>Zip Code</label>
-				<shortLabel>Zip</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCountryCode" >
-				<label>Country</label>
-				<shortLabel>Country</shortLabel>
-			</attributeReference>
-			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementPhoneNumber" >
-				<label>Phone</label>
-				<shortLabel>Phone</shortLabel>
-			</attributeReference>
-			
-			<!-- Loan Info -->
-			<attributeReference name="loanOrReturnInfo.borrowerUniversalUser.personName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerUniversalUser.personName" >
-				<label>Name</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerAddress" >
-				<label>Street</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCityName" >
-				<label>City</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStateCode" >
-				<label>State</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerZipCode" >
-				<label>Zip Code</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCountryCode" >
-				<label>Country</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerPhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerPhoneNumber" >
-				<label>Phone</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStorageAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageAddress" >
-				<label>Street</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStorageCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCityName" >
-				<label>City</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStorageStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageStateCode" >
-				<label>State</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStorageZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageZipCode" >
-				<label>Zip Code</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStorageCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCountryCode" >
-				<label>Country</label>
-			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerStoragePhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStoragePhoneNumber" >
-				<label>Phone</label>
-			</attributeReference>
-			
-			<!-- Off Campus Information -->
-			<attributeReference name="offCampusLocation.assetLocationContactName" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationContactName" >			
-				<label>Name</label>
-				<shortLabel>Name</shortLabel>
-				<summary>Asset Off Campus Name</summary>
-                <description>Asset Off Campus Name description...</description>
-			</attributeReference>
-			
-			<attributeReference name="offCampusLocation.assetLocationStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationStreetAddress" >			
-				<label>Address</label>
-				<shortLabel>Address</shortLabel>
-				<summary>Asset Off Campus Address</summary>
-                <description>Asset Off Campus Address description...</description>
-			</attributeReference>
-			
-			<attributeReference name="offCampusLocation.assetLocationCityName" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationCityName" >			
-				<label>City</label>
-				<shortLabel>City</shortLabel>
-				<summary>Asset Off Campus City</summary>
-                <description>Asset Off Campus City description...</description>
-			</attributeReference>
-			
-			<attributeReference name="offCampusLocation.assetLocationStateCode" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationStateCode">			
-				<label>State</label>
-                <shortLabel>State</shortLabel>
-                <control>
-                	<select
-                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-						businessObjectClass="org.kuali.kfs.bo.State"
-						keyAttribute="postalStateCode"
-						labelAttribute="postalStateName" includeKeyInLabel="true" />
-               	</control>
-                <summary>Asset Off Campus State</summary>
-                <description>Asset Off Campus State description...</description>
-            </attributeReference>
-            
-			<attributeReference name="offCampusLocation.assetLocationZipCode" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationZipCode" >
-				<label>Zip</label>
-				<shortLabel>Zip</shortLabel>
-				<summary>Asset Off Campus Zip</summary>
-                <description>Asset Off Campus Zip description...</description>
-            </attributeReference>
-            			
-			<attributeReference name="offCampusLocation.assetLocationCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationCountryCode">			
-				<label>Country</label>
-                <shortLabel>Country</shortLabel>
-                <control>
-                	<select
-                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-						businessObjectClass="org.kuali.kfs.bo.Country"
-						keyAttribute="postalCountryCode"
-						labelAttribute="postalCountryName" includeKeyInLabel="true" />
-               	</control>
-                <summary>Asset Off Campus Country</summary>
-                <description>Asset Off Campus Country description...</description>
-            </attributeReference>
-            
-            <attributeReference name="offCampusLocation.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="versionNumber"/>
-            <attributeReference name="assetStatus.inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode"/>
-            <attributeReference name="assetPrimaryDepreciationMethod.depreciationMethodCode" sourceClassName="org.kuali.module.cams.bo.AssetDepreciationMethod" sourceAttributeName="depreciationMethodCode"/>
-            
-            <!-- TODO KFSMI-637: Below might not be necessary anymore if it's improved at some point. -->
-            <attributeReference name="inventoryStatus.inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode"/> 
-            <attributeReference name="offCampusLocation.assetLocationState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
-            <attributeReference name="offCampusLocation.assetLocationCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
-            <attributeReference name="loanOrReturnInfo.borrowerState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
-            <attributeReference name="loanOrReturnInfo.borrowerCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
-            <attributeReference name="loanOrReturnInfo.borrowerStorageState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
-            <attributeReference name="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
-        </attributes>
-        <relationships>
-         	<relationship objectAttributeName="assetRepresentative" >
-            	<primitiveAttribute sourceName="representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="assetRepresentative.personName" targetName="personName" />
-        	</relationship>
-        </relationships>
-        <objectLabel>Asset</objectLabel>    
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Asset" parent="Asset-parentBean" />
+
+  <bean id="Asset-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.Asset" />
+    <property name="inquiryDefinition" >
+      <ref bean="Asset-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Asset-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="capitalAssetNumber" />
+    <property name="objectLabel" value="Asset" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Asset-acquisitionTypeCode" />
+        <ref bean="Asset-agencyNumber" />
+        <ref bean="Asset-buildingSubRoomNumber" />
+        <ref bean="Asset-campusPoliceDepartmentCaseNumber" />
+        <ref bean="Asset-campusTagNumber" />
+        <ref bean="Asset-capitalAssetDescription" />
+        <ref bean="Asset-capitalAssetNumber" />
+        <ref bean="Asset-cashReceiptFinancialDocumentNumber" />
+        <ref bean="Asset-createDate" />
+        <ref bean="Asset-depreciationDate" />
+        <ref bean="Asset-capitalAssetInServiceDate" />
+        <ref bean="Asset-estimatedFabricationCompletionDate" />
+        <ref bean="Asset-estimatedFabricationLifetimeLimitNumber" />
+        <ref bean="Asset-estimatedSellingPrice" />
+        <ref bean="Asset-expectedReturnDate" />
+        <ref bean="Asset-fabricationEstimatedTotalAmount" />
+        <ref bean="Asset-financialDocumentPostingPeriodCode" />
+        <ref bean="Asset-financialDocumentPostingYear" />
+        <ref bean="Asset-insuranceChargeAccountNumber" />
+        <ref bean="Asset-insuranceChartOfAccountsCode" />
+        <ref bean="Asset-inventoryScannedCode" />
+        <ref bean="Asset-inventoryStatusCode" />
+        <ref bean="Asset-nationalStockNumber" />
+        <ref bean="Asset-governmentTagNumber" />
+        <ref bean="Asset-lastInventoryDate" />
+        <ref bean="Asset-loanDate" />
+        <ref bean="Asset-loanReturnDate" />
+        <ref bean="Asset-manufacturerModelNumber" />
+        <ref bean="Asset-manufacturerName" />
+        <ref bean="Asset-oldTagNumber" />
+        <ref bean="Asset-organizationInventoryName" />
+        <ref bean="Asset-primaryDepreciationMethodCode" />
+        <ref bean="Asset-receiveDate" />
+        <ref bean="Asset-replacementAmount" />
+        <ref bean="Asset-retirementAccountNumber" />
+        <ref bean="Asset-retirementChartOfAccountsCode" />
+        <ref bean="Asset-retirementFiscalYear" />
+        <ref bean="Asset-retirementPeriodCode" />
+        <ref bean="Asset-retirementReasonCode" />
+        <ref bean="Asset-salePrice" />
+        <ref bean="Asset-salvageAmount" />
+        <ref bean="Asset-secondaryDepreciationMethodCode" />
+        <ref bean="Asset-serialNumber" />
+        <ref bean="Asset-signatureCode" />
+        <ref bean="Asset-totalCostAmount" />
+        <ref bean="Asset-transferOfFundsFinancialDocumentNumber" />
+        <ref bean="Asset-vendorName" />
+        <ref bean="Asset-versionNumber" />
+        <ref bean="Asset-capitalAssetType.depreciableLifeLimit" />
+        <ref bean="Asset-representativeUniversalIdentifier" />
+        <ref bean="Asset-assetRepresentative.personUserIdentifier" />
+        <ref bean="Asset-assetRepresentative.personName" />
+        <ref bean="Asset-organizationOwnerAccountNumber" />
+        <ref bean="Asset-organizationOwnerChartOfAccountsCode" />
+        <ref bean="Asset-organizationOwnerAccount.organizationCode" />
+        <ref bean="Asset-capitalAssetTypeCode" />
+        <ref bean="Asset-campusCode" />
+        <ref bean="Asset-buildingCode" />
+        <ref bean="Asset-buildingRoomNumber" />
+        <ref bean="Asset-assetOrganization.organizationTagNumber" />
+        <ref bean="Asset-assetOrganization.organizationText" />
+        <ref bean="Asset-assetOrganization.organizationAssetTypeIdentifier" />
+        <ref bean="Asset-assetOrganization.versionNumber" />
+        <ref bean="Asset-conditionCode" />
+        <ref bean="Asset-landCountyName" />
+        <ref bean="Asset-landAcreageSize" />
+        <ref bean="Asset-landParcelNumber" />
+        <ref bean="Asset-accumulatedDepreciation" />
+        <ref bean="Asset-baseAmount" />
+        <ref bean="Asset-bookValue" />
+        <ref bean="Asset-prevYearDepreciation" />
+        <ref bean="Asset-yearToDateDepreciation" />
+        <ref bean="Asset-currentMonthDepreciation" />
+        <ref bean="Asset-paymentTotalCost" />
+        <ref bean="Asset-federalContribution" />
+        <ref bean="Asset-assetWarranty.warrantyNumber" />
+        <ref bean="Asset-assetWarranty.warrantyContactName" />
+        <ref bean="Asset-assetWarranty.warrantyPhoneNumber" />
+        <ref bean="Asset-assetWarranty.warrantyPurchaseOrderNumber" />
+        <ref bean="Asset-assetWarranty.warrantyBeginningDate" />
+        <ref bean="Asset-assetWarranty.warrantyEndingDate" />
+        <ref bean="Asset-assetWarranty.warrantyText" />
+        <ref bean="Asset-assetWarranty.versionNumber" />
+        <ref bean="Asset-assetSeparateHistory.originalCapitalAssetNumber" />
+        <ref bean="Asset-assetSeparateHistory.dispositionDate" />
+        <ref bean="Asset-assetDispositions.versionNumber" />
+        <ref bean="Asset-retirementInfo.documentNumber" />
+        <ref bean="Asset-retirementReason.retirementReasonName" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementDate" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
+        <ref bean="Asset-retirementInfo.retirementContactName" />
+        <ref bean="Asset-retirementInfo.retirementInstitutionName" />
+        <ref bean="Asset-retirementInfo.retirementStreetAddress" />
+        <ref bean="Asset-retirementInfo.retirementCityName" />
+        <ref bean="Asset-retirementInfo.retirementStateCode" />
+        <ref bean="Asset-retirementInfo.retirementZipCode" />
+        <ref bean="Asset-retirementInfo.retirementCountryCode" />
+        <ref bean="Asset-retirementInfo.retirementPhoneNumber" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerAddress" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerCityName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerZipCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerCountryCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerPhoneNumber" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageAddress" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCityName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageZipCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountryCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" />
+        <ref bean="Asset-offCampusLocation.assetLocationContactName" />
+        <ref bean="Asset-offCampusLocation.assetLocationStreetAddress" />
+        <ref bean="Asset-offCampusLocation.assetLocationCityName" />
+        <ref bean="Asset-offCampusLocation.assetLocationStateCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
+        <ref bean="Asset-offCampusLocation.versionNumber" />
+        <ref bean="Asset-assetStatus.inventoryStatusCode" />
+        <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
+        <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerState.postalStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+        <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetRepresentative" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="representativeUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="assetRepresentative.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="assetRepresentative.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Asset-acquisitionTypeCode" parent="Asset-acquisitionTypeCode-parentBean" />
+
+  <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="acquisitionTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Acquisition Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="acquisitionTypeCode" />
+    <property name="description" value="acquisitionTypeCode description..." />
+  </bean>
+  <bean id="Asset-agencyNumber" parent="Asset-agencyNumber-parentBean" />
+
+  <bean id="Asset-agencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Owner" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="agencyNumber" />
+    <property name="description" value="agencyNumber description..." />
+  </bean>
+  <bean id="Asset-buildingSubRoomNumber" parent="Asset-buildingSubRoomNumber-parentBean" />
+
+  <bean id="Asset-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingSubRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Sub Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="buildingSubRoomNumber" />
+    <property name="description" value="buildingSubRoomNumber description..." />
+  </bean>
+  <bean id="Asset-campusPoliceDepartmentCaseNumber" parent="Asset-campusPoliceDepartmentCaseNumber-parentBean" />
+
+  <bean id="Asset-campusPoliceDepartmentCaseNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusPoliceDepartmentCaseNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Police Case Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="campusPoliceDepartmentCaseNumber" />
+    <property name="description" value="campusPoliceDepartmentCaseNumber description..." />
+  </bean>
+  <bean id="Asset-campusTagNumber" parent="Asset-campusTagNumber-parentBean" />
+
+  <bean id="Asset-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="campusTagNumber" />
+    <property name="description" value="campusTagNumber description..." />
+  </bean>
+  <bean id="Asset-capitalAssetDescription" parent="Asset-capitalAssetDescription-parentBean" />
+
+  <bean id="Asset-capitalAssetDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="10"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="capitalAssetDescription" />
+    <property name="description" value="capitalAssetDescription description..." />
+  </bean>
+  <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean" />
+
+  <bean id="Asset-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="capitalAssetNumber" />
+    <property name="description" value="capitalAssetNumber description..." />
+  </bean>
+  <bean id="Asset-cashReceiptFinancialDocumentNumber" parent="Asset-cashReceiptFinancialDocumentNumber-parentBean" />
+
+  <bean id="Asset-cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cashReceiptFinancialDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Cash Receipt Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="cashReceiptFinancialDocumentNumber" />
+    <property name="description" value="cashReceiptFinancialDocumentNumber description..." />
+  </bean>
+  <bean id="Asset-createDate" parent="Asset-createDate-parentBean" />
+
+  <bean id="Asset-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createDate" />
+    <property name="label" value="Create Date" />
+    <property name="shortLabel" value="Create Date" />
+  </bean>
+  <bean id="Asset-depreciationDate" parent="Asset-depreciationDate-parentBean" />
+
+  <bean id="Asset-depreciationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="depreciationDate" />
+    <property name="label" value="Depreciation Date" />
+    <property name="shortLabel" value="Depreciation Date" />
+  </bean>
+  <bean id="Asset-capitalAssetInServiceDate" parent="Asset-capitalAssetInServiceDate-parentBean" />
+
+  <bean id="Asset-capitalAssetInServiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="capitalAssetInServiceDate" />
+    <property name="label" value="In-Service Date" />
+    <property name="shortLabel" value="In Service Date" />
+  </bean>
+  <bean id="Asset-estimatedFabricationCompletionDate" parent="Asset-estimatedFabricationCompletionDate-parentBean" />
+
+  <bean id="Asset-estimatedFabricationCompletionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="estimatedFabricationCompletionDate" />
+    <property name="label" value="Estimated Fabrication Completion Date" />
+    <property name="shortLabel" value="Estimated Fabrication Completion Date" />
+  </bean>
+  <bean id="Asset-estimatedFabricationLifetimeLimitNumber" parent="Asset-estimatedFabricationLifetimeLimitNumber-parentBean" />
+
+  <bean id="Asset-estimatedFabricationLifetimeLimitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="estimatedFabricationLifetimeLimitNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Years expected to retain asset once fabrication is complete" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="estimatedFabricationLifetimeLimitNumber" />
+    <property name="description" value="estimatedFabricationLifetimeLimitNumber description..." />
+  </bean>
+  <bean id="Asset-estimatedSellingPrice" parent="Asset-estimatedSellingPrice-parentBean" />
+
+  <bean id="Asset-estimatedSellingPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="estimatedSellingPrice" />
+    <property name="label" value="Estimated Sale Price" />
+    <property name="shortLabel" value="Price" />
+    <property name="summary" value="estimatedSellingPrice" />
+    <property name="description" value="estimatedSellingPrice description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-expectedReturnDate" parent="Asset-expectedReturnDate-parentBean" />
+
+  <bean id="Asset-expectedReturnDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="expectedReturnDate" />
+    <property name="label" value="Expected Return Date" />
+    <property name="shortLabel" value="Expected Return Date" />
+  </bean>
+  <bean id="Asset-fabricationEstimatedTotalAmount" parent="Asset-fabricationEstimatedTotalAmount-parentBean" />
+
+  <bean id="Asset-fabricationEstimatedTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="fabricationEstimatedTotalAmount" />
+    <property name="label" value="Fabrication Estimated Total Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="fabricationEstimatedTotalAmount" />
+    <property name="description" value="fabricationEstimatedTotalAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-financialDocumentPostingPeriodCode" parent="Asset-financialDocumentPostingPeriodCode-parentBean" />
+
+  <bean id="Asset-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentPostingPeriodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialDocumentPostingPeriodCode" />
+    <property name="description" value="financialDocumentPostingPeriodCode description..." />
+  </bean>
+  <bean id="Asset-financialDocumentPostingYear" parent="Asset-financialDocumentPostingYear-parentBean" />
+
+  <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="financialDocumentPostingYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="summary" value="financialDocumentPostingYear" />
+    <property name="description" value="financialDocumentPostingYear description..." />
+  </bean>
+  <bean id="Asset-insuranceChargeAccountNumber" parent="Asset-insuranceChargeAccountNumber-parentBean" />
+
+  <bean id="Asset-insuranceChargeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="insuranceChargeAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Insurance Charge Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="insuranceChargeAccountNumber" />
+    <property name="description" value="insuranceChargeAccountNumber description..." />
+  </bean>
+  <bean id="Asset-insuranceChartOfAccountsCode" parent="Asset-insuranceChartOfAccountsCode-parentBean" />
+
+  <bean id="Asset-insuranceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="insuranceChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Insurance Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="insuranceChartOfAccountsCode" />
+    <property name="description" value="insuranceChartOfAccountsCode description..." />
+  </bean>
+  <bean id="Asset-inventoryScannedCode" parent="Asset-inventoryScannedCode-parentBean" />
+
+  <bean id="Asset-inventoryScannedCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="inventoryScannedCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Inventory Scanned Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="inventoryScannedCode" />
+    <property name="description" value="inventoryScannedCode description..." />
+  </bean>
+  <bean id="Asset-inventoryStatusCode" parent="Asset-inventoryStatusCode-parentBean" />
+
+  <bean id="Asset-inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
+    <property name="label" value="Asset Status" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.module.cams.bo.AssetStatus"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="inventoryStatusCode"
+            p:labelAttribute="inventoryStatusName" />
+    </property>
+  </bean>
+  <bean id="Asset-nationalStockNumber" parent="Asset-nationalStockNumber-parentBean" />
+
+  <bean id="Asset-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nationalStockNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="National Stock Number" />
+    <property name="shortLabel" value="NationalStockNumber" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="nationalStockNumber" />
+    <property name="description" value="nationalStockNumber description..." />
+  </bean>
+  <bean id="Asset-governmentTagNumber" parent="Asset-governmentTagNumber-parentBean" />
+
+  <bean id="Asset-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="governmentTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Government Tag" />
+    <property name="shortLabel" value="GovernmentTagNumber" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="governmentTagNumber" />
+    <property name="description" value="governmentTagNumber description..." />
+  </bean>
+  <bean id="Asset-lastInventoryDate" parent="Asset-lastInventoryDate-parentBean" />
+
+  <bean id="Asset-lastInventoryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="lastInventoryDate" />
+    <property name="label" value="Last Inventory Date" />
+    <property name="shortLabel" value="Last Inventory Date" />
+  </bean>
+  <bean id="Asset-loanDate" parent="Asset-loanDate-parentBean" />
+
+  <bean id="Asset-loanDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="loanDate" />
+    <property name="label" value="Loan Date" />
+    <property name="shortLabel" value="Loan Date" />
+  </bean>
+  <bean id="Asset-loanReturnDate" parent="Asset-loanReturnDate-parentBean" />
+
+  <bean id="Asset-loanReturnDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="loanReturnDate" />
+    <property name="label" value="Return Date" />
+    <property name="shortLabel" value="Loan Return Date" />
+  </bean>
+  <bean id="Asset-manufacturerModelNumber" parent="Asset-manufacturerModelNumber-parentBean" />
+
+  <bean id="Asset-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="manufacturerModelNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Model Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="manufacturerModelNumber" />
+    <property name="description" value="manufacturerModelNumber description..." />
+  </bean>
+  <bean id="Asset-manufacturerName" parent="Asset-manufacturerName-parentBean" />
+
+  <bean id="Asset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="manufacturerName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Manufacturer" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="manufacturerName" />
+    <property name="description" value="manufacturerName description..." />
+  </bean>
+  <bean id="Asset-oldTagNumber" parent="Asset-oldTagNumber-parentBean" />
+
+  <bean id="Asset-oldTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="oldTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Old Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="oldTagNumber" />
+    <property name="description" value="oldTagNumber description..." />
+  </bean>
+  <bean id="Asset-organizationInventoryName" parent="Asset-organizationInventoryName-parentBean" />
+
+  <bean id="Asset-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationInventoryName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Inventory Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="organizationInventoryName" />
+    <property name="description" value="organizationInventoryName description..." />
+  </bean>
+  <bean id="Asset-primaryDepreciationMethodCode" parent="Asset-primaryDepreciationMethodCode-parentBean" />
+
+  <bean id="Asset-primaryDepreciationMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="primaryDepreciationMethodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Depreciation Method Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationMethod"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="depreciationMethodCode"
+            p:labelAttribute="depreciationMethodName" />
+    </property>
+    <property name="summary" value="primaryDepreciationMethodCode" />
+    <property name="description" value="primaryDepreciationMethodCode description..." />
+  </bean>
+  <bean id="Asset-receiveDate" parent="Asset-receiveDate-parentBean" />
+
+  <bean id="Asset-receiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="receiveDate" />
+    <property name="label" value="Receive Date" />
+    <property name="shortLabel" value="Receive Date" />
+  </bean>
+  <bean id="Asset-replacementAmount" parent="Asset-replacementAmount-parentBean" />
+
+  <bean id="Asset-replacementAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="replacementAmount" />
+    <property name="label" value="Replacement Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="replacementAmount" />
+    <property name="description" value="replacementAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-retirementAccountNumber" parent="Asset-retirementAccountNumber-parentBean" />
+
+  <bean id="Asset-retirementAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="retirementAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Cash Receipt Account" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="retirementAccountNumber" />
+    <property name="description" value="retirementAccountNumber description..." />
+  </bean>
+  <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountsCode-parentBean" />
+
+  <bean id="Asset-retirementChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="retirementChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Cash Receipt Chart" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="retirementChartOfAccountsCode" />
+    <property name="description" value="retirementChartOfAccountsCode description..." />
+  </bean>
+  <bean id="Asset-retirementFiscalYear" parent="Asset-retirementFiscalYear-parentBean" />
+
+  <bean id="Asset-retirementFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="retirementFiscalYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Retirement Fiscal Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="retirementFiscalYear" />
+    <property name="description" value="retirementFiscalYear description..." />
+  </bean>
+  <bean id="Asset-retirementPeriodCode" parent="Asset-retirementPeriodCode-parentBean" />
+
+  <bean id="Asset-retirementPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="retirementPeriodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Retirement Period Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="retirementPeriodCode" />
+    <property name="description" value="retirementPeriodCode description..." />
+  </bean>
+  <bean id="Asset-retirementReasonCode" parent="Asset-retirementReasonCode-parentBean" />
+
+  <bean id="Asset-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="retirementReasonCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Retirement Reason" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="retirementReasonCode" />
+    <property name="description" value="retirementReasonCode description..." />
+  </bean>
+  <bean id="Asset-salePrice" parent="Asset-salePrice-parentBean" />
+
+  <bean id="Asset-salePrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="salePrice" />
+    <property name="label" value="Sale Price" />
+    <property name="shortLabel" value="Price" />
+    <property name="summary" value="salePrice" />
+    <property name="description" value="salePrice description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-salvageAmount" parent="Asset-salvageAmount-parentBean" />
+
+  <bean id="Asset-salvageAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="salvageAmount" />
+    <property name="label" value="Salvage Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="salvageAmount" />
+    <property name="description" value="salvageAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-secondaryDepreciationMethodCode" parent="Asset-secondaryDepreciationMethodCode-parentBean" />
+
+  <bean id="Asset-secondaryDepreciationMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="secondaryDepreciationMethodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Secondary Depreciation Method Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="secondaryDepreciationMethodCode" />
+    <property name="description" value="secondaryDepreciationMethodCode description..." />
+  </bean>
+  <bean id="Asset-serialNumber" parent="Asset-serialNumber-parentBean" />
+
+  <bean id="Asset-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="serialNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Serial Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="serialNumber" />
+    <property name="description" value="serialNumber description..." />
+  </bean>
+  <bean id="Asset-signatureCode" parent="Asset-signatureCode-parentBean" />
+
+  <bean id="Asset-signatureCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="signatureCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Signature Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="signatureCode" />
+    <property name="description" value="signatureCode description..." />
+  </bean>
+  <bean id="Asset-totalCostAmount" parent="Asset-totalCostAmount-parentBean" />
+
+  <bean id="Asset-totalCostAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalCostAmount" />
+    <property name="label" value="Total Cost" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="totalCostAmount" />
+    <property name="description" value="totalCostAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-transferOfFundsFinancialDocumentNumber" parent="Asset-transferOfFundsFinancialDocumentNumber-parentBean" />
+
+  <bean id="Asset-transferOfFundsFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transferOfFundsFinancialDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transfer Of Funds Financial Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="transferOfFundsFinancialDocumentNumber" />
+    <property name="description" value="transferOfFundsFinancialDocumentNumber description..." />
+  </bean>
+  <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean" />
+
+  <bean id="Asset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="vendorName" />
+    <property name="description" value="vendorName description..." />
+  </bean>
+  <bean id="Asset-versionNumber" parent="Asset-versionNumber-parentBean" />
+
+  <bean id="Asset-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="Asset-capitalAssetType.depreciableLifeLimit" parent="Asset-capitalAssetType.depreciableLifeLimit-parentBean" />
+
+  <bean id="Asset-capitalAssetType.depreciableLifeLimit-parentBean" abstract="true" parent="AssetType-depreciableLifeLimit">
+    <property name="name" value="capitalAssetType.depreciableLifeLimit" />
+  </bean>
+  <bean id="Asset-representativeUniversalIdentifier" parent="Asset-representativeUniversalIdentifier-parentBean" />
+
+  <bean id="Asset-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="representativeUniversalIdentifier" />
+    <property name="label" value="Asset Representative ID" />
+    <property name="shortLabel" value="Representative ID" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="assetRepresentative.personUserIdentifier" />
+  </bean>
+  <bean id="Asset-assetRepresentative.personUserIdentifier" parent="Asset-assetRepresentative.personUserIdentifier-parentBean" />
+
+  <bean id="Asset-assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="assetRepresentative.personUserIdentifier" />
+    <property name="label" value="Asset Representative" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="assetRepresentative.personName"
+            p:universalIdAttributeName="representativeUniversalIdentifier"
+            p:userIdAttributeName="assetRepresentative.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="Asset-assetRepresentative.personName" parent="Asset-assetRepresentative.personName-parentBean" />
+
+  <bean id="Asset-assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="assetRepresentative.personName" />
+    <property name="label" value="Asset Representative Name" />
+    <property name="shortLabel" value="Representative" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Asset-organizationOwnerAccountNumber" parent="Asset-organizationOwnerAccountNumber-parentBean" />
+
+  <bean id="Asset-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="organizationOwnerAccountNumber" />
+    <property name="label" value="Organization Owner Account Number" />
+  </bean>
+  <bean id="Asset-organizationOwnerChartOfAccountsCode" parent="Asset-organizationOwnerChartOfAccountsCode-parentBean" />
+
+  <bean id="Asset-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
+    <property name="name" value="organizationOwnerChartOfAccountsCode" />
+    <property name="label" value="Organization Owner Chart Of Accounts Code" />
+  </bean>
+  <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
+
+  <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
+    <property name="name" value="organizationOwnerAccount.organizationCode" />
+    <property name="label" value="Organization Owner Organization Code" />
+  </bean>
+  <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean" />
+
+  <bean id="Asset-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
+    <property name="label" value="Asset Type Code" />
+  </bean>
+  <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean" />
+
+  <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="label" value="Campus" />
+  </bean>
+  <bean id="Asset-buildingCode" parent="Asset-buildingCode-parentBean" />
+
+  <bean id="Asset-buildingCode-parentBean" abstract="true" parent="Room-buildingCode">
+  </bean>
+  <bean id="Asset-buildingRoomNumber" parent="Asset-buildingRoomNumber-parentBean" />
+
+  <bean id="Asset-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
+  </bean>
+  <bean id="Asset-assetOrganization.organizationTagNumber" parent="Asset-assetOrganization.organizationTagNumber-parentBean" />
+
+  <bean id="Asset-assetOrganization.organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
+    <property name="name" value="assetOrganization.organizationTagNumber" />
+  </bean>
+  <bean id="Asset-assetOrganization.organizationText" parent="Asset-assetOrganization.organizationText-parentBean" />
+
+  <bean id="Asset-assetOrganization.organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
+    <property name="name" value="assetOrganization.organizationText" />
+  </bean>
+  <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier" parent="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" />
+
+  <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AssetOrganization-organizationAssetTypeIdentifier">
+    <property name="name" value="assetOrganization.organizationAssetTypeIdentifier" />
+    <property name="label" value="Organization Asset Type" />
+  </bean>
+  <bean id="Asset-assetOrganization.versionNumber" parent="Asset-assetOrganization.versionNumber-parentBean" />
+
+  <bean id="Asset-assetOrganization.versionNumber-parentBean" abstract="true" parent="AssetOrganization-versionNumber">
+    <property name="name" value="assetOrganization.versionNumber" />
+  </bean>
+  <bean id="Asset-conditionCode" parent="Asset-conditionCode-parentBean" />
+
+  <bean id="Asset-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
+    <property name="name" value="conditionCode" />
+    <property name="label" value="Asset Condition" />
+  </bean>
+  <bean id="Asset-landCountyName" parent="Asset-landCountyName-parentBean" />
+
+  <bean id="Asset-landCountyName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="landCountyName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Land County" />
+    <property name="shortLabel" value="landCountyName" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="landCountyName" />
+    <property name="description" value="Land country name." />
+  </bean>
+  <bean id="Asset-landAcreageSize" parent="Asset-landAcreageSize-parentBean" />
+
+  <bean id="Asset-landAcreageSize-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="landAcreageSize" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Land Acreage" />
+    <property name="shortLabel" value="landAcreageSize" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="landAcreageSize" />
+    <property name="description" value="Land acreage size." />
+  </bean>
+  <bean id="Asset-landParcelNumber" parent="Asset-landParcelNumber-parentBean" />
+
+  <bean id="Asset-landParcelNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="landParcelNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Land Parcel Number" />
+    <property name="shortLabel" value="landParcelNumber" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="landParcelNumber" />
+    <property name="description" value="Land parcel number." />
+  </bean>
+  <bean id="Asset-accumulatedDepreciation" parent="Asset-accumulatedDepreciation-parentBean" />
+
+  <bean id="Asset-accumulatedDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accumulatedDepreciation" />
+    <property name="label" value="Accumulated Depreciation" />
+    <property name="shortLabel" value="Accumulated" />
+    <property name="summary" value="Accumulated Depreciation" />
+    <property name="description" value="Accumulated Depreciation Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-baseAmount" parent="Asset-baseAmount-parentBean" />
+
+  <bean id="Asset-baseAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="baseAmount" />
+    <property name="label" value="Base Amount" />
+    <property name="shortLabel" value="Base" />
+    <property name="summary" value="Base Amount" />
+    <property name="description" value="Base Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-bookValue" parent="Asset-bookValue-parentBean" />
+
+  <bean id="Asset-bookValue-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="bookValue" />
+    <property name="label" value="Book Value" />
+    <property name="shortLabel" value="Book Value" />
+    <property name="summary" value="Book Value" />
+    <property name="description" value="Book Value" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-prevYearDepreciation" parent="Asset-prevYearDepreciation-parentBean" />
+
+  <bean id="Asset-prevYearDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="prevYearDepreciation" />
+    <property name="label" value="Previous Year" />
+    <property name="shortLabel" value="Previous Year" />
+    <property name="summary" value="Previous Year Depreciation" />
+    <property name="description" value="Previous Year Depreciation" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-yearToDateDepreciation" parent="Asset-yearToDateDepreciation-parentBean" />
+
+  <bean id="Asset-yearToDateDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="yearToDateDepreciation" />
+    <property name="label" value="Year To Date" />
+    <property name="shortLabel" value="Year To Date" />
+    <property name="summary" value="Year To Date Depreciation" />
+    <property name="description" value="Year To Date Depreciation" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-currentMonthDepreciation" parent="Asset-currentMonthDepreciation-parentBean" />
+
+  <bean id="Asset-currentMonthDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="currentMonthDepreciation" />
+    <property name="label" value="Current Month" />
+    <property name="shortLabel" value="Current Month" />
+    <property name="summary" value="Current Month Depreciation" />
+    <property name="description" value="Current Month Depreciation" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-paymentTotalCost" parent="Asset-paymentTotalCost-parentBean" />
+
+  <bean id="Asset-paymentTotalCost-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="paymentTotalCost" />
+    <property name="label" value="Display Total Cost" />
+    <property name="shortLabel" value="Total Cost" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-federalContribution" parent="Asset-federalContribution-parentBean" />
+
+  <bean id="Asset-federalContribution-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="federalContribution" />
+    <property name="label" value="Federal Contribution" />
+    <property name="shortLabel" value="Contribution" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyNumber" parent="Asset-assetWarranty.warrantyNumber-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyNumber-parentBean" abstract="true" parent="AssetWarranty-warrantyNumber">
+    <property name="name" value="assetWarranty.warrantyNumber" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyContactName" parent="Asset-assetWarranty.warrantyContactName-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyContactName-parentBean" abstract="true" parent="AssetWarranty-warrantyContactName">
+    <property name="name" value="assetWarranty.warrantyContactName" />
+    <property name="label" value="Contact Name" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyPhoneNumber" parent="Asset-assetWarranty.warrantyPhoneNumber-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyPhoneNumber-parentBean" abstract="true" parent="AssetWarranty-warrantyPhoneNumber">
+    <property name="name" value="assetWarranty.warrantyPhoneNumber" />
+    <property name="label" value="Phone Number" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyPurchaseOrderNumber" parent="Asset-assetWarranty.warrantyPurchaseOrderNumber-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyPurchaseOrderNumber-parentBean" abstract="true" parent="AssetWarranty-warrantyPurchaseOrderNumber">
+    <property name="name" value="assetWarranty.warrantyPurchaseOrderNumber" />
+    <property name="label" value="Purchase Order Number" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyBeginningDate" parent="Asset-assetWarranty.warrantyBeginningDate-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyBeginningDate-parentBean" abstract="true" parent="AssetWarranty-warrantyBeginningDate">
+    <property name="name" value="assetWarranty.warrantyBeginningDate" />
+    <property name="label" value="Begin Date" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyEndingDate" parent="Asset-assetWarranty.warrantyEndingDate-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyEndingDate-parentBean" abstract="true" parent="AssetWarranty-warrantyEndingDate">
+    <property name="name" value="assetWarranty.warrantyEndingDate" />
+    <property name="label" value="End Date" />
+  </bean>
+  <bean id="Asset-assetWarranty.warrantyText" parent="Asset-assetWarranty.warrantyText-parentBean" />
+
+  <bean id="Asset-assetWarranty.warrantyText-parentBean" abstract="true" parent="AssetWarranty-warrantyText">
+    <property name="name" value="assetWarranty.warrantyText" />
+    <property name="label" value="Description" />
+  </bean>
+  <bean id="Asset-assetWarranty.versionNumber" parent="Asset-assetWarranty.versionNumber-parentBean" />
+
+  <bean id="Asset-assetWarranty.versionNumber-parentBean" abstract="true" parent="AssetWarranty-versionNumber">
+    <property name="name" value="assetWarranty.versionNumber" />
+  </bean>
+  <bean id="Asset-assetSeparateHistory.originalCapitalAssetNumber" parent="Asset-assetSeparateHistory.originalCapitalAssetNumber-parentBean" />
+
+  <bean id="Asset-assetSeparateHistory.originalCapitalAssetNumber-parentBean" abstract="true" parent="AssetDisposition-originalCapitalAssetNumber">
+    <property name="name" value="assetSeparateHistory.originalCapitalAssetNumber" />
+    <property name="label" value="Original Asset Number" />
+    <property name="shortLabel" value="OrigAssetNbr" />
+  </bean>
+  <bean id="Asset-assetSeparateHistory.dispositionDate" parent="Asset-assetSeparateHistory.dispositionDate-parentBean" />
+
+  <bean id="Asset-assetSeparateHistory.dispositionDate-parentBean" abstract="true" parent="AssetDisposition-dispositionDate">
+    <property name="name" value="assetSeparateHistory.dispositionDate" />
+    <property name="label" value="Separate Date" />
+    <property name="shortLabel" value="SeparateDate" />
+  </bean>
+  <bean id="Asset-assetDispositions.versionNumber" parent="Asset-assetDispositions.versionNumber-parentBean" />
+
+  <bean id="Asset-assetDispositions.versionNumber-parentBean" abstract="true" parent="AssetDisposition-versionNumber">
+    <property name="name" value="assetDispositions.versionNumber" />
+  </bean>
+  <bean id="Asset-retirementInfo.documentNumber" parent="Asset-retirementInfo.documentNumber-parentBean" />
+
+  <bean id="Asset-retirementInfo.documentNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-documentNumber">
+    <property name="name" value="retirementInfo.documentNumber" />
+    <property name="label" value="Retirement Document Number" />
+    <property name="shortLabel" value="RetireDocNbr" />
+  </bean>
+  <bean id="Asset-retirementReason.retirementReasonName" parent="Asset-retirementReason.retirementReasonName-parentBean" />
+
+  <bean id="Asset-retirementReason.retirementReasonName-parentBean" abstract="true" parent="AssetRetirementReason-retirementReasonName">
+    <property name="name" value="retirementReason.retirementReasonName" />
+    <property name="label" value="Retirement Reason" />
+    <property name="shortLabel" value="Reason" />
+  </bean>
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementDate" parent="Asset-retirementInfo.assetRetirementGlobal.retirementDate-parentBean" />
+
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementDate-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementDate">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementDate" />
+  </bean>
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" parent="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber-parentBean" />
+
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber-parentBean" abstract="true" parent="AssetRetirementGlobal-mergedTargetCapitalAssetNumber">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementContactName" parent="Asset-retirementInfo.retirementContactName-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementContactName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementContactName">
+    <property name="name" value="retirementInfo.retirementContactName" />
+    <property name="label" value="Contact Name" />
+    <property name="shortLabel" value="name" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementInstitutionName" parent="Asset-retirementInfo.retirementInstitutionName-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementInstitutionName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementInstitutionName">
+    <property name="name" value="retirementInfo.retirementInstitutionName" />
+    <property name="label" value="Institution" />
+    <property name="shortLabel" value="Institution" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementStreetAddress" parent="Asset-retirementInfo.retirementStreetAddress-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementStreetAddress-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStreetAddress">
+    <property name="name" value="retirementInfo.retirementStreetAddress" />
+    <property name="label" value="Street" />
+    <property name="shortLabel" value="Street" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementCityName" parent="Asset-retirementInfo.retirementCityName-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementCityName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCityName">
+    <property name="name" value="retirementInfo.retirementCityName" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementStateCode" parent="Asset-retirementInfo.retirementStateCode-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementStateCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStateCode">
+    <property name="name" value="retirementInfo.retirementStateCode" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementZipCode" parent="Asset-retirementInfo.retirementZipCode-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementZipCode">
+    <property name="name" value="retirementInfo.retirementZipCode" />
+    <property name="label" value="Zip Code" />
+    <property name="shortLabel" value="Zip" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementCountryCode" parent="Asset-retirementInfo.retirementCountryCode-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCountryCode">
+    <property name="name" value="retirementInfo.retirementCountryCode" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementPhoneNumber" parent="Asset-retirementInfo.retirementPhoneNumber-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementPhoneNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementPhoneNumber">
+    <property name="name" value="retirementInfo.retirementPhoneNumber" />
+    <property name="label" value="Phone" />
+    <property name="shortLabel" value="Phone" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" parent="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerUniversalUser.personName">
+    <property name="name" value="loanOrReturnInfo.borrowerUniversalUser.personName" />
+    <property name="label" value="Name" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerAddress" parent="Asset-loanOrReturnInfo.borrowerAddress-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerAddress">
+    <property name="name" value="loanOrReturnInfo.borrowerAddress" />
+    <property name="label" value="Street" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerCityName" parent="Asset-loanOrReturnInfo.borrowerCityName-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerCityName">
+    <property name="name" value="loanOrReturnInfo.borrowerCityName" />
+    <property name="label" value="City" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStateCode" parent="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStateCode">
+    <property name="name" value="loanOrReturnInfo.borrowerStateCode" />
+    <property name="label" value="State" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerZipCode" parent="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerZipCode">
+    <property name="name" value="loanOrReturnInfo.borrowerZipCode" />
+    <property name="label" value="Zip Code" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerCountryCode" parent="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerCountryCode">
+    <property name="name" value="loanOrReturnInfo.borrowerCountryCode" />
+    <property name="label" value="Country" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber" parent="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerPhoneNumber">
+    <property name="name" value="loanOrReturnInfo.borrowerPhoneNumber" />
+    <property name="label" value="Phone" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress" parent="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageAddress">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageAddress" />
+    <property name="label" value="Street" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName" parent="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageCityName">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageCityName" />
+    <property name="label" value="City" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageStateCode">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageStateCode" />
+    <property name="label" value="State" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode" parent="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageZipCode">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageZipCode" />
+    <property name="label" value="Zip Code" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode" parent="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageCountryCode">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageCountryCode" />
+    <property name="label" value="Country" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" parent="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStoragePhoneNumber">
+    <property name="name" value="loanOrReturnInfo.borrowerStoragePhoneNumber" />
+    <property name="label" value="Phone" />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationContactName" parent="Asset-offCampusLocation.assetLocationContactName-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationContactName-parentBean" abstract="true" parent="AssetLocation-assetLocationContactName">
+    <property name="name" value="offCampusLocation.assetLocationContactName" />
+    <property name="label" value="Name" />
+    <property name="summary" value="Asset Off Campus Name" />
+    <property name="description" value="Asset Off Campus Name description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationStreetAddress" parent="Asset-offCampusLocation.assetLocationStreetAddress-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationStreetAddress-parentBean" abstract="true" parent="AssetLocation-assetLocationStreetAddress">
+    <property name="name" value="offCampusLocation.assetLocationStreetAddress" />
+    <property name="label" value="Address" />
+    <property name="summary" value="Asset Off Campus Address" />
+    <property name="description" value="Asset Off Campus Address description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationCityName" parent="Asset-offCampusLocation.assetLocationCityName-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationCityName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
+    <property name="name" value="offCampusLocation.assetLocationCityName" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+    <property name="summary" value="Asset Off Campus City" />
+    <property name="description" value="Asset Off Campus City description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode">
+    <property name="name" value="offCampusLocation.assetLocationStateCode" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kfs.bo.State"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="postalStateCode"
+            p:labelAttribute="postalStateName" />
+    </property>
+    <property name="summary" value="Asset Off Campus State" />
+    <property name="description" value="Asset Off Campus State description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationZipCode" parent="Asset-offCampusLocation.assetLocationZipCode-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode">
+    <property name="name" value="offCampusLocation.assetLocationZipCode" />
+    <property name="label" value="Zip" />
+    <property name="shortLabel" value="Zip" />
+    <property name="summary" value="Asset Off Campus Zip" />
+    <property name="description" value="Asset Off Campus Zip description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationCountryCode" parent="Asset-offCampusLocation.assetLocationCountryCode-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode">
+    <property name="name" value="offCampusLocation.assetLocationCountryCode" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kfs.bo.Country"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="postalCountryCode"
+            p:labelAttribute="postalCountryName" />
+    </property>
+    <property name="summary" value="Asset Off Campus Country" />
+    <property name="description" value="Asset Off Campus Country description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.versionNumber" parent="Asset-offCampusLocation.versionNumber-parentBean" />
+
+  <bean id="Asset-offCampusLocation.versionNumber-parentBean" abstract="true" parent="AssetLocation-versionNumber">
+    <property name="name" value="offCampusLocation.versionNumber" />
+  </bean>
+  <bean id="Asset-assetStatus.inventoryStatusCode" parent="Asset-assetStatus.inventoryStatusCode-parentBean" />
+
+  <bean id="Asset-assetStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
+    <property name="name" value="assetStatus.inventoryStatusCode" />
+  </bean>
+  <bean id="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" parent="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode-parentBean" />
+
+  <bean id="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode-parentBean" abstract="true" parent="AssetDepreciationMethod-depreciationMethodCode">
+    <property name="name" value="assetPrimaryDepreciationMethod.depreciationMethodCode" />
+  </bean>
+  <bean id="Asset-inventoryStatus.inventoryStatusCode" parent="Asset-inventoryStatus.inventoryStatusCode-parentBean" />
+
+  <bean id="Asset-inventoryStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
+    <property name="name" value="inventoryStatus.inventoryStatusCode" />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="name" value="offCampusLocation.assetLocationState.postalStateCode" />
+  </bean>
+  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" />
+
+  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+    <property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="name" value="loanOrReturnInfo.borrowerState.postalStateCode" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+    <property name="name" value="loanOrReturnInfo.borrowerCountry.postalCountryName" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+  </bean>
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" />
+
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+    <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Asset-inquiryDefinition" parent="Asset-inquiryDefinition-parentBean" />
+
+  <bean id="Asset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Asset Detail Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationOwnerChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationOwnerAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationOwnerAccount.organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="agencyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="acquisitionTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="inventoryStatus.inventoryStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="conditionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="manufacturerName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="manufacturerModelNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="serialNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="oldTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="governmentTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="nationalStockNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lastInventoryDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="createDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetInServiceDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="totalCostAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="federalContribution" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Asset Location" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="On Campus" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingSubRoomNumber" />
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Off Campus" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationStreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationState.postalStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusLocation.assetLocationCountry.postalCountryName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationInventoryName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="representativeUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetRepresentative.personUserIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetRepresentative.personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetOrganization.organizationText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetOrganization.organizationTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetOrganization.organizationAssetTypeIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receiveDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="replacementAmount" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Fabrication Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="estimatedFabricationCompletionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fabricationEstimatedTotalAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="estimatedFabricationLifetimeLimitNumber" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Land Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="landCountyName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="landAcreageSize" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="landParcelNumber" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Payment Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="assetPayments" />
+                <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetPayment" />
+                <property name="numberOfColumns" value="2" />
+                <property name="summaryTitle" value="Payment" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="chartOfAccountsCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="subAccountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialObjectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="projectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationReferenceId" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="documentNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentTypeCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="purchaseOrderNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="requisitionNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingYear" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingPeriodCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="transferPaymentCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountChargeAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accumulatedPrimaryDepreciationAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="yearToDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="previousYearPrimaryDepreciationAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period1Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period2Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period3Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period4Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period5Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period6Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period7Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period8Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period9Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period10Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period11Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="period12Depreciation1Amount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="paymentSequenceNumber" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="paymentSequenceNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentPostingDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountChargeAmount" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Asset Depreciation Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetPrimaryDepreciationMethod.depreciationMethodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetType.depreciableLifeLimit" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="baseAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salvageAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accumulatedDepreciation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bookValue" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="yearToDateDepreciation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="currentMonthDepreciation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="prevYearDepreciation" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="View Asset Merge History" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="mergeHistory" />
+                <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" />
+                <property name="numberOfColumns" value="1" />
+                <property name="summaryTitle" value="Source Asset" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="capitalAssetNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="assetRetirementGlobal.retirementDate" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="capitalAssetNumber" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="View Asset Separate History" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetSeparateHistory.originalCapitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetSeparateHistory.dispositionDate" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="View Retirement Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementReasonCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.assetRetirementGlobal.retirementDate" />
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Sale" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salePrice" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="estimatedSellingPrice" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashReceiptFinancialDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementAccountNumber" />
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Stolen" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusPoliceDepartmentCaseNumber" />
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="External Transfer/Gift" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementInstitutionName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementStreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.retirementPhoneNumber" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="View Equipment Loan Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expectedReturnDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanReturnDate" />
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Borrower Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerUniversalUser.personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerState.postalStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerCountry.postalCountryName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerPhoneNumber" />
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Stored at Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerStorageAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerStorageCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerStorageZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="loanOrReturnInfo.borrowerStoragePhoneNumber" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Warranty" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyPurchaseOrderNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyText" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Repair History" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="assetRepairHistory" />
+                <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRepairHistory" />
+                <property name="numberOfColumns" value="2" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="incidentDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="problemDescription" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="repairContactName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="estimatedRepairDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="repairDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="repairAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="repairSolutionDescription" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="repairNoteText" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Components" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="assetComponents" />
+                <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetComponent" />
+                <property name="numberOfColumns" value="2" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentDescription" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentConditionCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentVendorName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentManufacturerName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentManufacturerModelNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentSerialNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentOrganizationTagNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentContactPhoneNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentOrganizationText" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentEstimatedLifetimeLimit" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentReplacementAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="governmentTagNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="nationalStockNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyContactName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyPhoneNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyPurchaseOrderNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyBeginningDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyEndingDate" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="componentWarrantyText" />
+                  </list>
+                </property>
+                <property name="inquiryCollections" >
+                  <list>
+                    <bean parent="InquiryCollectionDefinition">
+                      <property name="attributeName" value="componentRepairHistory" />
+                      <property name="businessObjectClass" value="org.kuali.module.cams.bo.ComponentRepairHistory" />
+                      <property name="numberOfColumns" value="2" />
+                      <property name="inquiryFields" >
+                        <list>
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentIncidentDate" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentProblemDescription" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentRepairContactName" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentEstimatedRepairDate" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentRepairDate" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentRepairAmount" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentRepairSolutionDescription" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="componentRepairNoteText" />
+                        </list>
+                      </property>
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.module.cams.web.inquirable.AssetInquirableImpl" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Asset-lookupDefinition" parent="Asset-lookupDefinition-parentBean" />
+
+  <bean id="Asset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Lookup" />
+    <property name="lookupableID" value="assetLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.module.cams.bo.Asset&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-createfabreq.gif&quot; alt=&quot;create new fabrication request&quot; width=&quot;161&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;lookup.do?businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementReason&amp;conversionFields=retirementReasonCode%3AretirementReasonCode&amp;returnLocation=maintenance.do&amp;docFormKey=88888888&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewretglo.gif&quot; alt=&quot;create new retirement global&quot; width=&quot;156&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewloctagglo.gif&quot; alt=&quot;create new location/tag global&quot; width=&quot;161&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crenewaddasglo.gif&quot; alt=&quot;create new add asset global&quot; width=&quot;151&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
+    <property name="instructions" value="Look up an Asset" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationOwnerChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationOwnerAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationOwnerAccount.organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="conditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="representativeUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetRepresentative.personUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetRepresentative.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationInventoryName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="manufacturerName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="manufacturerModelNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="serialNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="nationalStockNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="createDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="oldTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetOrganization.organizationTagNumber"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="governmentTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="totalCostAmount" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationOwnerAccount.organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetInServiceDate" />
+      </list>
+    </property>
+  </bean>
+</beans>

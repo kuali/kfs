@@ -1,219 +1,230 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate">
+  <bean id="BudgetGraduateAssistantRate" parent="BudgetGraduateAssistantRate-parentBean" />
 
+  <bean id="BudgetGraduateAssistantRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate" />
+    <property name="objectLabel" value="Budget Graduate Assistant Rate" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetGraduateAssistantRate-documentNumber" />
+        <ref bean="BudgetGraduateAssistantRate-campusCode" />
+        <ref bean="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate" />
+        <ref bean="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate" />
+        <ref bean="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate" />
+        <ref bean="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate" />
+        <ref bean="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate" />
+        <ref bean="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate" />
+        <ref bean="BudgetGraduateAssistantRate-lastUpdateTimestamp" />
+        <ref bean="BudgetGraduateAssistantRate-objectId" />
+        <ref bean="BudgetGraduateAssistantRate-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <attributes>
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Budget Number</label>
-                <shortLabel>Budget Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Budget Number...</summary>
-                <description>Budget Number...</description>
-            </attribute>
+<!-- Attribute Definitions -->
 
 
-            <attribute name="campusCode" forceUppercase="false">
-                <label>Campus Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="BudgetGraduateAssistantRate-documentNumber" parent="BudgetGraduateAssistantRate-documentNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="BudgetGraduateAssistantRate-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Number" />
+    <property name="shortLabel" value="Budget Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Budget Number..." />
+    <property name="description" value="Budget Number..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusCode" parent="BudgetGraduateAssistantRate-campusCode-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
+  <bean id="BudgetGraduateAssistantRate-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Campus Code" />
+    <property name="description" value="Campus Code..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate-parentBean" />
 
-                <summary>Campus Code</summary>
-                <description>Campus Code...</description>
-            </attribute>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusMaximumPeriod1Rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period 1 Remission Rate" />
+    <property name="shortLabel" value="Period 1 Remission Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Period 1 Remission Rate" />
+    <property name="description" value="Period 1 Remission Rate..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate-parentBean" />
 
-            <attribute name="campusMaximumPeriod1Rate" forceUppercase="false">
-                <label>Period 1 Remission Rate</label>
-                <shortLabel>Period 1 Remission Rate</shortLabel>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusMaximumPeriod2Rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period 2 Remission Rate" />
+    <property name="shortLabel" value="Period 2 Remission Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Period 2 Remission Rate" />
+    <property name="description" value="Period 2 Remission Rate..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusMaximumPeriod3Rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period 3 Remission Rate" />
+    <property name="shortLabel" value="Period 3 Remission Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Period 3 Remission Rate" />
+    <property name="description" value="Period 3 Remission Rate..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusMaximumPeriod4Rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period 4 Remission Rate" />
+    <property name="shortLabel" value="Period 4 Remission Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Period 4 Remission Rate" />
+    <property name="description" value="Period 4 Remission Rate..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate-parentBean" />
 
-                <summary>Period 1 Remission Rate</summary>
-                <description>Period 1 Remission Rate...</description>
-            </attribute>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusMaximumPeriod5Rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period 5 Remission Rate" />
+    <property name="shortLabel" value="Period 5 Remission Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Period 5 Remission Rate" />
+    <property name="description" value="Period 5 Remission Rate..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate-parentBean" />
 
-            <attribute name="campusMaximumPeriod2Rate" forceUppercase="false">
-                <label>Period 2 Remission Rate</label>
-                <shortLabel>Period 2 Remission Rate</shortLabel>
+  <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusMaximumPeriod6Rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Period 6 Remission Rate" />
+    <property name="shortLabel" value="Period 6 Remission Rate" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Period 6 Remission Rate" />
+    <property name="description" value="Period 6 Remission Rate..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-lastUpdateTimestamp" parent="BudgetGraduateAssistantRate-lastUpdateTimestamp-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+  <bean id="BudgetGraduateAssistantRate-lastUpdateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lastUpdateTimestamp" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Last Update Timestamp" />
+    <property name="shortLabel" value="Last Update" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Budget Last Update Timestamp" />
+    <property name="description" value="Budget Last Update Timestamp..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-objectId" parent="BudgetGraduateAssistantRate-objectId-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="BudgetGraduateAssistantRate-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+    <property name="summary" value="objectId summary..." />
+    <property name="description" value="objectId description..." />
+  </bean>
+  <bean id="BudgetGraduateAssistantRate-versionNumber" parent="BudgetGraduateAssistantRate-versionNumber-parentBean" />
 
-                <summary>Period 2 Remission Rate</summary>
-                <description>Period 2 Remission Rate...</description>
-            </attribute>
-
-            <attribute name="campusMaximumPeriod3Rate" forceUppercase="false">
-                <label>Period 3 Remission Rate</label>
-                <shortLabel>Period 3 Remission Rate</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Period 3 Remission Rate</summary>
-                <description>Period 3 Remission Rate...</description>
-            </attribute>
-
-            <attribute name="campusMaximumPeriod4Rate" forceUppercase="false">
-                <label>Period 4 Remission Rate</label>
-                <shortLabel>Period 4 Remission Rate</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Period 4 Remission Rate</summary>
-                <description>Period 4 Remission Rate...</description>
-            </attribute>
-
-            <attribute name="campusMaximumPeriod5Rate" forceUppercase="false">
-                <label>Period 5 Remission Rate</label>
-                <shortLabel>Period 5 Remission Rate</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Period 5 Remission Rate</summary>
-                <description>Period 5 Remission Rate...</description>
-            </attribute>
-
-            <attribute name="campusMaximumPeriod6Rate" forceUppercase="false">
-                <label>Period 6 Remission Rate</label>
-                <shortLabel>Period 6 Remission Rate</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Period 6 Remission Rate</summary>
-                <description>Period 6 Remission Rate...</description>
-            </attribute>
-
-            <attribute name="lastUpdateTimestamp" forceUppercase="false">
-                <label>Budget Last Update Timestamp</label>
-                <shortLabel>Last Update</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Budget Last Update Timestamp</summary>
-                <description>Budget Last Update Timestamp...</description>
-            </attribute>
-
-            <attribute name="objectId" forceUppercase="true">
-                <label>Object Id</label>
-                <shortLabel>GUID</shortLabel>
-
-                <maxLength>36</maxLength>
-
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-
-                <control>
-                    <text size="36" />
-                </control>
-
-                <summary>objectId summary...</summary>
-                <description>objectId description...</description>
-            </attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
-            </attribute>
-        </attributes>
-
-		<objectLabel>Budget Graduate Assistant Rate</objectLabel>        
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="BudgetGraduateAssistantRate-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
+  </bean>
+</beans>

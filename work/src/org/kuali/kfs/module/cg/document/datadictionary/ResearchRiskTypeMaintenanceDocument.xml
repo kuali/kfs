@@ -1,66 +1,93 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.routingform.bo.ResearchRiskType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ResearchRiskTypeMaintenanceDocument" parent="ResearchRiskTypeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.module.kra.routingform.document.ResearchRiskTypeMaintenanceDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ResearchRiskTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.ResearchRiskType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>researchRiskTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Research Risk Type" />
+    <property name="shortLabel" value="Research Risk Type" />
+    <property name="summary" value="Research Risk Type Maintenance Document" />
+    <property name="description" value="Document used to create or update Research Risk Type objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="RESEARCH_RISK_TYPE"
+            p:parameterDetailType="ResearchRiskType" />
+    </property>
+    <property name="documentTypeName" value="ResearchRiskTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.kra.routingform.document.ResearchRiskTypeMaintenanceDocumentAuthorizer" />
+    <property name="documentTypeCode" value="RRT" />
+    <property name="workflowProperties" >
+      <ref bean="ResearchRiskTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ResearchRiskTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>RRT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Research Risk Type</label>
 
-        <summary>Research Risk Type Maintenance Document</summary>
-        <description>Document used to create or update Research Risk Type objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="ResearchRiskType" parameterName="RESEARCH_RISK_TYPE" />
-        
-        <lockingKeys>
-            <field attributeName="researchRiskTypeCode" />
-        </lockingKeys>
+  <bean id="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode" parent="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Risk Type Code">
-                <maintainableItems>
-                    <maintainableField name="researchRiskTypeCode" required="true" />
-                    <maintainableField name="researchRiskTypeDescription" required="false" />
-                    <maintainableField name="controlAttributeTypeCode" required="true" />
-                    <maintainableField name="researchRiskTypeSortNumber" required="true" />
-                    <maintainableField name="researchRiskTypeNotificationGroupText" required="false" />
-                    <maintainableField name="researchRiskTypeNotificationValue" required="false" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ResearchRiskTypeMaintenanceDocument-EditRiskTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Risk Type Code" />
+    <property name="title" value="Edit Risk Type Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="researchRiskTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="researchRiskTypeDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="controlAttributeTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="researchRiskTypeSortNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="researchRiskTypeNotificationGroupText" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="researchRiskTypeNotificationValue" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowProperties" parent="ResearchRiskTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

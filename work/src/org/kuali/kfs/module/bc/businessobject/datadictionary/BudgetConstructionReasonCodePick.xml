@@ -1,113 +1,155 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionReasonCodePick">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionReasonCodePick" parent="BudgetConstructionReasonCodePick-parentBean" />
+
+  <bean id="BudgetConstructionReasonCodePick-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionReasonCodePick" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionReasonCodePick-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionReasonCodePick-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionReasonCodePick-appointmentFundingReasonCode" />
+        <ref bean="BudgetConstructionReasonCodePick-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionReasonCodePick-selectFlag" />
+        <ref bean="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription" />
+        <ref bean="BudgetConstructionReasonCodePick-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Reason Code Pick Inquiry</title>
+  <bean id="BudgetConstructionReasonCodePick-appointmentFundingReasonCode" parent="BudgetConstructionReasonCodePick-appointmentFundingReasonCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="appointmentFundingReasonCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="selectFlag" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionReasonCodePick-appointmentFundingReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentFundingReasonCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Funding Reason Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="appointmentFundingReasonCode" />
+    <property name="description" value="appointmentFundingReasonCode description..." />
+  </bean>
+  <bean id="BudgetConstructionReasonCodePick-personUniversalIdentifier" parent="BudgetConstructionReasonCodePick-personUniversalIdentifier-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Reason Code Pick Lookup</title>
+  <bean id="BudgetConstructionReasonCodePick-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionReasonCodePick-selectFlag" parent="BudgetConstructionReasonCodePick-selectFlag-parentBean" />
 
-            <instructions>Look up a Budget Construction Reason Code Pick</instructions>
+  <bean id="BudgetConstructionReasonCodePick-selectFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="selectFlag" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Select Flag" />
+    <property name="shortLabel" value="Flag" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="selectFlag" />
+    <property name="description" value="selectFlag description..." />
+  </bean>
+  <bean id="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription" parent="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="appointmentFundingReasonCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription-parentBean" abstract="true" parent="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonDescription">
+    <property name="name" value="appointmentFundingReason.appointmentFundingReasonDescription" />
+  </bean>
+  <bean id="BudgetConstructionReasonCodePick-versionNumber" parent="BudgetConstructionReasonCodePick-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="appointmentFundingReasonCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="selectFlag" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionReasonCodePick-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="appointmentFundingReasonCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="selectFlag" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="appointmentFundingReasonCode" forceUppercase="true">
-                <label>Appointment Funding Reason Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="BudgetConstructionReasonCodePick-inquiryDefinition" parent="BudgetConstructionReasonCodePick-inquiryDefinition-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionReasonCodePick-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Reason Code Pick Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentFundingReasonCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="selectFlag" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="5" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>appointmentFundingReasonCode</summary>
-                <description>appointmentFundingReasonCode description...</description>
-			</attribute>
 
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="BudgetConstructionReasonCodePick-lookupDefinition" parent="BudgetConstructionReasonCodePick-lookupDefinition-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-            <attribute name="selectFlag" forceUppercase="true">
-                <label>Select Flag</label>
-                <shortLabel>Flag</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>selectFlag</summary>
-                <description>selectFlag description...</description>
-			</attribute>
-			
-			<attributeReference name="appointmentFundingReason.appointmentFundingReasonDescription" 
-			                    sourceClassName="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReasonCode" 
-			                    sourceAttributeName="appointmentFundingReasonDescription" />                 
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionReasonCodePick-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Reason Code Pick Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Reason Code Pick" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentFundingReasonCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="selectFlag" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentFundingReasonCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="selectFlag" />
+      </list>
+    </property>
+  </bean>
+</beans>

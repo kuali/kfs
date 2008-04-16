@@ -1,177 +1,247 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Electronic Invoice Load Summary Inquiry</title>
+  <bean id="ElectronicInvoiceLoadSummary" parent="ElectronicInvoiceLoadSummary-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
-                <field attributeName="fileProcessDate" />
-                <field attributeName="invoiceLoadFailAmount" />
-                <field attributeName="invoiceLoadFailCount" />
-                <field attributeName="invoiceLoadSuccessAmount" />
-                <field attributeName="invoiceLoadSuccessCount" />
-                <field attributeName="vendorDunsNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ElectronicInvoiceLoadSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary" />
+    <property name="inquiryDefinition" >
+      <ref bean="ElectronicInvoiceLoadSummary-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ElectronicInvoiceLoadSummary-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ElectronicInvoiceLoadSummary-accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+        <ref bean="ElectronicInvoiceLoadSummary-fileProcessDate" />
+        <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadFailAmount" />
+        <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadFailCount" />
+        <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadSuccessAmount" />
+        <ref bean="ElectronicInvoiceLoadSummary-invoiceLoadSuccessCount" />
+        <ref bean="ElectronicInvoiceLoadSummary-vendorDunsNumber" />
+        <ref bean="ElectronicInvoiceLoadSummary-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Electronic Invoice Load Summary Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Electronic Invoice Load Summary</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ElectronicInvoiceLoadSummary-accountsPayableElectronicInvoiceLoadSummaryIdentifier" parent="ElectronicInvoiceLoadSummary-accountsPayableElectronicInvoiceLoadSummaryIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" required="false" />
-                <lookupField attributeName="fileProcessDate" required="false" />
-                <lookupField attributeName="invoiceLoadFailAmount" required="false" />
-                <lookupField attributeName="invoiceLoadFailCount" required="false" />
-                <lookupField attributeName="invoiceLoadSuccessAmount" required="false" />
-                <lookupField attributeName="invoiceLoadSuccessCount" required="false" />
-                <lookupField attributeName="vendorDunsNumber" required="false" />
-            </lookupFields>
+  <bean id="ElectronicInvoiceLoadSummary-accountsPayableElectronicInvoiceLoadSummaryIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Accounts Payable Electronic Invoice Load Summary Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-fileProcessDate" parent="ElectronicInvoiceLoadSummary-fileProcessDate-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
-                <field attributeName="fileProcessDate" />
-                <field attributeName="invoiceLoadFailAmount" />
-                <field attributeName="invoiceLoadFailCount" />
-                <field attributeName="invoiceLoadSuccessAmount" />
-                <field attributeName="invoiceLoadSuccessCount" />
-                <field attributeName="vendorDunsNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="ElectronicInvoiceLoadSummary-fileProcessDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileProcessDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="File Process Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadFailAmount" parent="ElectronicInvoiceLoadSummary-invoiceLoadFailAmount-parentBean" />
 
-        <attributes>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadFailAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceLoadFailAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Load Fail Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadFailCount" parent="ElectronicInvoiceLoadSummary-invoiceLoadFailCount-parentBean" />
 
-            <attribute name="accountsPayableElectronicInvoiceLoadSummaryIdentifier" forceUppercase="true">
-                <label>Accounts Payable Electronic Invoice Load Summary Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadFailCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceLoadFailCount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Load Fail Count" />
+    <property name="shortLabel" value="Count" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadSuccessAmount" parent="ElectronicInvoiceLoadSummary-invoiceLoadSuccessAmount-parentBean" />
 
-                <maxLength>14</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadSuccessAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceLoadSuccessAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Load Success Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadSuccessCount" parent="ElectronicInvoiceLoadSummary-invoiceLoadSuccessCount-parentBean" />
 
-                <control>
-                    <text size="16" />
-                </control>
+  <bean id="ElectronicInvoiceLoadSummary-invoiceLoadSuccessCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceLoadSuccessCount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Load Success Count" />
+    <property name="shortLabel" value="Count" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-vendorDunsNumber" parent="ElectronicInvoiceLoadSummary-vendorDunsNumber-parentBean" />
 
-			</attribute>
+  <bean id="ElectronicInvoiceLoadSummary-vendorDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorDunsNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Duns Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceLoadSummary-versionNumber" parent="ElectronicInvoiceLoadSummary-versionNumber-parentBean" />
 
-            <attribute name="fileProcessDate" forceUppercase="true">
-                <label>File Process Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="ElectronicInvoiceLoadSummary-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="9" />
-                </control>
 
-			</attribute>
+  <bean id="ElectronicInvoiceLoadSummary-inquiryDefinition" parent="ElectronicInvoiceLoadSummary-inquiryDefinition-parentBean" />
 
-            <attribute name="invoiceLoadFailAmount" forceUppercase="true">
-                <label>Invoice Load Fail Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="ElectronicInvoiceLoadSummary-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Electronic Invoice Load Summary Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fileProcessDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceLoadFailAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceLoadFailCount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceLoadSuccessAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceLoadSuccessCount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDunsNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>30</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="32" />
-                </control>
 
-			</attribute>
+  <bean id="ElectronicInvoiceLoadSummary-lookupDefinition" parent="ElectronicInvoiceLoadSummary-lookupDefinition-parentBean" />
 
-            <attribute name="invoiceLoadFailCount" forceUppercase="true">
-                <label>Invoice Load Fail Count</label>
-                <shortLabel>Count</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="invoiceLoadSuccessAmount" forceUppercase="true">
-                <label>Invoice Load Success Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-			</attribute>
-
-            <attribute name="invoiceLoadSuccessCount" forceUppercase="true">
-                <label>Invoice Load Success Count</label>
-                <shortLabel>Count</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorDunsNumber" forceUppercase="true">
-                <label>Vendor Duns Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ElectronicInvoiceLoadSummary-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Electronic Invoice Load Summary Lookup" />
+    <property name="instructions" value="Lookup an Electronic Invoice Load Summary" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileProcessDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadFailAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadFailCount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadSuccessAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadSuccessCount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDunsNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileProcessDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadFailAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadFailCount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadSuccessAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceLoadSuccessCount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDunsNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

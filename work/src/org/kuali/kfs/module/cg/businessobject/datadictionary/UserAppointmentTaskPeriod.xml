@@ -1,329 +1,381 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod">
-
-        <attributes>
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.module.kra.budget.bo.Budget" sourceAttributeName="documentNumber" />
-
-            <attributeReference name="budgetUserSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="budgetUserSequenceNumber" />
-
-            <attributeReference name="budgetTaskSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetTask" sourceAttributeName="budgetTaskSequenceNumber" />
-
-            <attributeReference name="budgetPeriodSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetPeriod" sourceAttributeName="budgetPeriodSequenceNumber" />
-
-            <attributeReference name="institutionAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="appointmentTypeCode">
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="userBudgetPeriodSalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Period Salary</label>
-                <shortLabel>Amount</shortLabel>
-            
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="agencyRequestTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="agencyFringeBenefitTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <shortLabel>Fringe Benefits</shortLabel>
-
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="institutionCostShareRequestTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="institutionCostShareFringeBenefitTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <shortLabel>Fringe Benefits</shortLabel>
-
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attribute name="agencyPercentEffortAmount">
-                <label>Agency Percent Effort Amount</label>
-                <shortLabel>Effort</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="2" />
-                </control>
-
-                <summary>Agency Percent Effort</summary>
-                <description>The percent of effort that will determine the salary amount being requested of the Agency.</description>
-            </attribute>
-
-            <attribute name="institutionCostSharePercentEffortAmount">
-                <label>Institution Percent Effort</label>
-                <shortLabel>Effort</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="2" />
-                </control>
-
-                <summary>Institution Percent Effort</summary>
-                <description>The percent of effort that will determine the salary amount being Cost Shared.</description>
-            </attribute>
-
-            <attribute name="personWeeksAmount">
-                <label># of Weeks</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Number of weeks spent on the project during the summer</summary>
-                <description>The number of weeks that the person has/will spend working on the project during the summer months.</description>
-            </attribute>
-
-            <attribute name="userAgencyHours">
-                <label>Hours Per Period</label>
-                <shortLabel>Rate</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Agency Hours Per Period</summary>
-                <description>The number of hours in the period that will be paid for by the agency.</description>
-            </attribute>
-
-            <attribute name="userInstitutionHours">
-                <label>Hours Per Period</label>
-                <shortLabel>Hours</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Cost Share Hours Per Period</summary>
-                <description>The number of hours in the period that will be paid for from Cost Share.</description>
-            </attribute>
-
-            <attribute name="userHourlyRate">
-                <label>Hourly Rate ($)</label>
-                <shortLabel>Hours</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>Hourly Rate</summary>
-                <description>The amount of money, per hour, that the person will be paid.</description>
-            </attribute>
-
-
-            <attributeReference name="agencyHealthInsuranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Agency Health Insurance Amount</label>
-                <shortLabel>Health Insurance</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Agency Health Insurance Amount</summary>
-                <description>Agency Health Insurance Amount...</description>
-            </attributeReference>
-
-            <attributeReference name="agencyRequestedFeesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Agency Amount Requested</label>
-                <shortLabel>Amount</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-                
-                <summary>Agency Requested Fees</summary>
-                <description>Agency Requested Fees...</description>
-            </attributeReference>
-
-            <attributeReference name="agencySalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Agency Salary Amount</label>
-                <shortLabel>Salary</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-                
-                <summary>Agency Salary Amount</summary>
-                <description>Agency Salary Amount...</description>
-            </attributeReference>
-
-            <attributeReference name="institutionHealthInsuranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Institution Health Insurance Amount</label>
-                <shortLabel>Health Insurance</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Institution Health Insurance Amount</summary>
-                <description>Institution Health Insurance Amount...</description>
-            </attributeReference>
-
-            <attributeReference name="institutionRequestedFeesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Institution Cost Share</label>
-                <shortLabel>Amount</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-                
-                <summary>Institution Requested Fees</summary>
-                <description>Institution Requested Fees...</description>
-            </attributeReference>
-
-            <attributeReference name="institutionSalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Institution Salary Amount</label>
-                <shortLabel>Salary</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-                
-                <summary>Institution Salary Amount</summary>
-                <description>Institution Salary Amount...</description>
-            </attributeReference>
-
-            <attributeReference name="userCreditHourAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>$ Per Credit Hour</label>
-                <shortLabel>Amount</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Amount Per Credit Hour</summary>
-                <description>Amount Per Credit Hour...</description>
-            </attributeReference>
-
-            <attributeReference name="userMiscellaneousFeeAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Miscellaneous Fees</label>
-                <shortLabel>Amount</shortLabel>
-            
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Miscellaneous Fees Amount</summary>
-                <description>Miscellaneous Fees Amount...</description>
-            </attributeReference>
-
-
-            <attribute name="agencyFullTimeEquivalentPercent">
-                <label>FTE</label>
-                <shortLabel>FTE</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Agency FTE</summary>
-                <description>The percent of FTE.</description>
-            </attribute>
-
-            <attribute name="institutionFullTimeEquivalentPercent">
-                <label>FTE</label>
-                <shortLabel>FTE</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Institution Cost Share FTE</summary>
-                <description>The percent of FTE.</description>
-            </attribute>
-
-            <attribute name="userCreditHoursNumber">
-                <label>Credit Hours</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>>Number of Credit Hours</summary>
-                <description>>Number of Credit Hours...</description>
-            </attribute>
-
-        </attributes>
-    </businessObject>
-
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="UserAppointmentTaskPeriod" parent="UserAppointmentTaskPeriod-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod" />
+    <property name="attributes" >
+      <list>
+        <ref bean="UserAppointmentTaskPeriod-documentNumber" />
+        <ref bean="UserAppointmentTaskPeriod-budgetUserSequenceNumber" />
+        <ref bean="UserAppointmentTaskPeriod-budgetTaskSequenceNumber" />
+        <ref bean="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber" />
+        <ref bean="UserAppointmentTaskPeriod-institutionAppointmentTypeCode" />
+        <ref bean="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount" />
+        <ref bean="UserAppointmentTaskPeriod-agencyRequestTotalAmount" />
+        <ref bean="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount" />
+        <ref bean="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount" />
+        <ref bean="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount" />
+        <ref bean="UserAppointmentTaskPeriod-agencyPercentEffortAmount" />
+        <ref bean="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount" />
+        <ref bean="UserAppointmentTaskPeriod-personWeeksAmount" />
+        <ref bean="UserAppointmentTaskPeriod-userAgencyHours" />
+        <ref bean="UserAppointmentTaskPeriod-userInstitutionHours" />
+        <ref bean="UserAppointmentTaskPeriod-userHourlyRate" />
+        <ref bean="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount" />
+        <ref bean="UserAppointmentTaskPeriod-agencyRequestedFeesAmount" />
+        <ref bean="UserAppointmentTaskPeriod-agencySalaryAmount" />
+        <ref bean="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount" />
+        <ref bean="UserAppointmentTaskPeriod-institutionRequestedFeesAmount" />
+        <ref bean="UserAppointmentTaskPeriod-institutionSalaryAmount" />
+        <ref bean="UserAppointmentTaskPeriod-userCreditHourAmount" />
+        <ref bean="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount" />
+        <ref bean="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent" />
+        <ref bean="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent" />
+        <ref bean="UserAppointmentTaskPeriod-userCreditHoursNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="UserAppointmentTaskPeriod-documentNumber" parent="UserAppointmentTaskPeriod-documentNumber-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-documentNumber-parentBean" abstract="true" parent="Budget-documentNumber">
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-budgetUserSequenceNumber" parent="UserAppointmentTaskPeriod-budgetUserSequenceNumber-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-budgetUserSequenceNumber-parentBean" abstract="true" parent="BudgetUser-budgetUserSequenceNumber">
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-budgetTaskSequenceNumber" parent="UserAppointmentTaskPeriod-budgetTaskSequenceNumber-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-budgetTaskSequenceNumber-parentBean" abstract="true" parent="BudgetTask-budgetTaskSequenceNumber">
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber" parent="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-budgetPeriodSequenceNumber-parentBean" abstract="true" parent="BudgetPeriod-budgetPeriodSequenceNumber">
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionAppointmentTypeCode" parent="UserAppointmentTaskPeriod-institutionAppointmentTypeCode-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionAppointmentTypeCode-parentBean" abstract="true" parent="BudgetUser-appointmentTypeCode">
+    <property name="name" value="institutionAppointmentTypeCode" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount" parent="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="userBudgetPeriodSalaryAmount" />
+    <property name="label" value="Period Salary" />
+    <property name="shortLabel" value="Amount" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencyRequestTotalAmount" parent="UserAppointmentTaskPeriod-agencyRequestTotalAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencyRequestTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="agencyRequestTotalAmount" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount" parent="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="agencyFringeBenefitTotalAmount" />
+    <property name="shortLabel" value="Fringe Benefits" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount" parent="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="institutionCostShareRequestTotalAmount" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount" parent="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="institutionCostShareFringeBenefitTotalAmount" />
+    <property name="shortLabel" value="Fringe Benefits" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencyPercentEffortAmount" parent="UserAppointmentTaskPeriod-agencyPercentEffortAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencyPercentEffortAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyPercentEffortAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Agency Percent Effort Amount" />
+    <property name="shortLabel" value="Effort" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Agency Percent Effort" />
+    <property name="description" value="The percent of effort that will determine the salary amount being requested of the Agency." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount" parent="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionCostSharePercentEffortAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Institution Percent Effort" />
+    <property name="shortLabel" value="Effort" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Institution Percent Effort" />
+    <property name="description" value="The percent of effort that will determine the salary amount being Cost Shared." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-personWeeksAmount" parent="UserAppointmentTaskPeriod-personWeeksAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-personWeeksAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personWeeksAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="# of Weeks" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Number of weeks spent on the project during the summer" />
+    <property name="description" value="The number of weeks that the person has/will spend working on the project during the summer months." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userAgencyHours" parent="UserAppointmentTaskPeriod-userAgencyHours-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userAgencyHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userAgencyHours" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hours Per Period" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Agency Hours Per Period" />
+    <property name="description" value="The number of hours in the period that will be paid for by the agency." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userInstitutionHours" parent="UserAppointmentTaskPeriod-userInstitutionHours-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userInstitutionHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userInstitutionHours" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hours Per Period" />
+    <property name="shortLabel" value="Hours" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Cost Share Hours Per Period" />
+    <property name="description" value="The number of hours in the period that will be paid for from Cost Share." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userHourlyRate" parent="UserAppointmentTaskPeriod-userHourlyRate-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userHourlyRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userHourlyRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hourly Rate ($)" />
+    <property name="shortLabel" value="Hours" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Hourly Rate" />
+    <property name="description" value="The amount of money, per hour, that the person will be paid." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount" parent="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="agencyHealthInsuranceAmount" />
+    <property name="label" value="Agency Health Insurance Amount" />
+    <property name="shortLabel" value="Health Insurance" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Agency Health Insurance Amount" />
+    <property name="description" value="Agency Health Insurance Amount..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencyRequestedFeesAmount" parent="UserAppointmentTaskPeriod-agencyRequestedFeesAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencyRequestedFeesAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="agencyRequestedFeesAmount" />
+    <property name="label" value="Agency Amount Requested" />
+    <property name="shortLabel" value="Amount" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Agency Requested Fees" />
+    <property name="description" value="Agency Requested Fees..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencySalaryAmount" parent="UserAppointmentTaskPeriod-agencySalaryAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencySalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="agencySalaryAmount" />
+    <property name="label" value="Agency Salary Amount" />
+    <property name="shortLabel" value="Salary" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Agency Salary Amount" />
+    <property name="description" value="Agency Salary Amount..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount" parent="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="institutionHealthInsuranceAmount" />
+    <property name="label" value="Institution Health Insurance Amount" />
+    <property name="shortLabel" value="Health Insurance" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Institution Health Insurance Amount" />
+    <property name="description" value="Institution Health Insurance Amount..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionRequestedFeesAmount" parent="UserAppointmentTaskPeriod-institutionRequestedFeesAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionRequestedFeesAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="institutionRequestedFeesAmount" />
+    <property name="label" value="Institution Cost Share" />
+    <property name="shortLabel" value="Amount" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Institution Requested Fees" />
+    <property name="description" value="Institution Requested Fees..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionSalaryAmount" parent="UserAppointmentTaskPeriod-institutionSalaryAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionSalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="institutionSalaryAmount" />
+    <property name="label" value="Institution Salary Amount" />
+    <property name="shortLabel" value="Salary" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Institution Salary Amount" />
+    <property name="description" value="Institution Salary Amount..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userCreditHourAmount" parent="UserAppointmentTaskPeriod-userCreditHourAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userCreditHourAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="userCreditHourAmount" />
+    <property name="label" value="$ Per Credit Hour" />
+    <property name="shortLabel" value="Amount" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Amount Per Credit Hour" />
+    <property name="description" value="Amount Per Credit Hour..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount" parent="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="userMiscellaneousFeeAmount" />
+    <property name="label" value="Miscellaneous Fees" />
+    <property name="shortLabel" value="Amount" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Miscellaneous Fees Amount" />
+    <property name="description" value="Miscellaneous Fees Amount..." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent" parent="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyFullTimeEquivalentPercent" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="FTE" />
+    <property name="shortLabel" value="FTE" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Agency FTE" />
+    <property name="description" value="The percent of FTE." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent" parent="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionFullTimeEquivalentPercent" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="FTE" />
+    <property name="shortLabel" value="FTE" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Institution Cost Share FTE" />
+    <property name="description" value="The percent of FTE." />
+  </bean>
+  <bean id="UserAppointmentTaskPeriod-userCreditHoursNumber" parent="UserAppointmentTaskPeriod-userCreditHoursNumber-parentBean" />
+
+  <bean id="UserAppointmentTaskPeriod-userCreditHoursNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userCreditHoursNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Credit Hours" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="&gt;Number of Credit Hours" />
+    <property name="description" value="&gt;Number of Credit Hours..." />
+  </bean>
+</beans>

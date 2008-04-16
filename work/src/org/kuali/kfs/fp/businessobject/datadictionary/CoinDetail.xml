@@ -1,206 +1,273 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.CoinDetail">
-    	<attributes>
-    		<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
-    		
-    		<attribute name="financialDocumentTypeCode" forceUppercase="true">
-    			<label>Financial Document Type Code</label>
-                <shortLabel>FinDocTypCd</shortLabel>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-                <maxLength>4</maxLength>
-                <required>false</required>
+  <bean id="CoinDetail" parent="CoinDetail-parentBean" />
 
-                <control>
-                    <hidden />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="cashieringRecordSource" forceUppercase="true">
-    			<label>Cashiering Record Source</label>
-                <shortLabel>CshrgRcdSrc</shortLabel>
+  <bean id="CoinDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.CoinDetail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CoinDetail-documentNumber" />
+        <ref bean="CoinDetail-financialDocumentTypeCode" />
+        <ref bean="CoinDetail-cashieringRecordSource" />
+        <ref bean="CoinDetail-financialDocumentHundredCentAmount" />
+        <ref bean="CoinDetail-hundredCentCount" />
+        <ref bean="CoinDetail-financialDocumentFiftyCentAmount" />
+        <ref bean="CoinDetail-fiftyCentCount" />
+        <ref bean="CoinDetail-financialDocumentTwentyFiveCentAmount" />
+        <ref bean="CoinDetail-twentyFiveCentCount" />
+        <ref bean="CoinDetail-financialDocumentTenCentAmount" />
+        <ref bean="CoinDetail-tenCentCount" />
+        <ref bean="CoinDetail-financialDocumentFiveCentAmount" />
+        <ref bean="CoinDetail-fiveCentCount" />
+        <ref bean="CoinDetail-financialDocumentOneCentAmount" />
+        <ref bean="CoinDetail-oneCentCount" />
+        <ref bean="CoinDetail-financialDocumentOtherCentAmount" />
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>1</maxLength>
-                <required>false</required>
+<!-- Attribute Definitions -->
 
-                <control>
-                    <hidden />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentHundredCentAmount">
-    			<label>Hundred Cent Amount</label>
-                <shortLabel>HunCntAmt</shortLabel>
 
-                <maxLength>6</maxLength>
-                <required>false</required>
+  <bean id="CoinDetail-documentNumber" parent="CoinDetail-documentNumber-parentBean" />
 
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    		<attribute name="hundredCentCount">
-    			<label>Hundred Cent Count</label>
-                <shortLabel>HunCntCnt</shortLabel>
+  <bean id="CoinDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="CoinDetail-financialDocumentTypeCode" parent="CoinDetail-financialDocumentTypeCode-parentBean" />
 
-                <maxLength>6</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Type Code" />
+    <property name="shortLabel" value="FinDocTypCd" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-cashieringRecordSource" parent="CoinDetail-cashieringRecordSource-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentFiftyCentAmount">
-    			<label>Fifty Cent Amount</label>
-                <shortLabel>FtyCntAmt</shortLabel>
+  <bean id="CoinDetail-cashieringRecordSource-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cashieringRecordSource" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Cashiering Record Source" />
+    <property name="shortLabel" value="CshrgRcdSrc" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentHundredCentAmount" parent="CoinDetail-financialDocumentHundredCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentHundredCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentHundredCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hundred Cent Amount" />
+    <property name="shortLabel" value="HunCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-hundredCentCount" parent="CoinDetail-hundredCentCount-parentBean" />
 
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    		<attribute name="fiftyCentCount">
-    			<label>Fifty Cent Count</label>
-                <shortLabel>FtyCntCnt</shortLabel>
+  <bean id="CoinDetail-hundredCentCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hundredCentCount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hundred Cent Count" />
+    <property name="shortLabel" value="HunCntCnt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentFiftyCentAmount" parent="CoinDetail-financialDocumentFiftyCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentFiftyCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentFiftyCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fifty Cent Amount" />
+    <property name="shortLabel" value="FtyCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-fiftyCentCount" parent="CoinDetail-fiftyCentCount-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentTwentyFiveCentAmount">
-    			<label>Twenty Five Cent Amount</label>
-                <shortLabel>TwyFvCntAmt</shortLabel>
+  <bean id="CoinDetail-fiftyCentCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fiftyCentCount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fifty Cent Count" />
+    <property name="shortLabel" value="FtyCntCnt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentTwentyFiveCentAmount" parent="CoinDetail-financialDocumentTwentyFiveCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentTwentyFiveCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTwentyFiveCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Twenty Five Cent Amount" />
+    <property name="shortLabel" value="TwyFvCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-twentyFiveCentCount" parent="CoinDetail-twentyFiveCentCount-parentBean" />
 
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    		<attribute name="twentyFiveCentCount">
-    			<label>Twenty Five Cent Count</label>
-                <shortLabel>TwyFvCntCnt</shortLabel>
+  <bean id="CoinDetail-twentyFiveCentCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="twentyFiveCentCount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Twenty Five Cent Count" />
+    <property name="shortLabel" value="TwyFvCntCnt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentTenCentAmount" parent="CoinDetail-financialDocumentTenCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentTenCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTenCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Ten Cent Amount" />
+    <property name="shortLabel" value="TnCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-tenCentCount" parent="CoinDetail-tenCentCount-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentTenCentAmount">
-    			<label>Ten Cent Amount</label>
-                <shortLabel>TnCntAmt</shortLabel>
+  <bean id="CoinDetail-tenCentCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="tenCentCount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Ten Cent Count" />
+    <property name="shortLabel" value="TnCntCnt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentFiveCentAmount" parent="CoinDetail-financialDocumentFiveCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentFiveCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentFiveCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Five Cent Amount" />
+    <property name="shortLabel" value="FvCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-fiveCentCount" parent="CoinDetail-fiveCentCount-parentBean" />
 
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    		<attribute name="tenCentCount">
-    			<label>Ten Cent Count</label>
-                <shortLabel>TnCntCnt</shortLabel>
+  <bean id="CoinDetail-fiveCentCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fiveCentCount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Five Cent Count" />
+    <property name="shortLabel" value="FvCntCnt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentOneCentAmount" parent="CoinDetail-financialDocumentOneCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>false</required>
+  <bean id="CoinDetail-financialDocumentOneCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentOneCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="One Cent Amount" />
+    <property name="shortLabel" value="OneCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-oneCentCount" parent="CoinDetail-oneCentCount-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentFiveCentAmount">
-    			<label>Five Cent Amount</label>
-                <shortLabel>FvCntAmt</shortLabel>
+  <bean id="CoinDetail-oneCentCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="oneCentCount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="One Cent Count" />
+    <property name="shortLabel" value="OneCntCnt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CoinDetail-financialDocumentOtherCentAmount" parent="CoinDetail-financialDocumentOtherCentAmount-parentBean" />
 
-                <maxLength>6</maxLength>
-                <required>false</required>
-
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    		<attribute name="fiveCentCount">
-    			<label>Five Cent Count</label>
-                <shortLabel>FvCntCnt</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentOneCentAmount">
-    			<label>One Cent Amount</label>
-                <shortLabel>OneCntAmt</shortLabel>
-
-                <maxLength>6</maxLength>
-                <required>false</required>
-
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    		<attribute name="oneCentCount">
-    			<label>One Cent Count</label>
-                <shortLabel>OneCntCnt</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-    		</attribute>
-    		
-    		<attribute name="financialDocumentOtherCentAmount">
-    			<label>Other Cent Amount</label>
-                <shortLabel>OthrCntAmt</shortLabel>
-
-                <maxLength>6</maxLength>
-                <required>false</required>
-
-                <control>
-                    <currency size="6" formattedMaxLength="8" />
-                </control>
-    		</attribute>
-    	</attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CoinDetail-financialDocumentOtherCentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentOtherCentAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Other Cent Amount" />
+    <property name="shortLabel" value="OthrCntAmt" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="8"
+            p:size="6" />
+    </property>
+  </bean>
+</beans>

@@ -1,121 +1,189 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.Pretag</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.cams.rules.PretagRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PretagMaintenanceDocument" parent="PretagMaintenanceDocument-parentBean" />
 
-        <documentTypeName>PretagMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PTAG</documentTypeCode>
+  <bean id="PretagMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.Pretag" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PretagMaintenanceDocument-EditPreAssetTagging" />
+        <ref bean="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="capitalAssetType"
+              p:attributeToHighlightOnFail="capitalAssetTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="personUniversal"
+              p:attributeToHighlightOnFail="personUniversal.personUserIdentifier"
+              p:displayFieldName="Representative Universal Identifier" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>purchaseOrderNumber</value>
+        <value>lineItemNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Pre Asset Tagging" />
+    <property name="shortLabel" value="Pre Asset Tagging" />
+    <property name="summary" value="Pre Asset Tagging maintenance document" />
+    <property name="description" value="Document used to create or update Pre Asset Tagging" />
+    <property name="documentTypeName" value="PretagMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.cams.rules.PretagRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PTAG" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Pre Asset Tagging</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Pre Asset Tagging maintenance document</summary>
-        <description>Document used to create or update Pre Asset Tagging</description>
 
-        <lockingKeys>
-            <field attributeName="purchaseOrderNumber" />
-            <field attributeName="lineItemNumber" />
-         </lockingKeys>
-       
-        <defaultExistenceChecks>
-            <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
-            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="personUniversal" attributeToHighlightOnFail="personUniversal.personUserIdentifier" displayFieldName="Representative Universal Identifier" />
-            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
-        </defaultExistenceChecks>
-                
-        <maintainableSections>
-            <maintainableSection title="Edit Pre Asset Tagging">
-                <maintainableItems>
-                    <maintainableField name="purchaseOrderNumber" required="true" />
-                    <maintainableField name="lineItemNumber" required="true" />
-                    <maintainableField name="quantityInvoiced" required="true" />
-                    <maintainableField name="capitalAssetTypeCode" required="true" />
-                    <maintainableField name="manufacturerName" required="true" />
-                    <maintainableField name="manufacturerModelNumber" required="false" />
-                    <maintainableField name="vendorName" required="true" />
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organizationCode" required="false" />
-                    <maintainableField name="organizationDescription" required="false" />
-                    <maintainableField name="organizationInventoryName" required="false" />
-                    <maintainableField name="personUniversal.personUserIdentifier" required="false" />
-                    <maintainableField name="personUniversal.personName" required="false" readOnly="true" />
-                    <maintainableField name="organizationText" required="false" />
-                    <maintainableField name="assetTopsDescription" required="true" />
-                    <maintainableField name="pretagCreateDate" required="false" >
-  						<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-					</maintainableField>
-                        <maintainableField name="active" >
-							<defaultValue>true</defaultValue>
-						</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
+  <bean id="PretagMaintenanceDocument-EditPreAssetTagging" parent="PretagMaintenanceDocument-EditPreAssetTagging-parentBean" />
 
-            <maintainableSection title="Edit List of Pre Asset Tagging Details">
-                <maintainableItems>
-                    <maintainableCollection name="pretagDetails" businessObjectClass="org.kuali.module.cams.bo.PretagDetail" summaryTitle="Detail">
-                        <maintainableField name="purchaseOrderNumber" readOnlyAfterAdd="true" />
-                        <maintainableField name="lineItemNumber" readOnlyAfterAdd="true" />
-                        <maintainableField name="campusTagNumber" required="true" readOnlyAfterAdd="true" />
-                        <maintainableField name="serialNumber" />
-                        <maintainableField name="organizationTagNumber" />
-                        <maintainableField name="governmentTagNumber" />
-                        <maintainableField name="nationalStockNumber" />
-                        <maintainableField name="campusCode" required="true"/>
-                        <maintainableField name="buildingCode" required="true"/>
-                        <maintainableField name="buildingRoomNumber" required="true"/>
-                        <maintainableField name="buildingSubRoomNumber" />
-                        <maintainableField name="pretagTagCreateDate" >
- 							<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-						</maintainableField>
-                        <maintainableField name="active" >
-							<defaultValue>true</defaultValue>
-						</maintainableField>
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                        <summaryFields>
-                            <summaryField name="campusTagNumber" />
-                            <summaryField name="serialNumber" />
-                        </summaryFields>
-                        
-                        <duplicateIdentificationFields>
-                            <duplicateIdentificationField name="purchaseOrderNumber"/>
-                            <duplicateIdentificationField name="lineItemNumber"/>
-                            <duplicateIdentificationField name="campusTagNumber"/>
-                        </duplicateIdentificationFields>       
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
-           
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="PretagMaintenanceDocument-EditPreAssetTagging-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Pre Asset Tagging" />
+    <property name="title" value="Edit Pre Asset Tagging" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="purchaseOrderNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lineItemNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="quantityInvoiced"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="manufacturerName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="manufacturerModelNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationInventoryName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personUniversal.personUserIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personUniversal.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationText" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetTopsDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="pretagCreateDate"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails" parent="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean" />
+
+  <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit List of Pre Asset Tagging Details" />
+    <property name="title" value="Edit List of Pre Asset Tagging Details" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="pretagDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.cams.bo.PretagDetail" />
+          <property name="summaryTitle" value="Detail" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="campusTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="serialNumber" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="purchaseOrderNumber"
+                    p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="lineItemNumber"
+                    p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="campusTagNumber"
+                    p:required="true"
+                    p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="serialNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="governmentTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="nationalStockNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="campusCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingRoomNumber"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingSubRoomNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="pretagTagCreateDate"
+                    p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="active"
+                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

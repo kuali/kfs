@@ -1,129 +1,179 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceRejectReason">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Electronic Invoice Reject Reason Inquiry</title>
+  <bean id="ElectronicInvoiceRejectReason" parent="ElectronicInvoiceRejectReason-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="invoiceHeaderInformationIdentifier" />
-                <field attributeName="invoiceRejectReasonDescription" />
-                <field attributeName="invoiceRejectReasonIdentifier" />
-                <field attributeName="invoiceRejectReasonTypeCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ElectronicInvoiceRejectReason-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ElectronicInvoiceRejectReason" />
+    <property name="inquiryDefinition" >
+      <ref bean="ElectronicInvoiceRejectReason-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ElectronicInvoiceRejectReason-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ElectronicInvoiceRejectReason-invoiceHeaderInformationIdentifier" />
+        <ref bean="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription" />
+        <ref bean="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier" />
+        <ref bean="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode" />
+        <ref bean="ElectronicInvoiceRejectReason-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Electronic Invoice Reject Reason Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Electronic Invoice Reject Reason</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="invoiceRejectReasonDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ElectronicInvoiceRejectReason-invoiceHeaderInformationIdentifier" parent="ElectronicInvoiceRejectReason-invoiceHeaderInformationIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="invoiceHeaderInformationIdentifier" required="false" />
-                <lookupField attributeName="invoiceRejectReasonDescription" required="false" />
-                <lookupField attributeName="invoiceRejectReasonIdentifier" required="false" />
-                <lookupField attributeName="invoiceRejectReasonTypeCode" required="false" />
-            </lookupFields>
+  <bean id="ElectronicInvoiceRejectReason-invoiceHeaderInformationIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceHeaderInformationIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Header Information Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription" parent="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="invoiceHeaderInformationIdentifier" />
-                <field attributeName="invoiceRejectReasonDescription" />
-                <field attributeName="invoiceRejectReasonIdentifier" />
-                <field attributeName="invoiceRejectReasonTypeCode" />
-            </resultFields>
-        </lookup>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceRejectReasonDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Reject Reason Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="400" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier" parent="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier-parentBean" />
 
-        <attributes>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceRejectReasonIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Reject Reason Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode" parent="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode-parentBean" />
 
-            <attribute name="invoiceHeaderInformationIdentifier" forceUppercase="true">
-                <label>Invoice Header Information Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceRejectReasonTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Reject Reason Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-versionNumber" parent="ElectronicInvoiceRejectReason-versionNumber-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="ElectronicInvoiceRejectReason-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
 
-                <control>
-                    <text size="11" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-			</attribute>
 
-            <attribute name="invoiceRejectReasonDescription" forceUppercase="true">
-                <label>Invoice Reject Reason Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="ElectronicInvoiceRejectReason-inquiryDefinition" parent="ElectronicInvoiceRejectReason-inquiryDefinition-parentBean" />
 
-                <maxLength>400</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ElectronicInvoiceRejectReason-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Electronic Invoice Reject Reason Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceHeaderInformationIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceRejectReasonDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceRejectReasonIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceRejectReasonTypeCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
+<!-- Business Object Lookup Definition -->
 
-			</attribute>
 
-            <attribute name="invoiceRejectReasonIdentifier" forceUppercase="true">
-                <label>Invoice Reject Reason Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="ElectronicInvoiceRejectReason-lookupDefinition" parent="ElectronicInvoiceRejectReason-lookupDefinition-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-			</attribute>
-
-            <attribute name="invoiceRejectReasonTypeCode" forceUppercase="true">
-                <label>Invoice Reject Reason Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ElectronicInvoiceRejectReason-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Electronic Invoice Reject Reason Lookup" />
+    <property name="instructions" value="Lookup an Electronic Invoice Reject Reason" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceHeaderInformationIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceRejectReasonDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceRejectReasonIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceRejectReasonTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceHeaderInformationIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceRejectReasonDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceRejectReasonIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceRejectReasonTypeCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,312 +1,386 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail">
-
-        <attributes>
-
-            <attribute name="buildingCode" forceUppercase="true">
-                <label>Building Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>buildingCode</summary>
-                <description>buildingCode description...</description>
-			</attribute>
-
-            <attribute name="buildingRoomNumber" forceUppercase="true">
-                <label>Building Room Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>buildingRoomNumber</summary>
-                <description>buildingRoomNumber description...</description>
-			</attribute>
-
-            <attribute name="buildingSubRoomNumber" forceUppercase="true">
-                <label>Building Sub Room Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>buildingSubRoomNumber</summary>
-                <description>buildingSubRoomNumber description...</description>
-			</attribute>
-
-            <attribute name="campusCode" forceUppercase="true">
-                <label>Campus Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>campusCode</summary>
-                <description>campusCode description...</description>
-			</attribute>
-
-            <attribute name="campusTagNumber" forceUppercase="true">
-                <label>Campus Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>campusTagNumber</summary>
-                <description>campusTagNumber description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="governmentTagNumber" forceUppercase="true">
-                <label>Government Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>governmentTagNumber</summary>
-                <description>governmentTagNumber description...</description>
-			</attribute>
-
-            <attribute name="nationalStockNumber" forceUppercase="true">
-                <label>National Stock Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>nationalStockNumber</summary>
-                <description>nationalStockNumber description...</description>
-			</attribute>
-
-            <attribute name="offCampusAddress" forceUppercase="true">
-                <label>Off Campus Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>offCampusAddress</summary>
-                <description>offCampusAddress description...</description>
-			</attribute>
-
-            <attribute name="offCampusCityName" forceUppercase="true">
-                <label>Off Campus City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>offCampusCityName</summary>
-                <description>offCampusCityName description...</description>
-			</attribute>
-
-            <attribute name="offCampusCountryCode" forceUppercase="true">
-                <label>Off Campus Country Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>offCampusCountryCode</summary>
-                <description>offCampusCountryCode description...</description>
-			</attribute>
-
-            <attribute name="offCampusName" forceUppercase="true">
-                <label>Off Campus Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>offCampusName</summary>
-                <description>offCampusName description...</description>
-			</attribute>
-
-            <attribute name="offCampusStateCode" forceUppercase="true">
-                <label>Off Campus State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>offCampusStateCode</summary>
-                <description>offCampusStateCode description...</description>
-			</attribute>
-
-            <attribute name="offCampusZipCode" forceUppercase="true">
-                <label>Off Campus Zip Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>offCampusZipCode</summary>
-                <description>offCampusZipCode description...</description>
-			</attribute>
-
-            <attribute name="organizationAssetTypeIdentifier" forceUppercase="true">
-                <label>Organization Asset Type Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-                <summary>organizationAssetTypeIdentifier</summary>
-                <description>organizationAssetTypeIdentifier description...</description>
-			</attribute>
-
-            <attribute name="organizationInventoryName" forceUppercase="true">
-                <label>Organization Inventory Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>organizationInventoryName</summary>
-                <description>organizationInventoryName description...</description>
-			</attribute>
-
-            <attribute name="serialNumber" forceUppercase="true">
-                <label>Serial Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>serialNumber</summary>
-                <description>serialNumber description...</description>
-			</attribute>
-
-            <attribute name="locationQuantity">
-                <label>Location Quantity</label>
-                <shortLabel>qty</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>locationQuantity</summary>
-                <description>locationQuantity description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
-        
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AssetGlobalDetail" parent="AssetGlobalDetail-parentBean" />
+
+  <bean id="AssetGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetGlobalDetail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetGlobalDetail-buildingCode" />
+        <ref bean="AssetGlobalDetail-buildingRoomNumber" />
+        <ref bean="AssetGlobalDetail-buildingSubRoomNumber" />
+        <ref bean="AssetGlobalDetail-campusCode" />
+        <ref bean="AssetGlobalDetail-campusTagNumber" />
+        <ref bean="AssetGlobalDetail-capitalAssetNumber" />
+        <ref bean="AssetGlobalDetail-documentNumber" />
+        <ref bean="AssetGlobalDetail-governmentTagNumber" />
+        <ref bean="AssetGlobalDetail-nationalStockNumber" />
+        <ref bean="AssetGlobalDetail-offCampusAddress" />
+        <ref bean="AssetGlobalDetail-offCampusCityName" />
+        <ref bean="AssetGlobalDetail-offCampusCountryCode" />
+        <ref bean="AssetGlobalDetail-offCampusName" />
+        <ref bean="AssetGlobalDetail-offCampusStateCode" />
+        <ref bean="AssetGlobalDetail-offCampusZipCode" />
+        <ref bean="AssetGlobalDetail-organizationAssetTypeIdentifier" />
+        <ref bean="AssetGlobalDetail-organizationInventoryName" />
+        <ref bean="AssetGlobalDetail-serialNumber" />
+        <ref bean="AssetGlobalDetail-locationQuantity" />
+        <ref bean="AssetGlobalDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AssetGlobalDetail-buildingCode" parent="AssetGlobalDetail-buildingCode-parentBean" />
+
+  <bean id="AssetGlobalDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="buildingCode" />
+    <property name="description" value="buildingCode description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-buildingRoomNumber" parent="AssetGlobalDetail-buildingRoomNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="buildingRoomNumber" />
+    <property name="description" value="buildingRoomNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-buildingSubRoomNumber" parent="AssetGlobalDetail-buildingSubRoomNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingSubRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Sub Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="buildingSubRoomNumber" />
+    <property name="description" value="buildingSubRoomNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-campusCode" parent="AssetGlobalDetail-campusCode-parentBean" />
+
+  <bean id="AssetGlobalDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="campusCode" />
+    <property name="description" value="campusCode description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-campusTagNumber" parent="AssetGlobalDetail-campusTagNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="campusTagNumber" />
+    <property name="description" value="campusTagNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-capitalAssetNumber" parent="AssetGlobalDetail-capitalAssetNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="capitalAssetNumber" />
+    <property name="description" value="capitalAssetNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-documentNumber" parent="AssetGlobalDetail-documentNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-governmentTagNumber" parent="AssetGlobalDetail-governmentTagNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="governmentTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Government Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="governmentTagNumber" />
+    <property name="description" value="governmentTagNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-nationalStockNumber" parent="AssetGlobalDetail-nationalStockNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nationalStockNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="National Stock Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="nationalStockNumber" />
+    <property name="description" value="nationalStockNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-offCampusAddress" parent="AssetGlobalDetail-offCampusAddress-parentBean" />
+
+  <bean id="AssetGlobalDetail-offCampusAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="offCampusAddress" />
+    <property name="description" value="offCampusAddress description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-offCampusCityName" parent="AssetGlobalDetail-offCampusCityName-parentBean" />
+
+  <bean id="AssetGlobalDetail-offCampusCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="offCampusCityName" />
+    <property name="description" value="offCampusCityName description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-offCampusCountryCode" parent="AssetGlobalDetail-offCampusCountryCode-parentBean" />
+
+  <bean id="AssetGlobalDetail-offCampusCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus Country Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="offCampusCountryCode" />
+    <property name="description" value="offCampusCountryCode description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-offCampusName" parent="AssetGlobalDetail-offCampusName-parentBean" />
+
+  <bean id="AssetGlobalDetail-offCampusName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="offCampusName" />
+    <property name="description" value="offCampusName description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-offCampusStateCode" parent="AssetGlobalDetail-offCampusStateCode-parentBean" />
+
+  <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="offCampusStateCode" />
+    <property name="description" value="offCampusStateCode description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />
+
+  <bean id="AssetGlobalDetail-offCampusZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="offCampusZipCode" />
+    <property name="description" value="offCampusZipCode description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier" parent="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" />
+
+  <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationAssetTypeIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Asset Type Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+    <property name="summary" value="organizationAssetTypeIdentifier" />
+    <property name="description" value="organizationAssetTypeIdentifier description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-organizationInventoryName" parent="AssetGlobalDetail-organizationInventoryName-parentBean" />
+
+  <bean id="AssetGlobalDetail-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationInventoryName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Inventory Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="organizationInventoryName" />
+    <property name="description" value="organizationInventoryName description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-serialNumber" parent="AssetGlobalDetail-serialNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="serialNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Serial Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="serialNumber" />
+    <property name="description" value="serialNumber description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-locationQuantity" parent="AssetGlobalDetail-locationQuantity-parentBean" />
+
+  <bean id="AssetGlobalDetail-locationQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="locationQuantity" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Location Quantity" />
+    <property name="shortLabel" value="qty" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="locationQuantity" />
+    <property name="description" value="locationQuantity description..." />
+  </bean>
+  <bean id="AssetGlobalDetail-versionNumber" parent="AssetGlobalDetail-versionNumber-parentBean" />
+
+  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

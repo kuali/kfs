@@ -1,163 +1,245 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.PretagDetail">
- 
-        <inquiry>
-            <title>Pretag Detail Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="purchaseOrderNumber" />
-                        <field attributeName="lineItemNumber" />
-                        <field attributeName="campusTagNumber" />
-                        <field attributeName="serialNumber" />
-                        <field attributeName="organizationTagNumber" />
-                        <field attributeName="governmentTagNumber" />
-                        <field attributeName="nationalStockNumber" />                       
-                        <field attributeName="campusCode" />
-                        <field attributeName="buildingCode" />
-                        <field attributeName="buildingRoomNumber" />
-                        <field attributeName="buildingSubRoomNumber" />
-                        <field attributeName="pretagTagCreateDate" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <attributes>
+  <bean id="PretagDetail" parent="PretagDetail-parentBean" />
 
-            <attributeReference name="purchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="purchaseOrderNumber" >
-                 <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-            
-            <attributeReference name="lineItemNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="lineItemNumber" >
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-             </attributeReference>
- 
-            <attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
-                </control>
-            </attributeReference>
-            
-            <attributeReference name="pretagTagCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Pretag Tag Create Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
+  <bean id="PretagDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.PretagDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="PretagDetail-inquiryDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PretagDetail-purchaseOrderNumber" />
+        <ref bean="PretagDetail-lineItemNumber" />
+        <ref bean="PretagDetail-campusCode" />
+        <ref bean="PretagDetail-pretagTagCreateDate" />
+        <ref bean="PretagDetail-buildingCode" />
+        <ref bean="PretagDetail-buildingRoomNumber" />
+        <ref bean="PretagDetail-active" />
+        <ref bean="PretagDetail-buildingSubRoomNumber" />
+        <ref bean="PretagDetail-campusTagNumber" />
+        <ref bean="PretagDetail-organizationTagNumber" />
+        <ref bean="PretagDetail-governmentTagNumber" />
+        <ref bean="PretagDetail-nationalStockNumber" />
+        <ref bean="PretagDetail-serialNumber" />
+        <ref bean="PretagDetail-newCollectionRecord" />
+        <ref bean="PretagDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-            <attributeReference name="buildingCode" sourceClassName="org.kuali.kfs.bo.Building" sourceAttributeName="buildingCode" />
+  <bean id="PretagDetail-purchaseOrderNumber" parent="PretagDetail-purchaseOrderNumber-parentBean" />
 
-            <attributeReference name="buildingRoomNumber" sourceClassName="org.kuali.kfs.bo.Room" sourceAttributeName="buildingRoomNumber" />
+  <bean id="PretagDetail-purchaseOrderNumber-parentBean" abstract="true" parent="Pretag-purchaseOrderNumber">
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PretagDetail-lineItemNumber" parent="PretagDetail-lineItemNumber-parentBean" />
 
-           <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="PretagDetail-lineItemNumber-parentBean" abstract="true" parent="Pretag-lineItemNumber">
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PretagDetail-campusCode" parent="PretagDetail-campusCode-parentBean" />
 
-            <attribute name="buildingSubRoomNumber" forceUppercase="true">
-                <label>Building Sub Room Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="PretagDetail-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PretagDetail-pretagTagCreateDate" parent="PretagDetail-pretagTagCreateDate-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="PretagDetail-pretagTagCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="pretagTagCreateDate" />
+    <property name="label" value="Pretag Tag Create Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="PretagDetail-buildingCode" parent="PretagDetail-buildingCode-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="PretagDetail-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+  </bean>
+  <bean id="PretagDetail-buildingRoomNumber" parent="PretagDetail-buildingRoomNumber-parentBean" />
 
-                <summary>buildingSubRoomNumber</summary>
-                <description>buildingSubRoomNumber description...</description>
-			</attribute>
+  <bean id="PretagDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
+  </bean>
+  <bean id="PretagDetail-active" parent="PretagDetail-active-parentBean" />
+
+  <bean id="PretagDetail-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="PretagDetail-buildingSubRoomNumber" parent="PretagDetail-buildingSubRoomNumber-parentBean" />
+
+  <bean id="PretagDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingSubRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Sub Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="buildingSubRoomNumber" />
+    <property name="description" value="buildingSubRoomNumber description..." />
+  </bean>
+  <bean id="PretagDetail-campusTagNumber" parent="PretagDetail-campusTagNumber-parentBean" />
+
+  <bean id="PretagDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="campusTagNumber" />
+    <property name="description" value="campusTagNumber description..." />
+  </bean>
+  <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />
+
+  <bean id="PretagDetail-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="organizationTagNumber" />
+    <property name="description" value="organizationTagNumber description..." />
+  </bean>
+  <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean" />
+
+  <bean id="PretagDetail-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="governmentTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Government Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="governmentTagNumber" />
+    <property name="description" value="governmentTagNumber description..." />
+  </bean>
+  <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean" />
+
+  <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nationalStockNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="National Stock Number (NSN)" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="nationalStockNumber" />
+    <property name="description" value="nationalStockNumber description..." />
+  </bean>
+  <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean" />
+
+  <bean id="PretagDetail-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="serialNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Serial Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="serialNumber" />
+    <property name="description" value="serialNumber description..." />
+  </bean>
+  <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean" />
+
+  <bean id="PretagDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="PretagDetail-versionNumber" parent="PretagDetail-versionNumber-parentBean" />
+
+  <bean id="PretagDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="campusTagNumber" forceUppercase="true">
-                <label>Tag Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="PretagDetail-inquiryDefinition" parent="PretagDetail-inquiryDefinition-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>campusTagNumber</summary>
-                <description>campusTagNumber description...</description>
-			</attribute>
-
-            <attribute name="organizationTagNumber" forceUppercase="true">
-                <label>Organization Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>organizationTagNumber</summary>
-                <description>organizationTagNumber description...</description>
-			</attribute>
-			
-            <attribute name="governmentTagNumber" forceUppercase="true">
-                <label>Government Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>governmentTagNumber</summary>
-                <description>governmentTagNumber description...</description>
-			</attribute>
-			
-            <attribute name="nationalStockNumber" forceUppercase="true">
-                <label>National Stock Number (NSN)</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>nationalStockNumber</summary>
-                <description>nationalStockNumber description...</description>
-			</attribute>
-
-            <attribute name="serialNumber" forceUppercase="true">
-                <label>Serial Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>serialNumber</summary>
-                <description>serialNumber description...</description>
-			</attribute>
-
-            <attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PretagDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Pretag Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lineItemNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="serialNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="governmentTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="nationalStockNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingSubRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="pretagTagCreateDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

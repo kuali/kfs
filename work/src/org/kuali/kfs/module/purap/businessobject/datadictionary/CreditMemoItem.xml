@@ -1,154 +1,169 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd" [
-<!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
-]>
-<dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.purap.bo.CreditMemoItem">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<attributes>
+  <bean id="CreditMemoItem" parent="CreditMemoItem-parentBean" />
 
-			<attribute name="itemLineNumber" forceUppercase="true">
-				<label>Item Line Number</label>
-				<shortLabel>#</shortLabel>
+  <bean id="CreditMemoItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.CreditMemoItem" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CreditMemoItem-itemLineNumber" />
+        <ref bean="CreditMemoItem-poInvoicedTotalQuantity" />
+        <ref bean="CreditMemoItem-preqInvoicedTotalQuantity" />
+        <ref bean="CreditMemoItem-poUnitPrice" />
+        <ref bean="CreditMemoItem-preqUnitPrice" />
+        <ref bean="CreditMemoItem-poExtendedPrice" />
+        <ref bean="CreditMemoItem-preqExtendedPrice" />
+        <ref bean="CreditMemoItem-itemTypeCode" />
+        <ref bean="CreditMemoItem-itemQuantity" />
+        <ref bean="CreditMemoItem-itemUnitPrice" />
+        <ref bean="CreditMemoItem-extendedPrice" />
+        <ref bean="CreditMemoItem-itemCatalogNumber" />
+        <ref bean="CreditMemoItem-itemDescription" />
+        <ref bean="CreditMemoItem-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<numeric />
-				</validationPattern>
+<!-- Attribute Definitions -->
 
-				<control>
-					<text size="5" />
-				</control>
 
-			</attribute>
+  <bean id="CreditMemoItem-itemLineNumber" parent="CreditMemoItem-itemLineNumber-parentBean" />
 
-			<attributeReference name="poInvoicedTotalQuantity"
-				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
-				sourceAttributeName="genericItemQuantity">
-				<label>PO Qty Invoiced</label>
-				<shortLabel>PO Qty</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Line Number" />
+    <property name="shortLabel" value="#" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="CreditMemoItem-poInvoicedTotalQuantity" parent="CreditMemoItem-poInvoicedTotalQuantity-parentBean" />
 
-			<attributeReference name="preqInvoicedTotalQuantity"
-				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
-				sourceAttributeName="genericItemQuantity">
-				<label>PREQ Qty Invoiced</label>
-				<shortLabel>PREQ Qty Invoiced</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-poInvoicedTotalQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+    <property name="name" value="poInvoicedTotalQuantity" />
+    <property name="label" value="PO Qty Invoiced" />
+    <property name="shortLabel" value="PO Qty" />
+  </bean>
+  <bean id="CreditMemoItem-preqInvoicedTotalQuantity" parent="CreditMemoItem-preqInvoicedTotalQuantity-parentBean" />
 
-			<attributeReference name="poUnitPrice"
-				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
-				sourceAttributeName="genericItemUnitPrice">
-				<label>PO Unit Price</label>
-				<shortLabel>PO Unit Price</shortLabel>
+  <bean id="CreditMemoItem-preqInvoicedTotalQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+    <property name="name" value="preqInvoicedTotalQuantity" />
+    <property name="label" value="PREQ Qty Invoiced" />
+    <property name="shortLabel" value="PREQ Qty Invoiced" />
+  </bean>
+  <bean id="CreditMemoItem-poUnitPrice" parent="CreditMemoItem-poUnitPrice-parentBean" />
 
-			</attributeReference>
+  <bean id="CreditMemoItem-poUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+    <property name="name" value="poUnitPrice" />
+    <property name="label" value="PO Unit Price" />
+    <property name="shortLabel" value="PO Unit Price" />
+  </bean>
+  <bean id="CreditMemoItem-preqUnitPrice" parent="CreditMemoItem-preqUnitPrice-parentBean" />
 
-			<attributeReference name="preqUnitPrice"
-				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
-				sourceAttributeName="genericItemUnitPrice">
-				<label>PREQ Unit Price</label>
-				<shortLabel>PREQ Unit Price</shortLabel>
+  <bean id="CreditMemoItem-preqUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+    <property name="name" value="preqUnitPrice" />
+    <property name="label" value="PREQ Unit Price" />
+    <property name="shortLabel" value="PREQ Unit Price" />
+  </bean>
+  <bean id="CreditMemoItem-poExtendedPrice" parent="CreditMemoItem-poExtendedPrice-parentBean" />
 
-			</attributeReference>
+  <bean id="CreditMemoItem-poExtendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="poExtendedPrice" />
+    <property name="label" value="Total Invoice Cost" />
+    <property name="shortLabel" value="Total Invoice Cost" />
+  </bean>
+  <bean id="CreditMemoItem-preqExtendedPrice" parent="CreditMemoItem-preqExtendedPrice-parentBean" />
 
-			<attributeReference name="poExtendedPrice"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericAmount">
-				<label>Total Invoice Cost</label>
-				<shortLabel>Total Invoice Cost</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-preqExtendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="preqExtendedPrice" />
+    <property name="label" value="Total Invoice Cost" />
+    <property name="shortLabel" value="Total Invoice Cost" />
+  </bean>
+  <bean id="CreditMemoItem-itemTypeCode" parent="CreditMemoItem-itemTypeCode-parentBean" />
 
-			<attributeReference name="preqExtendedPrice"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericAmount">
-				<label>Total Invoice Cost</label>
-				<shortLabel>Total Invoice Cost</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Type Code" />
+    <property name="shortLabel" value="Item Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="CreditMemoItem-itemQuantity" parent="CreditMemoItem-itemQuantity-parentBean" />
 
-			<attribute name="itemTypeCode" forceUppercase="true">
-				<label>Item Type Code</label>
-				<shortLabel>Item Type</shortLabel>
-				<maxLength>4</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<required>true</required>
-				<control>
-					<select
-						valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder" />
-				</control>
-			</attribute>
+  <bean id="CreditMemoItem-itemQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+    <property name="name" value="itemQuantity" />
+    <property name="label" value="CM Cty" />
+    <property name="shortLabel" value="CM Qty" />
+  </bean>
+  <bean id="CreditMemoItem-itemUnitPrice" parent="CreditMemoItem-itemUnitPrice-parentBean" />
 
-			<attributeReference name="itemQuantity"
-				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
-				sourceAttributeName="genericItemQuantity">
-				<label>CM Cty</label>
-				<shortLabel>CM Qty</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-itemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+    <property name="name" value="itemUnitPrice" />
+    <property name="label" value="CM Unit Price" />
+    <property name="shortLabel" value="CM Unit Price" />
+  </bean>
+  <bean id="CreditMemoItem-extendedPrice" parent="CreditMemoItem-extendedPrice-parentBean" />
 
-			<attributeReference name="itemUnitPrice"
-				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
-				sourceAttributeName="genericItemUnitPrice">
-				<label>CM Unit Price</label>
-				<shortLabel>CM Unit Price</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-extendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="extendedPrice" />
+    <property name="label" value="Credit Processed" />
+    <property name="shortLabel" value="Credit Processed" />
+  </bean>
+  <bean id="CreditMemoItem-itemCatalogNumber" parent="CreditMemoItem-itemCatalogNumber-parentBean" />
 
-			<attributeReference name="extendedPrice"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericAmount">
-				<label>Credit Processed</label>
-				<shortLabel>Credit Processed</shortLabel>
-			</attributeReference>
+  <bean id="CreditMemoItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCatalogNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Catalog Number" />
+    <property name="shortLabel" value="Catalog #" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+  </bean>
+  <bean id="CreditMemoItem-itemDescription" parent="CreditMemoItem-itemDescription-parentBean" />
 
-			<attribute name="itemCatalogNumber" forceUppercase="true">
-				<label>Item Catalog Number</label>
-				<shortLabel>Catalog #</shortLabel>
+  <bean id="CreditMemoItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="4"
+            p:cols="50" />
+    </property>
+  </bean>
+  <bean id="CreditMemoItem-versionNumber" parent="CreditMemoItem-versionNumber-parentBean" />
 
-				<maxLength>30</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-
-				<control>
-					<text size="15" />
-				</control>
-			</attribute>
-
-			<attribute name="itemDescription" forceUppercase="true">
-				<label>Item Description</label>
-				<shortLabel>Description</shortLabel>
-				<maxLength>4000</maxLength>
-				<validationPattern>
-					<anyCharacter allowWhitespace="true" />
-				</validationPattern>
-				<control>
-					<textarea rows="4" cols="50" />
-				</control>
-			</attribute>
-
-			<attributeReference name="versionNumber"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="versionNumber" />
-
-		</attributes>
-	</businessObject>
-</dictionaryEntry>
+  <bean id="CreditMemoItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

@@ -1,67 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.ar.document.CashControlDocument</documentClass>
-        <businessRulesClass>org.kuali.module.ar.rules.CashControlDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.ar.document.authorization.CashControlDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CashControlDocument" parent="CashControlDocument-parentBean" />
 
-        <documentTypeName>CashControlDocument</documentTypeName>
-        <documentTypeCode>CTRL</documentTypeCode>
+  <bean id="CashControlDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Cash Control" />
+    <property name="shortLabel" value="Cash Control" />
+    <property name="documentTypeName" value="CashControlDocument" />
+    <property name="documentClass" value="org.kuali.module.ar.document.CashControlDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CashControlDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CashControlDocumentAuthorizer" />
+    <property name="documentTypeCode" value="CTRL" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CashControlDocument-referenceFinancialDocumentNumber" />
+        <ref bean="CashControlDocument-customerPaymentMediumCode" />
+      </list>
+    </property>
+  </bean>
 
-        <label>Cash Control</label>
+<!-- Attribute Definitions -->
 
-        <attributes>
-            
-           <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" >
-               <label>Reference Document Number</label>
-               <shortLabel>Reference Document Number</shortLabel>
-           </attributeReference>
 
-           <attribute name="customerPaymentMediumCode" forceUppercase="true" >
-                <label>Payment Medium Code</label>
-                <shortLabel>Medium Code</shortLabel>
-                 
-               <maxLength>2</maxLength>
-                
-                <required>true</required>
+  <bean id="CashControlDocument-referenceFinancialDocumentNumber" parent="CashControlDocument-referenceFinancialDocumentNumber-parentBean" />
 
-                <control>
-                    <select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PaymentMediumValuesFinder" />
-                </control>
+  <bean id="CashControlDocument-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="label" value="Reference Document Number" />
+    <property name="shortLabel" value="Reference Document Number" />
+  </bean>
+  <bean id="CashControlDocument-customerPaymentMediumCode" parent="CashControlDocument-customerPaymentMediumCode-parentBean" />
 
-                <summary>customerPaymentMediumCode</summary>
-                <description>customerPaymentMediumCode description...</description>
-            </attribute>
-            
-        </attributes>
-  
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="CashControlDocument-customerPaymentMediumCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerPaymentMediumCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Medium Code" />
+    <property name="shortLabel" value="Medium Code" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PaymentMediumValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="customerPaymentMediumCode" />
+    <property name="description" value="customerPaymentMediumCode description..." />
+  </bean>
+</beans>

@@ -1,113 +1,248 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.PositionFunding">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Calculated Salary Foundation Tracker Inquiry By position Number</title>
+  <bean id="PositionFunding" parent="PositionFunding-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfCreateTimestamp" />
-                <field attributeName="csfDeleteCode" />
-                <field attributeName="csfFullTimeEmploymentQuantity" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfTimePercent" />
-                <field attributeName="earnCode" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="effectiveSequence" />
-                <field attributeName="emplid" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="positionNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PositionFunding-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.PositionFunding" />
+    <property name="inquiryDefinition" >
+      <ref bean="PositionFunding-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PositionFunding-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PositionFunding-universityFiscalYear" />
+        <ref bean="PositionFunding-chartOfAccountsCode" />
+        <ref bean="PositionFunding-accountNumber" />
+        <ref bean="PositionFunding-subAccountNumber" />
+        <ref bean="PositionFunding-financialObjectCode" />
+        <ref bean="PositionFunding-financialSubObjectCode" />
+        <ref bean="PositionFunding-csfCreateTimestamp" />
+        <ref bean="PositionFunding-csfAmount" />
+        <ref bean="PositionFunding-csfDeleteCode" />
+        <ref bean="PositionFunding-csfTimePercent" />
+        <ref bean="PositionFunding-csfFundingStatusCode" />
+        <ref bean="PositionFunding-csfFullTimeEmploymentQuantity" />
+        <ref bean="PositionFunding-effectiveSequence" />
+        <ref bean="PositionFunding-earnCode" />
+        <ref bean="PositionFunding-effectiveDate" />
+        <ref bean="PositionFunding-emplid" />
+        <ref bean="PositionFunding-personName" />
+        <ref bean="PositionFunding-positionNumber" />
+        <ref bean="PositionFunding-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="ledgerPerson" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="ledgerPerson.personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="emplid"
+                    p:targetName="personPayrollIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <lookupableID>laborPositionFundingLookupable</lookupableID>	        
-            <title>Position Funding</title>
-            <instructions>Look up a Calculated Salary Foundation Tracker</instructions>
+<!-- Attribute Definitions -->
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                    <sortAttribute attributeName="emplid" />
-                </sortAttributes>
-            </defaultSort>
 
-			<lookupFields>
-			    <lookupField attributeName="positionNumber" required="true" />
-            </lookupFields>
+  <bean id="PositionFunding-universityFiscalYear" parent="PositionFunding-universityFiscalYear-parentBean" />
 
-            <resultFields>
-				<field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />				
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="personName" />
-                <field attributeName="positionNumber" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfDeleteCode" />				
-            </resultFields>
-        </lookup>
+  <bean id="PositionFunding-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="PositionFunding-chartOfAccountsCode" parent="PositionFunding-chartOfAccountsCode-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear" />
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />			
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
+  <bean id="PositionFunding-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="PositionFunding-accountNumber" parent="PositionFunding-accountNumber-parentBean" />
 
-	        <attributeReference name="csfCreateTimestamp" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfCreateTimestamp"/>
-	        <attributeReference name="csfAmount" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount"/>	
-	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
-	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
-	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>	        
-	        <attributeReference name="csfFullTimeEmploymentQuantity" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFullTimeEmploymentQuantity"/>
+  <bean id="PositionFunding-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="PositionFunding-subAccountNumber" parent="PositionFunding-subAccountNumber-parentBean" />
 
-	        <attributeReference name="effectiveSequence" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveSequence"/>
-	        <attributeReference name="earnCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="earnCode"/>	        
-	        <attributeReference name="effectiveDate" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveDate"/>	        
-	        
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
+  <bean id="PositionFunding-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="PositionFunding-financialObjectCode" parent="PositionFunding-financialObjectCode-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-              		
-		<relationships>
-            <relationship objectAttributeName="ledgerPerson" >
-                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
-	        </relationship>
-        </relationships>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PositionFunding-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="PositionFunding-financialSubObjectCode" parent="PositionFunding-financialSubObjectCode-parentBean" />
+
+  <bean id="PositionFunding-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  </bean>
+  <bean id="PositionFunding-csfCreateTimestamp" parent="PositionFunding-csfCreateTimestamp-parentBean" />
+
+  <bean id="PositionFunding-csfCreateTimestamp-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfCreateTimestamp">
+  </bean>
+  <bean id="PositionFunding-csfAmount" parent="PositionFunding-csfAmount-parentBean" />
+
+  <bean id="PositionFunding-csfAmount-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfAmount">
+  </bean>
+  <bean id="PositionFunding-csfDeleteCode" parent="PositionFunding-csfDeleteCode-parentBean" />
+
+  <bean id="PositionFunding-csfDeleteCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfDeleteCode">
+  </bean>
+  <bean id="PositionFunding-csfTimePercent" parent="PositionFunding-csfTimePercent-parentBean" />
+
+  <bean id="PositionFunding-csfTimePercent-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfTimePercent">
+  </bean>
+  <bean id="PositionFunding-csfFundingStatusCode" parent="PositionFunding-csfFundingStatusCode-parentBean" />
+
+  <bean id="PositionFunding-csfFundingStatusCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFundingStatusCode">
+  </bean>
+  <bean id="PositionFunding-csfFullTimeEmploymentQuantity" parent="PositionFunding-csfFullTimeEmploymentQuantity-parentBean" />
+
+  <bean id="PositionFunding-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity">
+  </bean>
+  <bean id="PositionFunding-effectiveSequence" parent="PositionFunding-effectiveSequence-parentBean" />
+
+  <bean id="PositionFunding-effectiveSequence-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-effectiveSequence">
+  </bean>
+  <bean id="PositionFunding-earnCode" parent="PositionFunding-earnCode-parentBean" />
+
+  <bean id="PositionFunding-earnCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-earnCode">
+  </bean>
+  <bean id="PositionFunding-effectiveDate" parent="PositionFunding-effectiveDate-parentBean" />
+
+  <bean id="PositionFunding-effectiveDate-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-effectiveDate">
+  </bean>
+  <bean id="PositionFunding-emplid" parent="PositionFunding-emplid-parentBean" />
+
+  <bean id="PositionFunding-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+    <property name="name" value="emplid" />
+  </bean>
+  <bean id="PositionFunding-personName" parent="PositionFunding-personName-parentBean" />
+
+  <bean id="PositionFunding-personName-parentBean" abstract="true" parent="UniversalUser-personName">
+  </bean>
+  <bean id="PositionFunding-positionNumber" parent="PositionFunding-positionNumber-parentBean" />
+
+  <bean id="PositionFunding-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="PositionFunding-versionNumber" parent="PositionFunding-versionNumber-parentBean" />
+
+  <bean id="PositionFunding-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PositionFunding-inquiryDefinition" parent="PositionFunding-inquiryDefinition-parentBean" />
+
+  <bean id="PositionFunding-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Calculated Salary Foundation Tracker Inquiry By position Number" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfCreateTimestamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfDeleteCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfFullTimeEmploymentQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfFundingStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfTimePercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="earnCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effectiveDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effectiveSequence" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PositionFunding-lookupDefinition" parent="PositionFunding-lookupDefinition-parentBean" />
+
+  <bean id="PositionFunding-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Position Funding" />
+    <property name="lookupableID" value="laborPositionFundingLookupable" />
+    <property name="instructions" value="Look up a Calculated Salary Foundation Tracker" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="positionNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFundingStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfDeleteCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

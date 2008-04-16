@@ -1,44 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorShippingSpecialCondition">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <attributes>
+  <bean id="VendorShippingSpecialCondition" parent="VendorShippingSpecialCondition-parentBean" />
 
-            <attributeReference name="vendorShippingSpecialConditionCode" sourceClassName="org.kuali.module.vendor.bo.ShippingSpecialCondition" sourceAttributeName="vendorShippingSpecialConditionCode" >
-                <label>Shipping Special Condition</label>
-                <shortLabel>Shipping Special Condition</shortLabel>
-                <required>true</required>
-            	<control>
-            		<select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingSpecialConditionValuesFinder" />
-            	</control>
-            </attributeReference>
-            
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
+  <bean id="VendorShippingSpecialCondition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode" />
+        <ref bean="VendorShippingSpecialCondition-newCollectionRecord" />
+        <ref bean="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorShippingSpecialCondition-versionNumber" />
+        <ref bean="VendorShippingSpecialCondition-active" />
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<!-- Attribute Definitions -->
+
+
+  <bean id="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode" parent="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" />
+
+  <bean id="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" abstract="true" parent="ShippingSpecialCondition-vendorShippingSpecialConditionCode">
+    <property name="label" value="Shipping Special Condition" />
+    <property name="shortLabel" value="Shipping Special Condition" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingSpecialConditionValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorShippingSpecialCondition-newCollectionRecord" parent="VendorShippingSpecialCondition-newCollectionRecord-parentBean" />
+
+  <bean id="VendorShippingSpecialCondition-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" parent="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier-parentBean" />
+
+  <bean id="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" parent="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean" />
+
+  <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorShippingSpecialCondition-versionNumber" parent="VendorShippingSpecialCondition-versionNumber-parentBean" />
+
+  <bean id="VendorShippingSpecialCondition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorShippingSpecialCondition-active" parent="VendorShippingSpecialCondition-active-parentBean" />
+
+  <bean id="VendorShippingSpecialCondition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+</beans>

@@ -1,631 +1,1006 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.LedgerEntry">
-
-
-        <inquiry>
-            <title>Ledger Entry Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="earnCode" />
-                <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentReversalDate" />
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="grade" />
-                <field attributeName="hrmsCompany" />
-                <field attributeName="laborLedgerOriginalAccountNumber" />
-                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
-                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
-                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />
-                <field attributeName="laborLedgerOriginalSubAccountNumber" />
-                <field attributeName="organizationDocumentNumber" />
-                <field attributeName="organizationReferenceId" />
-                <field attributeName="payGroup" />
-                <field attributeName="payPeriodEndDate" />
-                <field attributeName="payrollEndDateFiscalPeriodCode" />
-                <field attributeName="payrollEndDateFiscalYear" />
-                <field attributeName="positionNumber" />
-                <field attributeName="projectCode" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-                <field attributeName="referenceFinancialDocumentTypeCode" />
-                <field attributeName="referenceFinancialSystemOriginationCode" />
-                <field attributeName="runIdentifier" />
-                <field attributeName="salaryAdministrationPlan" />
-                <field attributeName="setid" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="transactionDate" />
-                <field attributeName="transactionDateTimeStamp" />
-                <field attributeName="transactionDebitCreditCode" />
-                <field attributeName="transactionEncumbranceUpdateCode" />
-                <field attributeName="transactionLedgerEntryAmount" />
-                <field attributeName="transactionLedgerEntryDescription" />
-                <field attributeName="transactionLedgerEntrySequenceNumber" />
-                <field attributeName="transactionPostingDate" />
-                <field attributeName="transactionTotalHours" />
-                <field attributeName="universityFiscalPeriodCode" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-        	<lookupableID>laborLedgerEntryLookupable</lookupableID>
-            <title>Ledger Entry Lookup</title>
-
-            <instructions>Look up a Ledger Entry</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="earnCode" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="employeeRecord" required="false" />
-                <lookupField attributeName="financialBalanceTypeCode" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentReversalDate" required="false" />
-                <lookupField attributeName="financialDocumentTypeCode" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialObjectTypeCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="financialSystemOriginationCode" required="false" />
-                <lookupField attributeName="grade" required="false" />
-                <lookupField attributeName="hrmsCompany" required="false" />
-                <lookupField attributeName="laborLedgerOriginalAccountNumber" required="false" />
-                <lookupField attributeName="laborLedgerOriginalChartOfAccountsCode" required="false" />
-                <lookupField attributeName="laborLedgerOriginalFinancialObjectCode" required="false" />
-                <lookupField attributeName="laborLedgerOriginalFinancialSubObjectCode" required="false" />
-                <lookupField attributeName="laborLedgerOriginalSubAccountNumber" required="false" />
-                <lookupField attributeName="organizationDocumentNumber" required="false" />
-                <lookupField attributeName="organizationReferenceId" required="false" />
-                <lookupField attributeName="payGroup" required="false" />
-                <lookupField attributeName="payPeriodEndDate" required="false" />
-                <lookupField attributeName="payrollEndDateFiscalPeriodCode" required="false" />
-                <lookupField attributeName="payrollEndDateFiscalYear" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="projectCode" required="false" />
-                <lookupField attributeName="referenceFinancialDocumentNumber" required="false" />
-                <lookupField attributeName="referenceFinancialDocumentTypeCode" required="false" />
-                <lookupField attributeName="referenceFinancialSystemOriginationCode" required="false" />
-                <lookupField attributeName="runIdentifier" required="false" />
-                <lookupField attributeName="salaryAdministrationPlan" required="false" />
-                <lookupField attributeName="setid" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="transactionDate" required="false" />
-                <lookupField attributeName="transactionDateTimeStamp" required="false" />
-                <lookupField attributeName="transactionDebitCreditCode" required="false" />
-                <lookupField attributeName="transactionEncumbranceUpdateCode" required="false" />
-                <lookupField attributeName="transactionLedgerEntryAmount" required="false" />
-                <lookupField attributeName="transactionLedgerEntryDescription" required="false" />
-                <lookupField attributeName="transactionLedgerEntrySequenceNumber" required="false" />
-                <lookupField attributeName="transactionPostingDate" required="false" />
-                <lookupField attributeName="transactionTotalHours" required="false" />
-                <lookupField attributeName="universityFiscalPeriodCode" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                
-                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
-                </lookupField>                
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="universityFiscalPeriodCode" />
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="positionNumber" />
-                <field attributeName="projectCode" />
-                <field attributeName="transactionLedgerEntryDescription" />
-                <field attributeName="transactionLedgerEntryAmount" />
-                <field attributeName="transactionDebitCreditCode" />
-                <field attributeName="transactionDate" />
-                <field attributeName="organizationDocumentNumber" />
-                <field attributeName="organizationReferenceId" />
-                <field attributeName="referenceFinancialDocumentTypeCode" />
-                <field attributeName="referenceFinancialSystemOriginationCode" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-                <field attributeName="financialDocumentReversalDate" />
-                <field attributeName="transactionEncumbranceUpdateCode" />
-                <field attributeName="transactionPostingDate" />
-                <field attributeName="payPeriodEndDate" />
-                <field attributeName="transactionTotalHours" />
-                <field attributeName="payrollEndDateFiscalYear" />
-                <field attributeName="payrollEndDateFiscalPeriodCode" />
-                <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
-				<field attributeName="earnCode" />
-                <field attributeName="payGroup" />
-                <field attributeName="salaryAdministrationPlan" />
-				<field attributeName="grade" />
-                <field attributeName="runIdentifier" />
-                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
-                <field attributeName="laborLedgerOriginalAccountNumber" />
-                <field attributeName="laborLedgerOriginalSubAccountNumber" />
-                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
-                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />				
-                <field attributeName="hrmsCompany" />
-                <field attributeName="setid" />				
-                <field attributeName="transactionDateTimeStamp" />
-                <field attributeName="transactionLedgerEntrySequenceNumber" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
-            
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
-			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
-
-            <attribute name="earnCode" forceUppercase="true">
-                <label>Earn Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-						
-            <attribute name="employeeRecord" forceUppercase="true">
-                <label>Employee Record</label>
-                <shortLabel>Record</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-			
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-			</attribute>
-
-            <attribute name="financialDocumentReversalDate" forceUppercase="true">
-                <label>Reversal Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-			</attribute>
-
-			<attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode"/>
-			
-            <attribute name="financialSystemOriginationCode" forceUppercase="false">
-                <label>Origin Code</label>
-                <shortLabel>Origin Code</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-            <attribute name="grade" forceUppercase="true">
-                <label>Grade</label>
-                <shortLabel>Grade</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-
-            <attribute name="hrmsCompany" forceUppercase="true">
-                <label>Company</label>
-                <shortLabel>Company</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-
-            <attribute name="laborLedgerOriginalAccountNumber" forceUppercase="true">
-                <label>Original Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-			</attribute>
-
-            <attribute name="laborLedgerOriginalChartOfAccountsCode" forceUppercase="true">
-                <label>Original Chart Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
-
-            <attribute name="laborLedgerOriginalFinancialObjectCode" forceUppercase="true">
-                <label>Original Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-			</attribute>
-
-            <attribute name="laborLedgerOriginalFinancialSubObjectCode" forceUppercase="true">
-                <label>Original Sub-Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-
-            <attribute name="laborLedgerOriginalSubAccountNumber" forceUppercase="true">
-                <label>Original Sub-Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-			</attribute>
-
-            <attribute name="organizationDocumentNumber" forceUppercase="true">
-                <label>Organization Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-			</attribute>
-
-            <attribute name="organizationReferenceId" forceUppercase="true">
-                <label>Organization Reference ID</label>
-                <shortLabel>Id</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-			</attribute>
-
-            <attribute name="payGroup" forceUppercase="true">
-                <label>Pay Group</label>
-                <shortLabel>Group</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-
-            <attribute name="payPeriodEndDate" forceUppercase="true">
-                <label>Pay Period End Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-			</attribute>
-
-            <attribute name="payrollEndDateFiscalPeriodCode" forceUppercase="true">
-                <label>Payroll End Date Fiscal Period</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
-
-            <attribute name="payrollEndDateFiscalYear" forceUppercase="true">
-                <label>Payroll End Date Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-			</attribute>
-
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
-
-            <attribute name="projectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-			</attribute>
-
-            <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
-                <label>Reference Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-			</attribute>
-
-            <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
-                <label>Reference Document Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-			</attribute>
-
-            <attribute name="referenceFinancialSystemOriginationCode" forceUppercase="true">
-                <label>Reference Origin Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
-
-            <attribute name="runIdentifier" forceUppercase="true">
-                <label>Run Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-			</attribute>
-
-            <attribute name="salaryAdministrationPlan" forceUppercase="true">
-                <label>Salary Admin Plan</label>
-                <shortLabel>Plan</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-			</attribute>
-
-            <attribute name="setid" forceUppercase="true">
-                <label>Set ID</label>
-                <shortLabel>Setid</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionDate" forceUppercase="true">
-                <label>Transaction Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionDateTimeStamp" forceUppercase="true">
-                <label>Transaction Date Time Stamp</label>
-                <shortLabel>Stamp</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionDebitCreditCode" forceUppercase="true">
-                <label>Debit Credit Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
-                <label>Encumbrance Update Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionLedgerEntryAmount" forceUppercase="true">
-                <label>Transaction Ledger Entry Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionLedgerEntryDescription" forceUppercase="true">
-                <label>Transaction Ledger Entry Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionLedgerEntrySequenceNumber" forceUppercase="true">
-                <label>Transaction Ledger Entry Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionPostingDate" forceUppercase="true">
-                <label>Transaction Posting Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-			</attribute>
-
-            <attribute name="transactionTotalHours" forceUppercase="true">
-                <label>Transaction Total Hours</label>
-                <shortLabel>Hours</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-			</attribute>
-
-            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
-                <label>Fiscal Period</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
-
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="LedgerEntry" parent="LedgerEntry-parentBean" />
+
+  <bean id="LedgerEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LedgerEntry" />
+    <property name="inquiryDefinition" >
+      <ref bean="LedgerEntry-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="LedgerEntry-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="LedgerEntry-universityFiscalYear" />
+        <ref bean="LedgerEntry-subAccountNumber" />
+        <ref bean="LedgerEntry-accountNumber" />
+        <ref bean="LedgerEntry-chartOfAccountsCode" />
+        <ref bean="LedgerEntry-financialBalanceTypeCode" />
+        <ref bean="LedgerEntry-financialObjectCode" />
+        <ref bean="LedgerEntry-financialObjectTypeCode" />
+        <ref bean="LedgerEntry-financialSubObjectCode" />
+        <ref bean="LedgerEntry-earnCode" />
+        <ref bean="LedgerEntry-emplid" />
+        <ref bean="LedgerEntry-employeeRecord" />
+        <ref bean="LedgerEntry-documentNumber" />
+        <ref bean="LedgerEntry-financialDocumentReversalDate" />
+        <ref bean="LedgerEntry-financialDocumentTypeCode" />
+        <ref bean="LedgerEntry-financialSystemOriginationCode" />
+        <ref bean="LedgerEntry-grade" />
+        <ref bean="LedgerEntry-hrmsCompany" />
+        <ref bean="LedgerEntry-laborLedgerOriginalAccountNumber" />
+        <ref bean="LedgerEntry-laborLedgerOriginalChartOfAccountsCode" />
+        <ref bean="LedgerEntry-laborLedgerOriginalFinancialObjectCode" />
+        <ref bean="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode" />
+        <ref bean="LedgerEntry-laborLedgerOriginalSubAccountNumber" />
+        <ref bean="LedgerEntry-organizationDocumentNumber" />
+        <ref bean="LedgerEntry-organizationReferenceId" />
+        <ref bean="LedgerEntry-payGroup" />
+        <ref bean="LedgerEntry-payPeriodEndDate" />
+        <ref bean="LedgerEntry-payrollEndDateFiscalPeriodCode" />
+        <ref bean="LedgerEntry-payrollEndDateFiscalYear" />
+        <ref bean="LedgerEntry-positionNumber" />
+        <ref bean="LedgerEntry-projectCode" />
+        <ref bean="LedgerEntry-referenceFinancialDocumentNumber" />
+        <ref bean="LedgerEntry-referenceFinancialDocumentTypeCode" />
+        <ref bean="LedgerEntry-referenceFinancialSystemOriginationCode" />
+        <ref bean="LedgerEntry-runIdentifier" />
+        <ref bean="LedgerEntry-salaryAdministrationPlan" />
+        <ref bean="LedgerEntry-setid" />
+        <ref bean="LedgerEntry-transactionDate" />
+        <ref bean="LedgerEntry-transactionDateTimeStamp" />
+        <ref bean="LedgerEntry-transactionDebitCreditCode" />
+        <ref bean="LedgerEntry-transactionEncumbranceUpdateCode" />
+        <ref bean="LedgerEntry-transactionLedgerEntryAmount" />
+        <ref bean="LedgerEntry-transactionLedgerEntryDescription" />
+        <ref bean="LedgerEntry-transactionLedgerEntrySequenceNumber" />
+        <ref bean="LedgerEntry-transactionPostingDate" />
+        <ref bean="LedgerEntry-transactionTotalHours" />
+        <ref bean="LedgerEntry-universityFiscalPeriodCode" />
+        <ref bean="LedgerEntry-dummyBusinessObject.pendingEntryOption" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="LedgerEntry-universityFiscalYear" parent="LedgerEntry-universityFiscalYear-parentBean" />
+
+  <bean id="LedgerEntry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="LedgerEntry-subAccountNumber" parent="LedgerEntry-subAccountNumber-parentBean" />
+
+  <bean id="LedgerEntry-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="LedgerEntry-accountNumber" parent="LedgerEntry-accountNumber-parentBean" />
+
+  <bean id="LedgerEntry-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="LedgerEntry-chartOfAccountsCode" parent="LedgerEntry-chartOfAccountsCode-parentBean" />
+
+  <bean id="LedgerEntry-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="LedgerEntry-financialBalanceTypeCode" parent="LedgerEntry-financialBalanceTypeCode-parentBean" />
+
+  <bean id="LedgerEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="financialBalanceTypeCode" />
+  </bean>
+  <bean id="LedgerEntry-financialObjectCode" parent="LedgerEntry-financialObjectCode-parentBean" />
+
+  <bean id="LedgerEntry-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="LedgerEntry-financialObjectTypeCode" parent="LedgerEntry-financialObjectTypeCode-parentBean" />
+
+  <bean id="LedgerEntry-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="financialObjectTypeCode" />
+  </bean>
+  <bean id="LedgerEntry-financialSubObjectCode" parent="LedgerEntry-financialSubObjectCode-parentBean" />
+
+  <bean id="LedgerEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  </bean>
+  <bean id="LedgerEntry-earnCode" parent="LedgerEntry-earnCode-parentBean" />
+
+  <bean id="LedgerEntry-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="earnCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Earn Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-emplid" parent="LedgerEntry-emplid-parentBean" />
+
+  <bean id="LedgerEntry-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+    <property name="name" value="emplid" />
+  </bean>
+  <bean id="LedgerEntry-employeeRecord" parent="LedgerEntry-employeeRecord-parentBean" />
+
+  <bean id="LedgerEntry-employeeRecord-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employeeRecord" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Employee Record" />
+    <property name="shortLabel" value="Record" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-documentNumber" parent="LedgerEntry-documentNumber-parentBean" />
+
+  <bean id="LedgerEntry-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-financialDocumentReversalDate" parent="LedgerEntry-financialDocumentReversalDate-parentBean" />
+
+  <bean id="LedgerEntry-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentReversalDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reversal Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-financialDocumentTypeCode" parent="LedgerEntry-financialDocumentTypeCode-parentBean" />
+
+  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  </bean>
+  <bean id="LedgerEntry-financialSystemOriginationCode" parent="LedgerEntry-financialSystemOriginationCode-parentBean" />
+
+  <bean id="LedgerEntry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemOriginationCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Origin Code" />
+    <property name="shortLabel" value="Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-grade" parent="LedgerEntry-grade-parentBean" />
+
+  <bean id="LedgerEntry-grade-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grade" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Grade" />
+    <property name="shortLabel" value="Grade" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-hrmsCompany" parent="LedgerEntry-hrmsCompany-parentBean" />
+
+  <bean id="LedgerEntry-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsCompany" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Company" />
+    <property name="shortLabel" value="Company" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-laborLedgerOriginalAccountNumber" parent="LedgerEntry-laborLedgerOriginalAccountNumber-parentBean" />
+
+  <bean id="LedgerEntry-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Original Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-laborLedgerOriginalChartOfAccountsCode" parent="LedgerEntry-laborLedgerOriginalChartOfAccountsCode-parentBean" />
+
+  <bean id="LedgerEntry-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Original Chart Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-laborLedgerOriginalFinancialObjectCode" parent="LedgerEntry-laborLedgerOriginalFinancialObjectCode-parentBean" />
+
+  <bean id="LedgerEntry-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalFinancialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Original Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode" parent="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode-parentBean" />
+
+  <bean id="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalFinancialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Original Sub-Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-laborLedgerOriginalSubAccountNumber" parent="LedgerEntry-laborLedgerOriginalSubAccountNumber-parentBean" />
+
+  <bean id="LedgerEntry-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalSubAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Original Sub-Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-organizationDocumentNumber" parent="LedgerEntry-organizationDocumentNumber-parentBean" />
+
+  <bean id="LedgerEntry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-organizationReferenceId" parent="LedgerEntry-organizationReferenceId-parentBean" />
+
+  <bean id="LedgerEntry-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference ID" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-payGroup" parent="LedgerEntry-payGroup-parentBean" />
+
+  <bean id="LedgerEntry-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payGroup" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Group" />
+    <property name="shortLabel" value="Group" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-payPeriodEndDate" parent="LedgerEntry-payPeriodEndDate-parentBean" />
+
+  <bean id="LedgerEntry-payPeriodEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payPeriodEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Period End Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-payrollEndDateFiscalPeriodCode" parent="LedgerEntry-payrollEndDateFiscalPeriodCode-parentBean" />
+
+  <bean id="LedgerEntry-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payrollEndDateFiscalPeriodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payroll End Date Fiscal Period" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-payrollEndDateFiscalYear" parent="LedgerEntry-payrollEndDateFiscalYear-parentBean" />
+
+  <bean id="LedgerEntry-payrollEndDateFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payrollEndDateFiscalYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payroll End Date Fiscal Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-positionNumber" parent="LedgerEntry-positionNumber-parentBean" />
+
+  <bean id="LedgerEntry-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="LedgerEntry-projectCode" parent="LedgerEntry-projectCode-parentBean" />
+
+  <bean id="LedgerEntry-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-referenceFinancialDocumentNumber" parent="LedgerEntry-referenceFinancialDocumentNumber-parentBean" />
+
+  <bean id="LedgerEntry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-referenceFinancialDocumentTypeCode" parent="LedgerEntry-referenceFinancialDocumentTypeCode-parentBean" />
+
+  <bean id="LedgerEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Document Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-referenceFinancialSystemOriginationCode" parent="LedgerEntry-referenceFinancialSystemOriginationCode-parentBean" />
+
+  <bean id="LedgerEntry-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialSystemOriginationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-runIdentifier" parent="LedgerEntry-runIdentifier-parentBean" />
+
+  <bean id="LedgerEntry-runIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="runIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Run Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-salaryAdministrationPlan" parent="LedgerEntry-salaryAdministrationPlan-parentBean" />
+
+  <bean id="LedgerEntry-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salaryAdministrationPlan" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Salary Admin Plan" />
+    <property name="shortLabel" value="Plan" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-setid" parent="LedgerEntry-setid-parentBean" />
+
+  <bean id="LedgerEntry-setid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="setid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Set ID" />
+    <property name="shortLabel" value="Setid" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionDate" parent="LedgerEntry-transactionDate-parentBean" />
+
+  <bean id="LedgerEntry-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionDateTimeStamp" parent="LedgerEntry-transactionDateTimeStamp-parentBean" />
+
+  <bean id="LedgerEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionDateTimeStamp" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Date Time Stamp" />
+    <property name="shortLabel" value="Stamp" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionDebitCreditCode" parent="LedgerEntry-transactionDebitCreditCode-parentBean" />
+
+  <bean id="LedgerEntry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionDebitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Debit Credit Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionEncumbranceUpdateCode" parent="LedgerEntry-transactionEncumbranceUpdateCode-parentBean" />
+
+  <bean id="LedgerEntry-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionEncumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionLedgerEntryAmount" parent="LedgerEntry-transactionLedgerEntryAmount-parentBean" />
+
+  <bean id="LedgerEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionLedgerEntryAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Ledger Entry Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionLedgerEntryDescription" parent="LedgerEntry-transactionLedgerEntryDescription-parentBean" />
+
+  <bean id="LedgerEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionLedgerEntryDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Ledger Entry Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionLedgerEntrySequenceNumber" parent="LedgerEntry-transactionLedgerEntrySequenceNumber-parentBean" />
+
+  <bean id="LedgerEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionLedgerEntrySequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Ledger Entry Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionPostingDate" parent="LedgerEntry-transactionPostingDate-parentBean" />
+
+  <bean id="LedgerEntry-transactionPostingDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionPostingDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Posting Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-transactionTotalHours" parent="LedgerEntry-transactionTotalHours-parentBean" />
+
+  <bean id="LedgerEntry-transactionTotalHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionTotalHours" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Total Hours" />
+    <property name="shortLabel" value="Hours" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-universityFiscalPeriodCode" parent="LedgerEntry-universityFiscalPeriodCode-parentBean" />
+
+  <bean id="LedgerEntry-universityFiscalPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalPeriodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fiscal Period" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="LedgerEntry-dummyBusinessObject.pendingEntryOption" parent="LedgerEntry-dummyBusinessObject.pendingEntryOption-parentBean" />
+
+  <bean id="LedgerEntry-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
+    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="LedgerEntry-inquiryDefinition" parent="LedgerEntry-inquiryDefinition-parentBean" />
+
+  <bean id="LedgerEntry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Ledger Entry Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="earnCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="employeeRecord" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBalanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentReversalDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="grade" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="hrmsCompany" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReferenceId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payGroup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payPeriodEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payrollEndDateFiscalPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payrollEndDateFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="runIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salaryAdministrationPlan" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="setid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDateTimeStamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDebitCreditCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionEncumbranceUpdateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntryAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntryDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntrySequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPostingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionTotalHours" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="LedgerEntry-lookupDefinition" parent="LedgerEntry-lookupDefinition-parentBean" />
+
+  <bean id="LedgerEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ledger Entry Lookup" />
+    <property name="lookupableID" value="laborLedgerEntryLookupable" />
+    <property name="instructions" value="Look up a Ledger Entry" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="earnCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeRecord" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentReversalDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="grade" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payGroup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payPeriodEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payrollEndDateFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payrollEndDateFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="runIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryAdministrationPlan" />
+        <bean parent="FieldDefinition"
+              p:attributeName="setid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDateTimeStamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDebitCreditCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionEncumbranceUpdateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntrySequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionPostingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionTotalHours" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.pendingEntryOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDebitCreditCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentReversalDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionEncumbranceUpdateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionPostingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payPeriodEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionTotalHours" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payrollEndDateFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payrollEndDateFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeRecord" />
+        <bean parent="FieldDefinition"
+              p:attributeName="earnCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payGroup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryAdministrationPlan" />
+        <bean parent="FieldDefinition"
+              p:attributeName="grade" />
+        <bean parent="FieldDefinition"
+              p:attributeName="runIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition"
+              p:attributeName="setid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDateTimeStamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntrySequenceNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

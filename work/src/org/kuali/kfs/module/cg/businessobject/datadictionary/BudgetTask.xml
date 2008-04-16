@@ -1,175 +1,220 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetTask">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetTask" parent="BudgetTask-parentBean" />
+
+  <bean id="BudgetTask-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetTask" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetTask-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetTask-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Budget Tasks" />
+    <property name="objectDescription" value="Budget Tasks are the tasks for your Budget." />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetTask-documentNumber" />
+        <ref bean="BudgetTask-budgetTaskSequenceNumber" />
+        <ref bean="BudgetTask-budgetTaskOnCampus" />
+        <ref bean="BudgetTask-budgetTaskName" />
+        <ref bean="BudgetTask-objectId" />
+        <ref bean="BudgetTask-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Task</title>
+  <bean id="BudgetTask-documentNumber" parent="BudgetTask-documentNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="budgetTaskSequenceNumber" />
-                <field attributeName="budgetTaskName" />
-                <field attributeName="objectId" />
-                <field attributeName="versionNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetTask-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Number" />
+    <property name="shortLabel" value="Budget Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Budget Number..." />
+    <property name="description" value="Budget Number..." />
+  </bean>
+  <bean id="BudgetTask-budgetTaskSequenceNumber" parent="BudgetTask-budgetTaskSequenceNumber-parentBean" />
 
-        <lookup>
-            <title>Budget Task</title>
+  <bean id="BudgetTask-budgetTaskSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetTaskSequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number..." />
+  </bean>
+  <bean id="BudgetTask-budgetTaskOnCampus" parent="BudgetTask-budgetTaskOnCampus-parentBean" />
 
-            <instructions>Lookup an Budget Task</instructions>
+  <bean id="BudgetTask-budgetTaskOnCampus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetTaskOnCampus" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Occurs On Campus" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Budget Task On Campus?" />
+    <property name="description" value="Budget Task On Campus?" />
+    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+  </bean>
+  <bean id="BudgetTask-budgetTaskName" parent="BudgetTask-budgetTaskName-parentBean" />
 
-            <defaultSort attributeName="documentNumber" sortAscending="true" />
+  <bean id="BudgetTask-budgetTaskName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetTaskName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Task" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Budget Task Name" />
+    <property name="description" value="Budget Task Name..." />
+  </bean>
+  <bean id="BudgetTask-objectId" parent="BudgetTask-objectId-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="budgetTaskSequenceNumber" required="false" />
-                <lookupField attributeName="budgetTaskName" required="false" />
-            </lookupFields>
+  <bean id="BudgetTask-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+    <property name="summary" value="objectId summary..." />
+    <property name="description" value="objectId description..." />
+  </bean>
+  <bean id="BudgetTask-versionNumber" parent="BudgetTask-versionNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="budgetTaskSequenceNumber" />
-                <field attributeName="budgetTaskName" />
-                <field attributeName="budgetTaskOnCampus" />
-                <field attributeName="objectId" />
-                <field attributeName="versionNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetTask-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
+  </bean>
 
-        <attributes>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Budget Number</label>
-                <shortLabel>Budget Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Budget Number...</summary>
-                <description>Budget Number...</description>
-            </attribute>
-
-            <attribute name="budgetTaskSequenceNumber" forceUppercase="false">
-                <label>Sequence Number</label>
-                <shortLabel>Sequence Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Sequence Number</summary>
-                <description>Sequence Number...</description>
-            </attribute>
-
-            <attribute name="budgetTaskOnCampus" forceUppercase="false">
-                <label>Occurs On Campus</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Budget Task On Campus?</summary>
-                <description>Budget Task On Campus?</description>
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
-
-
-            <attribute name="budgetTaskName" forceUppercase="false">
-                <label>Task</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <required>true</required>
-
-                <control>
-                    <text size="50" />
-                </control>
-
-                <summary>Budget Task Name</summary>
-                <description>Budget Task Name...</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="objectId" forceUppercase="true">
-                <label>Object Id</label>
-                <shortLabel>GUID</shortLabel>
+  <bean id="BudgetTask-inquiryDefinition" parent="BudgetTask-inquiryDefinition-parentBean" />
 
-                <maxLength>36</maxLength>
+  <bean id="BudgetTask-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Task" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetTaskSequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetTaskName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="objectId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="36" />
-                </control>
 
-                <summary>objectId summary...</summary>
-                <description>objectId description...</description>
-            </attribute>
+  <bean id="BudgetTask-lookupDefinition" parent="BudgetTask-lookupDefinition-parentBean" />
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
-            </attribute>
-
-        </attributes>
-
-        <objectLabel>Budget Tasks</objectLabel>
-        <objectDescription>Budget Tasks are the tasks for your Budget.</objectDescription>
-
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetTask-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Task" />
+    <property name="instructions" value="Lookup an Budget Task" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>documentNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetTaskSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetTaskName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetTaskSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetTaskName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetTaskOnCampus" />
+        <bean parent="FieldDefinition"
+              p:attributeName="objectId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

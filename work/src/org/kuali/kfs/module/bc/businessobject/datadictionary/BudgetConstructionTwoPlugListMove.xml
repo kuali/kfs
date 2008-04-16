@@ -1,182 +1,249 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionTwoPlugListMove">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionTwoPlugListMove" parent="BudgetConstructionTwoPlugListMove-parentBean" />
+
+  <bean id="BudgetConstructionTwoPlugListMove-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionTwoPlugListMove" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionTwoPlugListMove-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionTwoPlugListMove-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionTwoPlugListMove-accountLineAnnualBalanceAmount" />
+        <ref bean="BudgetConstructionTwoPlugListMove-accountNumber" />
+        <ref bean="BudgetConstructionTwoPlugListMove-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode" />
+        <ref bean="BudgetConstructionTwoPlugListMove-organizationCode" />
+        <ref bean="BudgetConstructionTwoPlugListMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionTwoPlugListMove-subAccountNumber" />
+        <ref bean="BudgetConstructionTwoPlugListMove-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Two Plug List Move Inquiry</title>
+  <bean id="BudgetConstructionTwoPlugListMove-accountLineAnnualBalanceAmount" parent="BudgetConstructionTwoPlugListMove-accountLineAnnualBalanceAmount-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionTwoPlugListMove-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountLineAnnualBalanceAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Line Annual Balance Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accountLineAnnualBalanceAmount" />
+    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-accountNumber" parent="BudgetConstructionTwoPlugListMove-accountNumber-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Two Plug List Move Lookup</title>
+  <bean id="BudgetConstructionTwoPlugListMove-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-chartOfAccountsCode" parent="BudgetConstructionTwoPlugListMove-chartOfAccountsCode-parentBean" />
 
-            <instructions>Look up a Budget Construction Two Plug List Move</instructions>
+  <bean id="BudgetConstructionTwoPlugListMove-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode" parent="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="organizationChartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="organizationChartOfAccountsCode" />
+    <property name="description" value="organizationChartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-organizationCode" parent="BudgetConstructionTwoPlugListMove-organizationCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountLineAnnualBalanceAmount" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationChartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionTwoPlugListMove-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="organizationCode" />
+    <property name="description" value="organizationCode description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-personUniversalIdentifier" parent="BudgetConstructionTwoPlugListMove-personUniversalIdentifier-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionTwoPlugListMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-subAccountNumber" parent="BudgetConstructionTwoPlugListMove-subAccountNumber-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionTwoPlugListMove-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-versionNumber" parent="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" />
 
-            <attribute name="accountLineAnnualBalanceAmount" forceUppercase="true">
-                <label>Account Line Annual Balance Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="21" />
-                </control>
 
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
-			</attribute>
+  <bean id="BudgetConstructionTwoPlugListMove-inquiryDefinition" parent="BudgetConstructionTwoPlugListMove-inquiryDefinition-parentBean" />
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="BudgetConstructionTwoPlugListMove-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Two Plug List Move Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineAnnualBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="9" />
-                </control>
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
+  <bean id="BudgetConstructionTwoPlugListMove-lookupDefinition" parent="BudgetConstructionTwoPlugListMove-lookupDefinition-parentBean" />
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
-                <label>Organization Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>organizationChartOfAccountsCode</summary>
-                <description>organizationChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionTwoPlugListMove-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Two Plug List Move Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Two Plug List Move" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,80 +1,121 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.TravelCompanyCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="TravelCompanyCode" parent="TravelCompanyCode-parentBean" />
+
+  <bean id="TravelCompanyCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.TravelCompanyCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="TravelCompanyCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="TravelCompanyCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="code" />
+    <property name="objectLabel" value="Disbursement Voucher Travel Company" />
+    <property name="attributes" >
+      <list>
+        <ref bean="TravelCompanyCode-code" />
+        <ref bean="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense" />
+        <ref bean="TravelCompanyCode-name" />
+        <ref bean="TravelCompanyCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Disbursement Voucher Travel Company Inquiry</title>
+  <bean id="TravelCompanyCode-code" parent="TravelCompanyCode-code-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="TravelCompanyCode-code-parentBean" abstract="true" parent="TravelExpenseTypeCode-code">
+    <property name="label" value="Company Type Code" />
+  </bean>
+  <bean id="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense" parent="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense-parentBean" />
 
-        <lookup>
-            <title>Disbursement Voucher Travel Company Lookup</title>
+  <bean id="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense-parentBean" abstract="true" parent="TravelExpenseTypeCode-prepaidExpense">
+    <property name="name" value="travelExpenseTypeCode.prepaidExpense" />
+  </bean>
+  <bean id="TravelCompanyCode-name" parent="TravelCompanyCode-name-parentBean" />
 
-            <instructions>Lookup a Travel Company Code</instructions>
+  <bean id="TravelCompanyCode-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Travel Company Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+  </bean>
+  <bean id="TravelCompanyCode-versionNumber" parent="TravelCompanyCode-versionNumber-parentBean" />
 
-            <defaultSort attributeName="code" sortAscending="true" />
+  <bean id="TravelCompanyCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="code" required="false" />
-                <lookupField attributeName="travelExpenseTypeCode.prepaidExpense" required="false" />
-                <lookupField attributeName="name" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
 
-        <titleAttribute>code</titleAttribute>
+  <bean id="TravelCompanyCode-inquiryDefinition" parent="TravelCompanyCode-inquiryDefinition-parentBean" />
 
-        <attributes>
+  <bean id="TravelCompanyCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Disbursement Voucher Travel Company Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="code" sourceClassName="org.kuali.module.financial.bo.TravelExpenseTypeCode" sourceAttributeName="code">
-                <label>Company Type Code</label>
-                <shortLabel>Type Code</shortLabel>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="travelExpenseTypeCode.prepaidExpense" sourceClassName="org.kuali.module.financial.bo.TravelExpenseTypeCode" sourceAttributeName="prepaidExpense"/>
-            
-            <attribute name="name" forceUppercase="false">
-                <label>Travel Company Name</label>
-                <shortLabel>Name</shortLabel>
 
-                <maxLength>25</maxLength>
+  <bean id="TravelCompanyCode-lookupDefinition" parent="TravelCompanyCode-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="25" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        <objectLabel>Disbursement Voucher Travel Company</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="TravelCompanyCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Disbursement Voucher Travel Company Lookup" />
+    <property name="instructions" value="Lookup a Travel Company Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="travelExpenseTypeCode.prepaidExpense" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+  </bean>
+</beans>

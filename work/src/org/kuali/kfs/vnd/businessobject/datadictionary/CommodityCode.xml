@@ -1,139 +1,204 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.CommodityCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Commodity Code Inquiry</title>
+  <bean id="CommodityCode" parent="CommodityCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchasingCommodityCode" />
-                <field attributeName="commodityDescription" />
-                <field attributeName="salesTaxIndicator" />
-                <field attributeName="restrictedItemsIndicator" />
-                <field attributeName="restrictedMaterialCode" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="CommodityCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.CommodityCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="CommodityCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CommodityCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="purchasingCommodityCode" />
+    <property name="objectLabel" value="Commodity Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CommodityCode-purchasingCommodityCode" />
+        <ref bean="CommodityCode-commodityDescription" />
+        <ref bean="CommodityCode-salesTaxIndicator" />
+        <ref bean="CommodityCode-restrictedItemsIndicator" />
+        <ref bean="CommodityCode-restrictedMaterialCode" />
+        <ref bean="CommodityCode-restrictedMaterial.restrictedMaterialDescription" />
+        <ref bean="CommodityCode-active" />
+        <ref bean="CommodityCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Commodity Code Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Commodity Code</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="purchasingCommodityCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="CommodityCode-purchasingCommodityCode" parent="CommodityCode-purchasingCommodityCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="purchasingCommodityCode" required="false" />
-                <lookupField attributeName="commodityDescription" required="false" />
-                <lookupField attributeName="salesTaxIndicator" required="false" />
-                <lookupField attributeName="restrictedItemsIndicator" required="false" />
-                <lookupField attributeName="restrictedMaterialCode" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="CommodityCode-purchasingCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchasingCommodityCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Commodity Code" />
+    <property name="shortLabel" value="Comm Code" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="CommodityCode-commodityDescription" parent="CommodityCode-commodityDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="purchasingCommodityCode" />
-                <field attributeName="commodityDescription" />
- 				<field attributeName="salesTaxIndicator" />
-				<field attributeName="restrictedItemsIndicator" />
-				<field attributeName="restrictedMaterial.restrictedMaterialDescription" />               
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="CommodityCode-commodityDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="commodityDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Commodity Description" />
+    <property name="shortLabel" value="Comm Desc" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="CommodityCode-salesTaxIndicator" parent="CommodityCode-salesTaxIndicator-parentBean" />
 
-        <titleAttribute>purchasingCommodityCode</titleAttribute>
+  <bean id="CommodityCode-salesTaxIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sales Tax Indicator" />
+    <property name="shortLabel" value="Sales Tax" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CommodityCode-restrictedItemsIndicator" parent="CommodityCode-restrictedItemsIndicator-parentBean" />
 
-        <attributes>
-        	<attribute name="purchasingCommodityCode" forceUppercase="true">
-        		<label>Commodity Code</label>
-        		<shortLabel>Comm Code</shortLabel>
-        		
-        		<maxLength>40</maxLength>
-        		<validationPattern><anyCharacter/></validationPattern>
-        		
-        		<control>
-        			<text size="42"/>
-        		</control>       		
-        	</attribute>
-        	
-        	<attribute name="commodityDescription">
-        		<label>Commodity Description</label>
-        		<shortLabel>Comm Desc</shortLabel>
-        		
-        		<maxLength>45</maxLength>
-        		<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-        		
-        		<control>
-        			<text size="47"/>
-        		</control>       		
-        	</attribute>
-        	
-            <attribute name="salesTaxIndicator" forceUppercase="true">
-                <label>Sales Tax Indicator</label>
-                <shortLabel>Sales Tax</shortLabel>
+  <bean id="CommodityCode-restrictedItemsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="restrictedItemsIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Restricted Items Indicator" />
+    <property name="shortLabel" value="Restricted Items" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CommodityCode-restrictedMaterialCode" parent="CommodityCode-restrictedMaterialCode-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="CommodityCode-restrictedMaterialCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="restrictedMaterialCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Restricted Material" />
+    <property name="shortLabel" value="Restricted Material" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.RestrictedMaterialValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="CommodityCode-restrictedMaterial.restrictedMaterialDescription" parent="CommodityCode-restrictedMaterial.restrictedMaterialDescription-parentBean" />
 
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-            
-            <attribute name="restrictedItemsIndicator" forceUppercase="true">
-                <label>Restricted Items Indicator</label>
-                <shortLabel>Restricted Items</shortLabel>
+  <bean id="CommodityCode-restrictedMaterial.restrictedMaterialDescription-parentBean" abstract="true" parent="RestrictedMaterial-restrictedMaterialDescription">
+    <property name="name" value="restrictedMaterial.restrictedMaterialDescription" />
+    <property name="label" value="Restricted Material" />
+  </bean>
+  <bean id="CommodityCode-active" parent="CommodityCode-active-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="CommodityCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="CommodityCode-versionNumber" parent="CommodityCode-versionNumber-parentBean" />
 
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-            
-            <attribute name="restrictedMaterialCode" forceUppercase="true">
-                <label>Restricted Material</label>
-                <shortLabel>Restricted Material</shortLabel>
+  <bean id="CommodityCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.RestrictedMaterialValuesFinder"/>
-                </control>
-            </attribute>
-            
-            <attributeReference name="restrictedMaterial.restrictedMaterialDescription" sourceClassName="org.kuali.module.purap.bo.RestrictedMaterial" sourceAttributeName="restrictedMaterialDescription">
-            	<label>Restricted Material</label>
-            </attributeReference>                            	
-        	
-        	<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        	
-        </attributes>
-        
-        <objectLabel>Commodity Code</objectLabel>
-    </businessObject>
-</dictionaryEntry>        
+  <bean id="CommodityCode-inquiryDefinition" parent="CommodityCode-inquiryDefinition-parentBean" />
+
+  <bean id="CommodityCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Commodity Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingCommodityCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="commodityDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salesTaxIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="restrictedItemsIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="restrictedMaterialCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CommodityCode-lookupDefinition" parent="CommodityCode-lookupDefinition-parentBean" />
+
+  <bean id="CommodityCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Commodity Code Lookup" />
+    <property name="instructions" value="Lookup a Commodity Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchasingCommodityCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="commodityDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salesTaxIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="restrictedItemsIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="restrictedMaterialCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchasingCommodityCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="commodityDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salesTaxIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="restrictedItemsIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="restrictedMaterial.restrictedMaterialDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

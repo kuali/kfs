@@ -1,144 +1,279 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.EmployeeFunding">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EmployeeFunding" parent="EmployeeFunding-parentBean" />
+
+  <bean id="EmployeeFunding-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.EmployeeFunding" />
+    <property name="inquiryDefinition" >
+      <ref bean="EmployeeFunding-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EmployeeFunding-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="EmployeeFunding-versionNumber" />
+        <ref bean="EmployeeFunding-emplid" />
+        <ref bean="EmployeeFunding-personName" />
+        <ref bean="EmployeeFunding-positionNumber" />
+        <ref bean="EmployeeFunding-universityFiscalYear" />
+        <ref bean="EmployeeFunding-subAccountNumber" />
+        <ref bean="EmployeeFunding-accountNumber" />
+        <ref bean="EmployeeFunding-chartOfAccountsCode" />
+        <ref bean="EmployeeFunding-financialBalanceTypeCode" />
+        <ref bean="EmployeeFunding-financialObjectCode" />
+        <ref bean="EmployeeFunding-financialObjectTypeCode" />
+        <ref bean="EmployeeFunding-financialSubObjectCode" />
+        <ref bean="EmployeeFunding-outstandingEncumbrance" />
+        <ref bean="EmployeeFunding-currentAmount" />
+        <ref bean="EmployeeFunding-totalAmount" />
+        <ref bean="EmployeeFunding-month1Amount" />
+        <ref bean="EmployeeFunding-csfAmount" />
+        <ref bean="EmployeeFunding-csfDeleteCode" />
+        <ref bean="EmployeeFunding-csfTimePercent" />
+        <ref bean="EmployeeFunding-csfFundingStatusCode" />
+        <ref bean="EmployeeFunding-csfFullTimeEmploymentQuantity" />
+        <ref bean="EmployeeFunding-dummyBusinessObject.pendingEntryOption" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="ledgerPerson" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="ledgerPerson.personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="emplid"
+                    p:targetName="personPayrollIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Employee Funding Balance Inquiry</title>
+  <bean id="EmployeeFunding-versionNumber" parent="EmployeeFunding-versionNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-				<field attributeName="month1Amount" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="EmployeeFunding-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="EmployeeFunding-emplid" parent="EmployeeFunding-emplid-parentBean" />
 
-        <lookup>
-	        <lookupableID>EmployeeFundingLookupable</lookupableID>	        
-            <title>Employee Funding Balance Inquiry</title>
+  <bean id="EmployeeFunding-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+    <property name="name" value="emplid" />
+  </bean>
+  <bean id="EmployeeFunding-personName" parent="EmployeeFunding-personName-parentBean" />
 
-            <instructions>Employee Funding Look up</instructions>
+  <bean id="EmployeeFunding-personName-parentBean" abstract="true" parent="UniversalUser-personName">
+  </bean>
+  <bean id="EmployeeFunding-positionNumber" parent="EmployeeFunding-positionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                    <sortAttribute attributeName="financialObjectCode" />
-                    <sortAttribute attributeName="financialSubObjectCode" />
-                </sortAttributes>
-            </defaultSort>
-            
-            <lookupFields>
-			    <lookupField attributeName="universityFiscalYear" required="true">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="emplid" required="true"/>
-                
-                <lookupField attributeName="chartOfAccountsCode" />
-                <lookupField attributeName="accountNumber" />
-                <lookupField attributeName="subAccountNumber" />
-                <lookupField attributeName="financialObjectCode" />
-                <lookupField attributeName="financialSubObjectCode" />
-                
-                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
-                </lookupField>
-            </lookupFields>
+  <bean id="EmployeeFunding-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="EmployeeFunding-universityFiscalYear" parent="EmployeeFunding-universityFiscalYear-parentBean" />
 
-            <resultFields>				
-				<field attributeName="personName" />
-				<field attributeName="emplid" />
-				<field attributeName="universityFiscalYear"/> 
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-				<field attributeName="positionNumber" />
-				<field attributeName="csfDeleteCode" />				
-				<field attributeName="csfFundingStatusCode" />
-				<field attributeName="csfFullTimeEmploymentQuantity" />
-				<field attributeName="csfAmount" />	
-				<field attributeName="currentAmount" />				
-				<field attributeName="outstandingEncumbrance" />
-				<field attributeName="totalAmount" />
-												
-            </resultFields>
-        </lookup>
+  <bean id="EmployeeFunding-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="EmployeeFunding-subAccountNumber" parent="EmployeeFunding-subAccountNumber-parentBean" />
 
-        <attributes>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
+  <bean id="EmployeeFunding-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="EmployeeFunding-accountNumber" parent="EmployeeFunding-accountNumber-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-				<control>
-					<hidden />
-				</control>
-			</attributeReference>
-			
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
-			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
+  <bean id="EmployeeFunding-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="EmployeeFunding-chartOfAccountsCode" parent="EmployeeFunding-chartOfAccountsCode-parentBean" />
 
-            <attributeReference name="outstandingEncumbrance" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Encumbance Amount</label>
-                <shortLabel>Encumb</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-			
-		    <attributeReference name="currentAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Current Amount</label>
-                <shortLabel>Current</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="EmployeeFunding-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="EmployeeFunding-financialBalanceTypeCode" parent="EmployeeFunding-financialBalanceTypeCode-parentBean" />
 
-			<attributeReference name="totalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total Amount</label>
-                <shortLabel>Total</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>	
+  <bean id="EmployeeFunding-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="financialBalanceTypeCode" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="EmployeeFunding-financialObjectCode" parent="EmployeeFunding-financialObjectCode-parentBean" />
 
-            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>YTD Actual</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>		
-        
-	        <attributeReference name="csfAmount" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount"/>	
-	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
-	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
-	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>
-	        <attributeReference name="csfFullTimeEmploymentQuantity" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFullTimeEmploymentQuantity"/>
-	        	        
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
-		</attributes>
-		
-		<relationships>
-            <relationship objectAttributeName="ledgerPerson" >
-                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
-	        </relationship>
-        </relationships>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="EmployeeFunding-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="EmployeeFunding-financialObjectTypeCode" parent="EmployeeFunding-financialObjectTypeCode-parentBean" />
+
+  <bean id="EmployeeFunding-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="financialObjectTypeCode" />
+  </bean>
+  <bean id="EmployeeFunding-financialSubObjectCode" parent="EmployeeFunding-financialSubObjectCode-parentBean" />
+
+  <bean id="EmployeeFunding-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  </bean>
+  <bean id="EmployeeFunding-outstandingEncumbrance" parent="EmployeeFunding-outstandingEncumbrance-parentBean" />
+
+  <bean id="EmployeeFunding-outstandingEncumbrance-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="outstandingEncumbrance" />
+    <property name="label" value="Encumbance Amount" />
+    <property name="shortLabel" value="Encumb" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="EmployeeFunding-currentAmount" parent="EmployeeFunding-currentAmount-parentBean" />
+
+  <bean id="EmployeeFunding-currentAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="currentAmount" />
+    <property name="label" value="Current Amount" />
+    <property name="shortLabel" value="Current" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="EmployeeFunding-totalAmount" parent="EmployeeFunding-totalAmount-parentBean" />
+
+  <bean id="EmployeeFunding-totalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="EmployeeFunding-month1Amount" parent="EmployeeFunding-month1Amount-parentBean" />
+
+  <bean id="EmployeeFunding-month1Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month1Amount" />
+    <property name="label" value="YTD Actual" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="EmployeeFunding-csfAmount" parent="EmployeeFunding-csfAmount-parentBean" />
+
+  <bean id="EmployeeFunding-csfAmount-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfAmount">
+  </bean>
+  <bean id="EmployeeFunding-csfDeleteCode" parent="EmployeeFunding-csfDeleteCode-parentBean" />
+
+  <bean id="EmployeeFunding-csfDeleteCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfDeleteCode">
+  </bean>
+  <bean id="EmployeeFunding-csfTimePercent" parent="EmployeeFunding-csfTimePercent-parentBean" />
+
+  <bean id="EmployeeFunding-csfTimePercent-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfTimePercent">
+  </bean>
+  <bean id="EmployeeFunding-csfFundingStatusCode" parent="EmployeeFunding-csfFundingStatusCode-parentBean" />
+
+  <bean id="EmployeeFunding-csfFundingStatusCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFundingStatusCode">
+  </bean>
+  <bean id="EmployeeFunding-csfFullTimeEmploymentQuantity" parent="EmployeeFunding-csfFullTimeEmploymentQuantity-parentBean" />
+
+  <bean id="EmployeeFunding-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity">
+  </bean>
+  <bean id="EmployeeFunding-dummyBusinessObject.pendingEntryOption" parent="EmployeeFunding-dummyBusinessObject.pendingEntryOption-parentBean" />
+
+  <bean id="EmployeeFunding-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
+    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="EmployeeFunding-inquiryDefinition" parent="EmployeeFunding-inquiryDefinition-parentBean" />
+
+  <bean id="EmployeeFunding-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Employee Funding Balance Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="month1Amount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="EmployeeFunding-lookupDefinition" parent="EmployeeFunding-lookupDefinition-parentBean" />
+
+  <bean id="EmployeeFunding-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Employee Funding Balance Inquiry" />
+    <property name="lookupableID" value="EmployeeFundingLookupable" />
+    <property name="instructions" value="Employee Funding Look up" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="universityFiscalYear"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.pendingEntryOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfDeleteCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFundingStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFullTimeEmploymentQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="currentAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="outstandingEncumbrance" />
+        <bean parent="FieldDefinition"
+              p:attributeName="totalAmount" />
+      </list>
+    </property>
+  </bean>
+</beans>

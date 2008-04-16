@@ -1,58 +1,80 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.purap.bo.CreditMemoStatus</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="CreditMemoStatusMaintenanceDocument" parent="CreditMemoStatusMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_AP_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CreditMemoStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.CreditMemoStatus" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CreditMemoStatusMaintenanceDocument-EditCreditMemoStatus" />
+      </list>
+    </property>
+    <property name="allowsNewOrCopy" value="false" />
+    <property name="lockingKeys" >
+      <list>
+        <value>statusCode</value>
+      </list>
+    </property>
+    <property name="label" value="Credit Memo Status" />
+    <property name="shortLabel" value="Credit Memo Status" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="CREDIT_MEMO_STATUS"
+            p:parameterDetailType="CreditMemoStatus" />
+    </property>
+    <property name="documentTypeName" value="CreditMemoStatusMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMCM" />
+    <property name="workflowProperties" >
+      <ref bean="CreditMemoStatusMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_AP_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>CreditMemoStatusMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMCM</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Credit Memo Status</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="CreditMemoStatus" parameterName="CREDIT_MEMO_STATUS" />
 
-        <lockingKeys>
-            <field attributeName="statusCode" />
-        </lockingKeys>
-        
-        <allowsNewOrCopy>false</allowsNewOrCopy>
-        
-        <maintainableSections>
-            <maintainableSection title="Edit Credit Memo Status">
-                <maintainableItems>
-                    <maintainableField name="statusCode" required="true" />
-                    <maintainableField name="statusDescription" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="CreditMemoStatusMaintenanceDocument-EditCreditMemoStatus" parent="CreditMemoStatusMaintenanceDocument-EditCreditMemoStatus-parentBean" />
+
+  <bean id="CreditMemoStatusMaintenanceDocument-EditCreditMemoStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Credit Memo Status" />
+    <property name="title" value="Edit Credit Memo Status" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="statusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="statusDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="CreditMemoStatusMaintenanceDocument-workflowProperties" parent="CreditMemoStatusMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="CreditMemoStatusMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

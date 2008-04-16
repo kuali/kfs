@@ -1,97 +1,155 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Organization Reversion Detail Inquiry</title>
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="organizationReversionCategoryCode" />
-                <field attributeName="organizationReversionObjectCode" />
-                <field attributeName="organizationReversionCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="OrganizationReversionDetail" parent="OrganizationReversionDetail-parentBean" />
 
-        <lookup>
-            <title>Organization Reversion Detail Lookup</title>
+  <bean id="OrganizationReversionDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationReversionDetail-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationReversionDetail-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Organization Reversion Detail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationReversionDetail-organizationReversionCategoryCode" />
+        <ref bean="OrganizationReversionDetail-universityFiscalYear" />
+        <ref bean="OrganizationReversionDetail-chartOfAccountsCode" />
+        <ref bean="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName" />
+        <ref bean="OrganizationReversionDetail-organizationReversionObjectCode" />
+        <ref bean="OrganizationReversionDetail-organizationReversionCode" />
+        <ref bean="OrganizationReversionDetail-newCollectionRecord" />
+        <ref bean="OrganizationReversionDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <instructions>Lookup an Organization Reversion Detail</instructions>
+<!-- Attribute Definitions -->
 
-            <defaultSort attributeName="organizationCode" sortAscending="true" />
 
-            <lookupFields>
-                <lookupField attributeName="organizationReversionCategoryCode" required="false" />
-                <lookupField attributeName="organizationReversionObjectCode" required="false" />
-                <lookupField attributeName="organizationReversionCode" required="false" />
-            </lookupFields>
+  <bean id="OrganizationReversionDetail-organizationReversionCategoryCode" parent="OrganizationReversionDetail-organizationReversionCategoryCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="organizationReversionCategoryCode" />
-                <field attributeName="organizationReversionObjectCode" />
-                <field attributeName="organizationReversionCode" />
-            </resultFields>
-        </lookup>
+  <bean id="OrganizationReversionDetail-organizationReversionCategoryCode-parentBean" abstract="true" parent="OrganizationReversionCategory-organizationReversionCategoryCode">
+    <property name="label" value="Organization Reversion Category" />
+    <property name="shortLabel" value="Category" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCategoryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionDetail-universityFiscalYear" parent="OrganizationReversionDetail-universityFiscalYear-parentBean" />
 
-        <attributes>
-            <attributeReference name="organizationReversionCategoryCode" sourceClassName="org.kuali.module.chart.bo.OrganizationReversionCategory" sourceAttributeName="organizationReversionCategoryCode">
-                <label>Organization Reversion Category</label>
-                <shortLabel>Category</shortLabel>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCategoryValuesFinder" />
-                </control>
-            </attributeReference>
+  <bean id="OrganizationReversionDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationReversionDetail-chartOfAccountsCode" parent="OrganizationReversionDetail-chartOfAccountsCode-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-            </attributeReference>
+  <bean id="OrganizationReversionDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName" parent="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-            </attributeReference>
+  <bean id="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName">
+    <property name="name" value="organizationReversionObject.financialObjectCodeName" />
+  </bean>
+  <bean id="OrganizationReversionDetail-organizationReversionObjectCode" parent="OrganizationReversionDetail-organizationReversionObjectCode-parentBean" />
 
-            <attributeReference name="organizationReversionObject.financialObjectCodeName" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCodeName">
-            </attributeReference>
+  <bean id="OrganizationReversionDetail-organizationReversionObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="organizationReversionObjectCode" />
+  </bean>
+  <bean id="OrganizationReversionDetail-organizationReversionCode" parent="OrganizationReversionDetail-organizationReversionCode-parentBean" />
 
-			<attributeReference name="organizationReversionObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<required>true</required>			
-			</attributeReference>
+  <bean id="OrganizationReversionDetail-organizationReversionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReversionCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Org Reversion Code" />
+    <property name="shortLabel" value="Org Reversion Code" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionDetail-newCollectionRecord" parent="OrganizationReversionDetail-newCollectionRecord-parentBean" />
 
-            <attribute name="organizationReversionCode">
-                <label>Org Reversion Code</label>
-                <shortLabel>Org Reversion Code</shortLabel>
-                <maxLength>2</maxLength>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder" />
-                </control>
-            </attribute>
+  <bean id="OrganizationReversionDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="OrganizationReversionDetail-versionNumber" parent="OrganizationReversionDetail-versionNumber-parentBean" />
 
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
-                                
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="OrganizationReversionDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-        </attributes>
-        
-        <objectLabel>Organization Reversion Detail</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrganizationReversionDetail-inquiryDefinition" parent="OrganizationReversionDetail-inquiryDefinition-parentBean" />
+
+  <bean id="OrganizationReversionDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Reversion Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionCategoryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationReversionDetail-lookupDefinition" parent="OrganizationReversionDetail-lookupDefinition-parentBean" />
+
+  <bean id="OrganizationReversionDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Reversion Detail Lookup" />
+    <property name="instructions" value="Lookup an Organization Reversion Detail" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>organizationCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

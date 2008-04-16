@@ -1,86 +1,139 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.PaymentMedium">
- 
-        <inquiry>
-            <title>Payment Medium Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="customerPaymentMediumCode" />
-                        <field attributeName="customerPaymentMediumDescription" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Payment Medium Lookup</title>
+  <bean id="PaymentMedium" parent="PaymentMedium-parentBean" />
 
-            <instructions>Look up a Payment Medium</instructions>
+  <bean id="PaymentMedium-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.PaymentMedium" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentMedium-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentMedium-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentMedium-customerPaymentMediumCode" />
+        <ref bean="PaymentMedium-customerPaymentMediumDescription" />
+        <ref bean="PaymentMedium-active" />
+        <ref bean="PaymentMedium-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="customerPaymentMediumCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="customerPaymentMediumCode" required="false" />
-                <lookupField attributeName="customerPaymentMediumDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="customerPaymentMediumCode" />
-                <field attributeName="customerPaymentMediumDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="PaymentMedium-customerPaymentMediumCode" parent="PaymentMedium-customerPaymentMediumCode-parentBean" />
 
-        <attributes>
+  <bean id="PaymentMedium-customerPaymentMediumCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerPaymentMediumCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Payment Medium Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="customerPaymentMediumCode" />
+    <property name="description" value="customerPaymentMediumCode description..." />
+  </bean>
+  <bean id="PaymentMedium-customerPaymentMediumDescription" parent="PaymentMedium-customerPaymentMediumDescription-parentBean" />
 
-            <attribute name="customerPaymentMediumCode" forceUppercase="true">
-                <label>Customer Payment Medium Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="PaymentMedium-customerPaymentMediumDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerPaymentMediumDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Payment Medium Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="customerPaymentMediumDescription" />
+    <property name="description" value="customerPaymentMediumDescription description..." />
+  </bean>
+  <bean id="PaymentMedium-active" parent="PaymentMedium-active-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
+  <bean id="PaymentMedium-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="PaymentMedium-versionNumber" parent="PaymentMedium-versionNumber-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="PaymentMedium-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>customerPaymentMediumCode</summary>
-                <description>customerPaymentMediumCode description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="customerPaymentMediumDescription" forceUppercase="true">
-                <label>Customer Payment Medium Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
+  <bean id="PaymentMedium-inquiryDefinition" parent="PaymentMedium-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="42" />
-                </control>
+  <bean id="PaymentMedium-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Medium Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerPaymentMediumCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerPaymentMediumDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <summary>customerPaymentMediumDescription</summary>
-                <description>customerPaymentMediumDescription description...</description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="PaymentMedium-lookupDefinition" parent="PaymentMedium-lookupDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PaymentMedium-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Medium Lookup" />
+    <property name="instructions" value="Look up a Payment Medium" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentMediumCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentMediumDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentMediumCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentMediumDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

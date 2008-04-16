@@ -1,199 +1,274 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionActiveJobMove">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionActiveJobMove" parent="BudgetConstructionActiveJobMove-parentBean" />
+
+  <bean id="BudgetConstructionActiveJobMove-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionActiveJobMove" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionActiveJobMove-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionActiveJobMove-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionActiveJobMove-departmentIdentifier" />
+        <ref bean="BudgetConstructionActiveJobMove-effectiveDate" />
+        <ref bean="BudgetConstructionActiveJobMove-effectiveSequence" />
+        <ref bean="BudgetConstructionActiveJobMove-emplid" />
+        <ref bean="BudgetConstructionActiveJobMove-employeeRecord" />
+        <ref bean="BudgetConstructionActiveJobMove-employeeStatus" />
+        <ref bean="BudgetConstructionActiveJobMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionActiveJobMove-positionNumber" />
+        <ref bean="BudgetConstructionActiveJobMove-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Active Job Move Inquiry</title>
+  <bean id="BudgetConstructionActiveJobMove-departmentIdentifier" parent="BudgetConstructionActiveJobMove-departmentIdentifier-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="departmentIdentifier" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="effectiveSequence" />
-                <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
-                <field attributeName="employeeStatus" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="positionNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionActiveJobMove-departmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="departmentIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Department Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="departmentIdentifier" />
+    <property name="description" value="departmentIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-effectiveDate" parent="BudgetConstructionActiveJobMove-effectiveDate-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Active Job Move Lookup</title>
+  <bean id="BudgetConstructionActiveJobMove-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effectiveDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Effective Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="effectiveDate" />
+    <property name="description" value="effectiveDate description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-effectiveSequence" parent="BudgetConstructionActiveJobMove-effectiveSequence-parentBean" />
 
-            <instructions>Look up a Budget Construction Active Job Move</instructions>
+  <bean id="BudgetConstructionActiveJobMove-effectiveSequence-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effectiveSequence" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Effective Sequence" />
+    <property name="shortLabel" value="Sequence" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="effectiveSequence" />
+    <property name="description" value="effectiveSequence description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-emplid" parent="BudgetConstructionActiveJobMove-emplid-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="personUniversalIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionActiveJobMove-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emplid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Emplid" />
+    <property name="shortLabel" value="Emplid" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="emplid" />
+    <property name="description" value="emplid description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-employeeRecord" parent="BudgetConstructionActiveJobMove-employeeRecord-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="departmentIdentifier" required="false" />
-                <lookupField attributeName="effectiveDate" required="false" />
-                <lookupField attributeName="effectiveSequence" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="employeeRecord" required="false" />
-                <lookupField attributeName="employeeStatus" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionActiveJobMove-employeeRecord-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employeeRecord" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Employee Record" />
+    <property name="shortLabel" value="Record" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="employeeRecord" />
+    <property name="description" value="employeeRecord description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-employeeStatus" parent="BudgetConstructionActiveJobMove-employeeStatus-parentBean" />
 
-            <resultFields>
-                <field attributeName="departmentIdentifier" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="effectiveSequence" />
-                <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
-                <field attributeName="employeeStatus" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="positionNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionActiveJobMove-employeeStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employeeStatus" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Employee Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="employeeStatus" />
+    <property name="description" value="employeeStatus description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-personUniversalIdentifier" parent="BudgetConstructionActiveJobMove-personUniversalIdentifier-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionActiveJobMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-positionNumber" parent="BudgetConstructionActiveJobMove-positionNumber-parentBean" />
 
-            <attribute name="departmentIdentifier" forceUppercase="true">
-                <label>Department Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="BudgetConstructionActiveJobMove-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="positionNumber" />
+    <property name="description" value="positionNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-versionNumber" parent="BudgetConstructionActiveJobMove-versionNumber-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionActiveJobMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="12" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>departmentIdentifier</summary>
-                <description>departmentIdentifier description...</description>
-			</attribute>
 
-            <attribute name="effectiveDate" forceUppercase="true">
-                <label>Effective Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="BudgetConstructionActiveJobMove-inquiryDefinition" parent="BudgetConstructionActiveJobMove-inquiryDefinition-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="BudgetConstructionActiveJobMove-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Active Job Move Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="departmentIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effectiveDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effectiveSequence" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="employeeRecord" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="employeeStatus" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="9" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>effectiveDate</summary>
-                <description>effectiveDate description...</description>
-			</attribute>
 
-            <attribute name="effectiveSequence" forceUppercase="true">
-                <label>Effective Sequence</label>
-                <shortLabel>Sequence</shortLabel>
+  <bean id="BudgetConstructionActiveJobMove-lookupDefinition" parent="BudgetConstructionActiveJobMove-lookupDefinition-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>effectiveSequence</summary>
-                <description>effectiveSequence description...</description>
-			</attribute>
-
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
-
-            <attribute name="employeeRecord" forceUppercase="true">
-                <label>Employee Record</label>
-                <shortLabel>Record</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>employeeRecord</summary>
-                <description>employeeRecord description...</description>
-			</attribute>
-
-            <attribute name="employeeStatus" forceUppercase="true">
-                <label>Employee Status</label>
-                <shortLabel>Status</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>employeeStatus</summary>
-                <description>employeeStatus description...</description>
-			</attribute>
-
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionActiveJobMove-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Active Job Move Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Active Job Move" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="departmentIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveSequence" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeRecord" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeStatus" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="departmentIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveSequence" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeRecord" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeStatus" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

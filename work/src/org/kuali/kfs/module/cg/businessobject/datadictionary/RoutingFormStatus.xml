@@ -1,108 +1,145 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormStatus">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoutingFormStatus" parent="RoutingFormStatus-parentBean" />
+
+  <bean id="RoutingFormStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormStatus" />
+    <property name="inquiryDefinition" >
+      <ref bean="RoutingFormStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RoutingFormStatus-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="RoutingFormStatus-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="RoutingFormStatus-routingFormStatusCode" />
+        <ref bean="RoutingFormStatus-routingFormStatusDescription" />
+        <ref bean="RoutingFormStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Routing Form Status Inquiry</title>
+  <bean id="RoutingFormStatus-dataObjectMaintenanceCodeActiveIndicator" parent="RoutingFormStatus-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="routingFormStatusCode" />
-                <field attributeName="routingFormStatusDescription" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RoutingFormStatus-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Data Object Maintenance Code Active Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="dataObjectMaintenanceCodeActiveIndicator" />
+    <property name="description" value="dataObjectMaintenanceCodeActiveIndicator description..." />
+  </bean>
+  <bean id="RoutingFormStatus-routingFormStatusCode" parent="RoutingFormStatus-routingFormStatusCode-parentBean" />
 
-        <lookup>
-            <title>Routing Form Status Lookup</title>
+  <bean id="RoutingFormStatus-routingFormStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="routingFormStatusCode" />
+    <property name="description" value="routingFormStatusCode description..." />
+  </bean>
+  <bean id="RoutingFormStatus-routingFormStatusDescription" parent="RoutingFormStatus-routingFormStatusDescription-parentBean" />
 
-            <instructions>Look up a Routing Form Status</instructions>
+  <bean id="RoutingFormStatus-routingFormStatusDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormStatusDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Status Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="17" />
+    </property>
+    <property name="summary" value="routingFormStatusDescription" />
+    <property name="description" value="routingFormStatusDescription description..." />
+  </bean>
+  <bean id="RoutingFormStatus-versionNumber" parent="RoutingFormStatus-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="routingFormStatusCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RoutingFormStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="routingFormStatusCode" required="false" />
-                <lookupField attributeName="routingFormStatusDescription" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="routingFormStatusCode" />
-                <field attributeName="routingFormStatusDescription" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="RoutingFormStatus-inquiryDefinition" parent="RoutingFormStatus-inquiryDefinition-parentBean" />
 
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+  <bean id="RoutingFormStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Routing Form Status Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormStatusDescription" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>1</maxLength>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <checkbox />
-                </control>
 
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
+  <bean id="RoutingFormStatus-lookupDefinition" parent="RoutingFormStatus-lookupDefinition-parentBean" />
 
-            <attribute name="routingFormStatusCode" forceUppercase="true">
-                <label>Routing Form Status Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>routingFormStatusCode</summary>
-                <description>routingFormStatusCode description...</description>
-			</attribute>
-
-            <attribute name="routingFormStatusDescription" forceUppercase="true">
-                <label>Routing Form Status Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="17" />
-                </control>
-
-                <summary>routingFormStatusDescription</summary>
-                <description>routingFormStatusDescription description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RoutingFormStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Routing Form Status Lookup" />
+    <property name="instructions" value="Look up a Routing Form Status" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormStatusDescription" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormStatusDescription" />
+      </list>
+    </property>
+  </bean>
+</beans>

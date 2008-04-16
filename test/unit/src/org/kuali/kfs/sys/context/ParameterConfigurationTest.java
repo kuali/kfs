@@ -57,6 +57,7 @@ public class ParameterConfigurationTest extends KualiTestBase {
         ParameterRule paramRule = new ParameterRule();
         StringBuffer badComponents = new StringBuffer();
         int failCount = 0;
+        System.out.println("Starting Component Validation");
         for (Parameter param : params) {
             if (!paramRule.checkComponent(param)) {
                 badComponents.append("\n").append(param.getParameterNamespaceCode()).append("\t").append(param.getParameterDetailTypeCode()).append("\t").append(param.getParameterName()).append("\t");
@@ -109,7 +110,7 @@ public class ParameterConfigurationTest extends KualiTestBase {
          */
 
         // Force the datadictionary to load
-        SpringContext.getBean(DataDictionaryService.class).forceCompleteDataDictionaryLoad();
+        //SpringContext.getBean(DataDictionaryService.class).forceCompleteDataDictionaryLoad();
         
         boolean exists = true;
         List<String> boParamsMissingFromDB = new ArrayList<String>();
@@ -158,7 +159,7 @@ public class ParameterConfigurationTest extends KualiTestBase {
                     exists = true;
                 }
             }
-            List<HeaderNavigation> headerNavigations = Arrays.asList(documentEntry.getHeaderTabNavigation());
+            List<HeaderNavigation> headerNavigations = documentEntry.getHeaderNavigationList();
             for(HeaderNavigation headerNav : headerNavigations) {
                 HelpDefinition headerNavHelp = headerNav.getHelpDefinition();
                 if(ObjectUtils.isNotNull(headerNavHelp)) {

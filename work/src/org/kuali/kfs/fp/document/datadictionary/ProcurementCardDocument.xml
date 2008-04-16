@@ -1,56 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.financial.document.ProcurementCardDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.ProcurementCardDocumentRule</businessRulesClass>
+  <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.ProcurementCardDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ProcurementCardDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Procurement Card" />
+    <property name="shortLabel" value="Procurement Card" />
+    <property name="summary" value="Procurement Card Document" />
+    <property name="description" value="Document for the distribution of procurement card expenses." />
+    <property name="documentTypeName" value="ProcurementCardDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.ProcurementCardDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.ProcurementCardDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.ProcurementCardDocumentAuthorizer" />
+    <property name="documentTypeCode" value="PCDO" />
+    <property name="workflowProperties" >
+      <ref bean="ProcurementCardDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ProcurementCardDocument</documentTypeName>
-        <documentTypeCode>PCDO</documentTypeCode>
+<!-- Exported Workflow Properties -->
 
-        <label>Procurement Card</label>
 
-        <summary>Procurement Card Document</summary>
-        <description>Document for the distribution of procurement card expenses.</description>
+  <bean id="ProcurementCardDocument-workflowProperties" parent="ProcurementCardDocument-workflowProperties-parentBean" />
 
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        	    <workflowProperty path="documentHeader" />
-        		<workflowProperty path="transactionEntries.sourceAccountingLines" />
-        		<workflowProperty path="transactionEntries.targetAccountingLines" />
-        		<workflowProperty path="transactionEntries.sourceAccountingLines.account" />
-        		<workflowProperty path="transactionEntries.targetAccountingLines.account" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="ProcurementCardDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="transactionEntries.sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="transactionEntries.targetAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="transactionEntries.sourceAccountingLines.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="transactionEntries.targetAccountingLines.account" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

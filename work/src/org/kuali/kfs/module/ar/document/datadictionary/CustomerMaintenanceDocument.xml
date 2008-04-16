@@ -1,98 +1,106 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.ar.bo.Customer</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.ar.rules.CustomerRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CustomerMaintenanceDocument" parent="CustomerMaintenanceDocument-parentBean" />
 
-        <documentTypeName>CustomerMaintenanceDocument</documentTypeName>
-        <documentTypeCode>CUS</documentTypeCode>
+  <bean id="CustomerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.Customer" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CustomerMaintenanceDocument-EditCustomer" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>customerNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Customer" />
+    <property name="shortLabel" value="Customer" />
+    <property name="summary" value="Customer Maintenance Document" />
+    <property name="description" value="Document used to create or update Customer objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-AR"
+            p:parameterName="CUSTOMER"
+            p:parameterDetailType="Customer" />
+    </property>
+    <property name="documentTypeName" value="CustomerMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="CUS" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Customer</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Customer Maintenance Document</summary>
-        <description>Document used to create or update Customer objects</description>
-        <help parameterNamespace="KFS-AR" parameterDetailType="Customer" parameterName="CUSTOMER" />
 
-        <lockingKeys>
-            <field attributeName="customerNumber" />
-        </lockingKeys>
-<!--  
-        <defaultExistenceChecks>
-            <reference attributeName="customerType" activeIndicatorAttributeName="active" 
-				attributeToHighlightOnFail="customerTypeCode" />
-        </defaultExistenceChecks>
--->
-        <maintainableSections>
-            <maintainableSection title="Edit Customer">
-                <maintainableItems>
-	
-					<!--
-                    <maintainableField name="agencyNumber" required="true" readOnly="true" >
-					<defaultValueFinderClass>
-						org.kuali.module.cg.lookup.valuefinder.NextAgencyNumberFinder
-					</defaultValueFinderClass>
-                    </maintainableField>
-					-->
-					
-                    <maintainableField name="customerNumber" required="true" />
-					<maintainableField name="customerParentCompanyNumber" />		
-					<maintainableField name="customerName" />	
+  <bean id="CustomerMaintenanceDocument-EditCustomer" parent="CustomerMaintenanceDocument-EditCustomer-parentBean" />
 
- 					<maintainableField name="customerSocialSecurityNumberIdentifier" />
-   					<maintainableField name="customerFederalIdentifierNumber" />
- 					<maintainableField name="customerTaxExemptIndicator" />
-
-					<maintainableField name="customerCreditApprovedByName" />	
-					<maintainableField name="customerCreditLimitAmount" />
-
-					<maintainableField name="customerEmailAddress" />
-					<maintainableField name="customerPhoneNumber" />	
-                    <maintainableField name="customer800PhoneNumber" />
-                    <maintainableField name="customerFaxNumber" />
-                    
-                    <maintainableField name="customerContactName" />
-                    <maintainableField name="customerContactPhoneNumber" />                
-                    <maintainableField name="customerBirthDate" />
-                                       
-                    <maintainableField name="customerAddressChangeDate" />
-                    <maintainableField name="customerLastActivityDate" />
-                    <maintainableField name="customerRecordAddDate" />          
-                   
-					<maintainableField name="versionNumber" />
-
-                    <maintainableField name="customerActiveIndicator" />
-                    <maintainableField name="customerTypeCode" />
-
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="CustomerMaintenanceDocument-EditCustomer-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Customer" />
+    <property name="title" value="Edit Customer" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerParentCompanyNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerSocialSecurityNumberIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerFederalIdentifierNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerTaxExemptIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerCreditApprovedByName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerCreditLimitAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerEmailAddress" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerPhoneNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customer800PhoneNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerFaxNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerContactName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerContactPhoneNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerBirthDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerAddressChangeDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerLastActivityDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerRecordAddDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerActiveIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerTypeCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

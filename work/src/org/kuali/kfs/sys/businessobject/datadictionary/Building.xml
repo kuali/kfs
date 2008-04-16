@@ -1,189 +1,260 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kfs.bo.Building">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Building" parent="Building-parentBean" />
+
+  <bean id="Building-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.Building" />
+    <property name="inquiryDefinition" >
+      <ref bean="Building-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Building-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Building" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Building-campusCode" />
+        <ref bean="Building-buildingCode" />
+        <ref bean="Building-buildingName" />
+        <ref bean="Building-buildingStreetAddress" />
+        <ref bean="Building-buildingAddressCityName" />
+        <ref bean="Building-buildingAddressStateCode" />
+        <ref bean="Building-buildingAddressZipCode" />
+        <ref bean="Building-alternateBuildingCode" />
+        <ref bean="Building-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Building Inquiry</title>
+  <bean id="Building-campusCode" parent="Building-campusCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="campusCode" />
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingName" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Building-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Campus Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Campus Code" />
+    <property name="description" value="The code uniquely identifying a particular campus." />
+  </bean>
+  <bean id="Building-buildingCode" parent="Building-buildingCode-parentBean" />
 
-        <lookup>
-            <title>Building Lookup</title>
+  <bean id="Building-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Code" />
+    <property name="shortLabel" value="Building Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Building Code" />
+    <property name="description" value="The code uniquely identifying a particular building." />
+  </bean>
+  <bean id="Building-buildingName" parent="Building-buildingName-parentBean" />
 
-            <instructions>Lookup a Building</instructions>
+  <bean id="Building-buildingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Building Name" />
+    <property name="description" value="Building Name" />
+  </bean>
+  <bean id="Building-buildingStreetAddress" parent="Building-buildingStreetAddress-parentBean" />
 
-            <defaultSort attributeName="buildingCode" sortAscending="true" />
+  <bean id="Building-buildingStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingStreetAddress" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building Street Address" />
+    <property name="shortLabel" value="Bldg. Street Addr." />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="buildingStreetAddress" />
+    <property name="description" value="buildingStreetAddress description..." />
+  </bean>
+  <bean id="Building-buildingAddressCityName" parent="Building-buildingAddressCityName-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="campusCode" />
-                <lookupField attributeName="buildingCode" />
-                <lookupField attributeName="buildingName" />
-            </lookupFields>
+  <bean id="Building-buildingAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingAddressCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building Address City Name" />
+    <property name="shortLabel" value="Bldg. City" />
+    <property name="maxLength" value="37" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="37" />
+    </property>
+    <property name="summary" value="buildingAddressCityName" />
+    <property name="description" value="buildingAddressCityName description..." />
+  </bean>
+  <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="campusCode" forceInquiry="true" />
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingName" />
-            </resultFields>
-        </lookup>
+  <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingAddressStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Address State Code" />
+    <property name="shortLabel" value="Bldg. State" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="buildingAddressStateCode" />
+    <property name="description" value="buildingAddressStateCode description..." />
+  </bean>
+  <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean" />
 
-        <attributes>
+  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingAddressZipCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building Address Postal Code" />
+    <property name="shortLabel" value="Bldg. Postal Code" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="ZipcodeValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="buildingAddressZipCode" />
+    <property name="description" value="buildingAddressZipCode description..." />
+  </bean>
+  <bean id="Building-alternateBuildingCode" parent="Building-alternateBuildingCode-parentBean" />
 
-            <attribute name="campusCode" forceUppercase="true">
-                <label>Campus Code</label>
-                <shortLabel>Campus Code</shortLabel>
+  <bean id="Building-alternateBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="alternateBuildingCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Alternate Building Code" />
+    <property name="shortLabel" value="Alt. Bldg. Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="alternateBuildingCode" />
+    <property name="description" value="alternateBuildingCode description..." />
+  </bean>
+  <bean id="Building-versionNumber" parent="Building-versionNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
+  <bean id="Building-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="2" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>Campus Code</summary>
-                <description>The code uniquely identifying a particular campus.</description>
-            </attribute>
 
-            <attribute name="buildingCode" forceUppercase="true">
-                <label>Building Code</label>
-                <shortLabel>Building Code</shortLabel>
+  <bean id="Building-inquiryDefinition" parent="Building-inquiryDefinition-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
+  <bean id="Building-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Building Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="10" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>Building Code</summary>
-                <description>The code uniquely identifying a particular building.</description>
-            </attribute>
 
-            <attribute name="buildingName" forceUppercase="false">
-                <label>Building Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="Building-lookupDefinition" parent="Building-lookupDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-
-                <summary>Building Name</summary>
-                <description>Building Name</description>
-            </attribute>
-            
-            <attribute name="buildingStreetAddress">
-            	<label>Building Street Address</label>
-            	<shortLabel>Bldg. Street Addr.</shortLabel>
-            	
-            	<maxLength>40</maxLength>
-            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-            	
-            	<control>
-            		<text size="40"/>
-            	</control>
-            	
-            	<summary>buildingStreetAddress</summary>
-            	<description>buildingStreetAddress description...</description>
-            </attribute>
-            
-            <attribute name="buildingAddressCityName">
-            	<label>Building Address City Name</label>
-            	<shortLabel>Bldg. City</shortLabel>
-            	
-            	<maxLength>37</maxLength>
-            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-            	
-            	<control>
-            		<text size="37"/>
-            	</control>
-            	
-            	<summary>buildingAddressCityName</summary>
-            	<description>buildingAddressCityName description...</description>
-            </attribute>
-            
-            <attribute name="buildingAddressStateCode" forceUppercase="true">
-            	<label>Building Address State Code</label>
-            	<shortLabel>Bldg. State</shortLabel>
-            	
-            	<maxLength>2</maxLength>
-            	<validationPattern><anyCharacter exactLength="2" /></validationPattern>
-            	
-            	<control>
-            		<select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"/>
-            	</control>
-            	
-            	<summary>buildingAddressStateCode</summary>
-                <description>buildingAddressStateCode description...</description>
-            </attribute>
-            
-            <attribute name="buildingAddressZipCode">
-            	<label>Building Address Postal Code</label>
-            	<shortLabel>Bldg. Postal Code</shortLabel>
-            	
-            	<maxLength>11</maxLength>
-            	<validationPattern><zipcode /></validationPattern>
-            	
-            	<control>
-            		<text size="11"/>
-            	</control>
-            	
-            	<summary>buildingAddressZipCode</summary>
-                <description>buildingAddressZipCode description...</description>
-            </attribute>
-            
-            <attribute name="alternateBuildingCode">
-            	<label>Alternate Building Code</label>
-            	<shortLabel>Alt. Bldg. Code</shortLabel>
-            	
-            	<maxLength>4</maxLength>
-            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-            	
-            	<control>
-            		<text size="4"/>
-            	</control>
-            	
-            	<summary>alternateBuildingCode</summary>
-                <description>alternateBuildingCode description...</description>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Building</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="Building-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Building Lookup" />
+    <property name="instructions" value="Lookup a Building" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>buildingCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingName" />
+      </list>
+    </property>
+  </bean>
+</beans>

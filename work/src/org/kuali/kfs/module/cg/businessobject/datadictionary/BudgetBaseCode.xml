@@ -1,73 +1,103 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetBaseCode">
+  <bean id="BudgetBaseCode" parent="BudgetBaseCode-parentBean" />
 
-        <inquiry>
-            <title>Budget Base Code Inquiry</title>
+  <bean id="BudgetBaseCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetBaseCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetBaseCode-inquiryDefinition" />
+    </property>
+    <property name="objectLabel" value="Budget Base Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetBaseCode-budgetBaseCode" />
+        <ref bean="BudgetBaseCode-budgetBaseDescription" />
+        <ref bean="BudgetBaseCode-active" />
+        <ref bean="BudgetBaseCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="budgetBaseCode" />
-                <field attributeName="budgetBaseDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+<!-- Attribute Definitions -->
 
-        <attributes>
-            <attribute name="budgetBaseCode" forceUppercase="false">
-                <label>Budget Base Code</label>
-                <shortLabel>baseCode</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="false" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="2" />
-                </control>
 
-                <summary>Budget Base Code Name</summary>
-                <description>The code assigned to this base.</description>
-            </attribute>
+  <bean id="BudgetBaseCode-budgetBaseCode" parent="BudgetBaseCode-budgetBaseCode-parentBean" />
 
-            <attribute name="budgetBaseDescription" forceUppercase="false">
-                <label>Budget Base Description</label>
-                <shortLabel>baseDesc</shortLabel>
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="40" />
-                </control>
+  <bean id="BudgetBaseCode-budgetBaseCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetBaseCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Base Code" />
+    <property name="shortLabel" value="baseCode" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Budget Base Code Name" />
+    <property name="description" value="The code assigned to this base." />
+  </bean>
+  <bean id="BudgetBaseCode-budgetBaseDescription" parent="BudgetBaseCode-budgetBaseDescription-parentBean" />
 
-                <summary>Budget Base Code Description</summary>
-                <description>The description assigned to this base code.</description>
-            </attribute>
+  <bean id="BudgetBaseCode-budgetBaseDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetBaseDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Base Description" />
+    <property name="shortLabel" value="baseDesc" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Budget Base Code Description" />
+    <property name="description" value="The description assigned to this base code." />
+  </bean>
+  <bean id="BudgetBaseCode-active" parent="BudgetBaseCode-active-parentBean" />
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="BudgetBaseCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="BudgetBaseCode-versionNumber" parent="BudgetBaseCode-versionNumber-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        <objectLabel>Budget Base Code</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetBaseCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="BudgetBaseCode-inquiryDefinition" parent="BudgetBaseCode-inquiryDefinition-parentBean" />
+
+  <bean id="BudgetBaseCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Base Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetBaseCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetBaseDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,91 +1,125 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormConflictOfInterest">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoutingFormConflictOfInterest" parent="RoutingFormConflictOfInterest-parentBean" />
+
+  <bean id="RoutingFormConflictOfInterest-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormConflictOfInterest" />
+    <property name="inquiryDefinition" >
+      <ref bean="RoutingFormConflictOfInterest-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RoutingFormConflictOfInterest-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="RoutingFormConflictOfInterest-routingFormConflictOfInterestDescription" />
+        <ref bean="RoutingFormConflictOfInterest-documentNumber" />
+        <ref bean="RoutingFormConflictOfInterest-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Routing Form Conflict Of Interest Inquiry</title>
+  <bean id="RoutingFormConflictOfInterest-routingFormConflictOfInterestDescription" parent="RoutingFormConflictOfInterest-routingFormConflictOfInterestDescription-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="routingFormConflictOfInterestDescription" />
-                <field attributeName="documentNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RoutingFormConflictOfInterest-routingFormConflictOfInterestDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormConflictOfInterestDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Conflict Of Interest Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="1000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="routingFormConflictOfInterestDescription" />
+    <property name="description" value="routingFormConflictOfInterestDescription description..." />
+  </bean>
+  <bean id="RoutingFormConflictOfInterest-documentNumber" parent="RoutingFormConflictOfInterest-documentNumber-parentBean" />
 
-        <lookup>
-            <title>Routing Form Conflict Of Interest Lookup</title>
+  <bean id="RoutingFormConflictOfInterest-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormConflictOfInterest-versionNumber" parent="RoutingFormConflictOfInterest-versionNumber-parentBean" />
 
-            <instructions>Look up a Routing Form Conflict Of Interest</instructions>
+  <bean id="RoutingFormConflictOfInterest-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Business Object Inquiry Definition -->
 
-            <lookupFields>
-                <lookupField attributeName="routingFormConflictOfInterestDescription" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="routingFormConflictOfInterestDescription" />
-                <field attributeName="documentNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="RoutingFormConflictOfInterest-inquiryDefinition" parent="RoutingFormConflictOfInterest-inquiryDefinition-parentBean" />
 
-        <attributes>
+  <bean id="RoutingFormConflictOfInterest-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Routing Form Conflict Of Interest Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormConflictOfInterestDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="routingFormConflictOfInterestDescription" forceUppercase="true">
-                <label>Routing Form Conflict Of Interest Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>1000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
+  <bean id="RoutingFormConflictOfInterest-lookupDefinition" parent="RoutingFormConflictOfInterest-lookupDefinition-parentBean" />
 
-                <summary>routingFormConflictOfInterestDescription</summary>
-                <description>routingFormConflictOfInterestDescription description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RoutingFormConflictOfInterest-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Routing Form Conflict Of Interest Lookup" />
+    <property name="instructions" value="Look up a Routing Form Conflict Of Interest" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormConflictOfInterestDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormConflictOfInterestDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

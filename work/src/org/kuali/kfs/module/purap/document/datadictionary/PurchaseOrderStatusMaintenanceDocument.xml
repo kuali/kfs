@@ -1,58 +1,80 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.purap.bo.PurchaseOrderStatus</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="PurchaseOrderStatusMaintenanceDocument" parent="PurchaseOrderStatusMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_PUR_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PurchaseOrderStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderStatus" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PurchaseOrderStatusMaintenanceDocument-EditPurchaseOrderStatus" />
+      </list>
+    </property>
+    <property name="allowsNewOrCopy" value="false" />
+    <property name="lockingKeys" >
+      <list>
+        <value>statusCode</value>
+      </list>
+    </property>
+    <property name="label" value="Purchase Order Status" />
+    <property name="shortLabel" value="Purchase Order Status" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="PURCHASE_ORDER_STATUS"
+            p:parameterDetailType="PurchaseOrderStatus" />
+    </property>
+    <property name="documentTypeName" value="PurchaseOrderStatusMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMPS" />
+    <property name="workflowProperties" >
+      <ref bean="PurchaseOrderStatusMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>PurchaseOrderStatusMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMPS</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Purchase Order Status</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderStatus" parameterName="PURCHASE_ORDER_STATUS" />
 
-        <lockingKeys>
-            <field attributeName="statusCode" />
-        </lockingKeys>
+  <bean id="PurchaseOrderStatusMaintenanceDocument-EditPurchaseOrderStatus" parent="PurchaseOrderStatusMaintenanceDocument-EditPurchaseOrderStatus-parentBean" />
 
-		<allowsNewOrCopy>false</allowsNewOrCopy>
+  <bean id="PurchaseOrderStatusMaintenanceDocument-EditPurchaseOrderStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Purchase Order Status" />
+    <property name="title" value="Edit Purchase Order Status" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="statusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="statusDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Purchase Order Status">
-                <maintainableItems>
-                    <maintainableField name="statusCode" required="true" />
-                    <maintainableField name="statusDescription" required="true" />
-                	<maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PurchaseOrderStatusMaintenanceDocument-workflowProperties" parent="PurchaseOrderStatusMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="PurchaseOrderStatusMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

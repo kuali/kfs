@@ -1,72 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.purap.bo.PurchaseOrderQuoteList</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument" parent="PurchaseOrderQuoteListMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_PUR_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
-	
-        <documentTypeName>PurchaseOrderQuoteListMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMQT</documentTypeCode>
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteList" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList" />
+        <ref bean="PurchaseOrderQuoteListMaintenanceDocument-Vendors" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>purchaseOrderQuoteListIdentifier</value>
+      </list>
+    </property>
+    <property name="label" value="Purchase Order Quote List" />
+    <property name="shortLabel" value="Purchase Order Quote List" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="PURCHASE_ORDER_QUOTE_LIST"
+            p:parameterDetailType="PurchaseOrderQuoteList" />
+    </property>
+    <property name="documentTypeName" value="PurchaseOrderQuoteListMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMQT" />
+    <property name="workflowProperties" >
+      <ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Purchase Order Quote List</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderQuoteList" parameterName="PURCHASE_ORDER_QUOTE_LIST" />
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="purchaseOrderQuoteListIdentifier" />
-        </lockingKeys>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Quote List">
-                <maintainableItems>
-                    <maintainableField name="purchaseOrderQuoteListIdentifier" required="false" />
-                    <maintainableField name="purchaseOrderQuoteListName" required="true" />
-                    <maintainableField name="contractManagerCode" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-			<maintainableSection title="Vendors">
-				<maintainableItems>
-					<maintainableCollection name="quoteListVendors" businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="quoteListVendors" summaryTitle="Vendor" >
-						<maintainableField name="vendorDetail.vendorName" template="vendorName" readOnlyAfterAdd="true" /> 
-						<maintainableField name="vendorDetail.activeIndicator" readOnlyAfterAdd="true" />
-						<!-- Hidden Fields -->
-						<maintainableField name="vendorHeaderGeneratedIdentifier" template="vendorHeaderGeneratedIdentifier" />
-						<maintainableField name="vendorDetailAssignedIdentifier" template="vendorDetailAssignedIdentifier" />
-                        <summaryFields>
-                            <summaryField name="vendorHeaderGeneratedIdentifier" />
-                            <summaryField name="vendorDetailAssignedIdentifier" />
-                        </summaryFields>
-   					</maintainableCollection>
-				</maintainableItems>
-			</maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList" parent="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-EditQuoteList-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Quote List" />
+    <property name="title" value="Edit Quote List" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="purchaseOrderQuoteListIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="purchaseOrderQuoteListName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-Vendors" parent="PurchaseOrderQuoteListMaintenanceDocument-Vendors-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-Vendors-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Vendors" />
+    <property name="title" value="Vendors" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="quoteListVendors" />
+          <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" />
+          <property name="summaryTitle" value="Vendor" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorHeaderGeneratedIdentifier" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorDetailAssignedIdentifier" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorDetail.vendorName"
+                    p:readOnlyAfterAdd="true"
+                    p:template="vendorName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorDetail.activeIndicator"
+                    p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorHeaderGeneratedIdentifier"
+                    p:template="vendorHeaderGeneratedIdentifier" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorDetailAssignedIdentifier"
+                    p:template="vendorDetailAssignedIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties" parent="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

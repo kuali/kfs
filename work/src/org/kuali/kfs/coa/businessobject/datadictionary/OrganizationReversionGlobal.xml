@@ -1,80 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionGlobal">
-        <attributes>
-        	<attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="OrganizationReversionGlobal" parent="OrganizationReversionGlobal-parentBean" />
 
-                <maxLength>14</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="OrganizationReversionGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionGlobal" />
+    <property name="objectLabel" value="Organization Reversion Global" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationReversionGlobal-documentNumber" />
+        <ref bean="OrganizationReversionGlobal-universityFiscalYear" />
+        <ref bean="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode" />
+        <ref bean="OrganizationReversionGlobal-budgetReversionAccountNumber" />
+        <ref bean="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode" />
+        <ref bean="OrganizationReversionGlobal-cashReversionAccountNumber" />
+        <ref bean="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator" />
+        <ref bean="OrganizationReversionGlobal-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="16" />
-                </control>
-            </attribute>
-        
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-            </attributeReference>
+<!-- Attribute Definitions -->
 
-            <attributeReference name="budgetReversionChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Budget Reversion Chart</label>
-                <shortLabel>Budget Reversion Chart</shortLabel>
-                <required>false</required>
-            </attributeReference>
 
-            <attributeReference name="budgetReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Budget Reversion Account</label>
-                <shortLabel>Budget Reversion Account</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="OrganizationReversionGlobal-documentNumber" parent="OrganizationReversionGlobal-documentNumber-parentBean" />
 
-            <attributeReference name="cashReversionFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Cash Reversion Chart</label>
-                <shortLabel>Cash Reversion Chart</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="OrganizationReversionGlobal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionGlobal-universityFiscalYear" parent="OrganizationReversionGlobal-universityFiscalYear-parentBean" />
 
-            <attributeReference name="cashReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Cash Reversion Account</label>
-                <shortLabel>Cash Reversion Account</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="OrganizationReversionGlobal-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode" parent="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode-parentBean" />
 
-            <attribute name="carryForwardByObjectCodeIndicator">
-                <label>Carry Forward by Object Code Indicator</label>
-                <shortLabel>CF by Object Code</shortLabel>
-                <maxLength>$attribute.maxLength</maxLength>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
-                </control>
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        
-        <objectLabel>Organization Reversion Global</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="budgetReversionChartOfAccountsCode" />
+    <property name="label" value="Budget Reversion Chart" />
+    <property name="shortLabel" value="Budget Reversion Chart" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-budgetReversionAccountNumber" parent="OrganizationReversionGlobal-budgetReversionAccountNumber-parentBean" />
+
+  <bean id="OrganizationReversionGlobal-budgetReversionAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="budgetReversionAccountNumber" />
+    <property name="label" value="Budget Reversion Account" />
+    <property name="shortLabel" value="Budget Reversion Account" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode" parent="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode-parentBean" />
+
+  <bean id="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="cashReversionFinancialChartOfAccountsCode" />
+    <property name="label" value="Cash Reversion Chart" />
+    <property name="shortLabel" value="Cash Reversion Chart" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-cashReversionAccountNumber" parent="OrganizationReversionGlobal-cashReversionAccountNumber-parentBean" />
+
+  <bean id="OrganizationReversionGlobal-cashReversionAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="cashReversionAccountNumber" />
+    <property name="label" value="Cash Reversion Account" />
+    <property name="shortLabel" value="Cash Reversion Account" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator" parent="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator-parentBean" />
+
+  <bean id="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="carryForwardByObjectCodeIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Carry Forward by Object Code Indicator" />
+    <property name="shortLabel" value="CF by Object Code" />
+    <property name="maxLength" value="0" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-versionNumber" parent="OrganizationReversionGlobal-versionNumber-parentBean" />
+
+  <bean id="OrganizationReversionGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

@@ -1,58 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.codes.ICRTypeCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ICRTypeCodeMaintenanceDocument" parent="ICRTypeCodeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+  <bean id="ICRTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.ICRTypeCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ICRTypeCodeMaintenanceDocument-EditICRTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+    <property name="label" value="Indirect Cost Recovery Type" />
+    <property name="shortLabel" value="Indirect Cost Recovery Type" />
+    <property name="summary" value="ICR Type Code Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="INDIRECT_COST_RECOVERY_TYPE"
+            p:parameterDetailType="ICRTypeCode" />
+    </property>
+    <property name="documentTypeName" value="ICRTypeCodeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ITYP" />
+    <property name="workflowProperties" >
+      <ref bean="ICRTypeCodeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<!-- Maintenance Section Definitions -->
 
-        <documentTypeName>ICRTypeCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ITYP</documentTypeCode>
-        <label>Indirect Cost Recovery Type</label>
-        <summary>ICR Type Code Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ICRTypeCode" parameterName="INDIRECT_COST_RECOVERY_TYPE" />
 
-        <lockingKeys>
-            <field attributeName="code" />
-        </lockingKeys>
+  <bean id="ICRTypeCodeMaintenanceDocument-EditICRTypeCode" parent="ICRTypeCodeMaintenanceDocument-EditICRTypeCode-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit ICR Type Code">
-                <maintainableItems>
-                    <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ICRTypeCodeMaintenanceDocument-EditICRTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit ICR Type Code" />
+    <property name="title" value="Edit ICR Type Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ICRTypeCodeMaintenanceDocument-workflowProperties" parent="ICRTypeCodeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ICRTypeCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

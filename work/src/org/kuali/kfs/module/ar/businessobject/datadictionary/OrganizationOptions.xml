@@ -1,326 +1,436 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.OrganizationOptions">
-
-        <inquiry>
-            <title>Organization Options Inquiry</title>
-
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="chartOfAccountsCode" />
-                        <field attributeName="organizationCode" />
-                        <field attributeName="processingChartOfAccountCode" />
-                        <field attributeName="processingOrganizationCode" />
-                        <field attributeName="organization800PhoneNumber" />
-                        <field attributeName="organizationCheckPayableToName" />
-                        <field attributeName="organizationFaxNumber" />
-                        <field attributeName="organizationMessageText" />
-                        <field attributeName="organizationPaymentTermsText" />
-                        <field attributeName="organizationPhoneNumber" />
-                        <field attributeName="organizationRemitToAddressName" />
-                        <field attributeName="organizationRemitToCityName" />
-                        <field attributeName="organizationRemitToLine1StreetAddress" />
-                        <field attributeName="organizationRemitToLine2StreetAddress" />
-                        <field attributeName="organizationRemitToStateCode" />
-                        <field attributeName="organizationRemitToZipCode" />
-                        <field attributeName="printInvoiceIndicator" />
-
-                        <field attributeName="universityName" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Organization Options Lookup</title>
-
-            <instructions>Look up Organization Options</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="processingChartOfAccountCode" required="false" />
-                <lookupField attributeName="processingOrganizationCode" required="false" />
-
-            </lookupFields>
-
-            <resultFields>
-            	<field attributeName="organizationOptionsViewer" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="processingChartOfAccountCode" />
-                
-                <!--<field attributeName="organization800PhoneNumber" />-->
-                <!--<field attributeName="organizationCheckPayableToName" />-->
-                <!--<field attributeName="organizationFaxNumber" />-->
-                <!--<field attributeName="organizationMessageText" />-->
-                <!--<field attributeName="organizationPaymentTermsText" />-->
-                <!--<field attributeName="organizationPhoneNumber" />-->
-                <!--<field attributeName="organizationRemitToAddressName" />-->
-                <!--<field attributeName="organizationRemitToCityName" />-->
-                <!--<field attributeName="organizationRemitToLine1StreetAddress" />-->
-                <!--<field attributeName="organizationRemitToLine2StreetAddress" />-->
-                <!--<field attributeName="organizationRemitToStateCode" />-->
-                <!--<field attributeName="organizationRemitToZipCode" />-->
-                <!--<field attributeName="printInvoiceIndicator" />-->
-                <!--<field attributeName="universityName" />-->
-            </resultFields>
-        </lookup>
-
-		<titleAttribute>organizationOptionsViewer</titleAttribute>
-
-        <attributes>
-
-        	<attribute name="organizationOptionsViewer">
-        		<label>View</label>
-        		<maxLength>100</maxLength>
-        		<required>false</required>
-        		<control><hidden /></control>
-        	</attribute>
-
-           <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-           </attributeReference>
-
-			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-           </attributeReference>
-
-           <attributeReference name="processingChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-				<label>Processing Chart Code</label>
-           </attributeReference>
-
-           	<attributeReference name="processingOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-           		<label>Processing Organization Code</label>
-           </attributeReference>
-
-            <attribute name="organization800PhoneNumber" forceUppercase="true">
-                <label>800 Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>13</maxLength>
-                <validationPattern><numeric  /></validationPattern>
-				<required>false</required>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>organization800PhoneNumber</summary>
-                <description>organization800PhoneNumber description...</description>
-			</attribute>
-
-            <attribute name="organizationCheckPayableToName" forceUppercase="true">
-                <label>Remit To Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>organizationCheckPayableToName</summary>
-                <description>organizationCheckPayableToName description...</description>
-			</attribute>
-
-            <attribute name="organizationFaxNumber" forceUppercase="true">
-                <label>Fax Number</label>
-                <shortLabel>Number</shortLabel>
-
-
-                <maxLength>13</maxLength>
-                <validationPattern><numeric  /></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>organizationFaxNumber</summary>
-                <description>organizationFaxNumber description...</description>
-			</attribute>
-
-            <attribute name="organizationMessageText" forceUppercase="true">
-                <label>Message Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>80</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="82" />
-                </control>
-
-                <summary>organizationMessageText</summary>
-                <description>organizationMessageText description...</description>
-			</attribute>
-
-            <attribute name="organizationPaymentTermsText" forceUppercase="true">
-                <label>Payment Terms Text</label>
-                <shortLabel>Text</shortLabel>
-
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>organizationPaymentTermsText</summary>
-                <description>organizationPaymentTermsText description...</description>
-			</attribute>
-
-            <attribute name="organizationPhoneNumber" forceUppercase="true">
-                <label>Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>13</maxLength>
-                <validationPattern><numeric  /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>organizationPhoneNumber</summary>
-                <description>organizationPhoneNumber description...</description>
-			</attribute>
-
-            <attribute name="organizationRemitToAddressName" forceUppercase="true">
-                <label>Address Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>organizationRemitToAddressName</summary>
-                <description>organizationRemitToAddressName description...</description>
-			</attribute>
-
-            <attribute name="organizationRemitToCityName" forceUppercase="true">
-                <label>City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>organizationRemitToCityName</summary>
-                <description>organizationRemitToCityName description...</description>
-			</attribute>
-
-            <attribute name="organizationRemitToLine1StreetAddress" forceUppercase="true">
-                <label>Line 1 Street Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>organizationRemitToLine1StreetAddress</summary>
-                <description>organizationRemitToLine1StreetAddress description...</description>
-			</attribute>
-
-            <attribute name="organizationRemitToLine2StreetAddress" forceUppercase="true">
-                <label>Line 2 Street Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>organizationRemitToLine2StreetAddress</summary>
-                <description>organizationRemitToLine2StreetAddress description...</description>
-			</attribute>
-
-			<attributeReference name="organizationRemitToStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
-           </attributeReference>
-
-            <attribute name="organizationRemitToZipCode" forceUppercase="true">
-                <label>Zip Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>11</maxLength>
-				<validationPattern>
-                    <zipcode />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>organizationRemitToZipCode</summary>
-                <description>organizationRemitToZipCode description...</description>
-			</attribute>
-
-            <attribute name="printInvoiceIndicator" forceUppercase="true">
-                <label>Print Options</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-<!--                <control>-->
-<!--                    <checkbox />-->
-<!--                 </control>-->
-                	<control>
-					<select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintInvoiceOptionsValuesFinder" />
-					</control>
-
-                <summary>printInvoiceIndicator</summary>
-                <description>printInvoiceIndicator description...</description>
-			</attribute>
-
-            <attribute name="universityName" forceUppercase="true">
-                <label>University Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>universityName</summary>
-                <description>universityName description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="OrganizationOptions" parent="OrganizationOptions-parentBean" />
+
+  <bean id="OrganizationOptions-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.OrganizationOptions" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationOptions-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationOptions-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationOptionsViewer" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationOptions-organizationOptionsViewer" />
+        <ref bean="OrganizationOptions-chartOfAccountsCode" />
+        <ref bean="OrganizationOptions-organizationCode" />
+        <ref bean="OrganizationOptions-processingChartOfAccountCode" />
+        <ref bean="OrganizationOptions-processingOrganizationCode" />
+        <ref bean="OrganizationOptions-organization800PhoneNumber" />
+        <ref bean="OrganizationOptions-organizationCheckPayableToName" />
+        <ref bean="OrganizationOptions-organizationFaxNumber" />
+        <ref bean="OrganizationOptions-organizationMessageText" />
+        <ref bean="OrganizationOptions-organizationPaymentTermsText" />
+        <ref bean="OrganizationOptions-organizationPhoneNumber" />
+        <ref bean="OrganizationOptions-organizationRemitToAddressName" />
+        <ref bean="OrganizationOptions-organizationRemitToCityName" />
+        <ref bean="OrganizationOptions-organizationRemitToLine1StreetAddress" />
+        <ref bean="OrganizationOptions-organizationRemitToLine2StreetAddress" />
+        <ref bean="OrganizationOptions-organizationRemitToStateCode" />
+        <ref bean="OrganizationOptions-organizationRemitToZipCode" />
+        <ref bean="OrganizationOptions-printInvoiceIndicator" />
+        <ref bean="OrganizationOptions-universityName" />
+        <ref bean="OrganizationOptions-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OrganizationOptions-organizationOptionsViewer" parent="OrganizationOptions-organizationOptionsViewer-parentBean" />
+
+  <bean id="OrganizationOptions-organizationOptionsViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationOptionsViewer" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="OrganizationOptions-chartOfAccountsCode" parent="OrganizationOptions-chartOfAccountsCode-parentBean" />
+
+  <bean id="OrganizationOptions-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationOptions-organizationCode" parent="OrganizationOptions-organizationCode-parentBean" />
+
+  <bean id="OrganizationOptions-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="OrganizationOptions-processingChartOfAccountCode" parent="OrganizationOptions-processingChartOfAccountCode-parentBean" />
+
+  <bean id="OrganizationOptions-processingChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="processingChartOfAccountCode" />
+    <property name="label" value="Processing Chart Code" />
+  </bean>
+  <bean id="OrganizationOptions-processingOrganizationCode" parent="OrganizationOptions-processingOrganizationCode-parentBean" />
+
+  <bean id="OrganizationOptions-processingOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="processingOrganizationCode" />
+    <property name="label" value="Processing Organization Code" />
+  </bean>
+  <bean id="OrganizationOptions-organization800PhoneNumber" parent="OrganizationOptions-organization800PhoneNumber-parentBean" />
+
+  <bean id="OrganizationOptions-organization800PhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organization800PhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="800 Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="organization800PhoneNumber" />
+    <property name="description" value="organization800PhoneNumber description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationCheckPayableToName" parent="OrganizationOptions-organizationCheckPayableToName-parentBean" />
+
+  <bean id="OrganizationOptions-organizationCheckPayableToName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCheckPayableToName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Remit To Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="organizationCheckPayableToName" />
+    <property name="description" value="organizationCheckPayableToName description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationFaxNumber" parent="OrganizationOptions-organizationFaxNumber-parentBean" />
+
+  <bean id="OrganizationOptions-organizationFaxNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationFaxNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fax Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="organizationFaxNumber" />
+    <property name="description" value="organizationFaxNumber description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationMessageText" parent="OrganizationOptions-organizationMessageText-parentBean" />
+
+  <bean id="OrganizationOptions-organizationMessageText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationMessageText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Message Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="80" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="82" />
+    </property>
+    <property name="summary" value="organizationMessageText" />
+    <property name="description" value="organizationMessageText description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationPaymentTermsText" parent="OrganizationOptions-organizationPaymentTermsText-parentBean" />
+
+  <bean id="OrganizationOptions-organizationPaymentTermsText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationPaymentTermsText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Terms Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="organizationPaymentTermsText" />
+    <property name="description" value="organizationPaymentTermsText description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationPhoneNumber" parent="OrganizationOptions-organizationPhoneNumber-parentBean" />
+
+  <bean id="OrganizationOptions-organizationPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationPhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="organizationPhoneNumber" />
+    <property name="description" value="organizationPhoneNumber description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationRemitToAddressName" parent="OrganizationOptions-organizationRemitToAddressName-parentBean" />
+
+  <bean id="OrganizationOptions-organizationRemitToAddressName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationRemitToAddressName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Address Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="organizationRemitToAddressName" />
+    <property name="description" value="organizationRemitToAddressName description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationRemitToCityName" parent="OrganizationOptions-organizationRemitToCityName-parentBean" />
+
+  <bean id="OrganizationOptions-organizationRemitToCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationRemitToCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="organizationRemitToCityName" />
+    <property name="description" value="organizationRemitToCityName description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationRemitToLine1StreetAddress" parent="OrganizationOptions-organizationRemitToLine1StreetAddress-parentBean" />
+
+  <bean id="OrganizationOptions-organizationRemitToLine1StreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationRemitToLine1StreetAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Line 1 Street Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="organizationRemitToLine1StreetAddress" />
+    <property name="description" value="organizationRemitToLine1StreetAddress description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationRemitToLine2StreetAddress" parent="OrganizationOptions-organizationRemitToLine2StreetAddress-parentBean" />
+
+  <bean id="OrganizationOptions-organizationRemitToLine2StreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationRemitToLine2StreetAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Line 2 Street Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="organizationRemitToLine2StreetAddress" />
+    <property name="description" value="organizationRemitToLine2StreetAddress description..." />
+  </bean>
+  <bean id="OrganizationOptions-organizationRemitToStateCode" parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
+
+  <bean id="OrganizationOptions-organizationRemitToStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="name" value="organizationRemitToStateCode" />
+  </bean>
+  <bean id="OrganizationOptions-organizationRemitToZipCode" parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
+
+  <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationRemitToZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="ZipcodeValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="organizationRemitToZipCode" />
+    <property name="description" value="organizationRemitToZipCode description..." />
+  </bean>
+  <bean id="OrganizationOptions-printInvoiceIndicator" parent="OrganizationOptions-printInvoiceIndicator-parentBean" />
+
+  <bean id="OrganizationOptions-printInvoiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="printInvoiceIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Print Options" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintInvoiceOptionsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="printInvoiceIndicator" />
+    <property name="description" value="printInvoiceIndicator description..." />
+  </bean>
+  <bean id="OrganizationOptions-universityName" parent="OrganizationOptions-universityName-parentBean" />
+
+  <bean id="OrganizationOptions-universityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="universityName" />
+    <property name="description" value="universityName description..." />
+  </bean>
+  <bean id="OrganizationOptions-versionNumber" parent="OrganizationOptions-versionNumber-parentBean" />
+
+  <bean id="OrganizationOptions-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrganizationOptions-inquiryDefinition" parent="OrganizationOptions-inquiryDefinition-parentBean" />
+
+  <bean id="OrganizationOptions-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Options Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingChartOfAccountCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingOrganizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organization800PhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCheckPayableToName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationFaxNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationMessageText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationPaymentTermsText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToAddressName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToLine1StreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToLine2StreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="printInvoiceIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationOptions-lookupDefinition" parent="OrganizationOptions-lookupDefinition-parentBean" />
+
+  <bean id="OrganizationOptions-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Options Lookup" />
+    <property name="instructions" value="Look up Organization Options" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingOrganizationCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationOptionsViewer" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingChartOfAccountCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

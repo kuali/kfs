@@ -1,106 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<transactionalDocument>
-	    <documentClass>org.kuali.module.financial.document.AuxiliaryVoucherDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRule</businessRulesClass>
+  <bean id="AuxiliaryVoucherDocument" parent="AuxiliaryVoucherDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AuxiliaryVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="allowsErrorCorrection" value="true" />
+    <property name="label" value="Auxiliary Voucher" />
+    <property name="shortLabel" value="Auxiliary Voucher" />
+    <property name="summary" value="Auxiliary Voucher document" />
+    <property name="description" value="blah blah Document blah Auxiliary Voucher blah blah" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="AUXILIARY_VOUCHER"
+            p:parameterDetailType="AuxiliaryVoucher" />
+    </property>
+    <property name="documentTypeName" value="AuxiliaryVoucherDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.AuxiliaryVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="AV" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="AuxiliaryVoucherDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AuxiliaryVoucherDocument-accountingPeriod" />
+        <ref bean="AuxiliaryVoucherDocument-typeCode" />
+        <ref bean="AuxiliaryVoucherDocument-reversalDate" />
+      </list>
+    </property>
+  </bean>
 
-		<documentTypeName>AuxiliaryVoucherDocument</documentTypeName>
-        <documentTypeCode>AV</documentTypeCode>
-	
-		<label>Auxiliary Voucher</label>
-        
-        <attributes>
-        	<attribute name="accountingPeriod" forceUppercase="false">
-        		<label>Accounting Period</label>
-        		<shortLabel>Acct. Prd.</shortLabel>
-        		
-        		<maxLength>50</maxLength>
-        		<validationPattern><anyCharacter /></validationPattern>
-        		
-        		<required>true</required>
-        		
-				<control>
-					<text size="50" />
-				</control>
+<!-- Attribute Definitions -->
 
-        		<summary><![CDATA[&nbsp;]]> </summary>
-        		<description>The calendar accounting periods during which the Auxiliary Voucher applies.  Select one from the pulldown list.</description>
-        	</attribute>
 
-        	<!-- Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher.   -->
-            <!-- It is represented as a radio button selection.                                                 -->
-        	<attribute name="typeCode" forceUppercase="true">
-        		<label>Auxiliary Voucher Type</label>
-        		<shortLabel>AVType</shortLabel>
-        		
-        		<maxLength>4</maxLength>
-        		<validationPattern><anyCharacter exactLength="4" /></validationPattern>
-        		
-        		<required>true</required>
-        		
-				<control>
-					<radio valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.AuxiliaryVoucherTypeCodeValuesFinder"/>
-				</control>
+  <bean id="AuxiliaryVoucherDocument-accountingPeriod" parent="AuxiliaryVoucherDocument-accountingPeriod-parentBean" />
 
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>
-        			Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher. It is represented as a radio button selection.
-        		</description>
-        	</attribute>
+  <bean id="AuxiliaryVoucherDocument-accountingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountingPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Accounting Period" />
+    <property name="shortLabel" value="Acct. Prd." />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The calendar accounting periods during which the Auxiliary Voucher applies.  Select one from the pulldown list." />
+  </bean>
+  <bean id="AuxiliaryVoucherDocument-typeCode" parent="AuxiliaryVoucherDocument-typeCode-parentBean" />
 
-            <attributeReference name="reversalDate"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="genericDate" >
-                <label>Reversal Date</label>
-                <shortLabel>Reversal Date</shortLabel>
+  <bean id="AuxiliaryVoucherDocument-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="typeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Auxiliary Voucher Type" />
+    <property name="shortLabel" value="AVType" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="4" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.AuxiliaryVoucherTypeCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher. It is represented as a radio button selection." />
+  </bean>
+  <bean id="AuxiliaryVoucherDocument-reversalDate" parent="AuxiliaryVoucherDocument-reversalDate-parentBean" />
 
-                <required>false</required>
+  <bean id="AuxiliaryVoucherDocument-reversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="reversalDate" />
+    <property name="label" value="Reversal Date" />
+    <property name="shortLabel" value="Reversal Date" />
+    <property name="required" value="false" />
+    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today&apos;s date. Use the calendar icon to select and format the Reversal Date." />
+  </bean>
 
-                <summary><![CDATA[&nbsp;]]> </summary>
-                <description>The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date.</description>
-            </attributeReference>
-        </attributes>
+<!-- Exported Workflow Properties -->
 
-        <summary>Auxiliary Voucher document</summary>
-        <description>blah blah Document blah Auxiliary Voucher blah blah</description>
-  		<help parameterNamespace="KFS-FP" parameterDetailType="AuxiliaryVoucher" parameterName="AUXILIARY_VOUCHER" />
-        <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>true</allowsErrorCorrection>
-        
-        <workflowProperties>
-            <workflowPropertyGroup>
-            	<workflowProperty path="documentHeader" />
-                <workflowProperty path="sourceAccountingLines" />
-                <workflowProperty path="sourceAccountingLines.account" />
-            </workflowPropertyGroup>
-        </workflowProperties>
-	</transactionalDocument>
-</dictionaryEntry>
+
+  <bean id="AuxiliaryVoucherDocument-workflowProperties" parent="AuxiliaryVoucherDocument-workflowProperties-parentBean" />
+
+  <bean id="AuxiliaryVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines.account" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

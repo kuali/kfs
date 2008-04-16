@@ -1,104 +1,163 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.OrganizationRoutingModelName</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument" parent="OrganizationRoutingModelNameMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.OrganizationRoutingModelRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.chart.rules.OrganizationRoutingModelPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationRoutingModelName" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrganizationRoutingModelNameMaintenanceDocument-EditAccountDelegateModel" />
+        <ref bean="OrganizationRoutingModelNameMaintenanceDocument-EditDelegatesforModel" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
+        <value>organizationRoutingModelName</value>
+      </list>
+    </property>
+    <property name="label" value="Account Delegate Model" />
+    <property name="shortLabel" value="Account Delegate Model" />
+    <property name="summary" value="Account Delegate Model Maintenance Document" />
+    <property name="description" value="Account Delegate Model Maintenance Document" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="DELEGATE_MODEL"
+            p:parameterDetailType="OrganizationRoutingModelName" />
+    </property>
+    <property name="documentTypeName" value="OrganizationRoutingModelNameMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.OrganizationRoutingModelRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.OrganizationRoutingModelPreRules" />
+    <property name="documentTypeCode" value="GDLM" />
+    <property name="workflowProperties" >
+      <ref bean="OrganizationRoutingModelNameMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>OrganizationRoutingModelNameMaintenanceDocument</documentTypeName>
-        <documentTypeCode>GDLM</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Account Delegate Model</label>
 
-        <summary>Account Delegate Model Maintenance Document</summary>
-        <description>Account Delegate Model Maintenance Document</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationRoutingModelName" parameterName="DELEGATE_MODEL" />
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-EditAccountDelegateModel" parent="OrganizationRoutingModelNameMaintenanceDocument-EditAccountDelegateModel-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="organizationCode" />
-            <field attributeName="organizationRoutingModelName" />
-        </lockingKeys>
-        
-        <allowsNewOrCopy>true</allowsNewOrCopy>
-        
-        <maintainableSections>
-            <maintainableSection title="Edit Account Delegate  Model">
-                <maintainableItems>
-                	<maintainableField name="chartOfAccountsCode" required="true">
-                		<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder</defaultValueFinderClass>
-                	</maintainableField>
-                    <maintainableField name="organizationCode" required="true">
-                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="organizationRoutingModelName" required="true" />
-                    <maintainableField name="versionNumber" />
-	            </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Delegates for Model">
-            	  <maintainableItems>
-                    <maintainableCollection name="organizationRoutingModel" businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModel" includeAddLine="true" summaryTitle="Account Delegate Model Delegate">
-                        <maintainableField name="financialDocumentTypeCode" required="true"/>
-                        <maintainableField name="accountDelegatePrimaryRoutingIndicator" />
-                        <maintainableField name="accountDelegateStartDate" required="true">
-                        	<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                        </maintainableField>
-                        <maintainableField name="approvalFromThisAmount" />
-                        <maintainableField name="approvalToThisAmount" />
-                        <maintainableField name="accountDelegate.personUserIdentifier" required="true" readOnlyAfterAdd="false" />
-                        <maintainableField name="accountDelegate.personName" required="true" readOnly="true" />
-                        <maintainableField name="accountDelegateUniversalId" required="true" readOnly="true" />
-                        <maintainableField name="active">
-                        	<defaultValue>true</defaultValue>
-                        </maintainableField>
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                        <summaryFields>
-                            <summaryField name="financialDocumentTypeCode" />
-                            <summaryField name="accountDelegatePrimaryRoutingIndicator" />
-                            <summaryField name="accountDelegate.personUserIdentifier" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                        	<duplicateIdentificationField name="accountDelegate.personUserIdentifier" />
-                        	<duplicateIdentificationField name="financialDocumentTypeCode" />
-                        </duplicateIdentificationFields>
-                    </maintainableCollection>
-            	  </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-EditAccountDelegateModel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Account Delegate  Model" />
+    <property name="title" value="Edit Account Delegate  Model" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRoutingModelName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-EditDelegatesforModel" parent="OrganizationRoutingModelNameMaintenanceDocument-EditDelegatesforModel-parentBean" />
+
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-EditDelegatesforModel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Delegates for Model" />
+    <property name="title" value="Edit Delegates for Model" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationRoutingModel" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationRoutingModel" />
+          <property name="summaryTitle" value="Account Delegate Model Delegate" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentTypeCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegatePrimaryRoutingIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegate.personUserIdentifier" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentTypeCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegatePrimaryRoutingIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegateStartDate"
+                    p:required="true"
+                    p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="approvalFromThisAmount" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="approvalToThisAmount" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegate.personUserIdentifier"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegate.personName"
+                    p:readOnly="true"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegateUniversalId"
+                    p:readOnly="true"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="active"
+                    p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-workflowProperties" parent="OrganizationRoutingModelNameMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="OrganizationRoutingModelNameMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

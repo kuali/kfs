@@ -1,73 +1,106 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<maintenanceDocument>
-        <businessObjectClass>org.kuali.module.labor.bo.LaborObject</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="LaborObjectMaintenanceDocument" parent="LaborObjectMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="LaborObjectMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LaborObject" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="LaborObjectMaintenanceDocument-EditLaborObject" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialObject"
+              p:attributeToHighlightOnFail="financialObjectCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>universityFiscalYear</value>
+        <value>chartOfAccountsCode</value>
+        <value>financialObjectCode</value>
+      </list>
+    </property>
+    <property name="label" value="Labor Object Code" />
+    <property name="shortLabel" value="Labor Object Code" />
+    <property name="summary" value="Labor Object Code Maintenance Document" />
+    <property name="description" value="Document used to create or update Labor objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-LD"
+            p:parameterName="LABOR_OBJECT_BENEFITS"
+            p:parameterDetailType="LaborObject" />
+    </property>
+    <property name="documentTypeName" value="LaborObjectMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="LOBJ" />
+    <property name="workflowProperties" >
+      <ref bean="LaborObjectMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<documentTypeName>LaborObjectMaintenanceDocument</documentTypeName>
-		<documentTypeCode>LOBJ</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-		<label>Labor Object Code</label>
-		
-		<summary>Labor Object Code Maintenance Document</summary>
-		<description>Document used to create or update Labor objects</description>
-        <help parameterNamespace="KFS-LD" parameterDetailType="LaborObject" parameterName="LABOR_OBJECT_BENEFITS" />
 
-        <lockingKeys>
-			<field attributeName="universityFiscalYear" />
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="financialObjectCode" />
-		</lockingKeys>         
+  <bean id="LaborObjectMaintenanceDocument-EditLaborObject" parent="LaborObjectMaintenanceDocument-EditLaborObject-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />          
-            <reference attributeName="financialObject" attributeToHighlightOnFail="financialObjectCode" />
-        </defaultExistenceChecks>
+  <bean id="LaborObjectMaintenanceDocument-EditLaborObject-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Labor Object" />
+    <property name="title" value="Edit Labor Object" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="detailPositionRequiredIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectFringeOrSalaryCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectHoursRequiredIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectPayTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionObjectGroupCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Labor Object">
-	        	<maintainableItems>
-	            	<maintainableField name="universityFiscalYear" required="true" />
-	            	<maintainableField name="chartOfAccountsCode" required="true" />
-	            	<maintainableField name="financialObjectCode" required="true"/>
-	            	<maintainableField name="detailPositionRequiredIndicator" />
-                    <maintainableField name="financialObjectFringeOrSalaryCode" />
-                    <maintainableField name="financialObjectHoursRequiredIndicator" />
-                    <maintainableField name="financialObjectPayTypeCode" />
-                    <maintainableField name="positionObjectGroupCode" />   
-	            	<maintainableField name="versionNumber" />
-	         	</maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	    
-	    <workflowProperties />
-	</maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="LaborObjectMaintenanceDocument-workflowProperties" parent="LaborObjectMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="LaborObjectMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

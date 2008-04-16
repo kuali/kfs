@@ -1,110 +1,210 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.OrganizationReversionGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainableImpl</maintainableClass>
+  <bean id="OrganizationReversionGlobalMaintenanceDocument" parent="OrganizationReversionGlobalMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.OrganizationReversionGlobalRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.chart.rules.OrganizationReversionGlobalPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CA_ORGANIZATION_REVERSION_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionOrganizations" />
+        <ref bean="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversion" />
+        <ref bean="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionDetails" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="universityFiscal"
+              p:attributeToHighlightOnFail="universityFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="budgetReversionChartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="budgetReversionAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="budgetReversionAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="cashReversionFinancialChartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="cashReversionAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="cashReversionAccountNumber" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Organization Reversion Global" />
+    <property name="shortLabel" value="Organization Reversion Global" />
+    <property name="summary" value="Global Organization Reversion Maintenance Document" />
+    <property name="description" value="Global Organization Reversion Maintenance Document" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="ORGANIZATION_REVERSION_GLOBAL"
+            p:parameterDetailType="OrganizationReversionGlobal" />
+    </property>
+    <property name="documentTypeName" value="OrganizationReversionGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.OrganizationReversionGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.OrganizationReversionGlobalPreRules" />
+    <property name="documentTypeCode" value="GORV" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/ObjectCodeService.js</value>
+        <value>../scripts/chart/orgReversionChangeDocument.js</value>
+      </list>
+    </property>
+    <property name="workflowProperties" >
+      <ref bean="OrganizationReversionGlobalMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CA_ORGANIZATION_REVERSION_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>OrganizationReversionGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>GORV</documentTypeCode>
-        
-        <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
-        <webScriptFile>../scripts/chart/orgReversionChangeDocument.js</webScriptFile>
+<!-- Maintenance Section Definitions -->
 
-        <label>Organization Reversion Global</label>
 
-        <summary>Global Organization Reversion Maintenance Document</summary>
-        <description>Global Organization Reversion Maintenance Document</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationReversionGlobal" parameterName="ORGANIZATION_REVERSION_GLOBAL" />
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionOrganizations" parent="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionOrganizations-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
-        
-        <allowsNewOrCopy>true</allowsNewOrCopy>
-        
-        <defaultExistenceChecks>
-            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
-            <reference attributeName="budgetReversionChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
-            <reference attributeName="budgetReversionAccount" attributeToHighlightOnFail="budgetReversionAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
-            <reference attributeName="cashReversionFinancialChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
-            <reference attributeName="cashReversionAccount" attributeToHighlightOnFail="cashReversionAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
-        </defaultExistenceChecks>
-        
-        <maintainableSections>
-        	<maintainableSection title="Edit Global Organization Reversion Organizations">
-            	  <maintainableItems>
-            		<maintainableCollection name="organizationReversionGlobalOrganizations" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" summaryTitle="Organization" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-            		    <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" required="true" />
-                        <maintainableField name="organizationCode" template="organizationCode" required="true" />
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                        <summaryFields>
-                        	<summaryField name="chartOfAccountsCode" />
-                        	<summaryField name="organizationCode" />
-                        </summaryFields>
-                  	</maintainableCollection>
-            	  </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Global Organization Reversion">
-                <maintainableItems>
-                    <maintainableField name="universityFiscalYear" required="true" />
-                    <maintainableField name="budgetReversionChartOfAccountsCode" />
-                    <maintainableField name="budgetReversionAccountNumber" />
-                    <maintainableField name="cashReversionFinancialChartOfAccountsCode" />
-                    <maintainableField name="cashReversionAccountNumber" />
-                    <maintainableField name="carryForwardByObjectCodeIndicator" />
-                    <maintainableField name="versionNumber" />
-	              </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Global Organization Reversion Details">
-            	  <maintainableItems>
-                    <maintainableCollection name="organizationReversionGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" includeAddLine="false" summaryTitle="Organization Reversion Detail">
-                        <maintainableField name="organizationReversionCategoryCode" required="true" readOnly="true"/>
-                        <maintainableField name="organizationReversionObjectCode" webUILeaveFieldFunction="updateObjectNames" />
-                        <maintainableField name="objectCodeNames" readOnly="true" />
-                        <maintainableField name="organizationReversionCode" />
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                    </maintainableCollection>
-            	  </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject.organizationReversionGlobalOrganizations" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-        		
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionOrganizations-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Global Organization Reversion Organizations" />
+    <property name="title" value="Edit Global Organization Reversion Organizations" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationReversionGlobalOrganizations" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" />
+          <property name="summaryTitle" value="Organization" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationCode" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:required="true"
+                    p:template="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationCode"
+                    p:required="true"
+                    p:template="organizationCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversion" parent="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversion-parentBean" />
+
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversion-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Global Organization Reversion" />
+    <property name="title" value="Edit Global Organization Reversion" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetReversionChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetReversionAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashReversionFinancialChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashReversionAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="carryForwardByObjectCodeIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionDetails" parent="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionDetails-parentBean" />
+
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-EditGlobalOrganizationReversionDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Global Organization Reversion Details" />
+    <property name="title" value="Edit Global Organization Reversion Details" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="organizationReversionGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" />
+          <property name="includeAddLine" value="false" />
+          <property name="summaryTitle" value="Organization Reversion Detail" />
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationReversionCategoryCode"
+                    p:readOnly="true"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationReversionObjectCode"
+                    p:webUILeaveFieldFunction="updateObjectNames" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="objectCodeNames"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationReversionCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-workflowProperties" parent="OrganizationReversionGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="OrganizationReversionGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.organizationReversionGlobalOrganizations" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

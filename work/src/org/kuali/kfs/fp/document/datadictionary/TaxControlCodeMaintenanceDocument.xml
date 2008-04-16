@@ -1,60 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.financial.bo.TaxControlCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="TaxControlCodeMaintenanceDocument" parent="TaxControlCodeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="TaxControlCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.TaxControlCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="TaxControlCodeMaintenanceDocument-EditTaxControl" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+    <property name="label" value="Disbursement Voucher Tax Control" />
+    <property name="shortLabel" value="Disbursement Voucher Tax Control" />
+    <property name="summary" value="Tax Control Code Maintenance Document" />
+    <property name="description" value="Document used to create or update Tax Control objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="TAX_CONTROL"
+            p:parameterDetailType="TaxControlCode" />
+    </property>
+    <property name="documentTypeName" value="TaxControlCodeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="DVCC" />
+    <property name="workflowProperties" >
+      <ref bean="TaxControlCodeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>TaxControlCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>DVCC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Disbursement Voucher Tax Control</label>
 
-        <summary>Tax Control Code Maintenance Document</summary>
-        <description>Document used to create or update Tax Control objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="TaxControlCode" parameterName="TAX_CONTROL" />
+  <bean id="TaxControlCodeMaintenanceDocument-EditTaxControl" parent="TaxControlCodeMaintenanceDocument-EditTaxControl-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="code" />
-        </lockingKeys>
+  <bean id="TaxControlCodeMaintenanceDocument-EditTaxControl-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Tax Control" />
+    <property name="title" value="Edit Tax Control" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Tax Control">
-                <maintainableItems>
-                    <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="TaxControlCodeMaintenanceDocument-workflowProperties" parent="TaxControlCodeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="TaxControlCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

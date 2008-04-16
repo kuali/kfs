@@ -1,242 +1,349 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetLocation">
- 
-        <inquiry>
-            <title>Asset Location Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="assetLocationCityName" />
-                        <field attributeName="assetLocationContactIdentifier" />
-                        <field attributeName="assetLocationContactName" />
-                        <field attributeName="assetLocationCountryCode" />
-                        <field attributeName="assetLocationInstitutionName" />
-                        <field attributeName="assetLocationPhoneNumber" />
-                        <field attributeName="assetLocationStateCode" />
-                        <field attributeName="assetLocationStreetAddress" />
-                        <field attributeName="assetLocationTypeCode" />
-                        <field attributeName="assetLocationZipCode" />
-                        <field attributeName="capitalAssetNumber" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Asset Location Lookup</title>
+  <bean id="AssetLocation" parent="AssetLocation-parentBean" />
 
-            <instructions>Look up an Asset Location</instructions>
+  <bean id="AssetLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocation" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetLocation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetLocation-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetLocation-assetLocationCityName" />
+        <ref bean="AssetLocation-assetLocationContactIdentifier" />
+        <ref bean="AssetLocation-assetLocationContactName" />
+        <ref bean="AssetLocation-assetLocationCountryCode" />
+        <ref bean="AssetLocation-assetLocationInstitutionName" />
+        <ref bean="AssetLocation-assetLocationPhoneNumber" />
+        <ref bean="AssetLocation-assetLocationStateCode" />
+        <ref bean="AssetLocation-assetLocationStreetAddress" />
+        <ref bean="AssetLocation-assetLocationTypeCode" />
+        <ref bean="AssetLocation-assetLocationZipCode" />
+        <ref bean="AssetLocation-capitalAssetNumber" />
+        <ref bean="AssetLocation-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                    <sortAttribute attributeName="assetLocationTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="assetLocationCityName" required="false" />
-                <lookupField attributeName="assetLocationContactIdentifier" required="false" />
-                <lookupField attributeName="assetLocationContactName" required="false" />
-                <lookupField attributeName="assetLocationCountryCode" required="false" />
-                <lookupField attributeName="assetLocationInstitutionName" required="false" />
-                <lookupField attributeName="assetLocationPhoneNumber" required="false" />
-                <lookupField attributeName="assetLocationStateCode" required="false" />
-                <lookupField attributeName="assetLocationStreetAddress" required="false" />
-                <lookupField attributeName="assetLocationTypeCode" required="false" />
-                <lookupField attributeName="assetLocationZipCode" required="false" />
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="assetLocationCityName" />
-                <field attributeName="assetLocationContactIdentifier" />
-                <field attributeName="assetLocationContactName" />
-                <field attributeName="assetLocationCountryCode" />
-                <field attributeName="assetLocationInstitutionName" />
-                <field attributeName="assetLocationPhoneNumber" />
-                <field attributeName="assetLocationStateCode" />
-                <field attributeName="assetLocationStreetAddress" />
-                <field attributeName="assetLocationTypeCode" />
-                <field attributeName="assetLocationZipCode" />
-                <field attributeName="capitalAssetNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="AssetLocation-assetLocationCityName" parent="AssetLocation-assetLocationCityName-parentBean" />
 
-        <attributes>
+  <bean id="AssetLocation-assetLocationCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="assetLocationCityName" />
+    <property name="description" value="assetLocationCityName description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationContactIdentifier" parent="AssetLocation-assetLocationContactIdentifier-parentBean" />
 
-            <attribute name="assetLocationCityName" forceUppercase="true">
-                <label>Asset Location City Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="AssetLocation-assetLocationContactIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationContactIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Contact Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="assetLocationContactIdentifier" />
+    <property name="description" value="assetLocationContactIdentifier description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationContactName" parent="AssetLocation-assetLocationContactName-parentBean" />
 
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetLocation-assetLocationContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationContactName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Contact Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="assetLocationContactName" />
+    <property name="description" value="assetLocationContactName description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationCountryCode" parent="AssetLocation-assetLocationCountryCode-parentBean" />
 
-                <control>
-                    <text size="52" />
-                </control>
+  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Country Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="assetLocationCountryCode" />
+    <property name="description" value="assetLocationCountryCode description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationInstitutionName" parent="AssetLocation-assetLocationInstitutionName-parentBean" />
 
-                <summary>assetLocationCityName</summary>
-                <description>assetLocationCityName description...</description>
-			</attribute>
+  <bean id="AssetLocation-assetLocationInstitutionName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationInstitutionName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Institution Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="assetLocationInstitutionName" />
+    <property name="description" value="assetLocationInstitutionName description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationPhoneNumber" parent="AssetLocation-assetLocationPhoneNumber-parentBean" />
 
-            <attribute name="assetLocationContactIdentifier" forceUppercase="true">
-                <label>Asset Location Contact Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="AssetLocation-assetLocationPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationPhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="assetLocationPhoneNumber" />
+    <property name="description" value="assetLocationPhoneNumber description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationStateCode" parent="AssetLocation-assetLocationStateCode-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="assetLocationStateCode" />
+    <property name="description" value="assetLocationStateCode description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationStreetAddress" parent="AssetLocation-assetLocationStreetAddress-parentBean" />
 
-                <control>
-                    <text size="12" />
-                </control>
+  <bean id="AssetLocation-assetLocationStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationStreetAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Street Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="assetLocationStreetAddress" />
+    <property name="description" value="assetLocationStreetAddress description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationTypeCode" parent="AssetLocation-assetLocationTypeCode-parentBean" />
 
-                <summary>assetLocationContactIdentifier</summary>
-                <description>assetLocationContactIdentifier description...</description>
-			</attribute>
+  <bean id="AssetLocation-assetLocationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="assetLocationTypeCode" />
+    <property name="description" value="assetLocationTypeCode description..." />
+  </bean>
+  <bean id="AssetLocation-assetLocationZipCode" parent="AssetLocation-assetLocationZipCode-parentBean" />
 
-            <attribute name="assetLocationContactName" forceUppercase="true">
-                <label>Asset Location Contact Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetLocationZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Location Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="assetLocationZipCode" />
+    <property name="description" value="assetLocationZipCode description..." />
+  </bean>
+  <bean id="AssetLocation-capitalAssetNumber" parent="AssetLocation-capitalAssetNumber-parentBean" />
 
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetLocation-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="capitalAssetNumber" />
+    <property name="description" value="capitalAssetNumber description..." />
+  </bean>
+  <bean id="AssetLocation-versionNumber" parent="AssetLocation-versionNumber-parentBean" />
 
-                <control>
-                    <text size="52" />
-                </control>
+  <bean id="AssetLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>assetLocationContactName</summary>
-                <description>assetLocationContactName description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="assetLocationCountryCode" forceUppercase="true">
-                <label>Asset Location Country Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetLocation-inquiryDefinition" parent="AssetLocation-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="AssetLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Location Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationContactIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationInstitutionName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationStreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <summary>assetLocationCountryCode</summary>
-                <description>assetLocationCountryCode description...</description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="assetLocationInstitutionName" forceUppercase="true">
-                <label>Asset Location Institution Name</label>
-                <shortLabel>Name</shortLabel>
 
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetLocation-lookupDefinition" parent="AssetLocation-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>assetLocationInstitutionName</summary>
-                <description>assetLocationInstitutionName description...</description>
-			</attribute>
-
-            <attribute name="assetLocationPhoneNumber" forceUppercase="true">
-                <label>Asset Location Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>13</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>assetLocationPhoneNumber</summary>
-                <description>assetLocationPhoneNumber description...</description>
-			</attribute>
-
-            <attribute name="assetLocationStateCode" forceUppercase="true">
-                <label>Asset Location State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>assetLocationStateCode</summary>
-                <description>assetLocationStateCode description...</description>
-			</attribute>
-
-            <attribute name="assetLocationStreetAddress" forceUppercase="true">
-                <label>Asset Location Street Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>assetLocationStreetAddress</summary>
-                <description>assetLocationStreetAddress description...</description>
-			</attribute>
-
-            <attribute name="assetLocationTypeCode" forceUppercase="true">
-                <label>Asset Location Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>assetLocationTypeCode</summary>
-                <description>assetLocationTypeCode description...</description>
-			</attribute>
-
-            <attribute name="assetLocationZipCode" forceUppercase="true">
-                <label>Asset Location Zip Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>assetLocationZipCode</summary>
-                <description>assetLocationZipCode description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AssetLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Location Lookup" />
+    <property name="instructions" value="Look up an Asset Location" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationContactIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationInstitutionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationStreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationContactIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationInstitutionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationStreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetLocationZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

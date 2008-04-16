@@ -1,64 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.budget.bo.NonpersonnelSubCategory</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="NonpersonnelSubCategoryMaintenanceDocument" parent="NonpersonnelSubCategoryMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="NonpersonnelSubCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="NonpersonnelSubCategoryMaintenanceDocument-EditNonpersonnelSubCategory" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+    <property name="label" value="Non-Personnel Sub-Category" />
+    <property name="shortLabel" value="Non-Personnel Sub-Category" />
+    <property name="summary" value="Nonpersonnel Sub Category maintenance document" />
+    <property name="description" value="Document used to create or update Nonpersonnel Sub Category objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="NONPERSONNEL_SUB_CATEGORY"
+            p:parameterDetailType="NonpersonnelSubCategory" />
+    </property>
+    <property name="documentTypeName" value="NonpersonnelSubCategoryMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="NPSC" />
+    <property name="workflowProperties" >
+      <ref bean="NonpersonnelSubCategoryMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>NonpersonnelSubCategoryMaintenanceDocument</documentTypeName>
-        <documentTypeCode>NPSC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Non-Personnel Sub-Category</label>
 
-        <summary>Nonpersonnel Sub Category maintenance document</summary>
-        <description>Document used to create or update Nonpersonnel Sub Category objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="NonpersonnelSubCategory" parameterName="NONPERSONNEL_SUB_CATEGORY" />
+  <bean id="NonpersonnelSubCategoryMaintenanceDocument-EditNonpersonnelSubCategory" parent="NonpersonnelSubCategoryMaintenanceDocument-EditNonpersonnelSubCategory-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="code" />
-        </lockingKeys>
+  <bean id="NonpersonnelSubCategoryMaintenanceDocument-EditNonpersonnelSubCategory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Nonpersonnel Sub Category" />
+    <property name="title" value="Edit Nonpersonnel Sub Category" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="nonpersonnelMtdcExcludedIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="nonpersonnelModularExcludedIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Nonpersonnel Sub Category">
-                <maintainableItems>
-                    <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="nonpersonnelMtdcExcludedIndicator" required="false" />
-                    <maintainableField name="nonpersonnelModularExcludedIndicator" required="false" />
-					<maintainableField name="active" >
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="NonpersonnelSubCategoryMaintenanceDocument-workflowProperties" parent="NonpersonnelSubCategoryMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="NonpersonnelSubCategoryMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

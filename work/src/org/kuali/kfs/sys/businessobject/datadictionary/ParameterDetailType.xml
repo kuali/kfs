@@ -1,116 +1,177 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.ParameterDetailType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Parameter Component Inquiry</title>
-            <inquirySections>
-                <inquirySection title="Parameter Component Information">
-                    <inquiryFields>
-                        <field attributeName="parameterDetailTypeCode" />
-                        <field attributeName="parameterDetailTypeName" />
-                        <field attributeName="parameterNamespace.codeAndDescription" noInquiry="true" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>
-        </inquiry>
-        <lookup>
-            <lookupableID>parameterDetailTypeLookupable</lookupableID>
-            <title>Parameter Component Lookup</title>
+  <bean id="ParameterDetailType" parent="ParameterDetailType-parentBean" />
 
-            <instructions>Look up a Parameter Component.</instructions>
-            <defaultSort attributeName="parameterDetailTypeName" sortAscending="true" />
-            <lookupFields>
-                <lookupField attributeName="parameterNamespaceCode" required="false" />
-                <lookupField attributeName="parameterDetailTypeName" required="false"
-                    noLookup="true"
-                />
-                <lookupField attributeName="active" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
-            <resultFields>
-                <field attributeName="parameterDetailTypeName" noInquiry="true" />
-                <field attributeName="parameterNamespace.codeAndDescription" noInquiry="true" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ParameterDetailType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.core.bo.ParameterDetailType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ParameterDetailType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ParameterDetailType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="parameterDetailTypeName" />
+    <property name="objectLabel" value="Parameter Component" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ParameterDetailType-parameterNamespaceCode" />
+        <ref bean="ParameterDetailType-parameterDetailTypeCode" />
+        <ref bean="ParameterDetailType-parameterDetailTypeName" />
+        <ref bean="ParameterDetailType-parameterNamespace.codeAndDescription" />
+        <ref bean="ParameterDetailType-active" />
+        <ref bean="ParameterDetailType-objectId" />
+        <ref bean="ParameterDetailType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <titleAttribute>parameterDetailTypeName</titleAttribute>
+<!-- Attribute Definitions -->
 
-        <attributes>
-            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="code">
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"/>
-                </control>
-            </attributeReference>
-            <attribute name="parameterDetailTypeCode" forceUppercase="false">
-                <label>Parameter Component</label>
-                <shortLabel>Component</shortLabel>
-                <maxLength>100</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Code identifying the parameter Component.</summary>
-                <description>
-                    Code identifying the parameter Component.
-                </description>
-            </attribute>
-            <attribute name="parameterDetailTypeName" forceUppercase="false">
-                <label>Parameter Component Name</label>
-                <shortLabel>Comp. Nm</shortLabel>
-                <maxLength>255</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="50" />
-                </control>
-                <summary>The name of the parameter Component.</summary>
-                <description>
-                    The name of the parameter Component.
-                </description>
-            </attribute>
-            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
-            <attributeReference name="active"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="activeIndicator"
-            >
-            </attributeReference>
-            <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="objectId"
-            />
-            <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="versionNumber"
-            />
-        </attributes>
-        <objectLabel>Parameter Component</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="ParameterDetailType-parameterNamespaceCode" parent="ParameterDetailType-parameterNamespaceCode-parentBean" />
+
+  <bean id="ParameterDetailType-parameterNamespaceCode-parentBean" abstract="true" parent="ParameterNamespace-code">
+    <property name="name" value="parameterNamespaceCode" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ParameterDetailType-parameterDetailTypeCode" parent="ParameterDetailType-parameterDetailTypeCode-parentBean" />
+
+  <bean id="ParameterDetailType-parameterDetailTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterDetailTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parameter Component" />
+    <property name="shortLabel" value="Component" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Code identifying the parameter Component." />
+    <property name="description" value="Code identifying the parameter Component." />
+  </bean>
+  <bean id="ParameterDetailType-parameterDetailTypeName" parent="ParameterDetailType-parameterDetailTypeName-parentBean" />
+
+  <bean id="ParameterDetailType-parameterDetailTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterDetailTypeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parameter Component Name" />
+    <property name="shortLabel" value="Comp. Nm" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="The name of the parameter Component." />
+    <property name="description" value="The name of the parameter Component." />
+  </bean>
+  <bean id="ParameterDetailType-parameterNamespace.codeAndDescription" parent="ParameterDetailType-parameterNamespace.codeAndDescription-parentBean" />
+
+  <bean id="ParameterDetailType-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="ParameterNamespace-codeAndDescription">
+    <property name="name" value="parameterNamespace.codeAndDescription" />
+  </bean>
+  <bean id="ParameterDetailType-active" parent="ParameterDetailType-active-parentBean" />
+
+  <bean id="ParameterDetailType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ParameterDetailType-objectId" parent="ParameterDetailType-objectId-parentBean" />
+
+  <bean id="ParameterDetailType-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="ParameterDetailType-versionNumber" parent="ParameterDetailType-versionNumber-parentBean" />
+
+  <bean id="ParameterDetailType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ParameterDetailType-inquiryDefinition" parent="ParameterDetailType-inquiryDefinition-parentBean" />
+
+  <bean id="ParameterDetailType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Parameter Component Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Parameter Component Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterDetailTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterDetailTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterNamespace.codeAndDescription"
+                    p:noInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ParameterDetailType-lookupDefinition" parent="ParameterDetailType-lookupDefinition-parentBean" />
+
+  <bean id="ParameterDetailType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Parameter Component Lookup" />
+    <property name="lookupableID" value="parameterDetailTypeLookupable" />
+    <property name="instructions" value="Look up a Parameter Component." />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>parameterDetailTypeName</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterNamespaceCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterDetailTypeName"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterDetailTypeName"
+              p:noInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterNamespace.codeAndDescription"
+              p:noInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

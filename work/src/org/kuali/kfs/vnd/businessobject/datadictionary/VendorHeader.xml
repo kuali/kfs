@@ -1,202 +1,249 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorHeader">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <attributes>
-        
-        <!-- Nearly all fields (maybe not tax #) should be changed to be attributeReference, 
-             but the current framework will not allow for an attributeReference to refer to 
-             another attributeReference.  Since VendorDetail needs to include all these fields 
-             as attributeReferences to pull them into the Maint Doc DD, we cannot define any 
-             of these fields as attributeReferences. -->
-        
-            <attributeReference name="vendorFederalWithholdingTaxBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Backup Withholding Begin Date</label>
-                <shortLabel>Begin Date</shortLabel>
+  <bean id="VendorHeader" parent="VendorHeader-parentBean" />
 
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-			</attributeReference>
-          
-            <attributeReference name="vendorFederalWithholdingTaxEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Backup Withholding End Date</label>
-                <shortLabel>End Date</shortLabel>
+  <bean id="VendorHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorHeader" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorHeader-vendorFederalWithholdingTaxBeginningDate" />
+        <ref bean="VendorHeader-vendorFederalWithholdingTaxEndDate" />
+        <ref bean="VendorHeader-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorHeader-vendorOwnershipCategoryCode" />
+        <ref bean="VendorHeader-vendorOwnershipCode" />
+        <ref bean="VendorHeader-vendorTaxNumber" />
+        <ref bean="VendorHeader-vendorTaxTypeCode" />
+        <ref bean="VendorHeader-vendorTypeCode" />
+        <ref bean="VendorHeader-vendorSupplierDiversities" />
+        <ref bean="VendorHeader-versionNumber" />
+        <ref bean="VendorHeader-vendorW8BenReceivedIndicator" />
+        <ref bean="VendorHeader-vendorW9ReceivedIndicator" />
+        <ref bean="VendorHeader-vendorDebarredIndicator" />
+        <ref bean="VendorHeader-vendorForeignIndicator" />
+      </list>
+    </property>
+  </bean>
 
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-			</attributeReference>
+<!-- Attribute Definitions -->
 
-            <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Header Generated Identifier</label>
-                <shortLabel>Header Generated ID</shortLabel>
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="VendorHeader-vendorFederalWithholdingTaxBeginningDate" parent="VendorHeader-vendorFederalWithholdingTaxBeginningDate-parentBean" />
 
-                <control>
-                    <text size="12" />
-                </control>
+  <bean id="VendorHeader-vendorFederalWithholdingTaxBeginningDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="vendorFederalWithholdingTaxBeginningDate" />
+    <property name="label" value="Backup Withholding Begin Date" />
+    <property name="shortLabel" value="Begin Date" />
+  </bean>
+  <bean id="VendorHeader-vendorFederalWithholdingTaxEndDate" parent="VendorHeader-vendorFederalWithholdingTaxEndDate-parentBean" />
 
-			</attribute>
+  <bean id="VendorHeader-vendorFederalWithholdingTaxEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="vendorFederalWithholdingTaxEndDate" />
+    <property name="label" value="Backup Withholding End Date" />
+    <property name="shortLabel" value="End Date" />
+  </bean>
+  <bean id="VendorHeader-vendorHeaderGeneratedIdentifier" parent="VendorHeader-vendorHeaderGeneratedIdentifier-parentBean" />
 
-            <attribute name="vendorOwnershipCategoryCode" forceUppercase="true">
-                <label>Ownership Category</label>
-                <shortLabel>Ownership Category</shortLabel>
+  <bean id="VendorHeader-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorHeaderGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Header Generated Identifier" />
+    <property name="shortLabel" value="Header Generated ID" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorOwnershipCategoryCode" parent="VendorHeader-vendorOwnershipCategoryCode-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter exactLength="2"/></validationPattern>
+  <bean id="VendorHeader-vendorOwnershipCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorOwnershipCategoryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Ownership Category" />
+    <property name="shortLabel" value="Ownership Category" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorOwnershipCategoryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorOwnershipCode" parent="VendorHeader-vendorOwnershipCode-parentBean" />
 
-				<control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorOwnershipCategoryValuesFinder" />
-                </control>
+  <bean id="VendorHeader-vendorOwnershipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorOwnershipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Ownership Type" />
+    <property name="shortLabel" value="Ownership" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorOwnershipCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorTaxNumber" parent="VendorHeader-vendorTaxNumber-parentBean" />
 
-			</attribute>
+  <bean id="VendorHeader-vendorTaxNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorTaxNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Tax Number" />
+    <property name="shortLabel" value="Tax Num." />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern"
+            p:exactLength="9" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="displayMask" >
+      <bean parent="Mask">
+        <property name="maskFormatter" >
+          <bean parent="MaskFormatterLiteral"
+                p:literal="*********" />
+        </property>
+      </bean>
+    </property>
+    <property name="displayWorkgroup" value="PA_TAX_NUMBER_USERS" />
+  </bean>
+  <bean id="VendorHeader-vendorTaxTypeCode" parent="VendorHeader-vendorTaxTypeCode-parentBean" />
 
-            <attribute name="vendorOwnershipCode" forceUppercase="true">
-                <label>Ownership Type</label>
-                <shortLabel>Ownership</shortLabel>
+  <bean id="VendorHeader-vendorTaxTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorTaxTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Tax Number Type" />
+    <property name="shortLabel" value="Tax Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="4" />
+    </property>
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.TaxPayerTypeWithNoneValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorTypeCode" parent="VendorHeader-vendorTypeCode-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter exactLength="2"/></validationPattern>
+  <bean id="VendorHeader-vendorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Type" />
+    <property name="shortLabel" value="Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorSupplierDiversities" parent="VendorHeader-vendorSupplierDiversities-parentBean" />
 
-				<control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorOwnershipCodeValuesFinder" />
-                </control>
+  <bean id="VendorHeader-vendorSupplierDiversities-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorSupplierDiversities" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Supplier Diversity" />
+    <property name="shortLabel" value="Supplier Diversity" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-versionNumber" parent="VendorHeader-versionNumber-parentBean" />
 
-			</attribute>
+  <bean id="VendorHeader-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorW8BenReceivedIndicator" parent="VendorHeader-vendorW8BenReceivedIndicator-parentBean" />
 
-            <attribute name="vendorTaxNumber" forceUppercase="true">
-                <label>Tax Number</label>
-                <shortLabel>Tax Num.</shortLabel>
+  <bean id="VendorHeader-vendorW8BenReceivedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorW8BenReceivedIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="W-8BEN Received" />
+    <property name="shortLabel" value="W-8BEN Received" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorW9ReceivedIndicator" parent="VendorHeader-vendorW9ReceivedIndicator-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric exactLength="9"/></validationPattern>
+  <bean id="VendorHeader-vendorW9ReceivedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorW9ReceivedIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="W9 Received" />
+    <property name="shortLabel" value="W9 Received" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorDebarredIndicator" parent="VendorHeader-vendorDebarredIndicator-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
+  <bean id="VendorHeader-vendorDebarredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorDebarredIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Debarred" />
+    <property name="shortLabel" value="Debarred" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorHeader-vendorForeignIndicator" parent="VendorHeader-vendorForeignIndicator-parentBean" />
 
-                <attributeAuthorization>
-                  <displayWorkgroup>PA_TAX_NUMBER_USERS</displayWorkgroup>
-                  <displayMask><maskLiteral literal="*********"/></displayMask>
-                </attributeAuthorization>
-
-			</attribute>
-			
-			<attribute name="vendorTaxTypeCode" forceUppercase="true">
-                <label>Tax Number Type</label>
-                <shortLabel>Tax Type </shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter exactLength="4"/></validationPattern>
-
-                <control>
-                    <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.TaxPayerTypeWithNoneValuesFinder" />
-                </control>
-
-			</attribute>
-			
-			<attribute name="vendorTypeCode" forceUppercase="true">
-                <label>Vendor Type</label>
-                <shortLabel>Type</shortLabel>
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-				<control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorTypeValuesFinder" />
-                </control>                								
-
-            </attribute>
-
-			<attribute name="vendorSupplierDiversities" forceUppercase="true">
-                <label>Vendor Supplier Diversity</label>
-                <shortLabel>Supplier Diversity</shortLabel>
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="45" />
-                </control>             								
-
-            </attribute>
-            
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>4</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-            </attribute>
-            
-            <attribute name="vendorW8BenReceivedIndicator" forceUppercase="false">
-                <label>W-8BEN Received</label>
-                <shortLabel>W-8BEN Received</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorW9ReceivedIndicator" forceUppercase="false">
-                <label>W9 Received</label>
-                <shortLabel>W9 Received</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
-                </control>
-
-			</attribute>
-			
-			<attribute name="vendorDebarredIndicator" forceUppercase="false">
-                <label>Debarred</label>
-                <shortLabel>Debarred</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
-                </control>
-
-			</attribute>
-			
-			<attribute name="vendorForeignIndicator" forceUppercase="false">
-                <label>Is this a foreign vendor</label>
-                <shortLabel>is Foreign</shortLabel>
-                <maxLength>1</maxLength>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
-                </control>
-
-			</attribute>
-			
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorHeader-vendorForeignIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorForeignIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Is this a foreign vendor" />
+    <property name="shortLabel" value="is Foreign" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+</beans>

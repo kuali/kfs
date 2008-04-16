@@ -1,105 +1,156 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.IndirectCostLookup">
+  <bean id="IndirectCostLookup" parent="IndirectCostLookup-parentBean" />
 
-        <inquiry>
-            <title>Indirect Cost Lookup Inquiry</title>
+  <bean id="IndirectCostLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.IndirectCostLookup" />
+    <property name="inquiryDefinition" >
+      <ref bean="IndirectCostLookup-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="IndirectCostLookup-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Indirect Cost Lookup" />
+    <property name="attributes" >
+      <list>
+        <ref bean="IndirectCostLookup-budgetOnCampusIndicator" />
+        <ref bean="IndirectCostLookup-budgetPurposeCode" />
+        <ref bean="IndirectCostLookup-budgetIndirectCostRate" />
+        <ref bean="IndirectCostLookup-active" />
+        <ref bean="IndirectCostLookup-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="budgetOnCampusIndicator" />
-                <field attributeName="budgetPurposeCode" />
-                <field attributeName="budgetIndirectCostRate" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+<!-- Attribute Definitions -->
 
-        <lookup>
-            <title>Indirect Cost Lookup</title>
 
-            <instructions>Lookup an Indirect Cost Lookup</instructions>
+  <bean id="IndirectCostLookup-budgetOnCampusIndicator" parent="IndirectCostLookup-budgetOnCampusIndicator-parentBean" />
 
-            <defaultSort attributeName="budgetPurposeCode" sortAscending="true" />
+  <bean id="IndirectCostLookup-budgetOnCampusIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetOnCampusIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget On Campus Indicator" />
+    <property name="shortLabel" value="on camput indicator" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Budget On Campus Indicator." />
+    <property name="description" value="Budget On Campus Indicator." />
+  </bean>
+  <bean id="IndirectCostLookup-budgetPurposeCode" parent="IndirectCostLookup-budgetPurposeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="budgetOnCampusIndicator" required="false" />
-                <lookupField attributeName="budgetPurposeCode" required="false" />
-                <lookupField attributeName="budgetIndirectCostRate" required="false" />
-                <lookupField attributeName="active" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
+  <bean id="IndirectCostLookup-budgetPurposeCode-parentBean" abstract="true" parent="Purpose-purposeCode">
+    <property name="name" value="budgetPurposeCode" />
+    <property name="label" value="Budget Purpose Code" />
+    <property name="shortLabel" value="BdgtPrpsCd" />
+    <property name="summary" value="Budget Purpose Code" />
+    <property name="description" value="Budget Purpose Code entered has to correspond to an existing Purpose. See Purpose lookup for details." />
+  </bean>
+  <bean id="IndirectCostLookup-budgetIndirectCostRate" parent="IndirectCostLookup-budgetIndirectCostRate-parentBean" />
 
-            <resultFields>
-                <field attributeName="budgetOnCampusIndicator" />
-                <field attributeName="budgetPurposeCode" />
-                <field attributeName="budgetIndirectCostRate" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="IndirectCostLookup-budgetIndirectCostRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetIndirectCostRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Indirect Cost Rate" />
+    <property name="shortLabel" value="BdgtIdcCstRt" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Budget Indirect Cost Rate." />
+    <property name="description" value="Budget Indirect Cost Rate." />
+  </bean>
+  <bean id="IndirectCostLookup-active" parent="IndirectCostLookup-active-parentBean" />
 
-        <attributes>
-            <attribute name="budgetOnCampusIndicator" forceUppercase="false">
-                <label>Budget On Campus Indicator</label>
-                <shortLabel>on camput indicator</shortLabel>
+  <bean id="IndirectCostLookup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="IndirectCostLookup-versionNumber" parent="IndirectCostLookup-versionNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <required>true</required>
-                <control>
-                    <checkbox />
-                </control>
+  <bean id="IndirectCostLookup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>Budget On Campus Indicator.</summary>
-                <description>Budget On Campus Indicator.</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="budgetPurposeCode" sourceClassName="org.kuali.module.kra.routingform.bo.Purpose" sourceAttributeName="purposeCode">
-                <label>Budget Purpose Code</label>
-                <shortLabel>BdgtPrpsCd</shortLabel>
-                <summary>Budget Purpose Code</summary>
-                <description>Budget Purpose Code entered has to correspond to an existing Purpose. See Purpose lookup for details.</description>
-            </attributeReference>
 
-            <attribute name="budgetIndirectCostRate">
-                <label>Budget Indirect Cost Rate</label>
-                <shortLabel>BdgtIdcCstRt</shortLabel>
+  <bean id="IndirectCostLookup-inquiryDefinition" parent="IndirectCostLookup-inquiryDefinition-parentBean" />
 
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+  <bean id="IndirectCostLookup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Indirect Cost Lookup Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetOnCampusIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetPurposeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetIndirectCostRate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="7" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>Budget Indirect Cost Rate.</summary>
-                <description>Budget Indirect Cost Rate.</description>
-            </attribute>
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="IndirectCostLookup-lookupDefinition" parent="IndirectCostLookup-lookupDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        
-        <objectLabel>Indirect Cost Lookup</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="IndirectCostLookup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Indirect Cost Lookup" />
+    <property name="instructions" value="Lookup an Indirect Cost Lookup" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>budgetPurposeCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetOnCampusIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPurposeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetIndirectCostRate" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetOnCampusIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPurposeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetIndirectCostRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

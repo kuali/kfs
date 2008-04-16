@@ -1,212 +1,232 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherWireTransfer">
+  <bean id="DisbursementVoucherWireTransfer" parent="DisbursementVoucherWireTransfer-parentBean" />
+
+  <bean id="DisbursementVoucherWireTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.DisbursementVoucherWireTransfer" />
+    <property name="attributes" >
+      <list>
+        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherBankName" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankCityName" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankStateCode" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankCountryCode" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrAttentionLineText" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode" />
+        <ref bean="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName" />
+        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator" />
+        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName" />
+        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode" />
+        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherBankName" parent="DisbursementVoucherWireTransfer-disbursementVoucherBankName-parentBean" />
 
-        <attributes>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherBankName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherBankName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank Name" />
+    <property name="shortLabel" value="Bnk Nm" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber" parent="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber-parentBean" />
 
-            <attribute name="disbursementVoucherBankName">
-                <label>Bank Name</label>
-                <shortLabel>Bnk Nm</shortLabel>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrBankRoutingNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank ABA Routing #" />
+    <property name="shortLabel" value="Bnk Rout" />
+    <property name="maxLength" value="9" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCityName" parent="DisbursementVoucherWireTransfer-disbVchrBankCityName-parentBean" />
 
-                <maxLength>22</maxLength>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrBankCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank City" />
+    <property name="shortLabel" value="Bnk Cty" />
+    <property name="maxLength" value="37" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="37" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankStateCode" parent="DisbursementVoucherWireTransfer-disbVchrBankStateCode-parentBean" />
 
-                <required>true</required>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrBankStateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank State" />
+    <property name="shortLabel" value="Bnk St" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCountryCode" parent="DisbursementVoucherWireTransfer-disbVchrBankCountryCode-parentBean" />
 
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrBankCountryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank Country" />
+    <property name="shortLabel" value="Bnk Cntry" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrAttentionLineText" parent="DisbursementVoucherWireTransfer-disbVchrAttentionLineText-parentBean" />
 
-            <attribute name="disbVchrBankRoutingNumber">
-                <label>Bank ABA Routing #</label>
-                <shortLabel>Bnk Rout</shortLabel>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrAttentionLineText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAttentionLineText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Addenda" />
+    <property name="shortLabel" value="Addenda" />
+    <property name="maxLength" value="70" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText" parent="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText-parentBean" />
 
-                <maxLength>9</maxLength>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAdditionalWireText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Additional Wire Information" />
+    <property name="shortLabel" value="Wire Info" />
+    <property name="maxLength" value="120" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber" parent="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber-parentBean" />
 
-                <required>false</required>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPayeeAccountNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank Account #" />
+    <property name="shortLabel" value="Bnk Cntry" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode" parent="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrCurrencyTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="DV Amount Stated in" />
+    <property name="shortLabel" value="DV State" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.CurrencyTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName" parent="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName-parentBean" />
 
-            <attribute name="disbVchrBankCityName">
-                <label>Bank City</label>
-                <shortLabel>Bnk Cty</shortLabel>
+  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrCurrencyTypeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Currency Type" />
+    <property name="shortLabel" value="Curr Typ" />
+    <property name="maxLength" value="20" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator" parent="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator-parentBean" />
 
-                <maxLength>37</maxLength>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherWireTransferFeeWaiverIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Waive wire transfer fee?" />
+    <property name="shortLabel" value="Waive Fee" />
+    <property name="maxLength" value="5" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName" parent="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean" />
 
-                <required>true</required>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherPayeeAccountName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank Acct in the Name of" />
+    <property name="shortLabel" value="Acct Nm" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode" parent="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode-parentBean" />
 
-                <control>
-                    <text size="37" />
-                </control>
-            </attribute>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherPayeeAccountTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bank Acct Type" />
+    <property name="shortLabel" value="Acct Type" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BankAccountTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber" parent="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber-parentBean" />
 
-            <attribute name="disbVchrBankStateCode">
-                <label>Bank State</label>
-                <shortLabel>Bnk St</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrBankCountryCode">
-                <label>Bank Country</label>
-                <shortLabel>Bnk Cntry</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAttentionLineText">
-                <label>Addenda</label>
-                <shortLabel>Addenda</shortLabel>
-
-                <maxLength>70</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="60" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAdditionalWireText">
-                <label>Additional Wire Information</label>
-                <shortLabel>Wire Info</shortLabel>
-
-                <maxLength>120</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="60" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPayeeAccountNumber">
-                <label>Bank Account #</label>
-                <shortLabel>Bnk Cntry</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrCurrencyTypeCode">
-                <label>DV Amount Stated in</label>
-                <shortLabel>DV State</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.CurrencyTypeValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrCurrencyTypeName">
-                <label>Currency Type</label>
-                <shortLabel>Curr Typ</shortLabel>
-
-                <maxLength>20</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-
-            <attribute name="disbursementVoucherWireTransferFeeWaiverIndicator">
-                <label>Waive wire transfer fee?</label>
-                <shortLabel>Waive Fee</shortLabel>
-
-                <maxLength>5</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="disbursementVoucherPayeeAccountName">
-                <label>Bank Acct in the Name of</label>
-                <shortLabel>Acct Nm</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbursementVoucherPayeeAccountTypeCode">
-                <label>Bank Acct Type</label>
-                <shortLabel>Acct Type</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <radio valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BankAccountTypeValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="disbursementVoucherAutomatedClearingHouseProfileNumber">
-                <label>Recurring Profile No.</label>
-                <shortLabel>Prof. No</shortLabel>
-
-                <maxLength>3</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherAutomatedClearingHouseProfileNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Recurring Profile No." />
+    <property name="shortLabel" value="Prof. No" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+</beans>

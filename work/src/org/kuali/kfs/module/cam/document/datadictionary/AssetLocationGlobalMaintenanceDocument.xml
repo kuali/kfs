@@ -1,78 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.AssetLocationGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.cams.maintenance.AssetLocationGlobalMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.cams.rules.AssetLocationGlobalRule</businessRulesClass> 
-        <!-- <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass> -->
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+  <bean id="AssetLocationGlobalMaintenanceDocument" parent="AssetLocationGlobalMaintenanceDocument-parentBean" />
 
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AssetLocationGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.cams.maintenance.AssetLocationGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AssetLocationGlobalMaintenanceDocument-EditListofAssets" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="asset"
+              p:collection="assetLocationGlobalDetails"
+              p:attributeToHighlightOnFail="capitalAssetNumber" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Asset Location Global" />
+    <property name="shortLabel" value="Asset Location Global" />
+    <property name="summary" value="Location Global Asset Maintenance Document" />
+    <property name="description" value="Document used to create or update global location asset document." />
+    <property name="documentTypeName" value="AssetLocationGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetLocationGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ALOC" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>AssetLocationGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ALOC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Asset Location Global</label>
 
-        <summary>Location Global Asset Maintenance Document</summary>
-        <description>Document used to create or update global location asset document.</description>
+  <bean id="AssetLocationGlobalMaintenanceDocument-EditListofAssets" parent="AssetLocationGlobalMaintenanceDocument-EditListofAssets-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
-        
-        <defaultExistenceChecks>
-            <reference collection="assetLocationGlobalDetails" attributeName="asset" attributeToHighlightOnFail="capitalAssetNumber" />
-        </defaultExistenceChecks>
-        
-        <maintainableSections>
-
-            <maintainableSection title="Edit List of Assets">
-                <maintainableItems>
-                    <maintainableCollection name="assetLocationGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetLocationGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetLocationGlobalDetails" summaryTitle="Asset">
-
-                        <maintainableField name="capitalAssetNumber" template="capitalAssetNumber" required="true" readOnlyAfterAdd="true" />
-                        <maintainableField name="campusCode" template="campusCode" required="false" />
-                        <maintainableField name="buildingCode" template="buildingCode" required="false" />
-                        <maintainableField name="buildingRoomNumber" template="buildingRoomNumber" required="false" />
-                        <maintainableField name="buildingSubRoomNumber" template="buildingSubRoomNumber" required="false" />
-                        <maintainableField name="campusTagNumber" template="campusTagNumber" required="false" />
-                        <maintainableField name="versionNumber" required="false" />
-                        <summaryFields>
-                            <summaryField name="capitalAssetNumber" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                            <duplicateIdentificationField name="capitalAssetNumber"/>
-                        </duplicateIdentificationFields>       
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
-
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AssetLocationGlobalMaintenanceDocument-EditListofAssets-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit List of Assets" />
+    <property name="title" value="Edit List of Assets" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="assetLocationGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationGlobalDetail" />
+          <property name="summaryTitle" value="Asset" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber"
+                    p:required="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="capitalAssetNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="campusCode"
+                    p:template="campusCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingCode"
+                    p:template="buildingCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingRoomNumber"
+                    p:template="buildingRoomNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingSubRoomNumber"
+                    p:template="buildingSubRoomNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="campusTagNumber"
+                    p:template="campusTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

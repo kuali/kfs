@@ -1,176 +1,255 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.PaymentTermType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Payment Terms Type Inquiry</title>
+  <bean id="PaymentTermType" parent="PaymentTermType-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorPaymentTermsCode" />
-                <field attributeName="vendorPaymentTermsDescription" />
-                <field attributeName="vendorPaymentTermsPercent" />
-                <field attributeName="vendorDiscountDueNumber" />
-                <field attributeName="vendorDiscountDueTypeDescription" />
-                <field attributeName="vendorNetDueNumber" />
-                <field attributeName="vendorNetDueTypeDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PaymentTermType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.PaymentTermType" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentTermType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentTermType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorPaymentTermsCode" />
+    <property name="objectLabel" value="Payment Terms Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentTermType-vendorDiscountDueNumber" />
+        <ref bean="PaymentTermType-vendorDiscountDueTypeDescription" />
+        <ref bean="PaymentTermType-vendorNetDueNumber" />
+        <ref bean="PaymentTermType-vendorNetDueTypeDescription" />
+        <ref bean="PaymentTermType-vendorPaymentTermsCode" />
+        <ref bean="PaymentTermType-vendorPaymentTermsDescription" />
+        <ref bean="PaymentTermType-vendorPaymentTermsPercent" />
+        <ref bean="PaymentTermType-active" />
+        <ref bean="PaymentTermType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Payment Terms Type Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Payment Terms Type</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorPaymentTermsDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PaymentTermType-vendorDiscountDueNumber" parent="PaymentTermType-vendorDiscountDueNumber-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="vendorPaymentTermsCode" required="false" />
-            	<lookupField attributeName="vendorPaymentTermsDescription" required="false" />
-            	<lookupField attributeName="vendorPaymentTermsPercent" required="false" />
-                <lookupField attributeName="vendorDiscountDueNumber" required="false" />
-                <lookupField attributeName="vendorDiscountDueTypeDescription" required="false" />
-                <lookupField attributeName="vendorNetDueNumber" required="false" />
-                <lookupField attributeName="vendorNetDueTypeDescription" required="false" >
-                	<defaultValueFinderClass>org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="PaymentTermType-vendorDiscountDueNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorDiscountDueNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Discount Due Number" />
+    <property name="shortLabel" value="Discount Due Num." />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-vendorDiscountDueTypeDescription" parent="PaymentTermType-vendorDiscountDueTypeDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorPaymentTermsCode" />
-                <field attributeName="vendorPaymentTermsDescription" />
-                <field attributeName="vendorPaymentTermsPercent" />
-                <field attributeName="vendorDiscountDueNumber" />
-                <field attributeName="vendorDiscountDueTypeDescription" />
-                <field attributeName="vendorNetDueNumber" />
-                <field attributeName="vendorNetDueTypeDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="PaymentTermType-vendorDiscountDueTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorDiscountDueTypeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Discount Due Type Description" />
+    <property name="shortLabel" value="Discount Due Type Desc." />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-vendorNetDueNumber" parent="PaymentTermType-vendorNetDueNumber-parentBean" />
 
-        <titleAttribute>vendorPaymentTermsCode</titleAttribute>
+  <bean id="PaymentTermType-vendorNetDueNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorNetDueNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Net Due Number" />
+    <property name="shortLabel" value="Net Due Num." />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-vendorNetDueTypeDescription" parent="PaymentTermType-vendorNetDueTypeDescription-parentBean" />
 
-        <attributes>
+  <bean id="PaymentTermType-vendorNetDueTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorNetDueTypeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Net Due Type Description" />
+    <property name="shortLabel" value="Net Due Type Desc." />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-vendorPaymentTermsCode" parent="PaymentTermType-vendorPaymentTermsCode-parentBean" />
 
-            <attribute name="vendorDiscountDueNumber">
-                <label>Discount Due Number</label>
-                <shortLabel>Discount Due Num.</shortLabel>
+  <bean id="PaymentTermType-vendorPaymentTermsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorPaymentTermsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Terms Code" />
+    <property name="shortLabel" value="Payment Terms Cd." />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-vendorPaymentTermsDescription" parent="PaymentTermType-vendorPaymentTermsDescription-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="PaymentTermType-vendorPaymentTermsDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorPaymentTermsDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payment Terms Description" />
+    <property name="shortLabel" value="Payment Terms Desc." />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-vendorPaymentTermsPercent" parent="PaymentTermType-vendorPaymentTermsPercent-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="PaymentTermType-vendorPaymentTermsPercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorPaymentTermsPercent" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payment Terms Percent" />
+    <property name="shortLabel" value="Payment Terms Percent" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="PaymentTermType-active" parent="PaymentTermType-active-parentBean" />
 
-			</attribute>
+  <bean id="PaymentTermType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="PaymentTermType-versionNumber" parent="PaymentTermType-versionNumber-parentBean" />
 
-            <attribute name="vendorDiscountDueTypeDescription" >
-                <label>Discount Due Type Description</label>
-                <shortLabel>Discount Due Type Desc.</shortLabel>
+  <bean id="PaymentTermType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
-                </control>
 
-			</attribute>
+  <bean id="PaymentTermType-inquiryDefinition" parent="PaymentTermType-inquiryDefinition-parentBean" />
 
-            <attribute name="vendorNetDueNumber">
-                <label>Net Due Number</label>
-                <shortLabel>Net Due Num.</shortLabel>
+  <bean id="PaymentTermType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Terms Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPaymentTermsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPaymentTermsDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPaymentTermsPercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDiscountDueNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDiscountDueTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorNetDueNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorNetDueTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="4" />
-                </control>
 
-			</attribute>
+  <bean id="PaymentTermType-lookupDefinition" parent="PaymentTermType-lookupDefinition-parentBean" />
 
-            <attribute name="vendorNetDueTypeDescription">
-                <label>Net Due Type Description</label>
-                <shortLabel>Net Due Type Desc.</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorPaymentTermsCode" forceUppercase="true">
-                <label>Payment Terms Code</label>
-                <shortLabel>Payment Terms Cd.</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorPaymentTermsDescription">
-                <label>Payment Terms Description</label>
-                <shortLabel>Payment Terms Desc.</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorPaymentTermsPercent">
-                <label>Payment Terms Percent</label>
-                <shortLabel>Payment Terms Percent</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-			</attribute>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Payment Terms Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PaymentTermType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Terms Type Lookup" />
+    <property name="instructions" value="Lookup a Payment Terms Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsPercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDiscountDueNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDiscountDueTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorNetDueNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorNetDueTypeDescription"
+              p:defaultValueFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPaymentTermsPercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDiscountDueNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDiscountDueTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorNetDueNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorNetDueTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

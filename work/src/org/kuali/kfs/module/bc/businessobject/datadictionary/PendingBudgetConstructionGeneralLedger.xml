@@ -1,277 +1,377 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PendingBudgetConstructionGeneralLedger" parent="PendingBudgetConstructionGeneralLedger-parentBean" />
+
+  <bean id="PendingBudgetConstructionGeneralLedger-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" />
+    <property name="inquiryDefinition" >
+      <ref bean="PendingBudgetConstructionGeneralLedger-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PendingBudgetConstructionGeneralLedger-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PendingBudgetConstructionGeneralLedger-accountLineAnnualBalanceAmount" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-accountNumber" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-chartOfAccountsCode" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-financialBalanceTypeCode" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-financialBeginningBalanceLineAmount" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-percentChange" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-documentNumber" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-financialObjectCode" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-financialObjectTypeCode" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-financialSubObjectCode" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-subAccountNumber" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-universityFiscalYear" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Pending Budget Construction General Ledger Inquiry</title>
+  <bean id="PendingBudgetConstructionGeneralLedger-accountLineAnnualBalanceAmount" parent="PendingBudgetConstructionGeneralLedger-accountLineAnnualBalanceAmount-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PendingBudgetConstructionGeneralLedger-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountLineAnnualBalanceAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Line Annual Balance Amount" />
+    <property name="shortLabel" value="Requested" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accountLineAnnualBalanceAmount" />
+    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-accountNumber" parent="PendingBudgetConstructionGeneralLedger-accountNumber-parentBean" />
 
-        <lookup>
-            <title>Pending Budget Construction General Ledger Lookup</title>
+  <bean id="PendingBudgetConstructionGeneralLedger-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Account" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-chartOfAccountsCode" parent="PendingBudgetConstructionGeneralLedger-chartOfAccountsCode-parentBean" />
 
-            <instructions>Look up a Pending Budget Construction General Ledger</instructions>
+  <bean id="PendingBudgetConstructionGeneralLedger-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialBalanceTypeCode" parent="PendingBudgetConstructionGeneralLedger-financialBalanceTypeCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialBalanceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialBalanceTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Balance Type Code" />
+    <property name="shortLabel" value="Bal.Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialBalanceTypeCode" />
+    <property name="description" value="financialBalanceTypeCode description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialBeginningBalanceLineAmount" parent="PendingBudgetConstructionGeneralLedger-financialBeginningBalanceLineAmount-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountLineAnnualBalanceAmount" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialBalanceTypeCode" required="false" />
-                <lookupField attributeName="financialBeginningBalanceLineAmount" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialObjectTypeCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-            </lookupFields>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialBeginningBalanceLineAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Financial Beginning Balance Line Amount" />
+    <property name="shortLabel" value="Base Budget" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialBeginningBalanceLineAmount" />
+    <property name="description" value="financialBeginningBalanceLineAmount description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-percentChange" parent="PendingBudgetConstructionGeneralLedger-percentChange-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
-            </resultFields>
-        </lookup>
+  <bean id="PendingBudgetConstructionGeneralLedger-percentChange-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="percentChange" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Percent Change" />
+    <property name="shortLabel" value="% Change" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="percentChange" />
+    <property name="description" value="percentChange description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-documentNumber" parent="PendingBudgetConstructionGeneralLedger-documentNumber-parentBean" />
 
-        <attributes>
+  <bean id="PendingBudgetConstructionGeneralLedger-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Doc.Nbr" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialObjectCode" parent="PendingBudgetConstructionGeneralLedger-financialObjectCode-parentBean" />
 
-            <attribute name="accountLineAnnualBalanceAmount" forceUppercase="false">
-                <label>Account Line Annual Balance Amount</label>
-                <shortLabel>Requested</shortLabel>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Object" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialObjectCode" />
+    <property name="description" value="financialObjectCode description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialObjectTypeCode" parent="PendingBudgetConstructionGeneralLedger-financialObjectTypeCode-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint allowNegative="true" /></validationPattern>
-                <required>true</required>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Type Code" />
+    <property name="shortLabel" value="Obj.Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialObjectTypeCode" />
+    <property name="description" value="financialObjectTypeCode description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialSubObjectCode" parent="PendingBudgetConstructionGeneralLedger-financialSubObjectCode-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
+  <bean id="PendingBudgetConstructionGeneralLedger-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Sub Object Code" />
+    <property name="shortLabel" value="SubObject" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="financialSubObjectCode" />
+    <property name="description" value="financialSubObjectCode description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-subAccountNumber" parent="PendingBudgetConstructionGeneralLedger-subAccountNumber-parentBean" />
 
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
-			</attribute>
+  <bean id="PendingBudgetConstructionGeneralLedger-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="SubAccount" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-universityFiscalYear" parent="PendingBudgetConstructionGeneralLedger-universityFiscalYear-parentBean" />
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Account</shortLabel>
+  <bean id="PendingBudgetConstructionGeneralLedger-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="University Fiscal Year" />
+    <property name="shortLabel" value="FY" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="universityFiscalYear" />
+    <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-versionNumber" parent="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
+  <bean id="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="9" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Chart</shortLabel>
+  <bean id="PendingBudgetConstructionGeneralLedger-inquiryDefinition" parent="PendingBudgetConstructionGeneralLedger-inquiryDefinition-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
+  <bean id="PendingBudgetConstructionGeneralLedger-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Pending Budget Construction General Ledger Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineAnnualBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBalanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBeginningBalanceLineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="4" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
 
-            <attribute name="financialBalanceTypeCode" forceUppercase="true">
-                <label>Financial Balance Type Code</label>
-                <shortLabel>Bal.Type</shortLabel>
+  <bean id="PendingBudgetConstructionGeneralLedger-lookupDefinition" parent="PendingBudgetConstructionGeneralLedger-lookupDefinition-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialBalanceTypeCode</summary>
-                <description>financialBalanceTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialBeginningBalanceLineAmount" forceUppercase="false">
-                <label>Financial Beginning Balance Line Amount</label>
-                <shortLabel>Base Budget</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint allowNegative="true" /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialBeginningBalanceLineAmount</summary>
-                <description>financialBeginningBalanceLineAmount description...</description>
-			</attribute>
-
-            <attribute name="percentChange" forceUppercase="false">
-                <label>Percent Change</label>
-                <shortLabel>% Change</shortLabel>
-
-                <maxLength>20</maxLength>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>percentChange</summary>
-                <description>percentChange description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Doc.Nbr</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Object</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialObjectTypeCode" forceUppercase="true">
-                <label>Financial Object Type Code</label>
-                <shortLabel>Obj.Type</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialObjectTypeCode</summary>
-                <description>financialObjectTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>SubObject</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>SubAccount</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="universityFiscalYear" forceUppercase="false">
-                <label>University Fiscal Year</label>
-                <shortLabel>FY</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PendingBudgetConstructionGeneralLedger-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Pending Budget Construction General Ledger Lookup" />
+    <property name="instructions" value="Look up a Pending Budget Construction General Ledger" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBeginningBalanceLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBeginningBalanceLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+  </bean>
+</beans>

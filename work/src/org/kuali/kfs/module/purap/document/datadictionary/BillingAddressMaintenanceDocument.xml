@@ -1,66 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.purap.bo.BillingAddress</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="BillingAddressMaintenanceDocument" parent="BillingAddressMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_PUR_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="BillingAddressMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.BillingAddress" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="BillingAddressMaintenanceDocument-EditBillingAddress" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>billingCampusCode</value>
+      </list>
+    </property>
+    <property name="label" value="Billing Address" />
+    <property name="shortLabel" value="Billing Address" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="BILLING_ADDRESS"
+            p:parameterDetailType="BillingAddress" />
+    </property>
+    <property name="documentTypeName" value="BillingAddressMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMBA" />
+    <property name="workflowProperties" >
+      <ref bean="BillingAddressMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>BillingAddressMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMBA</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Billing Address</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="BillingAddress" parameterName="BILLING_ADDRESS" />
 
-        <lockingKeys>
-            <field attributeName="billingCampusCode" />
-        </lockingKeys>
+  <bean id="BillingAddressMaintenanceDocument-EditBillingAddress" parent="BillingAddressMaintenanceDocument-EditBillingAddress-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Billing Address">
-                <maintainableItems>
-                    <maintainableField name="billingCampusCode" required="true" />
-                    <maintainableField name="billingName" required="true"/>
-                    <maintainableField name="billingLine1Address" required="true"/>
-                    <maintainableField name="billingLine2Address" />
-                    <maintainableField name="billingCityName" required="true"/>
-                    <maintainableField name="billingStateCode" required="true"/>
-                    <maintainableField name="billingPostalCode" required="true"/>
-                    <maintainableField name="billingCountryCode" required="true"/>
-                    <maintainableField name="billingPhoneNumber" required="true"/>
-                    <maintainableField name="active">
-                    	<defaultValue>true</defaultValue>
-                     </maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="BillingAddressMaintenanceDocument-EditBillingAddress-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Billing Address" />
+    <property name="title" value="Edit Billing Address" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingCampusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingLine1Address"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingLine2Address" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingCityName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingStateCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingPostalCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingCountryCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="billingPhoneNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="BillingAddressMaintenanceDocument-workflowProperties" parent="BillingAddressMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="BillingAddressMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

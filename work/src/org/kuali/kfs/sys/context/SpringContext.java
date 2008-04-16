@@ -27,7 +27,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.Timer;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.SchedulerService;
@@ -202,15 +204,15 @@ public class SpringContext {
     }
 
     protected static void initializeApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY }), true);
+        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY }), true, true);
     }
 
     protected static void initializeTestApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_TEST_FILES_KEY }), false);
+        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_TEST_FILES_KEY }), false, false);
     }
 
     protected static void initializePluginApplicationContext() {
-        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_PLUGIN_FILES_KEY }), false);
+        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_PLUGIN_FILES_KEY }), false, false);
     }
 
     protected static void close() {
@@ -244,22 +246,16 @@ public class SpringContext {
         return springConfigurationFiles.toArray(new String[] {});
     }
 
-    private static void initializeApplicationContext(String[] springFiles, boolean initializeSchedule) {
+    private static void initializeApplicationContext(String[] springFiles, boolean initializeSchedule, boolean allowLazyDDValidation) {
+        LOG.info( "Starting Spring context initialization" );
         applicationContext = new ClassPathXmlApplicationContext(springFiles);
-
+        LOG.info( "Completed Spring context initialization" );
+        
+        LOG.info( "Starting Data Dictionary Initialization" );
+        getBean(DataDictionaryService.class).getDataDictionary().parseDataDictionaryConfigurationFiles( allowLazyDDValidation );
+        LOG.info( "Completed Data Dictionary Initialization" );
+        
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
-        /*
-        Collections.addAll(SINGLETON_NAMES, applicationContext.getBeanFactory().getSingletonNames());
-        LOG.info( "Registering singleton beans:" );
-        for (String singletonName : SINGLETON_NAMES) {
-            SINGLETON_TYPES.add(applicationContext.getBeanFactory().getType(singletonName));
-            //LOG.info( singletonName );
-        }
-        SINGLETON_NAMES.addAll(KNSServiceLocator.getSingletonNames());
-        SINGLETON_TYPES.addAll(KNSServiceLocator.getSingletonTypes());
-        //LOG.info( SINGLETON_TYPES );
-         * 
-         */
         
         if (Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
             MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));

@@ -1,151 +1,216 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<!-- 
-    NOTE!!!
-    This is essentially a copy of SubObjCd.xml, if you make any changes 
-    they need to be made to both documents
--->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubObjCdCurrent">
+  <bean id="SubObjCdCurrent" parent="SubObjCdCurrent-parentBean" />
+
+  <bean id="SubObjCdCurrent-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.SubObjCdCurrent" />
+    <property name="inquiryDefinition" >
+      <ref bean="SubObjCdCurrent-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SubObjCdCurrent-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="financialSubObjectCode" />
+    <property name="objectLabel" value="Sub-Object Code Current" />
+    <property name="attributes" >
+      <list>
+        <ref bean="SubObjCdCurrent-universityFiscalYear" />
+        <ref bean="SubObjCdCurrent-chartOfAccountsCode" />
+        <ref bean="SubObjCdCurrent-financialObjectCode" />
+        <ref bean="SubObjCdCurrent-accountNumber" />
+        <ref bean="SubObjCdCurrent-financialSubObjectCode" />
+        <ref bean="SubObjCdCurrent-financialSubObjectCodeName" />
+        <ref bean="SubObjCdCurrent-financialSubObjectCdshortNm" />
+        <ref bean="SubObjCdCurrent-financialSubObjectActiveIndicator" />
+        <ref bean="SubObjCdCurrent-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Sub-Object Code Inquiry</title>
+  <bean id="SubObjCdCurrent-universityFiscalYear" parent="SubObjCdCurrent-universityFiscalYear-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialSubObjectCodeName" />
-                <field attributeName="financialSubObjectActiveIndicator" />
-                <field attributeName="financialSubObjectCdshortNm" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="SubObjCdCurrent-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="SubObjCdCurrent-chartOfAccountsCode" parent="SubObjCdCurrent-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Sub-Object Code Lookup</title>
+  <bean id="SubObjCdCurrent-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubObjCdCurrent-financialObjectCode" parent="SubObjCdCurrent-financialObjectCode-parentBean" />
 
-            <instructions>Lookup a Sub-Object Code</instructions>
+  <bean id="SubObjCdCurrent-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="SubObjCdCurrent-accountNumber" parent="SubObjCdCurrent-accountNumber-parentBean" />
 
-            <defaultSort attributeName="financialSubObjectCode" sortAscending="true" />
+  <bean id="SubObjCdCurrent-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="SubObjCdCurrent-financialSubObjectCode" parent="SubObjCdCurrent-financialSubObjectCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="accountNumber" />
-                <lookupField attributeName="chartOfAccountsCode" />
-                <lookupField attributeName="financialObjectCode" />
-                <lookupField attributeName="financialSubObjectCode" />
-                <lookupField attributeName="financialSubObjectCodeName" />
-            </lookupFields>
+  <bean id="SubObjCdCurrent-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Object Code" />
+    <property name="shortLabel" value="Sub-Object" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="SubObjCdCurrent-financialSubObjectCodeName" parent="SubObjCdCurrent-financialSubObjectCodeName-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialSubObjectCodeName" />
-                <field attributeName="financialSubObjectActiveIndicator" />
-                <field attributeName="financialSubObjectCdshortNm" />
-            </resultFields>
-        </lookup>
+  <bean id="SubObjCdCurrent-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCodeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sub-Object Code Name" />
+    <property name="shortLabel" value="SubObjCodeName" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="SubObjCdCurrent-financialSubObjectCdshortNm" parent="SubObjCdCurrent-financialSubObjectCdshortNm-parentBean" />
 
-        <titleAttribute>financialSubObjectCode</titleAttribute>
+  <bean id="SubObjCdCurrent-financialSubObjectCdshortNm-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCdshortNm" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sub-Object Code Short Name" />
+    <property name="shortLabel" value="SubObjCodeShortName" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="SubObjCdCurrent-financialSubObjectActiveIndicator" parent="SubObjCdCurrent-financialSubObjectActiveIndicator-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-            </attributeReference>
+  <bean id="SubObjCdCurrent-financialSubObjectActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="financialSubObjectActiveIndicator" />
+  </bean>
+  <bean id="SubObjCdCurrent-versionNumber" parent="SubObjCdCurrent-versionNumber-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
+  <bean id="SubObjCdCurrent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <required>true</required>
-            </attributeReference>
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <required>true</required>
-            </attributeReference>
+  <bean id="SubObjCdCurrent-inquiryDefinition" parent="SubObjCdCurrent-inquiryDefinition-parentBean" />
 
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Sub-Object Code</label>
-                <shortLabel>Sub-Object</shortLabel>
+  <bean id="SubObjCdCurrent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sub-Object Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCodeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCdshortNm" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
 
-            <attribute name="financialSubObjectCodeName" forceUppercase="false">
-                <label>Sub-Object Code Name</label>
-                <shortLabel>SubObjCodeName</shortLabel>
+  <bean id="SubObjCdCurrent-lookupDefinition" parent="SubObjCdCurrent-lookupDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="financialSubObjectCdshortNm" forceUppercase="false">
-                <label>Sub-Object Code Short Name</label>
-                <shortLabel>SubObjCodeShortName</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="12" />
-                </control>
-            </attribute>
-
-            <attributeReference name="financialSubObjectActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Sub-Object Code Current</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="SubObjCdCurrent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sub-Object Code Lookup" />
+    <property name="instructions" value="Lookup a Sub-Object Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialSubObjectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCodeName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCodeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCdshortNm" />
+      </list>
+    </property>
+  </bean>
+</beans>

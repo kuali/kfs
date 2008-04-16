@@ -1,194 +1,260 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.cams.bo.ComponentRepairHistory">
-		<inquiry>
-			<title>Component Repair History Inquiry</title>
-			<inquirySections>
-				<inquirySection title="Header Text">
-					<inquiryFields>
-						<field attributeName="capitalAssetNumber" />
-						<field
-							attributeName="componentEstimatedRepairDate" />
-						<field attributeName="componentIncidentDate" />
-						<field attributeName="componentNumber" />
-						<field
-							attributeName="componentProblemDescription" />
-						<field attributeName="componentRepairAmount" />
-						<field
-							attributeName="componentRepairContactName" />
-						<field attributeName="componentRepairDate" />
-						<field attributeName="componentRepairNoteText" />
-						<field
-							attributeName="componentRepairSolutionDescription" />
-					</inquiryFields>
-				</inquirySection>
-			</inquirySections>
-		</inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<lookup>
-			<title>Component Repair History Lookup</title>
-			<instructions>
-				Look up a Component Repair History
-			</instructions>
-			<defaultSort sortAscending="true">
-				<sortAttributes>
-					<sortAttribute attributeName="capitalAssetNumber" />
-					<sortAttribute attributeName="componentNumber" />
-					<sortAttribute
-						attributeName="componentIncidentDate" />
-				</sortAttributes>
-			</defaultSort>
-			<lookupFields>
-				<lookupField attributeName="capitalAssetNumber"
-					required="false" />
-				<lookupField
-					attributeName="componentEstimatedRepairDate" required="false" />
-				<lookupField attributeName="componentIncidentDate"
-					required="false" />
-				<lookupField attributeName="componentNumber"
-					required="false" />
-				<lookupField attributeName="componentProblemDescription"
-					required="false" />
-				<lookupField attributeName="componentRepairAmount"
-					required="false" />
-				<lookupField attributeName="componentRepairContactName"
-					required="false" />
-				<lookupField attributeName="componentRepairDate"
-					required="false" />
-				<lookupField attributeName="componentRepairNoteText"
-					required="false" />
-				<lookupField
-					attributeName="componentRepairSolutionDescription"
-					required="false" />
-			</lookupFields>
-			<resultFields>
-				<field attributeName="capitalAssetNumber" />
-				<field attributeName="componentEstimatedRepairDate" />
-				<field attributeName="componentIncidentDate" />
-				<field attributeName="componentNumber" />
-				<field attributeName="componentProblemDescription" />
-				<field attributeName="componentRepairAmount" />
-				<field attributeName="componentRepairContactName" />
-				<field attributeName="componentRepairDate" />
-				<field attributeName="componentRepairNoteText" />
-				<field
-					attributeName="componentRepairSolutionDescription" />
-			</resultFields>
-		</lookup>
-		<attributes>
-			<attributeReference name="capitalAssetNumber"
-				sourceClassName="org.kuali.module.cams.bo.Asset"
-				sourceAttributeName="capitalAssetNumber" />
-				
-			<attributeReference name="componentNumber"
-				sourceClassName="org.kuali.module.cams.bo.AssetComponent"
-				sourceAttributeName="componentNumber" />
-				
-			<attributeReference name="componentIncidentDate"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericDate">
-				<label>Incident Date</label>
-				<shortLabel>Date</shortLabel>
-			</attributeReference>
-			
-			<attributeReference name="componentEstimatedRepairDate"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericDate">
-				<label>Estimated Repair Date Date</label>
-				<shortLabel>Date</shortLabel>
-			</attributeReference>
-			
-			<attribute name="componentProblemDescription"
-				forceUppercase="true">
-				<label>Component Problem Description</label>
-				<shortLabel>Description</shortLabel>
-				<maxLength>255</maxLength>
-				<validationPattern>
-					<anyCharacter allowWhitespace="true" />
-				</validationPattern>
-				<control>
-					<textarea rows="5" cols="80" />
-				</control>
-				<summary>componentProblemDescription</summary>
-				<description>
-					componentProblemDescription description...
-				</description>
-			</attribute>
+  <bean id="ComponentRepairHistory" parent="ComponentRepairHistory-parentBean" />
 
-			<attributeReference name="componentRepairAmount"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericAmount">
-				<label>Repair Amount</label>
-				<shortLabel>Amount</shortLabel>
-				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-			
-			<attribute name="componentRepairContactName"
-				forceUppercase="true">
-				<label>Component Repair Contact Name</label>
-				<shortLabel>Name</shortLabel>
-				<maxLength>40</maxLength>
-				<validationPattern>
-					<anyCharacter allowWhitespace="true" />
-				</validationPattern>
-				<control>
-					<text size="42" />
-				</control>
-				<summary>componentRepairContactName</summary>
-				<description>
-					componentRepairContactName description...
-				</description>
-			</attribute>
-			
-			<attributeReference name="componentRepairDate"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericDate">
-				<label>Repair Date Date</label>
-				<shortLabel>Date</shortLabel>
-			</attributeReference>
-			
-			<attribute name="componentRepairNoteText"
-				forceUppercase="true">
-				<label>Component Repair Note Text</label>
-				<shortLabel>Text</shortLabel>
-				<maxLength>255</maxLength>
-				<validationPattern>
-					<anyCharacter allowWhitespace="true" />
-				</validationPattern>
-				<control>
-					<textarea rows="5" cols="80" />
-				</control>
-				<summary>componentRepairNoteText</summary>
-				<description>
-					componentRepairNoteText description...
-				</description>
-			</attribute>
+  <bean id="ComponentRepairHistory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.ComponentRepairHistory" />
+    <property name="inquiryDefinition" >
+      <ref bean="ComponentRepairHistory-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ComponentRepairHistory-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ComponentRepairHistory-capitalAssetNumber" />
+        <ref bean="ComponentRepairHistory-componentNumber" />
+        <ref bean="ComponentRepairHistory-componentIncidentDate" />
+        <ref bean="ComponentRepairHistory-componentEstimatedRepairDate" />
+        <ref bean="ComponentRepairHistory-componentProblemDescription" />
+        <ref bean="ComponentRepairHistory-componentRepairAmount" />
+        <ref bean="ComponentRepairHistory-componentRepairContactName" />
+        <ref bean="ComponentRepairHistory-componentRepairDate" />
+        <ref bean="ComponentRepairHistory-componentRepairNoteText" />
+        <ref bean="ComponentRepairHistory-componentRepairSolutionDescription" />
+        <ref bean="ComponentRepairHistory-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-			<attribute name="componentRepairSolutionDescription"
-				forceUppercase="true">
-				<label>Component Repair Solution Description</label>
-				<shortLabel>Description</shortLabel>
-				<maxLength>255</maxLength>
-				<validationPattern>
-					<anyCharacter allowWhitespace="true" />
-				</validationPattern>
-				<control>
-					<textarea rows="5" cols="80" />
-				</control>
-				<summary>componentRepairSolutionDescription</summary>
-				<description>
-					componentRepairSolutionDescription description...
-				</description>
-			</attribute>
-			
-			<attributeReference name="versionNumber"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="versionNumber" />
+<!-- Attribute Definitions -->
 
-		</attributes>
-	</businessObject>
-</dictionaryEntry>
+
+  <bean id="ComponentRepairHistory-capitalAssetNumber" parent="ComponentRepairHistory-capitalAssetNumber-parentBean" />
+
+  <bean id="ComponentRepairHistory-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
+  </bean>
+  <bean id="ComponentRepairHistory-componentNumber" parent="ComponentRepairHistory-componentNumber-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentNumber-parentBean" abstract="true" parent="AssetComponent-componentNumber">
+  </bean>
+  <bean id="ComponentRepairHistory-componentIncidentDate" parent="ComponentRepairHistory-componentIncidentDate-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentIncidentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="componentIncidentDate" />
+    <property name="label" value="Incident Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="ComponentRepairHistory-componentEstimatedRepairDate" parent="ComponentRepairHistory-componentEstimatedRepairDate-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentEstimatedRepairDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="componentEstimatedRepairDate" />
+    <property name="label" value="Estimated Repair Date Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="ComponentRepairHistory-componentProblemDescription" parent="ComponentRepairHistory-componentProblemDescription-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentProblemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="componentProblemDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Component Problem Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="componentProblemDescription" />
+    <property name="description" value="componentProblemDescription description..." />
+  </bean>
+  <bean id="ComponentRepairHistory-componentRepairAmount" parent="ComponentRepairHistory-componentRepairAmount-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentRepairAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="componentRepairAmount" />
+    <property name="label" value="Repair Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="ComponentRepairHistory-componentRepairContactName" parent="ComponentRepairHistory-componentRepairContactName-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentRepairContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="componentRepairContactName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Component Repair Contact Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="componentRepairContactName" />
+    <property name="description" value="componentRepairContactName description..." />
+  </bean>
+  <bean id="ComponentRepairHistory-componentRepairDate" parent="ComponentRepairHistory-componentRepairDate-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentRepairDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="componentRepairDate" />
+    <property name="label" value="Repair Date Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="ComponentRepairHistory-componentRepairNoteText" parent="ComponentRepairHistory-componentRepairNoteText-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentRepairNoteText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="componentRepairNoteText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Component Repair Note Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="componentRepairNoteText" />
+    <property name="description" value="componentRepairNoteText description..." />
+  </bean>
+  <bean id="ComponentRepairHistory-componentRepairSolutionDescription" parent="ComponentRepairHistory-componentRepairSolutionDescription-parentBean" />
+
+  <bean id="ComponentRepairHistory-componentRepairSolutionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="componentRepairSolutionDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Component Repair Solution Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="componentRepairSolutionDescription" />
+    <property name="description" value="componentRepairSolutionDescription description..." />
+  </bean>
+  <bean id="ComponentRepairHistory-versionNumber" parent="ComponentRepairHistory-versionNumber-parentBean" />
+
+  <bean id="ComponentRepairHistory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ComponentRepairHistory-inquiryDefinition" parent="ComponentRepairHistory-inquiryDefinition-parentBean" />
+
+  <bean id="ComponentRepairHistory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Component Repair History Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentEstimatedRepairDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentIncidentDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentProblemDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentRepairAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentRepairContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentRepairDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentRepairNoteText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="componentRepairSolutionDescription" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ComponentRepairHistory-lookupDefinition" parent="ComponentRepairHistory-lookupDefinition-parentBean" />
+
+  <bean id="ComponentRepairHistory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Component Repair History Lookup" />
+    <property name="instructions" value="Look up a Component Repair History" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentEstimatedRepairDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentIncidentDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentProblemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairNoteText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairSolutionDescription" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentEstimatedRepairDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentIncidentDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentProblemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairNoteText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="componentRepairSolutionDescription" />
+      </list>
+    </property>
+  </bean>
+</beans>

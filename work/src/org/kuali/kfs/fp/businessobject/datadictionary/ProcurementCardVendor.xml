@@ -1,151 +1,209 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardVendor">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardVendor" parent="ProcurementCardVendor-parentBean" />
+
+  <bean id="ProcurementCardVendor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.ProcurementCardVendor" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProcurementCardVendor-inquiryDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProcurementCardVendor-documentNumber" />
+        <ref bean="ProcurementCardVendor-financialDocumentTransactionLineNumber" />
+        <ref bean="ProcurementCardVendor-transactionMerchantCategoryCode" />
+        <ref bean="ProcurementCardVendor-vendorCityName" />
+        <ref bean="ProcurementCardVendor-vendorLine1Address" />
+        <ref bean="ProcurementCardVendor-vendorLine2Address" />
+        <ref bean="ProcurementCardVendor-vendorName" />
+        <ref bean="ProcurementCardVendor-vendorOrderNumber" />
+        <ref bean="ProcurementCardVendor-vendorStateCode" />
+        <ref bean="ProcurementCardVendor-vendorZipCode" />
+        <ref bean="ProcurementCardVendor-versionNumber" />
+        <ref bean="ProcurementCardVendor-visaVendorIdentifier" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Procurement Card Transaction Vendor Inquiry</title>
+  <bean id="ProcurementCardVendor-documentNumber" parent="ProcurementCardVendor-documentNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentTransactionLineNumber" />
-                <field attributeName="vendorName" />
-                <field attributeName="transactionMerchantCategoryCode" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorOrderNumber" />
-                <field attributeName="vendorStateCode" />
-                <field attributeName="vendorZipCode" />
-                <field attributeName="versionNumber" />
-                <field attributeName="visaVendorIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProcurementCardVendor-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="ProcurementCardVendor-financialDocumentTransactionLineNumber" parent="ProcurementCardVendor-financialDocumentTransactionLineNumber-parentBean" />
 
-        <attributes>
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+  <bean id="ProcurementCardVendor-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-financialDocumentTransactionLineNumber">
+  </bean>
+  <bean id="ProcurementCardVendor-transactionMerchantCategoryCode" parent="ProcurementCardVendor-transactionMerchantCategoryCode-parentBean" />
 
-            <attributeReference name="financialDocumentTransactionLineNumber" sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" sourceAttributeName="financialDocumentTransactionLineNumber" />
+  <bean id="ProcurementCardVendor-transactionMerchantCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionMerchantCategoryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Merchant Category Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorCityName" parent="ProcurementCardVendor-vendorCityName-parentBean" />
 
-            <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
-                <label>Transaction Merchant Category Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="ProcurementCardVendor-vendorCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorLine1Address" parent="ProcurementCardVendor-vendorLine1Address-parentBean" />
 
-                <maxLength>4</maxLength>
+  <bean id="ProcurementCardVendor-vendorLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorLine1Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Line1 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorLine2Address" parent="ProcurementCardVendor-vendorLine2Address-parentBean" />
 
-                <control>
-                    <text size="6" />
-                </control>
-            </attribute>
+  <bean id="ProcurementCardVendor-vendorLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorLine2Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Line2 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorName" parent="ProcurementCardVendor-vendorName-parentBean" />
 
-            <attribute name="vendorCityName" forceUppercase="true">
-                <label>Vendor City Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="ProcurementCardVendor-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorOrderNumber" parent="ProcurementCardVendor-vendorOrderNumber-parentBean" />
 
-                <maxLength>45</maxLength>
+  <bean id="ProcurementCardVendor-vendorOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorOrderNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Order Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorStateCode" parent="ProcurementCardVendor-vendorStateCode-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
-            </attribute>
+  <bean id="ProcurementCardVendor-vendorStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-vendorZipCode" parent="ProcurementCardVendor-vendorZipCode-parentBean" />
 
-            <attribute name="vendorLine1Address" forceUppercase="true">
-                <label>Vendor Line1 Address</label>
-                <shortLabel>Address</shortLabel>
+  <bean id="ProcurementCardVendor-vendorZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Postal (ZIP) Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="ProcurementCardVendor-versionNumber" parent="ProcurementCardVendor-versionNumber-parentBean" />
 
-                <maxLength>45</maxLength>
+  <bean id="ProcurementCardVendor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="ProcurementCardVendor-visaVendorIdentifier" parent="ProcurementCardVendor-visaVendorIdentifier-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
-            </attribute>
+  <bean id="ProcurementCardVendor-visaVendorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="visaVendorIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Visa Vendor Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="16" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="18" />
+    </property>
+  </bean>
 
-            <attribute name="vendorLine2Address" forceUppercase="true">
-                <label>Vendor Line2 Address</label>
-                <shortLabel>Address</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>45</maxLength>
 
-                <control>
-                    <text size="47" />
-                </control>
-            </attribute>
+  <bean id="ProcurementCardVendor-inquiryDefinition" parent="ProcurementCardVendor-inquiryDefinition-parentBean" />
 
-            <attribute name="vendorName" forceUppercase="true">
-                <label>Vendor Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-
-                <control>
-                    <text size="47" />
-                </control>
-            </attribute>
-
-            <attribute name="vendorOrderNumber" forceUppercase="true">
-                <label>Vendor Order Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-
-                <control>
-                    <text size="14" />
-                </control>
-            </attribute>
-
-            <attribute name="vendorStateCode" forceUppercase="true">
-                <label>Vendor State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-
-            <attribute name="vendorZipCode" forceUppercase="true">
-                <label>Vendor Postal (ZIP) Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-
-                <control>
-                    <text size="22" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attribute name="visaVendorIdentifier" forceUppercase="true">
-                <label>Visa Vendor Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>16</maxLength>
-
-                <control>
-                    <text size="18" />
-                </control>
-            </attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ProcurementCardVendor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Procurement Card Transaction Vendor Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTransactionLineNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionMerchantCategoryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorOrderNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="visaVendorIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,115 +1,189 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.DelegateGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.DelegateGlobalMaintainableImpl</maintainableClass>
+  <bean id="DelegateGlobalMaintenanceDocument" parent="DelegateGlobalMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.DelegateGlobalRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.chart.rules.DelegateGlobalPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="DelegateGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.DelegateGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.DelegateGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="DelegateGlobalMaintenanceDocument-EditGlobalDelegate" />
+        <ref bean="DelegateGlobalMaintenanceDocument-EditListofAccounts" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Account Delegate Global" />
+    <property name="shortLabel" value="Account Delegate Global" />
+    <property name="summary" value="Global Account Delegate Maintenance Document" />
+    <property name="description" value="Document used to create or update global account delegate document." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="DELEGATE_GLOBAL"
+            p:parameterDetailType="DelegateGlobal" />
+    </property>
+    <property name="documentTypeName" value="DelegateGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.DelegateGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.DelegateGlobalPreRules" />
+    <property name="documentTypeCode" value="GDLG" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/chart/accountGlobal.js</value>
+        <value>../scripts/kfs/objectInfo.js</value>
+      </list>
+    </property>
+    <property name="workflowProperties" >
+      <ref bean="DelegateGlobalMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>DelegateGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>GDLG</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
-		<webScriptFile>../scripts/chart/accountGlobal.js</webScriptFile>
-		<webScriptFile>../scripts/kfs/objectInfo.js</webScriptFile>
 
-        <label>Account Delegate Global</label>
+  <bean id="DelegateGlobalMaintenanceDocument-EditGlobalDelegate" parent="DelegateGlobalMaintenanceDocument-EditGlobalDelegate-parentBean" />
 
-        <summary>Global Account Delegate Maintenance Document</summary>
-        <description>Document used to create or update global account delegate document.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="DelegateGlobal" parameterName="DELEGATE_GLOBAL" />
+  <bean id="DelegateGlobalMaintenanceDocument-EditGlobalDelegate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Global Delegate" />
+    <property name="title" value="Edit Global Delegate" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="delegateGlobals" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.DelegateGlobalDetail" />
+          <property name="summaryTitle" value="Account Delegate" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentTypeCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegatePrimaryRoutingIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegate.personUserIdentifier" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialDocumentTypeCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegatePrimaryRoutingIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegateStartDate"
+                    p:required="true"
+                    p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegate.personUserIdentifier"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegate.personName"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountDelegateUniversalId"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="approvalFromThisAmount"
+                    p:defaultValue="0.00" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="approvalToThisAmount"
+                    p:defaultValue="0.00" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+          <property name="includeMultipleLookupLine" value="false" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="DelegateGlobalMaintenanceDocument-EditListofAccounts" parent="DelegateGlobalMaintenanceDocument-EditListofAccounts-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
+  <bean id="DelegateGlobalMaintenanceDocument-EditListofAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit List of Accounts" />
+    <property name="title" value="Edit List of Accounts" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="accountGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.AccountGlobalDetail" />
+          <property name="summaryTitle" value="Account" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="account.accountName" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:required="true"
+                    p:template="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber"
+                    p:required="true"
+                    p:template="accountNumber"
+                    p:webUILeaveFieldFunction="loadAccountName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="account.accountName"
+                    p:readOnly="true"
+                    p:template="accountName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Global Delegate">
-                <maintainableItems>
-                    <maintainableCollection name="delegateGlobals" businessObjectClass="org.kuali.module.chart.bo.DelegateGlobalDetail"  sourceClassName="org.kuali.module.chart.bo.Delegate" sourceAttributeName="delegateGlobals" includeMultipleLookupLine="false" summaryTitle="Account Delegate">
-                        <maintainableField name="financialDocumentTypeCode" required="true" readOnlyAfterAdd="false" />
-                        <maintainableField name="accountDelegatePrimaryRoutingIndicator" readOnlyAfterAdd="false" />
-                        <maintainableField name="accountDelegateStartDate" required="true" readOnlyAfterAdd="false" >
-                            <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                        </maintainableField>
-                        <maintainableField name="accountDelegate.personUserIdentifier" required="true" readOnlyAfterAdd="false" />
-                        <maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
-                        <maintainableField name="accountDelegateUniversalId" required="false" readOnly="true" />
-                        <maintainableField name="approvalFromThisAmount">
-                            <defaultValue>0.00</defaultValue>
-                        </maintainableField>
-                        <maintainableField name="approvalToThisAmount" readOnlyAfterAdd="false">
-                            <defaultValue>0.00</defaultValue>
-                        </maintainableField>
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                        <summaryFields>
-                            <summaryField name="financialDocumentTypeCode" />
-                            <summaryField name="accountDelegatePrimaryRoutingIndicator" />
-                            <summaryField name="accountDelegate.personUserIdentifier" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                            <duplicateIdentificationField name="accountDelegate.personUserIdentifier"/>
-                            <duplicateIdentificationField name="financialDocumentTypeCode"/>
-                        </duplicateIdentificationFields>
-                    </maintainableCollection>
-	            </maintainableItems>
-            </maintainableSection>
+<!-- Exported Workflow Properties -->
 
-            <maintainableSection title="Edit List of Accounts">
-                <maintainableItems>
-                    <maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
-                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" required="true" readOnlyAfterAdd="false" />
-                        <maintainableField name="accountNumber" template="accountNumber" webUILeaveFieldFunction="loadAccountName" required="true" readOnlyAfterAdd="false" />
-                        <maintainableField name="account.accountName" template="accountName" readOnly="true" />
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                        <summaryFields>
-                            <summaryField name="chartOfAccountsCode" />
-                            <summaryField name="accountNumber" />
-                            <summaryField name="account.accountName" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                            <duplicateIdentificationField name="chartOfAccountsCode"/>
-                            <duplicateIdentificationField name="accountNumber"/>
-                        </duplicateIdentificationFields>                          
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
 
-        </maintainableSections>
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject.accountGlobalDetails" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="DelegateGlobalMaintenanceDocument-workflowProperties" parent="DelegateGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="DelegateGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.accountGlobalDetails" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

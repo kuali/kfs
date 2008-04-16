@@ -1,73 +1,90 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.core.bo.ParameterDetailType</businessObjectClass>
-        <maintainableClass>
-            org.kuali.core.maintenance.KualiMaintainableImpl
-        </maintainableClass>
-        <businessRulesClass>
-            org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase
-        </businessRulesClass>
-        <documentAuthorizerClass>
-            org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
-        </documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_PARAMETER_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
-        <documentTypeName>ParameterDetailTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PDTP</documentTypeCode>
-        <label>Parameter Component</label>
-        <summary>Parameter Component Maintenance Document</summary>
-        <description>
-            This document can be used to create or update parameter components.
-        </description>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lockingKeys>
-            <field attributeName="parameterNamespaceCode" />
-            <field attributeName="parameterDetailTypeCode" />
-        </lockingKeys>
+  <bean id="ParameterDetailTypeMaintenanceDocument" parent="ParameterDetailTypeMaintenanceDocument-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="parameterNamespace"
-                attributeToHighlightOnFail="parameterNamespaceCode"
-                activeIndicatorAttributeName="active"
-            />
-        </defaultExistenceChecks>
+  <bean id="ParameterDetailTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.core.bo.ParameterDetailType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ParameterDetailTypeMaintenanceDocument-EditParameterComponent" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="parameterNamespace"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="parameterNamespaceCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>parameterNamespaceCode</value>
+        <value>parameterDetailTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Parameter Component" />
+    <property name="shortLabel" value="Parameter Component" />
+    <property name="summary" value="Parameter Component Maintenance Document" />
+    <property name="description" value="This document can be used to create or update parameter components." />
+    <property name="documentTypeName" value="ParameterDetailTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PDTP" />
+    <property name="workflowProperties" >
+      <ref bean="ParameterDetailTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_PARAMETER_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Parameter Component">
-                <maintainableItems>
-                    <maintainableField name="parameterNamespaceCode" required="true" />
-                    <maintainableField name="parameterDetailTypeCode" required="true" />
-                    <maintainableField name="parameterDetailTypeName" required="true" />
-                    <maintainableField name="active" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ParameterDetailTypeMaintenanceDocument-EditParameterComponent" parent="ParameterDetailTypeMaintenanceDocument-EditParameterComponent-parentBean" />
+
+  <bean id="ParameterDetailTypeMaintenanceDocument-EditParameterComponent-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Parameter Component" />
+    <property name="title" value="Edit Parameter Component" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="parameterNamespaceCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="parameterDetailTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="parameterDetailTypeName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ParameterDetailTypeMaintenanceDocument-workflowProperties" parent="ParameterDetailTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ParameterDetailTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

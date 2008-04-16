@@ -1,77 +1,120 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.ProjectCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ProjectCodeMaintenanceDocument" parent="ProjectCodeMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.ProjectCodeRule</businessRulesClass>
+  <bean id="ProjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ProjectCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ProjectCodeMaintenanceDocument-EditProjectCode" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="projectManagerUniversal"
+              p:activeIndicatorAttributeName="activeForAnyModule"
+              p:attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="organizationCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Project Code" />
+    <property name="summary" value="Project Code maintenance document" />
+    <property name="description" value="Document used to create or update Project Code objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="PROJECT"
+            p:parameterDetailType="ProjectCode" />
+    </property>
+    <property name="documentTypeName" value="ProjectCodeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ProjectCodeRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PROJ" />
+    <property name="workflowProperties" >
+      <ref bean="ProjectCodeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<!-- Maintenance Section Definitions -->
 
-        <documentTypeName>ProjectCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PROJ</documentTypeCode>
 
-        <label>Project Code</label>
+  <bean id="ProjectCodeMaintenanceDocument-EditProjectCode" parent="ProjectCodeMaintenanceDocument-EditProjectCode-parentBean" />
 
-        <summary>Project Code maintenance document</summary>
-        <description>Document used to create or update Project Code objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ProjectCode" parameterName="PROJECT" />
+  <bean id="ProjectCodeMaintenanceDocument-EditProjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Project Code" />
+    <property name="title" value="Edit Project Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="projectManagerUniversalId"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="projectManagerUniversal.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="projectManagerUniversal.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="projectDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lockingKeys>
-            <field attributeName="code" />
-        </lockingKeys>
+<!-- Exported Workflow Properties -->
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="chartOfAccountsCode" />
-            <reference attributeName="projectManagerUniversal" activeIndicatorAttributeName="activeForAnyModule" attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
-            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
-        </defaultExistenceChecks>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Project Code">
-                <maintainableItems>
-                    <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="projectManagerUniversalId" required="true" readOnly="true" />
-                    <maintainableField name="projectManagerUniversal.personUserIdentifier" required="true" />
-                    <maintainableField name="projectManagerUniversal.personName" required="false" readOnly="true" />
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organizationCode" required="true" />
-                    <maintainableField name="projectDescription" required="true" />
-                    <maintainableField name="active">
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ProjectCodeMaintenanceDocument-workflowProperties" parent="ProjectCodeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ProjectCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

@@ -1,270 +1,357 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CalculatedSalaryFoundationTrackerOverride" parent="CalculatedSalaryFoundationTrackerOverride-parentBean" />
+
+  <bean id="CalculatedSalaryFoundationTrackerOverride-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride" />
+    <property name="inquiryDefinition" >
+      <ref bean="CalculatedSalaryFoundationTrackerOverride-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CalculatedSalaryFoundationTrackerOverride-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="emplid" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-accountNumber" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-chartOfAccounts.codeAndDescription" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-csfAmount" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-csfDeleteCode" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-csfFullTimeEmploymentQuantity" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-csfFundingStatusCode" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-csfTimePercent" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-emplid" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-financialObjectCode" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-financialSubObjectCode" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-positionNumber" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-subAccountNumber" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-universityFiscalYear" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Calculated Salary Foundation Tracker Override Inquiry</title>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-accountNumber" parent="CalculatedSalaryFoundationTrackerOverride-accountNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccounts.codeAndDescription" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="positionNumber" />
-                <field attributeName="emplid" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfFullTimeEmploymentQuantity" />
-                <field attributeName="csfTimePercent" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfDeleteCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="description" value="Account Number for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode" parent="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Calculated Salary Foundation Tracker Override Lookup</title>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="Chart of Accounts Code for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccounts.codeAndDescription" parent="CalculatedSalaryFoundationTrackerOverride-chartOfAccounts.codeAndDescription-parentBean" />
 
-            <instructions>Look up a Calculated Salary Foundation Tracker Override</instructions>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
+    <property name="name" value="chartOfAccounts.codeAndDescription" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart Code and Description" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfAmount" parent="CalculatedSalaryFoundationTrackerOverride-csfAmount-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="CSF Amount" />
+    <property name="shortLabel" value="CSF Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="19"
+            p:scale="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="Position CSF Amount" />
+    <property name="description" value="Position CSF Amount for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfDeleteCode" parent="CalculatedSalaryFoundationTrackerOverride-csfDeleteCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false"  />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="csfAmount" required="false" />
-                <lookupField attributeName="csfFullTimeEmploymentQuantity" required="false" />
-                <lookupField attributeName="csfTimePercent" required="false" />
-                <lookupField attributeName="csfFundingStatusCode" required="false" />
-                <lookupField attributeName="csfDeleteCode" required="false" />
-            </lookupFields>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfDeleteCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfDeleteCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Csf Delete Code" />
+    <property name="shortLabel" value="Delete Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Position CSF Delete Code" />
+    <property name="description" value="Position CSF Delete Code for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfFullTimeEmploymentQuantity" parent="CalculatedSalaryFoundationTrackerOverride-csfFullTimeEmploymentQuantity-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" noInquiry="true" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="positionNumber" />
-                <field attributeName="emplid" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfFullTimeEmploymentQuantity" />
-                <field attributeName="csfTimePercent" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfDeleteCode" />
-            </resultFields>
-        </lookup>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfFullTimeEmploymentQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="CSF FTE" />
+    <property name="shortLabel" value="CSF FTE" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="Position CSF Full Time Equivalent" />
+    <property name="description" value="Position CSF Full Time Equivalent for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfFundingStatusCode" parent="CalculatedSalaryFoundationTrackerOverride-csfFundingStatusCode-parentBean" />
 
-        <titleAttribute>emplid</titleAttribute>
-        
-        <attributes>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfFundingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfFundingStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="CSF Funding Status Code" />
+    <property name="shortLabel" value="CSF Funding Status" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Position CSF Funding Status Code" />
+    <property name="description" value="Position CSF Funding Status Code for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfTimePercent" parent="CalculatedSalaryFoundationTrackerOverride-csfTimePercent-parentBean" />
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <required>true</required>
-                <description>Account Number for the override.</description>
-            </attributeReference>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-csfTimePercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfTimePercent" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="CSF Time Percent Time" />
+    <property name="shortLabel" value="Percent Time" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="Position CSF Time Percent Time" />
+    <property name="description" value="Position CSF Time Percent Time for the override" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-emplid" parent="CalculatedSalaryFoundationTrackerOverride-emplid-parentBean" />
 
+  <bean id="CalculatedSalaryFoundationTrackerOverride-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emplid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Employee ID" />
+    <property name="shortLabel" value="Employee ID" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="Employee ID" />
+    <property name="description" value="Employee ID" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-financialObjectCode" parent="CalculatedSalaryFoundationTrackerOverride-financialObjectCode-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-			  <control>
-				 <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-			  </control>
-                <description>Chart of Accounts Code for the override.</description>
-            </attributeReference>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="Financial Object Code for the override" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-financialSubObjectCode" parent="CalculatedSalaryFoundationTrackerOverride-financialSubObjectCode-parentBean" />
 
-           <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
-                <label>Chart Code</label>
-                <shortLabel>Chart Code</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Chart Code and Description</description>
-            </attributeReference>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="Sub-Object Code for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-positionNumber" parent="CalculatedSalaryFoundationTrackerOverride-positionNumber-parentBean" />
 
-            <attribute name="csfAmount" forceUppercase="true">
-                <label>CSF Amount</label>
-                <shortLabel>CSF Amount</shortLabel>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Number" />
+    <property name="shortLabel" value="Position Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Position Number" />
+    <property name="description" value="Position Number for the override." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-subAccountNumber" parent="CalculatedSalaryFoundationTrackerOverride-subAccountNumber-parentBean" />
 
-                <maxLength>19</maxLength>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="description" value="Sub-Account number for the override" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-universityFiscalYear" parent="CalculatedSalaryFoundationTrackerOverride-universityFiscalYear-parentBean" />
 
-                <validationPattern>
-                    <fixedPoint allowNegative="false" precision="19" scale="2" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Fiscal Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="University Fiscal Year" />
+    <property name="description" value="University Fiscal Year" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber" parent="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>Position CSF Amount</summary>
-                <description>Position CSF Amount for the override.</description>
-			</attribute>
-
-            <attribute name="csfDeleteCode" forceUppercase="true">
-                <label>Csf Delete Code</label>
-                <shortLabel>Delete Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Position CSF Delete Code</summary>
-                <description>Position CSF Delete Code for the override.</description>
-			</attribute>
-
-            <attribute name="csfFullTimeEmploymentQuantity" forceUppercase="true">
-                <label>CSF FTE</label>
-                <shortLabel>CSF FTE</shortLabel>
-
-                <maxLength>9</maxLength>
-                 <validationPattern>
-                    <floatingPoint allowNegative="false" />
-                </validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>Position CSF Full Time Equivalent</summary>
-                <description>Position CSF Full Time Equivalent for the override.</description>
-			</attribute>
-
-            <attribute name="csfFundingStatusCode" forceUppercase="true">
-                <label>CSF Funding Status Code</label>
-                <shortLabel>CSF Funding Status</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Position CSF Funding Status Code</summary>
-                <description>Position CSF Funding Status Code for the override.</description>
-			</attribute>
-
-            <attribute name="csfTimePercent" forceUppercase="true">
-                <label>CSF Time Percent Time</label>
-                <shortLabel>Percent Time</shortLabel>
-
-                <maxLength>9</maxLength>
-
-                <validationPattern>
-                    <floatingPoint allowNegative="false" />
-                </validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>Position CSF Time Percent Time</summary>
-                <description>Position CSF Time Percent Time for the override</description>
-			</attribute>
-
-            <attribute name="emplid" forceUppercase="true">
-                <label>Employee ID</label>
-                <shortLabel>Employee ID</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>Employee ID</summary>
-                <description>Employee ID</description>
-			</attribute>
-
-             <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <required>true</required>
-                 <description>Financial Object Code for the override</description>                
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-                <required>false</required>
-                    <description>Sub-Object Code for the override.</description>
-            </attributeReference>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-inquiryDefinition" parent="CalculatedSalaryFoundationTrackerOverride-inquiryDefinition-parentBean" />
+
+  <bean id="CalculatedSalaryFoundationTrackerOverride-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Calculated Salary Foundation Tracker Override Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccounts.codeAndDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfFullTimeEmploymentQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfTimePercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfFundingStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfDeleteCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
 
 
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Position Number</shortLabel>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-lookupDefinition" parent="CalculatedSalaryFoundationTrackerOverride-lookupDefinition-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Position Number</summary>
-                <description>Position Number for the override.</description>
-			</attribute>
-
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-                <description>Sub-Account number for the override</description>
-            </attributeReference>
-
-            <attribute name="universityFiscalYear" forceUppercase="true" >
-                <label>University Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>University Fiscal Year</summary>
-                <description>University Fiscal Year</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Calculated Salary Foundation Tracker Override Lookup" />
+    <property name="instructions" value="Look up a Calculated Salary Foundation Tracker Override" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFullTimeEmploymentQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfTimePercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFundingStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfDeleteCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear"
+              p:noInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFullTimeEmploymentQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfTimePercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfFundingStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfDeleteCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

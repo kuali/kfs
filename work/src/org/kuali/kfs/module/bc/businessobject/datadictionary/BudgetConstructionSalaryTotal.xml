@@ -1,200 +1,274 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionSalaryTotal">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionSalaryTotal" parent="BudgetConstructionSalaryTotal-parentBean" />
+
+  <bean id="BudgetConstructionSalaryTotal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionSalaryTotal" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionSalaryTotal-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionSalaryTotal-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionSalaryTotal-appointmentRequestedAmount" />
+        <ref bean="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity" />
+        <ref bean="BudgetConstructionSalaryTotal-csfAmount" />
+        <ref bean="BudgetConstructionSalaryTotal-initialRequestedAmount" />
+        <ref bean="BudgetConstructionSalaryTotal-initialRequestedFteQuantity" />
+        <ref bean="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" />
+        <ref bean="BudgetConstructionSalaryTotal-organizationCode" />
+        <ref bean="BudgetConstructionSalaryTotal-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionSalaryTotal-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Salary Total Inquiry</title>
+  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedAmount" parent="BudgetConstructionSalaryTotal-appointmentRequestedAmount-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="appointmentRequestedAmount" />
-                <field attributeName="appointmentRequestedFteQuantity" />
-                <field attributeName="csfAmount" />
-                <field attributeName="initialRequestedAmount" />
-                <field attributeName="initialRequestedFteQuantity" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="personUniversalIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentRequestedAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Requested Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="appointmentRequestedAmount" />
+    <property name="description" value="appointmentRequestedAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity" parent="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Salary Total Lookup</title>
+  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentRequestedFteQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Requested Fte Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="appointmentRequestedFteQuantity" />
+    <property name="description" value="appointmentRequestedFteQuantity description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-csfAmount" parent="BudgetConstructionSalaryTotal-csfAmount-parentBean" />
 
-            <instructions>Look up a Budget Construction Salary Total</instructions>
+  <bean id="BudgetConstructionSalaryTotal-csfAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="csfAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Csf Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="csfAmount" />
+    <property name="description" value="csfAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-initialRequestedAmount" parent="BudgetConstructionSalaryTotal-initialRequestedAmount-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="organizationChartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionSalaryTotal-initialRequestedAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="initialRequestedAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Initial Requested Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="initialRequestedAmount" />
+    <property name="description" value="initialRequestedAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-initialRequestedFteQuantity" parent="BudgetConstructionSalaryTotal-initialRequestedFteQuantity-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="appointmentRequestedAmount" required="false" />
-                <lookupField attributeName="appointmentRequestedFteQuantity" required="false" />
-                <lookupField attributeName="csfAmount" required="false" />
-                <lookupField attributeName="initialRequestedAmount" required="false" />
-                <lookupField attributeName="initialRequestedFteQuantity" required="false" />
-                <lookupField attributeName="organizationChartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionSalaryTotal-initialRequestedFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="initialRequestedFteQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Initial Requested Fte Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="initialRequestedFteQuantity" />
+    <property name="description" value="initialRequestedFteQuantity description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" parent="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="appointmentRequestedAmount" />
-                <field attributeName="appointmentRequestedFteQuantity" />
-                <field attributeName="csfAmount" />
-                <field attributeName="initialRequestedAmount" />
-                <field attributeName="initialRequestedFteQuantity" />
-                <field attributeName="organizationChartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="personUniversalIdentifier" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="organizationChartOfAccountsCode" />
+    <property name="description" value="organizationChartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-organizationCode" parent="BudgetConstructionSalaryTotal-organizationCode-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionSalaryTotal-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="organizationCode" />
+    <property name="description" value="organizationCode description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-personUniversalIdentifier" parent="BudgetConstructionSalaryTotal-personUniversalIdentifier-parentBean" />
 
-            <attribute name="appointmentRequestedAmount" forceUppercase="true">
-                <label>Appointment Requested Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BudgetConstructionSalaryTotal-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-versionNumber" parent="BudgetConstructionSalaryTotal-versionNumber-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+  <bean id="BudgetConstructionSalaryTotal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="21" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>appointmentRequestedAmount</summary>
-                <description>appointmentRequestedAmount description...</description>
-			</attribute>
 
-            <attribute name="appointmentRequestedFteQuantity" forceUppercase="true">
-                <label>Appointment Requested Fte Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+  <bean id="BudgetConstructionSalaryTotal-inquiryDefinition" parent="BudgetConstructionSalaryTotal-inquiryDefinition-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="BudgetConstructionSalaryTotal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Salary Total Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentRequestedAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentRequestedFteQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="csfAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="initialRequestedAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="initialRequestedFteQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="11" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>appointmentRequestedFteQuantity</summary>
-                <description>appointmentRequestedFteQuantity description...</description>
-			</attribute>
 
-            <attribute name="csfAmount" forceUppercase="true">
-                <label>Csf Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BudgetConstructionSalaryTotal-lookupDefinition" parent="BudgetConstructionSalaryTotal-lookupDefinition-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>csfAmount</summary>
-                <description>csfAmount description...</description>
-			</attribute>
-
-            <attribute name="initialRequestedAmount" forceUppercase="true">
-                <label>Initial Requested Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>initialRequestedAmount</summary>
-                <description>initialRequestedAmount description...</description>
-			</attribute>
-
-            <attribute name="initialRequestedFteQuantity" forceUppercase="true">
-                <label>Initial Requested Fte Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>initialRequestedFteQuantity</summary>
-                <description>initialRequestedFteQuantity description...</description>
-			</attribute>
-
-            <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
-                <label>Organization Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>organizationChartOfAccountsCode</summary>
-                <description>organizationChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionSalaryTotal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Salary Total Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Salary Total" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentRequestedAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentRequestedFteQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="initialRequestedAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="initialRequestedFteQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentRequestedAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentRequestedFteQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="csfAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="initialRequestedAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="initialRequestedFteQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

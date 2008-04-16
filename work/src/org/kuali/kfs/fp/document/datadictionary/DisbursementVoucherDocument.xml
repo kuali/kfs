@@ -1,445 +1,433 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.financial.document.DisbursementVoucherDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.DisbursementVoucherDocumentRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.financial.rules.DisbursementVoucherDocumentPreRules</preRulesCheckClass>
+  <bean id="DisbursementVoucherDocument" parent="DisbursementVoucherDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <!-- workgroup>kualiUniversalGroup</workgroup-->
-                    <workgroup>FP_DISBURSEMENT_VOUCHER_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="DisbursementVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Disbursement Voucher" />
+    <property name="shortLabel" value="Disbursement Voucher" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Disbursement Voucher (DV) is a document that is used to reimburse University employees, non-employees, and other vendors for expenses incurred while conducting university business, performing a service, or providing material goods for the university. Most often this reimbursement is in the form of a check (although occasionally another method of disbursement might be used such as a direct deposit or wire transfer)." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="DISBURSEMENT_VOUCHER"
+            p:parameterDetailType="DisbursementVoucher" />
+    </property>
+    <property name="documentTypeName" value="DisbursementVoucherDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.DisbursementVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.DisbursementVoucherDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.financial.rules.DisbursementVoucherDocumentPreRules" />
+    <property name="documentTypeCode" value="DV" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="DisbursementVoucherDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>FP_DISBURSEMENT_VOUCHER_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="DisbursementVoucherDocument-documentHeader.financialDocumentDescription" />
+        <ref bean="DisbursementVoucherDocument-disbVchrContactPersonName" />
+        <ref bean="DisbursementVoucherDocument-disbVchrContactPhoneNumber" />
+        <ref bean="DisbursementVoucherDocument-disbVchrContactEmailId" />
+        <ref bean="DisbursementVoucherDocument-disbursementVoucherDueDate" />
+        <ref bean="DisbursementVoucherDocument-disbVchrAttachmentCode" />
+        <ref bean="DisbursementVoucherDocument-disbVchrSpecialHandlingCode" />
+        <ref bean="DisbursementVoucherDocument-disbVchrCheckTotalAmount" />
+        <ref bean="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode" />
+        <ref bean="DisbursementVoucherDocument-dvCheckStubOverflowCode" />
+        <ref bean="DisbursementVoucherDocument-disbVchrPayeeTaxControlCode" />
+        <ref bean="DisbursementVoucherDocument-disbVchrPayeeChangedInd" />
+        <ref bean="DisbursementVoucherDocument-disbursementVoucherCheckNbr" />
+        <ref bean="DisbursementVoucherDocument-disbursementVoucherCheckDate" />
+        <ref bean="DisbursementVoucherDocument-disbVchrPayeeW9CompleteCode" />
+        <ref bean="DisbursementVoucherDocument-disbVchrPaymentMethodCode" />
+        <ref bean="DisbursementVoucherDocument-campusCode" />
+        <ref bean="DisbursementVoucherDocument-disbVchrCheckStubText" />
+        <ref bean="DisbursementVoucherDocument-extractDate" />
+        <ref bean="DisbursementVoucherDocument-paidDate" />
+        <ref bean="DisbursementVoucherDocument-cancelDate" />
+        <ref bean="DisbursementVoucherDocument-disbursementVoucherPdpStatus" />
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>DisbursementVoucherDocument</documentTypeName>
-        <documentTypeCode>DV</documentTypeCode>
+<!-- Attribute Definitions -->
 
-        <label>Disbursement Voucher</label>
 
-        <attributes>
-            <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
+  <bean id="DisbursementVoucherDocument-documentHeader.financialDocumentDescription" parent="DisbursementVoucherDocument-documentHeader.financialDocumentDescription-parentBean" />
 
-            <attribute name="disbVchrContactPersonName">
-                <label>Contact Name</label>
-                <shortLabel>Cont. Nm</shortLabel>
+  <bean id="DisbursementVoucherDocument-documentHeader.financialDocumentDescription-parentBean" abstract="true" parent="DocumentHeader-financialDocumentDescription">
+    <property name="name" value="documentHeader.financialDocumentDescription" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrContactPersonName" parent="DisbursementVoucherDocument-disbVchrContactPersonName-parentBean" />
 
-                <maxLength>40</maxLength>
+  <bean id="DisbursementVoucherDocument-disbVchrContactPersonName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrContactPersonName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contact Name" />
+    <property name="shortLabel" value="Cont. Nm" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Full name of the Contact, expressed as &quot;Lastname, Firstname Initial&quot;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber" parent="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean" />
 
-                <required>true</required>
+  <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrContactPhoneNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Phone" />
+    <property name="shortLabel" value="Phone" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Phone number of the Contact, expressed as nnn-mmm-pppp." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrContactEmailId" parent="DisbursementVoucherDocument-disbVchrContactEmailId-parentBean" />
 
-                <control>
-                    <text size="40" />
-                </control>
+  <bean id="DisbursementVoucherDocument-disbVchrContactEmailId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrContactEmailId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Email Address" />
+    <property name="shortLabel" value="Email" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Email address of the Contact." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbursementVoucherDueDate" parent="DisbursementVoucherDocument-disbursementVoucherDueDate-parentBean" />
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Full name of the Contact, expressed as "Lastname, Firstname Initial"</description>
-            </attribute>
+  <bean id="DisbursementVoucherDocument-disbursementVoucherDueDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherDueDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Due Date" />
+    <property name="shortLabel" value="Due" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The date on which the Payment is due." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrAttachmentCode" parent="DisbursementVoucherDocument-disbVchrAttachmentCode-parentBean" />
 
-            <attribute name="disbVchrContactPhoneNumber">
-                <label>Phone</label>
-                <shortLabel>Phone</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Phone number of the Contact, expressed as nnn-mmm-pppp.</description>
-            </attribute>
-
-            <attribute name="disbVchrContactEmailId">
-                <label>Email Address</label>
-                <shortLabel>Email</shortLabel>
-
-                <maxLength>50</maxLength>
-
-                <validationPattern>
-                    <emailAddress />
-                </validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="50" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Email address of the Contact.</description>
-            </attribute>
-
-            <attribute name="disbursementVoucherDueDate">
-                <label>Due Date</label>
-                <shortLabel>Due</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The date on which the Payment is due.</description>
-            </attribute>
-
-            <attribute name="disbVchrAttachmentCode">
-                <label>Check Enclosure</label>
-                <shortLabel>CheckEncl</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    Check the box for Check Enclosure if you have something that must be sent to the vendor/payee 
+  <bean id="DisbursementVoucherDocument-disbVchrAttachmentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAttachmentCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check Enclosure" />
+    <property name="shortLabel" value="CheckEncl" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Check the box for Check Enclosure if you have something that must be sent to the vendor/payee 
                     along with the check because the reason for the payment cannot be adequately described in the 
                     check stub detail field. Examples of Check Enclosures would include a payment stub, a duplicate 
-                    invoice copy, a letter or note to the payee, a completed registration form, a subscription renewal, etc.
-                </description>
-            </attribute>
-
-            <attribute name="disbVchrSpecialHandlingCode">
-                <label>Special Handling</label>
-                <shortLabel>Spec Hand</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="disbVchrCheckTotalAmount">
-                <label>Check Amount</label>
-                <shortLabel>Amt</shortLabel>
-
-                <maxLength>19</maxLength>
-
-                <validationPattern>
-                    <fixedPoint allowNegative="false" precision="19" scale="2" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The dollar amount of the check for the document Payment.</description>
-            </attribute>
-
-            <attributeReference name="disbursementVoucherDocumentationLocationCode" sourceClassName="org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation" sourceAttributeName="disbursementVoucherDocumentationLocationCode">
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder" />
-                </control>
-                <description>The description of the organization involved in the document Payment. Select one from the pulldown list.</description>
-
-            </attributeReference>
-
-            <attribute name="dvCheckStubOverflowCode">
-                <label>Check Overflow</label>
-                <shortLabel>Overflow</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="disbVchrPayeeTaxControlCode">
-                <label>Payee Tax Control Code</label>
-                <shortLabel>Tax Code</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="disbVchrPayeeChangedInd">
-                <label>Payee Changed Indicator</label>
-                <shortLabel>Payee Ind</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>Payee Changed Indicator</summary>
-                <description>...</description>
-            </attribute>
-
-            <attribute name="disbursementVoucherCheckNbr">
-                <label>Check Number</label>
-                <shortLabel>Chk Num</shortLabel>
-
-                <maxLength>6</maxLength>
-
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="disbursementVoucherCheckDate">
-                <label>Check Date</label>
-                <shortLabel>Chk Dt</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="disbVchrPayeeW9CompleteCode">
-                <label>W-9/W-8BEN Completed</label>
-                <shortLabel>W-9/W-8BEN</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="disbVchrPaymentMethodCode">
-                <label>Payment Method</label>
-                <shortLabel>Pay Mth</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The description of the method of the document Payment. Select one from the pulldown list.</description>
-            </attribute>
-
-            <attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
-                <required>false</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
-                </control>
-                <description>The code for the Campus of the Contact.</description>
-
-            </attributeReference>
-
-            <attribute name="disbVchrCheckStubText">
-                <label>Check Stub Text</label>
-                <shortLabel>Check Txt</shortLabel>
-
-                <maxLength>1400</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <textarea cols="100" rows="5" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A free-form text field which the Contact may add to the check stub.</description>
-            </attribute>
-            
-            <attribute name="extractDate">
-                <label>PDP Extraction Date</label>
-                <shortLabel>Extract</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The date on which the Payment was extracted by the Pre-Disbursement Processor.</description>
-            </attribute>
-            
-            <attribute name="paidDate">
-                <label>PDP Paid Date</label>
-                <shortLabel>Paid</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The date on which the Payment was paid by the Pre-Disbursement Processor.</description>
-            </attribute>
-
-			<attribute name="cancelDate">
-                <label>PDP Cancelation Date</label>
-                <shortLabel>Cancel</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The date on which the Payment was canceled by the Pre-Disbursement Processor.</description>
-            </attribute>
-
-			<attribute name="disbursementVoucherPdpStatus">
-                <label>Pre-Disbursement Processor Status</label>
-                <shortLabel>PDP Status</shortLabel>
-
-                <maxLength>15</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="15" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Current status of this document in relation to the Pre-Disbursement Processor.</description>
-            </attribute>
-            
-        </attributes>
-
-        <summary>
-            <![CDATA[&nbsp;]]>
-        </summary>
-        <description>The Disbursement Voucher (DV) is a document that is used to reimburse University employees, non-employees, and other vendors for expenses incurred while conducting university business, performing a service, or providing material goods for the university. Most often this reimbursement is in the form of a check (although occasionally another method of disbursement might be used such as a direct deposit or wire transfer).</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="DisbursementVoucher" parameterName="DISBURSEMENT_VOUCHER" />        
-        <allowsCopy>true</allowsCopy>
-
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-        <workflowProperties>
-            <workflowPropertyGroup>
-				<workflowProperty path="documentHeader" />
-                <workflowProperty path="sourceAccountingLines" />
-                <workflowProperty path="sourceAccountingLines.account" />
-                <workflowProperty path="dvPayeeDetail" />
-            </workflowPropertyGroup>
-        </workflowProperties>
-    </transactionalDocument>
-</dictionaryEntry>
+                    invoice copy, a letter or note to the payee, a completed registration form, a subscription renewal, etc." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrSpecialHandlingCode" parent="DisbursementVoucherDocument-disbVchrSpecialHandlingCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrSpecialHandlingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrSpecialHandlingCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Special Handling" />
+    <property name="shortLabel" value="Spec Hand" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrCheckTotalAmount" parent="DisbursementVoucherDocument-disbVchrCheckTotalAmount-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrCheckTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrCheckTotalAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check Amount" />
+    <property name="shortLabel" value="Amt" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="19"
+            p:scale="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The dollar amount of the check for the document Payment." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode" parent="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode-parentBean" abstract="true" parent="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationCode">
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The description of the organization involved in the document Payment. Select one from the pulldown list." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-dvCheckStubOverflowCode" parent="DisbursementVoucherDocument-dvCheckStubOverflowCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-dvCheckStubOverflowCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvCheckStubOverflowCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check Overflow" />
+    <property name="shortLabel" value="Overflow" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrPayeeTaxControlCode" parent="DisbursementVoucherDocument-disbVchrPayeeTaxControlCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrPayeeTaxControlCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPayeeTaxControlCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee Tax Control Code" />
+    <property name="shortLabel" value="Tax Code" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrPayeeChangedInd" parent="DisbursementVoucherDocument-disbVchrPayeeChangedInd-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrPayeeChangedInd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPayeeChangedInd" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee Changed Indicator" />
+    <property name="shortLabel" value="Payee Ind" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Payee Changed Indicator" />
+    <property name="description" value="..." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbursementVoucherCheckNbr" parent="DisbursementVoucherDocument-disbursementVoucherCheckNbr-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbursementVoucherCheckNbr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherCheckNbr" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check Number" />
+    <property name="shortLabel" value="Chk Num" />
+    <property name="maxLength" value="6" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbursementVoucherCheckDate" parent="DisbursementVoucherDocument-disbursementVoucherCheckDate-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbursementVoucherCheckDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherCheckDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check Date" />
+    <property name="shortLabel" value="Chk Dt" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrPayeeW9CompleteCode" parent="DisbursementVoucherDocument-disbVchrPayeeW9CompleteCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrPayeeW9CompleteCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPayeeW9CompleteCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="W-9/W-8BEN Completed" />
+    <property name="shortLabel" value="W-9/W-8BEN" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrPaymentMethodCode" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrPaymentMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPaymentMethodCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payment Method" />
+    <property name="shortLabel" value="Pay Mth" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The description of the method of the document Payment. Select one from the pulldown list." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-campusCode" parent="DisbursementVoucherDocument-campusCode-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The code for the Campus of the Contact." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbVchrCheckStubText" parent="DisbursementVoucherDocument-disbVchrCheckStubText-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbVchrCheckStubText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrCheckStubText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check Stub Text" />
+    <property name="shortLabel" value="Check Txt" />
+    <property name="maxLength" value="1400" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="100" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="A free-form text field which the Contact may add to the check stub." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-extractDate" parent="DisbursementVoucherDocument-extractDate-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-extractDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="extractDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="PDP Extraction Date" />
+    <property name="shortLabel" value="Extract" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The date on which the Payment was extracted by the Pre-Disbursement Processor." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-paidDate" parent="DisbursementVoucherDocument-paidDate-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-paidDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paidDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="PDP Paid Date" />
+    <property name="shortLabel" value="Paid" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The date on which the Payment was paid by the Pre-Disbursement Processor." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-cancelDate" parent="DisbursementVoucherDocument-cancelDate-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-cancelDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cancelDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="PDP Cancelation Date" />
+    <property name="shortLabel" value="Cancel" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The date on which the Payment was canceled by the Pre-Disbursement Processor." />
+  </bean>
+  <bean id="DisbursementVoucherDocument-disbursementVoucherPdpStatus" parent="DisbursementVoucherDocument-disbursementVoucherPdpStatus-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-disbursementVoucherPdpStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherPdpStatus" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Pre-Disbursement Processor Status" />
+    <property name="shortLabel" value="PDP Status" />
+    <property name="maxLength" value="15" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Current status of this document in relation to the Pre-Disbursement Processor." />
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="DisbursementVoucherDocument-workflowProperties" parent="DisbursementVoucherDocument-workflowProperties-parentBean" />
+
+  <bean id="DisbursementVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="dvPayeeDetail" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

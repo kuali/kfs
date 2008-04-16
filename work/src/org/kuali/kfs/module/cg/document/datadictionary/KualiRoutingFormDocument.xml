@@ -1,805 +1,1012 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../../core/datadictionary/dataDictionary-1_0.dtd">
-
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.kra.routingform.document.RoutingFormDocument</documentClass>
-        <businessRulesClass>org.kuali.module.kra.routingform.rules.RoutingFormDocumentRule</businessRulesClass>
-
-        <documentAuthorizerClass>org.kuali.module.kra.routingform.document.RoutingFormDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
-
-        <documentTypeName>KualiRoutingFormDocument</documentTypeName>
-        <documentTypeCode>KRFD</documentTypeCode>
-        <label>Routing Form</label>
-        
-                <attributes>
-
-            <attribute name="agencyAdditionalShippingInstructionsIndicator" forceUppercase="true">
-                <label>Agency Additional Shipping Instructions Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>agencyAdditionalShippingInstructionsIndicator</summary>
-                <description>agencyAdditionalShippingInstructionsIndicator description...</description>
-      </attribute>
-
-            <attribute name="agencyFederalPassThroughNotAvailableIndicator" forceUppercase="true">
-                <label>Agency Federal Pass Through Not Available Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>agencyFederalPassThroughNotAvailableIndicator</summary>
-                <description>agencyFederalPassThroughNotAvailableIndicator description...</description>
-      </attribute>
-
-            <attribute name="agencyFederalPassThroughNumber" forceUppercase="true">
-                <label>Federal Pass Through</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>agencyFederalPassThroughNumber</summary>
-                <description>agencyFederalPassThroughNumber description...</description>
-      </attribute>
-
-            <attribute name="grantNumber" forceUppercase="true">
-                <label>Current Grant No.</label>
-                <shortLabel>Grant Number</shortLabel>
-
-                <maxLength>27</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="29" />
-                </control>
-
-                <summary>grantNumber</summary>
-                <description>grantNumber description...</description>
-      </attribute>
-
-            <attribute name="institutionAccountNumber" forceUppercase="true">
-                <label>Institution Account No.</label>
-                <shortLabel>Account Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>institutionAccountNumber</summary>
-                <description>institutionAccountNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormAnnouncementNumber" forceUppercase="true">
-                <label>Routing Form Announcement Number</label>
-                <shortLabel>Routing Form Announcement</shortLabel>
-
-                <maxLength>110</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="112" />
-                </control>
-
-                <summary>routingFormAnnouncementNumber</summary>
-                <description>routingFormAnnouncementNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormBudgetNumber" forceUppercase="true">
-                <label>Routing Form Budget Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>routingFormBudgetNumber</summary>
-                <description>routingFormBudgetNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormCoProjectDirectorIndicator" forceUppercase="true">
-                <label>Routing Form Co Project Director Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormCoProjectDirectorIndicator</summary>
-                <description>routingFormCoProjectDirectorIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormConflictOfInterestCurrentIndicator" forceUppercase="true">
-                <label>Routing Form Conflict Of Interest Current Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormConflictOfInterestCurrentIndicator</summary>
-                <description>routingFormConflictOfInterestCurrentIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormConflictOfInterestExistsIndicator" forceUppercase="true">
-                <label>Routing Form Conflict Of Interest Exists Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormConflictOfInterestExistsIndicator</summary>
-                <description>routingFormConflictOfInterestExistsIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormCostShareIndicator" forceUppercase="true">
-                <label>Routing Form Cost Share Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormCostShareIndicator</summary>
-                <description>routingFormCostShareIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormCreateDate" forceUppercase="true">
-                <label>Routing Form Create Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>routingFormCreateDate</summary>
-                <description>routingFormCreateDate description...</description>
-      </attribute>
-
-            <attribute name="routingFormCreditPercentIndicator" forceUppercase="true">
-                <label>Routing Form Credit Percent Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormCreditPercentIndicator</summary>
-                <description>routingFormCreditPercentIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormFederalPassThroughIndicator" forceUppercase="true">
-                <label>Routing Form Federal Pass Through Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormFederalPassThroughIndicator</summary>
-                <description>routingFormFederalPassThroughIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormFellowEmailAddress" forceUppercase="true">
-                <label>Routing Form Fellow Email Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>routingFormFellowEmailAddress</summary>
-                <description>routingFormFellowEmailAddress description...</description>
-      </attribute>
-
-            <attribute name="routingFormFellowFirstName" forceUppercase="true">
-                <label>Routing Form Fellow First Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>routingFormFellowFirstName</summary>
-                <description>routingFormFellowFirstName description...</description>
-      </attribute>
-
-            <attribute name="routingFormFellowFullName" forceUppercase="true">
-                <label>Fellow</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>routingFormFellowFullName</summary>
-                <description>routingFormFellowFullName description...</description>
-      </attribute>
-
-            <attribute name="routingFormFellowLastName" forceUppercase="true">
-                <label>Routing Form Fellow Last Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-
-                <summary>routingFormFellowLastName</summary>
-                <description>routingFormFellowLastName description...</description>
-      </attribute>
-
-            <attribute name="routingFormLastUpdateDate" forceUppercase="true">
-                <label>Routing Form Last Update Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>routingFormLastUpdateDate</summary>
-                <description>routingFormLastUpdateDate description...</description>
-      </attribute>
-
-            <attribute name="routingFormLastUpdateUniversalIdentifier" forceUppercase="true">
-                <label>Routing Form Last Update Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>routingFormLastUpdateUniversalIdentifier</summary>
-                <description>routingFormLastUpdateUniversalIdentifier description...</description>
-      </attribute>
-
-            <attribute name="routingFormLayDescription" forceUppercase="true">
-                <label>Lay Description of This Request</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>1000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>routingFormLayDescription</summary>
-                <description>routingFormLayDescription description...</description>
-      </attribute>
-
-            <attribute name="routingFormOtherOrganizationIndicator" forceUppercase="true">
-                <label>Routing Form Other Organization Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormOtherOrganizationIndicator</summary>
-                <description>routingFormOtherOrganizationIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormOtherPurposeDescription" forceUppercase="true">
-                <label>Routing Form Other Purpose Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>routingFormOtherPurposeDescription</summary>
-                <description>routingFormOtherPurposeDescription description...</description>
-      </attribute>
-
-            <attribute name="projectTypeOtherDescription" forceUppercase="true">
-                <label>Project Type Other Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>75</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>projectTypeOtherDescription</summary>
-                <description>projectTypeOtherDescription description...</description>
-			</attribute>
-
-            <attribute name="routingFormOtherTypeDescription" forceUppercase="true">
-                <label>Routing Form Other Type Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>75</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="77" />
-                </control>
-
-                <summary>routingFormOtherTypeDescription</summary>
-                <description>routingFormOtherTypeDescription description...</description>
-      </attribute>
-
-            <attribute name="routingFormParentNumber" forceUppercase="true">
-                <label>Routing Form Parent Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>routingFormParentNumber</summary>
-                <description>routingFormParentNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormPhysicalCampusCode" forceUppercase="true">
-                <label>Routing Form Physical Campus Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>routingFormPhysicalCampusCode</summary>
-                <description>routingFormPhysicalCampusCode description...</description>
-      </attribute>
-
-            <attribute name="routingFormPriorGrantNumber" forceUppercase="true">
-                <label>Prior Grant No.</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>27</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="29" />
-                </control>
-
-                <summary>routingFormPriorGrantNumber</summary>
-                <description>routingFormPriorGrantNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormProjectTitle" forceUppercase="true">
-                <label>Routing Form Project Title</label>
-                <shortLabel>Title</shortLabel>
-
-                <maxLength>500</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>routingFormProjectTitle</summary>
-                <description>routingFormProjectTitle description...</description>
-      </attribute>
-
-            <attribute name="routingFormPurposeCode" forceUppercase="true">
-                <label>Project Purpose</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>routingFormPurposeCode</summary>
-                <description>routingFormPurposeCode description...</description>
-      </attribute>
-
-            <attribute name="routingFormSpaceRequiredDescription" forceUppercase="true">
-                <label>Routing Form Space Required Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>1000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>routingFormSpaceRequiredDescription</summary>
-                <description>routingFormSpaceRequiredDescription description...</description>
-      </attribute>
-
-            <attribute name="routingFormSpaceRequiredIndicator" forceUppercase="true">
-                <label>Routing Form Space Required Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormSpaceRequiredIndicator</summary>
-                <description>routingFormSpaceRequiredIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormStatusCode" forceUppercase="true">
-                <label>Routing Form Status Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>routingFormStatusCode</summary>
-                <description>routingFormStatusCode description...</description>
-      </attribute>
-
-            <attribute name="routingFormSubcontractorIndicator" forceUppercase="true">
-                <label>Routing Form Subcontractor Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormSubcontractorIndicator</summary>
-                <description>routingFormSubcontractorIndicator description...</description>
-      </attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-      </attribute>
-
-            <attribute name="researchTypeCode" forceUppercase="true">
-                <label>Research Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <text size="1" />
-                </control>
-
-                <summary>researchTypeCode</summary>
-                <description>researchTypeCode description...</description>
-      </attribute>
-
-            <attribute name="previousFederalIdentifier" forceUppercase="true">
-                <label>Previous Federal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>previousFederalIdentifier</summary>
-                <description>previousFederalIdentifier description...</description>
-      </attribute>
-
-            <attribute name="federalIdentifier" forceUppercase="true">
-                <label>Federal Identification No.</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>federalIdentifier</summary>
-                <description>federalIdentifier description...</description>
-      </attribute>
-
-            <attribute name="grantsGovernmentConfirmationNumber" forceUppercase="true">
-                <label>Grants.gov Confirmation No.</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>grantsGovernmentConfirmationNumber</summary>
-                <description>grantsGovernmentConfirmationNumber description...</description>
-      </attribute>
-
-            <attribute name="grantsGovernmentSubmissionIndicator" forceUppercase="true">
-                <label>Grants.gov Submission</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>grantsGovernmentSubmissionIndicator</summary>
-                <description>grantsGovernmentSubmissionIndicator description...</description>
-      </attribute>
-
-            <attribute name="projectAbstract" forceUppercase="true">
-                <label>Project Abstract</label>
-                <shortLabel>Abstract</shortLabel>
-
-                <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <textarea rows="3" cols="60"/>
-                </control>
-
-                <summary>projectAbstract</summary>
-                <description>projectAbstract description...</description>
-      </attribute>
-
-            <attribute name="creditPercentNextSequenceNumber" forceUppercase="true">
-                <label>Credit Percent Next Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>creditPercentNextSequenceNumber</summary>
-                <description>creditPercentNextSequenceNumber description...</description>
-      </attribute>
-
-            <attribute name="institutionCostShareNextSequenceNumber" forceUppercase="true">
-                <label>Institution Cost Share Next Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>institutionCostShareNextSequenceNumber</summary>
-                <description>institutionCostShareNextSequenceNumber description...</description>
-      </attribute>
-
-            <attribute name="otherCostShareNextSequenceNumber" forceUppercase="true">
-                <label>Other Cost Share Next Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>otherCostShareNextSequenceNumber</summary>
-                <description>otherCostShareNextSequenceNumber description...</description>
-      </attribute>
-
-            <attribute name="projectDirectorNextSequenceNumber" forceUppercase="true">
-                <label>Project Director Next Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>projectDirectorNextSequenceNumber</summary>
-                <description>projectDirectorNextSequenceNumber description...</description>
-      </attribute>
-
-            <attribute name="subcontractorNextSequenceNumber" forceUppercase="true">
-                <label>Subcontractor Next Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>subcontractorNextSequenceNumber</summary>
-                <description>subcontractorNextSequenceNumber description...</description>
-      </attribute>
-
-            <attributeReference name="routingFormAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Agency</label>
-                <shortLabel>Number</shortLabel>
-                <summary>Budget Agency</summary>
-                <description>Budget Agency...</description>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        
-        
-        <summary>Routing Form document</summary>
-        <description>Filling out routing forms is a delight which all persons should be so lucky as to be able to do dailly twice</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM"/>
-
-        <headerNavigation>
-        	<headerNavigationTab>
-        		<navigateTo>mainpage</navigateTo>
-        		<displayName>Main Page</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_MAIN_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>personnel</navigateTo>
-        		<displayName>Personnel</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingFormPersonnel" parameterName="ROUTING_FORM_PERSONNEL"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>researchrisks</navigateTo>
-        		<displayName>Research Risks</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingFormResearchRisk" parameterName="ROUTING_FORM_RESEARCH_RISK"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>projectdetails</navigateTo>
-        		<displayName>Project Details</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_PROJECT_DETAILS_PAGE"/>
-        	</headerNavigationTab>
-        	<!-- headerNavigationTab>
-        		<navigateTo>agencyspecific</navigateTo>
-        		<displayName>Agency Specific</displayName>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>sf424</navigateTo>
-        		<displayName>SF 424</displayName>
-        	</headerNavigationTab -->
-        	<headerNavigationTab>
-        		<navigateTo>link</navigateTo>
-        		<displayName>Module Links</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_MODULE_LINKS_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>notes</navigateTo>
-        		<displayName>Notes</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_NOTES_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>output</navigateTo>
-        		<displayName>Output</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_OUTPUT_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>template</navigateTo>
-        		<displayName>Template</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_TEMPLATE_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>auditmode</navigateTo>
-        		<displayName>Audit Mode</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_AUDIT_MODE_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>permissions</navigateTo>
-        		<displayName>Permissions</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_PERMISSIONS_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>approvals</navigateTo>
-        		<displayName>Approvals</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_APPROVALS_PAGE"/>
-        	</headerNavigationTab>
-        </headerNavigation>
-        
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        <allowsNoteDelete>true</allowsNoteDelete>
-        <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
-        <!--  attachmentTypesValuesFinderClass>org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder</attachmentTypesValuesFinderClass -->
-    </transactionalDocument>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="KualiRoutingFormDocument" parent="KualiRoutingFormDocument-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Routing Form" />
+    <property name="shortLabel" value="Routing Form" />
+    <property name="summary" value="Routing Form document" />
+    <property name="description" value="Filling out routing forms is a delight which all persons should be so lucky as to be able to do dailly twice" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="ROUTING_FORM"
+            p:parameterDetailType="RoutingForm" />
+    </property>
+    <property name="documentTypeName" value="KualiRoutingFormDocument" />
+    <property name="documentClass" value="org.kuali.module.kra.routingform.document.RoutingFormDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.kra.routingform.rules.RoutingFormDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.kra.routingform.document.RoutingFormDocumentAuthorizer" />
+    <property name="documentTypeCode" value="KRFD" />
+    <property name="allowsNoteDelete" value="true" />
+    <property name="displayTopicFieldInNotes" value="true" />
+    <property name="headerNavigationList" >
+      <list>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_MAIN_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Main Page" />
+          <property name="headerTabNavigateTo" value="mainpage" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_PERSONNEL"
+                  p:parameterDetailType="RoutingFormPersonnel" />
+          </property>
+          <property name="headerTabDisplayName" value="Personnel" />
+          <property name="headerTabNavigateTo" value="personnel" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_RESEARCH_RISK"
+                  p:parameterDetailType="RoutingFormResearchRisk" />
+          </property>
+          <property name="headerTabDisplayName" value="Research Risks" />
+          <property name="headerTabNavigateTo" value="researchrisks" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_PROJECT_DETAILS_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Project Details" />
+          <property name="headerTabNavigateTo" value="projectdetails" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_MODULE_LINKS_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Module Links" />
+          <property name="headerTabNavigateTo" value="link" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_NOTES_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Notes" />
+          <property name="headerTabNavigateTo" value="notes" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_OUTPUT_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Output" />
+          <property name="headerTabNavigateTo" value="output" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_TEMPLATE_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Template" />
+          <property name="headerTabNavigateTo" value="template" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_AUDIT_MODE_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Audit Mode" />
+          <property name="headerTabNavigateTo" value="auditmode" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_PERMISSIONS_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Permissions" />
+          <property name="headerTabNavigateTo" value="permissions" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="ROUTING_FORM_APPROVALS_PAGE"
+                  p:parameterDetailType="RoutingForm" />
+          </property>
+          <property name="headerTabDisplayName" value="Approvals" />
+          <property name="headerTabNavigateTo" value="approvals" />
+        </bean>
+      </list>
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="KualiRoutingFormDocument-agencyAdditionalShippingInstructionsIndicator" />
+        <ref bean="KualiRoutingFormDocument-agencyFederalPassThroughNotAvailableIndicator" />
+        <ref bean="KualiRoutingFormDocument-agencyFederalPassThroughNumber" />
+        <ref bean="KualiRoutingFormDocument-grantNumber" />
+        <ref bean="KualiRoutingFormDocument-institutionAccountNumber" />
+        <ref bean="KualiRoutingFormDocument-routingFormAnnouncementNumber" />
+        <ref bean="KualiRoutingFormDocument-routingFormBudgetNumber" />
+        <ref bean="KualiRoutingFormDocument-routingFormCoProjectDirectorIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormConflictOfInterestCurrentIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormConflictOfInterestExistsIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormCostShareIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormCreateDate" />
+        <ref bean="KualiRoutingFormDocument-routingFormCreditPercentIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormFederalPassThroughIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormFellowEmailAddress" />
+        <ref bean="KualiRoutingFormDocument-routingFormFellowFirstName" />
+        <ref bean="KualiRoutingFormDocument-routingFormFellowFullName" />
+        <ref bean="KualiRoutingFormDocument-routingFormFellowLastName" />
+        <ref bean="KualiRoutingFormDocument-routingFormLastUpdateDate" />
+        <ref bean="KualiRoutingFormDocument-routingFormLastUpdateUniversalIdentifier" />
+        <ref bean="KualiRoutingFormDocument-routingFormLayDescription" />
+        <ref bean="KualiRoutingFormDocument-routingFormOtherOrganizationIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormOtherPurposeDescription" />
+        <ref bean="KualiRoutingFormDocument-projectTypeOtherDescription" />
+        <ref bean="KualiRoutingFormDocument-routingFormOtherTypeDescription" />
+        <ref bean="KualiRoutingFormDocument-routingFormParentNumber" />
+        <ref bean="KualiRoutingFormDocument-routingFormPhysicalCampusCode" />
+        <ref bean="KualiRoutingFormDocument-routingFormPriorGrantNumber" />
+        <ref bean="KualiRoutingFormDocument-routingFormProjectTitle" />
+        <ref bean="KualiRoutingFormDocument-routingFormPurposeCode" />
+        <ref bean="KualiRoutingFormDocument-routingFormSpaceRequiredDescription" />
+        <ref bean="KualiRoutingFormDocument-routingFormSpaceRequiredIndicator" />
+        <ref bean="KualiRoutingFormDocument-routingFormStatusCode" />
+        <ref bean="KualiRoutingFormDocument-routingFormSubcontractorIndicator" />
+        <ref bean="KualiRoutingFormDocument-documentNumber" />
+        <ref bean="KualiRoutingFormDocument-researchTypeCode" />
+        <ref bean="KualiRoutingFormDocument-previousFederalIdentifier" />
+        <ref bean="KualiRoutingFormDocument-federalIdentifier" />
+        <ref bean="KualiRoutingFormDocument-grantsGovernmentConfirmationNumber" />
+        <ref bean="KualiRoutingFormDocument-grantsGovernmentSubmissionIndicator" />
+        <ref bean="KualiRoutingFormDocument-projectAbstract" />
+        <ref bean="KualiRoutingFormDocument-creditPercentNextSequenceNumber" />
+        <ref bean="KualiRoutingFormDocument-institutionCostShareNextSequenceNumber" />
+        <ref bean="KualiRoutingFormDocument-otherCostShareNextSequenceNumber" />
+        <ref bean="KualiRoutingFormDocument-projectDirectorNextSequenceNumber" />
+        <ref bean="KualiRoutingFormDocument-subcontractorNextSequenceNumber" />
+        <ref bean="KualiRoutingFormDocument-routingFormAgency" />
+        <ref bean="KualiRoutingFormDocument-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="KualiRoutingFormDocument-agencyAdditionalShippingInstructionsIndicator" parent="KualiRoutingFormDocument-agencyAdditionalShippingInstructionsIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-agencyAdditionalShippingInstructionsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyAdditionalShippingInstructionsIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Additional Shipping Instructions Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="agencyAdditionalShippingInstructionsIndicator" />
+    <property name="description" value="agencyAdditionalShippingInstructionsIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-agencyFederalPassThroughNotAvailableIndicator" parent="KualiRoutingFormDocument-agencyFederalPassThroughNotAvailableIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-agencyFederalPassThroughNotAvailableIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyFederalPassThroughNotAvailableIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Federal Pass Through Not Available Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="agencyFederalPassThroughNotAvailableIndicator" />
+    <property name="description" value="agencyFederalPassThroughNotAvailableIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-agencyFederalPassThroughNumber" parent="KualiRoutingFormDocument-agencyFederalPassThroughNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-agencyFederalPassThroughNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyFederalPassThroughNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Federal Pass Through" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="agencyFederalPassThroughNumber" />
+    <property name="description" value="agencyFederalPassThroughNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-grantNumber" parent="KualiRoutingFormDocument-grantNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grantNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Current Grant No." />
+    <property name="shortLabel" value="Grant Number" />
+    <property name="maxLength" value="27" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="29" />
+    </property>
+    <property name="summary" value="grantNumber" />
+    <property name="description" value="grantNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-institutionAccountNumber" parent="KualiRoutingFormDocument-institutionAccountNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-institutionAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Institution Account No." />
+    <property name="shortLabel" value="Account Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="institutionAccountNumber" />
+    <property name="description" value="institutionAccountNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormAnnouncementNumber" parent="KualiRoutingFormDocument-routingFormAnnouncementNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormAnnouncementNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormAnnouncementNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Announcement Number" />
+    <property name="shortLabel" value="Routing Form Announcement" />
+    <property name="maxLength" value="110" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="112" />
+    </property>
+    <property name="summary" value="routingFormAnnouncementNumber" />
+    <property name="description" value="routingFormAnnouncementNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormBudgetNumber" parent="KualiRoutingFormDocument-routingFormBudgetNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormBudgetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="routingFormBudgetNumber" />
+    <property name="description" value="routingFormBudgetNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormCoProjectDirectorIndicator" parent="KualiRoutingFormDocument-routingFormCoProjectDirectorIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormCoProjectDirectorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCoProjectDirectorIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Co Project Director Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormCoProjectDirectorIndicator" />
+    <property name="description" value="routingFormCoProjectDirectorIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormConflictOfInterestCurrentIndicator" parent="KualiRoutingFormDocument-routingFormConflictOfInterestCurrentIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormConflictOfInterestCurrentIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormConflictOfInterestCurrentIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Conflict Of Interest Current Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormConflictOfInterestCurrentIndicator" />
+    <property name="description" value="routingFormConflictOfInterestCurrentIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormConflictOfInterestExistsIndicator" parent="KualiRoutingFormDocument-routingFormConflictOfInterestExistsIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormConflictOfInterestExistsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormConflictOfInterestExistsIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Conflict Of Interest Exists Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormConflictOfInterestExistsIndicator" />
+    <property name="description" value="routingFormConflictOfInterestExistsIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormCostShareIndicator" parent="KualiRoutingFormDocument-routingFormCostShareIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormCostShareIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCostShareIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Cost Share Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormCostShareIndicator" />
+    <property name="description" value="routingFormCostShareIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormCreateDate" parent="KualiRoutingFormDocument-routingFormCreateDate-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCreateDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Create Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="routingFormCreateDate" />
+    <property name="description" value="routingFormCreateDate description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormCreditPercentIndicator" parent="KualiRoutingFormDocument-routingFormCreditPercentIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormCreditPercentIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormCreditPercentIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Credit Percent Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormCreditPercentIndicator" />
+    <property name="description" value="routingFormCreditPercentIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormFederalPassThroughIndicator" parent="KualiRoutingFormDocument-routingFormFederalPassThroughIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormFederalPassThroughIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormFederalPassThroughIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Federal Pass Through Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormFederalPassThroughIndicator" />
+    <property name="description" value="routingFormFederalPassThroughIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormFellowEmailAddress" parent="KualiRoutingFormDocument-routingFormFellowEmailAddress-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormFellowEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormFellowEmailAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Fellow Email Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="routingFormFellowEmailAddress" />
+    <property name="description" value="routingFormFellowEmailAddress description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormFellowFirstName" parent="KualiRoutingFormDocument-routingFormFellowFirstName-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormFellowFirstName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormFellowFirstName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Fellow First Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="routingFormFellowFirstName" />
+    <property name="description" value="routingFormFellowFirstName description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormFellowFullName" parent="KualiRoutingFormDocument-routingFormFellowFullName-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormFellowFullName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormFellowFullName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fellow" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="routingFormFellowFullName" />
+    <property name="description" value="routingFormFellowFullName description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormFellowLastName" parent="KualiRoutingFormDocument-routingFormFellowLastName-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormFellowLastName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormFellowLastName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Fellow Last Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="routingFormFellowLastName" />
+    <property name="description" value="routingFormFellowLastName description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormLastUpdateDate" parent="KualiRoutingFormDocument-routingFormLastUpdateDate-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormLastUpdateDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormLastUpdateDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Last Update Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="routingFormLastUpdateDate" />
+    <property name="description" value="routingFormLastUpdateDate description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormLastUpdateUniversalIdentifier" parent="KualiRoutingFormDocument-routingFormLastUpdateUniversalIdentifier-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormLastUpdateUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormLastUpdateUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Last Update Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="routingFormLastUpdateUniversalIdentifier" />
+    <property name="description" value="routingFormLastUpdateUniversalIdentifier description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormLayDescription" parent="KualiRoutingFormDocument-routingFormLayDescription-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormLayDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormLayDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Lay Description of This Request" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="1000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="routingFormLayDescription" />
+    <property name="description" value="routingFormLayDescription description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormOtherOrganizationIndicator" parent="KualiRoutingFormDocument-routingFormOtherOrganizationIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormOtherOrganizationIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormOtherOrganizationIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Other Organization Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormOtherOrganizationIndicator" />
+    <property name="description" value="routingFormOtherOrganizationIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormOtherPurposeDescription" parent="KualiRoutingFormDocument-routingFormOtherPurposeDescription-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormOtherPurposeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormOtherPurposeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Other Purpose Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="routingFormOtherPurposeDescription" />
+    <property name="description" value="routingFormOtherPurposeDescription description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-projectTypeOtherDescription" parent="KualiRoutingFormDocument-projectTypeOtherDescription-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-projectTypeOtherDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectTypeOtherDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Type Other Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="75" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="projectTypeOtherDescription" />
+    <property name="description" value="projectTypeOtherDescription description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormOtherTypeDescription" parent="KualiRoutingFormDocument-routingFormOtherTypeDescription-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormOtherTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormOtherTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Other Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="75" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="77" />
+    </property>
+    <property name="summary" value="routingFormOtherTypeDescription" />
+    <property name="description" value="routingFormOtherTypeDescription description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormParentNumber" parent="KualiRoutingFormDocument-routingFormParentNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormParentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormParentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Parent Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="routingFormParentNumber" />
+    <property name="description" value="routingFormParentNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormPhysicalCampusCode" parent="KualiRoutingFormDocument-routingFormPhysicalCampusCode-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormPhysicalCampusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Physical Campus Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="routingFormPhysicalCampusCode" />
+    <property name="description" value="routingFormPhysicalCampusCode description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormPriorGrantNumber" parent="KualiRoutingFormDocument-routingFormPriorGrantNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormPriorGrantNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormPriorGrantNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Prior Grant No." />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="27" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="29" />
+    </property>
+    <property name="summary" value="routingFormPriorGrantNumber" />
+    <property name="description" value="routingFormPriorGrantNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormProjectTitle" parent="KualiRoutingFormDocument-routingFormProjectTitle-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormProjectTitle" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Project Title" />
+    <property name="shortLabel" value="Title" />
+    <property name="maxLength" value="500" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="routingFormProjectTitle" />
+    <property name="description" value="routingFormProjectTitle description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormPurposeCode" parent="KualiRoutingFormDocument-routingFormPurposeCode-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormPurposeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormPurposeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Purpose" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="routingFormPurposeCode" />
+    <property name="description" value="routingFormPurposeCode description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormSpaceRequiredDescription" parent="KualiRoutingFormDocument-routingFormSpaceRequiredDescription-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormSpaceRequiredDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormSpaceRequiredDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Space Required Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="1000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="routingFormSpaceRequiredDescription" />
+    <property name="description" value="routingFormSpaceRequiredDescription description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormSpaceRequiredIndicator" parent="KualiRoutingFormDocument-routingFormSpaceRequiredIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormSpaceRequiredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormSpaceRequiredIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Space Required Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormSpaceRequiredIndicator" />
+    <property name="description" value="routingFormSpaceRequiredIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormStatusCode" parent="KualiRoutingFormDocument-routingFormStatusCode-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="routingFormStatusCode" />
+    <property name="description" value="routingFormStatusCode description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormSubcontractorIndicator" parent="KualiRoutingFormDocument-routingFormSubcontractorIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormSubcontractorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormSubcontractorIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Subcontractor Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormSubcontractorIndicator" />
+    <property name="description" value="routingFormSubcontractorIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-documentNumber" parent="KualiRoutingFormDocument-documentNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-researchTypeCode" parent="KualiRoutingFormDocument-researchTypeCode-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-researchTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="researchTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Research Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="1" />
+    </property>
+    <property name="summary" value="researchTypeCode" />
+    <property name="description" value="researchTypeCode description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-previousFederalIdentifier" parent="KualiRoutingFormDocument-previousFederalIdentifier-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-previousFederalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="previousFederalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Previous Federal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="previousFederalIdentifier" />
+    <property name="description" value="previousFederalIdentifier description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-federalIdentifier" parent="KualiRoutingFormDocument-federalIdentifier-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-federalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="federalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Federal Identification No." />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="federalIdentifier" />
+    <property name="description" value="federalIdentifier description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-grantsGovernmentConfirmationNumber" parent="KualiRoutingFormDocument-grantsGovernmentConfirmationNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-grantsGovernmentConfirmationNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grantsGovernmentConfirmationNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Grants.gov Confirmation No." />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="grantsGovernmentConfirmationNumber" />
+    <property name="description" value="grantsGovernmentConfirmationNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-grantsGovernmentSubmissionIndicator" parent="KualiRoutingFormDocument-grantsGovernmentSubmissionIndicator-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-grantsGovernmentSubmissionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grantsGovernmentSubmissionIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Grants.gov Submission" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="grantsGovernmentSubmissionIndicator" />
+    <property name="description" value="grantsGovernmentSubmissionIndicator description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-projectAbstract" parent="KualiRoutingFormDocument-projectAbstract-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-projectAbstract-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectAbstract" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Abstract" />
+    <property name="shortLabel" value="Abstract" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="60" />
+    </property>
+    <property name="summary" value="projectAbstract" />
+    <property name="description" value="projectAbstract description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-creditPercentNextSequenceNumber" parent="KualiRoutingFormDocument-creditPercentNextSequenceNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-creditPercentNextSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditPercentNextSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit Percent Next Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="creditPercentNextSequenceNumber" />
+    <property name="description" value="creditPercentNextSequenceNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-institutionCostShareNextSequenceNumber" parent="KualiRoutingFormDocument-institutionCostShareNextSequenceNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-institutionCostShareNextSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionCostShareNextSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Institution Cost Share Next Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="institutionCostShareNextSequenceNumber" />
+    <property name="description" value="institutionCostShareNextSequenceNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-otherCostShareNextSequenceNumber" parent="KualiRoutingFormDocument-otherCostShareNextSequenceNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-otherCostShareNextSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="otherCostShareNextSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Other Cost Share Next Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="otherCostShareNextSequenceNumber" />
+    <property name="description" value="otherCostShareNextSequenceNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-projectDirectorNextSequenceNumber" parent="KualiRoutingFormDocument-projectDirectorNextSequenceNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-projectDirectorNextSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectDirectorNextSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Director Next Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="projectDirectorNextSequenceNumber" />
+    <property name="description" value="projectDirectorNextSequenceNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-subcontractorNextSequenceNumber" parent="KualiRoutingFormDocument-subcontractorNextSequenceNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-subcontractorNextSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorNextSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Subcontractor Next Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="subcontractorNextSequenceNumber" />
+    <property name="description" value="subcontractorNextSequenceNumber description..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-routingFormAgency" parent="KualiRoutingFormDocument-routingFormAgency-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-routingFormAgency-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="routingFormAgency" />
+    <property name="label" value="Agency" />
+    <property name="shortLabel" value="Number" />
+    <property name="summary" value="Budget Agency" />
+    <property name="description" value="Budget Agency..." />
+  </bean>
+  <bean id="KualiRoutingFormDocument-versionNumber" parent="KualiRoutingFormDocument-versionNumber-parentBean" />
+
+  <bean id="KualiRoutingFormDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

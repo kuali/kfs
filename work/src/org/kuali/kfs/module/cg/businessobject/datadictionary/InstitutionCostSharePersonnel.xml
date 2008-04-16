@@ -1,131 +1,145 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="InstitutionCostSharePersonnel" parent="InstitutionCostSharePersonnel-parentBean" />
+
+  <bean id="InstitutionCostSharePersonnel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel" />
+    <property name="inquiryDefinition" >
+      <ref bean="InstitutionCostSharePersonnel-inquiryDefinition" />
+    </property>
+    <property name="objectLabel" value="Institution Cost Share Personnel" />
+    <property name="attributes" >
+      <list>
+        <ref bean="InstitutionCostSharePersonnel-documentNumber" />
+        <ref bean="InstitutionCostSharePersonnel-chartOfAccountsCode" />
+        <ref bean="InstitutionCostSharePersonnel-organizationCode" />
+        <ref bean="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription" />
+        <ref bean="InstitutionCostSharePersonnel-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Institution Cost Share Personnel</title>
+  <bean id="InstitutionCostSharePersonnel-documentNumber" parent="InstitutionCostSharePersonnel-documentNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="InstitutionCostSharePersonnel-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Number" />
+    <property name="shortLabel" value="Budget Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Budget Number..." />
+    <property name="description" value="Budget Number..." />
+  </bean>
+  <bean id="InstitutionCostSharePersonnel-chartOfAccountsCode" parent="InstitutionCostSharePersonnel-chartOfAccountsCode-parentBean" />
 
-        <attributes>
+  <bean id="InstitutionCostSharePersonnel-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Source" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Chart of Accounts Code" />
+    <property name="description" value="Financial Chart of Accounts Code" />
+  </bean>
+  <bean id="InstitutionCostSharePersonnel-organizationCode" parent="InstitutionCostSharePersonnel-organizationCode-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Budget Number</label>
-                <shortLabel>Budget Number</shortLabel>
+  <bean id="InstitutionCostSharePersonnel-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Source" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Organization Code" />
+    <property name="description" value="Organization Code" />
+  </bean>
+  <bean id="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription" parent="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription-parentBean" />
 
-                <maxLength>12</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetInstitutionCostSharePersonnelDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="InstitutionCostSharePersonnel-versionNumber" parent="InstitutionCostSharePersonnel-versionNumber-parentBean" />
 
-                <control>
-                    <text size="12" />
-                </control>
+  <bean id="InstitutionCostSharePersonnel-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
+  </bean>
 
-                <summary>Budget Number...</summary>
-                <description>Budget Number...</description>
-            </attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Source</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha />
-                </validationPattern>
-
-                <control>
-                    <!-- text size="2" /-->
-                    <!-- If we want to go back to the drop-down list, then use this:-->
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-
-                <summary>Chart of Accounts Code</summary>
-                <description>Financial Chart of Accounts Code</description>
-            </attribute>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Source</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <alpha />
-                </validationPattern>
-
-                <control>
-                    <!-- text size="2" /-->
-                    <!-- If we want to go back to the drop-down list, then use this:-->
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-
-                <summary>Organization Code</summary>
-                <description>Organization Code</description>
-            </attribute>
-
-
-            <attribute name="budgetInstitutionCostSharePersonnelDescription" forceUppercase="true">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <control>
-                    <text size="40" />
-                </control>
-
-                <summary>Description</summary>
-                <description>Description</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="InstitutionCostSharePersonnel-inquiryDefinition" parent="InstitutionCostSharePersonnel-inquiryDefinition-parentBean" />
 
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
-            </attribute>
-
-        </attributes>
-
-		<objectLabel>Institution Cost Share Personnel</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="InstitutionCostSharePersonnel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Institution Cost Share Personnel" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

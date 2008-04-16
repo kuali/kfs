@@ -1,110 +1,149 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionAdministrativePost">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionAdministrativePost" parent="BudgetConstructionAdministrativePost-parentBean" />
+
+  <bean id="BudgetConstructionAdministrativePost-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAdministrativePost" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionAdministrativePost-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionAdministrativePost-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionAdministrativePost-administrativePost" />
+        <ref bean="BudgetConstructionAdministrativePost-emplid" />
+        <ref bean="BudgetConstructionAdministrativePost-positionNumber" />
+        <ref bean="BudgetConstructionAdministrativePost-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Administrative Post Inquiry</title>
+  <bean id="BudgetConstructionAdministrativePost-administrativePost" parent="BudgetConstructionAdministrativePost-administrativePost-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="administrativePost" />
-                <field attributeName="emplid" />
-                <field attributeName="positionNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionAdministrativePost-administrativePost-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="administrativePost" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Administrative Post" />
+    <property name="shortLabel" value="Post" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="17" />
+    </property>
+    <property name="summary" value="administrativePost" />
+    <property name="description" value="administrativePost description..." />
+  </bean>
+  <bean id="BudgetConstructionAdministrativePost-emplid" parent="BudgetConstructionAdministrativePost-emplid-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Administrative Post Lookup</title>
+  <bean id="BudgetConstructionAdministrativePost-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emplid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Emplid" />
+    <property name="shortLabel" value="Emplid" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="emplid" />
+    <property name="description" value="emplid description..." />
+  </bean>
+  <bean id="BudgetConstructionAdministrativePost-positionNumber" parent="BudgetConstructionAdministrativePost-positionNumber-parentBean" />
 
-            <instructions>Look up a Budget Construction Administrative Post</instructions>
+  <bean id="BudgetConstructionAdministrativePost-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="positionNumber" />
+    <property name="description" value="positionNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionAdministrativePost-versionNumber" parent="BudgetConstructionAdministrativePost-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="emplid" />
-                    <sortAttribute attributeName="positionNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionAdministrativePost-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="administrativePost" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="administrativePost" />
-                <field attributeName="emplid" />
-                <field attributeName="positionNumber" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="BudgetConstructionAdministrativePost-inquiryDefinition" parent="BudgetConstructionAdministrativePost-inquiryDefinition-parentBean" />
 
-            <attribute name="administrativePost" forceUppercase="true">
-                <label>Administrative Post</label>
-                <shortLabel>Post</shortLabel>
+  <bean id="BudgetConstructionAdministrativePost-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Administrative Post Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="administrativePost" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="17" />
-                </control>
 
-                <summary>administrativePost</summary>
-                <description>administrativePost description...</description>
-			</attribute>
+  <bean id="BudgetConstructionAdministrativePost-lookupDefinition" parent="BudgetConstructionAdministrativePost-lookupDefinition-parentBean" />
 
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
-
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionAdministrativePost-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Administrative Post Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Administrative Post" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="administrativePost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="administrativePost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

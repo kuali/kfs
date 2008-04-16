@@ -1,122 +1,170 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionCategory">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="OrganizationReversionCategory" parent="OrganizationReversionCategory-parentBean" />
+
+  <bean id="OrganizationReversionCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionCategory" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationReversionCategory-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationReversionCategory-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationReversionCategoryCode" />
+    <property name="objectLabel" value="Organization Reversion Category" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationReversionCategory-organizationReversionCategoryCode" />
+        <ref bean="OrganizationReversionCategory-organizationReversionCategoryName" />
+        <ref bean="OrganizationReversionCategory-organizationReversionSortCode" />
+        <ref bean="OrganizationReversionCategory-organizationReversionCategoryActiveIndicator" />
+        <ref bean="OrganizationReversionCategory-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Organization Reversion Category Inquiry</title>
+  <bean id="OrganizationReversionCategory-organizationReversionCategoryCode" parent="OrganizationReversionCategory-organizationReversionCategoryCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="organizationReversionCategoryCode" />
-                <field attributeName="organizationReversionCategoryName" />
-                <field attributeName="organizationReversionSortCode" />
-                <field attributeName="organizationReversionCategoryActiveIndicator" />  
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="OrganizationReversionCategory-organizationReversionCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReversionCategoryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Category Code" />
+    <property name="shortLabel" value="Category Code" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionCategory-organizationReversionCategoryName" parent="OrganizationReversionCategory-organizationReversionCategoryName-parentBean" />
 
-        <lookup>
-            <title>Organization Reversion Category Lookup</title>
+  <bean id="OrganizationReversionCategory-organizationReversionCategoryName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReversionCategoryName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Category Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionCategory-organizationReversionSortCode" parent="OrganizationReversionCategory-organizationReversionSortCode-parentBean" />
 
-            <instructions>Lookup an Organization Reversion Category</instructions>
+  <bean id="OrganizationReversionCategory-organizationReversionSortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReversionSortCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sort Code" />
+    <property name="shortLabel" value="Sort Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionCategory-organizationReversionCategoryActiveIndicator" parent="OrganizationReversionCategory-organizationReversionCategoryActiveIndicator-parentBean" />
 
-            <defaultSort attributeName="organizationReversionCategoryCode" sortAscending="true" />
+  <bean id="OrganizationReversionCategory-organizationReversionCategoryActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReversionCategoryActiveIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Reversion Category Active Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionCategory-versionNumber" parent="OrganizationReversionCategory-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="organizationReversionCategoryCode" />
-                <lookupField attributeName="organizationReversionCategoryName" />
-                <lookupField attributeName="organizationReversionSortCode" />
-                <lookupField attributeName="organizationReversionCategoryActiveIndicator" />                
-            </lookupFields>
+  <bean id="OrganizationReversionCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="organizationReversionCategoryCode" forceInquiry="true" />
-                <field attributeName="organizationReversionCategoryName" />
-                <field attributeName="organizationReversionSortCode" />
-                <field attributeName="organizationReversionCategoryActiveIndicator" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <titleAttribute>organizationReversionCategoryCode</titleAttribute>
 
-        <attributes>
+  <bean id="OrganizationReversionCategory-inquiryDefinition" parent="OrganizationReversionCategory-inquiryDefinition-parentBean" />
 
-            <attribute name="organizationReversionCategoryCode" forceUppercase="true">
-                <label>Category Code</label>
-                <shortLabel>Category Code</shortLabel>
+  <bean id="OrganizationReversionCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Reversion Category Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionCategoryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionCategoryName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionSortCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReversionCategoryActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
 
-            <attribute name="organizationReversionCategoryName" forceUppercase="false">
-                <label>Category Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="OrganizationReversionCategory-lookupDefinition" parent="OrganizationReversionCategory-lookupDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="organizationReversionSortCode" forceUppercase="true">
-                <label>Sort Code</label>
-                <shortLabel>Sort Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-            
-			 <attribute name="organizationReversionCategoryActiveIndicator" forceUppercase="false">
-                <label>Organization Reversion Category Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-			</attribute>
-			
-		<!-- 	<attributeReference name="organizationReversionCategoryActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />  -->
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Organization Reversion Category</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="OrganizationReversionCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Reversion Category Lookup" />
+    <property name="instructions" value="Lookup an Organization Reversion Category" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>organizationReversionCategoryCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionSortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionSortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReversionCategoryActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,88 +1,130 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AccountGlobalDetail" parent="AccountGlobalDetail-parentBean" />
+
+  <bean id="AccountGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.AccountGlobalDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="AccountGlobalDetail-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AccountGlobalDetail-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Account Change Detail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AccountGlobalDetail-accountNumber" />
+        <ref bean="AccountGlobalDetail-chartOfAccountsCode" />
+        <ref bean="AccountGlobalDetail-account.accountName" />
+        <ref bean="AccountGlobalDetail-documentNumber" />
+        <ref bean="AccountGlobalDetail-newCollectionRecord" />
+        <ref bean="AccountGlobalDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Account Change Detail Inquiry</title>
+  <bean id="AccountGlobalDetail-accountNumber" parent="AccountGlobalDetail-accountNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="versionNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AccountGlobalDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="AccountGlobalDetail-chartOfAccountsCode" parent="AccountGlobalDetail-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Account Change Detail Lookup</title>
+  <bean id="AccountGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="AccountGlobalDetail-account.accountName" parent="AccountGlobalDetail-account.accountName-parentBean" />
 
-            <instructions>Lookup an Account Change Detail</instructions>
+  <bean id="AccountGlobalDetail-account.accountName-parentBean" abstract="true" parent="Account-accountName">
+    <property name="name" value="account.accountName" />
+  </bean>
+  <bean id="AccountGlobalDetail-documentNumber" parent="AccountGlobalDetail-documentNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="AccountGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="AccountGlobalDetail-newCollectionRecord" parent="AccountGlobalDetail-newCollectionRecord-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="versionNumber" required="false" />
-            </lookupFields>
+  <bean id="AccountGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="AccountGlobalDetail-versionNumber" parent="AccountGlobalDetail-versionNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="versionNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="AccountGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-        <attributes>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
+  <bean id="AccountGlobalDetail-inquiryDefinition" parent="AccountGlobalDetail-inquiryDefinition-parentBean" />
 
-            <attributeReference name="account.accountName" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountName" />
+  <bean id="AccountGlobalDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Account Change Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
-            
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="versionNumber" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="versionNumber" />
 
-        </attributes>
-        
-        <objectLabel>Account Change Detail</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AccountGlobalDetail-lookupDefinition" parent="AccountGlobalDetail-lookupDefinition-parentBean" />
+
+  <bean id="AccountGlobalDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Account Change Detail Lookup" />
+    <property name="instructions" value="Lookup an Account Change Detail" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

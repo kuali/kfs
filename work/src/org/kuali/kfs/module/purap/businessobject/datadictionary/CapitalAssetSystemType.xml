@@ -1,84 +1,137 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.CapitalAssetSystemType">
- 
-        <inquiry>
-            <title>Capital Asset System Type Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                    	<field attributeName="capitalAssetSystemTypeCode" />                       
-                        <field attributeName="capitalAssetSystemTypeDescription" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Capital Asset System Type Lookup</title>
+  <bean id="CapitalAssetSystemType" parent="CapitalAssetSystemType-parentBean" />
 
-            <instructions>Look up a Capital Asset System Type</instructions>
+  <bean id="CapitalAssetSystemType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.CapitalAssetSystemType" />
+    <property name="inquiryDefinition" >
+      <ref bean="CapitalAssetSystemType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CapitalAssetSystemType-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CapitalAssetSystemType-capitalAssetSystemTypeCode" />
+        <ref bean="CapitalAssetSystemType-capitalAssetSystemTypeDescription" />
+        <ref bean="CapitalAssetSystemType-active" />
+        <ref bean="CapitalAssetSystemType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetSystemTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>                
-                <lookupField attributeName="capitalAssetSystemTypeCode" required="false" />
-                <lookupField attributeName="capitalAssetSystemTypeDescription" required="false" />
-                <lookupField attributeName="active" required="false" />               
-            </lookupFields>
 
-            <resultFields>              
-                <field attributeName="capitalAssetSystemTypeCode" />
-                <field attributeName="capitalAssetSystemTypeDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="CapitalAssetSystemType-capitalAssetSystemTypeCode" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode-parentBean" />
 
-        <attributes>
+  <bean id="CapitalAssetSystemType-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetSystemTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset System Type Code" />
+    <property name="shortLabel" value="System Type Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="capitalAssetSystemTypeCode" />
+    <property name="description" value="capitalAssetSystemTypeCode description..." />
+  </bean>
+  <bean id="CapitalAssetSystemType-capitalAssetSystemTypeDescription" parent="CapitalAssetSystemType-capitalAssetSystemTypeDescription-parentBean" />
 
-			<attribute name="capitalAssetSystemTypeCode" forceUppercase="true">
-                <label>Capital Asset System Type Code</label>
-                <shortLabel>System Type Code</shortLabel>
+  <bean id="CapitalAssetSystemType-capitalAssetSystemTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetSystemTypeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Capital Asset System Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+    <property name="summary" value="capitalAssetSystemTypeDescription" />
+    <property name="description" value="capitalAssetSystemTypeDescription description..." />
+  </bean>
+  <bean id="CapitalAssetSystemType-active" parent="CapitalAssetSystemType-active-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CapitalAssetSystemType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="CapitalAssetSystemType-versionNumber" parent="CapitalAssetSystemType-versionNumber-parentBean" />
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="CapitalAssetSystemType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>capitalAssetSystemTypeCode</summary>
-                <description>capitalAssetSystemTypeCode description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="capitalAssetSystemTypeDescription">
-                <label>Capital Asset System Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="CapitalAssetSystemType-inquiryDefinition" parent="CapitalAssetSystemType-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="47"/>
-                </control>
+  <bean id="CapitalAssetSystemType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Capital Asset System Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetSystemTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetSystemTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <summary>capitalAssetSystemTypeDescription</summary>
-                <description>capitalAssetSystemTypeDescription description...</description>
-			</attribute>
-			
-			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CapitalAssetSystemType-lookupDefinition" parent="CapitalAssetSystemType-lookupDefinition-parentBean" />
+
+  <bean id="CapitalAssetSystemType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Capital Asset System Type Lookup" />
+    <property name="instructions" value="Look up a Capital Asset System Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetSystemTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetSystemTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetSystemTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetSystemTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

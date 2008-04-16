@@ -1,96 +1,145 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerProcessingType">
- 
-        <inquiry>
-            <title>Customer Processing Type Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="active" />
-                        <field attributeName="customerSpecialProcessingCode" />
-                        <field attributeName="customerSpecialProcessingDescription" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Customer Processing Type Lookup</title>
+  <bean id="CustomerProcessingType" parent="CustomerProcessingType-parentBean" />
 
-            <instructions>Look up a Customer Processing Type</instructions>
+  <bean id="CustomerProcessingType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerProcessingType" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomerProcessingType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomerProcessingType-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomerProcessingType-active" />
+        <ref bean="CustomerProcessingType-customerSpecialProcessingCode" />
+        <ref bean="CustomerProcessingType-customerSpecialProcessingDescription" />
+        <ref bean="CustomerProcessingType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="customerSpecialProcessingCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="active" required="false" />
-                <lookupField attributeName="customerSpecialProcessingCode" required="false" />
-                <lookupField attributeName="customerSpecialProcessingDescription" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="active" />
-                <field attributeName="customerSpecialProcessingCode" />
-                <field attributeName="customerSpecialProcessingDescription" />
-            </resultFields>
-        </lookup>
+  <bean id="CustomerProcessingType-active" parent="CustomerProcessingType-active-parentBean" />
 
-        <attributes>
+  <bean id="CustomerProcessingType-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="active" />
+    <property name="description" value="active description..." />
+  </bean>
+  <bean id="CustomerProcessingType-customerSpecialProcessingCode" parent="CustomerProcessingType-customerSpecialProcessingCode-parentBean" />
 
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
+  <bean id="CustomerProcessingType-customerSpecialProcessingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerSpecialProcessingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Special Processing Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="customerSpecialProcessingCode" />
+    <property name="description" value="customerSpecialProcessingCode description..." />
+  </bean>
+  <bean id="CustomerProcessingType-customerSpecialProcessingDescription" parent="CustomerProcessingType-customerSpecialProcessingDescription-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="CustomerProcessingType-customerSpecialProcessingDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerSpecialProcessingDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Special Processing Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="customerSpecialProcessingDescription" />
+    <property name="description" value="customerSpecialProcessingDescription description..." />
+  </bean>
+  <bean id="CustomerProcessingType-versionNumber" parent="CustomerProcessingType-versionNumber-parentBean" />
 
-                <control>
-                    <checkbox />
-                </control>
+  <bean id="CustomerProcessingType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>active</summary>
-                <description>active description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="customerSpecialProcessingCode" forceUppercase="true">
-                <label>Customer Special Processing Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CustomerProcessingType-inquiryDefinition" parent="CustomerProcessingType-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="CustomerProcessingType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Customer Processing Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerSpecialProcessingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerSpecialProcessingDescription" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <summary>customerSpecialProcessingCode</summary>
-                <description>customerSpecialProcessingCode description...</description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="customerSpecialProcessingDescription" forceUppercase="true">
-                <label>Customer Special Processing Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CustomerProcessingType-lookupDefinition" parent="CustomerProcessingType-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>customerSpecialProcessingDescription</summary>
-                <description>customerSpecialProcessingDescription description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CustomerProcessingType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Processing Type Lookup" />
+    <property name="instructions" value="Look up a Customer Processing Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerSpecialProcessingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerSpecialProcessingDescription" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerSpecialProcessingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerSpecialProcessingDescription" />
+      </list>
+    </property>
+  </bean>
+</beans>

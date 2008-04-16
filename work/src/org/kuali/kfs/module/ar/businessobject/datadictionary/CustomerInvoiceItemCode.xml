@@ -1,329 +1,455 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerInvoiceItemCode">
- 
-        <inquiry>
-            <title>Customer Invoice Item Code Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="chartOfAccountsCode" />
-                        <field attributeName="organizationCode" />
-                        <field attributeName="invoiceItemCode" />
-                        <field attributeName="invoiceItemDescription" />
-                        <field attributeName="relatedStockNumber" />
-                        <field attributeName="defaultInvoiceChartOfAccountsCode" />
-                        <field attributeName="defaultInvoiceAccountNumber" />
-                        <field attributeName="defaultInvoiceFinancialObjectCode" />
-                        <field attributeName="defaultInvoiceProjectCode" />
-                        <field attributeName="itemDefaultPrice" />
-                        <field attributeName="itemDefaultQuantity" />
-                        <field attributeName="defaultUnitOfMeasureCode" />
-                        <field attributeName="defaultInvoiceSubAccountNumber" />
-                        <field attributeName="defaultInvoiceFinancialSubObjectCode" />
-                        <field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
-
-        <lookup>
-            <title>Customer Invoice Item Code Lookup</title>
-
-            <instructions>Look up a Customer Invoice Item Code</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                    <sortAttribute attributeName="invoiceItemCode" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="invoiceItemCode" required="false" />
-                <lookupField attributeName="defaultInvoiceChartOfAccountsCode" required="false" />
-                <lookupField attributeName="defaultInvoiceAccountNumber" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="customerInvoiceItemCodeDefaultViewer" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="invoiceItemCode" />
-                <field attributeName="invoiceItemDescription" />
-                <field attributeName="relatedStockNumber" />
-                <field attributeName="defaultInvoiceChartOfAccountsCode" />
-                <field attributeName="defaultInvoiceAccountNumber" />
-            </resultFields>
-        </lookup>
-
-		<titleAttribute>customerInvoiceItemCodeDefaultViewer</titleAttribute>
-
-        <attributes>
-
-		    <attribute name="customerInvoiceItemCodeDefaultViewer">
-        		<label>View</label>
-        		<maxLength>50</maxLength>
-        		<required>false</required>
-        		<control><hidden /></control>
-        	</attribute>
-
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>active</summary>
-                <description>active description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Billing Chart</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceAccountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>defaultInvoiceAccountNumber</summary>
-                <description>defaultInvoiceAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceChartOfAccountsCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>defaultInvoiceChartOfAccountsCode</summary>
-                <description>defaultInvoiceChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceFinancialObjectCode" forceUppercase="true">
-                <label>Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>defaultInvoiceFinancialObjectCode</summary>
-                <description>defaultInvoiceFinancialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceFinancialSubObjectCode" forceUppercase="true">
-                <label>Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>defaultInvoiceFinancialSubObjectCode</summary>
-                <description>defaultInvoiceFinancialSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceOrganizationReferenceIdentifier" forceUppercase="true">
-                <label>Organization Reference Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>defaultInvoiceOrganizationReferenceIdentifier</summary>
-                <description>defaultInvoiceOrganizationReferenceIdentifier description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceProjectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>defaultInvoiceProjectCode</summary>
-                <description>defaultInvoiceProjectCode description...</description>
-			</attribute>
-
-            <attribute name="defaultInvoiceSubAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>defaultInvoiceSubAccountNumber</summary>
-                <description>defaultInvoiceSubAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="defaultUnitOfMeasureCode" forceUppercase="true">
-                <label>Item Unit Of Measure</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>defaultUnitOfMeasureCode</summary>
-                <description>defaultUnitOfMeasureCode description...</description>
-			</attribute>
-
-            <attribute name="invoiceItemCode" forceUppercase="true">
-                <label>Item Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>invoiceItemCode</summary>
-                <description>invoiceItemCode description...</description>
-			</attribute>
-
-            <attribute name="invoiceItemDescription" forceUppercase="true">
-                <label>Item Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>invoiceItemDescription</summary>
-                <description>invoiceItemDescription description...</description>
-			</attribute>
-
-            <attribute name="itemDefaultPrice" forceUppercase="true">
-                <label>Item Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemDefaultPrice</summary>
-                <description>itemDefaultPrice description...</description>
-			</attribute>
-
-            <attribute name="itemDefaultQuantity" forceUppercase="true">
-                <label>Item Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>itemDefaultQuantity</summary>
-                <description>itemDefaultQuantity description...</description>
-			</attribute>
-
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Billing Organization</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="relatedStockNumber" forceUppercase="true">
-                <label>Related Stock Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>relatedStockNumber</summary>
-                <description>relatedStockNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CustomerInvoiceItemCode" parent="CustomerInvoiceItemCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerInvoiceItemCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomerInvoiceItemCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomerInvoiceItemCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="customerInvoiceItemCodeDefaultViewer" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer" />
+        <ref bean="CustomerInvoiceItemCode-active" />
+        <ref bean="CustomerInvoiceItemCode-chartOfAccountsCode" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceAccountNumber" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceProjectCode" />
+        <ref bean="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber" />
+        <ref bean="CustomerInvoiceItemCode-defaultUnitOfMeasureCode" />
+        <ref bean="CustomerInvoiceItemCode-invoiceItemCode" />
+        <ref bean="CustomerInvoiceItemCode-invoiceItemDescription" />
+        <ref bean="CustomerInvoiceItemCode-itemDefaultPrice" />
+        <ref bean="CustomerInvoiceItemCode-itemDefaultQuantity" />
+        <ref bean="CustomerInvoiceItemCode-organizationCode" />
+        <ref bean="CustomerInvoiceItemCode-relatedStockNumber" />
+        <ref bean="CustomerInvoiceItemCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer" parent="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerInvoiceItemCodeDefaultViewer" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="50" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CustomerInvoiceItemCode-active" parent="CustomerInvoiceItemCode-active-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="active" />
+    <property name="description" value="active description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-chartOfAccountsCode" parent="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Billing Chart" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber" parent="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="defaultInvoiceAccountNumber" />
+    <property name="description" value="defaultInvoiceAccountNumber description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode" parent="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="defaultInvoiceChartOfAccountsCode" />
+    <property name="description" value="defaultInvoiceChartOfAccountsCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceFinancialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="defaultInvoiceFinancialObjectCode" />
+    <property name="description" value="defaultInvoiceFinancialObjectCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceFinancialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="defaultInvoiceFinancialSubObjectCode" />
+    <property name="description" value="defaultInvoiceFinancialSubObjectCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier" parent="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceOrganizationReferenceIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="defaultInvoiceOrganizationReferenceIdentifier" />
+    <property name="description" value="defaultInvoiceOrganizationReferenceIdentifier description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceProjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="defaultInvoiceProjectCode" />
+    <property name="description" value="defaultInvoiceProjectCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber" parent="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceSubAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="defaultInvoiceSubAccountNumber" />
+    <property name="description" value="defaultInvoiceSubAccountNumber description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode" parent="CustomerInvoiceItemCode-defaultUnitOfMeasureCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultUnitOfMeasureCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Unit Of Measure" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="defaultUnitOfMeasureCode" />
+    <property name="description" value="defaultUnitOfMeasureCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-invoiceItemCode" parent="CustomerInvoiceItemCode-invoiceItemCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-invoiceItemCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceItemCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="invoiceItemCode" />
+    <property name="description" value="invoiceItemCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-invoiceItemDescription" parent="CustomerInvoiceItemCode-invoiceItemDescription-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-invoiceItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceItemDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="invoiceItemDescription" />
+    <property name="description" value="invoiceItemDescription description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-itemDefaultPrice" parent="CustomerInvoiceItemCode-itemDefaultPrice-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-itemDefaultPrice-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDefaultPrice" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Price" />
+    <property name="shortLabel" value="Price" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="itemDefaultPrice" />
+    <property name="description" value="itemDefaultPrice description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-itemDefaultQuantity" parent="CustomerInvoiceItemCode-itemDefaultQuantity-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-itemDefaultQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDefaultQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="itemDefaultQuantity" />
+    <property name="description" value="itemDefaultQuantity description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-organizationCode" parent="CustomerInvoiceItemCode-organizationCode-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Billing Organization" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="organizationCode" />
+    <property name="description" value="organizationCode description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-relatedStockNumber" parent="CustomerInvoiceItemCode-relatedStockNumber-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-relatedStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="relatedStockNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Related Stock Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="relatedStockNumber" />
+    <property name="description" value="relatedStockNumber description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-versionNumber" parent="CustomerInvoiceItemCode-versionNumber-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CustomerInvoiceItemCode-inquiryDefinition" parent="CustomerInvoiceItemCode-inquiryDefinition-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Customer Invoice Item Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceItemCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceItemDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="relatedStockNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceProjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemDefaultPrice" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemDefaultQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultUnitOfMeasureCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CustomerInvoiceItemCode-lookupDefinition" parent="CustomerInvoiceItemCode-lookupDefinition-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Invoice Item Code Lookup" />
+    <property name="instructions" value="Look up a Customer Invoice Item Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceItemCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultInvoiceChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultInvoiceAccountNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerInvoiceItemCodeDefaultViewer" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceItemCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="invoiceItemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="relatedStockNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultInvoiceChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultInvoiceAccountNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

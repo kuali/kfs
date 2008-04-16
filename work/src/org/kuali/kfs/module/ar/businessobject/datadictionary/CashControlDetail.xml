@@ -1,135 +1,207 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.CashControlDetail">
- 
-        <inquiry>
-            <title>Cash Control Detail Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="customerNumber" />
-                        <field attributeName="customerPaymentDate" />
-                        <field attributeName="customerPaymentDescription" />
-                        <field attributeName="customerPaymentMediumIdentifier" />
-                        <field attributeName="documentNumber" />
-                        <field attributeName="financialDocumentLineAmount" />
-                        <field attributeName="referenceFinancialDocumentNumber" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Cash Control Detail Lookup</title>
+  <bean id="CashControlDetail" parent="CashControlDetail-parentBean" />
 
-            <instructions>Look up a Cash Control Detail</instructions>
+  <bean id="CashControlDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CashControlDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="CashControlDetail-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CashControlDetail-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CashControlDetail-customerNumber" />
+        <ref bean="CashControlDetail-customerPaymentDate" />
+        <ref bean="CashControlDetail-customerPaymentDescription" />
+        <ref bean="CashControlDetail-customerPaymentMediumIdentifier" />
+        <ref bean="CashControlDetail-documentNumber" />
+        <ref bean="CashControlDetail-financialDocumentLineAmount" />
+        <ref bean="CashControlDetail-referenceFinancialDocumentNumber" />
+        <ref bean="CashControlDetail-status" />
+        <ref bean="CashControlDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                    <sortAttribute attributeName="referenceFinancialDocumentNumber" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="customerNumber" required="false" />
-                <lookupField attributeName="customerPaymentDate" required="false" />
-                <lookupField attributeName="customerPaymentDescription" required="false" />
-                <lookupField attributeName="customerPaymentMediumIdentifier" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentLineAmount" required="false" />
-                <lookupField attributeName="referenceFinancialDocumentNumber" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="customerNumber" />
-                <field attributeName="customerPaymentDate" />
-                <field attributeName="customerPaymentDescription" />
-                <field attributeName="customerPaymentMediumIdentifier" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentLineAmount" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="CashControlDetail-customerNumber" parent="CashControlDetail-customerNumber-parentBean" />
 
-        <attributes>
+  <bean id="CashControlDetail-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
+    <property name="shortLabel" value="Customer #" />
+  </bean>
+  <bean id="CashControlDetail-customerPaymentDate" parent="CashControlDetail-customerPaymentDate-parentBean" />
 
-		    <attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber">
-                <label>Customer Number</label>
-                <shortLabel>Customer #</shortLabel>
-            </attributeReference>
+  <bean id="CashControlDetail-customerPaymentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="customerPaymentDate" />
+    <property name="label" value="Customer Payment Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="CashControlDetail-customerPaymentDescription" parent="CashControlDetail-customerPaymentDescription-parentBean" />
 
-            <attributeReference name="customerPaymentDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Customer Payment Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
+  <bean id="CashControlDetail-customerPaymentDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerPaymentDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Customer Payment Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="60" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="62" />
+    </property>
+    <property name="summary" value="customerPaymentDescription" />
+    <property name="description" value="customerPaymentDescription description..." />
+  </bean>
+  <bean id="CashControlDetail-customerPaymentMediumIdentifier" parent="CashControlDetail-customerPaymentMediumIdentifier-parentBean" />
 
-            <attribute name="customerPaymentDescription" forceUppercase="false">
-                <label>Customer Payment Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="CashControlDetail-customerPaymentMediumIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerPaymentMediumIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Payment Medium Identifier" />
+    <property name="shortLabel" value="Medium ID" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="customerPaymentMediumIdentifier" />
+    <property name="description" value="customerPaymentMediumIdentifier description..." />
+  </bean>
+  <bean id="CashControlDetail-documentNumber" parent="CashControlDetail-documentNumber-parentBean" />
 
-                <maxLength>60</maxLength>
+  <bean id="CashControlDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="shortLabel" value="Application Doc #" />
+  </bean>
+  <bean id="CashControlDetail-financialDocumentLineAmount" parent="CashControlDetail-financialDocumentLineAmount-parentBean" />
 
-                <control>
-                    <text size="62" />
-                </control>
+  <bean id="CashControlDetail-financialDocumentLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="financialDocumentLineAmount" />
+    <property name="label" value="Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="CashControlDetail-referenceFinancialDocumentNumber" parent="CashControlDetail-referenceFinancialDocumentNumber-parentBean" />
 
-                <summary>customerPaymentDescription</summary>
-                <description>customerPaymentDescription description...</description>
-			</attribute>
+  <bean id="CashControlDetail-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Financial Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="referenceFinancialDocumentNumber" />
+    <property name="description" value="referenceFinancialDocumentNumber description..." />
+  </bean>
+  <bean id="CashControlDetail-status" parent="CashControlDetail-status-parentBean" />
 
-            <attribute name="customerPaymentMediumIdentifier" forceUppercase="true">
-                <label>Customer Payment Medium Identifier</label>
-                <shortLabel>Medium ID</shortLabel>
+  <bean id="CashControlDetail-status-parentBean" abstract="true" parent="DocumentStatus-financialDocumentStatusName">
+    <property name="name" value="status" />
+    <property name="label" value="Status" />
+    <property name="shortLabel" value="Status" />
+  </bean>
+  <bean id="CashControlDetail-versionNumber" parent="CashControlDetail-versionNumber-parentBean" />
 
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CashControlDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="32" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>customerPaymentMediumIdentifier</summary>
-                <description>customerPaymentMediumIdentifier description...</description>
-			</attribute>
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
-                <label>Document Number</label>
-                <shortLabel>Application Doc #</shortLabel>
-            </attributeReference>
-			
-            <attributeReference name="financialDocumentLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <required>true</required>
-            </attributeReference>
+  <bean id="CashControlDetail-inquiryDefinition" parent="CashControlDetail-inquiryDefinition-parentBean" />
 
-            <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
-                <label>Reference Financial Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="CashControlDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Cash Control Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerPaymentDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerPaymentDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerPaymentMediumIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentLineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="16" />
-                </control>
 
-                <summary>referenceFinancialDocumentNumber</summary>
-                <description>referenceFinancialDocumentNumber description...</description>
-			</attribute>
-			
-		    <attributeReference name="status" sourceClassName="org.kuali.core.bo.DocumentStatus" sourceAttributeName="financialDocumentStatusName">
-                <label>Status</label>
-                <shortLabel>Status</shortLabel>
-            </attributeReference>
+  <bean id="CashControlDetail-lookupDefinition" parent="CashControlDetail-lookupDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CashControlDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Cash Control Detail Lookup" />
+    <property name="instructions" value="Look up a Cash Control Detail" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentMediumIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerPaymentMediumIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

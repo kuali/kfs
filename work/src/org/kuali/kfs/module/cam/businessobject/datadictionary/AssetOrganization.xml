@@ -1,133 +1,200 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetOrganization">
- 
-        <inquiry>
-            <title>Asset Organization Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="capitalAssetNumber" />
-                        <field attributeName="organizationAssetTypeIdentifier" />
-                        <field attributeName="organizationDescription" />
-                        <field attributeName="organizationTagNumber" />
-                        <field attributeName="organizationText" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Asset Organization Lookup</title>
+  <bean id="AssetOrganization" parent="AssetOrganization-parentBean" />
 
-            <instructions>Look up an Asset Organization</instructions>
+  <bean id="AssetOrganization-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetOrganization" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetOrganization-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetOrganization-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetOrganization-capitalAssetNumber" />
+        <ref bean="AssetOrganization-organizationAssetTypeIdentifier" />
+        <ref bean="AssetOrganization-organizationDescription" />
+        <ref bean="AssetOrganization-organizationTagNumber" />
+        <ref bean="AssetOrganization-organizationText" />
+        <ref bean="AssetOrganization-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                <lookupField attributeName="organizationAssetTypeIdentifier" required="false" />
-                <lookupField attributeName="organizationDescription" required="false" />
-                <lookupField attributeName="organizationTagNumber" required="false" />
-                <lookupField attributeName="organizationText" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="organizationAssetTypeIdentifier" />
-                <field attributeName="organizationDescription" />
-                <field attributeName="organizationTagNumber" />
-                <field attributeName="organizationText" />
-            </resultFields>
-        </lookup>
+  <bean id="AssetOrganization-capitalAssetNumber" parent="AssetOrganization-capitalAssetNumber-parentBean" />
 
-        <attributes>
+  <bean id="AssetOrganization-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="capitalAssetNumber" />
+    <property name="description" value="capitalAssetNumber description..." />
+  </bean>
+  <bean id="AssetOrganization-organizationAssetTypeIdentifier" parent="AssetOrganization-organizationAssetTypeIdentifier-parentBean" />
 
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="AssetOrganization-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationAssetTypeIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Asset Type Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+    <property name="summary" value="organizationAssetTypeIdentifier" />
+    <property name="description" value="organizationAssetTypeIdentifier description..." />
+  </bean>
+  <bean id="AssetOrganization-organizationDescription" parent="AssetOrganization-organizationDescription-parentBean" />
 
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="AssetOrganization-organizationDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="organizationDescription" />
+    <property name="description" value="organizationDescription description..." />
+  </bean>
+  <bean id="AssetOrganization-organizationTagNumber" parent="AssetOrganization-organizationTagNumber-parentBean" />
 
-                <control>
-                    <text size="14" />
-                </control>
+  <bean id="AssetOrganization-organizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="organizationTagNumber" />
+    <property name="description" value="organizationTagNumber description..." />
+  </bean>
+  <bean id="AssetOrganization-organizationText" parent="AssetOrganization-organizationText-parentBean" />
 
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute>
+  <bean id="AssetOrganization-organizationText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="organizationText" />
+    <property name="description" value="organizationText description..." />
+  </bean>
+  <bean id="AssetOrganization-versionNumber" parent="AssetOrganization-versionNumber-parentBean" />
 
-            <attribute name="organizationAssetTypeIdentifier" forceUppercase="true">
-                <label>Organization Asset Type Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="AssetOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="22" />
-                </control>
 
-                <summary>organizationAssetTypeIdentifier</summary>
-                <description>organizationAssetTypeIdentifier description...</description>
-			</attribute>
+  <bean id="AssetOrganization-inquiryDefinition" parent="AssetOrganization-inquiryDefinition-parentBean" />
 
-            <attribute name="organizationDescription" forceUppercase="true">
-                <label>Organization Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="AssetOrganization-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Organization Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationAssetTypeIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationText" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="42" />
-                </control>
 
-                <summary>organizationDescription</summary>
-                <description>organizationDescription description...</description>
-			</attribute>
+  <bean id="AssetOrganization-lookupDefinition" parent="AssetOrganization-lookupDefinition-parentBean" />
 
-            <attribute name="organizationTagNumber" forceUppercase="true">
-                <label>Organization Tag Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>organizationTagNumber</summary>
-                <description>organizationTagNumber description...</description>
-			</attribute>
-
-            <attribute name="organizationText" forceUppercase="true">
-                <label>Organization Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>organizationText</summary>
-                <description>organizationText description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AssetOrganization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Organization Lookup" />
+    <property name="instructions" value="Look up an Asset Organization" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationAssetTypeIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationText" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationAssetTypeIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationText" />
+      </list>
+    </property>
+  </bean>
+</beans>

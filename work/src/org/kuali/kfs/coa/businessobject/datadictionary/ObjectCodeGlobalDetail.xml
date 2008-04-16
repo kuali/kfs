@@ -1,61 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCodeGlobalDetail">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ObjectCodeGlobalDetail" parent="ObjectCodeGlobalDetail-parentBean" />
+
+  <bean id="ObjectCodeGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" />
+    <property name="objectLabel" value="Object Code Change Detail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ObjectCodeGlobalDetail-universityFiscalYear" />
+        <ref bean="ObjectCodeGlobalDetail-chartOfAccountsCode" />
+        <ref bean="ObjectCodeGlobalDetail-versionNumber" />
+        <ref bean="ObjectCodeGlobalDetail-newCollectionRecord" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>FY</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="ObjectCodeGlobalDetail-universityFiscalYear" parent="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
+  <bean id="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="FY" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode" parent="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" />
 
-            </attributeReference>
+  <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ObjectCodeGlobalDetail-versionNumber" parent="ObjectCodeGlobalDetail-versionNumber-parentBean" />
 
-<!-- 
-            <attribute name="financialObjectActiveCode" forceUppercase="false">
-                <label>Active Code</label>
-                <shortLabel>Ac.</shortLabel>
+  <bean id="ObjectCodeGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="ObjectCodeGlobalDetail-newCollectionRecord" parent="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" />
 
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
--->
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
-            
-        </attributes>
-        
-        <objectLabel>Object Code Change Detail</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-        
+  <bean id="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+</beans>

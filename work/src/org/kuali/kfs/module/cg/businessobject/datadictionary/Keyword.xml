@@ -1,81 +1,114 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.Keyword">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Keyword" parent="Keyword-parentBean" />
+
+  <bean id="Keyword-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.Keyword" />
+    <property name="inquiryDefinition" >
+      <ref bean="Keyword-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Keyword-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Keyword" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Keyword-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="Keyword-routingFormKeywordDescription" />
+        <ref bean="Keyword-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Keyword Inquiry</title>
+  <bean id="Keyword-dataObjectMaintenanceCodeActiveIndicator" parent="Keyword-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="routingFormKeywordDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Keyword-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  </bean>
+  <bean id="Keyword-routingFormKeywordDescription" parent="Keyword-routingFormKeywordDescription-parentBean" />
 
-        <lookup>
-            <title>Keyword Lookup</title>
+  <bean id="Keyword-routingFormKeywordDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormKeywordDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Keyword Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="70" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="72" />
+    </property>
+    <property name="summary" value="routingFormKeywordDescription" />
+    <property name="description" value="routingFormKeywordDescription description..." />
+  </bean>
+  <bean id="Keyword-versionNumber" parent="Keyword-versionNumber-parentBean" />
 
-            <instructions>Look up a Keyword</instructions>
+  <bean id="Keyword-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="routingFormKeywordDescription" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Business Object Inquiry Definition -->
 
-            <lookupFields>
-                <lookupField attributeName="routingFormKeywordDescription" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="routingFormKeywordDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </resultFields>
-        </lookup>
+  <bean id="Keyword-inquiryDefinition" parent="Keyword-inquiryDefinition-parentBean" />
 
-        <attributes>
+  <bean id="Keyword-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Keyword Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormKeywordDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="routingFormKeywordDescription" forceUppercase="true">
-                <label>Routing Form Keyword Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>70</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+  <bean id="Keyword-lookupDefinition" parent="Keyword-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="72" />
-                </control>
-
-                <summary>routingFormKeywordDescription</summary>
-                <description>routingFormKeywordDescription description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Keyword</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="Keyword-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Keyword Lookup" />
+    <property name="instructions" value="Look up a Keyword" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormKeywordDescription" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormKeywordDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

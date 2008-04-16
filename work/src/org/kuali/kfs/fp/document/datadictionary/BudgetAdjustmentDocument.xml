@@ -1,113 +1,135 @@
-<!--
-<?xml version="1.0" encoding="UTF-8"?>
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.financial.document.BudgetAdjustmentDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.financial.rules.BudgetAdjustmentDocumentPreRules</preRulesCheckClass>
-        
-        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.BudgetAdjustmentDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="BudgetAdjustmentDocument" parent="BudgetAdjustmentDocument-parentBean" />
 
-        <documentTypeName>BudgetAdjustmentDocument</documentTypeName>
-        <documentTypeCode>BA</documentTypeCode>
-
-        <label>Budget Adjustment</label>
-
-        <attributes>
-            <attribute name="nextPositionSourceLineNumber" forceUppercase="false">
-                <label>Next PS Source Line Number</label>
-                <shortLabel>Next PS Source</shortLabel>
-
-                <maxLength>7</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attribute name="nextPositionTargetLineNumber" forceUppercase="false">
-                <label>Next PS Target Line Number</label>
-                <shortLabel>Next PS Target</shortLabel>
-
-                <maxLength>7</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attribute>
-
-            <attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFiscalYearValuesFinder" />
-                </control>
-            </attributeReference>
-        </attributes>
-
-        <summary>Document used for adjusting budgets.</summary>
-        <description>The Budget Adjustment document is a financial planning tool that allows an organization to adjust the current 
+  <bean id="BudgetAdjustmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="allowsErrorCorrection" value="true" />
+    <property name="label" value="Budget Adjustment" />
+    <property name="shortLabel" value="Budget Adjustment" />
+    <property name="summary" value="Document used for adjusting budgets." />
+    <property name="description" value="The Budget Adjustment document is a financial planning tool that allows an organization to adjust the current 
         and/or base budget figures for a given account as circumstances may change throughout the fiscal year. It may be used to 
         create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between
-        general fund accounts belonging to the same chart of accounts.</description>
- 		<help parameterNamespace="KFS-FP" parameterDetailType="BudgetAdjustment" parameterName="BUDGET_ADJUSTMENT" />
-        <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>true</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="documentHeader" />
-        		<workflowProperty path="targetAccountingLines" />
-				<workflowProperty path="sourceAccountingLines" />
-				<workflowProperty path="sourceAccountingLines.account" />
-				<workflowProperty path="targetAccountingLines.account" />
-			</workflowPropertyGroup>
-		</workflowProperties>
-    </transactionalDocument>
-</dictionaryEntry>
+        general fund accounts belonging to the same chart of accounts." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="BUDGET_ADJUSTMENT"
+            p:parameterDetailType="BudgetAdjustment" />
+    </property>
+    <property name="documentTypeName" value="BudgetAdjustmentDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.BudgetAdjustmentDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.BudgetAdjustmentDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.financial.rules.BudgetAdjustmentDocumentPreRules" />
+    <property name="documentTypeCode" value="BA" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="BudgetAdjustmentDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetAdjustmentDocument-nextPositionSourceLineNumber" />
+        <ref bean="BudgetAdjustmentDocument-nextPositionTargetLineNumber" />
+        <ref bean="BudgetAdjustmentDocument-postingYear" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BudgetAdjustmentDocument-nextPositionSourceLineNumber" parent="BudgetAdjustmentDocument-nextPositionSourceLineNumber-parentBean" />
+
+  <bean id="BudgetAdjustmentDocument-nextPositionSourceLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nextPositionSourceLineNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Next PS Source Line Number" />
+    <property name="shortLabel" value="Next PS Source" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="BudgetAdjustmentDocument-nextPositionTargetLineNumber" parent="BudgetAdjustmentDocument-nextPositionTargetLineNumber-parentBean" />
+
+  <bean id="BudgetAdjustmentDocument-nextPositionTargetLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nextPositionTargetLineNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Next PS Target Line Number" />
+    <property name="shortLabel" value="Next PS Target" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  <bean id="BudgetAdjustmentDocument-postingYear" parent="BudgetAdjustmentDocument-postingYear-parentBean" />
+
+  <bean id="BudgetAdjustmentDocument-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFiscalYearValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="BudgetAdjustmentDocument-workflowProperties" parent="BudgetAdjustmentDocument-workflowProperties-parentBean" />
+
+  <bean id="BudgetAdjustmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines.account" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,100 +1,150 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.NonResidentAlienTaxPercent">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NonResidentAlienTaxPercent" parent="NonResidentAlienTaxPercent-parentBean" />
+
+  <bean id="NonResidentAlienTaxPercent-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.NonResidentAlienTaxPercent" />
+    <property name="inquiryDefinition" >
+      <ref bean="NonResidentAlienTaxPercent-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="NonResidentAlienTaxPercent-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="NonResidentAlienTaxPercent-incomeClassCode" />
+        <ref bean="NonResidentAlienTaxPercent-incomeTaxTypeCode" />
+        <ref bean="NonResidentAlienTaxPercent-incomeTaxPercent" />
+        <ref bean="NonResidentAlienTaxPercent-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Non Resident Alien Tax Percent Inquiry</title>
+  <bean id="NonResidentAlienTaxPercent-incomeClassCode" parent="NonResidentAlienTaxPercent-incomeClassCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="incomeClassCode" />
-                <field attributeName="incomeTaxTypeCode" />
-                <field attributeName="incomeTaxPercent" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="NonResidentAlienTaxPercent-incomeClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeClassCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Income Class Code" />
+    <property name="shortLabel" value="Inc Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="NonResidentAlienTaxPercent-incomeTaxTypeCode" parent="NonResidentAlienTaxPercent-incomeTaxTypeCode-parentBean" />
 
-        <lookup>
-        	<lookupableID>nonResidentAlienTaxPercentLookupable</lookupableID>
-            <title>Non Resident Alien Tax Percent Lookup</title>
+  <bean id="NonResidentAlienTaxPercent-incomeTaxTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeTaxTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Income Tax Type Code" />
+    <property name="shortLabel" value="Inc Tx Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="1" />
+    </property>
+  </bean>
+  <bean id="NonResidentAlienTaxPercent-incomeTaxPercent" parent="NonResidentAlienTaxPercent-incomeTaxPercent-parentBean" />
 
-            <instructions>Lookup a Non Resident Alien Tax Percent</instructions>
+  <bean id="NonResidentAlienTaxPercent-incomeTaxPercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="incomeTaxPercent" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Income Tax Percent" />
+    <property name="shortLabel" value="Inc Tx Pc" />
+    <property name="maxLength" value="22" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2"
+            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="NonResidentAlienTaxPercent-versionNumber" parent="NonResidentAlienTaxPercent-versionNumber-parentBean" />
 
-            <defaultSort attributeName="incomeClassCode" sortAscending="true" />
+  <bean id="NonResidentAlienTaxPercent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="incomeClassCode" required="false" />
-                <lookupField attributeName="incomeTaxTypeCode" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="incomeClassCode" />
-                <field attributeName="incomeTaxTypeCode" />
-                <field attributeName="incomeTaxPercent" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
-            <attribute name="incomeClassCode" forceUppercase="true">
-                <label>Income Class Code</label>
-                <shortLabel>Inc Code</shortLabel>
+  <bean id="NonResidentAlienTaxPercent-inquiryDefinition" parent="NonResidentAlienTaxPercent-inquiryDefinition-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
+  <bean id="NonResidentAlienTaxPercent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Non Resident Alien Tax Percent Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="incomeClassCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="incomeTaxTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="incomeTaxPercent" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="incomeTaxTypeCode" forceUppercase="true">
-                <label>Income Tax Type Code</label>
-                <shortLabel>Inc Tx Code</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
+  <bean id="NonResidentAlienTaxPercent-lookupDefinition" parent="NonResidentAlienTaxPercent-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="1" />
-                </control>
-            </attribute>
-
-            <attribute name="incomeTaxPercent" forceUppercase="false">
-                <label>Income Tax Percent</label>
-                <shortLabel>Inc Tx Pc</shortLabel>
-
-                <maxLength>22</maxLength>
-                <validationPattern>
-                    <fixedPoint allowNegative="true" precision="5" scale="2" />
-                </validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="NonResidentAlienTaxPercent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Non Resident Alien Tax Percent Lookup" />
+    <property name="lookupableID" value="nonResidentAlienTaxPercentLookupable" />
+    <property name="instructions" value="Lookup a Non Resident Alien Tax Percent" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>incomeClassCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeTaxTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeTaxTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeTaxPercent" />
+      </list>
+    </property>
+  </bean>
+</beans>

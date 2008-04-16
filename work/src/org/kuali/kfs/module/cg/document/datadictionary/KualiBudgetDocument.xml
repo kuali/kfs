@@ -1,121 +1,182 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.kra.budget.document.BudgetDocument</documentClass>
-        <businessRulesClass>org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.kra.budget.rules.budget.BudgetDocumentPreRules</preRulesCheckClass>
+  <bean id="KualiBudgetDocument" parent="KualiBudgetDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-            <authorization action="modify">
-            	<workgroups>
-            		<workgroup>RA_DEVELOPERS</workgroup>
-            	</workgroups>
-            </authorization>
-            <authorization action="view">
-            	<workgroups>
-            		<workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-            	</workgroups>
-            </authorization>
-        </authorizations>
-
-        <documentTypeName>KualiBudgetDocument</documentTypeName>
-        <documentTypeCode>KBD</documentTypeCode>
-        <label>Research Budget</label>
-        <summary>Budget document</summary>
-        <description>Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET"/>
-        <allowsCopy>true</allowsCopy>
-        
-        <headerNavigation>
-        	<headerNavigationTab>
-        		<navigateTo>parameters</navigateTo>
-        		<displayName>Parameters</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_PARAMETERS_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>overview</navigateTo>
-        		<displayName>Overview</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_OVERVIEW_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>personnel</navigateTo>
-        		<displayName>Personnel</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_PERSONNEL_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>nonpersonnel</navigateTo>
-        		<displayName>Nonpersonnel</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_NONPERSONNEL"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>costshare</navigateTo>
-        		<displayName>Cost Share</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_COST_SHARE_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>modular</navigateTo>
-        		<displayName>Modular</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_MODULAR"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>indirectcost</navigateTo>
-        		<displayName>Indirect Cost</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_INDIRECT_COST"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>permissions</navigateTo>
-        		<displayName>Permissions</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_PERMISSIONS_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>output</navigateTo>
-        		<displayName>Output</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_OUTPUT_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>template</navigateTo>
-        		<displayName>Template</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_TEMPLATE_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>auditmode</navigateTo>
-        		<displayName>Audit Mode</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_AUDIT_MODE_PAGE"/>
-        	</headerNavigationTab>
-        	<headerNavigationTab>
-        		<navigateTo>notes</navigateTo>
-        		<displayName>Notes</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_NOTES_PAGE"/>
-        	</headerNavigationTab>
-        </headerNavigation>
-        
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        <allowsNoteDelete>true</allowsNoteDelete>
-        <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="KualiBudgetDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Research Budget" />
+    <property name="shortLabel" value="Research Budget" />
+    <property name="summary" value="Budget document" />
+    <property name="description" value="Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="BUDGET"
+            p:parameterDetailType="Budget" />
+    </property>
+    <property name="documentTypeName" value="KualiBudgetDocument" />
+    <property name="documentClass" value="org.kuali.module.kra.budget.document.BudgetDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.kra.budget.rules.budget.BudgetDocumentPreRules" />
+    <property name="documentTypeCode" value="KBD" />
+    <property name="allowsNoteDelete" value="true" />
+    <property name="displayTopicFieldInNotes" value="true" />
+    <property name="allowsCopy" value="true" />
+    <property name="headerNavigationList" >
+      <list>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_PARAMETERS_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Parameters" />
+          <property name="headerTabNavigateTo" value="parameters" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_OVERVIEW_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Overview" />
+          <property name="headerTabNavigateTo" value="overview" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_PERSONNEL_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Personnel" />
+          <property name="headerTabNavigateTo" value="personnel" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_NONPERSONNEL"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Nonpersonnel" />
+          <property name="headerTabNavigateTo" value="nonpersonnel" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_COST_SHARE_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Cost Share" />
+          <property name="headerTabNavigateTo" value="costshare" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_MODULAR"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Modular" />
+          <property name="headerTabNavigateTo" value="modular" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_INDIRECT_COST"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Indirect Cost" />
+          <property name="headerTabNavigateTo" value="indirectcost" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_PERMISSIONS_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Permissions" />
+          <property name="headerTabNavigateTo" value="permissions" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_OUTPUT_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Output" />
+          <property name="headerTabNavigateTo" value="output" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_TEMPLATE_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Template" />
+          <property name="headerTabNavigateTo" value="template" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_AUDIT_MODE_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Audit Mode" />
+          <property name="headerTabNavigateTo" value="auditmode" />
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                  p:parameterNamespace="KFS-RA"
+                  p:parameterName="BUDGET_NOTES_PAGE"
+                  p:parameterDetailType="Budget" />
+          </property>
+          <property name="headerTabDisplayName" value="Notes" />
+          <property name="headerTabNavigateTo" value="notes" />
+        </bean>
+      </list>
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="modify" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_DEVELOPERS</value>
+            </set>
+          </property>
+        </bean>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="view" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

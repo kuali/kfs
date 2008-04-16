@@ -1,120 +1,162 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd" >
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionAccountReports">
+  <bean id="BudgetConstructionAccountReports" parent="BudgetConstructionAccountReports-parentBean" />
+
+  <bean id="BudgetConstructionAccountReports-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAccountReports" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionAccountReports-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionAccountReports-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionAccountReports-accountNumber" />
+        <ref bean="BudgetConstructionAccountReports-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription" />
+        <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccountsCode" />
+        <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" />
+        <ref bean="BudgetConstructionAccountReports-reportsToOrganizationCode" />
+        <ref bean="BudgetConstructionAccountReports-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Account Reports Inquiry</title>
+  <bean id="BudgetConstructionAccountReports-accountNumber" parent="BudgetConstructionAccountReports-accountNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccounts.codeAndDescription" />
-                <field attributeName="accountNumber" />
-                <field attributeName="reportsToChartOfAccounts.codeAndDescription" />
-                <field attributeName="reportsToOrganizationCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionAccountReports-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="BudgetConstructionAccountReports-chartOfAccountsCode" parent="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Account Reports Lookup</title>
+  <bean id="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription-parentBean" />
 
-            <instructions>Look up a Budget Construction Account Report</instructions>
+  <bean id="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
+    <property name="name" value="chartOfAccounts.codeAndDescription" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart Code and Description" />
+  </bean>
+  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccountsCode" parent="BudgetConstructionAccountReports-reportsToChartOfAccountsCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="reportsToChartOfAccountsCode" />
+    <property name="label" value="Reports To Chart" />
+    <property name="shortLabel" value="Repts to Cht" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The Chart for the Reports To organization." />
+  </bean>
+  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="reportsToChartOfAccountsCode" required="false" />
-                <lookupField attributeName="reportsToOrganizationCode" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
+    <property name="name" value="reportsToChartOfAccounts.codeAndDescription" />
+    <property name="label" value="Reports To Chart" />
+    <property name="shortLabel" value="Repts to Cht" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Chart for the Reports To organization." />
+  </bean>
+  <bean id="BudgetConstructionAccountReports-reportsToOrganizationCode" parent="BudgetConstructionAccountReports-reportsToOrganizationCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToOrganizationCode" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionAccountReports-reportsToOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="reportsToOrganizationCode" />
+    <property name="label" value="Reports To Organization" />
+    <property name="shortLabel" value="Rpts To Org" />
+    <property name="description" value="The Reports To organization for the account." />
+  </bean>
+  <bean id="BudgetConstructionAccountReports-versionNumber" parent="BudgetConstructionAccountReports-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionAccountReports-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
 
-           <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
-                <label>Chart Code</label>
-                <shortLabel>Chart Code</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Chart Code and Description</description>
-            </attributeReference>
+  <bean id="BudgetConstructionAccountReports-inquiryDefinition" parent="BudgetConstructionAccountReports-inquiryDefinition-parentBean" />
 
-            <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Reports To Chart</label>
-                <shortLabel>Repts to Cht</shortLabel>
-                <required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-				</control>
-                <description>The Chart for the Reports To organization.</description>
-            </attributeReference>
+  <bean id="BudgetConstructionAccountReports-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Account Reports Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccounts.codeAndDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportsToChartOfAccounts.codeAndDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportsToOrganizationCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-           <attributeReference name="reportsToChartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
-                <label>Reports To Chart</label>
-                <shortLabel>Repts to Cht</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Chart for the Reports To organization.</description>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-                <label>Reports To Organization</label>
-                <shortLabel>Rpts To Org</shortLabel>
-                <required>true</required>
-                <description>The Reports To organization for the account.</description>
-            </attributeReference>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="BudgetConstructionAccountReports-lookupDefinition" parent="BudgetConstructionAccountReports-lookupDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionAccountReports-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Account Reports Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Account Report" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToOrganizationCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToOrganizationCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,137 +1,154 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.bo.AdhocOrg">
-    
-    	<attributes>
-    	
-    		<attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Document Number</shortLabel>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="AdhocOrg" parent="AdhocOrg-parentBean" />
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
-            
-            <attribute name="fiscalCampusCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Chart</shortLabel>
+  <bean id="AdhocOrg-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.bo.AdhocOrg" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AdhocOrg-documentNumber" />
+        <ref bean="AdhocOrg-fiscalCampusCode" />
+        <ref bean="AdhocOrg-primaryDepartmentCode" />
+        <ref bean="AdhocOrg-permissionCode" />
+        <ref bean="AdhocOrg-addedByPerson" />
+        <ref bean="AdhocOrg-personAddedTimestamp" />
+        <ref bean="AdhocOrg-objectId" />
+        <ref bean="AdhocOrg-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha exactLength="2" />
-                </validationPattern>
-                <required>true</required>
+<!-- Attribute Definitions -->
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-            
-            <attribute name="primaryDepartmentCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Org</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
+  <bean id="AdhocOrg-documentNumber" parent="AdhocOrg-documentNumber-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-            
-            <attribute name="permissionCode">
-                <label>Permission Type</label>
-                <maxLength>2</maxLength>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder" />
-                </control>
-            </attribute>
-            
-            <attribute name="addedByPerson" forceUppercase="true">
-                <label>Added By Person</label>
-                <shortLabel>prsnAdd</shortLabel>
+  <bean id="AdhocOrg-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Document Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-fiscalCampusCode" parent="AdhocOrg-fiscalCampusCode-parentBean" />
 
-                <maxLength>20</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="AdhocOrg-fiscalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fiscalCampusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Code" />
+    <property name="shortLabel" value="Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-primaryDepartmentCode" parent="AdhocOrg-primaryDepartmentCode-parentBean" />
 
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-            
-            <attribute name="personAddedTimestamp" forceUppercase="false">
-                <label>Person Added Timestamp</label>
-                <shortLabel>prsnAddTs</shortLabel>
+  <bean id="AdhocOrg-primaryDepartmentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="primaryDepartmentCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Org" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-permissionCode" parent="AdhocOrg-permissionCode-parentBean" />
 
-                <maxLength>10</maxLength>
+  <bean id="AdhocOrg-permissionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="permissionCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Permission Type" />
+    <property name="shortLabel" value="Permission Type" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-addedByPerson" parent="AdhocOrg-addedByPerson-parentBean" />
 
-                <validationPattern><timestamp /></validationPattern>
+  <bean id="AdhocOrg-addedByPerson-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="addedByPerson" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Added By Person" />
+    <property name="shortLabel" value="prsnAdd" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-personAddedTimestamp" parent="AdhocOrg-personAddedTimestamp-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
-            </attribute>
-            
-            <attribute name="objectId" forceUppercase="true">
-                <label>Object Id</label>
-                <shortLabel>GUID</shortLabel>
+  <bean id="AdhocOrg-personAddedTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personAddedTimestamp" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person Added Timestamp" />
+    <property name="shortLabel" value="prsnAddTs" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-objectId" parent="AdhocOrg-objectId-parentBean" />
 
-                <maxLength>36</maxLength>
+  <bean id="AdhocOrg-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+  </bean>
+  <bean id="AdhocOrg-versionNumber" parent="AdhocOrg-versionNumber-parentBean" />
 
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-
-                <control>
-                    <text size="36" />
-                </control>
-            </attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-            </attribute>
-    	
-    	</attributes>
-    	
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AdhocOrg-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+  </bean>
+</beans>

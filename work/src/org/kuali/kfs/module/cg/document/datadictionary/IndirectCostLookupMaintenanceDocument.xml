@@ -1,74 +1,95 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.budget.bo.IndirectCostLookup</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.kra.budget.rules.IndirectCostLookupRule</businessRulesClass>
+  <bean id="IndirectCostLookupMaintenanceDocument" parent="IndirectCostLookupMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="IndirectCostLookupMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.IndirectCostLookup" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="IndirectCostLookupMaintenanceDocument-EditIndirectCostLookup" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="budgetPurpose"
+              p:attributeToHighlightOnFail="budgetPurposeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>budgetOnCampusIndicator</value>
+        <value>budgetPurposeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Indirect Cost Lookup Maintenance Document" />
+    <property name="shortLabel" value="IndirectCostLookupMainDoc" />
+    <property name="summary" value="Indirect Cost Lookup maintenance document" />
+    <property name="description" value="Document used to create or update Indirect Cost Lookup objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="INDIRECT_COST_LOOKUP"
+            p:parameterDetailType="IndirectCostLookup" />
+    </property>
+    <property name="documentTypeName" value="IndirectCostLookupMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.kra.budget.rules.IndirectCostLookupRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="IDCL" />
+    <property name="workflowProperties" >
+      <ref bean="IndirectCostLookupMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>IndirectCostLookupMaintenanceDocument</documentTypeName>
-        <documentTypeCode>IDCL</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Indirect Cost Lookup Maintenance Document</label>
-        <shortLabel>IndirectCostLookupMainDoc</shortLabel>
 
-        <summary>Indirect Cost Lookup maintenance document</summary>
+  <bean id="IndirectCostLookupMaintenanceDocument-EditIndirectCostLookup" parent="IndirectCostLookupMaintenanceDocument-EditIndirectCostLookup-parentBean" />
 
-        <description>Document used to create or update Indirect Cost Lookup objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="IndirectCostLookup" parameterName="INDIRECT_COST_LOOKUP" />
+  <bean id="IndirectCostLookupMaintenanceDocument-EditIndirectCostLookup-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Indirect Cost Lookup" />
+    <property name="title" value="Edit Indirect Cost Lookup" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetOnCampusIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetPurposeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetIndirectCostRate"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lockingKeys>
-            <field attributeName="budgetOnCampusIndicator" />
-            <field attributeName="budgetPurposeCode" />
-        </lockingKeys>
+<!-- Exported Workflow Properties -->
 
-        <defaultExistenceChecks>
 
-            <reference attributeName="budgetPurpose" attributeToHighlightOnFail="budgetPurposeCode" />
-        </defaultExistenceChecks>
+  <bean id="IndirectCostLookupMaintenanceDocument-workflowProperties" parent="IndirectCostLookupMaintenanceDocument-workflowProperties-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Indirect Cost Lookup">
-                <maintainableItems>
-                    <maintainableField name="budgetOnCampusIndicator" />
-                    <maintainableField name="budgetPurposeCode" required="true" />
-                    <maintainableField name="budgetIndirectCostRate" required="true" />
-
-					<maintainableField name="active" >
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-
-</dictionaryEntry>
+  <bean id="IndirectCostLookupMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

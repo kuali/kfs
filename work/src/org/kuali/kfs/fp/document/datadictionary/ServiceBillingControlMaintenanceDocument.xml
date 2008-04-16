@@ -1,67 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.financial.bo.ServiceBillingControl</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.financial.rules.ServiceBillingControlRule</businessRulesClass>
+  <bean id="ServiceBillingControlMaintenanceDocument" parent="ServiceBillingControlMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ServiceBillingControlMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.ServiceBillingControl" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ServiceBillingControlMaintenanceDocument-EditServiceBillingControl" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="accountNumber"
+              p:displayFieldName="Account" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Service Billing Control" />
+    <property name="shortLabel" value="Service Billing Control" />
+    <property name="summary" value="Service Billing Control maintenance document" />
+    <property name="description" value="Document used to create or update Service Billing Control objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="SERVICE_BILLING_CONTROL"
+            p:parameterDetailType="ServiceBillingControl" />
+    </property>
+    <property name="documentTypeName" value="ServiceBillingControlMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.ServiceBillingControlRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="SBC" />
+    <property name="workflowProperties" >
+      <ref bean="ServiceBillingControlMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ServiceBillingControlMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SBC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Service Billing Control</label>
 
-        <summary>Service Billing Control maintenance document</summary>
-        <description>Document used to create or update Service Billing Control objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="ServiceBillingControl" parameterName="SERVICE_BILLING_CONTROL" />
+  <bean id="ServiceBillingControlMaintenanceDocument-EditServiceBillingControl" parent="ServiceBillingControlMaintenanceDocument-EditServiceBillingControl-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="accountNumber" />
-        </lockingKeys>
+  <bean id="ServiceBillingControlMaintenanceDocument-EditServiceBillingControl-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Service Billing Control" />
+    <property name="title" value="Edit Service Billing Control" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="workgroupName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <defaultExistenceChecks>
-            <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account" />
-        </defaultExistenceChecks>
+<!-- Exported Workflow Properties -->
 
-        <maintainableSections>
-            <maintainableSection title="Edit Service Billing Control">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="workgroupName" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+
+  <bean id="ServiceBillingControlMaintenanceDocument-workflowProperties" parent="ServiceBillingControlMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ServiceBillingControlMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

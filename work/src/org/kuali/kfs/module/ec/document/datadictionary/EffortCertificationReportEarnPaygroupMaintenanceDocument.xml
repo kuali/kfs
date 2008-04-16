@@ -1,68 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "../../../../../../../../../rice/kns/src/main/resources/org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<maintenanceDocument>
-        <businessObjectClass>org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        
-<documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>KUALI_EFFORT_ADMIN</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument" parent="EffortCertificationReportEarnPaygroupMaintenanceDocument-parentBean" />
 
-		<documentTypeName>EffortCertificationReportEarnPaygroupMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ARPG</documentTypeCode>
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="EffortCertificationReportEarnPaygroupMaintenanceDocument-EditReportEarnPaygroup" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="options"
+              p:attributeToHighlightOnFail="universityFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="effortCertificationReportType"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="effortCertificationReportTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>universityFiscalYear</value>
+        <value>effortCertificationReportTypeCode</value>
+        <value>earnCode</value>
+        <value>payGroup</value>
+      </list>
+    </property>
+    <property name="label" value="Report Earn Paygroup Document" />
+    <property name="shortLabel" value="Effort Certification Report Earn Pay Document" />
+    <property name="summary" value="Report Earn Pay Document" />
+    <property name="description" value="Document used to create or update Effort Certification Report Earn Pay Document" />
+    <property name="documentTypeName" value="EffortCertificationReportEarnPaygroupMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ARPG" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>KUALI_EFFORT_ADMIN</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<label>Report Earn Paygroup Document</label>
-		<shortLabel>Effort Certification Report Earn Pay Document</shortLabel>
-		
-		<summary>Report Earn Pay Document</summary>
-		<description>Document used to create or update Effort Certification Report Earn Pay Document</description>
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="universityFiscalYear" />
-            <field attributeName="effortCertificationReportTypeCode" />
-            <field attributeName="earnCode" />
-            <field attributeName="payGroup" />
-		</lockingKeys>  
-		<defaultExistenceChecks>
-			<reference attributeName="options" attributeToHighlightOnFail="universityFiscalYear" />
-			<reference attributeName="effortCertificationReportType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="effortCertificationReportTypeCode" />
-		</defaultExistenceChecks>
-		
-	    <maintainableSections>
-	        <maintainableSection title="Edit Report Earn Paygroup">
-	        	<maintainableItems>
-	        		<maintainableField name="universityFiscalYear" required="true" />
-	                <maintainableField name="effortCertificationReportTypeCode" required="true" />
-                    <maintainableField name="earnCode" required="true" />
-                    <maintainableField name="payGroup" required="true" />
-                    <maintainableField name="active" required="true" >
-			        	<defaultValue>true</defaultValue>
-					</maintainableField>
-	                <maintainableField name="versionNumber" />
-	         	</maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
-</dictionaryEntry>
+
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-EditReportEarnPaygroup" parent="EffortCertificationReportEarnPaygroupMaintenanceDocument-EditReportEarnPaygroup-parentBean" />
+
+  <bean id="EffortCertificationReportEarnPaygroupMaintenanceDocument-EditReportEarnPaygroup-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Report Earn Paygroup" />
+    <property name="title" value="Edit Report Earn Paygroup" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="earnCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="payGroup"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

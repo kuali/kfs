@@ -1,253 +1,337 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormBudget">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoutingFormBudget" parent="RoutingFormBudget-parentBean" />
+
+  <bean id="RoutingFormBudget-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormBudget" />
+    <property name="inquiryDefinition" >
+      <ref bean="RoutingFormBudget-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RoutingFormBudget-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="RoutingFormBudget-routingFormBudgetDirectAmount" />
+        <ref bean="RoutingFormBudget-routingFormBudgetEndDate" />
+        <ref bean="RoutingFormBudget-routingFormBudgetIndirectCostAmount" />
+        <ref bean="RoutingFormBudget-routingFormBudgetIndirectCostDescription" />
+        <ref bean="RoutingFormBudget-routingFormBudgetMaximumPeriodNumber" />
+        <ref bean="RoutingFormBudget-routingFormBudgetMinimumPeriodNumber" />
+        <ref bean="RoutingFormBudget-routingFormBudgetStartDate" />
+        <ref bean="RoutingFormBudget-routingFormBudgetTotalDirectAmount" />
+        <ref bean="RoutingFormBudget-routingFormBudgetTotalEndDate" />
+        <ref bean="RoutingFormBudget-routingFormBudgetTotalIndirectCostAmount" />
+        <ref bean="RoutingFormBudget-routingFormBudgetTotalStartDate" />
+        <ref bean="RoutingFormBudget-documentNumber" />
+        <ref bean="RoutingFormBudget-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Routing Form Budget Inquiry</title>
+  <bean id="RoutingFormBudget-routingFormBudgetDirectAmount" parent="RoutingFormBudget-routingFormBudgetDirectAmount-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="routingFormBudgetDirectAmount" />
-                <field attributeName="routingFormBudgetEndDate" />
-                <field attributeName="routingFormBudgetIndirectCostAmount" />
-                <field attributeName="routingFormBudgetIndirectCostDescription" />
-                <field attributeName="routingFormBudgetStartDate" />
-                <field attributeName="documentNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RoutingFormBudget-routingFormBudgetDirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetDirectAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Direct Amount" />
+    <property name="shortLabel" value="Direct Costs" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="routingFormBudgetDirectAmount" />
+    <property name="description" value="routingFormBudgetDirectAmount description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetEndDate" parent="RoutingFormBudget-routingFormBudgetEndDate-parentBean" />
 
-        <lookup>
-            <title>Routing Form Budget Lookup</title>
+  <bean id="RoutingFormBudget-routingFormBudgetEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="routingFormBudgetEndDate" />
+    <property name="description" value="routingFormBudgetEndDate description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetIndirectCostAmount" parent="RoutingFormBudget-routingFormBudgetIndirectCostAmount-parentBean" />
 
-            <instructions>Look up a Routing Form Budget</instructions>
+  <bean id="RoutingFormBudget-routingFormBudgetIndirectCostAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetIndirectCostAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Indirect Cost Amount" />
+    <property name="shortLabel" value="Indirect Costs" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="routingFormBudgetIndirectCostAmount" />
+    <property name="description" value="routingFormBudgetIndirectCostAmount description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetIndirectCostDescription" parent="RoutingFormBudget-routingFormBudgetIndirectCostDescription-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RoutingFormBudget-routingFormBudgetIndirectCostDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetIndirectCostDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Indirect Cost Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="1000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="routingFormBudgetIndirectCostDescription" />
+    <property name="description" value="routingFormBudgetIndirectCostDescription description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetMaximumPeriodNumber" parent="RoutingFormBudget-routingFormBudgetMaximumPeriodNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="routingFormBudgetDirectAmount" required="false" />
-                <lookupField attributeName="routingFormBudgetEndDate" required="false" />
-                <lookupField attributeName="routingFormBudgetIndirectCostAmount" required="false" />
-                <lookupField attributeName="routingFormBudgetIndirectCostDescription" required="false" />
-                <lookupField attributeName="routingFormBudgetStartDate" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-            </lookupFields>
+  <bean id="RoutingFormBudget-routingFormBudgetMaximumPeriodNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetMaximumPeriodNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Maximum Period Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormBudgetMaximumPeriodNumber" />
+    <property name="description" value="routingFormBudgetMaximumPeriodNumber description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetMinimumPeriodNumber" parent="RoutingFormBudget-routingFormBudgetMinimumPeriodNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="routingFormBudgetDirectAmount" />
-                <field attributeName="routingFormBudgetEndDate" />
-                <field attributeName="routingFormBudgetIndirectCostAmount" />
-                <field attributeName="routingFormBudgetIndirectCostDescription" />
-                <field attributeName="routingFormBudgetStartDate" />
-                <field attributeName="documentNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="RoutingFormBudget-routingFormBudgetMinimumPeriodNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetMinimumPeriodNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Minimum Period Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="routingFormBudgetMinimumPeriodNumber" />
+    <property name="description" value="routingFormBudgetMinimumPeriodNumber description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetStartDate" parent="RoutingFormBudget-routingFormBudgetStartDate-parentBean" />
 
-        <attributes>
+  <bean id="RoutingFormBudget-routingFormBudgetStartDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetStartDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="routingFormBudgetStartDate" />
+    <property name="description" value="routingFormBudgetStartDate description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalDirectAmount" parent="RoutingFormBudget-routingFormBudgetTotalDirectAmount-parentBean" />
 
-            <attribute name="routingFormBudgetDirectAmount" forceUppercase="true">
-                <label>Routing Form Budget Direct Amount</label>
-                <shortLabel>Direct Costs</shortLabel>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalDirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetTotalDirectAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Total Direct Amount" />
+    <property name="shortLabel" value="Total Direct Costs" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="routingFormBudgetTotalDirectAmount" />
+    <property name="description" value="routingFormBudgetTotalDirectAmount description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalEndDate" parent="RoutingFormBudget-routingFormBudgetTotalEndDate-parentBean" />
 
-                <maxLength>15</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetTotalEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Total End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="routingFormBudgetTotalEndDate" />
+    <property name="description" value="routingFormBudgetTotalEndDate description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalIndirectCostAmount" parent="RoutingFormBudget-routingFormBudgetTotalIndirectCostAmount-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalIndirectCostAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetTotalIndirectCostAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Total Indirect Cost Amount" />
+    <property name="shortLabel" value="Indirect Costs" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="routingFormBudgetTotalIndirectCostAmount" />
+    <property name="description" value="routingFormBudgetTotalIndirectCostAmount description..." />
+  </bean>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalStartDate" parent="RoutingFormBudget-routingFormBudgetTotalStartDate-parentBean" />
 
-                <summary>routingFormBudgetDirectAmount</summary>
-                <description>routingFormBudgetDirectAmount description...</description>
-			</attribute>
+  <bean id="RoutingFormBudget-routingFormBudgetTotalStartDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routingFormBudgetTotalStartDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Routing Form Budget Total Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="routingFormBudgetTotalStartDate" />
+    <property name="description" value="routingFormBudgetTotalStartDate description..." />
+  </bean>
+  <bean id="RoutingFormBudget-documentNumber" parent="RoutingFormBudget-documentNumber-parentBean" />
 
-            <attribute name="routingFormBudgetEndDate" forceUppercase="true">
-                <label>Routing Form Budget End Date</label>
-                <shortLabel>End Date</shortLabel>
+  <bean id="RoutingFormBudget-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormBudget-versionNumber" parent="RoutingFormBudget-versionNumber-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="RoutingFormBudget-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="10" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>routingFormBudgetEndDate</summary>
-                <description>routingFormBudgetEndDate description...</description>
-			</attribute>
 
-            <attribute name="routingFormBudgetIndirectCostAmount" forceUppercase="true">
-                <label>Routing Form Budget Indirect Cost Amount</label>
-                <shortLabel>Indirect Costs</shortLabel>
+  <bean id="RoutingFormBudget-inquiryDefinition" parent="RoutingFormBudget-inquiryDefinition-parentBean" />
 
-                <maxLength>15</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="RoutingFormBudget-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Routing Form Budget Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormBudgetDirectAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormBudgetEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormBudgetIndirectCostAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormBudgetIndirectCostDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="routingFormBudgetStartDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="21" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>routingFormBudgetIndirectCostAmount</summary>
-                <description>routingFormBudgetIndirectCostAmount description...</description>
-			</attribute>
 
-            <attribute name="routingFormBudgetIndirectCostDescription" forceUppercase="true">
-                <label>Routing Form Budget Indirect Cost Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="RoutingFormBudget-lookupDefinition" parent="RoutingFormBudget-lookupDefinition-parentBean" />
 
-                <maxLength>1000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>routingFormBudgetIndirectCostDescription</summary>
-                <description>routingFormBudgetIndirectCostDescription description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetMaximumPeriodNumber" forceUppercase="true">
-                <label>Routing Form Budget Maximum Period Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>routingFormBudgetMaximumPeriodNumber</summary>
-                <description>routingFormBudgetMaximumPeriodNumber description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetMinimumPeriodNumber" forceUppercase="true">
-                <label>Routing Form Budget Minimum Period Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>routingFormBudgetMinimumPeriodNumber</summary>
-                <description>routingFormBudgetMinimumPeriodNumber description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetStartDate" forceUppercase="true">
-                <label>Routing Form Budget Start Date</label>
-                <shortLabel>Start Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>routingFormBudgetStartDate</summary>
-                <description>routingFormBudgetStartDate description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetTotalDirectAmount" forceUppercase="true">
-                <label>Routing Form Budget Total Direct Amount</label>
-                <shortLabel>Total Direct Costs</shortLabel>
-
-                <maxLength>15</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>routingFormBudgetTotalDirectAmount</summary>
-                <description>routingFormBudgetTotalDirectAmount description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetTotalEndDate" forceUppercase="true">
-                <label>Routing Form Budget Total End Date</label>
-                <shortLabel>End Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>routingFormBudgetTotalEndDate</summary>
-                <description>routingFormBudgetTotalEndDate description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetTotalIndirectCostAmount" forceUppercase="true">
-                <label>Routing Form Budget Total Indirect Cost Amount</label>
-                <shortLabel>Indirect Costs</shortLabel>
-
-                <maxLength>15</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>routingFormBudgetTotalIndirectCostAmount</summary>
-                <description>routingFormBudgetTotalIndirectCostAmount description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetTotalStartDate" forceUppercase="true">
-                <label>Routing Form Budget Total Start Date</label>
-                <shortLabel>Start Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>routingFormBudgetTotalStartDate</summary>
-                <description>routingFormBudgetTotalStartDate description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RoutingFormBudget-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Routing Form Budget Lookup" />
+    <property name="instructions" value="Look up a Routing Form Budget" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetDirectAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetIndirectCostAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetIndirectCostDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetStartDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetDirectAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetIndirectCostAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetIndirectCostDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="routingFormBudgetStartDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

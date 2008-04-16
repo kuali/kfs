@@ -1,132 +1,193 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kfs.bo.ElectronicPaymentClaim">
-    	<inquiry>
-    		<title>Electronic Payment Claim</title>
-    		
-    		<inquirySections>
-    			<inquirySection title="Electronic Payment Claim">
-    				<inquiryFields>
-    					<field attributeName="documentNumber" />
-    					<field attributeName="financialDocumentLineNumber" />
-    					<field attributeName="generatingAccountingLine.financialDocumentLineDescription" />
-		    			<field attributeName="generatingAccountingLine.amount" />
-    					<field attributeName="referenceFinancialDocumentNumber" />
-    					<field attributeName="financialDocumentPostingYear" />
-    					<field attributeName="financialDocumentPostingPeriodCode" />
-    					<field attributeName="paymentClaimStatus" />
-    				</inquiryFields>
-    			</inquirySection>
-    		</inquirySections>
-    	</inquiry>
-    	<lookup>
-    		<lookupableID>electronicPaymentClaimLookupable</lookupableID>
-    	
-    		<title>Electronic Payment Claim Lookup</title>
-    		
-    		<instructions>Look up Electronic Payment Claims.  Click "Return Results" to claim them.</instructions>
-    		
-    		<lookupFields>
-    			<lookupField attributeName="financialDocumentPostingPeriodCode" />
-    			<lookupField attributeName="financialDocumentPostingYear" />
-    			<lookupField attributeName="paymentClaimStatusCode">
-    				<defaultValue>U</defaultValue>
-    			</lookupField>
-    		</lookupFields>
-    			
-    		<resultFields>
-    			<field attributeName="documentNumber" />
-    			<field attributeName="financialDocumentLineNumber" />
-    			<field attributeName="generatingAccountingLine.financialDocumentLineDescription" />
-    			<field attributeName="generatingAccountingLine.amount" />
-    			<field attributeName="referenceFinancialDocumentNumber" />
-    			<field attributeName="paymentClaimStatus" />
-    			<field attributeName="financialDocumentPostingYear" />
-    			<field attributeName="financialDocumentPostingPeriodCode" />
-    		</resultFields>
-    	</lookup>
-    	
-    	<attributes>
-    		<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
-    			<label>Generating Document Number</label>
-    			<shortLabel>Genenerating Doc #</shortLabel>
-    		</attributeReference>
-    		
-    		<attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId">
-    			<label>Generating Document Line Number</label>
-    			<shortLabel>Line #</shortLabel>
-    		</attributeReference>
-    		
-    		<attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
-    			<label>Claiming Document</label>
-    			<shortLabel>Claiming Doc #</shortLabel>
-    		</attributeReference>
-    		
-    		<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
-                <label>Financial Document Fiscal Period</label>
-                <shortLabel>Fiscal Period</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>Financial Document Posting Fiscal Accounting Period</summary>
-                <description>One of a prescribed list of Accounting Periods when the document that generated this electronic payment claim was posted.</description>
-            </attributeReference>
-            
-            <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Financial Document Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-                <description>The fiscal year when the document that generated this electronic payment claim was generated.</description>
-            </attributeReference>
-            
-            <attribute name="paymentClaimStatusCode">
-            	<label>Electronic Payment Claiming Status</label>
-            	<shortLabel>Claiming Status</shortLabel>
-            	<maxLength>1</maxLength>
-            	<control>
-            		<radio valuesFinderClass="org.kuali.kfs.lookup.keyvalues.ElectronicPaymentClaimClaimingStatusValuesFinder" />
-            	</control>
-            	<summary>Whether this electronic payment record is claimed or unclaimed.</summary>
-            	<description>Whether this electronic payment record is claimed or unclaimed.</description>
-            </attribute>
-            
-            <attribute name="paymentClaimStatus">
-            	<label>Electronic Payment Claiming Status</label>
-            	<shortLabel>Claiming Status</shortLabel>
-            	<maxLength>10</maxLength>
-            	<control>
-            		<text size="10" />
-            	</control>
-            	<summary>Descriptive text about whether this electronic payment record is claimed or unclaimed.</summary>
-            	<description>Descriptive text about whether this electronic payment record is claimed or unclaimed.</description>
-            </attribute>
-            
-            <attributeReference name="generatingAccountingLine.financialDocumentLineDescription" sourceClassName="org.kuali.kfs.bo.SourceAccountingLine" sourceAttributeName="financialDocumentLineDescription">
-            	<label>Line Description</label>
-            	<shortLabel>Line Desc</shortLabel>
-            </attributeReference>
-            
-            <attributeReference name="generatingAccountingLine.amount" sourceClassName="org.kuali.kfs.bo.SourceAccountingLine" sourceAttributeName="amount" />
-    	</attributes>
-    	
-    	<objectLabel>Electronic Payment</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ElectronicPaymentClaim" parent="ElectronicPaymentClaim-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.ElectronicPaymentClaim" />
+    <property name="inquiryDefinition" >
+      <ref bean="ElectronicPaymentClaim-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ElectronicPaymentClaim-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Electronic Payment" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ElectronicPaymentClaim-documentNumber" />
+        <ref bean="ElectronicPaymentClaim-financialDocumentLineNumber" />
+        <ref bean="ElectronicPaymentClaim-referenceFinancialDocumentNumber" />
+        <ref bean="ElectronicPaymentClaim-financialDocumentPostingPeriodCode" />
+        <ref bean="ElectronicPaymentClaim-financialDocumentPostingYear" />
+        <ref bean="ElectronicPaymentClaim-paymentClaimStatusCode" />
+        <ref bean="ElectronicPaymentClaim-paymentClaimStatus" />
+        <ref bean="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" />
+        <ref bean="ElectronicPaymentClaim-generatingAccountingLine.amount" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ElectronicPaymentClaim-documentNumber" parent="ElectronicPaymentClaim-documentNumber-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="label" value="Generating Document Number" />
+    <property name="shortLabel" value="Genenerating Doc #" />
+  </bean>
+  <bean id="ElectronicPaymentClaim-financialDocumentLineNumber" parent="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="financialDocumentLineNumber" />
+    <property name="label" value="Generating Document Line Number" />
+    <property name="shortLabel" value="Line #" />
+  </bean>
+  <bean id="ElectronicPaymentClaim-referenceFinancialDocumentNumber" parent="ElectronicPaymentClaim-referenceFinancialDocumentNumber-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="label" value="Claiming Document" />
+    <property name="shortLabel" value="Claiming Doc #" />
+  </bean>
+  <bean id="ElectronicPaymentClaim-financialDocumentPostingPeriodCode" parent="ElectronicPaymentClaim-financialDocumentPostingPeriodCode-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+    <property name="name" value="financialDocumentPostingPeriodCode" />
+    <property name="label" value="Financial Document Fiscal Period" />
+    <property name="shortLabel" value="Fiscal Period" />
+    <property name="summary" value="Financial Document Posting Fiscal Accounting Period" />
+    <property name="description" value="One of a prescribed list of Accounting Periods when the document that generated this electronic payment claim was posted." />
+  </bean>
+  <bean id="ElectronicPaymentClaim-financialDocumentPostingYear" parent="ElectronicPaymentClaim-financialDocumentPostingYear-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="financialDocumentPostingYear" />
+    <property name="label" value="Financial Document Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="description" value="The fiscal year when the document that generated this electronic payment claim was generated." />
+  </bean>
+  <bean id="ElectronicPaymentClaim-paymentClaimStatusCode" parent="ElectronicPaymentClaim-paymentClaimStatusCode-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-paymentClaimStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentClaimStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Electronic Payment Claiming Status" />
+    <property name="shortLabel" value="Claiming Status" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.ElectronicPaymentClaimClaimingStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Whether this electronic payment record is claimed or unclaimed." />
+    <property name="description" value="Whether this electronic payment record is claimed or unclaimed." />
+  </bean>
+  <bean id="ElectronicPaymentClaim-paymentClaimStatus" parent="ElectronicPaymentClaim-paymentClaimStatus-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-paymentClaimStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentClaimStatus" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Electronic Payment Claiming Status" />
+    <property name="shortLabel" value="Claiming Status" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Descriptive text about whether this electronic payment record is claimed or unclaimed." />
+    <property name="description" value="Descriptive text about whether this electronic payment record is claimed or unclaimed." />
+  </bean>
+  <bean id="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" parent="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription">
+    <property name="name" value="generatingAccountingLine.financialDocumentLineDescription" />
+  </bean>
+  <bean id="ElectronicPaymentClaim-generatingAccountingLine.amount" parent="ElectronicPaymentClaim-generatingAccountingLine.amount-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-generatingAccountingLine.amount-parentBean" abstract="true" parent="SourceAccountingLine-amount">
+    <property name="name" value="generatingAccountingLine.amount" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ElectronicPaymentClaim-inquiryDefinition" parent="ElectronicPaymentClaim-inquiryDefinition-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Electronic Payment Claim" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Electronic Payment Claim" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentLineNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="generatingAccountingLine.financialDocumentLineDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="generatingAccountingLine.amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentClaimStatus" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ElectronicPaymentClaim-lookupDefinition" parent="ElectronicPaymentClaim-lookupDefinition-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Electronic Payment Claim Lookup" />
+    <property name="lookupableID" value="electronicPaymentClaimLookupable" />
+    <property name="instructions" value="Look up Electronic Payment Claims.  Click &quot;Return Results&quot; to claim them." />
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="U"
+              p:attributeName="paymentClaimStatusCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="generatingAccountingLine.financialDocumentLineDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="generatingAccountingLine.amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentClaimStatus" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingPeriodCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

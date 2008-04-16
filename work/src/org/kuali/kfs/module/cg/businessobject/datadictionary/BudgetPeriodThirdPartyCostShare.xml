@@ -1,124 +1,143 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetPeriodThirdPartyCostShare" parent="BudgetPeriodThirdPartyCostShare-parentBean" />
+
+  <bean id="BudgetPeriodThirdPartyCostShare-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetPeriodThirdPartyCostShare-inquiryDefinition" />
+    </property>
+    <property name="objectLabel" value="Budget Third Party Cost Share" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetPeriodThirdPartyCostShare-documentNumber" />
+        <ref bean="BudgetPeriodThirdPartyCostShare-budgetPeriodSequenceNumber" />
+        <ref bean="BudgetPeriodThirdPartyCostShare-budgetCostShareSequenceNumber" />
+        <ref bean="BudgetPeriodThirdPartyCostShare-budgetCostShareAmount" />
+        <ref bean="BudgetPeriodThirdPartyCostShare-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Third Party Cost Share</title>
+  <bean id="BudgetPeriodThirdPartyCostShare-documentNumber" parent="BudgetPeriodThirdPartyCostShare-documentNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="budgetPeriodSequenceNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetPeriodThirdPartyCostShare-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Number" />
+    <property name="shortLabel" value="Budget Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Budget Number..." />
+    <property name="description" value="Budget Number..." />
+  </bean>
+  <bean id="BudgetPeriodThirdPartyCostShare-budgetPeriodSequenceNumber" parent="BudgetPeriodThirdPartyCostShare-budgetPeriodSequenceNumber-parentBean" />
 
-        <attributes>
+  <bean id="BudgetPeriodThirdPartyCostShare-budgetPeriodSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriodSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number" />
+  </bean>
+  <bean id="BudgetPeriodThirdPartyCostShare-budgetCostShareSequenceNumber" parent="BudgetPeriodThirdPartyCostShare-budgetCostShareSequenceNumber-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Budget Number</label>
-                <shortLabel>Budget Number</shortLabel>
+  <bean id="BudgetPeriodThirdPartyCostShare-budgetCostShareSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCostShareSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number" />
+  </bean>
+  <bean id="BudgetPeriodThirdPartyCostShare-budgetCostShareAmount" parent="BudgetPeriodThirdPartyCostShare-budgetCostShareAmount-parentBean" />
 
-                <maxLength>12</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="BudgetPeriodThirdPartyCostShare-budgetCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCostShareAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Amount" />
+    <property name="description" value="Amount" />
+  </bean>
+  <bean id="BudgetPeriodThirdPartyCostShare-versionNumber" parent="BudgetPeriodThirdPartyCostShare-versionNumber-parentBean" />
 
-                <control>
-                    <text size="12" />
-                </control>
+  <bean id="BudgetPeriodThirdPartyCostShare-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
+  </bean>
 
-                <summary>Budget Number...</summary>
-                <description>Budget Number...</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="budgetPeriodSequenceNumber" forceUppercase="true">
-                <label>Sequence Number</label>
-                <shortLabel>Sequence Number</shortLabel>
 
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
+  <bean id="BudgetPeriodThirdPartyCostShare-inquiryDefinition" parent="BudgetPeriodThirdPartyCostShare-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
-
-                <summary>Sequence Number</summary>
-                <description>Sequence Number</description>
-            </attribute>
-
-            <attribute name="budgetCostShareSequenceNumber" forceUppercase="true">
-                <label>Sequence Number</label>
-                <shortLabel>Sequence Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="2" />
-                </control>
-
-                <summary>Sequence Number</summary>
-                <description>Sequence Number</description>
-            </attribute>
-
-            <attribute name="budgetCostShareAmount" forceUppercase="true">
-                <label>Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Amount</summary>
-                <description>Amount</description>
-            </attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
-            </attribute>
-        </attributes>
-        
-        <objectLabel>Budget Third Party Cost Share</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="BudgetPeriodThirdPartyCostShare-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Third Party Cost Share" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetPeriodSequenceNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

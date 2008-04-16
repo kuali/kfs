@@ -1,100 +1,181 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "../../../../../../../../rice/kns/src/main/resources/org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.effort.bo.OutstandingCertificationsByOrganization">
-       <lookup>
-       		<lookupableID>outstandingReportsByOrganizationLookupable</lookupableID> 
-            <title>Outstanding Certifications by Chart/Org/Report</title>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-            <instructions>Find Outstanding Certifications by Chart/Org/Report</instructions>
+  <bean id="OutstandingCertificationsByOrganization" parent="OutstandingCertificationsByOrganization-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="effortCertificationReportNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="OutstandingCertificationsByOrganization-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.OutstandingCertificationsByOrganization" />
+    <property name="lookupDefinition" >
+      <ref bean="OutstandingCertificationsByOrganization-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="OutstandingCertificationsByOrganization-effortCertificationDocumentCode" />
+        <ref bean="OutstandingCertificationsByOrganization-certificationOrganizations" />
+        <ref bean="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode" />
+        <ref bean="OutstandingCertificationsByOrganization-emplid" />
+        <ref bean="OutstandingCertificationsByOrganization-employee.personName" />
+        <ref bean="OutstandingCertificationsByOrganization-employee.personUserIdentifier" />
+        <ref bean="OutstandingCertificationsByOrganization-documentNumber" />
+        <ref bean="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.chartOfAccountsCode" />
+        <ref bean="OutstandingCertificationsByOrganization-universityFiscalYear" />
+        <ref bean="OutstandingCertificationsByOrganization-effortCertificationReportNumber" />
+        <ref bean="OutstandingCertificationsByOrganization-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="employee" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="emplid"
+                    p:targetName="personPayrollIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="employee.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="employee.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <lookupFields>
-            	<lookupField attributeName="universityFiscalYear" required="true"/>
-                <lookupField attributeName="effortCertificationReportNumber" />
-                <lookupField attributeName="effortCertificationDetailLines.account.chartOfAccountsCode" />
-                <lookupField attributeName="effortCertificationDetailLines.account.organizationCode" />
-            </lookupFields>
+<!-- Attribute Definitions -->
 
-            <resultFields>
-            	<field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportNumber" />
-            	<field attributeName="certificationOrganizations" /> 
-				<field attributeName="documentNumber" />
-				<field attributeName="emplid" />
-                <field attributeName="employee.personName" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDocumentCode" parent="OutstandingCertificationsByOrganization-effortCertificationDocumentCode-parentBean" />
 
-            <attribute name="effortCertificationDocumentCode" forceUppercase="true">
-                <label>Effort Certification Document Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDocumentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effortCertificationDocumentCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Effort Certification Document Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Effort Certification DocumentCode" />
+    <property name="description" value="Effort Certification LaborDocumentCode description..." />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-certificationOrganizations" parent="OutstandingCertificationsByOrganization-certificationOrganizations-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="OutstandingCertificationsByOrganization-certificationOrganizations-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="certificationOrganizations" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Certification Organizations" />
+    <property name="shortLabel" value="organizations" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Certification Organizations" />
+    <property name="description" value="Certification Organizations" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode" parent="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="effortCertificationDetailLines.account.organizationCode" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-emplid" parent="OutstandingCertificationsByOrganization-emplid-parentBean" />
 
-                <summary>Effort Certification DocumentCode</summary>
-                <description>Effort Certification LaborDocumentCode description...</description>
-			</attribute>
-			
-			<attribute name="certificationOrganizations" forceUppercase="true">
-                <label>Certification Organizations</label>
-                <shortLabel>organizations</shortLabel>
+  <bean id="OutstandingCertificationsByOrganization-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+    <property name="name" value="emplid" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-employee.personName" parent="OutstandingCertificationsByOrganization-employee.personName-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="OutstandingCertificationsByOrganization-employee.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="employee.personName" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-employee.personUserIdentifier" parent="OutstandingCertificationsByOrganization-employee.personUserIdentifier-parentBean" />
 
-                <control>
-                    <text size="50" />
-                </control>
+  <bean id="OutstandingCertificationsByOrganization-employee.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="employee.personUserIdentifier" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-documentNumber" parent="OutstandingCertificationsByOrganization-documentNumber-parentBean" />
 
-                <summary>Certification Organizations</summary>
-                <description>Certification Organizations</description>
-			</attribute>
-			
-            <attributeReference name="effortCertificationDetailLines.account.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode" />
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-            <attributeReference name="employee.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
-            <attributeReference name="employee.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier" />
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
-            <attributeReference name="effortCertificationDetailLines.account.chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        
-        <relationships>
-            <relationship objectAttributeName="employee" >
-				<primitiveAttribute sourceName="emplid" targetName="personPayrollIdentifier" />
-                <supportAttribute sourceName="employee.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-                <supportAttribute sourceName="employee.personName" targetName="personName" />
-            </relationship>
-	    </relationships>         
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OutstandingCertificationsByOrganization-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.chartOfAccountsCode" parent="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.chartOfAccountsCode-parentBean" />
+
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="effortCertificationDetailLines.account.chartOfAccountsCode" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-universityFiscalYear" parent="OutstandingCertificationsByOrganization-universityFiscalYear-parentBean" />
+
+  <bean id="OutstandingCertificationsByOrganization-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationReportNumber" parent="OutstandingCertificationsByOrganization-effortCertificationReportNumber-parentBean" />
+
+  <bean id="OutstandingCertificationsByOrganization-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
+  </bean>
+  <bean id="OutstandingCertificationsByOrganization-versionNumber" parent="OutstandingCertificationsByOrganization-versionNumber-parentBean" />
+
+  <bean id="OutstandingCertificationsByOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OutstandingCertificationsByOrganization-lookupDefinition" parent="OutstandingCertificationsByOrganization-lookupDefinition-parentBean" />
+
+  <bean id="OutstandingCertificationsByOrganization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Outstanding Certifications by Chart/Org/Report" />
+    <property name="lookupableID" value="outstandingReportsByOrganizationLookupable" />
+    <property name="instructions" value="Find Outstanding Certifications by Chart/Org/Report" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDetailLines.account.chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDetailLines.account.organizationCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="certificationOrganizations" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employee.personName" />
+      </list>
+    </property>
+  </bean>
+</beans>

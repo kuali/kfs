@@ -1,95 +1,166 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.WireCharge">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="WireCharge" parent="WireCharge-parentBean" />
+
+  <bean id="WireCharge-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.WireCharge" />
+    <property name="inquiryDefinition" >
+      <ref bean="WireCharge-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="WireCharge-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Disbursement Voucher Wire Charge" />
+    <property name="attributes" >
+      <list>
+        <ref bean="WireCharge-universityFiscalYear" />
+        <ref bean="WireCharge-chartOfAccountsCode" />
+        <ref bean="WireCharge-accountNumber" />
+        <ref bean="WireCharge-incomeFinancialObjectCode" />
+        <ref bean="WireCharge-expenseFinancialObjectCode" />
+        <ref bean="WireCharge-domesticChargeAmt" />
+        <ref bean="WireCharge-foreignChargeAmt" />
+        <ref bean="WireCharge-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Disbursement Voucher Wire Charge Inquiry</title>
+  <bean id="WireCharge-universityFiscalYear" parent="WireCharge-universityFiscalYear-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="incomeFinancialObjectCode" />
-                <field attributeName="expenseFinancialObjectCode" />
-                <field attributeName="domesticChargeAmt" />
-                <field attributeName="foreignChargeAmt" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="WireCharge-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="WireCharge-chartOfAccountsCode" parent="WireCharge-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Disbursement Voucher Wire Charge Lookup</title>
+  <bean id="WireCharge-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="WireCharge-accountNumber" parent="WireCharge-accountNumber-parentBean" />
 
-            <instructions>Lookup a Wire Charge</instructions>
+  <bean id="WireCharge-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="WireCharge-incomeFinancialObjectCode" parent="WireCharge-incomeFinancialObjectCode-parentBean" />
 
-            <defaultSort attributeName="accountNumber" sortAscending="true" />
+  <bean id="WireCharge-incomeFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="incomeFinancialObjectCode" />
+    <property name="label" value="Income Object Code" />
+    <property name="shortLabel" value="Inc Obj Cd" />
+  </bean>
+  <bean id="WireCharge-expenseFinancialObjectCode" parent="WireCharge-expenseFinancialObjectCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="incomeFinancialObjectCode" required="false" />
-                <lookupField attributeName="expenseFinancialObjectCode" required="false" />
-            </lookupFields>
+  <bean id="WireCharge-expenseFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="expenseFinancialObjectCode" />
+    <property name="label" value="Expense Object Code" />
+    <property name="shortLabel" value="Exp Obj Cd" />
+  </bean>
+  <bean id="WireCharge-domesticChargeAmt" parent="WireCharge-domesticChargeAmt-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="incomeFinancialObjectCode" />
-                <field attributeName="expenseFinancialObjectCode" />
-                <field attributeName="domesticChargeAmt" />
-                <field attributeName="foreignChargeAmt" />
-            </resultFields>
-        </lookup>
+  <bean id="WireCharge-domesticChargeAmt-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="domesticChargeAmt" />
+    <property name="label" value="Domestic Charge Amount" />
+    <property name="shortLabel" value="Dom Amt" />
+  </bean>
+  <bean id="WireCharge-foreignChargeAmt" parent="WireCharge-foreignChargeAmt-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear" />
+  <bean id="WireCharge-foreignChargeAmt-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="foreignChargeAmt" />
+    <property name="label" value="Foreign Charge Amount" />
+    <property name="shortLabel" value="For Amt" />
+  </bean>
+  <bean id="WireCharge-versionNumber" parent="WireCharge-versionNumber-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+  <bean id="WireCharge-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="incomeFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Income Object Code</label>
-                <shortLabel>Inc Obj Cd</shortLabel>
-            </attributeReference>
 
-            <attributeReference name="expenseFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Expense Object Code</label>
-                <shortLabel>Exp Obj Cd</shortLabel>
-            </attributeReference>
+  <bean id="WireCharge-inquiryDefinition" parent="WireCharge-inquiryDefinition-parentBean" />
 
-            <attributeReference name="domesticChargeAmt" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Domestic Charge Amount</label>
-                <shortLabel>Dom Amt</shortLabel>
-            </attributeReference>
+  <bean id="WireCharge-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Disbursement Voucher Wire Charge Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="incomeFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expenseFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="domesticChargeAmt" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="foreignChargeAmt" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="foreignChargeAmt" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Foreign Charge Amount</label>
-                <shortLabel>For Amt</shortLabel>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        <objectLabel>Disbursement Voucher Wire Charge</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="WireCharge-lookupDefinition" parent="WireCharge-lookupDefinition-parentBean" />
+
+  <bean id="WireCharge-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Disbursement Voucher Wire Charge Lookup" />
+    <property name="instructions" value="Lookup a Wire Charge" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>accountNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expenseFinancialObjectCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="incomeFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expenseFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="domesticChargeAmt" />
+        <bean parent="FieldDefinition"
+              p:attributeName="foreignChargeAmt" />
+      </list>
+    </property>
+  </bean>
+</beans>

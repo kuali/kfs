@@ -1,119 +1,175 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModelName">
-        <inquiry>
-            <title>Account Delegate Model Inquiry</title>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-            <inquirySections>
-            	<inquirySection title="Account Delegate Model Name">
-            		<inquiryFields>
-		                <field attributeName="chartOfAccountsCode" />
-		                <field attributeName="organizationCode" />
-		                <field attributeName="organizationRoutingModelName" />
-            		</inquiryFields>
-            	</inquirySection>
-            	<inquirySection title="Account Delegate Model Delegates">
-            		<inquiryFields>
-            			<inquiryCollection name="organizationRoutingModel" businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModel">
-            				<field attributeName="financialDocumentTypeCode" />
-            				<field attributeName="accountDelegatePrimaryRoutingIndicator" />
-            				<field attributeName="approvalFromThisAmount" />
-            				<field attributeName="approvalToThisAmount" />
-            				<field attributeName="accountDelegate.personName" />
-            			</inquiryCollection>
-            		</inquiryFields>
-            	</inquirySection>
-            </inquirySections>
-        </inquiry>
+  <bean id="OrganizationRoutingModelName" parent="OrganizationRoutingModelName-parentBean" />
 
-        <lookup>
-        	<lookupableID>organizationRoutingModelLookupable</lookupableID>
-            <title>Account Delegate Model Lookup</title>
+  <bean id="OrganizationRoutingModelName-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationRoutingModelName" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationRoutingModelName-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationRoutingModelName-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationRoutingModelName" />
+    <property name="objectLabel" value="Account Delegate Model" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationRoutingModelName-chartOfAccountsCode" />
+        <ref bean="OrganizationRoutingModelName-organizationCode" />
+        <ref bean="OrganizationRoutingModelName-organizationRoutingModelName" />
+        <ref bean="OrganizationRoutingModelName-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <instructions>Look up an Account Delegate Model Name</instructions>
+<!-- Attribute Definitions -->
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="organizationRoutingModelName" />
-                </sortAttributes>
-            </defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="organizationRoutingModelName" required="false" />
-            </lookupFields>
+  <bean id="OrganizationRoutingModelName-chartOfAccountsCode" parent="OrganizationRoutingModelName-chartOfAccountsCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationRoutingModelName" forceInquiry="true" />
-            </resultFields>
-        </lookup>
-        
-        <titleAttribute>organizationRoutingModelName</titleAttribute>
+  <bean id="OrganizationRoutingModelName-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModelName-organizationCode" parent="OrganizationRoutingModelName-organizationCode-parentBean" />
 
-        <attributes>
+  <bean id="OrganizationRoutingModelName-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModelName-organizationRoutingModelName" parent="OrganizationRoutingModelName-organizationRoutingModelName-parentBean" />
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="OrganizationRoutingModelName-organizationRoutingModelName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationRoutingModelName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Delegate Model Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModelName-versionNumber" parent="OrganizationRoutingModelName-versionNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="OrganizationRoutingModelName-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="OrganizationRoutingModelName-inquiryDefinition" parent="OrganizationRoutingModelName-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="6" />
-                </control>
-			</attribute>
+  <bean id="OrganizationRoutingModelName-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Account Delegate Model Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Account Delegate Model Name" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationRoutingModelName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Account Delegate Model Delegates" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="organizationRoutingModel" />
+                <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationRoutingModel" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialDocumentTypeCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountDelegatePrimaryRoutingIndicator" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="approvalFromThisAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="approvalToThisAmount" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountDelegate.personName" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="organizationRoutingModelName" forceUppercase="true">
-                <label>Account Delegate Model Name</label>
-                <shortLabel>Name</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
-                <control>
-                    <text size="12" />
-                </control>
-			</attribute>
+  <bean id="OrganizationRoutingModelName-lookupDefinition" parent="OrganizationRoutingModelName-lookupDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Account Delegate Model</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OrganizationRoutingModelName-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Account Delegate Model Lookup" />
+    <property name="lookupableID" value="organizationRoutingModelLookupable" />
+    <property name="instructions" value="Look up an Account Delegate Model Name" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationRoutingModelName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationRoutingModelName"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

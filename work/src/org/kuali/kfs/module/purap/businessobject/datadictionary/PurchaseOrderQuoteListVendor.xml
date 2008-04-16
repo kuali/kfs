@@ -1,76 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Purchase Order Quote List Vendor Inquiry</title>
+  <bean id="PurchaseOrderQuoteListVendor" parent="PurchaseOrderQuoteListVendor-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderQuoteListIdentifier" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PurchaseOrderQuoteListVendor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchaseOrderQuoteListVendor-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchaseOrderQuoteListVendor-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier" />
+        <ref bean="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" />
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" />
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" />
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator" />
+        <ref bean="PurchaseOrderQuoteListVendor-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Purchase Order Quote List Vendor Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Purchase Order Quote List Vendor</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderQuoteListIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier" parent="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="purchaseOrderQuoteListIdentifier" required="false" />
-                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" />
-                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />
-            </lookupFields>
+  <bean id="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier-parentBean" abstract="true" parent="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier">
+  </bean>
+  <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean" />
 
-            <resultFields>
-                <field attributeName="purchaseOrderQuoteListIdentifier" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-            </resultFields>
-        </lookup>
-        
-        <attributes>
+  <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier-parentBean" />
 
-			<attributeReference name="purchaseOrderQuoteListIdentifier" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderQuoteList" sourceAttributeName="purchaseOrderQuoteListIdentifier" />
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorName-parentBean" />
 
-			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="vendorDetail.vendorName" />
+    <property name="control" >
+      <bean parent="LookupReadonlyControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator" parent="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator-parentBean" />
 
-			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-				<control>
-					<lookupReadonly />
-				</control>
-			</attributeReference>
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator-parentBean" abstract="true" parent="VendorDetail-activeIndicator">
+    <property name="name" value="vendorDetail.activeIndicator" />
+  </bean>
+  <bean id="PurchaseOrderQuoteListVendor-versionNumber" parent="PurchaseOrderQuoteListVendor-versionNumber-parentBean" />
 
-			<attributeReference name="vendorDetail.activeIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="activeIndicator" />
+  <bean id="PurchaseOrderQuoteListVendor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-      <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+<!-- Business Object Inquiry Definition -->
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="PurchaseOrderQuoteListVendor-inquiryDefinition" parent="PurchaseOrderQuoteListVendor-inquiryDefinition-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListVendor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purchase Order Quote List Vendor Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteListIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PurchaseOrderQuoteListVendor-lookupDefinition" parent="PurchaseOrderQuoteListVendor-lookupDefinition-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListVendor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purchase Order Quote List Vendor Lookup" />
+    <property name="instructions" value="Lookup an Purchase Order Quote List Vendor" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteListIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteListIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

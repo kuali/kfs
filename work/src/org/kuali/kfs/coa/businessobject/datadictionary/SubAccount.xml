@@ -1,289 +1,370 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubAccount">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubAccount" parent="SubAccount-parentBean" />
+
+  <bean id="SubAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.SubAccount" />
+    <property name="inquiryDefinition" >
+      <ref bean="SubAccount-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SubAccount-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="subAccountNumber" />
+    <property name="objectLabel" value="Sub-Account" />
+    <property name="attributes" >
+      <list>
+        <ref bean="SubAccount-chartOfAccountsCode" />
+        <ref bean="SubAccount-accountNumber" />
+        <ref bean="SubAccount-subAccountNumber" />
+        <ref bean="SubAccount-subAccountName" />
+        <ref bean="SubAccount-financialReportChartCode" />
+        <ref bean="SubAccount-finReportOrganizationCode" />
+        <ref bean="SubAccount-financialReportingCode" />
+        <ref bean="SubAccount-subAccountActiveIndicator" />
+        <ref bean="SubAccount-a21SubAccount.subAccountTypeCode" />
+        <ref bean="SubAccount-a21SubAccount.costShareChartOfAccountCode" />
+        <ref bean="SubAccount-a21SubAccount.costShareSourceAccountNumber" />
+        <ref bean="SubAccount-a21SubAccount.costShareSourceSubAccountNumber" />
+        <ref bean="SubAccount-a21SubAccount.financialIcrSeriesIdentifier" />
+        <ref bean="SubAccount-a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+        <ref bean="SubAccount-a21SubAccount.indirectCostRecoveryAccountNumber" />
+        <ref bean="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode" />
+        <ref bean="SubAccount-a21SubAccount.offCampusCode" />
+        <ref bean="SubAccount-versionNumber" />
+        <ref bean="SubAccount-a21SubAccount.versionNumber" />
+        <ref bean="SubAccount-financialReportingCodeSection" />
+        <ref bean="SubAccount-cgCostSharingSection" />
+        <ref bean="SubAccount-cgICRSection" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Sub-Account Inquiry</title>
+  <bean id="SubAccount-chartOfAccountsCode" parent="SubAccount-chartOfAccountsCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <!-- Previous version which is little different from Maintainable Fields       -->
-                <!-- <field attributeName="chartOfAccountsCode" />
-                    <field attributeName="accountNumber" />			
-                    <field attributeName="subAccountNumber" />
-                    <field attributeName="subAccountName" />			
-                    <field attributeName="financialReportChartCode" />
-                    <field attributeName="finReportOrganizationCode" />
-                    <field attributeName="financialReportingCode" />				
-                    <field attributeName="subAccountActiveIndicator" />
-                    <field attributeName="a21SubAccount.subAccountTypeCode" />		
-                    <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
-                    <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
-                    <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
-                    <field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
-                    <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
-                    <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
-                    <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
-                    <field attributeName="a21SubAccount.offCampusCode" />
-                -->
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="subAccountName" />
-                <field attributeName="subAccountActiveIndicator" />
-                <field attributeName="a21SubAccount.subAccountTypeCode" />
-                
-                <field attributeName="financialReportingCodeSectionBlank" />
-                <field attributeName="financialReportingCodeSection" />
+  <bean id="SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="SubAccount-accountNumber" parent="SubAccount-accountNumber-parentBean" />
 
-                <field attributeName="financialReportChartCode" />
-                <field attributeName="finReportOrganizationCode" />
-                <field attributeName="financialReportingCode" />
+  <bean id="SubAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="SubAccount-subAccountNumber" parent="SubAccount-subAccountNumber-parentBean" />
 
-                <field attributeName="cgCostSharingSectionBlank" />
-                <field attributeName="cgCostSharingSection" />
+  <bean id="SubAccount-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Account Number" />
+    <property name="shortLabel" value="Sub-Account" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:maxLength="5" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="SubAccount-subAccountName" parent="SubAccount-subAccountName-parentBean" />
 
-                <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
-                <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
-                <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
+  <bean id="SubAccount-subAccountName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Account Name" />
+    <property name="shortLabel" value="Sub-Acct Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="SubAccount-financialReportChartCode" parent="SubAccount-financialReportChartCode-parentBean" />
 
-                <field attributeName="cgICRSectionBlank" />
-                <field attributeName="cgICRSection" />
+  <bean id="SubAccount-financialReportChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="financialReportChartCode" />
+    <property name="label" value="Financial Reporting Chart Code" />
+    <property name="shortLabel" value="Fin. Rpt. Chart" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-finReportOrganizationCode" parent="SubAccount-finReportOrganizationCode-parentBean" />
 
-                <field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
-                <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
-                <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
-                <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
-                <field attributeName="a21SubAccount.offCampusCode" />
+  <bean id="SubAccount-finReportOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="finReportOrganizationCode" />
+    <property name="label" value="Financial Reporting Org Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-financialReportingCode" parent="SubAccount-financialReportingCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="SubAccount-financialReportingCode-parentBean" abstract="true" parent="ReportingCodes-financialReportingCode">
+    <property name="shortLabel" value="Fin. Rpt. Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-subAccountActiveIndicator" parent="SubAccount-subAccountActiveIndicator-parentBean" />
 
-        <lookup>
-            <title>Sub-Account Lookup</title>
+  <bean id="SubAccount-subAccountActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="subAccountActiveIndicator" />
+  </bean>
+  <bean id="SubAccount-a21SubAccount.subAccountTypeCode" parent="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" />
 
-            <instructions>Lookup a Sub-Account</instructions>
+  <bean id="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" abstract="true" parent="A21SubAccount-subAccountTypeCode">
+    <property name="name" value="a21SubAccount.subAccountTypeCode" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="ApcSelectControlDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="SUB_ACCOUNT_TYPES"
+            p:parameterDetailType="SubAccount" />
+    </property>
+  </bean>
+  <bean id="SubAccount-a21SubAccount.costShareChartOfAccountCode" parent="SubAccount-a21SubAccount.costShareChartOfAccountCode-parentBean" />
 
-            <defaultSort attributeName="subAccountNumber" sortAscending="true" />
+  <bean id="SubAccount-a21SubAccount.costShareChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="a21SubAccount.costShareChartOfAccountCode" />
+    <property name="label" value="Cost Sharing Chart of Accounts Code" />
+    <property name="shortLabel" value="CostShareCOACode" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubAccount-a21SubAccount.costShareSourceAccountNumber" parent="SubAccount-a21SubAccount.costShareSourceAccountNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="subAccountName" required="false" />
-				<!-- KULCOA-1071 commented out as these fields are not shown in results
-                <lookupField attributeName="financialReportChartCode" required="false" />
-                <lookupField attributeName="finReportOrganizationCode" required="false" />
-                <lookupField attributeName="financialReportingCode" required="false" />
-                -->
-                <lookupField attributeName="subAccountActiveIndicator" required="false" />
-            </lookupFields>
+  <bean id="SubAccount-a21SubAccount.costShareSourceAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="a21SubAccount.costShareSourceAccountNumber" />
+    <property name="label" value="Cost Sharing Account Number" />
+    <property name="shortLabel" value="CostShareAcctNbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-a21SubAccount.costShareSourceSubAccountNumber" parent="SubAccount-a21SubAccount.costShareSourceSubAccountNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="subAccountName" />
-				<!-- JHK: KULCOA-1026 commented out to prevent horizontal scrolling
-                <field attributeName="financialReportChartCode" />
-                <field attributeName="finReportOrganizationCode" />
-                <field attributeName="financialReportingCode" />
-                -->
-                <field attributeName="subAccountActiveIndicator" />
-                <field attributeName="a21SubAccount.subAccountTypeCode" />
-				<!-- JHK: KULCOA-1026 commented out to prevent horizontal scrolling
-                <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
-                <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
-                <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
-                <field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
-                <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
-                <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
-                <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
-                <field attributeName="a21SubAccount.offCampusCode" />
-                -->
-            </resultFields>
-        </lookup>
+  <bean id="SubAccount-a21SubAccount.costShareSourceSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="name" value="a21SubAccount.costShareSourceSubAccountNumber" />
+    <property name="label" value="Cost Sharing Sub-Account Number" />
+    <property name="shortLabel" value="CostShareSubAcctNbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-a21SubAccount.financialIcrSeriesIdentifier" parent="SubAccount-a21SubAccount.financialIcrSeriesIdentifier-parentBean" />
 
-        <titleAttribute>subAccountNumber</titleAttribute>
+  <bean id="SubAccount-a21SubAccount.financialIcrSeriesIdentifier-parentBean" abstract="true" parent="A21SubAccount-financialIcrSeriesIdentifier">
+    <property name="name" value="a21SubAccount.financialIcrSeriesIdentifier" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryChartOfAccountsCode" parent="SubAccount-a21SubAccount.indirectCostRecoveryChartOfAccountsCode-parentBean" />
 
-        <attributes>
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+    <property name="label" value="ICR Chart of Accounts Code" />
+    <property name="shortLabel" value="IcrCoaCd" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryAccountNumber" parent="SubAccount-a21SubAccount.indirectCostRecoveryAccountNumber-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="a21SubAccount.indirectCostRecoveryAccountNumber" />
+    <property name="label" value="ICR Account Number" />
+    <property name="shortLabel" value="ICRAcctNbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode" parent="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" />
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <required>true</required>
-            </attributeReference>
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" abstract="true" parent="ICRTypeCode-code">
+    <property name="name" value="a21SubAccount.indirectCostRecoveryTypeCode" />
+    <property name="label" value="ICR Type Code" />
+    <property name="shortLabel" value="ICRTypeCd" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ICRTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubAccount-a21SubAccount.offCampusCode" parent="SubAccount-a21SubAccount.offCampusCode-parentBean" />
 
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub-Account Number</label>
-                <shortLabel>Sub-Account</shortLabel>
+  <bean id="SubAccount-a21SubAccount.offCampusCode-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="a21SubAccount.offCampusCode" />
+    <property name="label" value="Off Campus Indicator" />
+    <property name="shortLabel" value="Off Campus" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-versionNumber" parent="SubAccount-versionNumber-parentBean" />
 
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <anyCharacter maxLength="5" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="SubAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="SubAccount-a21SubAccount.versionNumber" parent="SubAccount-a21SubAccount.versionNumber-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
-            </attribute>
+  <bean id="SubAccount-a21SubAccount.versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="name" value="a21SubAccount.versionNumber" />
+  </bean>
+  <bean id="SubAccount-financialReportingCodeSection" parent="SubAccount-financialReportingCodeSection-parentBean" />
 
-            <attribute name="subAccountName" forceUppercase="true">
-                <label>Sub-Account Name</label>
-                <shortLabel>Sub-Acct Name</shortLabel>
+  <bean id="SubAccount-financialReportingCodeSection-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialReportingCodeSection" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="FINANCIAL REPORTING CODE SECTION" />
+    <property name="shortLabel" value="FINANCIAL REPORTING CODE SECTION" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="SubAccount-cgCostSharingSection" parent="SubAccount-cgCostSharingSection-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="SubAccount-cgCostSharingSection-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cgCostSharingSection" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="CG COST SHARING SECTION" />
+    <property name="shortLabel" value="CG COST SHARING SECTION" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="SubAccount-cgICRSection" parent="SubAccount-cgICRSection-parentBean" />
 
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+  <bean id="SubAccount-cgICRSection-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cgICRSection" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="CG ICR SECTION" />
+    <property name="shortLabel" value="CG ICR SECTION" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
 
-            <attributeReference name="financialReportChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Financial Reporting Chart Code</label>
-                <shortLabel>Fin. Rpt. Chart</shortLabel>
-                <required>false</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="finReportOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-                <label>Financial Reporting Org Code</label>
-                <shortLabel>Org</shortLabel>
-                <required>false</required>
-            </attributeReference>
 
-            <attributeReference name="financialReportingCode" sourceClassName="org.kuali.module.chart.bo.ReportingCodes" sourceAttributeName="financialReportingCode">
-                <label>Financial Reporting Code</label>
-                <shortLabel>Fin. Rpt. Code</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="SubAccount-inquiryDefinition" parent="SubAccount-inquiryDefinition-parentBean" />
 
-            <attributeReference name="subAccountActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="SubAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sub-Account Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.subAccountTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportingCodeSectionBlank" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportingCodeSection" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportChartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finReportOrganizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cgCostSharingSectionBlank" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cgCostSharingSection" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.costShareChartOfAccountCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.costShareSourceAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cgICRSectionBlank" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cgICRSection" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="a21SubAccount.offCampusCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="a21SubAccount.subAccountTypeCode" sourceClassName="org.kuali.module.chart.bo.A21SubAccount" sourceAttributeName="subAccountTypeCode">
-                <required>false</required>
-                <control>
-                    <apcSelect parameterNamespace="KFS-CA" parameterDetailType="SubAccount" parameterName="SUB_ACCOUNT_TYPES" />
-                </control>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="a21SubAccount.costShareChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Cost Sharing Chart of Accounts Code</label>
-                <shortLabel>CostShareCOACode</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
 
-            <attributeReference name="a21SubAccount.costShareSourceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Cost Sharing Account Number</label>
-                <shortLabel>CostShareAcctNbr</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="SubAccount-lookupDefinition" parent="SubAccount-lookupDefinition-parentBean" />
 
-            <attributeReference name="a21SubAccount.costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-                <label>Cost Sharing Sub-Account Number</label>
-                <shortLabel>CostShareSubAcctNbr</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="a21SubAccount.financialIcrSeriesIdentifier" sourceClassName="org.kuali.module.chart.bo.A21SubAccount" sourceAttributeName="financialIcrSeriesIdentifier">
-                <label>Indirect Cost Rate</label>
-                <shortLabel>Indr Cost Rate</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>ICR Chart of Accounts Code</label>
-                <shortLabel>IcrCoaCd</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="a21SubAccount.indirectCostRecoveryAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>ICR Account Number</label>
-                <shortLabel>ICRAcctNbr</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="a21SubAccount.indirectCostRecoveryTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="code">
-                <label>ICR Type Code</label>
-                <shortLabel>ICRTypeCd</shortLabel>
-                <required>false</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ICRTypeValuesFinder" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="a21SubAccount.offCampusCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
-                <label>Off Campus Indicator</label>
-                <shortLabel>Off Campus</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="a21SubAccount.versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attribute name="financialReportingCodeSection" forceUppercase="false">
-                <label>FINANCIAL REPORTING CODE SECTION</label>
-                <maxLength>50</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="cgCostSharingSection" forceUppercase="false">
-                <label>CG COST SHARING SECTION</label>
-                <maxLength>50</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="cgICRSection" forceUppercase="false">
-                <label>CG ICR SECTION</label>
-                <maxLength>50</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-        </attributes>
-        
-        <objectLabel>Sub-Account</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="SubAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sub-Account Lookup" />
+    <property name="instructions" value="Lookup a Sub-Account" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>subAccountNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="a21SubAccount.subAccountTypeCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

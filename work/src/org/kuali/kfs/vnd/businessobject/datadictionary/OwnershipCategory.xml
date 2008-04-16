@@ -1,96 +1,137 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.OwnershipCategory">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Ownership Category Inquiry</title>
+  <bean id="OwnershipCategory" parent="OwnershipCategory-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorOwnershipCategoryDescription" />
-                <field attributeName="vendorOwnershipCategoryCode" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="OwnershipCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.OwnershipCategory" />
+    <property name="inquiryDefinition" >
+      <ref bean="OwnershipCategory-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OwnershipCategory-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorOwnershipCategoryCode" />
+    <property name="objectLabel" value="Ownership Category" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OwnershipCategory-vendorOwnershipCategoryCode" />
+        <ref bean="OwnershipCategory-vendorOwnershipCategoryDescription" />
+        <ref bean="OwnershipCategory-active" />
+        <ref bean="OwnershipCategory-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Ownership Category Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Owner Category</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorOwnershipCategoryDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="OwnershipCategory-vendorOwnershipCategoryCode" parent="OwnershipCategory-vendorOwnershipCategoryCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorOwnershipCategoryCode" required="false" />
-                <lookupField attributeName="vendorOwnershipCategoryDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="OwnershipCategory-vendorOwnershipCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorOwnershipCategoryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Ownership Category Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="OwnershipCategory-vendorOwnershipCategoryDescription" parent="OwnershipCategory-vendorOwnershipCategoryDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorOwnershipCategoryCode" />
-                <field attributeName="vendorOwnershipCategoryDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="OwnershipCategory-vendorOwnershipCategoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorOwnershipCategoryDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Ownership Category Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="OwnershipCategory-active" parent="OwnershipCategory-active-parentBean" />
 
-        <titleAttribute>vendorOwnershipCategoryCode</titleAttribute>
+  <bean id="OwnershipCategory-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="OwnershipCategory-versionNumber" parent="OwnershipCategory-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="OwnershipCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-           <attribute name="vendorOwnershipCategoryCode" forceUppercase="true">
-                <label>Ownership Category Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="OwnershipCategory-inquiryDefinition" parent="OwnershipCategory-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="OwnershipCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Ownership Category Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorOwnershipCategoryDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorOwnershipCategoryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="vendorOwnershipCategoryDescription" forceUppercase="true">
-                <label>Ownership Category Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="OwnershipCategory-lookupDefinition" parent="OwnershipCategory-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Ownership Category</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OwnershipCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ownership Category Lookup" />
+    <property name="instructions" value="Lookup an Owner Category" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorOwnershipCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorOwnershipCategoryDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorOwnershipCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorOwnershipCategoryDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

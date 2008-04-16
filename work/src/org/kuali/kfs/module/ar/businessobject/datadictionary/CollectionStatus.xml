@@ -1,96 +1,145 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.CollectionStatus">
- 
-        <inquiry>
-            <title>Collection Status Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="active" />
-                        <field attributeName="customerCollectionStatusCode" />
-                        <field attributeName="customerCollectionStatusName" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Collection Status Lookup</title>
+  <bean id="CollectionStatus" parent="CollectionStatus-parentBean" />
 
-            <instructions>Look up a Collection Status</instructions>
+  <bean id="CollectionStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CollectionStatus" />
+    <property name="inquiryDefinition" >
+      <ref bean="CollectionStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CollectionStatus-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CollectionStatus-active" />
+        <ref bean="CollectionStatus-customerCollectionStatusCode" />
+        <ref bean="CollectionStatus-customerCollectionStatusName" />
+        <ref bean="CollectionStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="customerCollectionStatusCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="active" required="false" />
-                <lookupField attributeName="customerCollectionStatusCode" required="false" />
-                <lookupField attributeName="customerCollectionStatusName" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="active" />
-                <field attributeName="customerCollectionStatusCode" />
-                <field attributeName="customerCollectionStatusName" />
-            </resultFields>
-        </lookup>
+  <bean id="CollectionStatus-active" parent="CollectionStatus-active-parentBean" />
 
-        <attributes>
+  <bean id="CollectionStatus-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="active" />
+    <property name="description" value="active description..." />
+  </bean>
+  <bean id="CollectionStatus-customerCollectionStatusCode" parent="CollectionStatus-customerCollectionStatusCode-parentBean" />
 
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
+  <bean id="CollectionStatus-customerCollectionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerCollectionStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Collection Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="customerCollectionStatusCode" />
+    <property name="description" value="customerCollectionStatusCode description..." />
+  </bean>
+  <bean id="CollectionStatus-customerCollectionStatusName" parent="CollectionStatus-customerCollectionStatusName-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="CollectionStatus-customerCollectionStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerCollectionStatusName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Collection Status Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="customerCollectionStatusName" />
+    <property name="description" value="customerCollectionStatusName description..." />
+  </bean>
+  <bean id="CollectionStatus-versionNumber" parent="CollectionStatus-versionNumber-parentBean" />
 
-                <control>
-                    <checkbox />
-                </control>
+  <bean id="CollectionStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>active</summary>
-                <description>active description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="customerCollectionStatusCode" forceUppercase="true">
-                <label>Customer Collection Status Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CollectionStatus-inquiryDefinition" parent="CollectionStatus-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="CollectionStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Collection Status Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerCollectionStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerCollectionStatusName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <summary>customerCollectionStatusCode</summary>
-                <description>customerCollectionStatusCode description...</description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="customerCollectionStatusName" forceUppercase="true">
-                <label>Customer Collection Status Name</label>
-                <shortLabel>Name</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CollectionStatus-lookupDefinition" parent="CollectionStatus-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>customerCollectionStatusName</summary>
-                <description>customerCollectionStatusName description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CollectionStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Collection Status Lookup" />
+    <property name="instructions" value="Look up a Collection Status" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCollectionStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCollectionStatusName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCollectionStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCollectionStatusName" />
+      </list>
+    </property>
+  </bean>
+</beans>

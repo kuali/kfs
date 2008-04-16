@@ -1,58 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.AssetLocationType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AssetLocationTypeMaintenanceDocument" parent="AssetLocationTypeMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AssetLocationTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ASLT</documentTypeCode>
+  <bean id="AssetLocationTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AssetLocationTypeMaintenanceDocument-EditAssetLocationType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>assetLocationTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Asset Location Type" />
+    <property name="shortLabel" value="Asset Location Type" />
+    <property name="summary" value="Asset Location Type maintenance document" />
+    <property name="description" value="Document used to create or update Asset Location Type objects" />
+    <property name="documentTypeName" value="AssetLocationTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ASLT" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Asset Location Type</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Asset Location Type maintenance document</summary>
-        <description>Document used to create or update Asset Location Type objects</description>
 
-        <lockingKeys>
-            <field attributeName="assetLocationTypeCode" />
-        </lockingKeys>
-        
-        <maintainableSections>
-            <maintainableSection title="Edit Asset Location Type">
-                <maintainableItems>
-                    <maintainableField name="assetLocationTypeCode" required="true" />
-                    <maintainableField name="assetLocationTypeName" required="true" />
-					<maintainableField name="active" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AssetLocationTypeMaintenanceDocument-EditAssetLocationType" parent="AssetLocationTypeMaintenanceDocument-EditAssetLocationType-parentBean" />
+
+  <bean id="AssetLocationTypeMaintenanceDocument-EditAssetLocationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Asset Location Type" />
+    <property name="title" value="Edit Asset Location Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetLocationTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="assetLocationTypeName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

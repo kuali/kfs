@@ -1,277 +1,388 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.ar.bo.OrganizationAccountingDefault">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<inquiry>
-			<title>Organization Accounting Default Inquiry</title>
+  <bean id="OrganizationAccountingDefault" parent="OrganizationAccountingDefault-parentBean" />
 
-			<inquirySections>
-				<inquirySection title="Header Text">
-					<inquiryFields>
-						<field attributeName="chartOfAccountsCode" />
-						<field attributeName="defaultInvoiceAccountNumber" />
-						<field attributeName="defaultInvoiceChartOfAccountsCode" />
-						<field attributeName="defaultInvoiceFinancialObjectCode" />
-						<field attributeName="defaultInvoiceFinancialSubObjectCode" />
-						<field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-						<field attributeName="defaultInvoiceProjectCode" />
-						<field attributeName="defaultInvoiceSubAccountNumber" />
-						<field attributeName="defaultPaymentAccountNumber" />
-						<field attributeName="defaultPaymentChartOfAccountsCode" />
-						<field attributeName="defaultPaymentOrganizationReferenceIdentifier" />
-						<field attributeName="defaultPaymentProjectCode" />
-						<field attributeName="defaultPaymentSubAccountNumber" />
-						<field attributeName="defaultPaymentFinancialObjectCode" />
-						<field attributeName="defaultPaymentFinancialSubObjectCode" />
-						<field attributeName="writeoffChartOfAccountsCode" />
-						<field attributeName="writeoffAccountNumber" />
-						<field attributeName="writeoffSubAccountNumber" />
-						<field attributeName="writeoffFinancialObjectCode" />
-						<field attributeName="writeoffFinancialSubObjectCode" />
-						<field attributeName="writeoffProjectCode" />
-						<field attributeName="writeoffOrganizationReferenceIdentifier" />
-						<field attributeName="organizationCode" />
-						<field attributeName="organizationLateChargeObjectCode" />
-						<field attributeName="universityFiscalYear" />
-					</inquiryFields>
-				</inquirySection>
-			</inquirySections>
-		</inquiry>
+  <bean id="OrganizationAccountingDefault-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.OrganizationAccountingDefault" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationAccountingDefault-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationAccountingDefault-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationAccountingDefaultViewer" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationAccountingDefault-organizationAccountingDefaultViewer" />
+        <ref bean="OrganizationAccountingDefault-chartOfAccountsCode" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceAccountNumber" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceChartOfAccountsCode" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceFinancialObjectCode" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceOrganizationReferenceIdentifier" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceProjectCode" />
+        <ref bean="OrganizationAccountingDefault-defaultInvoiceSubAccountNumber" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentAccountNumber" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentChartOfAccountsCode" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentOrganizationReferenceIdentifier" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentProjectCode" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentSubAccountNumber" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode" />
+        <ref bean="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode" />
+        <ref bean="OrganizationAccountingDefault-organizationCode" />
+        <ref bean="OrganizationAccountingDefault-organizationLateChargeObjectCode" />
+        <ref bean="OrganizationAccountingDefault-writeoffChartOfAccountsCode" />
+        <ref bean="OrganizationAccountingDefault-writeoffAccountNumber" />
+        <ref bean="OrganizationAccountingDefault-writeoffSubAccountNumber" />
+        <ref bean="OrganizationAccountingDefault-writeoffFinancialObjectCode" />
+        <ref bean="OrganizationAccountingDefault-writeoffFinancialSubObjectCode" />
+        <ref bean="OrganizationAccountingDefault-writeoffProjectCode" />
+        <ref bean="OrganizationAccountingDefault-writeoffOrganizationReferenceIdentifier" />
+        <ref bean="OrganizationAccountingDefault-universityFiscalYear" />
+        <ref bean="OrganizationAccountingDefault-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-		<lookup>
-			<title>Organization Accounting Default Lookup</title>
+<!-- Attribute Definitions -->
 
-			<instructions>Look up an Organization Accounting Default</instructions>
 
-			<defaultSort sortAscending="true">
-				<sortAttributes>
-					<sortAttribute attributeName="universityFiscalYear" />
-					<sortAttribute attributeName="chartOfAccountsCode" />
-					<sortAttribute attributeName="organizationCode" />
-				</sortAttributes>
-			</defaultSort>
+  <bean id="OrganizationAccountingDefault-organizationAccountingDefaultViewer" parent="OrganizationAccountingDefault-organizationAccountingDefaultViewer-parentBean" />
 
-			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="false" />
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="organizationCode" required="false" />
-			</lookupFields>
+  <bean id="OrganizationAccountingDefault-organizationAccountingDefaultViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationAccountingDefaultViewer" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="OrganizationAccountingDefault-chartOfAccountsCode" parent="OrganizationAccountingDefault-chartOfAccountsCode-parentBean" />
 
-			<resultFields>
-			    <field attributeName="organizationAccountingDefaultViewer" />
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="organizationCode" />
-				<field attributeName="universityFiscalYear" />
-			</resultFields>
-		</lookup>
-		
-		<titleAttribute>organizationAccountingDefaultViewer</titleAttribute>
+  <bean id="OrganizationAccountingDefault-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="label" value="Billing Chart" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceAccountNumber" parent="OrganizationAccountingDefault-defaultInvoiceAccountNumber-parentBean" />
 
-		<attributes>
-		
-		    <attribute name="organizationAccountingDefaultViewer">
-        		<label>View</label>
-        		<maxLength>100</maxLength>
-        		<required>false</required>
-        		<control><hidden /></control>
-        	</attribute>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="defaultInvoiceAccountNumber" />
+    <property name="shortLabel" value="Def. Inv. Acct. Nbr." />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceChartOfAccountsCode" parent="OrganizationAccountingDefault-defaultInvoiceChartOfAccountsCode-parentBean" />
 
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-				<label>Billing Chart</label>
-				<required>true</required>
-				<control>
-					<text size="2" />
-				</control>
-			</attributeReference>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="defaultInvoiceChartOfAccountsCode" />
+    <property name="shortLabel" value="Def. Inv. Chart" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialObjectCode" parent="OrganizationAccountingDefault-defaultInvoiceFinancialObjectCode-parentBean" />
 
-			<attributeReference name="defaultInvoiceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-				<label>Account Number</label>
-				<shortLabel>Def. Inv. Acct. Nbr.</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultInvoiceChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-				<label>Chart Code</label>
-				<shortLabel>Def. Inv. Chart</shortLabel>
-				<required>false</required>
-				<control>
-					<text size="2" />
-				</control>
-			</attributeReference>
-			<attributeReference name="defaultInvoiceFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<label>Object Code</label>
-				<shortLabel>InvoiceObjCode</shortLabel>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="defaultInvoiceFinancialObjectCode" />
+    <property name="shortLabel" value="InvoiceObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode" parent="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode-parentBean" />
 
-				<maxLength>4</maxLength>
-				<required>false</required>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="defaultInvoiceFinancialSubObjectCode" />
+    <property name="shortLabel" value="Invoice Sub-Obj Cd" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceOrganizationReferenceIdentifier" parent="OrganizationAccountingDefault-defaultInvoiceOrganizationReferenceIdentifier-parentBean" />
 
-				<control>
-					<text size="4" />
-				</control>
-			</attributeReference>
-			<attributeReference name="defaultInvoiceFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-				<label>Sub-Object Code</label>
-				<shortLabel>Invoice Sub-Obj Cd</shortLabel>
-				<required>false</required>
-			</attributeReference>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceOrganizationReferenceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultInvoiceOrganizationReferenceIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="defaultInvoiceOrganizationReferenceIdentifier" />
+    <property name="description" value="defaultInvoiceOrganizationReferenceIdentifier description..." />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceProjectCode" parent="OrganizationAccountingDefault-defaultInvoiceProjectCode-parentBean" />
 
-			<attribute name="defaultInvoiceOrganizationReferenceIdentifier" forceUppercase="true">
-				<label>Organization Reference Identifier</label>
-				<shortLabel>Identifier</shortLabel>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="defaultInvoiceProjectCode" />
+    <property name="shortLabel" value="InvoiceProjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceSubAccountNumber" parent="OrganizationAccountingDefault-defaultInvoiceSubAccountNumber-parentBean" />
 
-				<maxLength>8</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="OrganizationAccountingDefault-defaultInvoiceSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="name" value="defaultInvoiceSubAccountNumber" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Def Invoice Sub-Acct Nbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentAccountNumber" parent="OrganizationAccountingDefault-defaultPaymentAccountNumber-parentBean" />
 
-				<control>
-					<text size="10" />
-				</control>
+  <bean id="OrganizationAccountingDefault-defaultPaymentAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="defaultPaymentAccountNumber" />
+    <property name="shortLabel" value="Def. Payment Acct. Nbr." />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentChartOfAccountsCode" parent="OrganizationAccountingDefault-defaultPaymentChartOfAccountsCode-parentBean" />
 
-				<summary>defaultInvoiceOrganizationReferenceIdentifier</summary>
-				<description>defaultInvoiceOrganizationReferenceIdentifier description...</description>
-			</attribute>
-			<attributeReference name="defaultInvoiceProjectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
-				<label>Project Code</label>
-				<shortLabel>InvoiceProjCode</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultInvoiceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-				<label>Sub Account Number</label>
-				<shortLabel>Def Invoice Sub-Acct Nbr</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultPaymentAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-				<label>Account Number</label>
-				<shortLabel>Def. Payment Acct. Nbr.</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultPaymentChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-				<label>Chart Code</label>
-				<shortLabel>Def. Payment Chart</shortLabel>
-				<required>false</required>
-				<control>
-					<text size="2" />
-				</control>
-			</attributeReference>
+  <bean id="OrganizationAccountingDefault-defaultPaymentChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="defaultPaymentChartOfAccountsCode" />
+    <property name="shortLabel" value="Def. Payment Chart" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentOrganizationReferenceIdentifier" parent="OrganizationAccountingDefault-defaultPaymentOrganizationReferenceIdentifier-parentBean" />
 
-			<attribute name="defaultPaymentOrganizationReferenceIdentifier" forceUppercase="true">
-				<label>Organization Reference Identifier</label>
-				<shortLabel>Identifier</shortLabel>
+  <bean id="OrganizationAccountingDefault-defaultPaymentOrganizationReferenceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultPaymentOrganizationReferenceIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="defaultPaymentOrganizationReferenceIdentifier" />
+    <property name="description" value="defaultPaymentOrganizationReferenceIdentifier description..." />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentProjectCode" parent="OrganizationAccountingDefault-defaultPaymentProjectCode-parentBean" />
 
-				<maxLength>8</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="OrganizationAccountingDefault-defaultPaymentProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="defaultPaymentProjectCode" />
+    <property name="shortLabel" value="PaymentProjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentSubAccountNumber" parent="OrganizationAccountingDefault-defaultPaymentSubAccountNumber-parentBean" />
 
-				<control>
-					<text size="10" />
-				</control>
+  <bean id="OrganizationAccountingDefault-defaultPaymentSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="name" value="defaultPaymentSubAccountNumber" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Def Payment Sub-Acct Nbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode" parent="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode-parentBean" />
 
-				<summary>defaultPaymentOrganizationReferenceIdentifier</summary>
-				<description>defaultPaymentOrganizationReferenceIdentifier description...</description>
-			</attribute>
-			<attributeReference name="defaultPaymentProjectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
-				<label>Project Code</label>
-				<shortLabel>PaymentProjCode</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultPaymentSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-				<label>Sub Account Number</label>
-				<shortLabel>Def Payment Sub-Acct Nbr</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultPaymentFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<label>Object Code</label>
-				<shortLabel>Object Code</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="defaultPaymentFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-				<label>Sub-Object Code</label>
-				<shortLabel>Sub-Object Code</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-				<label>Billing Organization</label>
-				<shortLabel>OrgCode</shortLabel>
+  <bean id="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="defaultPaymentFinancialObjectCode" />
+    <property name="shortLabel" value="Object Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode" parent="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode-parentBean" />
 
-				<maxLength>4</maxLength>
-				<required>true</required>
+  <bean id="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="defaultPaymentFinancialSubObjectCode" />
+    <property name="shortLabel" value="Sub-Object Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-organizationCode" parent="OrganizationAccountingDefault-organizationCode-parentBean" />
 
-				<control>
-					<text size="4" />
-				</control>
-			</attributeReference>
-			<attributeReference name="organizationLateChargeObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<label>Late Charge Object Code</label>
-				<shortLabel>LateChargeObjCode</shortLabel>
+  <bean id="OrganizationAccountingDefault-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="label" value="Billing Organization" />
+    <property name="shortLabel" value="OrgCode" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-organizationLateChargeObjectCode" parent="OrganizationAccountingDefault-organizationLateChargeObjectCode-parentBean" />
 
-				<maxLength>4</maxLength>
-				<required>false</required>
+  <bean id="OrganizationAccountingDefault-organizationLateChargeObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="organizationLateChargeObjectCode" />
+    <property name="label" value="Late Charge Object Code" />
+    <property name="shortLabel" value="LateChargeObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffChartOfAccountsCode" parent="OrganizationAccountingDefault-writeoffChartOfAccountsCode-parentBean" />
 
-				<control>
-					<text size="4" />
-				</control>
-			</attributeReference>
-			<attributeReference name="writeoffChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-				<label>Chart Code</label>
-				<shortLabel>Def. Writeoff Chart</shortLabel>
-				<required>false</required>
-				<control>
-					<text size="2" />
-				</control>
-			</attributeReference>
-			<attributeReference name="writeoffAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-				<label>Account Number</label>
-				<shortLabel>Def. Writeoff Acct. Nbr.</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="writeoffSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-				<label>Sub Account Number</label>
-				<shortLabel>Def Writeoff Sub-Acct Nbr</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="writeoffFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<label>Object Code</label>
-				<shortLabel>Writeoff Object Code</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="writeoffFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-				<label>Sub-Object Code</label>
-				<shortLabel>Writeoff Sub-Obj Cd</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attributeReference name="writeoffProjectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
-				<label>Project Code</label>
-				<shortLabel>WriteoffProjCode</shortLabel>
-				<required>false</required>
-			</attributeReference>
-			<attribute name="writeoffOrganizationReferenceIdentifier" forceUppercase="true">
-				<label>Organization Reference Identifier</label>
-				<shortLabel>Writeoff Identifier</shortLabel>
+  <bean id="OrganizationAccountingDefault-writeoffChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="writeoffChartOfAccountsCode" />
+    <property name="shortLabel" value="Def. Writeoff Chart" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffAccountNumber" parent="OrganizationAccountingDefault-writeoffAccountNumber-parentBean" />
 
-				<maxLength>8</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="OrganizationAccountingDefault-writeoffAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="writeoffAccountNumber" />
+    <property name="shortLabel" value="Def. Writeoff Acct. Nbr." />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffSubAccountNumber" parent="OrganizationAccountingDefault-writeoffSubAccountNumber-parentBean" />
 
-				<control>
-					<text size="10" />
-				</control>
+  <bean id="OrganizationAccountingDefault-writeoffSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="name" value="writeoffSubAccountNumber" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Def Writeoff Sub-Acct Nbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffFinancialObjectCode" parent="OrganizationAccountingDefault-writeoffFinancialObjectCode-parentBean" />
 
-				<summary>writeoffOrganizationReferenceIdentifier</summary>
-				<description>writeoffOrganizationReferenceIdentifier description...</description>
-			</attribute>
-			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-				<label>Fiscal Year</label>
-				<shortLabel>FY</shortLabel>
-				<required>true</required>
-			</attributeReference>
+  <bean id="OrganizationAccountingDefault-writeoffFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="writeoffFinancialObjectCode" />
+    <property name="shortLabel" value="Writeoff Object Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffFinancialSubObjectCode" parent="OrganizationAccountingDefault-writeoffFinancialSubObjectCode-parentBean" />
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="OrganizationAccountingDefault-writeoffFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="writeoffFinancialSubObjectCode" />
+    <property name="shortLabel" value="Writeoff Sub-Obj Cd" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffProjectCode" parent="OrganizationAccountingDefault-writeoffProjectCode-parentBean" />
 
-		</attributes>
-	</businessObject>
-</dictionaryEntry>
+  <bean id="OrganizationAccountingDefault-writeoffProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="writeoffProjectCode" />
+    <property name="shortLabel" value="WriteoffProjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-writeoffOrganizationReferenceIdentifier" parent="OrganizationAccountingDefault-writeoffOrganizationReferenceIdentifier-parentBean" />
+
+  <bean id="OrganizationAccountingDefault-writeoffOrganizationReferenceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="writeoffOrganizationReferenceIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Identifier" />
+    <property name="shortLabel" value="Writeoff Identifier" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="writeoffOrganizationReferenceIdentifier" />
+    <property name="description" value="writeoffOrganizationReferenceIdentifier description..." />
+  </bean>
+  <bean id="OrganizationAccountingDefault-universityFiscalYear" parent="OrganizationAccountingDefault-universityFiscalYear-parentBean" />
+
+  <bean id="OrganizationAccountingDefault-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="FY" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-versionNumber" parent="OrganizationAccountingDefault-versionNumber-parentBean" />
+
+  <bean id="OrganizationAccountingDefault-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrganizationAccountingDefault-inquiryDefinition" parent="OrganizationAccountingDefault-inquiryDefinition-parentBean" />
+
+  <bean id="OrganizationAccountingDefault-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Accounting Default Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceProjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentOrganizationReferenceIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentProjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffProjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="writeoffOrganizationReferenceIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationLateChargeObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationAccountingDefault-lookupDefinition" parent="OrganizationAccountingDefault-lookupDefinition-parentBean" />
+
+  <bean id="OrganizationAccountingDefault-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Accounting Default Lookup" />
+    <property name="instructions" value="Look up an Organization Accounting Default" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationAccountingDefaultViewer" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+  </bean>
+</beans>

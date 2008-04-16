@@ -1,274 +1,722 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd"
-    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
-<dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.labor.bo.LaborJournalVoucherDetail">
-		<attributes>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-			&accountingLineBaseAttributes;
+  <bean id="LaborJournalVoucherDetail" parent="LaborJournalVoucherDetail-parentBean" />
 
-			<attribute name="earnCode" forceUppercase="true">
-				<label>Earn Code</label>
-				<shortLabel>Earn Code</shortLabel>
+  <bean id="LaborJournalVoucherDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LaborJournalVoucherDetail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="LaborJournalVoucherDetail-objectCode.financialObjectTypeCode" />
+        <ref bean="LaborJournalVoucherDetail-objectCode.financialObjectSubTypeCode" />
+        <ref bean="LaborJournalVoucherDetail-objectCode.financialObjectLevelCode" />
+        <ref bean="LaborJournalVoucherDetail-account.financialHigherEdFunctionCd" />
+        <ref bean="LaborJournalVoucherDetail-account.subFundGroupCode" />
+        <ref bean="LaborJournalVoucherDetail-account.subFundGroup.fundGroupCode" />
+        <ref bean="LaborJournalVoucherDetail-balanceTypeCode" />
+        <ref bean="LaborJournalVoucherDetail-referenceNumber" />
+        <ref bean="LaborJournalVoucherDetail-sequenceNumber" />
+        <ref bean="LaborJournalVoucherDetail-financialObjectCode" />
+        <ref bean="LaborJournalVoucherDetail-accountNumber" />
+        <ref bean="LaborJournalVoucherDetail-objectId" />
+        <ref bean="LaborJournalVoucherDetail-organizationReferenceId" />
+        <ref bean="LaborJournalVoucherDetail-chartOfAccountsCode" />
+        <ref bean="LaborJournalVoucherDetail-postingYear" />
+        <ref bean="LaborJournalVoucherDetail-referenceOriginCode" />
+        <ref bean="LaborJournalVoucherDetail-overrideCode" />
+        <ref bean="LaborJournalVoucherDetail-amount" />
+        <ref bean="LaborJournalVoucherDetail-subAccountNumber" />
+        <ref bean="LaborJournalVoucherDetail-referenceTypeCode" />
+        <ref bean="LaborJournalVoucherDetail-projectCode" />
+        <ref bean="LaborJournalVoucherDetail-financialSubObjectCode" />
+        <ref bean="LaborJournalVoucherDetail-versionNumber" />
+        <ref bean="LaborJournalVoucherDetail-documentNumber" />
+        <ref bean="LaborJournalVoucherDetail-debitCreditCode" />
+        <ref bean="LaborJournalVoucherDetail-encumbranceUpdateCode" />
+        <ref bean="LaborJournalVoucherDetail-objectTypeCode" />
+        <ref bean="LaborJournalVoucherDetail-accountExpiredOverride" />
+        <ref bean="LaborJournalVoucherDetail-nonFringeAccountOverride" />
+        <ref bean="LaborJournalVoucherDetail-objectBudgetOverride" />
+        <ref bean="LaborJournalVoucherDetail-financialDocumentLineDescription" />
+        <ref bean="LaborJournalVoucherDetail-salesTaxRequired" />
+        <ref bean="LaborJournalVoucherDetail-salesTax.chartOfAccountsCode" />
+        <ref bean="LaborJournalVoucherDetail-salesTax.accountNumber" />
+        <ref bean="LaborJournalVoucherDetail-salesTax.financialDocumentGrossSalesAmount" />
+        <ref bean="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount" />
+        <ref bean="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate" />
+        <ref bean="LaborJournalVoucherDetail-earnCode" />
+        <ref bean="LaborJournalVoucherDetail-emplid" />
+        <ref bean="LaborJournalVoucherDetail-employeeRecord" />
+        <ref bean="LaborJournalVoucherDetail-grade" />
+        <ref bean="LaborJournalVoucherDetail-hrmsCompany" />
+        <ref bean="LaborJournalVoucherDetail-laborLedgerOriginalAccountNumber" />
+        <ref bean="LaborJournalVoucherDetail-laborLedgerOriginalChartOfAccountsCode" />
+        <ref bean="LaborJournalVoucherDetail-laborLedgerOriginalFinancialObjectCode" />
+        <ref bean="LaborJournalVoucherDetail-laborLedgerOriginalFinancialSubObjectCode" />
+        <ref bean="LaborJournalVoucherDetail-laborLedgerOriginalSubAccountNumber" />
+        <ref bean="LaborJournalVoucherDetail-payGroup" />
+        <ref bean="LaborJournalVoucherDetail-payPeriodEndDate" />
+        <ref bean="LaborJournalVoucherDetail-payrollEndDateFiscalPeriodCode" />
+        <ref bean="LaborJournalVoucherDetail-payrollEndDateFiscalYear" />
+        <ref bean="LaborJournalVoucherDetail-positionNumber" />
+        <ref bean="LaborJournalVoucherDetail-runIdentifier" />
+        <ref bean="LaborJournalVoucherDetail-salaryAdministrationPlan" />
+        <ref bean="LaborJournalVoucherDetail-setid" />
+        <ref bean="LaborJournalVoucherDetail-transactionTotalHours" />
+      </list>
+    </property>
+  </bean>
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+<!-- Attribute Definitions -->
 
-				<control>
-					<text size="5" />
-				</control>
-			</attribute>
 
-			<attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
+  <bean id="LaborJournalVoucherDetail-objectCode.financialObjectTypeCode" parent="LaborJournalVoucherDetail-objectCode.financialObjectTypeCode-parentBean" />
 
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="LaborJournalVoucherDetail-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
+    <property name="name" value="objectCode.financialObjectTypeCode" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-objectCode.financialObjectSubTypeCode" parent="LaborJournalVoucherDetail-objectCode.financialObjectSubTypeCode-parentBean" />
 
-                <control>
-                    <text size="13" />
-                </control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-objectCode.financialObjectLevelCode" parent="LaborJournalVoucherDetail-objectCode.financialObjectLevelCode-parentBean" />
 
-			<attribute name="employeeRecord" forceUppercase="true">
-				<label>Employee Record</label>
-				<shortLabel>Employee Record</shortLabel>
+  <bean id="LaborJournalVoucherDetail-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
+    <property name="name" value="objectCode.financialObjectLevelCode" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-account.financialHigherEdFunctionCd" parent="LaborJournalVoucherDetail-account.financialHigherEdFunctionCd-parentBean" />
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<numeric />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="name" value="account.financialHigherEdFunctionCd" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-account.subFundGroupCode" parent="LaborJournalVoucherDetail-account.subFundGroupCode-parentBean" />
 
-				<control>
-					<text size="5" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-account.subFundGroup.fundGroupCode" parent="LaborJournalVoucherDetail-account.subFundGroup.fundGroupCode-parentBean" />
 
-			<attribute name="grade" forceUppercase="true">
-				<label>Grade</label>
-				<shortLabel>Grade</shortLabel>
+  <bean id="LaborJournalVoucherDetail-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="account.subFundGroup.fundGroupCode" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-balanceTypeCode" parent="LaborJournalVoucherDetail-balanceTypeCode-parentBean" />
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-referenceNumber" parent="LaborJournalVoucherDetail-referenceNumber-parentBean" />
 
-				<control>
-					<text size="5" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Number" />
+    <property name="shortLabel" value="Ref Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-sequenceNumber" parent="LaborJournalVoucherDetail-sequenceNumber-parentBean" />
 
-			<attribute name="hrmsCompany" forceUppercase="true">
-				<label>Hrms Company</label>
-				<shortLabel>Company</shortLabel>
+  <bean id="LaborJournalVoucherDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="sequenceNumber" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-financialObjectCode" parent="LaborJournalVoucherDetail-financialObjectCode-parentBean" />
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-accountNumber" parent="LaborJournalVoucherDetail-accountNumber-parentBean" />
 
-				<control>
-					<text size="5" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="LaborJournalVoucherDetail-objectId" parent="LaborJournalVoucherDetail-objectId-parentBean" />
 
-			<attribute name="laborLedgerOriginalAccountNumber" forceUppercase="true">
-				<label>Labor Ledger Original Account Number</label>
-				<shortLabel>Original Account</shortLabel>
+  <bean id="LaborJournalVoucherDetail-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-organizationReferenceId" parent="LaborJournalVoucherDetail-organizationReferenceId-parentBean" />
 
-				<maxLength>7</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Org Ref Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-chartOfAccountsCode" parent="LaborJournalVoucherDetail-chartOfAccountsCode-parentBean" />
 
-				<control>
-					<text size="9" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-postingYear" parent="LaborJournalVoucherDetail-postingYear-parentBean" />
 
-			<attribute name="laborLedgerOriginalChartOfAccountsCode" forceUppercase="true">
-				<label>Labor Ledger Original Chart Of Accounts Code</label>
-				<shortLabel>Original Chart</shortLabel>
+  <bean id="LaborJournalVoucherDetail-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-referenceOriginCode" parent="LaborJournalVoucherDetail-referenceOriginCode-parentBean" />
 
-				<maxLength>2</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceOriginCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Ref Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-overrideCode" parent="LaborJournalVoucherDetail-overrideCode-parentBean" />
 
-				<control>
-					<text size="4" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-amount" parent="LaborJournalVoucherDetail-amount-parentBean" />
 
-			<attribute name="laborLedgerOriginalFinancialObjectCode" forceUppercase="true">
-				<label>Labor Ledger Original Financial Object Code</label>
-				<shortLabel>Original Object Code</shortLabel>
+  <bean id="LaborJournalVoucherDetail-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The total dollar amount of check or batch of checks." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-subAccountNumber" parent="LaborJournalVoucherDetail-subAccountNumber-parentBean" />
 
-				<maxLength>4</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-referenceTypeCode" parent="LaborJournalVoucherDetail-referenceTypeCode-parentBean" />
 
-				<control>
-					<text size="6" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+    <property name="name" value="referenceTypeCode" />
+    <property name="label" value="Reference Type Code" />
+    <property name="shortLabel" value="Ref Type Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-projectCode" parent="LaborJournalVoucherDetail-projectCode-parentBean" />
 
-			<attribute name="laborLedgerOriginalFinancialSubObjectCode" forceUppercase="true">
-				<label>Labor Ledger Original Financial Sub Object Code</label>
-				<shortLabel>Original Sub Object Code</shortLabel>
+  <bean id="LaborJournalVoucherDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The title of the project." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-financialSubObjectCode" parent="LaborJournalVoucherDetail-financialSubObjectCode-parentBean" />
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-versionNumber" parent="LaborJournalVoucherDetail-versionNumber-parentBean" />
 
-				<control>
-					<text size="5" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-documentNumber" parent="LaborJournalVoucherDetail-documentNumber-parentBean" />
 
-			<attribute name="laborLedgerOriginalSubAccountNumber" forceUppercase="true">
-				<label>Labor Ledger Original Sub Account Number</label>
-				<shortLabel>Original Sub Account</shortLabel>
+  <bean id="LaborJournalVoucherDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-debitCreditCode" parent="LaborJournalVoucherDetail-debitCreditCode-parentBean" />
 
-				<maxLength>5</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="debitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit or Debit Code" />
+    <property name="shortLabel" value="Credit/Debit" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="DC" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-encumbranceUpdateCode" parent="LaborJournalVoucherDetail-encumbranceUpdateCode-parentBean" />
 
-				<control>
-					<text size="7" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="encumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Encumbrance Update" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-objectTypeCode" parent="LaborJournalVoucherDetail-objectTypeCode-parentBean" />
 
-			<attribute name="payGroup" forceUppercase="true">
-				<label>Pay Group</label>
-				<shortLabel>Pay Group</shortLabel>
+  <bean id="LaborJournalVoucherDetail-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="objectTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-accountExpiredOverride" parent="LaborJournalVoucherDetail-accountExpiredOverride-parentBean" />
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountExpiredOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Expired Override" />
+    <property name="shortLabel" value="Expired Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-nonFringeAccountOverride" parent="LaborJournalVoucherDetail-nonFringeAccountOverride-parentBean" />
 
-				<control>
-					<text size="5" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Non-fringe Account Override" />
+    <property name="shortLabel" value="Non-fringe Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-objectBudgetOverride" parent="LaborJournalVoucherDetail-objectBudgetOverride-parentBean" />
 
-			<attribute name="payPeriodEndDate" forceUppercase="true">
-				<label>Pay Period End Date</label>
-				<shortLabel>Pay Period End Date</shortLabel>
+  <bean id="LaborJournalVoucherDetail-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectBudgetOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Non-Budgeted Override" />
+    <property name="shortLabel" value="Non-Budgeted Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-financialDocumentLineDescription" parent="LaborJournalVoucherDetail-financialDocumentLineDescription-parentBean" />
 
-				<maxLength>10</maxLength>
-				<validationPattern>
-					<date />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Description" />
+    <property name="shortLabel" value="Line Desc" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salesTaxRequired" parent="LaborJournalVoucherDetail-salesTaxRequired-parentBean" />
 
-				<control>
-					<text size="10" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxRequired" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sales Tax Required" />
+    <property name="shortLabel" value="Sales Tax Reqd" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salesTax.chartOfAccountsCode" parent="LaborJournalVoucherDetail-salesTax.chartOfAccountsCode-parentBean" />
 
-			<attributeReference name="payrollEndDateFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-				<label>Payroll Date Fiscal Period Code</label>
-				<shortLabel>Pay Per</shortLabel>
-			</attributeReference>
+  <bean id="LaborJournalVoucherDetail-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
+    <property name="name" value="salesTax.chartOfAccountsCode" />
+    <property name="label" value="Sales Tax Chart of Accounts Code" />
+    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salesTax.accountNumber" parent="LaborJournalVoucherDetail-salesTax.accountNumber-parentBean" />
 
-			<attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-				<label>Payroll Date Fiscal Year</label>
-				<shortLabel>Pay FY</shortLabel>
-			</attributeReference>
+  <bean id="LaborJournalVoucherDetail-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
+    <property name="name" value="salesTax.accountNumber" />
+    <property name="label" value="Sales Tax Account Number" />
+    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Account Number that Sales Tax is collected against" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentGrossSalesAmount" parent="LaborJournalVoucherDetail-salesTax.financialDocumentGrossSalesAmount-parentBean" />
 
-			<attribute name="positionNumber" forceUppercase="true">
-				<label>Position Number</label>
-				<shortLabel>Position</shortLabel>
+  <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
+    <property name="label" value="Gross Sales Amount" />
+    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="description" value="Gross Sales Amount to be taxed" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount" parent="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
 
-				<maxLength>8</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				
-				<control>
-					<text size="10" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
+    <property name="label" value="Taxable Sales Amount" />
+    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="description" value="Taxable Sales Amount to be taxed" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate" parent="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate-parentBean" />
 
-			<attribute name="runIdentifier" forceUppercase="true">
-				<label>Run Identifier</label>
-				<shortLabel>Run ID</shortLabel>
+  <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate" />
+    <property name="label" value="Sale Date" />
+    <property name="description" value="Date of Sale" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-earnCode" parent="LaborJournalVoucherDetail-earnCode-parentBean" />
 
-				<maxLength>10</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="earnCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Earn Code" />
+    <property name="shortLabel" value="Earn Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-emplid" parent="LaborJournalVoucherDetail-emplid-parentBean" />
 
-				<control>
-					<text size="12" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emplid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Emplid" />
+    <property name="shortLabel" value="Emplid" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-employeeRecord" parent="LaborJournalVoucherDetail-employeeRecord-parentBean" />
 
-			<attribute name="salaryAdministrationPlan" forceUppercase="true">
-				<label>Salary Administration Plan</label>
-				<shortLabel>Sal Admin Plan</shortLabel>
+  <bean id="LaborJournalVoucherDetail-employeeRecord-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employeeRecord" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Employee Record" />
+    <property name="shortLabel" value="Employee Record" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-grade" parent="LaborJournalVoucherDetail-grade-parentBean" />
 
-				<maxLength>4</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-grade-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grade" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Grade" />
+    <property name="shortLabel" value="Grade" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-hrmsCompany" parent="LaborJournalVoucherDetail-hrmsCompany-parentBean" />
 
-				<control>
-					<text size="6" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsCompany" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Hrms Company" />
+    <property name="shortLabel" value="Company" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalAccountNumber" parent="LaborJournalVoucherDetail-laborLedgerOriginalAccountNumber-parentBean" />
 
-			<attribute name="setid" forceUppercase="true">
-				<label>Setid</label>
-				<shortLabel>Setid</shortLabel>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Ledger Original Account Number" />
+    <property name="shortLabel" value="Original Account" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalChartOfAccountsCode" parent="LaborJournalVoucherDetail-laborLedgerOriginalChartOfAccountsCode-parentBean" />
 
-				<maxLength>5</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalChartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Ledger Original Chart Of Accounts Code" />
+    <property name="shortLabel" value="Original Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalFinancialObjectCode" parent="LaborJournalVoucherDetail-laborLedgerOriginalFinancialObjectCode-parentBean" />
 
-				<control>
-					<text size="7" />
-				</control>
-			</attribute>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalFinancialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Ledger Original Financial Object Code" />
+    <property name="shortLabel" value="Original Object Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalFinancialSubObjectCode" parent="LaborJournalVoucherDetail-laborLedgerOriginalFinancialSubObjectCode-parentBean" />
 
-			<attribute name="transactionTotalHours" forceUppercase="true">
-				<label>Transaction Total Hours</label>
-				<shortLabel>Pay Hours</shortLabel>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalFinancialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Ledger Original Financial Sub Object Code" />
+    <property name="shortLabel" value="Original Sub Object Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalSubAccountNumber" parent="LaborJournalVoucherDetail-laborLedgerOriginalSubAccountNumber-parentBean" />
 
-				<maxLength>9</maxLength>
-				<validationPattern>
-					<floatingPoint />
-				</validationPattern>
+  <bean id="LaborJournalVoucherDetail-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborLedgerOriginalSubAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Ledger Original Sub Account Number" />
+    <property name="shortLabel" value="Original Sub Account" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-payGroup" parent="LaborJournalVoucherDetail-payGroup-parentBean" />
 
-				<control>
-					<text size="11" />
-				</control>
-			</attribute>
-		</attributes>
-	</businessObject>
-</dictionaryEntry>
+  <bean id="LaborJournalVoucherDetail-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payGroup" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Group" />
+    <property name="shortLabel" value="Pay Group" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-payPeriodEndDate" parent="LaborJournalVoucherDetail-payPeriodEndDate-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-payPeriodEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payPeriodEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Period End Date" />
+    <property name="shortLabel" value="Pay Period End Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalPeriodCode" parent="LaborJournalVoucherDetail-payrollEndDateFiscalPeriodCode-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
+    <property name="name" value="payrollEndDateFiscalPeriodCode" />
+    <property name="label" value="Payroll Date Fiscal Period Code" />
+    <property name="shortLabel" value="Pay Per" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalYear" parent="LaborJournalVoucherDetail-payrollEndDateFiscalYear-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="payrollEndDateFiscalYear" />
+    <property name="label" value="Payroll Date Fiscal Year" />
+    <property name="shortLabel" value="Pay FY" />
+  </bean>
+  <bean id="LaborJournalVoucherDetail-positionNumber" parent="LaborJournalVoucherDetail-positionNumber-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Number" />
+    <property name="shortLabel" value="Position" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-runIdentifier" parent="LaborJournalVoucherDetail-runIdentifier-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-runIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="runIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Run Identifier" />
+    <property name="shortLabel" value="Run ID" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-salaryAdministrationPlan" parent="LaborJournalVoucherDetail-salaryAdministrationPlan-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salaryAdministrationPlan" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Salary Administration Plan" />
+    <property name="shortLabel" value="Sal Admin Plan" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-setid" parent="LaborJournalVoucherDetail-setid-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-setid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="setid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Setid" />
+    <property name="shortLabel" value="Setid" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="LaborJournalVoucherDetail-transactionTotalHours" parent="LaborJournalVoucherDetail-transactionTotalHours-parentBean" />
+
+  <bean id="LaborJournalVoucherDetail-transactionTotalHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionTotalHours" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Total Hours" />
+    <property name="shortLabel" value="Pay Hours" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+</beans>

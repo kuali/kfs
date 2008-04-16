@@ -1,107 +1,153 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.VendorStipulation">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Vendor Stipulation Inquiry</title>
+  <bean id="VendorStipulation" parent="VendorStipulation-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-            	<field attributeName="vendorStipulationName" />
-            	<field attributeName="vendorStipulationDescription" />
-                <field attributeName="active" />        
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="VendorStipulation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.VendorStipulation" />
+    <property name="inquiryDefinition" >
+      <ref bean="VendorStipulation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="VendorStipulation-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorStipulationIdentifier" />
+    <property name="objectLabel" value="Vendor Stipulation" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorStipulation-vendorStipulationIdentifier" />
+        <ref bean="VendorStipulation-vendorStipulationName" />
+        <ref bean="VendorStipulation-vendorStipulationDescription" />
+        <ref bean="VendorStipulation-versionNumber" />
+        <ref bean="VendorStipulation-active" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Vendor Stipulation Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Vendor Stipulation</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorStipulationDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorStipulation-vendorStipulationIdentifier" parent="VendorStipulation-vendorStipulationIdentifier-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="vendorStipulationName" required="false" />
-            	<lookupField attributeName="vendorStipulationDescription" required="false" />
-                <lookupField attributeName="active" required="false" />      
-            </lookupFields>
+  <bean id="VendorStipulation-vendorStipulationIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorStipulationIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Stipulation Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorStipulation-vendorStipulationName" parent="VendorStipulation-vendorStipulationName-parentBean" />
 
-            <resultFields>
-            	<field attributeName="vendorStipulationName" />          	
-            	<field attributeName="vendorStipulationDescription" />
-                <field attributeName="active" />        
-            </resultFields>
-        </lookup>
+  <bean id="VendorStipulation-vendorStipulationName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorStipulationName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Vendor Stipulation Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="VendorStipulation-vendorStipulationDescription" parent="VendorStipulation-vendorStipulationDescription-parentBean" />
 
-        <titleAttribute>vendorStipulationIdentifier</titleAttribute>
+  <bean id="VendorStipulation-vendorStipulationDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorStipulationDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Vendor Stipulation Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="VendorStipulation-versionNumber" parent="VendorStipulation-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="VendorStipulation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorStipulation-active" parent="VendorStipulation-active-parentBean" />
 
-            <attribute name="vendorStipulationIdentifier" forceUppercase="true">
-                <label>Vendor Stipulation Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="VendorStipulation-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <hidden />
-                </control>
 
-			</attribute>
-			
-			<attribute name="vendorStipulationName">
-                <label>Vendor Stipulation Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="VendorStipulation-inquiryDefinition" parent="VendorStipulation-inquiryDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="VendorStipulation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Vendor Stipulation Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorStipulationName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorStipulationDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="42" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-			</attribute>
-			
-            <attribute name="vendorStipulationDescription">
-                <label>Vendor Stipulation Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="VendorStipulation-lookupDefinition" parent="VendorStipulation-lookupDefinition-parentBean" />
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-			</attribute>
-			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>         
-
-        </attributes>
-        <objectLabel>Vendor Stipulation</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorStipulation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Stipulation Lookup" />
+    <property name="instructions" value="Lookup a Vendor Stipulation" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStipulationName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStipulationDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStipulationName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStipulationDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

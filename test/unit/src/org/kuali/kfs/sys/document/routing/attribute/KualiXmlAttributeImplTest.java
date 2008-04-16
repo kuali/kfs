@@ -310,20 +310,17 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         String nonsenseString = "BananaRama";
         for (Object tempEntity : myDDService.getDataDictionary().getBusinessObjectEntries().values()) {
 
-            Object[] tempArray = (((BusinessObjectEntry) tempEntity).getAttributes().keySet().toArray());
-            for (Object tempVal : tempArray) {
-
-                ((AttributeDefinition) ((BusinessObjectEntry) tempEntity).getAttributes().get(tempVal)).setLabel(nonsenseString);
-                ((AttributeDefinition) ((BusinessObjectEntry) tempEntity).getAttributes().get(tempVal)).setShortLabel(nonsenseString);
+            for ( AttributeDefinition attribute : ((BusinessObjectEntry) tempEntity).getAttributes() ) {
+                attribute.setLabel(nonsenseString);
+                attribute.setShortLabel(nonsenseString);
             }
 
         }
         for (Object tempEntity : myDDService.getDataDictionary().getDocumentEntries().values()) {
 
-            Object[] tempArray = (((DocumentEntry) tempEntity).getAttributes().keySet().toArray());
-            for (Object tempVal : tempArray) {
-                ((AttributeDefinition) ((DocumentEntry) tempEntity).getAttributes().get(tempVal)).setLabel(nonsenseString);
-                ((AttributeDefinition) ((DocumentEntry) tempEntity).getAttributes().get(tempVal)).setShortLabel(nonsenseString);
+            for ( AttributeDefinition attribute : ((DocumentEntry) tempEntity).getAttributes() ) {
+                attribute.setLabel(nonsenseString);
+                attribute.setShortLabel(nonsenseString);
             }
 
         }

@@ -1,61 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.routingform.bo.Keyword</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="KeywordMaintenanceDocument" parent="KeywordMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="KeywordMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.Keyword" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="KeywordMaintenanceDocument-EditKeyword" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>routingFormKeywordDescription</value>
+      </list>
+    </property>
+    <property name="label" value="Keyword" />
+    <property name="shortLabel" value="Keyword" />
+    <property name="summary" value="Keyword maintenance document" />
+    <property name="description" value="Document used to create or update Keyword objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="KEYWORD"
+            p:parameterDetailType="Keyword" />
+    </property>
+    <property name="documentTypeName" value="KeywordMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="KEYW" />
+    <property name="workflowProperties" >
+      <ref bean="KeywordMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>KeywordMaintenanceDocument</documentTypeName>
-        <documentTypeCode>KEYW</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Keyword</label>
 
-        <summary>Keyword maintenance document</summary>
-        <description>Document used to create or update Keyword objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="Keyword" parameterName="KEYWORD" />
+  <bean id="KeywordMaintenanceDocument-EditKeyword" parent="KeywordMaintenanceDocument-EditKeyword-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="routingFormKeywordDescription" />
-        </lockingKeys>
+  <bean id="KeywordMaintenanceDocument-EditKeyword-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Keyword" />
+    <property name="title" value="Edit Keyword" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="routingFormKeywordDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Keyword">
-                <maintainableItems>
-                    <maintainableField name="routingFormKeywordDescription" required="true" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="KeywordMaintenanceDocument-workflowProperties" parent="KeywordMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="KeywordMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

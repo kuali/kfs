@@ -1,128 +1,174 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingLoad02Move">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move" parent="BudgetConstructionAppointmentFundingLoad02Move-parentBean" />
+
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingLoad02Move" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionAppointmentFundingLoad02Move-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionAppointmentFundingLoad02Move-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-accountNumber" />
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationAccountNumber" />
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd" />
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Appointment Funding Load 02 Move Inquiry</title>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-accountNumber" parent="BudgetConstructionAppointmentFundingLoad02Move-accountNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="continuationAccountNumber" />
-                <field attributeName="continuationFinChrtOfAcctCd" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-chartOfAccountsCode" parent="BudgetConstructionAppointmentFundingLoad02Move-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Appointment Funding Load 02 Move Lookup</title>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationAccountNumber" parent="BudgetConstructionAppointmentFundingLoad02Move-continuationAccountNumber-parentBean" />
 
-            <instructions>Look up a Budget Construction Appointment Funding Load 02 Move</instructions>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="continuationAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Continuation Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="continuationAccountNumber" />
+    <property name="description" value="continuationAccountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd" parent="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="continuationFinChrtOfAcctCd" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Continuation Fin Chrt Of Acct Cd" />
+    <property name="shortLabel" value="Cd" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="continuationFinChrtOfAcctCd" />
+    <property name="description" value="continuationFinChrtOfAcctCd description..." />
+  </bean>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-versionNumber" parent="BudgetConstructionAppointmentFundingLoad02Move-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="continuationAccountNumber" required="false" />
-                <lookupField attributeName="continuationFinChrtOfAcctCd" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="continuationAccountNumber" />
-                <field attributeName="continuationFinChrtOfAcctCd" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-inquiryDefinition" parent="BudgetConstructionAppointmentFundingLoad02Move-inquiryDefinition-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Appointment Funding Load 02 Move Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="continuationAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="continuationFinChrtOfAcctCd" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="9" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-lookupDefinition" parent="BudgetConstructionAppointmentFundingLoad02Move-lookupDefinition-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="continuationAccountNumber" forceUppercase="true">
-                <label>Continuation Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>continuationAccountNumber</summary>
-                <description>continuationAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="continuationFinChrtOfAcctCd" forceUppercase="true">
-                <label>Continuation Fin Chrt Of Acct Cd</label>
-                <shortLabel>Cd</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>continuationFinChrtOfAcctCd</summary>
-                <description>continuationFinChrtOfAcctCd description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Appointment Funding Load 02 Move Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Appointment Funding Load 02 Move" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="continuationAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="continuationFinChrtOfAcctCd" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="continuationAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="continuationFinChrtOfAcctCd" />
+      </list>
+    </property>
+  </bean>
+</beans>

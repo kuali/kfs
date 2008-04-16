@@ -1,393 +1,443 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel">
-
-
-
-        <attributes>
-
-            <attribute name="disbVchrNonEmpTravelerName">
-                <label>Name</label>
-                <shortLabel>Nm</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrServicePerformedDesc">
-                <label>Service Performed</label>
-                <shortLabel>Service</shortLabel>
-
-                <maxLength>50</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="50" />
-                </control>
-            </attribute>
-
-            <attribute name="dvServicePerformedLocName">
-                <label>Place of Performance</label>
-                <shortLabel>Place</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="dvServiceRegularEmprName">
-                <label>Regular Employer</label>
-                <shortLabel>Employer</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrTravelFromCityName">
-                <label>City</label>
-                <shortLabel>City</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrTravelFromStateCode">
-                <label>State</label>
-                <shortLabel>St</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="dvTravelFromCountryCode">
-                <label>Country</label>
-                <shortLabel>Country</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="perDiemStartDateTime">
-                <label>Start/End Date/Time</label>
-                <shortLabel>Dt</shortLabel>
-
-                <maxLength>20</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-
-            <attribute name="perDiemEndDateTime">
-                <label>Start/End Date/Time</label>
-                <shortLabel>Dt</shortLabel>
-
-                <maxLength>20</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrTravelToCityName">
-                <label>City</label>
-                <shortLabel>City</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrTravelToStateCode">
-                <label>State</label>
-                <shortLabel>St</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrTravelToCountryCode">
-                <label>Country</label>
-                <shortLabel>Country</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPerdiemCategoryName">
-                <label>Category</label>
-                <shortLabel>Category</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TravelPerDiemCategoryValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPerdiemRate">
-                <label>Rate</label>
-                <shortLabel>Rate</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPerdiemCalculatedAmt">
-                <label>Calculated Amount</label>
-                <shortLabel>Calc Amt</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPerdiemActualAmount">
-                <label>Actual Amount</label>
-                <shortLabel>Act Amt</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="dvPerdiemChangeReasonText">
-                <label>Justification for change</label>
-                <shortLabel>Justification</shortLabel>
-
-                <maxLength>200</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <textarea rows="3" cols="30" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAutoFromCityName">
-                <label>From (City/State)</label>
-                <shortLabel>From</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAutoFromStateCode">
-                <label>From (City/State)</label>
-                <shortLabel>St</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAutoToCityName">
-                <label>To (City/State)</label>
-                <shortLabel>To</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAutoToStateCode">
-                <label>To (City/State)</label>
-                <shortLabel>St</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrAutoRoundTripCode">
-                <label>Round Trip</label>
-                <shortLabel>Round Trip</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attribute name="dvPersonalCarMileageAmount">
-                <label>Total Mileage</label>
-                <shortLabel>Mileage</shortLabel>
-
-                <maxLength>7</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="7" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrMileageCalculatedAmt">
-                <label>Calculated Amount</label>
-                <shortLabel>Calc Amt</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="disbVchrPersonalCarAmount">
-                <label>Actual Amount</label>
-                <shortLabel>Act Amount</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="totalTravelAmount">
-                <label>Grand Total</label>
-                <shortLabel>Total</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="totalPrePaidAmount">
-                <label>Pre Paid Sub Total</label>
-                <shortLabel>Total</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-
-            <attribute name="totalExpenseAmount">
-                <label>Expense Sub Total</label>
-                <shortLabel>Total</shortLabel>
-
-                <maxLength>22</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-            </attribute>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="DisbursementVoucherNonEmployeeTravel" parent="DisbursementVoucherNonEmployeeTravel-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel" />
+    <property name="attributes" >
+      <list>
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromCityName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-dvTravelFromCountryCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-perDiemStartDateTime" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-perDiemEndDateTime" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCityName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCountryCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCategoryName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemRate" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCalculatedAmt" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemActualAmount" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-dvPerdiemChangeReasonText" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromCityName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToCityName" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrAutoRoundTripCode" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-dvPersonalCarMileageAmount" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrMileageCalculatedAmt" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-disbVchrPersonalCarAmount" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-totalTravelAmount" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-totalPrePaidAmount" />
+        <ref bean="DisbursementVoucherNonEmployeeTravel-totalExpenseAmount" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrNonEmpTravelerName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Name" />
+    <property name="shortLabel" value="Nm" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc" parent="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrServicePerformedDesc" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Service Performed" />
+    <property name="shortLabel" value="Service" />
+    <property name="maxLength" value="50" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName" parent="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvServicePerformedLocName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvServicePerformedLocName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Place of Performance" />
+    <property name="shortLabel" value="Place" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName" parent="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvServiceRegularEmprName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Regular Employer" />
+    <property name="shortLabel" value="Employer" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromCityName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromCityName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrTravelFromCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrTravelFromStateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="St" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvTravelFromCountryCode" parent="DisbursementVoucherNonEmployeeTravel-dvTravelFromCountryCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvTravelFromCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvTravelFromCountryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-perDiemStartDateTime" parent="DisbursementVoucherNonEmployeeTravel-perDiemStartDateTime-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-perDiemStartDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="perDiemStartDateTime" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Start/End Date/Time" />
+    <property name="shortLabel" value="Dt" />
+    <property name="maxLength" value="20" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-perDiemEndDateTime" parent="DisbursementVoucherNonEmployeeTravel-perDiemEndDateTime-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-perDiemEndDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="perDiemEndDateTime" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Start/End Date/Time" />
+    <property name="shortLabel" value="Dt" />
+    <property name="maxLength" value="20" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCityName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCityName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrTravelToCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrTravelToStateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="St" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCountryCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCountryCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrTravelToCountryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCategoryName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCategoryName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCategoryName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPerdiemCategoryName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Category" />
+    <property name="shortLabel" value="Category" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TravelPerDiemCategoryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemRate" parent="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemRate-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPerdiemRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCalculatedAmt" parent="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCalculatedAmt-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemCalculatedAmt-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPerdiemCalculatedAmt" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Calculated Amount" />
+    <property name="shortLabel" value="Calc Amt" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemActualAmount" parent="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemActualAmount-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPerdiemActualAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPerdiemActualAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Actual Amount" />
+    <property name="shortLabel" value="Act Amt" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvPerdiemChangeReasonText" parent="DisbursementVoucherNonEmployeeTravel-dvPerdiemChangeReasonText-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvPerdiemChangeReasonText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvPerdiemChangeReasonText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Justification for change" />
+    <property name="shortLabel" value="Justification" />
+    <property name="maxLength" value="200" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromCityName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromCityName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAutoFromCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="From (City/State)" />
+    <property name="shortLabel" value="From" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAutoFromStateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="From (City/State)" />
+    <property name="shortLabel" value="St" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToCityName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToCityName-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAutoToCityName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="To (City/State)" />
+    <property name="shortLabel" value="To" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAutoToStateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="To (City/State)" />
+    <property name="shortLabel" value="St" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoRoundTripCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoRoundTripCode-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoRoundTripCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrAutoRoundTripCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Round Trip" />
+    <property name="shortLabel" value="Round Trip" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvPersonalCarMileageAmount" parent="DisbursementVoucherNonEmployeeTravel-dvPersonalCarMileageAmount-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-dvPersonalCarMileageAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dvPersonalCarMileageAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Total Mileage" />
+    <property name="shortLabel" value="Mileage" />
+    <property name="maxLength" value="7" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrMileageCalculatedAmt" parent="DisbursementVoucherNonEmployeeTravel-disbVchrMileageCalculatedAmt-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrMileageCalculatedAmt-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrMileageCalculatedAmt" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Calculated Amount" />
+    <property name="shortLabel" value="Calc Amt" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPersonalCarAmount" parent="DisbursementVoucherNonEmployeeTravel-disbVchrPersonalCarAmount-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrPersonalCarAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbVchrPersonalCarAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Actual Amount" />
+    <property name="shortLabel" value="Act Amount" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-totalTravelAmount" parent="DisbursementVoucherNonEmployeeTravel-totalTravelAmount-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-totalTravelAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalTravelAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Grand Total" />
+    <property name="shortLabel" value="Total" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-totalPrePaidAmount" parent="DisbursementVoucherNonEmployeeTravel-totalPrePaidAmount-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-totalPrePaidAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalPrePaidAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Pre Paid Sub Total" />
+    <property name="shortLabel" value="Total" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherNonEmployeeTravel-totalExpenseAmount" parent="DisbursementVoucherNonEmployeeTravel-totalExpenseAmount-parentBean" />
+
+  <bean id="DisbursementVoucherNonEmployeeTravel-totalExpenseAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalExpenseAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Expense Sub Total" />
+    <property name="shortLabel" value="Total" />
+    <property name="maxLength" value="22" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+</beans>

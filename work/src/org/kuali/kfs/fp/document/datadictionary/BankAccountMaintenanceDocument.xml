@@ -1,73 +1,112 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.financial.bo.BankAccount</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.financial.rules.BankAccountRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="BankAccountMaintenanceDocument" parent="BankAccountMaintenanceDocument-parentBean" />
 
-        <documentTypeName>BankAccountMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BACC</documentTypeCode>
+  <bean id="BankAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.BankAccount" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="BankAccountMaintenanceDocument-EditBankAccount" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="bank"
+              p:attributeToHighlightOnFail="financialDocumentBankCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="cashOffsetAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="cashOffsetAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="cashOffsetObject"
+              p:activeIndicatorAttributeName="financialObjectActiveCode"
+              p:attributeToHighlightOnFail="cashOffsetObjectCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>financialDocumentBankCode</value>
+        <value>finDocumentBankAccountNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Bank Account" />
+    <property name="shortLabel" value="Bank Account" />
+    <property name="summary" value="Bank Account maintenance document" />
+    <property name="description" value="Document used to create or update Bank Account objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="BANK_ACCOUNT"
+            p:parameterDetailType="BankAccount" />
+    </property>
+    <property name="documentTypeName" value="BankAccountMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.BankAccountRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="BACC" />
+    <property name="workflowProperties" >
+      <ref bean="BankAccountMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Bank Account</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Bank Account maintenance document</summary>
-        <description>Document used to create or update Bank Account objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="BankAccount" parameterName="BANK_ACCOUNT" />
 
-        <lockingKeys>
-            <field attributeName="financialDocumentBankCode" />
-            <field attributeName="finDocumentBankAccountNumber" />
-        </lockingKeys>
+  <bean id="BankAccountMaintenanceDocument-EditBankAccount" parent="BankAccountMaintenanceDocument-EditBankAccount-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="bank" attributeToHighlightOnFail="financialDocumentBankCode" />
-            <reference attributeName="cashOffsetAccount" attributeToHighlightOnFail="cashOffsetAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
-            <reference attributeName="cashOffsetObject" attributeToHighlightOnFail="cashOffsetObjectCode" activeIndicatorAttributeName="financialObjectActiveCode" />
-        </defaultExistenceChecks>
+  <bean id="BankAccountMaintenanceDocument-EditBankAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Bank Account" />
+    <property name="title" value="Edit Bank Account" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentBankCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finDocumentBankAccountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finDocumentBankAccountDesc"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashOffsetFinancialChartOfAccountCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashOffsetAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashOffsetSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashOffsetObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashOffsetSubObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Bank Account">
-                <maintainableItems>
-                    <maintainableField name="financialDocumentBankCode" required="true" />
-                    <maintainableField name="finDocumentBankAccountNumber" required="true" />
-                    <maintainableField name="finDocumentBankAccountDesc" required="true" />
-                    <maintainableField name="cashOffsetFinancialChartOfAccountCode" />
-                    <maintainableField name="cashOffsetAccountNumber" />
-                    <maintainableField name="cashOffsetSubAccountNumber" />
-                    <maintainableField name="cashOffsetObjectCode" />
-                    <maintainableField name="cashOffsetSubObjectCode" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="BankAccountMaintenanceDocument-workflowProperties" parent="BankAccountMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="BankAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

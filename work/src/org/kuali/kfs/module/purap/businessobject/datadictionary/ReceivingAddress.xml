@@ -1,177 +1,261 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.ReceivingAddress">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Receiving Address Inquiry</title>
+  <bean id="ReceivingAddress" parent="ReceivingAddress-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="receivingName" />
-                <field attributeName="receivingLine1Address" />
-                <field attributeName="receivingLine2Address" />
-                <field attributeName="receivingCityName" />
-                <field attributeName="receivingStateCode" />
-                <field attributeName="receivingPostalCode" />
-                <field attributeName="receivingCountryCode" />
-                <field attributeName="useReceivingIndicator" />
-                <field attributeName="defaultIndicator" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ReceivingAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ReceivingAddress" />
+    <property name="inquiryDefinition" >
+      <ref bean="ReceivingAddress-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ReceivingAddress-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="receivingName" />
+    <property name="objectLabel" value="Receiving Address" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ReceivingAddress-receivingAddressIdentifier" />
+        <ref bean="ReceivingAddress-chartOfAccountsCode" />
+        <ref bean="ReceivingAddress-organizationCode" />
+        <ref bean="ReceivingAddress-receivingName" />
+        <ref bean="ReceivingAddress-receivingLine1Address" />
+        <ref bean="ReceivingAddress-receivingLine2Address" />
+        <ref bean="ReceivingAddress-receivingCityName" />
+        <ref bean="ReceivingAddress-receivingStateCode" />
+        <ref bean="ReceivingAddress-receivingPostalCode" />
+        <ref bean="ReceivingAddress-receivingCountryCode" />
+        <ref bean="ReceivingAddress-useReceivingIndicator" />
+        <ref bean="ReceivingAddress-defaultIndicator" />
+        <ref bean="ReceivingAddress-active" />
+        <ref bean="ReceivingAddress-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Receiving Address Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Receiving Address</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
-                    <sortAttribute attributeName="receivingName" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ReceivingAddress-receivingAddressIdentifier" parent="ReceivingAddress-receivingAddressIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="receivingName" required="false" />
-                <lookupField attributeName="receivingLine1Address" required="false" />
-                <lookupField attributeName="receivingLine2Address" required="false" />
-                <lookupField attributeName="receivingCityName" required="false" />
-                <lookupField attributeName="receivingStateCode" required="false" />
-                <lookupField attributeName="receivingPostalCode" required="false" />
-                <lookupField attributeName="receivingCountryCode" required="false" />
-                <lookupField attributeName="useReceivingIndicator" required="false" />
-                <lookupField attributeName="defaultIndicator" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="ReceivingAddress-receivingAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingAddressIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Receiving Address Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="ReceivingAddress-chartOfAccountsCode" parent="ReceivingAddress-chartOfAccountsCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="receivingName" />
-                <field attributeName="receivingLine1Address" />
-                <field attributeName="receivingLine2Address" />
-                <field attributeName="receivingCityName" />
-                <field attributeName="receivingStateCode" />
-                <field attributeName="receivingPostalCode" />
-                <field attributeName="receivingCountryCode" />
-                <field attributeName="useReceivingIndicator" />
-                <field attributeName="defaultIndicator" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ReceivingAddress-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="ReceivingAddress-organizationCode" parent="ReceivingAddress-organizationCode-parentBean" />
 
-        <titleAttribute>receivingName</titleAttribute>
+  <bean id="ReceivingAddress-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ReceivingAddress-receivingName" parent="ReceivingAddress-receivingName-parentBean" />
 
-        <attributes>
+  <bean id="ReceivingAddress-receivingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Receiving Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ReceivingAddress-receivingLine1Address" parent="ReceivingAddress-receivingLine1Address-parentBean" />
 
-            <attribute name="receivingAddressIdentifier" forceUppercase="true">
-                <label>Receiving Address Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-                
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="ReceivingAddress-receivingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="receivingLine1Address" />
+    <property name="label" value="Receiving Line 1 Address" />
+  </bean>
+  <bean id="ReceivingAddress-receivingLine2Address" parent="ReceivingAddress-receivingLine2Address-parentBean" />
 
-                <control>
-                    <hidden/>
-                </control>
-			</attribute>
-			
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
+  <bean id="ReceivingAddress-receivingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="receivingLine2Address" />
+    <property name="label" value="Receiving Line 2 Address" />
+  </bean>
+  <bean id="ReceivingAddress-receivingCityName" parent="ReceivingAddress-receivingCityName-parentBean" />
 
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-            	<required>false</required>
-            </attributeReference>
-			
-            <attribute name="receivingName" forceUppercase="true">
-                <label>Receiving Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="ReceivingAddress-receivingCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="receivingCityName" />
+    <property name="label" value="Receiving City Name" />
+  </bean>
+  <bean id="ReceivingAddress-receivingStateCode" parent="ReceivingAddress-receivingStateCode-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="ReceivingAddress-receivingStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="receivingStateCode" />
+    <property name="label" value="Receiving State Code" />
+  </bean>
+  <bean id="ReceivingAddress-receivingPostalCode" parent="ReceivingAddress-receivingPostalCode-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
-			</attribute>
-			
-			<attributeReference name="receivingLine1Address"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
-				sourceAttributeName="line1Address">
-				<label>Receiving Line 1 Address</label>
-			</attributeReference>
-			
-			<attributeReference name="receivingLine2Address"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
-				sourceAttributeName="line2Address">
-				<label>Receiving Line 2 Address</label>
-			</attributeReference>			
+  <bean id="ReceivingAddress-receivingPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="receivingPostalCode" />
+    <property name="label" value="Receiving Postal Code" />
+  </bean>
+  <bean id="ReceivingAddress-receivingCountryCode" parent="ReceivingAddress-receivingCountryCode-parentBean" />
 
-			<attributeReference name="receivingCityName"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
-				sourceAttributeName="cityName">
-				<label>Receiving City Name</label>
-			</attributeReference>
+  <bean id="ReceivingAddress-receivingCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="receivingCountryCode" />
+    <property name="label" value="Receiving Country Code" />
+  </bean>
+  <bean id="ReceivingAddress-useReceivingIndicator" parent="ReceivingAddress-useReceivingIndicator-parentBean" />
 
-			<attributeReference name="receivingStateCode"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
-				sourceAttributeName="stateCode">
-				<label>Receiving State Code</label>
-			</attributeReference>				
+  <bean id="ReceivingAddress-useReceivingIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="useReceivingIndicator" />
+    <property name="label" value="Use Receiving Address Indicator" />
+    <property name="shortLabel" value="Use Receiving" />
+    <property name="summary" value="Use Receiving Indicator indicates whether to use the receiving address as the address to vendor." />
+    <property name="description" value="This attribute is used to describe whether the associated receiving address, instead of the final delivery address, shall be used as the default address to vendor." />
+  </bean>
+  <bean id="ReceivingAddress-defaultIndicator" parent="ReceivingAddress-defaultIndicator-parentBean" />
 
-			<attributeReference name="receivingPostalCode"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
-				sourceAttributeName="zipCode">
-				<label>Receiving Postal Code</label>
-			</attributeReference>						
+  <bean id="ReceivingAddress-defaultIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="defaultIndicator" />
+    <property name="label" value="Default Indicator" />
+    <property name="shortLabel" value="Default" />
+    <property name="summary" value="Default Indicator indicates whether the receiving address is the default one." />
+    <property name="description" value="This attribute is used to describe whether the associated receiving address is the default one for its chart/org." />
+  </bean>
+  <bean id="ReceivingAddress-active" parent="ReceivingAddress-active-parentBean" />
 
-			<attributeReference name="receivingCountryCode"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
-				sourceAttributeName="countryCode">
-				<label>Receiving Country Code</label>
-			</attributeReference>
-			
-            <attributeReference name="useReceivingIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-            	<label>Use Receiving Address Indicator</label>
-                <shortLabel>Use Receiving</shortLabel>
-                <summary>Use Receiving Indicator indicates whether to use the receiving address as the address to vendor.</summary>
-                <description>This attribute is used to describe whether the associated receiving address, instead of the final delivery address, shall be used as the default address to vendor.</description>
-			</attributeReference>
+  <bean id="ReceivingAddress-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ReceivingAddress-versionNumber" parent="ReceivingAddress-versionNumber-parentBean" />
 
-            <attributeReference name="defaultIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-            	<label>Default Indicator</label>
-                <shortLabel>Default</shortLabel>
-                <summary>Default Indicator indicates whether the receiving address is the default one.</summary>
-                <description>This attribute is used to describe whether the associated receiving address is the default one for its chart/org.</description>
-			</attributeReference>
+  <bean id="ReceivingAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-        </attributes>
-        <objectLabel>Receiving Address</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ReceivingAddress-inquiryDefinition" parent="ReceivingAddress-inquiryDefinition-parentBean" />
+
+  <bean id="ReceivingAddress-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Receiving Address Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingPostalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="useReceivingIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ReceivingAddress-lookupDefinition" parent="ReceivingAddress-lookupDefinition-parentBean" />
+
+  <bean id="ReceivingAddress-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Receiving Address Lookup" />
+    <property name="instructions" value="Lookup a Receiving Address" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="useReceivingIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="useReceivingIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="defaultIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

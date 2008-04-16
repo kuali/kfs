@@ -1,149 +1,220 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCons">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ObjectCons" parent="ObjectCons-parentBean" />
+
+  <bean id="ObjectCons-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCons" />
+    <property name="inquiryDefinition" >
+      <ref bean="ObjectCons-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ObjectCons-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="finConsolidationObjectCode" />
+    <property name="objectLabel" value="Object Consolidation" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ObjectCons-chartOfAccountsCode" />
+        <ref bean="ObjectCons-finConsolidationObjectCode" />
+        <ref bean="ObjectCons-finConsolidationObjectName" />
+        <ref bean="ObjectCons-finConsolidationObjShortName" />
+        <ref bean="ObjectCons-finConsolidationObjActiveIndicator" />
+        <ref bean="ObjectCons-financialEliminationsObject.financialObjectCodeName" />
+        <ref bean="ObjectCons-financialEliminationsObjectCode" />
+        <ref bean="ObjectCons-financialReportingSortCode" />
+        <ref bean="ObjectCons-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Object Consolidation Inquiry</title>
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="finConsolidationObjectCode" />
-                <field attributeName="finConsolidationObjectName" />
-                <field attributeName="finConsolidationObjShortName" />
-                <field attributeName="finConsolidationObjActiveIndicator" />
-                <field attributeName="financialEliminationsObjectCode" />
-                <field attributeName="financialReportingSortCode" />
+  <bean id="ObjectCons-chartOfAccountsCode" parent="ObjectCons-chartOfAccountsCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ObjectCons-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="ObjectCons-finConsolidationObjectCode" parent="ObjectCons-finConsolidationObjectCode-parentBean" />
 
-        <lookup>
-            <title>Object Consolidation Lookup</title>
+  <bean id="ObjectCons-finConsolidationObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finConsolidationObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Consolidation Code" />
+    <property name="shortLabel" value="Cons Code" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ObjectCons-finConsolidationObjectName" parent="ObjectCons-finConsolidationObjectName-parentBean" />
 
-            <instructions>Lookup an Object Consolidation</instructions>
+  <bean id="ObjectCons-finConsolidationObjectName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finConsolidationObjectName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Consolidation Object Name" />
+    <property name="shortLabel" value="Long Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="ObjectCons-finConsolidationObjShortName" parent="ObjectCons-finConsolidationObjShortName-parentBean" />
 
-            <defaultSort attributeName="finConsolidationObjectCode" sortAscending="true" />
+  <bean id="ObjectCons-finConsolidationObjShortName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finConsolidationObjShortName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Consolidation Object Short Name" />
+    <property name="shortLabel" value="Short Name" />
+    <property name="maxLength" value="12" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="ObjectCons-finConsolidationObjActiveIndicator" parent="ObjectCons-finConsolidationObjActiveIndicator-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="finConsolidationObjectCode" required="false" />
-                <lookupField attributeName="finConsolidationObjectName" required="false" />
-                <lookupField attributeName="finConsolidationObjShortName" required="false" />
-                <lookupField attributeName="financialEliminationsObjectCode" required="false" />
-                <lookupField attributeName="finConsolidationObjActiveIndicator" required="false" />
-            </lookupFields>
+  <bean id="ObjectCons-finConsolidationObjActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="finConsolidationObjActiveIndicator" />
+  </bean>
+  <bean id="ObjectCons-financialEliminationsObject.financialObjectCodeName" parent="ObjectCons-financialEliminationsObject.financialObjectCodeName-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="finConsolidationObjectCode" />
-                <field attributeName="finConsolidationObjectName" />
-                <field attributeName="finConsolidationObjShortName" />
-                <field attributeName="financialEliminationsObjectCode" />
-                <field attributeName="financialReportingSortCode" />
-                <field attributeName="finConsolidationObjActiveIndicator" />                              
-            </resultFields>
-        </lookup>
+  <bean id="ObjectCons-financialEliminationsObject.financialObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName">
+    <property name="name" value="financialEliminationsObject.financialObjectCodeName" />
+  </bean>
+  <bean id="ObjectCons-financialEliminationsObjectCode" parent="ObjectCons-financialEliminationsObjectCode-parentBean" />
 
-        <titleAttribute>finConsolidationObjectCode</titleAttribute>
+  <bean id="ObjectCons-financialEliminationsObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialEliminationsObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Elimination Object Code" />
+    <property name="shortLabel" value="Elim Obj Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="ObjectCons-financialReportingSortCode" parent="ObjectCons-financialReportingSortCode-parentBean" />
 
-        <attributes>
+  <bean id="ObjectCons-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialReportingSortCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reporting Sort Code" />
+    <property name="shortLabel" value="Sort Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="ObjectCons-versionNumber" parent="ObjectCons-versionNumber-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+  <bean id="ObjectCons-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="finConsolidationObjectCode" forceUppercase="true">
-                <label>Consolidation Code</label>
-                <shortLabel>Cons Code</shortLabel>
 
-                <maxLength>4</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
+  <bean id="ObjectCons-inquiryDefinition" parent="ObjectCons-inquiryDefinition-parentBean" />
 
-            <attribute name="finConsolidationObjectName" forceUppercase="true">
-                <label>Consolidation Object Name</label>
-                <shortLabel>Long Name</shortLabel>
+  <bean id="ObjectCons-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Object Consolidation Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finConsolidationObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finConsolidationObjectName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finConsolidationObjShortName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finConsolidationObjActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialEliminationsObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportingSortCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>40</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="finConsolidationObjShortName" forceUppercase="true">
-                <label>Consolidation Object Short Name</label>
-                <shortLabel>Short Name</shortLabel>
 
-                <maxLength>12</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="12" />
-                </control>
-            </attribute>
+  <bean id="ObjectCons-lookupDefinition" parent="ObjectCons-lookupDefinition-parentBean" />
 
-            <attributeReference name="finConsolidationObjActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-            
-            <attributeReference name="financialEliminationsObject.financialObjectCodeName" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCodeName"/>
-
-            <attribute name="financialEliminationsObjectCode" forceUppercase="true">
-                <label>Elimination Object Code</label>
-                <shortLabel>Elim Obj Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-
-            <attribute name="financialReportingSortCode" forceUppercase="false">
-                <label>Reporting Sort Code</label>
-                <shortLabel>Sort Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        
-        <objectLabel>Object Consolidation</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="ObjectCons-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Object Consolidation Lookup" />
+    <property name="instructions" value="Lookup an Object Consolidation" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>finConsolidationObjectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjectName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjShortName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialEliminationsObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjectName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjShortName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialEliminationsObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialReportingSortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finConsolidationObjActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

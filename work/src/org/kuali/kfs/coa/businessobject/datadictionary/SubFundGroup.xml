@@ -1,179 +1,265 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubFundGroup">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubFundGroup" parent="SubFundGroup-parentBean" />
+
+  <bean id="SubFundGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.SubFundGroup" />
+    <property name="inquiryDefinition" >
+      <ref bean="SubFundGroup-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SubFundGroup-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="subFundGroupCode" />
+    <property name="objectLabel" value="Sub-Fund Group" />
+    <property name="attributes" >
+      <list>
+        <ref bean="SubFundGroup-subFundGroupCode" />
+        <ref bean="SubFundGroup-codeAndDescription" />
+        <ref bean="SubFundGroup-subfundgrpActivityIndicator" />
+        <ref bean="SubFundGroup-subFundGroupWagesIndicator" />
+        <ref bean="SubFundGroup-objectId" />
+        <ref bean="SubFundGroup-fundGroupCode" />
+        <ref bean="SubFundGroup-subFundGroupTypeCode" />
+        <ref bean="SubFundGroup-subFundGroupDescription" />
+        <ref bean="SubFundGroup-accountRestrictedStatusCode" />
+        <ref bean="SubFundGroup-financialReportingSortCode" />
+        <ref bean="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" />
+        <ref bean="SubFundGroup-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Sub-Fund Group Inquiry</title>
+  <bean id="SubFundGroup-subFundGroupCode" parent="SubFundGroup-subFundGroupCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="subFundGroupCode" />
-                <field attributeName="subFundGroupDescription" />
-                <field attributeName="subFundGroupTypeCode" />
-                <field attributeName="fundGroupCode" />
-                <field attributeName="subFundGroupWagesIndicator" />
-                <field attributeName="financialReportingSortCode" />
-                <field attributeName="subfundgrpActivityIndicator" />
-                <field attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
-                <field attributeName="accountRestrictedStatusCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="SubFundGroup-subFundGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subFundGroupCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Fund Group Code" />
+    <property name="shortLabel" value="Sub-Fund Group Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:maxLength="6" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-codeAndDescription" parent="SubFundGroup-codeAndDescription-parentBean" />
 
-        <lookup>
-            <title>Sub-Fund Group Lookup</title>
+  <bean id="SubFundGroup-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sub-Fund Group Code" />
+    <property name="shortLabel" value="Sub-Fund Group Code" />
+    <property name="maxLength" value="47" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-subfundgrpActivityIndicator" parent="SubFundGroup-subfundgrpActivityIndicator-parentBean" />
 
-            <instructions>Lookup an Sub-Fund Group</instructions>
+  <bean id="SubFundGroup-subfundgrpActivityIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="subfundgrpActivityIndicator" />
+  </bean>
+  <bean id="SubFundGroup-subFundGroupWagesIndicator" parent="SubFundGroup-subFundGroupWagesIndicator-parentBean" />
 
-            <defaultSort attributeName="subFundGroupCode" sortAscending="false" />
+  <bean id="SubFundGroup-subFundGroupWagesIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="subFundGroupWagesIndicator" />
+    <property name="label" value="Wage Indicator" />
+    <property name="shortLabel" value="Indicator" />
+  </bean>
+  <bean id="SubFundGroup-objectId" parent="SubFundGroup-objectId-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="subFundGroupCode" />
-                <lookupField attributeName="subFundGroupDescription" />
-                <lookupField attributeName="subFundGroupTypeCode" />
-                <lookupField attributeName="fundGroupCode" />
-                <lookupField attributeName="subFundGroupWagesIndicator" />
-                <lookupField attributeName="financialReportingSortCode" />
-                <lookupField attributeName="subfundgrpActivityIndicator">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
+  <bean id="SubFundGroup-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="SubFundGroup-fundGroupCode" parent="SubFundGroup-fundGroupCode-parentBean" />
 
-            </lookupFields>
+  <bean id="SubFundGroup-fundGroupCode-parentBean" abstract="true" parent="FundGroup-code">
+    <property name="name" value="fundGroupCode" />
+  </bean>
+  <bean id="SubFundGroup-subFundGroupTypeCode" parent="SubFundGroup-subFundGroupTypeCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="subFundGroupCode" />
-                <field attributeName="subFundGroupDescription" />
-                <field attributeName="subFundGroupTypeCode" />
-                <field attributeName="fundGroupCode" />
-                <field attributeName="subFundGroupWagesIndicator" />
-                <field attributeName="financialReportingSortCode" />
-                <field attributeName="subfundgrpActivityIndicator" />
-                <field attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
-            </resultFields>
-        </lookup>
+  <bean id="SubFundGroup-subFundGroupTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subFundGroupTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Fund Type Code" />
+    <property name="shortLabel" value="Sub-Fund Type Code" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SubFundGroupTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-subFundGroupDescription" parent="SubFundGroup-subFundGroupDescription-parentBean" />
 
-        <titleAttribute>subFundGroupCode</titleAttribute>
+  <bean id="SubFundGroup-subFundGroupDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subFundGroupDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Desc." />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-accountRestrictedStatusCode" parent="SubFundGroup-accountRestrictedStatusCode-parentBean" />
 
-        <attributes>
-            <attribute name="subFundGroupCode" forceUppercase="true">
-                <label>Sub-Fund Group Code</label>
-                <shortLabel>Sub-Fund Group Code</shortLabel>
+  <bean id="SubFundGroup-accountRestrictedStatusCode-parentBean" abstract="true" parent="RestrictedStatus-accountRestrictedStatusCode">
+    <property name="label" value="Default Account Restricted Status Code" />
+    <property name="shortLabel" value="DefaultRstrcStatCd" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-financialReportingSortCode" parent="SubFundGroup-financialReportingSortCode-parentBean" />
 
-                <maxLength>6</maxLength>
+  <bean id="SubFundGroup-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialReportingSortCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Financial Reporting Sort Code" />
+    <property name="shortLabel" value="Fin. Rpt. Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" parent="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean" />
 
-                <validationPattern>
-                    <alpha maxLength="6" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean" abstract="true" parent="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentSubFundRestrictionsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="SubFundGroup-versionNumber" parent="SubFundGroup-versionNumber-parentBean" />
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
+  <bean id="SubFundGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="codeAndDescription" forceUppercase="false">
-                <label>Sub-Fund Group Code</label>
-                <shortLabel>Sub-Fund Group Code</shortLabel>
+  <bean id="SubFundGroup-inquiryDefinition" parent="SubFundGroup-inquiryDefinition-parentBean" />
 
-                <maxLength>47</maxLength>
+  <bean id="SubFundGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sub-Fund Group Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="subFundGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subFundGroupDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subFundGroupTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fundGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subFundGroupWagesIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportingSortCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subfundgrpActivityIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountRestrictedStatusCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="47" />
-                </control>
-            </attribute>
-            <attributeReference name="subfundgrpActivityIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="subFundGroupWagesIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
-                <label>Wage Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-            </attributeReference>
 
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+  <bean id="SubFundGroup-lookupDefinition" parent="SubFundGroup-lookupDefinition-parentBean" />
 
-            <attributeReference name="fundGroupCode" sourceClassName="org.kuali.module.chart.bo.FundGroup" sourceAttributeName="code">
-                <required>true</required>
-            </attributeReference>
-
-            <attribute name="subFundGroupTypeCode" forceUppercase="true">
-                <label>Sub-Fund Type Code</label>
-                <shortLabel>Sub-Fund Type Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SubFundGroupTypeValuesFinder" />
-                </control>
-            </attribute>
-
-            <attribute name="subFundGroupDescription" forceUppercase="true">
-                <label>Description</label>
-                <shortLabel>Desc.</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="42" />
-                </control>
-            </attribute>
-
-              <attributeReference name="accountRestrictedStatusCode" sourceClassName="org.kuali.module.chart.bo.RestrictedStatus" sourceAttributeName="accountRestrictedStatusCode">
-                 <label>Default Account Restricted Status Code</label>
-                 <shortLabel>DefaultRstrcStatCd</shortLabel>
-                 <control>
-                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder" />
-                 </control>
-             </attributeReference>
-            
-
-            <attribute name="financialReportingSortCode" forceUppercase="false">
-                <label>Financial Reporting Sort Code</label>
-                <shortLabel>Fin. Rpt. Code</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <validationPattern>
-                    <numeric exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-            
-            <attributeReference name="fundGroupBudgetAdjustmentRestrictionLevelCode" 
-                                sourceClassName="org.kuali.module.chart.bo.FundGroup" 
-                                sourceAttributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" >
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentSubFundRestrictionsValuesFinder"/>
-                </control>
-            </attributeReference>    
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        
-        <objectLabel>Sub-Fund Group</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="SubFundGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sub-Fund Group Lookup" />
+    <property name="instructions" value="Lookup an Sub-Fund Group" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>subFundGroupCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false" />
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupWagesIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialReportingSortCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="subfundgrpActivityIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subFundGroupWagesIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialReportingSortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subfundgrpActivityIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

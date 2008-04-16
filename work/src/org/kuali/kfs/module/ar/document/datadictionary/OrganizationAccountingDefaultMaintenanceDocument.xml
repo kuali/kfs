@@ -1,118 +1,212 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.ar.bo.OrganizationAccountingDefault</businessObjectClass>
-        <maintainableClass>org.kuali.module.ar.maintenance.OrganizationAccountingDefaultMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.ar.rules.OrganizationAccountingDefaultRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.ar.document.authorization.OrganizationAccountingDefaultAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>AR_ROLE_MAINTAINERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument" parent="OrganizationAccountingDefaultMaintenanceDocument-parentBean" />
 
-        <documentTypeName>OrganizationAccountingDefaultMaintenanceDocument</documentTypeName>
-        <documentTypeCode>OADF</documentTypeCode>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.OrganizationAccountingDefault" />
+    <property name="maintainableClass" value="org.kuali.module.ar.maintenance.OrganizationAccountingDefaultMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingDefaults" />
+        <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationIncomeAccountDefaults" />
+        <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults" />
+        <ref bean="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultInvoiceChartOfAccounts"
+              p:attributeToHighlightOnFail="defaultInvoiceChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultInvoiceAccount"
+              p:attributeToHighlightOnFail="defaultInvoiceAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultInvoiceSubAccount"
+              p:attributeToHighlightOnFail="defaultInvoiceSubAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultInvoiceFinancialObject"
+              p:attributeToHighlightOnFail="defaultInvoiceFinancialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultInvoiceFinancialSubObject"
+              p:attributeToHighlightOnFail="defaultInvoiceFinancialSubObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultInvoiceProject"
+              p:attributeToHighlightOnFail="defaultInvoiceProjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultPaymentChartOfAccounts"
+              p:attributeToHighlightOnFail="defaultPaymentChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultPaymentAccount"
+              p:attributeToHighlightOnFail="defaultPaymentAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultPaymentSubAccount"
+              p:attributeToHighlightOnFail="defaultPaymentSubAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultPaymentFinancialObject"
+              p:attributeToHighlightOnFail="defaultPaymentFinancialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultPaymentFinancialSubObject"
+              p:attributeToHighlightOnFail="defaultPaymentFinancialSubObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultPaymentProject"
+              p:attributeToHighlightOnFail="defaultPaymentProjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="writeoffChartOfAccounts"
+              p:attributeToHighlightOnFail="writeoffChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="writeoffAccount"
+              p:attributeToHighlightOnFail="writeoffAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="writeoffSubAccount"
+              p:attributeToHighlightOnFail="writeoffSubAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="writeoffFinancialObject"
+              p:attributeToHighlightOnFail="writeoffFinancialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="writeoffFinancialSubObject"
+              p:attributeToHighlightOnFail="writeoffFinancialSubObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="writeoffProject"
+              p:attributeToHighlightOnFail="writeoffProjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="universityFiscal"
+              p:attributeToHighlightOnFail="universityFiscalYear" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
+        <value>universityFiscalYear</value>
+      </list>
+    </property>
+    <property name="label" value="Organization Accounting Default Maintenance Document" />
+    <property name="shortLabel" value="OrgAcctgDefaultMaintDoc" />
+    <property name="summary" value="Organization Accounting Default maintenance document" />
+    <property name="description" value="Document used to create or update Organization Accounting Default objects" />
+    <property name="documentTypeName" value="OrganizationAccountingDefaultMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.ar.rules.OrganizationAccountingDefaultRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.OrganizationAccountingDefaultAuthorizer" />
+    <property name="documentTypeCode" value="OADF" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>AR_ROLE_MAINTAINERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Organization Accounting Default Maintenance Document</label>
-        <shortLabel>OrgAcctgDefaultMaintDoc</shortLabel>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Organization Accounting Default maintenance document</summary>
-        <description>Document used to create or update Organization Accounting Default objects</description>
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="organizationCode" />
-            <field attributeName="universityFiscalYear" />
-        </lockingKeys>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingDefaults-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
-            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="defaultInvoiceChartOfAccounts" attributeToHighlightOnFail="defaultInvoiceChartOfAccountsCode" />
-            <reference attributeName="defaultInvoiceAccount" attributeToHighlightOnFail="defaultInvoiceAccountNumber" />
-            <reference attributeName="defaultInvoiceSubAccount" attributeToHighlightOnFail="defaultInvoiceSubAccountNumber" />
-            <reference attributeName="defaultInvoiceFinancialObject" attributeToHighlightOnFail="defaultInvoiceFinancialObjectCode" />
-            <reference attributeName="defaultInvoiceFinancialSubObject" attributeToHighlightOnFail="defaultInvoiceFinancialSubObjectCode" />
-            <reference attributeName="defaultInvoiceProject" attributeToHighlightOnFail="defaultInvoiceProjectCode" />
-            <reference attributeName="defaultPaymentChartOfAccounts" attributeToHighlightOnFail="defaultPaymentChartOfAccountsCode" />
-            <reference attributeName="defaultPaymentAccount" attributeToHighlightOnFail="defaultPaymentAccountNumber" />
-            <reference attributeName="defaultPaymentSubAccount" attributeToHighlightOnFail="defaultPaymentSubAccountNumber" />
-            <reference attributeName="defaultPaymentFinancialObject" attributeToHighlightOnFail="defaultPaymentFinancialObjectCode" />
-            <reference attributeName="defaultPaymentFinancialSubObject" attributeToHighlightOnFail="defaultPaymentFinancialSubObjectCode" />
-            <reference attributeName="defaultPaymentProject" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffChartOfAccounts" attributeToHighlightOnFail="writeoffChartOfAccountsCode" />
-            <reference attributeName="writeoffAccount" attributeToHighlightOnFail="writeoffAccountNumber" />
-            <reference attributeName="writeoffSubAccount" attributeToHighlightOnFail="writeoffSubAccountNumber" />
-            <reference attributeName="writeoffFinancialObject" attributeToHighlightOnFail="writeoffFinancialObjectCode" />
-            <reference attributeName="writeoffFinancialSubObject" attributeToHighlightOnFail="writeoffFinancialSubObjectCode" />
-            <reference attributeName="writeoffProject" attributeToHighlightOnFail="writeoffProjectCode" />
-            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
-        </defaultExistenceChecks>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Accounting Defaults" />
+    <property name="title" value="Edit Organization Accounting Defaults" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationIncomeAccountDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationIncomeAccountDefaults-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Organization Accounting Defaults">
-                <maintainableItems>
-                    <maintainableField name="universityFiscalYear" required="true" />
-                    <maintainableField name="chartOfAccountsCode" required="true"/>
-                    <maintainableField name="organizationCode" required="true"/>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Organization Income Account Defaults">
-                <maintainableItems>
-                	<maintainableField name="defaultInvoiceChartOfAccountsCode" required="false"/>
-                    <maintainableField name="defaultInvoiceAccountNumber" required="false" />
-                    <maintainableField name="defaultInvoiceSubAccountNumber" required="false" />
-                    <maintainableField name="defaultInvoiceFinancialObjectCode" required="false" />
-                    <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false" />
-                    <maintainableField name="defaultInvoiceProjectCode" required="false"/>
-                    <maintainableField name="defaultInvoiceOrganizationReferenceIdentifier" required="false" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Organization Accounting Payment Defaults">
-                <maintainableItems>
-                	<maintainableField name="defaultPaymentChartOfAccountsCode" required="false"/>
-                    <maintainableField name="defaultPaymentAccountNumber" required="false" />
-                    <maintainableField name="defaultPaymentSubAccountNumber" required="false" />
-                    <maintainableField name="defaultPaymentFinancialObjectCode" required="false"/>
- 					<maintainableField name="defaultPaymentFinancialSubObjectCode" required="false"/>
-                    <maintainableField name="defaultInvoiceProjectCode" required="false"/>
-                    <maintainableField name="defaultPaymentOrganizationReferenceIdentifier" required="false" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Organization Writeoff Account Defaults">
-                <maintainableItems>
-                	<maintainableField name="writeoffChartOfAccountsCode" required="false"/>
-                    <maintainableField name="writeoffAccountNumber" required="false" />
-                    <maintainableField name="writeoffSubAccountNumber" required="false" />
-                    <maintainableField name="writeoffFinancialObjectCode" required="false"/>
- 					<maintainableField name="writeoffFinancialSubObjectCode" required="false"/>
-                    <maintainableField name="writeoffProjectCode" required="false"/>
-                    <maintainableField name="writeoffOrganizationReferenceIdentifier" required="false" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationIncomeAccountDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Income Account Defaults" />
+    <property name="title" value="Edit Organization Income Account Defaults" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceFinancialSubObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceProjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceOrganizationReferenceIdentifier" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults-parentBean" />
+
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Accounting Payment Defaults" />
+    <property name="title" value="Edit Organization Accounting Payment Defaults" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPaymentChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPaymentAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPaymentSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPaymentFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPaymentFinancialSubObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultInvoiceProjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="defaultPaymentOrganizationReferenceIdentifier" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults-parentBean" />
+
+  <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationWriteoffAccountDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Writeoff Account Defaults" />
+    <property name="title" value="Edit Organization Writeoff Account Defaults" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffFinancialSubObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffProjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="writeoffOrganizationReferenceIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

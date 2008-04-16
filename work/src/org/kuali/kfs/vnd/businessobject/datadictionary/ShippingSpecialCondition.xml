@@ -1,94 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.ShippingSpecialCondition">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Shipping Special Conditions Inquiry</title>
+  <bean id="ShippingSpecialCondition" parent="ShippingSpecialCondition-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorShippingSpecialConditionCode" />
-                <field attributeName="vendorShippingSpecialConditionDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ShippingSpecialCondition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.ShippingSpecialCondition" />
+    <property name="inquiryDefinition" >
+      <ref bean="ShippingSpecialCondition-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ShippingSpecialCondition-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorShippingSpecialConditionCode" />
+    <property name="objectLabel" value="Shipping Special Conditions" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ShippingSpecialCondition-vendorShippingSpecialConditionCode" />
+        <ref bean="ShippingSpecialCondition-vendorShippingSpecialConditionDescription" />
+        <ref bean="ShippingSpecialCondition-active" />
+        <ref bean="ShippingSpecialCondition-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Shipping Special Conditions Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Shipping Special Condition</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorShippingSpecialConditionDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ShippingSpecialCondition-vendorShippingSpecialConditionCode" parent="ShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorShippingSpecialConditionCode" required="false" />
-                <lookupField attributeName="vendorShippingSpecialConditionDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-           </lookupFields>
+  <bean id="ShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorShippingSpecialConditionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipping Special Condition Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ShippingSpecialCondition-vendorShippingSpecialConditionDescription" parent="ShippingSpecialCondition-vendorShippingSpecialConditionDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorShippingSpecialConditionCode" />
-                <field attributeName="vendorShippingSpecialConditionDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ShippingSpecialCondition-vendorShippingSpecialConditionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorShippingSpecialConditionDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipping Special Condition Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShippingSpecialCondition-active" parent="ShippingSpecialCondition-active-parentBean" />
 
-        <titleAttribute>vendorShippingSpecialConditionCode</titleAttribute>
+  <bean id="ShippingSpecialCondition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ShippingSpecialCondition-versionNumber" parent="ShippingSpecialCondition-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="ShippingSpecialCondition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="vendorShippingSpecialConditionCode" forceUppercase="true">
-                <label>Shipping Special Condition Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="ShippingSpecialCondition-inquiryDefinition" parent="ShippingSpecialCondition-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="ShippingSpecialCondition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Shipping Special Conditions Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingSpecialConditionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingSpecialConditionDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="vendorShippingSpecialConditionDescription" forceUppercase="true">
-                <label>Shipping Special Condition Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="ShippingSpecialCondition-lookupDefinition" parent="ShippingSpecialCondition-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Shipping Special Conditions</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ShippingSpecialCondition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Shipping Special Conditions Lookup" />
+    <property name="instructions" value="Lookup a Shipping Special Condition" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingSpecialConditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingSpecialConditionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingSpecialConditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingSpecialConditionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

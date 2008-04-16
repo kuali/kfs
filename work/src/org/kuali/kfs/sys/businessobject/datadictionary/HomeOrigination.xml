@@ -1,75 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kfs.bo.HomeOrigination">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="HomeOrigination" parent="HomeOrigination-parentBean" />
+
+  <bean id="HomeOrigination-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.HomeOrigination" />
+    <property name="inquiryDefinition" >
+      <ref bean="HomeOrigination-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="HomeOrigination-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="finSystemHomeOriginationCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="HomeOrigination-finSystemHomeOriginationCode" />
+        <ref bean="HomeOrigination-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Home Origination Inquiry</title>
+  <bean id="HomeOrigination-finSystemHomeOriginationCode" parent="HomeOrigination-finSystemHomeOriginationCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="finSystemHomeOriginationCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="HomeOrigination-finSystemHomeOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
+    <property name="name" value="finSystemHomeOriginationCode" />
+    <property name="label" value="Home Origination Code" />
+    <property name="shortLabel" value="Home Orig Code" />
+    <property name="summary" value="Home Origination Code" />
+    <property name="description" value="The code uniquely identify a Home Origination." />
+  </bean>
+  <bean id="HomeOrigination-versionNumber" parent="HomeOrigination-versionNumber-parentBean" />
 
-        <lookup>
-            <title>Home Origination Lookup</title>
+  <bean id="HomeOrigination-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <instructions>Lookup a Home Origination</instructions>
-
-            <defaultSort attributeName="finSystemHomeOriginationCode" sortAscending="true" />
-
-            <lookupFields>
-                <lookupField attributeName="finSystemHomeOriginationCode" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="finSystemHomeOriginationCode" />
-
-            </resultFields>
-        </lookup>
-
-       <titleAttribute>finSystemHomeOriginationCode</titleAttribute>
-
-        <attributes>
-			<attributeReference name="finSystemHomeOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode" >
-
-                <label>Home Origination Code</label>
-                <shortLabel>Home Orig Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-
-                <summary>Home Origination Code</summary>
-                <description>The code uniquely identify a Home Origination.</description>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="HomeOrigination-inquiryDefinition" parent="HomeOrigination-inquiryDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="HomeOrigination-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Home Origination Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="finSystemHomeOriginationCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="HomeOrigination-lookupDefinition" parent="HomeOrigination-lookupDefinition-parentBean" />
+
+  <bean id="HomeOrigination-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Home Origination Lookup" />
+    <property name="instructions" value="Lookup a Home Origination" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>finSystemHomeOriginationCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="finSystemHomeOriginationCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="finSystemHomeOriginationCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

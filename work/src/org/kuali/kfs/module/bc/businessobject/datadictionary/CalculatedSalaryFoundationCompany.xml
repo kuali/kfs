@@ -1,73 +1,99 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationCompany">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CalculatedSalaryFoundationCompany" parent="CalculatedSalaryFoundationCompany-parentBean" />
+
+  <bean id="CalculatedSalaryFoundationCompany-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.CalculatedSalaryFoundationCompany" />
+    <property name="inquiryDefinition" >
+      <ref bean="CalculatedSalaryFoundationCompany-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CalculatedSalaryFoundationCompany-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CalculatedSalaryFoundationCompany-hrmsCompany" />
+        <ref bean="CalculatedSalaryFoundationCompany-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Calculated Salary Foundation Company Inquiry</title>
+  <bean id="CalculatedSalaryFoundationCompany-hrmsCompany" parent="CalculatedSalaryFoundationCompany-hrmsCompany-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="hrmsCompany" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="CalculatedSalaryFoundationCompany-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsCompany" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Hrms Company" />
+    <property name="shortLabel" value="Company" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="hrmsCompany" />
+    <property name="description" value="hrmsCompany description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationCompany-versionNumber" parent="CalculatedSalaryFoundationCompany-versionNumber-parentBean" />
 
-        <lookup>
-            <title>Calculated Salary Foundation Company Lookup</title>
+  <bean id="CalculatedSalaryFoundationCompany-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <instructions>Look up a Calculated Salary Foundation Company</instructions>
+<!-- Business Object Inquiry Definition -->
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="hrmsCompany" />
-                </sortAttributes>
-            </defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="hrmsCompany" required="false" />
-            </lookupFields>
+  <bean id="CalculatedSalaryFoundationCompany-inquiryDefinition" parent="CalculatedSalaryFoundationCompany-inquiryDefinition-parentBean" />
 
-            <resultFields>
-                <field attributeName="hrmsCompany" />
-            </resultFields>
-        </lookup>
+  <bean id="CalculatedSalaryFoundationCompany-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Calculated Salary Foundation Company Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="hrmsCompany" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <attributes>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="hrmsCompany" forceUppercase="true">
-                <label>Hrms Company</label>
-                <shortLabel>Company</shortLabel>
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CalculatedSalaryFoundationCompany-lookupDefinition" parent="CalculatedSalaryFoundationCompany-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>hrmsCompany</summary>
-                <description>hrmsCompany description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CalculatedSalaryFoundationCompany-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Calculated Salary Foundation Company Lookup" />
+    <property name="instructions" value="Look up a Calculated Salary Foundation Company" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+      </list>
+    </property>
+  </bean>
+</beans>

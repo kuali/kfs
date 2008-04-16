@@ -1,115 +1,150 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kfs.bo.State">
+  <bean id="State" parent="State-parentBean" />
+
+  <bean id="State-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.State" />
+    <property name="inquiryDefinition" >
+      <ref bean="State-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="State-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="postalStateCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="State-postalStateCode" />
+        <ref bean="State-postalStateName" />
+        <ref bean="State-codeAndDescription" />
+        <ref bean="State-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>State Inquiry</title>
+  <bean id="State-postalStateCode" parent="State-postalStateCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="postalStateCode" />
-                <field attributeName="postalStateName" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="State-postalStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="State Abbreviation" />
+    <property name="shortLabel" value="State Abbr." />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="State Abbreviation" />
+    <property name="description" value="The two digit code for a state" />
+  </bean>
+  <bean id="State-postalStateName" parent="State-postalStateName-parentBean" />
 
-        <lookup>
-            <title>State Code Lookup</title>
+  <bean id="State-postalStateName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalStateName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="State Name" />
+    <property name="shortLabel" value="State Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="State Name" />
+    <property name="description" value="The name assigned to this state." />
+  </bean>
+  <bean id="State-codeAndDescription" parent="State-codeAndDescription-parentBean" />
 
-            <instructions>Lookup a State</instructions>
+  <bean id="State-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State Code" />
+    <property name="shortLabel" value="State Code" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+    <property name="summary" value="State Code" />
+    <property name="description" value="State Code" />
+  </bean>
+  <bean id="State-versionNumber" parent="State-versionNumber-parentBean" />
 
-            <defaultSort attributeName="postalStateCode" sortAscending="true" />
+  <bean id="State-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="postalStateCode" required="false" />
-                <lookupField attributeName="postalStateName" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="postalStateCode" />
-                <field attributeName="postalStateName" />
-            </resultFields>
-        </lookup>
 
-        <titleAttribute>postalStateCode</titleAttribute>
+  <bean id="State-inquiryDefinition" parent="State-inquiryDefinition-parentBean" />
 
-        <!--
-            Note that this has alot of items that should 
-            be converted to <attributeReference> tags, but until the 
-            underlying BO is updated to use real sub-objects rather 
-            than just strings, doing that will cause this DD to break.
-        -->
-        <attributes>
+  <bean id="State-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="State Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalStateName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="postalStateCode" forceUppercase="true">
-                <label>State Abbreviation</label>
-                <shortLabel>State Abbr.</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <anyCharacter exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
 
-                <summary>State Abbreviation</summary>
-                <description>The two digit code for a state</description>
-            </attribute>
+  <bean id="State-lookupDefinition" parent="State-lookupDefinition-parentBean" />
 
-            <attribute name="postalStateName" forceUppercase="true">
-                <label>State Name</label>
-                <shortLabel>State Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="25" />
-                </control>
-
-                <summary>State Name</summary>
-                <description>The name assigned to this state.</description>
-            </attribute>
-
-            <attribute name="codeAndDescription" forceUppercase="false">
-                <label>State Code</label>
-                <shortLabel>State Code</shortLabel>
-
-                <maxLength>45</maxLength>
-
-                <control>
-                    <text size="45" />
-                </control>
-
-                <summary>State Code</summary>
-                <description>State Code</description>
-
-            </attribute>
-            
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="State-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="State Code Lookup" />
+    <property name="instructions" value="Lookup a State" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>postalStateCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postalStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalStateName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postalStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalStateName" />
+      </list>
+    </property>
+  </bean>
+</beans>

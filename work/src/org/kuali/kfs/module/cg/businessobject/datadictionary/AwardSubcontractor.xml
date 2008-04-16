@@ -1,172 +1,256 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardSubcontractor" parent="AwardSubcontractor-parentBean" />
+
+  <bean id="AwardSubcontractor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardSubcontractor" />
+    <property name="inquiryDefinition" >
+      <ref bean="AwardSubcontractor-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AwardSubcontractor-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardSubcontractor-proposalNumber" />
+        <ref bean="AwardSubcontractor-subcontractorNumber" />
+        <ref bean="AwardSubcontractor-subcontractor.subcontractorName" />
+        <ref bean="AwardSubcontractor-awardSubcontractorAmendmentNumber" />
+        <ref bean="AwardSubcontractor-awardSubcontractorNumber" />
+        <ref bean="AwardSubcontractor-awardSubcontractorDescription" />
+        <ref bean="AwardSubcontractor-subcontractorAmount" />
+        <ref bean="AwardSubcontractor-subcontractorAuditHistoryText" />
+        <ref bean="AwardSubcontractor-subcontractorContactFirstName" />
+        <ref bean="AwardSubcontractor-subcontractorContactLastName" />
+        <ref bean="AwardSubcontractor-newCollectionRecord" />
+        <ref bean="AwardSubcontractor-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Award Subcontractor Inquiry</title>
+  <bean id="AwardSubcontractor-proposalNumber" parent="AwardSubcontractor-proposalNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Award Subcontractor Details"><inquiryFields>
-                <field attributeName="awardSubcontractorAmendmentNumber" />
-                <field attributeName="awardSubcontractorNumber" />
-                <field attributeName="proposalNumber" />
-                <field attributeName="subcontractorAmount" />
-                <field attributeName="subcontractorAuditHistoryText" />
-                <field attributeName="subcontractorContactFirstName" />
-                <field attributeName="subcontractorContactLastName" />
-                <field attributeName="subcontractorNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AwardSubcontractor-proposalNumber-parentBean" abstract="true" parent="Award-proposalNumber">
+  </bean>
+  <bean id="AwardSubcontractor-subcontractorNumber" parent="AwardSubcontractor-subcontractorNumber-parentBean" />
 
-        <lookup>
-            <title>Award Subcontractor Lookup</title>
+  <bean id="AwardSubcontractor-subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+  </bean>
+  <bean id="AwardSubcontractor-subcontractor.subcontractorName" parent="AwardSubcontractor-subcontractor.subcontractorName-parentBean" />
 
-            <instructions>Look up an Award Subcontractor</instructions>
+  <bean id="AwardSubcontractor-subcontractor.subcontractorName-parentBean" abstract="true" parent="Subcontractor-subcontractorName">
+    <property name="name" value="subcontractor.subcontractorName" />
+    <property name="label" value="Name" />
+  </bean>
+  <bean id="AwardSubcontractor-awardSubcontractorAmendmentNumber" parent="AwardSubcontractor-awardSubcontractorAmendmentNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="awardSubcontractorAmendmentNumber" />
-                    <sortAttribute attributeName="awardSubcontractorNumber" />
-                    <sortAttribute attributeName="subcontractorNumber" />
-                    <sortAttribute attributeName="proposalNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="AwardSubcontractor-awardSubcontractorAmendmentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardSubcontractorAmendmentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Amendment Number" />
+    <property name="shortLabel" value="Amendment" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="AwardSubcontractor-awardSubcontractorNumber" parent="AwardSubcontractor-awardSubcontractorNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="awardSubcontractorAmendmentNumber" required="false" />
-                <lookupField attributeName="awardSubcontractorNumber" required="false" />
-                <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="subcontractorAmount" required="false" />
-                <lookupField attributeName="subcontractorAuditHistoryText" required="false" />
-                <lookupField attributeName="subcontractorContactFirstName" required="false" />
-                <lookupField attributeName="subcontractorContactLastName" required="false" />
-                <lookupField attributeName="subcontractorNumber" required="false" />
-            </lookupFields>
+  <bean id="AwardSubcontractor-awardSubcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardSubcontractorNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Subcontractor Number" />
+    <property name="shortLabel" value="Subcontractor" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="AwardSubcontractor-awardSubcontractorDescription" parent="AwardSubcontractor-awardSubcontractorDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="awardSubcontractorAmendmentNumber" />
-                <field attributeName="awardSubcontractorNumber" />
-                <field attributeName="proposalNumber" />
-                <field attributeName="subcontractorAmount" />
-                <field attributeName="subcontractorAuditHistoryText" />
-                <field attributeName="subcontractorContactFirstName" />
-                <field attributeName="subcontractorContactLastName" />
-                <field attributeName="subcontractorNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="AwardSubcontractor-awardSubcontractorDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardSubcontractorDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true"
+            p:maxLength="30" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="AwardSubcontractor-subcontractorAmount" parent="AwardSubcontractor-subcontractorAmount-parentBean" />
 
-        <attributes>
-			
-            <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber"/>
+  <bean id="AwardSubcontractor-subcontractorAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="subcontractorAmount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AwardSubcontractor-subcontractorAuditHistoryText" parent="AwardSubcontractor-subcontractorAuditHistoryText-parentBean" />
 
-            <attributeReference name="subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber"/>
-			
-			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName">
-                <label>Name</label>
-            </attributeReference>
+  <bean id="AwardSubcontractor-subcontractorAuditHistoryText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorAuditHistoryText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Audit History" />
+    <property name="shortLabel" value="History" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="AwardSubcontractor-subcontractorContactFirstName" parent="AwardSubcontractor-subcontractorContactFirstName-parentBean" />
 
-            <attribute name="awardSubcontractorAmendmentNumber" forceUppercase="true">
-                <label>Amendment Number</label>
-                <shortLabel>Amendment</shortLabel>
+  <bean id="AwardSubcontractor-subcontractorContactFirstName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorContactFirstName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contact First Name" />
+    <property name="shortLabel" value="First Name" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="17" />
+    </property>
+  </bean>
+  <bean id="AwardSubcontractor-subcontractorContactLastName" parent="AwardSubcontractor-subcontractorContactLastName-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AwardSubcontractor-subcontractorContactLastName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorContactLastName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contact Last Name" />
+    <property name="shortLabel" value="Last Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+  </bean>
+  <bean id="AwardSubcontractor-newCollectionRecord" parent="AwardSubcontractor-newCollectionRecord-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
+  <bean id="AwardSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="AwardSubcontractor-versionNumber" parent="AwardSubcontractor-versionNumber-parentBean" />
 
-            <attribute name="awardSubcontractorNumber" forceUppercase="true">
-                <label>Subcontractor Number</label>
-                <shortLabel>Subcontractor</shortLabel>
+  <bean id="AwardSubcontractor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="4" />
-                </control>
-			</attribute>
 
-			<attribute name="awardSubcontractorDescription">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="AwardSubcontractor-inquiryDefinition" parent="AwardSubcontractor-inquiryDefinition-parentBean" />
 
-                <maxLength>30</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" maxLength="30"/>
-                </validationPattern>
+  <bean id="AwardSubcontractor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Award Subcontractor Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Award Subcontractor Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="awardSubcontractorAmendmentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="awardSubcontractorNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorAuditHistoryText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorContactFirstName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorContactLastName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="30" />
-                </control>
-            </attribute>
-			
-			<attributeReference name="subcontractorAmount"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>	
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="subcontractorAuditHistoryText" forceUppercase="true">
-                <label>Audit History</label>
-                <shortLabel>History</shortLabel>
 
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AwardSubcontractor-lookupDefinition" parent="AwardSubcontractor-lookupDefinition-parentBean" />
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-			</attribute>
-
-            <attribute name="subcontractorContactFirstName" forceUppercase="true">
-                <label>Contact First Name</label>
-                <shortLabel>First Name</shortLabel>
-
-                <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="17" />
-                </control>
-			</attribute>
-
-            <attribute name="subcontractorContactLastName" forceUppercase="true">
-                <label>Contact Last Name</label>
-                <shortLabel>Last Name</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="27" />
-                </control>
-			</attribute>
-
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
-                                
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AwardSubcontractor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Award Subcontractor Lookup" />
+    <property name="instructions" value="Look up an Award Subcontractor" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="awardSubcontractorAmendmentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="awardSubcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorAuditHistoryText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorContactFirstName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorContactLastName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="awardSubcontractorAmendmentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="awardSubcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorAuditHistoryText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorContactFirstName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorContactLastName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

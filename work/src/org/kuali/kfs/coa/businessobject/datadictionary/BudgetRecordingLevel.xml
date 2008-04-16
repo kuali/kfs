@@ -1,104 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.codes.BudgetRecordingLevel">
- 
-        <inquiry>
-            <title>Budget Recording Level Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Budget Recording Level Details">
-                    <inquiryFields>
-                        <field attributeName="code" />
-                        <field attributeName="name" />
-						<field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Budget Recording Level Lookup</title>
+  <bean id="BudgetRecordingLevel" parent="BudgetRecordingLevel-parentBean" />
 
-            <instructions>Look up a Budget Recording Level Code</instructions>
+  <bean id="BudgetRecordingLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetRecordingLevel-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetRecordingLevel-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetRecordingLevel-active" />
+        <ref bean="BudgetRecordingLevel-code" />
+        <ref bean="BudgetRecordingLevel-name" />
+        <ref bean="BudgetRecordingLevel-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="code" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="code" required="false" />
-                <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetRecordingLevel-active" parent="BudgetRecordingLevel-active-parentBean" />
 
-        <attributes>
+  <bean id="BudgetRecordingLevel-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="BudgetRecordingLevel-code" parent="BudgetRecordingLevel-code-parentBean" />
 
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
+  <bean id="BudgetRecordingLevel-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Recording Level Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="BudgetRecordingLevel-name" parent="BudgetRecordingLevel-name-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="BudgetRecordingLevel-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Recording Level Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="BudgetRecordingLevel-versionNumber" parent="BudgetRecordingLevel-versionNumber-parentBean" />
 
-                <control>
-                    <checkbox />
-                </control>
-			</attribute>
+  <bean id="BudgetRecordingLevel-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="code" forceUppercase="true">
-                <label>Budget Recording Level Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="3" />
-                </control>
-			</attribute>
+  <bean id="BudgetRecordingLevel-inquiryDefinition" parent="BudgetRecordingLevel-inquiryDefinition-parentBean" />
 
-            <attribute name="name" forceUppercase="false">
-                <label>Budget Recording Level Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="BudgetRecordingLevel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Recording Level Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Recording Level Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="42" />
-                </control>
-			</attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="BudgetRecordingLevel-lookupDefinition" parent="BudgetRecordingLevel-lookupDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetRecordingLevel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Recording Level Lookup" />
+    <property name="instructions" value="Look up a Budget Recording Level Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

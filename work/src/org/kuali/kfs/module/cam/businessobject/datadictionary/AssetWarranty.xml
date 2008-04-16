@@ -1,161 +1,243 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetWarranty">
- 
-        <inquiry>
-            <title>Asset Warranty Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="capitalAssetNumber" />
-                        <field attributeName="warrantyBeginningDate" />
-                        <field attributeName="warrantyContactName" />
-                        <field attributeName="warrantyEndingDate" />
-                        <field attributeName="warrantyNumber" />
-                        <field attributeName="warrantyPhoneNumber" />
-                        <field attributeName="warrantyPurchaseOrderNumber" />
-                        <field attributeName="warrantyText" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Asset Warranty Lookup</title>
-            <instructions>Look up an Asset Warranty</instructions>
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="AssetWarranty" parent="AssetWarranty-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                <lookupField attributeName="warrantyBeginningDate" required="false" />
-                <lookupField attributeName="warrantyContactName" required="false" />
-                <lookupField attributeName="warrantyEndingDate" required="false" />
-                <lookupField attributeName="warrantyNumber" required="false" />
-                <lookupField attributeName="warrantyPhoneNumber" required="false" />
-                <lookupField attributeName="warrantyPurchaseOrderNumber" required="false" />
-                <lookupField attributeName="warrantyText" required="false" />
-            </lookupFields>
+  <bean id="AssetWarranty-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetWarranty" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetWarranty-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetWarranty-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetWarranty-capitalAssetNumber" />
+        <ref bean="AssetWarranty-versionNumber" />
+        <ref bean="AssetWarranty-warrantyBeginningDate" />
+        <ref bean="AssetWarranty-warrantyEndingDate" />
+        <ref bean="AssetWarranty-warrantyContactName" />
+        <ref bean="AssetWarranty-warrantyNumber" />
+        <ref bean="AssetWarranty-warrantyPhoneNumber" />
+        <ref bean="AssetWarranty-warrantyPurchaseOrderNumber" />
+        <ref bean="AssetWarranty-warrantyText" />
+      </list>
+    </property>
+  </bean>
 
-            <resultFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="warrantyBeginningDate" />
-                <field attributeName="warrantyContactName" />
-                <field attributeName="warrantyEndingDate" />
-                <field attributeName="warrantyNumber" />
-                <field attributeName="warrantyPhoneNumber" />
-                <field attributeName="warrantyPurchaseOrderNumber" />
-                <field attributeName="warrantyText" />
-            </resultFields>
-        </lookup>		
-        <attributes>
-        	<attributeReference name="capitalAssetNumber"
-            	sourceClassName="org.kuali.module.cams.bo.Asset"
-            	sourceAttributeName="capitalAssetNumber" />
-            	        
-        	<attributeReference name="versionNumber"
-        		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-        		sourceAttributeName="versionNumber" />
-        		
-        	<attributeReference name="warrantyBeginningDate"
-        		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-        		sourceAttributeName="genericDate">
-        		<label>Warranty Beginning Date</label>        		
-        		<shortLabel>Date</shortLabel>
-        	</attributeReference>
-        	
-        	<attributeReference name="warrantyEndingDate"
-        		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-        		sourceAttributeName="genericDate">
-        		<label>Warranty Ending Date</label>
-        		<shortLabel>Date</shortLabel>
-        	</attributeReference>
-        	
-        	<attribute name="warrantyContactName"
-        		forceUppercase="true">
-        		<label>Warranty Contact Name</label>
-        		<shortLabel>Name</shortLabel>
-        		<maxLength>40</maxLength>
-        		<validationPattern>
-        			<anyCharacter allowWhitespace="true" />
-        		</validationPattern>
-        		<control>
-        			<text size="42" />
-        		</control>
-        		<summary>warrantyContactName</summary>
-        		<description>
-        			warrantyContactName description...
-        		</description>
-        	</attribute>
-        	
-        	<attribute name="warrantyNumber" forceUppercase="true">
-        		<label>Warranty Number</label>
-        		<shortLabel>Number</shortLabel>
-        		<maxLength>25</maxLength>
-        		<validationPattern>
-        			<anyCharacter allowWhitespace="true" />
-        		</validationPattern>
-        		<control>
-        			<text size="27" />
-        		</control>
-        		<summary>warrantyNumber</summary>
-        		<description>warrantyNumber description...</description>
-        	</attribute>
-        	
-        	<attribute name="warrantyPhoneNumber"
-        		forceUppercase="true">
-        		<label>Warranty Phone Number</label>
-        		<shortLabel>Number</shortLabel>
-        		<maxLength>13</maxLength>
-        		<validationPattern>
-        			<anyCharacter allowWhitespace="true" />
-        		</validationPattern>
-        		<control>
-        			<text size="15" />
-        		</control>
-        		<summary>warrantyPhoneNumber</summary>
-        		<description>
-        			warrantyPhoneNumber description...
-        		</description>
-        	</attribute>
-        	
-        	<attribute name="warrantyPurchaseOrderNumber"
-        		forceUppercase="true">
-        		<label>Warranty Purchase Order Number</label>
-        		<shortLabel>Number</shortLabel>
-        		<maxLength>9</maxLength>
-        		<validationPattern>
-        			<anyCharacter allowWhitespace="true" />
-        		</validationPattern>
-        		<control>
-        			<text size="11" />
-        		</control>
-        		<summary>warrantyPurchaseOrderNumber</summary>
-        		<description>
-        			warrantyPurchaseOrderNumber description...
-        		</description>
-        	</attribute>
-        	
-        	<attribute name="warrantyText" forceUppercase="true">
-        		<label>Warranty Text</label>
-        		<shortLabel>Text</shortLabel>
-        		<maxLength>40</maxLength>
-        		<validationPattern>
-        			<anyCharacter allowWhitespace="true" />
-        		</validationPattern>
-        		<control>
-        			<text size="42" />
-        		</control>
-        		<summary>warrantyText</summary>
-        		<description>warrantyText description...</description>
-        	</attribute>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<!-- Attribute Definitions -->
+
+
+  <bean id="AssetWarranty-capitalAssetNumber" parent="AssetWarranty-capitalAssetNumber-parentBean" />
+
+  <bean id="AssetWarranty-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
+  </bean>
+  <bean id="AssetWarranty-versionNumber" parent="AssetWarranty-versionNumber-parentBean" />
+
+  <bean id="AssetWarranty-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="AssetWarranty-warrantyBeginningDate" parent="AssetWarranty-warrantyBeginningDate-parentBean" />
+
+  <bean id="AssetWarranty-warrantyBeginningDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="warrantyBeginningDate" />
+    <property name="label" value="Warranty Beginning Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="AssetWarranty-warrantyEndingDate" parent="AssetWarranty-warrantyEndingDate-parentBean" />
+
+  <bean id="AssetWarranty-warrantyEndingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="warrantyEndingDate" />
+    <property name="label" value="Warranty Ending Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="AssetWarranty-warrantyContactName" parent="AssetWarranty-warrantyContactName-parentBean" />
+
+  <bean id="AssetWarranty-warrantyContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="warrantyContactName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Warranty Contact Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="warrantyContactName" />
+    <property name="description" value="warrantyContactName description..." />
+  </bean>
+  <bean id="AssetWarranty-warrantyNumber" parent="AssetWarranty-warrantyNumber-parentBean" />
+
+  <bean id="AssetWarranty-warrantyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="warrantyNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Warranty Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="warrantyNumber" />
+    <property name="description" value="warrantyNumber description..." />
+  </bean>
+  <bean id="AssetWarranty-warrantyPhoneNumber" parent="AssetWarranty-warrantyPhoneNumber-parentBean" />
+
+  <bean id="AssetWarranty-warrantyPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="warrantyPhoneNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Warranty Phone Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="13" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="warrantyPhoneNumber" />
+    <property name="description" value="warrantyPhoneNumber description..." />
+  </bean>
+  <bean id="AssetWarranty-warrantyPurchaseOrderNumber" parent="AssetWarranty-warrantyPurchaseOrderNumber-parentBean" />
+
+  <bean id="AssetWarranty-warrantyPurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="warrantyPurchaseOrderNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Warranty Purchase Order Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="warrantyPurchaseOrderNumber" />
+    <property name="description" value="warrantyPurchaseOrderNumber description..." />
+  </bean>
+  <bean id="AssetWarranty-warrantyText" parent="AssetWarranty-warrantyText-parentBean" />
+
+  <bean id="AssetWarranty-warrantyText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="warrantyText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Warranty Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="warrantyText" />
+    <property name="description" value="warrantyText description..." />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AssetWarranty-inquiryDefinition" parent="AssetWarranty-inquiryDefinition-parentBean" />
+
+  <bean id="AssetWarranty-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Warranty Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyBeginningDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyEndingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyPurchaseOrderNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="warrantyText" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AssetWarranty-lookupDefinition" parent="AssetWarranty-lookupDefinition-parentBean" />
+
+  <bean id="AssetWarranty-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Warranty Lookup" />
+    <property name="instructions" value="Look up an Asset Warranty" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyBeginningDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyEndingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyPurchaseOrderNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyText" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyBeginningDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyEndingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyPurchaseOrderNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="warrantyText" />
+      </list>
+    </property>
+  </bean>
+</beans>

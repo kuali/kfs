@@ -1,173 +1,372 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.Account</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.KualiAccountMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AccountMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ACCT</documentTypeCode>
+  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Account" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.KualiAccountMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AccountMaintenanceDocument-AccountMaintenance" />
+        <ref bean="AccountMaintenanceDocument-AccountResponsibility" />
+        <ref bean="AccountMaintenanceDocument-ContractsAndGrants" />
+        <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose" />
+        <ref bean="AccountMaintenanceDocument-AccountDescription" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountPhysicalCampus"
+              p:attributeToHighlightOnFail="accountPhysicalCampusCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountState"
+              p:attributeToHighlightOnFail="accountStateCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="postalZipCode"
+              p:attributeToHighlightOnFail="accountZipCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountType"
+              p:attributeToHighlightOnFail="accountTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialHigherEdFunction"
+              p:attributeToHighlightOnFail="financialHigherEdFunctionCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportsToAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="reportsToAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="continuationAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="continuationAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="endowmentIncomeAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="indirectCostRecoveryAcct"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="sufficientFundsCode"
+              p:attributeToHighlightOnFail="accountSufficientFundsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountFiscalOfficerUser"
+              p:attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountSupervisoryUser"
+              p:attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountManagerUser"
+              p:attributeToHighlightOnFail="accountManagerUser.personUserIdentifier" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountRestrictedStatus"
+              p:attributeToHighlightOnFail="accountRestrictedStatusCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="subFundGroup"
+              p:attributeToHighlightOnFail="subFundGroupCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="budgetRecordingLevel"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="budgetRecordingLevelCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="acctIndirectCostRcvyType"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Account" />
+    <property name="shortLabel" value="Account" />
+    <property name="summary" value="Account maintenance document" />
+    <property name="description" value="Document used to create or update Account objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="ACCOUNT"
+            p:parameterDetailType="Account" />
+    </property>
+    <property name="documentTypeName" value="AccountMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.AccountRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.AccountPreRules" />
+    <property name="documentTypeCode" value="ACCT" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../scripts/chart/accountDocument.js</value>
+      </list>
+    </property>
+    <property name="workflowProperties" >
+      <ref bean="AccountMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<webScriptFile>../dwr/interface/SubFundGroupService.js</webScriptFile>
-		<webScriptFile>../scripts/chart/accountDocument.js</webScriptFile>
+<!-- Maintenance Section Definitions -->
 
-        <label>Account</label>
 
-        <summary>Account maintenance document</summary>
-        <description>Document used to create or update Account objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Account" parameterName="ACCOUNT" />
+  <bean id="AccountMaintenanceDocument-AccountMaintenance" parent="AccountMaintenanceDocument-AccountMaintenance-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="accountNumber" />
-        </lockingKeys>
+  <bean id="AccountMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Account Maintenance" />
+    <property name="title" value="Account Maintenance" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountPhysicalCampusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountCreateDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountEffectiveDate"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountExpirationDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountZipCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountCityName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountStateCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountStreetAddress"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountOffCampusIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountClosedIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="subFundGroupCode"
+              p:required="true"
+              p:webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"
+              p:webUILeaveFieldFunction="onblur_subFundGroup" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountsFringesBnftIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialHigherEdFunctionCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountRestrictedStatusCode"
+              p:required="true"
+              p:webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"
+              p:webUILeaveFieldFunction="onblur_accountRestrictedStatusCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountRestrictedStatusDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="endowmentIncomeAcctFinCoaCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="endowmentIncomeAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountGuideline.versionNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDescription.versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountMaintenanceDocument-AccountResponsibility" parent="AccountMaintenanceDocument-AccountResponsibility-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="accountPhysicalCampus" attributeToHighlightOnFail="accountPhysicalCampusCode" />
-            <reference attributeName="accountState" attributeToHighlightOnFail="accountStateCode" />
-            <reference attributeName="postalZipCode" attributeToHighlightOnFail="accountZipCode" />
-            <reference attributeName="accountType" attributeToHighlightOnFail="accountTypeCode" />
-            <reference attributeName="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd" />
-            <reference attributeName="reportsToAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="reportsToAccountNumber" />
-            <reference attributeName="continuationAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="continuationAccountNumber" />
-            <reference attributeName="endowmentIncomeAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
-            <reference attributeName="indirectCostRecoveryAcct" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
-            <reference attributeName="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />
-            <reference attributeName="accountFiscalOfficerUser" attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier" />
-            <reference attributeName="accountSupervisoryUser" attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier" />
-            <reference attributeName="accountManagerUser" attributeToHighlightOnFail="accountManagerUser.personUserIdentifier" />
-            <reference attributeName="accountRestrictedStatus" attributeToHighlightOnFail="accountRestrictedStatusCode" />
-            <reference attributeName="subFundGroup" attributeToHighlightOnFail="subFundGroupCode" />
-            <reference attributeName="budgetRecordingLevel" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetRecordingLevelCode" />
-            <reference attributeName="acctIndirectCostRcvyType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" />
-        </defaultExistenceChecks>
+  <bean id="AccountMaintenanceDocument-AccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Account Responsibility" />
+    <property name="title" value="Account Responsibility" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountFiscalOfficerSystemIdentifier"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountFiscalOfficerUser.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountFiscalOfficerUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountsSupervisorySystemsIdentifier"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountSupervisoryUser.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountSupervisoryUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountManagerSystemIdentifier"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountManagerUser.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountManagerUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="continuationFinChrtOfAcctCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="continuationAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="incomeStreamFinancialCoaCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="incomeStreamAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetRecordingLevelCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountSufficientFundsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="pendingAcctSufficientFundsIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="extrnlFinEncumSufficntFndIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="intrnlFinEncumSufficntFndIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finPreencumSufficientFundIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectivePrsctrlIndicator" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Account Maintenance">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="accountName" required="true" />
-                    <maintainableField name="organizationCode" required="true" />
-                    <maintainableField name="accountPhysicalCampusCode" required="true" />
-                    <maintainableField name="accountCreateDate" />
-                    <maintainableField name="accountEffectiveDate" required="true">
-                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="accountExpirationDate" required="false" />
-                    <maintainableField name="accountZipCode" required="true" />
-                    <maintainableField name="accountCityName" required="true" />
-                    <maintainableField name="accountStateCode" required="true" />
-                    <maintainableField name="accountStreetAddress" required="true" />
-                    <maintainableField name="accountOffCampusIndicator" required="false" />
-                    <maintainableField name="accountClosedIndicator" required="false" />
-                    <maintainableField name="accountTypeCode" required="true" />
-                    <maintainableField name="subFundGroupCode" required="true" webUILeaveFieldFunction="onblur_subFundGroup" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
-                    <maintainableField name="accountsFringesBnftIndicator" required="false">
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="reportsToChartOfAccountsCode" required="false" />
-                    <maintainableField name="reportsToAccountNumber" required="false" />
-                    <maintainableField name="financialHigherEdFunctionCd" required="true" />
-                    <maintainableField name="accountRestrictedStatusCode" required="true"  webUILeaveFieldFunction="onblur_accountRestrictedStatusCode" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
-                    <maintainableField name="accountRestrictedStatusDate" required="false" />
-                    <maintainableField name="endowmentIncomeAcctFinCoaCd" required="false" />
-                    <maintainableField name="endowmentIncomeAccountNumber" required="false" />
-                    <maintainableField name="versionNumber" />
-                    <maintainableField name="accountGuideline.versionNumber" />
-                    <maintainableField name="accountDescription.versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Account Responsibility">
-                <maintainableItems>
-                    <maintainableField name="accountFiscalOfficerSystemIdentifier" required="true" readOnly="true" />
-                    <maintainableField name="accountFiscalOfficerUser.personUserIdentifier" required="true" />
-                    <maintainableField name="accountFiscalOfficerUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="accountsSupervisorySystemsIdentifier" required="true" readOnly="true" />
-                    <maintainableField name="accountSupervisoryUser.personUserIdentifier" required="true" />
-                    <maintainableField name="accountSupervisoryUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="accountManagerSystemIdentifier" required="true" readOnly="true" />
-                    <maintainableField name="accountManagerUser.personUserIdentifier" required="true" />
-                    <maintainableField name="accountManagerUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="continuationFinChrtOfAcctCd" required="false" />
-                    <maintainableField name="continuationAccountNumber" required="false" />
-                    <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
-                    <maintainableField name="incomeStreamAccountNumber" required="false" />
-                    <maintainableField name="budgetRecordingLevelCode" required="true" />
-                    <maintainableField name="accountSufficientFundsCode" required="true" />
-                    <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
-                    <maintainableField name="extrnlFinEncumSufficntFndIndicator" required="false" />
-                    <maintainableField name="intrnlFinEncumSufficntFndIndicator" required="false" />
-                    <maintainableField name="finPreencumSufficientFundIndicator" required="false" />
-                    <maintainableField name="financialObjectivePrsctrlIndicator" required="false" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Contracts And Grants">
-                <maintainableItems>
-                    <maintainableField name="contractControlFinCoaCode" required="false" />
-                    <maintainableField name="contractControlAccountNumber" required="false" />
-                    <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
-                    <maintainableField name="financialIcrSeriesIdentifier" required="false" >
-                         <overrideLookupClass>org.kuali.module.chart.bo.IcrAutomatedEntry</overrideLookupClass>
-                         <overrideFieldConversions>financialIcrSeriesIdentifier:financialIcrSeriesIdentifier</overrideFieldConversions>
-                    </maintainableField>  
-                    <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />
-                    <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />
-                    <maintainableField name="accountCfdaNumber" required="false" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Guidelines And Purpose">
-                <maintainableItems>
-                    <maintainableField name="accountGuideline.accountExpenseGuidelineText" required="true" />
-                    <maintainableField name="accountGuideline.accountIncomeGuidelineText" required="true" />
-                    <maintainableField name="accountGuideline.accountPurposeText" required="true" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Account Description">
-                <maintainableItems>
-                    <maintainableField name="accountDescription.campusDescription" required="false" />
-                    <maintainableField name="accountDescription.organizationDescription" required="false" />
-                    <maintainableField name="accountDescription.responsibilityCenterDescription" required="false" />
-                    <maintainableField name="accountDescription.campusCode" required="false" />
-                    <maintainableField name="accountDescription.buildingCode" required="false" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject" />
-        		<workflowProperty path="oldMaintainableObject.businessObject" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Contracts And Grants" />
+    <property name="title" value="Contracts And Grants" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractControlFinCoaCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractControlAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="acctIndirectCostRcvyTypeCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialIcrSeriesIdentifier"
+              p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier"
+              p:overrideLookupClass="org.kuali.module.chart.bo.IcrAutomatedEntry" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="indirectCostRcvyFinCoaCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="indirectCostRecoveryAcctNbr" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountCfdaNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose" parent="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean" />
+
+  <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Guidelines And Purpose" />
+    <property name="title" value="Guidelines And Purpose" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountGuideline.accountExpenseGuidelineText"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountGuideline.accountIncomeGuidelineText"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountGuideline.accountPurposeText"
+              p:required="true" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountMaintenanceDocument-AccountDescription" parent="AccountMaintenanceDocument-AccountDescription-parentBean" />
+
+  <bean id="AccountMaintenanceDocument-AccountDescription-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Account Description" />
+    <property name="title" value="Account Description" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDescription.campusDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDescription.organizationDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDescription.responsibilityCenterDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDescription.campusCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDescription.buildingCode" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="AccountMaintenanceDocument-workflowProperties" parent="AccountMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="oldMaintainableObject.businessObject" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

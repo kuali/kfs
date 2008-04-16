@@ -1,237 +1,328 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionFundingLock">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionFundingLock" parent="BudgetConstructionFundingLock-parentBean" />
+
+  <bean id="BudgetConstructionFundingLock-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionFundingLock" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionFundingLock-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionFundingLock-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionFundingLock-accountNumber" />
+        <ref bean="BudgetConstructionFundingLock-appointmentFundingLockUserId" />
+        <ref bean="BudgetConstructionFundingLock-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionFundingLock-fill1" />
+        <ref bean="BudgetConstructionFundingLock-fill2" />
+        <ref bean="BudgetConstructionFundingLock-fill3" />
+        <ref bean="BudgetConstructionFundingLock-fill4" />
+        <ref bean="BudgetConstructionFundingLock-fill5" />
+        <ref bean="BudgetConstructionFundingLock-subAccountNumber" />
+        <ref bean="BudgetConstructionFundingLock-universityFiscalYear" />
+        <ref bean="BudgetConstructionFundingLock-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Funding Lock Inquiry</title>
+  <bean id="BudgetConstructionFundingLock-accountNumber" parent="BudgetConstructionFundingLock-accountNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="appointmentFundingLockUserId" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="fill1" />
-                <field attributeName="fill2" />
-                <field attributeName="fill3" />
-                <field attributeName="fill4" />
-                <field attributeName="fill5" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionFundingLock-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-appointmentFundingLockUserId" parent="BudgetConstructionFundingLock-appointmentFundingLockUserId-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Funding Lock Lookup</title>
+  <bean id="BudgetConstructionFundingLock-appointmentFundingLockUserId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentFundingLockUserId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Funding Lock User Id" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="appointmentFundingLockUserId" />
+    <property name="description" value="appointmentFundingLockUserId description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-chartOfAccountsCode" parent="BudgetConstructionFundingLock-chartOfAccountsCode-parentBean" />
 
-            <instructions>Look up a Budget Construction Funding Lock</instructions>
+  <bean id="BudgetConstructionFundingLock-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-fill1" parent="BudgetConstructionFundingLock-fill1-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionFundingLock-fill1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fill1" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fill1" />
+    <property name="shortLabel" value="Fill1" />
+    <property name="maxLength" value="229" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="fill1" />
+    <property name="description" value="fill1 description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-fill2" parent="BudgetConstructionFundingLock-fill2-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="appointmentFundingLockUserId" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="fill1" required="false" />
-                <lookupField attributeName="fill2" required="false" />
-                <lookupField attributeName="fill3" required="false" />
-                <lookupField attributeName="fill4" required="false" />
-                <lookupField attributeName="fill5" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionFundingLock-fill2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fill2" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fill2" />
+    <property name="shortLabel" value="Fill2" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="fill2" />
+    <property name="description" value="fill2 description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-fill3" parent="BudgetConstructionFundingLock-fill3-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="appointmentFundingLockUserId" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="fill1" />
-                <field attributeName="fill2" />
-                <field attributeName="fill3" />
-                <field attributeName="fill4" />
-                <field attributeName="fill5" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetConstructionFundingLock-fill3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fill3" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fill3" />
+    <property name="shortLabel" value="Fill3" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="fill3" />
+    <property name="description" value="fill3 description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-fill4" parent="BudgetConstructionFundingLock-fill4-parentBean" />
 
-        <attributes>
+  <bean id="BudgetConstructionFundingLock-fill4-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fill4" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fill4" />
+    <property name="shortLabel" value="Fill4" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="fill4" />
+    <property name="description" value="fill4 description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-fill5" parent="BudgetConstructionFundingLock-fill5-parentBean" />
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="BudgetConstructionFundingLock-fill5-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fill5" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fill5" />
+    <property name="shortLabel" value="Fill5" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="fill5" />
+    <property name="description" value="fill5 description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-subAccountNumber" parent="BudgetConstructionFundingLock-subAccountNumber-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionFundingLock-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-universityFiscalYear" parent="BudgetConstructionFundingLock-universityFiscalYear-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
+  <bean id="BudgetConstructionFundingLock-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Fiscal Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="universityFiscalYear" />
+    <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="BudgetConstructionFundingLock-versionNumber" parent="BudgetConstructionFundingLock-versionNumber-parentBean" />
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
+  <bean id="BudgetConstructionFundingLock-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="appointmentFundingLockUserId" forceUppercase="true">
-                <label>Appointment Funding Lock User Id</label>
-                <shortLabel>Id</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="12" />
-                </control>
+  <bean id="BudgetConstructionFundingLock-inquiryDefinition" parent="BudgetConstructionFundingLock-inquiryDefinition-parentBean" />
 
-                <summary>appointmentFundingLockUserId</summary>
-                <description>appointmentFundingLockUserId description...</description>
-			</attribute>
+  <bean id="BudgetConstructionFundingLock-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Funding Lock Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentFundingLockUserId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fill1" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fill2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fill3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fill4" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fill5" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="BudgetConstructionFundingLock-lookupDefinition" parent="BudgetConstructionFundingLock-lookupDefinition-parentBean" />
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="fill1" forceUppercase="true">
-                <label>Fill1</label>
-                <shortLabel>Fill1</shortLabel>
-
-                <maxLength>229</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>fill1</summary>
-                <description>fill1 description...</description>
-			</attribute>
-
-            <attribute name="fill2" forceUppercase="true">
-                <label>Fill2</label>
-                <shortLabel>Fill2</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>fill2</summary>
-                <description>fill2 description...</description>
-			</attribute>
-
-            <attribute name="fill3" forceUppercase="true">
-                <label>Fill3</label>
-                <shortLabel>Fill3</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>fill3</summary>
-                <description>fill3 description...</description>
-			</attribute>
-
-            <attribute name="fill4" forceUppercase="true">
-                <label>Fill4</label>
-                <shortLabel>Fill4</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>fill4</summary>
-                <description>fill4 description...</description>
-			</attribute>
-
-            <attribute name="fill5" forceUppercase="true">
-                <label>Fill5</label>
-                <shortLabel>Fill5</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>fill5</summary>
-                <description>fill5 description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionFundingLock-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Funding Lock Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Funding Lock" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentFundingLockUserId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill1" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill2" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill3" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill4" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill5" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentFundingLockUserId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill1" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill2" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill3" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill4" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fill5" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+      </list>
+    </property>
+  </bean>
+</beans>

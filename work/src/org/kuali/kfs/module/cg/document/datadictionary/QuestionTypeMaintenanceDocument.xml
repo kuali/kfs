@@ -1,65 +1,91 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.routingform.bo.QuestionType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.module.kra.routingform.document.QuestionTypeMaintenanceDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="QuestionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.QuestionType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="QuestionTypeMaintenanceDocument-EditQuestionType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>questionTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Question Type" />
+    <property name="shortLabel" value="Question Type" />
+    <property name="summary" value="Question Type Maintenance Document" />
+    <property name="description" value="Document used to create or update Question Type objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="QUESTION_TYPE"
+            p:parameterDetailType="QuestionType" />
+    </property>
+    <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.kra.routingform.document.QuestionTypeMaintenanceDocumentAuthorizer" />
+    <property name="documentTypeCode" value="QNT" />
+    <property name="workflowProperties" >
+      <ref bean="QuestionTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>QuestionTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>QNT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Question Type</label>
 
-        <summary>Question Type Maintenance Document</summary>
-        <description>Document used to create or update Question Type objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="QuestionType" parameterName="QUESTION_TYPE" />
+  <bean id="QuestionTypeMaintenanceDocument-EditQuestionType" parent="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="questionTypeCode" />
-        </lockingKeys>
+  <bean id="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Question Type" />
+    <property name="title" value="Edit Question Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="questionTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="questionTypeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="questionTypeSortNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="questionTypeWorkgroupName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="questionTypeNotificationValue" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Question Type">
-                <maintainableItems>
-                    <maintainableField name="questionTypeCode" required="true" />
-                    <maintainableField name="questionTypeDescription" required="true" />
-                    <maintainableField name="questionTypeSortNumber" required="true" />
-                    <maintainableField name="questionTypeWorkgroupName" required="false" />
-                    <maintainableField name="questionTypeNotificationValue" required="false" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="QuestionTypeMaintenanceDocument-workflowProperties" parent="QuestionTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="QuestionTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

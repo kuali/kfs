@@ -1,149 +1,212 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.BalanceGlobalCalculatedSalaryFoundation">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BalanceGlobalCalculatedSalaryFoundation" parent="BalanceGlobalCalculatedSalaryFoundation-parentBean" />
+
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.BalanceGlobalCalculatedSalaryFoundation" />
+    <property name="inquiryDefinition" >
+      <ref bean="BalanceGlobalCalculatedSalaryFoundation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BalanceGlobalCalculatedSalaryFoundation-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-budgetAmount" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-calculatedSalaryFoundationAmount" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-financialObjectCode" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-financialSubObjectCode" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-subAccountNumber" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Balance Global Calculated Salary Foundation Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="budgetAmount" />
-                        <field attributeName="calculatedSalaryFoundationAmount" />
-                        <field attributeName="financialObjectCode" />
-                        <field attributeName="financialSubObjectCode" />
-                        <field attributeName="personUniversalIdentifier" />
-                        <field attributeName="subAccountNumber" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-budgetAmount" parent="BalanceGlobalCalculatedSalaryFoundation-budgetAmount-parentBean" />
 
-        <lookup>
-            <title>Account Status (Base Funds)</title>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-budgetAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-calculatedSalaryFoundationAmount" parent="BalanceGlobalCalculatedSalaryFoundation-calculatedSalaryFoundationAmount-parentBean" />
 
-            <instructions>Look up a Balance Global Calculated Salary Foundation</instructions>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-calculatedSalaryFoundationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="calculatedSalaryFoundationAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Calculated Salary Foundation Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-financialObjectCode" parent="BalanceGlobalCalculatedSalaryFoundation-financialObjectCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="subAccountNumber" />
-                    <sortAttribute attributeName="financialObjectCode" />
-                    <sortAttribute attributeName="financialSubObjectCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-financialSubObjectCode" parent="BalanceGlobalCalculatedSalaryFoundation-financialSubObjectCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="budgetAmount" required="false" />
-                <lookupField attributeName="calculatedSalaryFoundationAmount" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-            </lookupFields>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Sub Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier" parent="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier-parentBean" />
 
-            <resultFields>
-                <field attributeName="budgetAmount" />
-                <field attributeName="calculatedSalaryFoundationAmount" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-subAccountNumber" parent="BalanceGlobalCalculatedSalaryFoundation-subAccountNumber-parentBean" />
 
-        <attributes>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-versionNumber" parent="BalanceGlobalCalculatedSalaryFoundation-versionNumber-parentBean" />
 
-            <attribute name="budgetAmount" forceUppercase="true">
-                <label>Budget Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="21" />
-                </control>
-			</attribute>
 
-            <attribute name="calculatedSalaryFoundationAmount" forceUppercase="true">
-                <label>Calculated Salary Foundation Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-inquiryDefinition" parent="BalanceGlobalCalculatedSalaryFoundation-inquiryDefinition-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Balance Global Calculated Salary Foundation Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="calculatedSalaryFoundationAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="21" />
-                </control>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-lookupDefinition" parent="BalanceGlobalCalculatedSalaryFoundation-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="6" />
-                </control>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-			</attribute>
-
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-			</attribute>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Account Status (Base Funds)" />
+    <property name="instructions" value="Look up a Balance Global Calculated Salary Foundation" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedSalaryFoundationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedSalaryFoundationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

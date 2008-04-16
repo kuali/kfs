@@ -1,91 +1,139 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.Delegate</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.KualiDelegateMaintainableImpl</maintainableClass>
+  <bean id="DelegateMaintenanceDocument" parent="DelegateMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.DelegateRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.chart.rules.DelegatePreRules</preRulesCheckClass>
+  <bean id="DelegateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Delegate" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.KualiDelegateMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="DelegateMaintenanceDocument-EditAccountDelegate" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:attributeToHighlightOnFail="accountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountDelegate"
+              p:attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="documentType"
+              p:attributeToHighlightOnFail="financialDocumentTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+        <value>financialDocumentTypeCode</value>
+        <value>accountDelegateSystemId</value>
+      </list>
+    </property>
+    <property name="label" value="Account Delegate" />
+    <property name="shortLabel" value="Account Delegate" />
+    <property name="summary" value="Account Delegate Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create, remove or modify Account Delegates." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="ACCOUNT_DELEGATE"
+            p:parameterDetailType="Delegate" />
+    </property>
+    <property name="documentTypeName" value="DelegateMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.DelegateRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.DelegatePreRules" />
+    <property name="documentTypeCode" value="ADEL" />
+    <property name="workflowProperties" >
+      <ref bean="DelegateMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<!-- Maintenance Section Definitions -->
 
-        <documentTypeName>DelegateMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ADEL</documentTypeCode>
-        <label>Account Delegate</label>
-        <summary>Account Delegate Maintenance Document</summary>
-        <description>Maintenance document which allows you to create, remove or modify Account Delegates.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Delegate" parameterName="ACCOUNT_DELEGATE" />
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="accountNumber" />
-            <field attributeName="financialDocumentTypeCode" />
-            <field attributeName="accountDelegateSystemId" />
-        </lockingKeys>
+  <bean id="DelegateMaintenanceDocument-EditAccountDelegate" parent="DelegateMaintenanceDocument-EditAccountDelegate-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
-            <reference attributeName="accountDelegate" attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
-            <reference attributeName="documentType" attributeToHighlightOnFail="financialDocumentTypeCode" />
-        </defaultExistenceChecks>
+  <bean id="DelegateMaintenanceDocument-EditAccountDelegate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Account Delegate" />
+    <property name="title" value="Edit Account Delegate" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDelegateSystemId"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDelegate.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDelegate.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finDocApprovalFromThisAmt"
+              p:defaultValue="0.00" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finDocApprovalToThisAmount"
+              p:defaultValue="0.00" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountsDelegatePrmrtIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDelegateActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountDelegateStartDate"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Account Delegate">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="financialDocumentTypeCode" required="true" />
-                    <maintainableField name="accountDelegateSystemId" required="true" readOnly="true" />
-                    <maintainableField name="accountDelegate.personUserIdentifier" required="true" />
-                    <maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
-                    <maintainableField name="finDocApprovalFromThisAmt" required="false">
-                        <defaultValue>0.00</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="finDocApprovalToThisAmount" required="false">
-                        <defaultValue>0.00</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="accountsDelegatePrmrtIndicator" required="false" />
-                    <maintainableField name="accountDelegateActiveIndicator" required="false">
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="accountDelegateStartDate" required="true">
-                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </maintenanceDocument>
+<!-- Exported Workflow Properties -->
 
-</dictionaryEntry>
+
+  <bean id="DelegateMaintenanceDocument-workflowProperties" parent="DelegateMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="DelegateMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

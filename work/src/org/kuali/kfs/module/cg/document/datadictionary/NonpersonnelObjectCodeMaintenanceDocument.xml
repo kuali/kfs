@@ -1,68 +1,100 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.budget.bo.NonpersonnelObjectCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="NonpersonnelObjectCodeMaintenanceDocument" parent="NonpersonnelObjectCodeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="NonpersonnelObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="NonpersonnelObjectCodeMaintenanceDocument-EditNonpersonnelObjectCode" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="nonpersonnelCategory"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="budgetNonpersonnelCategoryCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="nonpersonnelSubCategory"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="budgetNonpersonnelSubCategoryCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>budgetNonpersonnelCategoryCode</value>
+        <value>budgetNonpersonnelSubCategoryCode</value>
+      </list>
+    </property>
+    <property name="label" value="Non-Personnel Object Code" />
+    <property name="shortLabel" value="Non-Personnel Object Code" />
+    <property name="summary" value="Object Code maintenance document" />
+    <property name="description" value="Document used to create or update Object Code objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="NONPERSONNEL_OBJECT_CODE"
+            p:parameterDetailType="NonpersonnelObjectCode" />
+    </property>
+    <property name="documentTypeName" value="NonpersonnelObjectCodeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="NPOC" />
+    <property name="workflowProperties" >
+      <ref bean="NonpersonnelObjectCodeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>NonpersonnelObjectCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>NPOC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Non-Personnel Object Code</label>
-        <summary>Object Code maintenance document</summary>
-        <description>Document used to create or update Object Code objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="NonpersonnelObjectCode" parameterName="NONPERSONNEL_OBJECT_CODE" />
 
-        <lockingKeys>
-            <field attributeName="budgetNonpersonnelCategoryCode" />
-            <field attributeName="budgetNonpersonnelSubCategoryCode" />
-        </lockingKeys>
-        
-        <defaultExistenceChecks>
-        	<reference attributeName="nonpersonnelCategory" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetNonpersonnelCategoryCode" />
-        	<reference attributeName="nonpersonnelSubCategory" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetNonpersonnelSubCategoryCode" />
-        </defaultExistenceChecks>
+  <bean id="NonpersonnelObjectCodeMaintenanceDocument-EditNonpersonnelObjectCode" parent="NonpersonnelObjectCodeMaintenanceDocument-EditNonpersonnelObjectCode-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Nonpersonnel Object Code">
-                <maintainableItems>
-                    <maintainableField name="budgetNonpersonnelCategoryCode" required="true" />
-                    <maintainableField name="budgetNonpersonnelSubCategoryCode" required="true" />
-                    <maintainableField name="budgetNonpersonnelObjectCode" required="true" />
-					<maintainableField name="active">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="NonpersonnelObjectCodeMaintenanceDocument-EditNonpersonnelObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Nonpersonnel Object Code" />
+    <property name="title" value="Edit Nonpersonnel Object Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetNonpersonnelCategoryCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetNonpersonnelSubCategoryCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetNonpersonnelObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="NonpersonnelObjectCodeMaintenanceDocument-workflowProperties" parent="NonpersonnelObjectCodeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="NonpersonnelObjectCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

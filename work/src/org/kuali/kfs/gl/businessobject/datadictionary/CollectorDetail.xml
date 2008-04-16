@@ -1,180 +1,192 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.CollectorDetail">
-        <attributes>
-            <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-                <label>Fiscal Period</label>
-                <shortLabel>UnivFsclAcctPrd</shortLabel>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-                <maxLength>2</maxLength>
+  <bean id="CollectorDetail" parent="CollectorDetail-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
-            <attribute name="universityFiscalYear" forceUppercase="false">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
+  <bean id="CollectorDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.gl.bo.CollectorDetail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CollectorDetail-universityFiscalPeriodCode" />
+        <ref bean="CollectorDetail-universityFiscalYear" />
+        <ref bean="CollectorDetail-createDate" />
+        <ref bean="CollectorDetail-createSequence" />
+        <ref bean="CollectorDetail-chartOfAccountsCode" />
+        <ref bean="CollectorDetail-accountNumber" />
+        <ref bean="CollectorDetail-subAccountNumber" />
+        <ref bean="CollectorDetail-financialObjectCode" />
+        <ref bean="CollectorDetail-financialSubObjectCode" />
+        <ref bean="CollectorDetail-financialBalanceTypeCode" />
+        <ref bean="CollectorDetail-financialObjectTypeCode" />
+        <ref bean="CollectorDetail-collectorDetailSequenceNumber" />
+        <ref bean="CollectorDetail-financialDocumentTypeCode" />
+        <ref bean="CollectorDetail-financialSystemOriginationCode" />
+        <ref bean="CollectorDetail-documentNumber" />
+        <ref bean="CollectorDetail-collectorDetailItemAmount" />
+        <ref bean="CollectorDetail-collectorDetailNoteText" />
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>4</maxLength>
+<!-- Attribute Definitions -->
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-            <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Creation Date</label>
-                <shortLabel>CreateDt</shortLabel>
 
-                <maxLength>10</maxLength>
+  <bean id="CollectorDetail-universityFiscalPeriodCode" parent="CollectorDetail-universityFiscalPeriodCode-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
-            </attributeReference>
-            <attribute name="createSequence" forceUppercase="false">
-                <label>Creation Sequence </label>
-                <shortLabel>CreationSeq</shortLabel>
+  <bean id="CollectorDetail-universityFiscalPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
+    <property name="label" value="Fiscal Period" />
+    <property name="shortLabel" value="UnivFsclAcctPrd" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-universityFiscalYear" parent="CollectorDetail-universityFiscalYear-parentBean" />
 
-                <maxLength>8</maxLength>
+  <bean id="CollectorDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-createDate" parent="CollectorDetail-createDate-parentBean" />
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Chart</label>
-                <shortLabel>Chart</shortLabel>
+  <bean id="CollectorDetail-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createDate" />
+    <property name="label" value="Creation Date" />
+    <property name="shortLabel" value="CreateDt" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-createSequence" parent="CollectorDetail-createSequence-parentBean" />
 
-                <maxLength>2</maxLength>
+  <bean id="CollectorDetail-createSequence-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="createSequence" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Creation Sequence" />
+    <property name="shortLabel" value="CreationSeq" />
+    <property name="maxLength" value="8" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-chartOfAccountsCode" parent="CollectorDetail-chartOfAccountsCode-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Account Number</label>
-                <shortLabel>AcctNum</shortLabel>
+  <bean id="CollectorDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="label" value="Chart" />
+  </bean>
+  <bean id="CollectorDetail-accountNumber" parent="CollectorDetail-accountNumber-parentBean" />
 
-                <maxLength>7</maxLength>
+  <bean id="CollectorDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="shortLabel" value="AcctNum" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-subAccountNumber" parent="CollectorDetail-subAccountNumber-parentBean" />
 
-                <control>
-                    <text size="7" />
-                </control>
-            </attributeReference>
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-                <label>Sub Account Number</label>
-                <shortLabel>RefDocTypCd</shortLabel>
+  <bean id="CollectorDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="RefDocTypCd" />
+  </bean>
+  <bean id="CollectorDetail-financialObjectCode" parent="CollectorDetail-financialObjectCode-parentBean" />
 
-                <maxLength>5</maxLength>
+  <bean id="CollectorDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="shortLabel" value="ObjCd" />
+  </bean>
+  <bean id="CollectorDetail-financialSubObjectCode" parent="CollectorDetail-financialSubObjectCode-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
-            </attributeReference>
-            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Object Code</label>
-                <shortLabel>ObjCd</shortLabel>
+  <bean id="CollectorDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="label" value="Sub Object Code" />
+    <property name="shortLabel" value="SubObjCd" />
+  </bean>
+  <bean id="CollectorDetail-financialBalanceTypeCode" parent="CollectorDetail-financialBalanceTypeCode-parentBean" />
 
-                <maxLength>4</maxLength>
+  <bean id="CollectorDetail-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="financialBalanceTypeCode" />
+  </bean>
+  <bean id="CollectorDetail-financialObjectTypeCode" parent="CollectorDetail-financialObjectTypeCode-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-                <label>Sub Object Code</label>
-                <shortLabel>SubObjCd</shortLabel>
+  <bean id="CollectorDetail-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="financialObjectTypeCode" />
+  </bean>
+  <bean id="CollectorDetail-collectorDetailSequenceNumber" parent="CollectorDetail-collectorDetailSequenceNumber-parentBean" />
 
-                <maxLength>3</maxLength>
+  <bean id="CollectorDetail-collectorDetailSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="collectorDetailSequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Collector Detail Sequence ID" />
+    <property name="shortLabel" value="ClctrSeqId" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-financialDocumentTypeCode" parent="CollectorDetail-financialDocumentTypeCode-parentBean" />
 
-                <control>
-                    <text size="3" />
-                </control>
-            </attributeReference>
-            <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-            </attributeReference>
-			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code">
-            </attributeReference>
-            <attribute name="collectorDetailSequenceNumber" forceUppercase="false">
-                <label>Collector Detail Sequence ID</label>
-                <shortLabel>ClctrSeqId</shortLabel>
+  <bean id="CollectorDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+    <property name="shortLabel" value="DocTypCd" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-financialSystemOriginationCode" parent="CollectorDetail-financialSystemOriginationCode-parentBean" />
 
-                <maxLength>2</maxLength>
+  <bean id="CollectorDetail-financialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
+    <property name="label" value="Origin Code" />
+    <property name="shortLabel" value="OriginCd" />
+  </bean>
+  <bean id="CollectorDetail-documentNumber" parent="CollectorDetail-documentNumber-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode">
-                <label>Document Type Code</label>
-                <shortLabel>DocTypCd</shortLabel>
+  <bean id="CollectorDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="DocNum" />
+    <property name="maxLength" value="14" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+  </bean>
+  <bean id="CollectorDetail-collectorDetailItemAmount" parent="CollectorDetail-collectorDetailItemAmount-parentBean" />
 
-                <maxLength>4</maxLength>
+  <bean id="CollectorDetail-collectorDetailItemAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="collectorDetailItemAmount" />
+    <property name="label" value="Collector Item Amount" />
+    <property name="shortLabel" value="ClctrItemAmt" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="19" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="CollectorDetail-collectorDetailNoteText" parent="CollectorDetail-collectorDetailNoteText-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-            <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
-                <label>Origin Code</label>
-                <shortLabel>OriginCd</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
-            <attribute name="documentNumber" forceUppercase="false">
-                <label>Document Number</label>
-                <shortLabel>DocNum</shortLabel>
-
-                <maxLength>14</maxLength>
-
-                <control>
-                    <text size="14" />
-                </control>
-            </attribute>
-            <attributeReference name="collectorDetailItemAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Collector Item Amount</label>
-                <shortLabel>ClctrItemAmt</shortLabel>
-
-                <maxLength>19</maxLength>
-
-                <control>
-                    <text size="19" />
-                </control>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-            <attribute name="collectorDetailNoteText" forceUppercase="false">
-                <label>Collector Detail Note</label>
-                <shortLabel>ClctrNte</shortLabel>
-
-                <maxLength>120</maxLength>
-
-                <control>
-                    <text size="120" />
-                </control>
-            </attribute>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CollectorDetail-collectorDetailNoteText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="collectorDetailNoteText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Collector Detail Note" />
+    <property name="shortLabel" value="ClctrNte" />
+    <property name="maxLength" value="120" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="120" />
+    </property>
+  </bean>
+</beans>

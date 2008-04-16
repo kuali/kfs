@@ -1,129 +1,228 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.AccountGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.AccountGlobalMaintainableImpl</maintainableClass>
+  <bean id="AccountGlobalMaintenanceDocument" parent="AccountGlobalMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.AccountGlobalRule</businessRulesClass>
+  <bean id="AccountGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.AccountGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.AccountGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AccountGlobalMaintenanceDocument-GlobalAccountMaintenance" />
+        <ref bean="AccountGlobalMaintenanceDocument-EditListofAccounts" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accountState"
+              p:attributeToHighlightOnFail="accountStateCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="postalZipCode"
+              p:attributeToHighlightOnFail="accountZipCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialHigherEdFunction"
+              p:attributeToHighlightOnFail="financialHigherEdFunctionCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="incomeStreamAccount"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="incomeStreamAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="sufficientFundsCode"
+              p:attributeToHighlightOnFail="accountSufficientFundsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="subFundGroup"
+              p:attributeToHighlightOnFail="subFundGroupCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Account Global" />
+    <property name="shortLabel" value="Account Global" />
+    <property name="summary" value="Global Account Maintenance Document" />
+    <property name="description" value="Document used to create or update global account document." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="ACCOUNT_GLOBAL"
+            p:parameterDetailType="AccountGlobal" />
+    </property>
+    <property name="documentTypeName" value="AccountGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.AccountGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="GACC" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/chart/accountGlobal.js</value>
+        <value>../scripts/kfs/objectInfo.js</value>
+      </list>
+    </property>
+    <property name="workflowProperties" >
+      <ref bean="AccountGlobalMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<!-- Maintenance Section Definitions -->
 
-        <documentTypeName>AccountGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>GACC</documentTypeCode>
 
-		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
-		<webScriptFile>../scripts/chart/accountGlobal.js</webScriptFile>
-		<webScriptFile>../scripts/kfs/objectInfo.js</webScriptFile>
+  <bean id="AccountGlobalMaintenanceDocument-GlobalAccountMaintenance" parent="AccountGlobalMaintenanceDocument-GlobalAccountMaintenance-parentBean" />
 
-        <label>Account Global</label>
+  <bean id="AccountGlobalMaintenanceDocument-GlobalAccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Global Account Maintenance" />
+    <property name="title" value="Global Account Maintenance" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountFiscalOfficerSystemIdentifier"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountFiscalOfficerUser.personUserIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountFiscalOfficerUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountsSupervisorySystemsIdentifier"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountSupervisoryUser.personUserIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountSupervisoryUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountManagerSystemIdentifier"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountManagerUser.personUserIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountManagerUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="subFundGroupCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountExpirationDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountZipCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountCityName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountStateCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountStreetAddress" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="continuationFinChrtOfAcctCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="continuationAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="incomeStreamFinancialCoaCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="incomeStreamAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountCfdaNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialHigherEdFunctionCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountSufficientFundsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="pendingAcctSufficientFundsIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountGlobalMaintenanceDocument-EditListofAccounts" parent="AccountGlobalMaintenanceDocument-EditListofAccounts-parentBean" />
 
-        <summary>Global Account Maintenance Document</summary>
-        <description>Document used to create or update global account document.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="AccountGlobal" parameterName="ACCOUNT_GLOBAL" />
+  <bean id="AccountGlobalMaintenanceDocument-EditListofAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit List of Accounts" />
+    <property name="title" value="Edit List of Accounts" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="accountGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.AccountGlobalDetail" />
+          <property name="summaryTitle" value="Account" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="account.accountName" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:required="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber"
+                    p:required="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="accountNumber"
+                    p:webUILeaveFieldFunction="loadAccountName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="account.accountName"
+                    p:readOnly="true"
+                    p:template="accountName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
+<!-- Exported Workflow Properties -->
 
-        <defaultExistenceChecks>
-            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="accountState" attributeToHighlightOnFail="accountStateCode" />
-            <reference attributeName="postalZipCode" attributeToHighlightOnFail="accountZipCode" />
-            <reference attributeName="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd" />
-            <reference attributeName="incomeStreamAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="incomeStreamAccountNumber" />
-            <reference attributeName="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />
-            <!--
-            <reference attributeName="accountFiscalOfficerUser" attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier" />
-            <reference attributeName="accountSupervisoryUser" attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier" />
-            <reference attributeName="accountManagerUser" attributeToHighlightOnFail="accountManagerUser.personUserIdentifier" />
-            -->
-            <reference attributeName="subFundGroup" attributeToHighlightOnFail="subFundGroupCode" />
-        </defaultExistenceChecks>
 
-        <maintainableSections>
-            <maintainableSection title="Global Account Maintenance">
-                <maintainableItems>
-                    <!-- DO NOT put documentNumber on globals else will get error about it being null (KULRNE-4196) -->
-                    <maintainableField name="accountFiscalOfficerSystemIdentifier" required="false" readOnly="true" />
-                    <maintainableField name="accountFiscalOfficerUser.personUserIdentifier" required="false" />
-                    <maintainableField name="accountFiscalOfficerUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="accountsSupervisorySystemsIdentifier" required="false" readOnly="true" />
-                    <maintainableField name="accountSupervisoryUser.personUserIdentifier" required="false" />
-                    <maintainableField name="accountSupervisoryUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="accountManagerSystemIdentifier" required="false" readOnly="true" />
-                    <maintainableField name="accountManagerUser.personUserIdentifier" required="false" />
-                    <maintainableField name="accountManagerUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="organizationCode" required="false" />
-                    <maintainableField name="subFundGroupCode" required="false" />
-                    <maintainableField name="accountExpirationDate" required="false" />
-                    <maintainableField name="accountZipCode" required="false" />
-                    <maintainableField name="accountCityName" required="false" />
-                    <maintainableField name="accountStateCode" required="false"/>
-                    <maintainableField name="accountStreetAddress" required="false" />
-                    <maintainableField name="continuationFinChrtOfAcctCd" required="false" />
-                    <maintainableField name="continuationAccountNumber" required="false" />
-                    <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
-                    <maintainableField name="incomeStreamAccountNumber" required="false" />
-                    <maintainableField name="accountCfdaNumber" required="false" />
-                    <maintainableField name="financialHigherEdFunctionCd" required="false" />
-                    <maintainableField name="accountSufficientFundsCode" required="false" />
-                    <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit List of Accounts">
-                <maintainableItems>
-                    <maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
-                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" required="true" readOnlyAfterAdd="true" />
-                        <maintainableField name="accountNumber" template="accountNumber" webUILeaveFieldFunction="loadAccountName" required="true" readOnlyAfterAdd="true" />
-                        <maintainableField name="account.accountName" template="accountName" readOnly="true" />
-                        <maintainableField name="versionNumber" />
-                        <maintainableField name="newCollectionRecord" />
-                        <summaryFields>
-                            <summaryField name="chartOfAccountsCode" />
-                            <summaryField name="accountNumber" />
-                            <summaryField name="account.accountName" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                            <duplicateIdentificationField name="chartOfAccountsCode"/>
-                            <duplicateIdentificationField name="accountNumber"/>
-                        </duplicateIdentificationFields>       
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject" />
-        		<workflowProperty path="newMaintainableObject.businessObject.accountGlobalDetails" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AccountGlobalMaintenanceDocument-workflowProperties" parent="AccountGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AccountGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.accountGlobalDetails" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

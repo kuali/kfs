@@ -1,63 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.kra.routingform.bo.ProjectType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ProjectTypeMaintenanceDocument" parent="ProjectTypeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ProjectTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.ProjectType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ProjectTypeMaintenanceDocument-EditProjectType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>projectTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Project Type" />
+    <property name="shortLabel" value="Project Type" />
+    <property name="summary" value="Project Type maintenance document" />
+    <property name="description" value="Document used to create or update Project Type objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-RA"
+            p:parameterName="PROJECT_TYPE"
+            p:parameterDetailType="ProjectType" />
+    </property>
+    <property name="documentTypeName" value="ProjectTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PRJT" />
+    <property name="workflowProperties" >
+      <ref bean="ProjectTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>RA_PRE_AWARD_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ProjectTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PRJT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Project Type</label>
 
-        <summary>Project Type maintenance document</summary>
-        <description>Document used to create or update Project Type objects</description>
-        <help parameterNamespace="KFS-RA" parameterDetailType="ProjectType" parameterName="PROJECT_TYPE" />
+  <bean id="ProjectTypeMaintenanceDocument-EditProjectType" parent="ProjectTypeMaintenanceDocument-EditProjectType-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="projectTypeCode" />
-        </lockingKeys>
+  <bean id="ProjectTypeMaintenanceDocument-EditProjectType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Project Type" />
+    <property name="title" value="Edit Project Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="projectTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="projectTypeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sortNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Project Type">
-                <maintainableItems>
-                    <maintainableField name="projectTypeCode" required="true" />
-                    <maintainableField name="projectTypeDescription" required="true" />
-                    <maintainableField name="sortNumber" required="false" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ProjectTypeMaintenanceDocument-workflowProperties" parent="ProjectTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ProjectTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

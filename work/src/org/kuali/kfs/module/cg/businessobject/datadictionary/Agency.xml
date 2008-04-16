@@ -1,212 +1,269 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.Agency">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Agency" parent="Agency-parentBean" />
+
+  <bean id="Agency-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Agency" />
+    <property name="inquiryDefinition" >
+      <ref bean="Agency-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Agency-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="agencyNumber" />
+    <property name="objectLabel" value="Agency" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Agency-agencyNumber" />
+        <ref bean="Agency-reportingName" />
+        <ref bean="Agency-fullName" />
+        <ref bean="Agency-agencyType.name" />
+        <ref bean="Agency-agencyTypeCode" />
+        <ref bean="Agency-historicalIndicator" />
+        <ref bean="Agency-inStateIndicator" />
+        <ref bean="Agency-indirectAmount" />
+        <ref bean="Agency-reportsToAgencyNumber" />
+        <ref bean="Agency-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="agencyType" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="agencyTypeCode"
+                    p:targetName="code" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="agencyType.name"
+                    p:targetName="name" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Agency Inquiry</title>
+  <bean id="Agency-agencyNumber" parent="Agency-agencyNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Agency Details"><inquiryFields>
-                <field attributeName="agencyNumber" />
-                <field attributeName="reportingName" />
-                <field attributeName="fullName" />
-                <field attributeName="agencyType.name" />
-                <!-- Using historical indicator as the active row indicator -->
-                <field attributeName="historicalIndicator" />
-                <field attributeName="inStateIndicator" />
-                <field attributeName="indirectAmount" />
-                <field attributeName="reportsToAgencyNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Agency-agencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Number" />
+    <property name="shortLabel" value="AgencyNbr" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:exactLength="5" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="Agency-reportingName" parent="Agency-reportingName-parentBean" />
 
-        <lookup>
-            <title>Agency Lookup</title>
+  <bean id="Agency-reportingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="reportingName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Reporting Name" />
+    <property name="shortLabel" value="ReportingNm" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="Agency-fullName" parent="Agency-fullName-parentBean" />
 
-            <instructions>Lookup an Agency</instructions>
+  <bean id="Agency-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fullName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Full Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  <bean id="Agency-agencyType.name" parent="Agency-agencyType.name-parentBean" />
 
-            <defaultSort attributeName="fullName" sortAscending="true" />
+  <bean id="Agency-agencyType.name-parentBean" abstract="true" parent="AgencyType-name">
+    <property name="name" value="agencyType.name" />
+    <property name="shortLabel" value="Agency Type Desc" />
+  </bean>
+  <bean id="Agency-agencyTypeCode" parent="Agency-agencyTypeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="agencyNumber" required="false" />
-                <lookupField attributeName="reportingName" required="false" />
-                <lookupField attributeName="fullName" required="false" />
-                <lookupField attributeName="agencyType.name" required="false" />
-                <!-- Using historical indicator as the active row indicator -->
-                <lookupField attributeName="historicalIndicator" required="false" />
-            </lookupFields>
+  <bean id="Agency-agencyTypeCode-parentBean" abstract="true" parent="AgencyType-code">
+    <property name="name" value="agencyTypeCode" />
+    <property name="shortLabel" value="Agency Type Cd" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Agency-historicalIndicator" parent="Agency-historicalIndicator-parentBean" />
 
-            <resultFields>
-                <field attributeName="agencyNumber" />
-                <field attributeName="reportingName" />
-                <field attributeName="fullName" />
-                <field attributeName="agencyType.name" />
-                <field attributeName="inStateIndicator" />
-                <field attributeName="indirectAmount" />
-                <field attributeName="reportsToAgencyNumber" />
-                <!-- Using historical indicator as the active row indicator -->
-                <field attributeName="historicalIndicator" /> 
-            </resultFields>
+  <bean id="Agency-historicalIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="historicalIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Active Indicator" />
+    <property name="shortLabel" value="Active Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Agency-inStateIndicator" parent="Agency-inStateIndicator-parentBean" />
 
-        </lookup>
-        
-        <titleAttribute>agencyNumber</titleAttribute>
+  <bean id="Agency-inStateIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="inStateIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="In State Indicator" />
+    <property name="shortLabel" value="In State" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Agency-indirectAmount" parent="Agency-indirectAmount-parentBean" />
 
-        <attributes>
+  <bean id="Agency-indirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="indirectAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Indirect Amount" />
+    <property name="shortLabel" value="IndAmt" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="12"
+            p:size="20" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Agency-reportsToAgencyNumber" parent="Agency-reportsToAgencyNumber-parentBean" />
 
-            <attribute name="agencyNumber" forceUppercase="true">
-                <label>Agency Number</label>
-                <shortLabel>AgencyNbr</shortLabel>
+  <bean id="Agency-reportsToAgencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="reportsToAgencyNumber" />
+    <property name="label" value="Reports To Agency Number" />
+    <property name="shortLabel" value="Reports To Agency Number" />
+  </bean>
+  <bean id="Agency-versionNumber" parent="Agency-versionNumber-parentBean" />
 
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <alphaNumeric exactLength="5" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="Agency-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            </attribute>
-
-            <attribute name="reportingName" forceUppercase="true">
-                <label>Agency Reporting Name</label>
-                <shortLabel>ReportingNm</shortLabel>
-
-                <maxLength>30</maxLength>
-
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="30" />
-                </control>
-
-            </attribute>
-
-            <attribute name="fullName" forceUppercase="true">
-                <label>Agency Full Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>50</maxLength>
-
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="50" />
-                </control>
-
-            </attribute>
-            
-            <attributeReference name="agencyType.name" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="name">
-				<label>Agency Type Description</label>
-				<shortLabel>Agency Type Desc</shortLabel>
-
-                <required>true</required>
-
-            </attributeReference>
-
-            <attributeReference name="agencyTypeCode" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="code">
-				<label>Agency Type Code</label>
-				<shortLabel>Agency Type Cd</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <!-- 
-            Historical Indicator is a contradiction in terms now. This value stored in the DD and in the BO no longer represents 
-            the historical, or 'inactive', state of the agency, but rather the 'active' state of the agency.  The value retrieved 
-            from the DB is being inverted by OjbCharBooleanFieldInverseConversion in the ojb-repository-cg.xml file so that 
-            historical indicator could become a representation of an active indicator.  Historical indicator is no longer an appropriate
-            name for this attribute, but cannot be changed due to mapping issues.  This path was chosen because it was determined that 
-            we could not add another column to the agency table for the active indicator, so this was the next best solution found.
-            
-            This issue really needs to be revisited down the road as this code change leads to all kinds of problems with misrepresented 
-            data and the wrong label names, which can cause a great deal of confusion and frustration to the users or future developers 
-            that have to maintain this code.  
-            
-            Please see KULCG-263 for details on why this was performed and what the goal of this code change was.
-            -->
-            <attribute name="historicalIndicator" forceUppercase="false">
-                <label>Active Indicator</label>
-                <shortLabel>Active Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-            </attribute>
-
-            <attribute name="inStateIndicator" forceUppercase="false">
-                <label>In State Indicator</label>
-                <shortLabel>In State</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-			<!-- Based on comment from Jim Becker, this attribute (indirectAmount should be removed from the system entirely. -->
-            <attribute name="indirectAmount" forceUppercase="false">
-                <label>Indirect Amount</label>
-                <shortLabel>IndAmt</shortLabel>
+  <bean id="Agency-inquiryDefinition" parent="Agency-inquiryDefinition-parentBean" />
 
-                <maxLength>20</maxLength>
+  <bean id="Agency-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Agency Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Agency Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="agencyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportingName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fullName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="agencyType.name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="historicalIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="inStateIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="indirectAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportsToAgencyNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <currency size="20" formattedMaxLength="12"/>
-                </control>
 
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attribute>
+  <bean id="Agency-lookupDefinition" parent="Agency-lookupDefinition-parentBean" />
 
-            <attributeReference name="reportsToAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Reports To Agency Number</label>
-                <shortLabel>Reports To Agency Number</shortLabel>
-                
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-
-        <relationships>
-            <relationship objectAttributeName="agencyType" >
-                <primitiveAttribute sourceName="agencyTypeCode" targetName="code" />
-                <supportAttribute sourceName="agencyType.name" targetName="name" />
-            </relationship>
-		</relationships>
-
-        <objectLabel>Agency</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="Agency-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Agency Lookup" />
+    <property name="instructions" value="Lookup an Agency" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>fullName</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fullName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyType.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="historicalIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fullName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyType.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inStateIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="indirectAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="reportsToAgencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="historicalIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

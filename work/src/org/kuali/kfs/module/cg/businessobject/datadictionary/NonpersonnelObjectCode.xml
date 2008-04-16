@@ -1,91 +1,156 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode">
+  <bean id="NonpersonnelObjectCode" parent="NonpersonnelObjectCode-parentBean" />
 
-        <inquiry>
-            <title>Non-Personnel Object Code Inquiry</title>
+  <bean id="NonpersonnelObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="NonpersonnelObjectCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="NonpersonnelObjectCode-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Non-Personnel Object Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode" />
+        <ref bean="NonpersonnelObjectCode-nonpersonnelCategory.name" />
+        <ref bean="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode" />
+        <ref bean="NonpersonnelObjectCode-nonpersonnelSubCategory.name" />
+        <ref bean="NonpersonnelObjectCode-budgetNonpersonnelObjectCode" />
+        <ref bean="NonpersonnelObjectCode-active" />
+        <ref bean="NonpersonnelObjectCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="budgetNonpersonnelObjectCode" />
-                <field attributeName="nonpersonnelCategory" />
-                <field attributeName="nonpersonnelSubCategory" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+<!-- Attribute Definitions -->
 
-        <lookup>
-            <title>Non-Personnel Object Code Lookup</title>
 
-            <instructions>Lookup a Nonpersonnel Object Code</instructions>
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode" parent="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" />
 
-            <defaultSort attributeName="nonpersonnelCategory.name" sortAscending="true" />
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelCategoryCode-parentBean" abstract="true" parent="NonpersonnelCategory-code">
+    <property name="name" value="budgetNonpersonnelCategoryCode" />
+  </bean>
+  <bean id="NonpersonnelObjectCode-nonpersonnelCategory.name" parent="NonpersonnelObjectCode-nonpersonnelCategory.name-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="nonpersonnelCategory.name" required="false" />
-                <lookupField attributeName="nonpersonnelSubCategory.name" required="false" />
-                <lookupField attributeName="budgetNonpersonnelObjectCode" required="false" />
-                <lookupField attributeName="active" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
+  <bean id="NonpersonnelObjectCode-nonpersonnelCategory.name-parentBean" abstract="true" parent="NonpersonnelCategory-name">
+    <property name="name" value="nonpersonnelCategory.name" />
+  </bean>
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode" parent="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="nonpersonnelCategory.name" />
-                <field attributeName="nonpersonnelSubCategory.name" />
-                <field attributeName="budgetNonpersonnelObjectCode" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelSubCategoryCode-parentBean" abstract="true" parent="NonpersonnelSubCategory-code">
+    <property name="name" value="budgetNonpersonnelSubCategoryCode" />
+  </bean>
+  <bean id="NonpersonnelObjectCode-nonpersonnelSubCategory.name" parent="NonpersonnelObjectCode-nonpersonnelSubCategory.name-parentBean" />
 
-        <attributes>
-            <attributeReference name="budgetNonpersonnelCategoryCode" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelCategory" sourceAttributeName="code" />
+  <bean id="NonpersonnelObjectCode-nonpersonnelSubCategory.name-parentBean" abstract="true" parent="NonpersonnelSubCategory-name">
+    <property name="name" value="nonpersonnelSubCategory.name" />
+  </bean>
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelObjectCode" parent="NonpersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" />
 
-            <attributeReference name="nonpersonnelCategory.name" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelCategory" sourceAttributeName="name" />
+  <bean id="NonpersonnelObjectCode-budgetNonpersonnelObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetNonpersonnelObjectCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Code" />
+    <property name="shortLabel" value="Obj Cd" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Object Code" />
+    <property name="description" value="The assigned object code." />
+  </bean>
+  <bean id="NonpersonnelObjectCode-active" parent="NonpersonnelObjectCode-active-parentBean" />
 
-            <attributeReference name="budgetNonpersonnelSubCategoryCode" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory" sourceAttributeName="code" />
+  <bean id="NonpersonnelObjectCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="NonpersonnelObjectCode-versionNumber" parent="NonpersonnelObjectCode-versionNumber-parentBean" />
 
-            <attributeReference name="nonpersonnelSubCategory.name" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory" sourceAttributeName="name" />
+  <bean id="NonpersonnelObjectCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="budgetNonpersonnelObjectCode" forceUppercase="false">
-                <label>Object Code</label>
-                <shortLabel>Obj Cd</shortLabel>
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>Object Code</summary>
-                <description>The assigned object code.</description>
-            </attribute>
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="NonpersonnelObjectCode-inquiryDefinition" parent="NonpersonnelObjectCode-inquiryDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-        
-        <objectLabel>Non-Personnel Object Code</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="NonpersonnelObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Non-Personnel Object Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetNonpersonnelObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="nonpersonnelCategory" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="nonpersonnelSubCategory" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="NonpersonnelObjectCode-lookupDefinition" parent="NonpersonnelObjectCode-lookupDefinition-parentBean" />
+
+  <bean id="NonpersonnelObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Non-Personnel Object Code Lookup" />
+    <property name="instructions" value="Lookup a Nonpersonnel Object Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>nonpersonnelCategory.name</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="nonpersonnelCategory.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="nonpersonnelSubCategory.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetNonpersonnelObjectCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="nonpersonnelCategory.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="nonpersonnelSubCategory.name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetNonpersonnelObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

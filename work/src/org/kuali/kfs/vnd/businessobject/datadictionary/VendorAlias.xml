@@ -1,51 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorAlias">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <attributes>
+  <bean id="VendorAlias" parent="VendorAlias-parentBean" />
 
-            <attribute name="vendorAliasName" forceUppercase="false">
-                <label>Search Alias Name</label>
-                <shortLabel>Search Alias</shortLabel>
+  <bean id="VendorAlias-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorAlias" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorAlias-vendorAliasName" />
+        <ref bean="VendorAlias-newCollectionRecord" />
+        <ref bean="VendorAlias-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorAlias-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorAlias-versionNumber" />
+        <ref bean="VendorAlias-active" />
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>45</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+<!-- Attribute Definitions -->
 
-                <control>
-                    <text size="45" />
-                </control>
 
-            </attribute>
-            
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
+  <bean id="VendorAlias-vendorAliasName" parent="VendorAlias-vendorAliasName-parentBean" />
 
-            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorAlias-vendorAliasName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorAliasName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Search Alias Name" />
+    <property name="shortLabel" value="Search Alias" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="VendorAlias-newCollectionRecord" parent="VendorAlias-newCollectionRecord-parentBean" />
+
+  <bean id="VendorAlias-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorAlias-vendorHeaderGeneratedIdentifier" parent="VendorAlias-vendorHeaderGeneratedIdentifier-parentBean" />
+
+  <bean id="VendorAlias-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="VendorAlias-vendorDetailAssignedIdentifier" parent="VendorAlias-vendorDetailAssignedIdentifier-parentBean" />
+
+  <bean id="VendorAlias-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorAlias-versionNumber" parent="VendorAlias-versionNumber-parentBean" />
+
+  <bean id="VendorAlias-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorAlias-active" parent="VendorAlias-active-parentBean" />
+
+  <bean id="VendorAlias-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+</beans>

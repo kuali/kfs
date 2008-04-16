@@ -1,171 +1,252 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.CampusParameter">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Campus Parameter Inquiry</title>
+  <bean id="CampusParameter" parent="CampusParameter-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="campusCode" />
-                <field attributeName="campusPurchasingDirectorName" />
-                <field attributeName="campusPurchasingDirectorTitle" />
-                <field attributeName="campusAccountsPayableEmailAddress" />
-                <field attributeName="purchasingInstitutionName" />
-                <field attributeName="purchasingDepartmentName" />
-                <field attributeName="purchasingDepartmentLine1Address" />
-                <field attributeName="purchasingDepartmentLine2Address" />
-                <field attributeName="purchasingDepartmentCityName" />
-                <field attributeName="purchasingDepartmentStateCode" />
-                <field attributeName="purchasingDepartmentZipCode" />
-                <field attributeName="purchasingDepartmentCountryCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="CampusParameter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.CampusParameter" />
+    <property name="inquiryDefinition" >
+      <ref bean="CampusParameter-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CampusParameter-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="campusCode" />
+    <property name="objectLabel" value="Campus Parameter" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CampusParameter-campusAccountsPayableEmailAddress" />
+        <ref bean="CampusParameter-campusCode" />
+        <ref bean="CampusParameter-campusPurchasingDirectorName" />
+        <ref bean="CampusParameter-campusPurchasingDirectorTitle" />
+        <ref bean="CampusParameter-purchasingInstitutionName" />
+        <ref bean="CampusParameter-purchasingDepartmentName" />
+        <ref bean="CampusParameter-purchasingDepartmentLine1Address" />
+        <ref bean="CampusParameter-purchasingDepartmentLine2Address" />
+        <ref bean="CampusParameter-purchasingDepartmentCityName" />
+        <ref bean="CampusParameter-purchasingDepartmentStateCode" />
+        <ref bean="CampusParameter-purchasingDepartmentZipCode" />
+        <ref bean="CampusParameter-purchasingDepartmentCountryCode" />
+        <ref bean="CampusParameter-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Campus Parameter Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Look up a Campus Parameter</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="campusCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="CampusParameter-campusAccountsPayableEmailAddress" parent="CampusParameter-campusAccountsPayableEmailAddress-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="campusCode" required="false" />
-                <lookupField attributeName="campusPurchasingDirectorName" required="false" />
-                <lookupField attributeName="campusPurchasingDirectorTitle" required="false" />
-                <lookupField attributeName="campusAccountsPayableEmailAddress" required="false" />
-            </lookupFields>
+  <bean id="CampusParameter-campusAccountsPayableEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusAccountsPayableEmailAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Accounts Payable Email Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="CampusParameter-campusCode" parent="CampusParameter-campusCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="campusCode" />
-                <field attributeName="campusPurchasingDirectorName" />
-                <field attributeName="campusPurchasingDirectorTitle" />
-                <field attributeName="campusAccountsPayableEmailAddress" />
-            </resultFields>
-        </lookup>
+  <bean id="CampusParameter-campusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  </bean>
+  <bean id="CampusParameter-campusPurchasingDirectorName" parent="CampusParameter-campusPurchasingDirectorName-parentBean" />
 
-        <titleAttribute>campusCode</titleAttribute>
+  <bean id="CampusParameter-campusPurchasingDirectorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusPurchasingDirectorName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Purchasing Director Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="CampusParameter-campusPurchasingDirectorTitle" parent="CampusParameter-campusPurchasingDirectorTitle-parentBean" />
 
-        <attributes>
+  <bean id="CampusParameter-campusPurchasingDirectorTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusPurchasingDirectorTitle" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Purchasing Director Title" />
+    <property name="shortLabel" value="Title" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="CampusParameter-purchasingInstitutionName" parent="CampusParameter-purchasingInstitutionName-parentBean" />
 
-            <attribute name="campusAccountsPayableEmailAddress" forceUppercase="true">
-                <label>Campus Accounts Payable Email Address</label>
-                <shortLabel>Address</shortLabel>
+  <bean id="CampusParameter-purchasingInstitutionName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchasingInstitutionName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchasing Institution Name" />
+    <property name="shortLabel" value="Institution Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentName" parent="CampusParameter-purchasingDepartmentName-parentBean" />
 
-                <maxLength>100</maxLength>
-                <validationPattern><emailAddress/></validationPattern>
+  <bean id="CampusParameter-purchasingDepartmentName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchasingDepartmentName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchasing Department Name" />
+    <property name="shortLabel" value="Dept Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentLine1Address" parent="CampusParameter-purchasingDepartmentLine1Address-parentBean" />
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="CampusParameter-purchasingDepartmentLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="purchasingDepartmentLine1Address" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentLine2Address" parent="CampusParameter-purchasingDepartmentLine2Address-parentBean" />
 
-			</attribute>
+  <bean id="CampusParameter-purchasingDepartmentLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="purchasingDepartmentLine2Address" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentCityName" parent="CampusParameter-purchasingDepartmentCityName-parentBean" />
 
-			<attributeReference name="campusCode"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
-				sourceAttributeName="campusCode">
-			</attributeReference>
+  <bean id="CampusParameter-purchasingDepartmentCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="purchasingDepartmentCityName" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentStateCode" parent="CampusParameter-purchasingDepartmentStateCode-parentBean" />
 
-            <attribute name="campusPurchasingDirectorName" forceUppercase="true">
-                <label>Campus Purchasing Director Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="CampusParameter-purchasingDepartmentStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="purchasingDepartmentStateCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentZipCode" parent="CampusParameter-purchasingDepartmentZipCode-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="CampusParameter-purchasingDepartmentZipCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="purchasingDepartmentZipCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CampusParameter-purchasingDepartmentCountryCode" parent="CampusParameter-purchasingDepartmentCountryCode-parentBean" />
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="CampusParameter-purchasingDepartmentCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="purchasingDepartmentCountryCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="CampusParameter-versionNumber" parent="CampusParameter-versionNumber-parentBean" />
 
-			</attribute>
+  <bean id="CampusParameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="campusPurchasingDirectorTitle" forceUppercase="true">
-                <label>Campus Purchasing Director Title</label>
-                <shortLabel>Title</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter  allowWhitespace="true"/></validationPattern>
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="CampusParameter-inquiryDefinition" parent="CampusParameter-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="CampusParameter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Campus Parameter Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusPurchasingDirectorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusPurchasingDirectorTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusAccountsPayableEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingInstitutionName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchasingDepartmentCountryCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="purchasingInstitutionName" forceUppercase="true">
-                <label>Purchasing Institution Name</label>
-                <shortLabel>Institution Name</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="CampusParameter-lookupDefinition" parent="CampusParameter-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attribute name="purchasingDepartmentName" forceUppercase="true">
-                <label>Purchasing Department Name</label>
-                <shortLabel>Dept Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter  allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="45" />
-                </control>
-
-			</attribute>
-
-			<attributeReference name="purchasingDepartmentLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" >
-                <required>false</required>
-            </attributeReference>
-            	
-			<attributeReference name="purchasingDepartmentLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address" >
-                <required>false</required>
-            </attributeReference>
-                        		
-			<attributeReference name="purchasingDepartmentCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" >
-                <required>false</required>
-            </attributeReference>
-
-			<attributeReference name="purchasingDepartmentStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode" >
-                <required>false</required>
-            </attributeReference>
-
-			<attributeReference name="purchasingDepartmentZipCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode" >
-                <required>false</required>
-            </attributeReference>
-            																		
-			<attributeReference name="purchasingDepartmentCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" >
-                <required>false</required>
-            </attributeReference>
-            
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Campus Parameter</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CampusParameter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Campus Parameter Lookup" />
+    <property name="instructions" value="Look up a Campus Parameter" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusPurchasingDirectorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusPurchasingDirectorTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusAccountsPayableEmailAddress" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusPurchasingDirectorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusPurchasingDirectorTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusAccountsPayableEmailAddress" />
+      </list>
+    </property>
+  </bean>
+</beans>

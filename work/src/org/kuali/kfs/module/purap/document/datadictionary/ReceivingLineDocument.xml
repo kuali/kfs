@@ -1,315 +1,441 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>    
-    <transactionalDocument>
-        <documentClass>org.kuali.module.purap.document.ReceivingLineDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.ReceivingLineDocumentRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingLineDocumentPreRules</preRulesCheckClass>
-        
-        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.ReceivingLineDocumentAuthorizer</documentAuthorizerClass>
-        
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_AP_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
-        
-        <documentTypeName>ReceivingLineDocument</documentTypeName>
-        <documentTypeCode>RCVL</documentTypeCode>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <label>Receiving Line</label>
- 
-        <attributes>
+  <bean id="ReceivingLineDocument" parent="ReceivingLineDocument-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="ReceivingLineDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Receiving Line" />
+    <property name="shortLabel" value="Receiving Line" />
+    <property name="documentTypeName" value="ReceivingLineDocument" />
+    <property name="documentClass" value="org.kuali.module.purap.document.ReceivingLineDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.ReceivingLineDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.ReceivingLineDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.ReceivingLineDocumentPreRules" />
+    <property name="documentTypeCode" value="RCVL" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_AP_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ReceivingLineDocument-documentNumber" />
+        <ref bean="ReceivingLineDocument-purchaseOrderIdentifier" />
+        <ref bean="ReceivingLineDocument-carrierCode" />
+        <ref bean="ReceivingLineDocument-deliveryBuildingCode" />
+        <ref bean="ReceivingLineDocument-deliveryBuildingLine1Address" />
+        <ref bean="ReceivingLineDocument-deliveryBuildingLine2Address" />
+        <ref bean="ReceivingLineDocument-deliveryBuildingName" />
+        <ref bean="ReceivingLineDocument-deliveryBuildingOther" />
+        <ref bean="ReceivingLineDocument-deliveryBuildingRoomNumber" />
+        <ref bean="ReceivingLineDocument-deliveryCampusCode" />
+        <ref bean="ReceivingLineDocument-deliveryCityName" />
+        <ref bean="ReceivingLineDocument-deliveryCountryCode" />
+        <ref bean="ReceivingLineDocument-deliveryInstructionText" />
+        <ref bean="ReceivingLineDocument-deliveryPostalCode" />
+        <ref bean="ReceivingLineDocument-deliveryRequiredDate" />
+        <ref bean="ReceivingLineDocument-deliveryRequiredDateReasonCode" />
+        <ref bean="ReceivingLineDocument-deliveryStateCode" />
+        <ref bean="ReceivingLineDocument-deliveryToEmailAddress" />
+        <ref bean="ReceivingLineDocument-deliveryToName" />
+        <ref bean="ReceivingLineDocument-deliveryToPhoneNumber" />
+        <ref bean="ReceivingLineDocument-shipmentBillOfLadingNumber" />
+        <ref bean="ReceivingLineDocument-shipmentPackingSlipNumber" />
+        <ref bean="ReceivingLineDocument-shipmentReceivedDate" />
+        <ref bean="ReceivingLineDocument-shipmentReferenceNumber" />
+        <ref bean="ReceivingLineDocument-vendorHeaderGeneratedIdentifier" />
+        <ref bean="ReceivingLineDocument-vendorName" />
+        <ref bean="ReceivingLineDocument-vendorNumber" />
+        <ref bean="ReceivingLineDocument-vendorDetailAssignedIdentifier" />
+        <ref bean="ReceivingLineDocument-vendorCityName" />
+        <ref bean="ReceivingLineDocument-vendorCountryCode" />
+        <ref bean="ReceivingLineDocument-vendorLine1Address" />
+        <ref bean="ReceivingLineDocument-vendorLine2Address" />
+        <ref bean="ReceivingLineDocument-vendorStateCode" />
+        <ref bean="ReceivingLineDocument-vendorPostalCode" />
+        <ref bean="ReceivingLineDocument-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Attribute Definitions -->
 
-                <control>
-                    <text size="16" />
-                </control>
 
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
+  <bean id="ReceivingLineDocument-documentNumber" parent="ReceivingLineDocument-documentNumber-parentBean" />
 
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="ReceivingLineDocument-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-purchaseOrderIdentifier" parent="ReceivingLineDocument-purchaseOrderIdentifier-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="ReceivingLineDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="purchaseOrderIdentifier" />
+    <property name="description" value="purchaseOrderIdentifier description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-carrierCode" parent="ReceivingLineDocument-carrierCode-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
+  <bean id="ReceivingLineDocument-carrierCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="carrierCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Carrier" />
+    <property name="shortLabel" value="Carrier" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CarrierValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="carrierCode" />
+    <property name="description" value="carrierCode description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryBuildingCode" parent="ReceivingLineDocument-deliveryBuildingCode-parentBean" />
 
-                <summary>purchaseOrderIdentifier</summary>
-                <description>purchaseOrderIdentifier description...</description>
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Building Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="deliveryBuildingCode" />
+    <property name="description" value="deliveryBuildingCode description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryBuildingLine1Address" parent="ReceivingLineDocument-deliveryBuildingLine1Address-parentBean" />
 
-            <attribute name="carrierCode" forceUppercase="true">
-                <label>Carrier</label>
-                <shortLabel>Carrier</shortLabel>
+  <bean id="ReceivingLineDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="deliveryBuildingLine1Address" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryBuildingLine2Address" parent="ReceivingLineDocument-deliveryBuildingLine2Address-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ReceivingLineDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="deliveryBuildingLine2Address" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryBuildingName" parent="ReceivingLineDocument-deliveryBuildingName-parentBean" />
 
-			    <control>
-			        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CarrierValuesFinder"/>
-			    </control>
+  <bean id="ReceivingLineDocument-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building" />
+    <property name="shortLabel" value="Building" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryBuildingOther" parent="ReceivingLineDocument-deliveryBuildingOther-parentBean" />
 
-                <summary>carrierCode</summary>
-                <description>carrierCode description...</description>
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryBuildingOther-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingOther" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Other Building" />
+    <property name="shortLabel" value="Other Bldg." />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryBuildingRoomNumber" parent="ReceivingLineDocument-deliveryBuildingRoomNumber-parentBean" />
 
-            <attribute name="deliveryBuildingCode" forceUppercase="true">
-                <label>Delivery Building Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="ReceivingLineDocument-deliveryBuildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Room" />
+    <property name="shortLabel" value="Room" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryCampusCode" parent="ReceivingLineDocument-deliveryCampusCode-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ReceivingLineDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+    <property name="name" value="deliveryCampusCode" />
+    <property name="label" value="Delivery Campus" />
+    <property name="shortLabel" value="Delivery Campus" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryCityName" parent="ReceivingLineDocument-deliveryCityName-parentBean" />
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="ReceivingLineDocument-deliveryCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="deliveryCityName" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryCountryCode" parent="ReceivingLineDocument-deliveryCountryCode-parentBean" />
 
-                <summary>deliveryBuildingCode</summary>
-                <description>deliveryBuildingCode description...</description>
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="deliveryCountryCode" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryInstructionText" parent="ReceivingLineDocument-deliveryInstructionText-parentBean" />
 
-			<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
-			    <required>true</required>
-			</attributeReference>
-			
-			<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address">
-			</attributeReference>
+  <bean id="ReceivingLineDocument-deliveryInstructionText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryInstructionText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Delivery Instructions" />
+    <property name="shortLabel" value="Instructions" />
+    <property name="maxLength" value="125" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="50" />
+    </property>
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryPostalCode" parent="ReceivingLineDocument-deliveryPostalCode-parentBean" />
 
-			<attribute name="deliveryBuildingName">
-			    <label>Building</label>
-			    <shortLabel>Building</shortLabel>
-			
-			    <maxLength>45</maxLength>
-			    <validationPattern>
-			        <anyCharacter allowWhitespace="true"/>
-			    </validationPattern>
-			    <required>true</required>
-			
-			    <control>
-			        <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"/>
-			    </control>
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="deliveryPostalCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryRequiredDate" parent="ReceivingLineDocument-deliveryRequiredDate-parentBean" />
 
-			<attribute name="deliveryBuildingOther">
-				<label>Other Building</label>
-				<shortLabel>Other Bldg.</shortLabel>
-				
-				<maxLength>4</maxLength>
-				
-				<control>
-					<checkbox />
-				</control>
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryRequiredDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="deliveryRequiredDate" />
+    <property name="label" value="Date Required" />
+    <property name="shortLabel" value="Date Required" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryRequiredDateReasonCode" parent="ReceivingLineDocument-deliveryRequiredDateReasonCode-parentBean" />
 
-			<attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
-			    <label>Room</label>
-			    <shortLabel>Room</shortLabel>
-			
-			    <maxLength>8</maxLength>
-			    <validationPattern>
-			        <anyCharacter />
-			    </validationPattern>
-			    <required>true</required>
-			
-			    <control>
-			        <text size="10" />
-			    </control>
-			
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryRequiredDateReasonCode-parentBean" abstract="true" parent="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode">
+    <property name="label" value="Date Required Reason" />
+    <property name="shortLabel" value="Date Reason" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryStateCode" parent="ReceivingLineDocument-deliveryStateCode-parentBean" />
 
-			<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
-			    <label>Delivery Campus</label>
-			    <shortLabel>Delivery Campus</shortLabel>
-			    <required>true</required>
-			    <control>
-			        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"/>
-			    </control>
-			</attributeReference>
+  <bean id="ReceivingLineDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="deliveryStateCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryToEmailAddress" parent="ReceivingLineDocument-deliveryToEmailAddress-parentBean" />
 
-			<attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
-			    <required>true</required>			
-			</attributeReference>
+  <bean id="ReceivingLineDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+    <property name="name" value="deliveryToEmailAddress" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryToName" parent="ReceivingLineDocument-deliveryToName-parentBean" />
 
-			<attributeReference name="deliveryCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">			
-			</attributeReference>
+  <bean id="ReceivingLineDocument-deliveryToName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+    <property name="name" value="deliveryToName" />
+    <property name="label" value="Delivery To" />
+    <property name="shortLabel" value="To" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-deliveryToPhoneNumber" parent="ReceivingLineDocument-deliveryToPhoneNumber-parentBean" />
 
-			<attribute name="deliveryInstructionText">
-			    <label>Delivery Instructions</label>
-			    <shortLabel>Instructions</shortLabel>
-			
-			    <maxLength>125</maxLength>
-			    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			
-			    <control>
-			        <textarea rows="3" cols="50" />
-			    </control>
-			
-			</attribute>
+  <bean id="ReceivingLineDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+    <property name="name" value="deliveryToPhoneNumber" />
+  </bean>
+  <bean id="ReceivingLineDocument-shipmentBillOfLadingNumber" parent="ReceivingLineDocument-shipmentBillOfLadingNumber-parentBean" />
 
-			<attributeReference name="deliveryPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode">
-				<required>true</required>
-			</attributeReference>
+  <bean id="ReceivingLineDocument-shipmentBillOfLadingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentBillOfLadingNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Bill Of Lading #" />
+    <property name="shortLabel" value="Bill Of Lading #" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+    <property name="summary" value="shipmentBillOfLadingNumber" />
+    <property name="description" value="shipmentBillOfLadingNumber description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-shipmentPackingSlipNumber" parent="ReceivingLineDocument-shipmentPackingSlipNumber-parentBean" />
 
-			<attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-			    <label>Date Required</label>
-			    <shortLabel>Date Required</shortLabel>			
-			</attributeReference>
+  <bean id="ReceivingLineDocument-shipmentPackingSlipNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentPackingSlipNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Packing Slip #" />
+    <property name="shortLabel" value="Packing Slip #" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+    <property name="summary" value="shipmentPackingSlipNumber" />
+    <property name="description" value="shipmentPackingSlipNumber description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-shipmentReceivedDate" parent="ReceivingLineDocument-shipmentReceivedDate-parentBean" />
 
-			<attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
-			    <label>Date Required Reason</label>
-			    <shortLabel>Date Reason</shortLabel>
-			    <control>
-					<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
-				</control>    			
-			</attributeReference>
+  <bean id="ReceivingLineDocument-shipmentReceivedDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentReceivedDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Date" />
+    <property name="shortLabel" value="Vendor Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="shipmentReceivedDate" />
+    <property name="description" value="shipmentReceivedDate description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-shipmentReferenceNumber" parent="ReceivingLineDocument-shipmentReferenceNumber-parentBean" />
 
-			<attributeReference name="deliveryStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode">
-				<required>true</required>
-			</attributeReference>
+  <bean id="ReceivingLineDocument-shipmentReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="shipmentReferenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference #" />
+    <property name="shortLabel" value="Reference #" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+    <property name="summary" value="shipmentReferenceNumber" />
+    <property name="description" value="shipmentReferenceNumber description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorHeaderGeneratedIdentifier" parent="ReceivingLineDocument-vendorHeaderGeneratedIdentifier-parentBean" />
 
-			<attributeReference name="deliveryToEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
-			    <required>false</required>			
-			</attributeReference>
+  <bean id="ReceivingLineDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorHeaderGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Header Generated Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="vendorHeaderGeneratedIdentifier" />
+    <property name="description" value="vendorHeaderGeneratedIdentifier description..." />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorName" parent="ReceivingLineDocument-vendorName-parentBean" />
 
-			<attributeReference name="deliveryToName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName">
-			    <label>Delivery To</label>
-			    <shortLabel>To</shortLabel>
-			    <required>true</required>
-			</attributeReference>
+  <bean id="ReceivingLineDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="label" value="Vendor" />
+    <property name="shortLabel" value="Vendor" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorNumber" parent="ReceivingLineDocument-vendorNumber-parentBean" />
 
-			<attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
-			</attributeReference>
+  <bean id="ReceivingLineDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+  </bean>
+  <bean id="ReceivingLineDocument-vendorDetailAssignedIdentifier" parent="ReceivingLineDocument-vendorDetailAssignedIdentifier-parentBean" />
 
-            <attribute name="shipmentBillOfLadingNumber" forceUppercase="true">
-                <label>Bill Of Lading #</label>
-                <shortLabel>Bill Of Lading #</shortLabel>
+  <bean id="ReceivingLineDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorCityName" parent="ReceivingLineDocument-vendorCityName-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ReceivingLineDocument-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="vendorCityName" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorCountryCode" parent="ReceivingLineDocument-vendorCountryCode-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="ReceivingLineDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="vendorCountryCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorLine1Address" parent="ReceivingLineDocument-vendorLine1Address-parentBean" />
 
-                <summary>shipmentBillOfLadingNumber</summary>
-                <description>shipmentBillOfLadingNumber description...</description>
-			</attribute>
+  <bean id="ReceivingLineDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="vendorLine1Address" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorLine2Address" parent="ReceivingLineDocument-vendorLine2Address-parentBean" />
 
-            <attribute name="shipmentPackingSlipNumber" forceUppercase="true">
-                <label>Packing Slip #</label>
-                <shortLabel>Packing Slip #</shortLabel>
+  <bean id="ReceivingLineDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="vendorLine2Address" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorStateCode" parent="ReceivingLineDocument-vendorStateCode-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ReceivingLineDocument-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="vendorStateCode" />
+  </bean>
+  <bean id="ReceivingLineDocument-vendorPostalCode" parent="ReceivingLineDocument-vendorPostalCode-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="ReceivingLineDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="vendorPostalCode" />
+  </bean>
+  <bean id="ReceivingLineDocument-versionNumber" parent="ReceivingLineDocument-versionNumber-parentBean" />
 
-                <summary>shipmentPackingSlipNumber</summary>
-                <description>shipmentPackingSlipNumber description...</description>
-			</attribute>
-
-            <attribute name="shipmentReceivedDate" forceUppercase="true">
-                <label>Vendor Date</label>
-                <shortLabel>Vendor Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-				<required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>shipmentReceivedDate</summary>
-                <description>shipmentReceivedDate description...</description>
-			</attribute>
-
-            <attribute name="shipmentReferenceNumber" forceUppercase="true">
-                <label>Reference #</label>
-                <shortLabel>Reference #</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-                <summary>shipmentReferenceNumber</summary>
-                <description>shipmentReferenceNumber description...</description>
-			</attribute>
-
-            <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Header Generated Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>vendorHeaderGeneratedIdentifier</summary>
-                <description>vendorHeaderGeneratedIdentifier description...</description>
-			</attribute>
-
-            <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Vendor</label>
-                <shortLabel>Vendor</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber" />
-
-			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
-			    <required>false</required>
-			</attributeReference>
-
-            <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
-                <required>true</required>
-            </attributeReference>
-            
-            <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
-                <required>true</required>
-            </attributeReference>
-
-			<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address"/>
-
-			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode"/>
-
-			<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode"/>
-            
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="ReceivingLineDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

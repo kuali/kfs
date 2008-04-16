@@ -1,86 +1,125 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="IndirectCostRecoveryExclusionType" parent="IndirectCostRecoveryExclusionType-parentBean" />
+
+  <bean id="IndirectCostRecoveryExclusionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType" />
+    <property name="inquiryDefinition" >
+      <ref bean="IndirectCostRecoveryExclusionType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="IndirectCostRecoveryExclusionType-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Indirect Cost Recovery Exclusion By Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode" />
+        <ref bean="IndirectCostRecoveryExclusionType-chartOfAccountsCode" />
+        <ref bean="IndirectCostRecoveryExclusionType-financialObjectCode" />
+        <ref bean="IndirectCostRecoveryExclusionType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Indirect Cost Recovery Exclusion By Type Inquiry</title>
+  <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode" parent="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountIndirectCostRecoveryTypeCode" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="objectCodeCurrent.financialObjectCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="ICRTypeCode-code">
+    <property name="name" value="accountIndirectCostRecoveryTypeCode" />
+  </bean>
+  <bean id="IndirectCostRecoveryExclusionType-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionType-chartOfAccountsCode-parentBean" />
 
-        <lookup>
-        	<lookupableID>indirectCostRecoveryExclusionByTypeLookupable</lookupableID>
-            <title>Indirect Cost Recovery Exclusion By Type Lookup</title>
+  <bean id="IndirectCostRecoveryExclusionType-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="IndirectCostRecoveryExclusionType-financialObjectCode" parent="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean" />
 
-            <instructions>Lookup an Indirect Cost Recovery Exclusion By type</instructions>
+  <bean id="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Code" />
+    <property name="shortLabel" value="Object" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="IndirectCostRecoveryExclusionType-versionNumber" parent="IndirectCostRecoveryExclusionType-versionNumber-parentBean" />
 
-            <defaultSort attributeName="accountIndirectCostRecoveryTypeCode" sortAscending="true" />
+  <bean id="IndirectCostRecoveryExclusionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="accountIndirectCostRecoveryTypeCode" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="accountIndirectCostRecoveryTypeCode" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialObjectCode" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attributeReference name="accountIndirectCostRecoveryTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="code">
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Object Code</label>
-                <shortLabel>Object</shortLabel>
+  <bean id="IndirectCostRecoveryExclusionType-inquiryDefinition" parent="IndirectCostRecoveryExclusionType-inquiryDefinition-parentBean" />
 
-                <maxLength>4</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
+  <bean id="IndirectCostRecoveryExclusionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Indirect Cost Recovery Exclusion By Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountIndirectCostRecoveryTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="objectCodeCurrent.financialObjectCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
 
 
+  <bean id="IndirectCostRecoveryExclusionType-lookupDefinition" parent="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        
-        <objectLabel>Indirect Cost Recovery Exclusion By Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Indirect Cost Recovery Exclusion By Type Lookup" />
+    <property name="lookupableID" value="indirectCostRecoveryExclusionByTypeLookupable" />
+    <property name="instructions" value="Lookup an Indirect Cost Recovery Exclusion By type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>accountIndirectCostRecoveryTypeCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountIndirectCostRecoveryTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountIndirectCostRecoveryTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

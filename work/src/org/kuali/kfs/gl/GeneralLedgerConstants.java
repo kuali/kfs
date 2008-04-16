@@ -16,10 +16,11 @@
 package org.kuali.module.gl;
 
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.AttributeDefinition;
+import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.OriginationCode;
@@ -302,13 +303,11 @@ public class GLConstants {
 
     public static String getSpaceAllOriginEntryFields() {
         if (SPACE_ALL_ORIGIN_ENTRY_FIELDS == null) {
-            Map map = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginEntryFull.class.getName()).getAttributes();
+            List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginEntryFull.class.getName()).getAttributes();
 
             int totalLength = 0;
 
-            Iterator iter = map.values().iterator();
-            while (iter.hasNext()) {
-                AttributeDefinition attributeDefinition = (AttributeDefinition) iter.next();
+            for ( AttributeDefinition attributeDefinition : attributes ) {
 
                 if (KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT.equals(attributeDefinition.getName())) {
                     totalLength += OriginEntryFull.SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();

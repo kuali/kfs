@@ -1,161 +1,261 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByConsolidation">
+  <bean id="AccountBalanceByConsolidation" parent="AccountBalanceByConsolidation-parentBean" />
 
-        <inquiry>
-            <title>Balances By Consolidation</title>
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="objectCode" />
-                <!--  <field attributeName="subObjectCode" /> -->
-                <field attributeName="currentBudgetLineBalanceAmount" />
-                <field attributeName="accountLineActualsBalanceAmount" />
-                <field attributeName="accountLineEncumbranceBalanceAmount" />
-                <field attributeName="dummyBusinessObject.genericAmount" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AccountBalanceByConsolidation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.gl.bo.AccountBalanceByConsolidation" />
+    <property name="inquiryDefinition" >
+      <ref bean="AccountBalanceByConsolidation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AccountBalanceByConsolidation-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AccountBalanceByConsolidation-universityFiscalYear" />
+        <ref bean="AccountBalanceByConsolidation-chartOfAccountsCode" />
+        <ref bean="AccountBalanceByConsolidation-accountNumber" />
+        <ref bean="AccountBalanceByConsolidation-subAccountNumber" />
+        <ref bean="AccountBalanceByConsolidation-objectCode" />
+        <ref bean="AccountBalanceByConsolidation-subObjectCode" />
+        <ref bean="AccountBalanceByConsolidation-currentBudgetLineBalanceAmount" />
+        <ref bean="AccountBalanceByConsolidation-accountLineActualsBalanceAmount" />
+        <ref bean="AccountBalanceByConsolidation-accountLineEncumbranceBalanceAmount" />
+        <ref bean="AccountBalanceByConsolidation-timestamp" />
+        <ref bean="AccountBalanceByConsolidation-dummyBusinessObject.pendingEntryOption" />
+        <ref bean="AccountBalanceByConsolidation-dummyBusinessObject.consolidationOption" />
+        <ref bean="AccountBalanceByConsolidation-dummyBusinessObject.costShareOption" />
+        <ref bean="AccountBalanceByConsolidation-dummyBusinessObject.genericAmount" />
+        <ref bean="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" />
+        <ref bean="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode" />
+        <ref bean="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
+        <ref bean="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <lookupableID>glAccountBalanceByConsolidationLookupable</lookupableID>
-            <title>Balances By Consolidation Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup Available Account Balance for the specific account.</instructions>
-            <defaultSort attributeName="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
+  <bean id="AccountBalanceByConsolidation-universityFiscalYear" parent="AccountBalanceByConsolidation-universityFiscalYear-parentBean" />
 
-                <lookupField attributeName="chartOfAccountsCode" required="true" />
-                <lookupField attributeName="accountNumber" required="true" />
-                <lookupField attributeName="subAccountNumber" forceLookup="true" />
-                <!--  <lookupField attributeName="subObjectCode" forceLookup="true" /> -->
+  <bean id="AccountBalanceByConsolidation-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-chartOfAccountsCode" parent="AccountBalanceByConsolidation-chartOfAccountsCode-parentBean" />
 
-                <lookupField attributeName="dummyBusinessObject.consolidationOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
-                </lookupField>
+  <bean id="AccountBalanceByConsolidation-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="AccountBalanceByConsolidation-accountNumber" parent="AccountBalanceByConsolidation-accountNumber-parentBean" />
 
-                <lookupField attributeName="dummyBusinessObject.costShareOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder</defaultValueFinderClass>
-                </lookupField>
+  <bean id="AccountBalanceByConsolidation-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="AccountBalanceByConsolidation-subAccountNumber" parent="AccountBalanceByConsolidation-subAccountNumber-parentBean" />
 
-                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
-                </lookupField>
-            </lookupFields>
+  <bean id="AccountBalanceByConsolidation-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="AccountBalanceByConsolidation-objectCode" parent="AccountBalanceByConsolidation-objectCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
+  <bean id="AccountBalanceByConsolidation-objectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="objectCode" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-subObjectCode" parent="AccountBalanceByConsolidation-subObjectCode-parentBean" />
 
-                <field attributeName="financialObject.financialObjectType.financialReportingSortCode" noInquiry="true" />
-                <field attributeName="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
+  <bean id="AccountBalanceByConsolidation-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="subObjectCode" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-currentBudgetLineBalanceAmount" parent="AccountBalanceByConsolidation-currentBudgetLineBalanceAmount-parentBean" />
 
-                <field attributeName="dummyBusinessObject.linkButtonOption" />
-                
-                <field attributeName="currentBudgetLineBalanceAmount" />
-                <field attributeName="accountLineActualsBalanceAmount" />
-                <field attributeName="accountLineEncumbranceBalanceAmount" />
-                <field attributeName="dummyBusinessObject.genericAmount" />
-            </resultFields>
-        </lookup>
+  <bean id="AccountBalanceByConsolidation-currentBudgetLineBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="currentBudgetLineBalanceAmount" />
+    <property name="label" value="Budget Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-accountLineActualsBalanceAmount" parent="AccountBalanceByConsolidation-accountLineActualsBalanceAmount-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-accountLineActualsBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accountLineActualsBalanceAmount" />
+    <property name="label" value="Actuals Amount" />
+    <property name="shortLabel" value="Actuals Balance Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-accountLineEncumbranceBalanceAmount" parent="AccountBalanceByConsolidation-accountLineEncumbranceBalanceAmount-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-accountLineEncumbranceBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accountLineEncumbranceBalanceAmount" />
+    <property name="label" value="Encumbrance Amount" />
+    <property name="shortLabel" value="Encumbrance Balance" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-timestamp" parent="AccountBalanceByConsolidation-timestamp-parentBean" />
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-timestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="timestamp" />
+    <property name="label" value="Transaction Entry Processed" />
+    <property name="shortLabel" value="Entry Processed" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.pendingEntryOption" parent="AccountBalanceByConsolidation-dummyBusinessObject.pendingEntryOption-parentBean" />
 
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
+    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.consolidationOption" parent="AccountBalanceByConsolidation-dummyBusinessObject.consolidationOption-parentBean" />
 
-            <attributeReference name="objectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.consolidationOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-consolidationOption">
+    <property name="name" value="dummyBusinessObject.consolidationOption" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.costShareOption" parent="AccountBalanceByConsolidation-dummyBusinessObject.costShareOption-parentBean" />
 
-            <attributeReference name="subObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.costShareOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-costShareOption">
+    <property name="name" value="dummyBusinessObject.costShareOption" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.genericAmount" parent="AccountBalanceByConsolidation-dummyBusinessObject.genericAmount-parentBean" />
 
-            <attributeReference name="currentBudgetLineBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Budget Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="dummyBusinessObject.genericAmount" />
+    <property name="label" value="Variance" />
+    <property name="shortLabel" value="Variance" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode-parentBean" />
 
-            <attributeReference name="accountLineActualsBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Actuals Amount</label>
-                <shortLabel>Actuals Balance Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode-parentBean" abstract="true" parent="ObjectCons-financialReportingSortCode">
+    <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode-parentBean" />
 
-            <attributeReference name="accountLineEncumbranceBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Encumbrance Amount</label>
-                <shortLabel>Encumbrance Balance</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode-parentBean" abstract="true" parent="ObjectType-financialReportingSortCode">
+    <property name="name" value="financialObject.financialObjectType.financialReportingSortCode" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" parent="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" />
 
-            <attributeReference name="timestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Transaction Entry Processed</label>
-                <shortLabel>Entry Processed</shortLabel>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode-parentBean" abstract="true" parent="ObjectCons-finConsolidationObjectCode">
+    <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
+  </bean>
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption" parent="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption-parentBean" />
 
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
+  <bean id="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-linkButtonOption">
+    <property name="name" value="dummyBusinessObject.linkButtonOption" />
+    <property name="label" value="Lookup By Level" />
+    <property name="shortLabel" value="Lookup By Level" />
+  </bean>
 
-            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption">
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="dummyBusinessObject.costShareOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="costShareOption">
-            </attributeReference>
 
-            <attributeReference name="dummyBusinessObject.genericAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Variance</label>
-                <shortLabel>Variance</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="AccountBalanceByConsolidation-inquiryDefinition" parent="AccountBalanceByConsolidation-inquiryDefinition-parentBean" />
 
-            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="financialReportingSortCode" />
+  <bean id="AccountBalanceByConsolidation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Balances By Consolidation" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="objectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="currentBudgetLineBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineActualsBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineEncumbranceBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dummyBusinessObject.genericAmount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="financialObject.financialObjectType.financialReportingSortCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="financialReportingSortCode" />
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode" />
 
-            <attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
-                <label>Lookup By Level</label>
-                <shortLabel>Lookup By Level</shortLabel>
-            </attributeReference>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AccountBalanceByConsolidation-lookupDefinition" parent="AccountBalanceByConsolidation-lookupDefinition-parentBean" />
+
+  <bean id="AccountBalanceByConsolidation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Balances By Consolidation Lookup" />
+    <property name="lookupableID" value="glAccountBalanceByConsolidationLookupable" />
+    <property name="instructions" value="Lookup Available Account Balance for the specific account." />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="universityFiscalYear"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.consolidationOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.costShareOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.pendingEntryOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObject.financialObjectType.financialReportingSortCode"
+              p:noInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.linkButtonOption" />
+        <bean parent="FieldDefinition"
+              p:attributeName="currentBudgetLineBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineActualsBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineEncumbranceBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.genericAmount" />
+      </list>
+    </property>
+  </bean>
+</beans>

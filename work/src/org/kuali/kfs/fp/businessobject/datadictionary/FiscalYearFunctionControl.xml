@@ -1,95 +1,131 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.FiscalYearFunctionControl">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="FiscalYearFunctionControl" parent="FiscalYearFunctionControl-parentBean" />
+
+  <bean id="FiscalYearFunctionControl-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.FiscalYearFunctionControl" />
+    <property name="inquiryDefinition" >
+      <ref bean="FiscalYearFunctionControl-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="FiscalYearFunctionControl-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Fiscal Year Function Control" />
+    <property name="attributes" >
+      <list>
+        <ref bean="FiscalYearFunctionControl-universityFiscalYear" />
+        <ref bean="FiscalYearFunctionControl-financialSystemFunctionControlCode" />
+        <ref bean="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator" />
+        <ref bean="FiscalYearFunctionControl-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Fiscal Year Function Control Inquiry</title>
+  <bean id="FiscalYearFunctionControl-universityFiscalYear" parent="FiscalYearFunctionControl-universityFiscalYear-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="financialSystemFunctionControlCode" />
-                <field attributeName="financialSystemFunctionActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="FiscalYearFunctionControl-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="FiscalYearFunctionControl-financialSystemFunctionControlCode" parent="FiscalYearFunctionControl-financialSystemFunctionControlCode-parentBean" />
 
-        <lookup>
-            <title>Fiscal Year Function Control Lookup</title>
+  <bean id="FiscalYearFunctionControl-financialSystemFunctionControlCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemFunctionControlCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Function Control Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator" parent="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator-parentBean" />
 
-            <instructions>Lookup an Fiscal Year Function Control</instructions>
+  <bean id="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemFunctionActiveIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Function Active Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+  </bean>
+  <bean id="FiscalYearFunctionControl-versionNumber" parent="FiscalYearFunctionControl-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="FiscalYearFunctionControl-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="financialSystemFunctionControlCode" required="false" />
-                <lookupField attributeName="financialSystemFunctionActiveIndicator" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="financialSystemFunctionControlCode" />
-                <field attributeName="financialSystemFunctionActiveIndicator" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="FiscalYearFunctionControl-inquiryDefinition" parent="FiscalYearFunctionControl-inquiryDefinition-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-            </attributeReference>
+  <bean id="FiscalYearFunctionControl-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Fiscal Year Function Control Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemFunctionControlCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemFunctionActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="financialSystemFunctionControlCode" forceUppercase="true">
-                <label>Financial System Function Control Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
+  <bean id="FiscalYearFunctionControl-lookupDefinition" parent="FiscalYearFunctionControl-lookupDefinition-parentBean" />
 
-            <attribute name="financialSystemFunctionActiveIndicator" forceUppercase="true">
-                <label>Financial System Function Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-               <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Fiscal Year Function Control</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="FiscalYearFunctionControl-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Fiscal Year Function Control Lookup" />
+    <property name="instructions" value="Lookup an Fiscal Year Function Control" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionControlCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionControlCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

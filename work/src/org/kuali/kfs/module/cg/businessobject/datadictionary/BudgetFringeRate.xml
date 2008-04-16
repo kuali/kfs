@@ -1,193 +1,241 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetFringeRate">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetFringeRate" parent="BudgetFringeRate-parentBean" />
+
+  <bean id="BudgetFringeRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetFringeRate" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetFringeRate-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetFringeRate-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Budget Fringe Rates" />
+    <property name="objectDescription" value="Fringe rates for the Budget." />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetFringeRate-documentNumber" />
+        <ref bean="BudgetFringeRate-institutionAppointmentTypeCode" />
+        <ref bean="BudgetFringeRate-contractsAndGrantsFringeRateAmount" />
+        <ref bean="BudgetFringeRate-institutionCostShareFringeRateAmount" />
+        <ref bean="BudgetFringeRate-budgetLastUpdateTimestamp" />
+        <ref bean="BudgetFringeRate-objectId" />
+        <ref bean="BudgetFringeRate-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Fringe Rate Inquiry</title>
+  <bean id="BudgetFringeRate-documentNumber" parent="BudgetFringeRate-documentNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="institutionAppointmentTypeCode" />
-                <field attributeName="contractsAndGrantsFringeRateAmount" />
-                <field attributeName="institutionCostShareFringeRateAmount" />
-                <field attributeName="budgetLastUpdateTimestamp" />
-                <field attributeName="objectId" />
-                <field attributeName="versionNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetFringeRate-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Number" />
+    <property name="shortLabel" value="Budget Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Budget Number..." />
+    <property name="description" value="Budget Number..." />
+  </bean>
+  <bean id="BudgetFringeRate-institutionAppointmentTypeCode" parent="BudgetFringeRate-institutionAppointmentTypeCode-parentBean" />
 
-        <lookup>
-            <title>Budget Fringe Rate Lookup</title>
+  <bean id="BudgetFringeRate-institutionAppointmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionAppointmentTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Appointment Type Code" />
+    <property name="shortLabel" value="Appointment Type Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Appointment Type Code" />
+    <property name="description" value="Appointment Type Code..." />
+  </bean>
+  <bean id="BudgetFringeRate-contractsAndGrantsFringeRateAmount" parent="BudgetFringeRate-contractsAndGrantsFringeRateAmount-parentBean" />
 
-            <instructions>Lookup a Budget Fringe Rate</instructions>
+  <bean id="BudgetFringeRate-contractsAndGrantsFringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractsAndGrantsFringeRateAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contract and Grants Fringe Rate Amount" />
+    <property name="shortLabel" value="C&amp;G Fringe Rate" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Cost Share Fringe Rate Amount" />
+    <property name="description" value="Cost Share Fringe Rate Amount..." />
+  </bean>
+  <bean id="BudgetFringeRate-institutionCostShareFringeRateAmount" parent="BudgetFringeRate-institutionCostShareFringeRateAmount-parentBean" />
 
-            <defaultSort attributeName="documentNumber" sortAscending="true" />
+  <bean id="BudgetFringeRate-institutionCostShareFringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionCostShareFringeRateAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Share Fringe Rate Amount" />
+    <property name="shortLabel" value="Fringe Rate" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Cost Share Fringe Rate Amount" />
+    <property name="description" value="Cost Share Fringe Rate Amount..." />
+  </bean>
+  <bean id="BudgetFringeRate-budgetLastUpdateTimestamp" parent="BudgetFringeRate-budgetLastUpdateTimestamp-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="institutionAppointmentTypeCode" required="false" />
-            </lookupFields>
+  <bean id="BudgetFringeRate-budgetLastUpdateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetLastUpdateTimestamp" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Last Update Timestamp" />
+    <property name="shortLabel" value="Last Update" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Budget Last Update Timestamp" />
+    <property name="description" value="Budget Last Update Timestamp..." />
+  </bean>
+  <bean id="BudgetFringeRate-objectId" parent="BudgetFringeRate-objectId-parentBean" />
 
-            <resultFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="institutionAppointmentTypeCode" />
-                <field attributeName="contractsAndGrantsFringeRateAmount" />
-                <field attributeName="institutionCostShareFringeRateAmount" />
-                <field attributeName="budgetLastUpdateTimestamp" />
-                <field attributeName="objectId" />
-                <field attributeName="versionNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="BudgetFringeRate-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+    <property name="summary" value="objectId summary..." />
+    <property name="description" value="objectId description..." />
+  </bean>
+  <bean id="BudgetFringeRate-versionNumber" parent="BudgetFringeRate-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="BudgetFringeRate-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
+  </bean>
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Budget Number</label>
-                <shortLabel>Budget Number</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
 
-                <control>
-                    <text size="8" />
-                </control>
+  <bean id="BudgetFringeRate-inquiryDefinition" parent="BudgetFringeRate-inquiryDefinition-parentBean" />
 
-                <summary>Budget Number...</summary>
-                <description>Budget Number...</description>
-            </attribute>
+  <bean id="BudgetFringeRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Fringe Rate Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="institutionAppointmentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractsAndGrantsFringeRateAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="institutionCostShareFringeRateAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetLastUpdateTimestamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="objectId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="institutionAppointmentTypeCode" forceUppercase="false">
-                <label>Appointment Type Code</label>
-                <shortLabel>Appointment Type Code</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
 
-                <control>
-                    <text size="2" />
-                </control>
+  <bean id="BudgetFringeRate-lookupDefinition" parent="BudgetFringeRate-lookupDefinition-parentBean" />
 
-                <summary>Appointment Type Code</summary>
-                <description>Appointment Type Code...</description>
-            </attribute>
-
-            <attribute name="contractsAndGrantsFringeRateAmount" forceUppercase="false">
-                <label>Contract and Grants Fringe Rate Amount</label>
-                <shortLabel>C&amp;G Fringe Rate</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Cost Share Fringe Rate Amount</summary>
-                <description>Cost Share Fringe Rate Amount...</description>
-            </attribute>
-
-            <attribute name="institutionCostShareFringeRateAmount" forceUppercase="false">
-                <label>Cost Share Fringe Rate Amount</label>
-                <shortLabel>Fringe Rate</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Cost Share Fringe Rate Amount</summary>
-                <description>Cost Share Fringe Rate Amount...</description>
-            </attribute>
-
-            <attribute name="budgetLastUpdateTimestamp" forceUppercase="false">
-                <label>Budget Last Update Timestamp</label>
-                <shortLabel>Last Update</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Budget Last Update Timestamp</summary>
-                <description>Budget Last Update Timestamp...</description>
-            </attribute>
-
-            <attribute name="objectId" forceUppercase="true">
-                <label>Object Id</label>
-                <shortLabel>GUID</shortLabel>
-
-                <maxLength>36</maxLength>
-
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-
-                <control>
-                    <text size="36" />
-                </control>
-
-                <summary>objectId summary...</summary>
-                <description>objectId description...</description>
-            </attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
-            </attribute>
-
-        </attributes>
-
-        <objectLabel>Budget Fringe Rates</objectLabel>
-        <objectDescription>Fringe rates for the Budget.</objectDescription>
-
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetFringeRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Fringe Rate Lookup" />
+    <property name="instructions" value="Lookup a Budget Fringe Rate" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>documentNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="institutionAppointmentTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="institutionAppointmentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractsAndGrantsFringeRateAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="institutionCostShareFringeRateAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetLastUpdateTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="objectId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

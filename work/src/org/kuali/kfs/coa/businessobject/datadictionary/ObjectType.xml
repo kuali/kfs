@@ -1,147 +1,224 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ObjectType" parent="ObjectType-parentBean" />
+
+  <bean id="ObjectType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ObjectType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ObjectType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="code" />
+    <property name="objectLabel" value="Object Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ObjectType-code" />
+        <ref bean="ObjectType-name" />
+        <ref bean="ObjectType-financialReportingSortCode" />
+        <ref bean="ObjectType-finObjectTypeDebitcreditCd" />
+        <ref bean="ObjectType-finObjectTypeIcrSelectionIndicator" />
+        <ref bean="ObjectType-fundBalanceIndicator" />
+        <ref bean="ObjectType-basicAccountingCategoryCode" />
+        <ref bean="ObjectType-objectId" />
+        <ref bean="ObjectType-versionNumber" />
+        <ref bean="ObjectType-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Object Type Inquiry</title>
+  <bean id="ObjectType-code" parent="ObjectType-code-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="finObjectTypeDebitcreditCd" />
-                <field attributeName="finObjectTypeIcrSelectionIndicator" />
-                <field attributeName="fundBalanceIndicator" />
-                <field attributeName="financialReportingSortCode" />
-                <field attributeName="basicAccountingCategory.codeAndDescription" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ObjectType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Type Code" />
+    <property name="shortLabel" value="Obj. Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="ObjectType-name" parent="ObjectType-name-parentBean" />
 
-        <lookup>
-            <title>Object Type Lookup</title>
+  <bean id="ObjectType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Type Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="41" />
+    </property>
+  </bean>
+  <bean id="ObjectType-financialReportingSortCode" parent="ObjectType-financialReportingSortCode-parentBean" />
 
-            <instructions>Lookup an Object Type Code</instructions>
+  <bean id="ObjectType-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialReportingSortCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reporting Sort Code" />
+    <property name="shortLabel" value="Rpt Sort Code" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="ObjectType-finObjectTypeDebitcreditCd" parent="ObjectType-finObjectTypeDebitcreditCd-parentBean" />
 
-            <defaultSort attributeName="code" sortAscending="true" />
+  <bean id="ObjectType-finObjectTypeDebitcreditCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finObjectTypeDebitcreditCd" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Type Debit Credit Code" />
+    <property name="shortLabel" value="Obj. Type Deb/Cred Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="CD" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.DebitCreditValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ObjectType-finObjectTypeIcrSelectionIndicator" parent="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="code" required="false" />
-                <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="basicAccountingCategoryCode" required="false" />
-            </lookupFields>
+  <bean id="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="finObjectTypeIcrSelectionIndicator" />
+    <property name="label" value="ICR Selection Indicator" />
+    <property name="shortLabel" value="ICR Select Indicator" />
+  </bean>
+  <bean id="ObjectType-fundBalanceIndicator" parent="ObjectType-fundBalanceIndicator-parentBean" />
 
-            <resultFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="finObjectTypeDebitcreditCd" />
-                <field attributeName="finObjectTypeIcrSelectionIndicator" />
-                <field attributeName="fundBalanceIndicator" />
-                <field attributeName="financialReportingSortCode" />
-				<field attributeName="basicAccountingCategoryCode" />
-            </resultFields>
-        </lookup>
+  <bean id="ObjectType-fundBalanceIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="fundBalanceIndicator" />
+    <property name="label" value="Fund Balance Indicator" />
+    <property name="shortLabel" value="Fund Balance Indicator" />
+  </bean>
+  <bean id="ObjectType-basicAccountingCategoryCode" parent="ObjectType-basicAccountingCategoryCode-parentBean" />
 
-        <titleAttribute>code</titleAttribute>
+  <bean id="ObjectType-basicAccountingCategoryCode-parentBean" abstract="true" parent="BasicAccountingCategory-code">
+    <property name="name" value="basicAccountingCategoryCode" />
+    <property name="label" value="Basic Accounting Category" />
+    <property name="shortLabel" value="BasicAcctngCategory" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BasicAccountingCategoryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="ObjectType-objectId" parent="ObjectType-objectId-parentBean" />
 
-        <attributes>
-            <attribute name="code" forceUppercase="true">
-                <label>Object Type Code</label>
-                <shortLabel>Obj. Type</shortLabel>
+  <bean id="ObjectType-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="ObjectType-versionNumber" parent="ObjectType-versionNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha />
-                </validationPattern>
-                <required>true</required>
+  <bean id="ObjectType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="ObjectType-active" parent="ObjectType-active-parentBean" />
 
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+  <bean id="ObjectType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-            <attribute name="name" forceUppercase="true">
-                <label>Object Type Name</label>
-                <shortLabel>Name</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>40</maxLength>
-                <required>true</required>
 
-                <control>
-                    <text size="41" />
-                </control>
-            </attribute>
+  <bean id="ObjectType-inquiryDefinition" parent="ObjectType-inquiryDefinition-parentBean" />
 
-            <attribute name="financialReportingSortCode" forceUppercase="true">
-                <label>Reporting Sort Code</label>
-                <shortLabel>Rpt Sort Code</shortLabel>
+  <bean id="ObjectType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Object Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finObjectTypeDebitcreditCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finObjectTypeIcrSelectionIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fundBalanceIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialReportingSortCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="basicAccountingCategory.codeAndDescription" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>2</maxLength>
-                <required>true</required>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
 
-            <attribute name="finObjectTypeDebitcreditCd" forceUppercase="true">
-                <label>Object Type Debit Credit Code</label>
-                <shortLabel>Obj. Type Deb/Cred Code</shortLabel>
+  <bean id="ObjectType-lookupDefinition" parent="ObjectType-lookupDefinition-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <charset validChars="CD" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.DebitCreditValuesFinder" />
-                </control>
-            </attribute>
-
-            <attributeReference name="finObjectTypeIcrSelectionIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>ICR Selection Indicator</label>
-                <shortLabel>ICR Select Indicator</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="fundBalanceIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Fund Balance Indicator</label>
-                <shortLabel>Fund Balance Indicator</shortLabel>
-            </attributeReference>
-
-			<attributeReference name="basicAccountingCategoryCode" sourceClassName="org.kuali.module.chart.bo.BasicAccountingCategory" sourceAttributeName="code">
-				<label>Basic Accounting Category</label>
-				<shortLabel>BasicAcctngCategory</shortLabel>
-				
-				<required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BasicAccountingCategoryValuesFinder" />
-                </control>
-			</attributeReference>
-
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-        </attributes>
-        <objectLabel>Object Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ObjectType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Object Type Lookup" />
+    <property name="instructions" value="Lookup an Object Type Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="basicAccountingCategoryCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finObjectTypeDebitcreditCd" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finObjectTypeIcrSelectionIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundBalanceIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialReportingSortCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="basicAccountingCategoryCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

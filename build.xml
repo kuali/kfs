@@ -316,6 +316,31 @@
 		</java>
 	</target>
 
+	<target name="convert-dd" depends="make-source">
+		<!-- copy the files-to-convert.txt file -->
+		<copy todir="${make-source.target.directory}">
+			<fileset dir="${source.directory}">
+				<include name="**/*.txt" />
+			</fileset>
+		</copy>
+		<!-- run the converter -->
+		<java classname="org.kuali.core.datadictionary.conversion.DataDictionaryConverter" fork="true">
+			<classpath>
+				<pathelement location="${make-source.target.directory}" />
+				<path refid="compile.source.classpath" />
+			</classpath>
+		</java>
+		<!-- remove the backups -->
+		<delete>
+			<fileset dir="work/src">
+				<include name="**/backup/*.xml" />
+			</fileset>
+			<fileset dir="${make-source.target.directory}">
+				<include name="**/backup/*.xml" />
+			</fileset>
+		</delete>
+	</target>
+
 	<target name="dist-plugin" depends="make-source" description="Generates a plugin for standalone KEW">
 		<copy todir="${plugin.classes.directory}">
 			<fileset dir="${make-source.target.directory}"/>

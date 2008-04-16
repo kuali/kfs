@@ -1,139 +1,176 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
-<dictionaryEntry>
-	<transactionalDocument>
-        <documentClass>org.kuali.module.purap.document.AssignContractManagerDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.AssignContractManagerDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer</documentAuthorizerClass>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<authorizations>
-			<authorization action="initiate">
-				<workgroups>
-					<workgroup>PA_PUR_USERS</workgroup>
-				</workgroups>
-			</authorization>
-		</authorizations>
+  <bean id="AssignContractManagerDocument" parent="AssignContractManagerDocument-parentBean" />
 
-		<documentTypeName>AssignContractManagerDocument</documentTypeName>
-		<documentTypeCode>ACM</documentTypeCode>
+  <bean id="AssignContractManagerDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Contract Manager Assignment" />
+    <property name="shortLabel" value="Contract Manager Assignment" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="ASSIGN_CONTRACT_MANAGER"
+            p:parameterDetailType="AssignContractManager" />
+    </property>
+    <property name="documentTypeName" value="AssignContractManagerDocument" />
+    <property name="documentClass" value="org.kuali.module.purap.document.AssignContractManagerDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.AssignContractManagerDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer" />
+    <property name="documentTypeCode" value="ACM" />
+    <property name="workflowProperties" >
+      <ref bean="AssignContractManagerDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssignContractManagerDocument-requisitionNumber" />
+        <ref bean="AssignContractManagerDocument-deliveryCampusCode" />
+        <ref bean="AssignContractManagerDocument-vendorName" />
+        <ref bean="AssignContractManagerDocument-generalDescription" />
+        <ref bean="AssignContractManagerDocument-requisitionTotalAmount" />
+        <ref bean="AssignContractManagerDocument-requisitionCreateDate" />
+        <ref bean="AssignContractManagerDocument-firstItemDescription" />
+        <ref bean="AssignContractManagerDocument-firstItemCommodityCode" />
+        <ref bean="AssignContractManagerDocument-firstObjectCode" />
+      </list>
+    </property>
+  </bean>
 
-		<label>Contract Manager Assignment</label>
+<!-- Attribute Definitions -->
 
-<!-- 
-nalavi: these attributes are added for the purpose of labels display in assingContractManager.tag
--->   		
 
-		<attributes>
-			
-			<attributeReference name="requisitionNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
-                <label>Requisition Number</label>
-                <shortLabel>Requisition Number</shortLabel>
+  <bean id="AssignContractManagerDocument-requisitionNumber" parent="AssignContractManagerDocument-requisitionNumber-parentBean" />
 
-            </attributeReference>
-            
-            <attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
-			    <label>Delivery Campus</label>
-			    <shortLabel>Delivery Campus</shortLabel>
+  <bean id="AssignContractManagerDocument-requisitionNumber-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purapDocumentIdentifier">
+    <property name="name" value="requisitionNumber" />
+    <property name="label" value="Requisition Number" />
+    <property name="shortLabel" value="Requisition Number" />
+  </bean>
+  <bean id="AssignContractManagerDocument-deliveryCampusCode" parent="AssignContractManagerDocument-deliveryCampusCode-parentBean" />
 
-			</attributeReference>
-            
-            <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Suggested Vendor</label>
-                <shortLabel>Vendor Name</shortLabel>
-            </attributeReference>
-            
-            <attribute name="generalDescription" >
-			    <label>General Description</label>
-			    <shortLabel>General Description</shortLabel>
-			    <maxLength>20</maxLength>
-			    <control>
-					<text size="22" />
-				</control>
+  <bean id="AssignContractManagerDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+    <property name="name" value="deliveryCampusCode" />
+    <property name="label" value="Delivery Campus" />
+    <property name="shortLabel" value="Delivery Campus" />
+  </bean>
+  <bean id="AssignContractManagerDocument-vendorName" parent="AssignContractManagerDocument-vendorName-parentBean" />
 
-			</attribute>
-            
-            <attribute name="requisitionTotalAmount" >
-			    <label>Requisition Total Amount</label>
-			    <shortLabel>Total</shortLabel>
-			    <maxLength>20</maxLength>
-			    <control>
-					<text size="22" />
-				</control>
+  <bean id="AssignContractManagerDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="label" value="Suggested Vendor" />
+  </bean>
+  <bean id="AssignContractManagerDocument-generalDescription" parent="AssignContractManagerDocument-generalDescription-parentBean" />
 
-			</attribute>
-			
-			<attribute name="requisitionCreateDate" >
-			    <label>Requisition Create Date</label>
-			    <shortLabel>Create Date</shortLabel>
-			    <maxLength>20</maxLength>
-			    <control>
-					<text size="22" />
-				</control>
+  <bean id="AssignContractManagerDocument-generalDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="generalDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="General Description" />
+    <property name="shortLabel" value="General Description" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="AssignContractManagerDocument-requisitionTotalAmount" parent="AssignContractManagerDocument-requisitionTotalAmount-parentBean" />
 
-			</attribute>
-			
-            <attribute name="firstItemDescription" >
-			    <label>First Item Description</label>
-			    <shortLabel>First Item Description</shortLabel>
-			    <maxLength>20</maxLength>
-			    <control>
-					<text size="22" />
-				</control>
+  <bean id="AssignContractManagerDocument-requisitionTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionTotalAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requisition Total Amount" />
+    <property name="shortLabel" value="Total" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="AssignContractManagerDocument-requisitionCreateDate" parent="AssignContractManagerDocument-requisitionCreateDate-parentBean" />
 
-			</attribute>
+  <bean id="AssignContractManagerDocument-requisitionCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionCreateDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requisition Create Date" />
+    <property name="shortLabel" value="Create Date" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="AssignContractManagerDocument-firstItemDescription" parent="AssignContractManagerDocument-firstItemDescription-parentBean" />
 
-            <attribute name="firstItemCommodityCode" >
-                <label>First Item Commodity Code</label>
-                <shortLabel>First Item Commodity Code</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="22" />
-                </control>
+  <bean id="AssignContractManagerDocument-firstItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="firstItemDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="First Item Description" />
+    <property name="shortLabel" value="First Item Description" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="AssignContractManagerDocument-firstItemCommodityCode" parent="AssignContractManagerDocument-firstItemCommodityCode-parentBean" />
 
-            </attribute>
-            
-			<attribute name="firstObjectCode">
-				<label>First Object Code</label>
-				<shortLabel>First Object Code</shortLabel>
-	
-				<maxLength>20</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-	
-				<control>
-					<text size="22" />
-				</control>
-			</attribute>
+  <bean id="AssignContractManagerDocument-firstItemCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="firstItemCommodityCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="First Item Commodity Code" />
+    <property name="shortLabel" value="First Item Commodity Code" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="AssignContractManagerDocument-firstObjectCode" parent="AssignContractManagerDocument-firstObjectCode-parentBean" />
 
-		</attributes>
-		<help parameterNamespace="KFS-PA" parameterDetailType="AssignContractManager" parameterName="ASSIGN_CONTRACT_MANAGER" />
-		<allowsCopy>false</allowsCopy>
-		<allowsErrorCorrection>false</allowsErrorCorrection>
+  <bean id="AssignContractManagerDocument-firstObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="firstObjectCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="First Object Code" />
+    <property name="shortLabel" value="First Object Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
 
-		<workflowProperties>
-        	<workflowPropertyGroup>
-        		<!-- extra properties for searches -->
-        		<workflowProperty path="documentHeader" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
+<!-- Exported Workflow Properties -->
 
-	</transactionalDocument>
-</dictionaryEntry>
+
+  <bean id="AssignContractManagerDocument-workflowProperties" parent="AssignContractManagerDocument-workflowProperties-parentBean" />
+
+  <bean id="AssignContractManagerDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

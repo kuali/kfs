@@ -1,184 +1,893 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
-<!ENTITY purchasingDocumentBaseAttributes SYSTEM "../../PurchasingDocumentBaseAttributes.xml">
-<!ENTITY purchasingAccountsPayableDocumentBaseAttributes SYSTEM "../../dictionary/entity/PurchasingAccountsPayableDocumentBaseAttributes.xml">
-]>
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.purap.document.RequisitionDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.RequisitionDocumentRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.purap.rules.RequisitionDocumentPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.RequisitionDocumentAuthorizer</documentAuthorizerClass>
-        
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <documentTypeName>RequisitionDocument</documentTypeName>
-        <documentTypeCode>REQS</documentTypeCode>
+  <bean id="RequisitionDocument" parent="RequisitionDocument-parentBean" />
 
-        <label>Requisition</label>
+  <bean id="RequisitionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Requisition" />
+    <property name="shortLabel" value="Requisition" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="REQUISITION"
+            p:parameterDetailType="Requisition" />
+    </property>
+    <property name="documentTypeName" value="RequisitionDocument" />
+    <property name="documentClass" value="org.kuali.module.purap.document.RequisitionDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.RequisitionDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.RequisitionDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.RequisitionDocumentPreRules" />
+    <property name="documentTypeCode" value="REQS" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="RequisitionDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="RequisitionDocument-statusDescription" />
+        <ref bean="RequisitionDocument-versionNumber" />
+        <ref bean="RequisitionDocument-postingYear" />
+        <ref bean="RequisitionDocument-vendorNumber" />
+        <ref bean="RequisitionDocument-vendorDetailAssignedIdentifier" />
+        <ref bean="RequisitionDocument-vendorCustomerNumber" />
+        <ref bean="RequisitionDocument-vendorLine2Address" />
+        <ref bean="RequisitionDocument-vendorStateCode" />
+        <ref bean="RequisitionDocument-vendorAddressInternationalProvinceName" />
+        <ref bean="RequisitionDocument-vendorPostalCode" />
+        <ref bean="RequisitionDocument-totalDollarAmount" />
+        <ref bean="RequisitionDocument-purapDocumentIdentifier" />
+        <ref bean="RequisitionDocument-statusCode" />
+        <ref bean="RequisitionDocument-chartOfAccountsCode" />
+        <ref bean="RequisitionDocument-organizationCode" />
+        <ref bean="RequisitionDocument-vendorAddressGeneratedIdentifier" />
+        <ref bean="RequisitionDocument-vendorContractName" />
+        <ref bean="RequisitionDocument-supplierDiversityLabel" />
+        <ref bean="RequisitionDocument-vendorContactsLabel" />
+        <ref bean="RequisitionDocument-billingName" />
+        <ref bean="RequisitionDocument-billingLine1Address" />
+        <ref bean="RequisitionDocument-billingLine2Address" />
+        <ref bean="RequisitionDocument-billingCityName" />
+        <ref bean="RequisitionDocument-billingStateCode" />
+        <ref bean="RequisitionDocument-billingPostalCode" />
+        <ref bean="RequisitionDocument-billingCountryCode" />
+        <ref bean="RequisitionDocument-billingPhoneNumber" />
+        <ref bean="RequisitionDocument-receivingName" />
+        <ref bean="RequisitionDocument-receivingLine1Address" />
+        <ref bean="RequisitionDocument-receivingLine2Address" />
+        <ref bean="RequisitionDocument-receivingCityName" />
+        <ref bean="RequisitionDocument-receivingStateCode" />
+        <ref bean="RequisitionDocument-receivingPostalCode" />
+        <ref bean="RequisitionDocument-receivingCountryCode" />
+        <ref bean="RequisitionDocument-addressToVendorIndicator" />
+        <ref bean="RequisitionDocument-deliveryBuildingName" />
+        <ref bean="RequisitionDocument-deliveryCampusCode" />
+        <ref bean="RequisitionDocument-deliveryBuildingOther" />
+        <ref bean="RequisitionDocument-deliveryBuildingLine1Address" />
+        <ref bean="RequisitionDocument-deliveryBuildingLine2Address" />
+        <ref bean="RequisitionDocument-deliveryBuildingRoomNumber" />
+        <ref bean="RequisitionDocument-deliveryCityName" />
+        <ref bean="RequisitionDocument-deliveryStateCode" />
+        <ref bean="RequisitionDocument-deliveryPostalCode" />
+        <ref bean="RequisitionDocument-deliveryCountryCode" />
+        <ref bean="RequisitionDocument-deliveryInstructionText" />
+        <ref bean="RequisitionDocument-deliveryRequiredDate" />
+        <ref bean="RequisitionDocument-deliveryRequiredDateReasonCode" />
+        <ref bean="RequisitionDocument-deliveryToEmailAddress" />
+        <ref bean="RequisitionDocument-deliveryToName" />
+        <ref bean="RequisitionDocument-deliveryToPhoneNumber" />
+        <ref bean="RequisitionDocument-externalOrganizationB2bSupplierIdentifier" />
+        <ref bean="RequisitionDocument-fundingSourceCode" />
+        <ref bean="RequisitionDocument-institutionContactEmailAddress" />
+        <ref bean="RequisitionDocument-institutionContactName" />
+        <ref bean="RequisitionDocument-institutionContactPhoneNumber" />
+        <ref bean="RequisitionDocument-nonInstitutionFundAccountNumber" />
+        <ref bean="RequisitionDocument-nonInstitutionFundChartOfAccountsCode" />
+        <ref bean="RequisitionDocument-nonInstitutionFundOrgChartOfAccountsCode" />
+        <ref bean="RequisitionDocument-nonInstitutionFundOrganizationCode" />
+        <ref bean="RequisitionDocument-purchaseOrderAutomaticIndicator" />
+        <ref bean="RequisitionDocument-purchaseOrderCostSourceCode" />
+        <ref bean="RequisitionDocument-purchaseOrderBeginDate" />
+        <ref bean="RequisitionDocument-purchaseOrderEndDate" />
+        <ref bean="RequisitionDocument-purchaseOrderTotalLimit" />
+        <ref bean="RequisitionDocument-purchaseOrderTransmissionMethodCode" />
+        <ref bean="RequisitionDocument-recurringPaymentTypeCode" />
+        <ref bean="RequisitionDocument-requestorPersonEmailAddress" />
+        <ref bean="RequisitionDocument-requestorPersonName" />
+        <ref bean="RequisitionDocument-requestorPersonPhoneNumber" />
+        <ref bean="RequisitionDocument-requisitionSourceCode" />
+        <ref bean="RequisitionDocument-vendorContractGeneratedIdentifier" />
+        <ref bean="RequisitionDocument-vendorFaxNumber" />
+        <ref bean="RequisitionDocument-vendorNoteText" />
+        <ref bean="RequisitionDocument-vendorPhoneNumber" />
+        <ref bean="RequisitionDocument-vendorRestrictedIndicator" />
+        <ref bean="RequisitionDocument-vendorPaymentTermsCode" />
+        <ref bean="RequisitionDocument-vendorShippingTitleCode" />
+        <ref bean="RequisitionDocument-vendorShippingPaymentTermsCode" />
+        <ref bean="RequisitionDocument-requisitionOrganizationReference1Text" />
+        <ref bean="RequisitionDocument-requisitionOrganizationReference2Text" />
+        <ref bean="RequisitionDocument-receivingDocumentRequiredIndicator" />
+        <ref bean="RequisitionDocument-paymentRequestPositiveApprovalIndicator" />
+        <ref bean="RequisitionDocument-requisitionOrganizationReference3Text" />
+        <ref bean="RequisitionDocument-organizationAutomaticPurchaseOrderLimit" />
+        <ref bean="RequisitionDocument-vendorHeaderGeneratedIdentifier" />
+        <ref bean="RequisitionDocument-vendorName" />
+        <ref bean="RequisitionDocument-vendorLine1Address" />
+        <ref bean="RequisitionDocument-vendorCityName" />
+        <ref bean="RequisitionDocument-vendorCountryCode" />
+        <ref bean="RequisitionDocument-alternate1VendorName" />
+        <ref bean="RequisitionDocument-alternate2VendorName" />
+        <ref bean="RequisitionDocument-alternate3VendorName" />
+        <ref bean="RequisitionDocument-alternate4VendorName" />
+        <ref bean="RequisitionDocument-alternate5VendorName" />
+      </list>
+    </property>
+  </bean>
 
-        <attributes>
+<!-- Attribute Definitions -->
 
-            <!-- BELOW IS DUMMY ATTRIBUTE FOR ROUTING LABELS ONLY -->
- 			<attributeReference name="statusDescription" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionStatus"/>
-            
-			<!-- PURAP DOCUMENT ATTRIBUTES -->
-			&purchasingAccountsPayableDocumentBaseAttributes;
-			
-			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionIdentifier"/>
 
-			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionStatus" />
-            
-			<!-- PURCHASING DOCUMENT ATTRIBUTES -->
-            &purchasingDocumentBaseAttributes;
+  <bean id="RequisitionDocument-statusDescription" parent="RequisitionDocument-statusDescription-parentBean" />
 
-			<!-- REQUISITION DOCUMENT ATTRIBUTES -->
-            <attribute name="requisitionOrganizationReference1Text" forceUppercase="true">
-                <label>Reference 1</label>
-                <shortLabel>Text</shortLabel>
+  <bean id="RequisitionDocument-statusDescription-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionStatus">
+    <property name="name" value="statusDescription" />
+  </bean>
+  <bean id="RequisitionDocument-versionNumber" parent="RequisitionDocument-versionNumber-parentBean" />
 
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="RequisitionDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="RequisitionDocument-postingYear" parent="RequisitionDocument-postingYear-parentBean" />
 
-                <control>
-                    <text size="22" />
-                </control>
+  <bean id="RequisitionDocument-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-vendorNumber" parent="RequisitionDocument-vendorNumber-parentBean" />
 
-            </attribute>
+  <bean id="RequisitionDocument-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-vendorDetailAssignedIdentifier" parent="RequisitionDocument-vendorDetailAssignedIdentifier-parentBean" />
 
-            <attribute name="requisitionOrganizationReference2Text" forceUppercase="true">
-                <label>Reference 2</label>
-                <shortLabel>Text</shortLabel>
+  <bean id="RequisitionDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-vendorCustomerNumber" parent="RequisitionDocument-vendorCustomerNumber-parentBean" />
 
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="RequisitionDocument-vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-vendorLine2Address" parent="RequisitionDocument-vendorLine2Address-parentBean" />
 
-                <control>
-                    <text size="22" />
-                </control>
+  <bean id="RequisitionDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="vendorLine2Address" />
+  </bean>
+  <bean id="RequisitionDocument-vendorStateCode" parent="RequisitionDocument-vendorStateCode-parentBean" />
 
-            </attribute>
-            
-            <attributeReference name="receivingDocumentRequiredIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Receiving Required</label>
-                <shortLabel>Receiving Required</shortLabel>
-            </attributeReference>
-            
-            <attributeReference name="paymentRequestPositiveApprovalIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Payment Request Positive Approval Required</label>
-                <shortLabel>Payment Request Positive Approval Required</shortLabel>
-            </attributeReference>
-            
-            <attribute name="requisitionOrganizationReference3Text" forceUppercase="true">
-                <label>Reference 3</label>
-                <shortLabel>Text</shortLabel>
+  <bean id="RequisitionDocument-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="vendorStateCode" />
+  </bean>
+  <bean id="RequisitionDocument-vendorAddressInternationalProvinceName" parent="RequisitionDocument-vendorAddressInternationalProvinceName-parentBean" />
 
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="RequisitionDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+    <property name="name" value="vendorAddressInternationalProvinceName" />
+  </bean>
+  <bean id="RequisitionDocument-vendorPostalCode" parent="RequisitionDocument-vendorPostalCode-parentBean" />
 
-                <control>
-                    <text size="22" />
-                </control>
+  <bean id="RequisitionDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="vendorPostalCode" />
+  </bean>
+  <bean id="RequisitionDocument-totalDollarAmount" parent="RequisitionDocument-totalDollarAmount-parentBean" />
 
-            </attribute>
+  <bean id="RequisitionDocument-totalDollarAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalDollarAmount" />
+    <property name="label" value="Grand Total" />
+    <property name="shortLabel" value="Grand Total" />
+    <property name="summary" value="totalDollarAmount" />
+    <property name="description" value="totalDollarAmount description..." />
+  </bean>
+  <bean id="RequisitionDocument-purapDocumentIdentifier" parent="RequisitionDocument-purapDocumentIdentifier-parentBean" />
 
-            <attributeReference name="organizationAutomaticPurchaseOrderLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>APO Limit</label>
-                <shortLabel>APO Limit</shortLabel>
+  <bean id="RequisitionDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionIdentifier">
+    <property name="name" value="purapDocumentIdentifier" />
+  </bean>
+  <bean id="RequisitionDocument-statusCode" parent="RequisitionDocument-statusCode-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-statusCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionStatus">
+    <property name="name" value="statusCode" />
+  </bean>
+  <bean id="RequisitionDocument-chartOfAccountsCode" parent="RequisitionDocument-chartOfAccountsCode-parentBean" />
 
-<!-- The following vendor fields are defined here although common among other docs because they are not required on REQ, but are required for PO -->
-            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
-                <required>false</required>
-            </attributeReference>
+  <bean id="RequisitionDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="label" value="Chart" />
+    <property name="shortLabel" value="Code" />
+  </bean>
+  <bean id="RequisitionDocument-organizationCode" parent="RequisitionDocument-organizationCode-parentBean" />
 
-            <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Suggested Vendor</label>
-            </attributeReference>
-            
-            <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
+  <bean id="RequisitionDocument-organizationCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-organizationCode">
+  </bean>
+  <bean id="RequisitionDocument-vendorAddressGeneratedIdentifier" parent="RequisitionDocument-vendorAddressGeneratedIdentifier-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="VendorAddress-vendorAddressGeneratedIdentifier">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-vendorContractName" parent="RequisitionDocument-vendorContractName-parentBean" />
 
-            <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
+  <bean id="RequisitionDocument-vendorContractName-parentBean" abstract="true" parent="VendorContract-vendorContractName">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-supplierDiversityLabel" parent="RequisitionDocument-supplierDiversityLabel-parentBean" />
 
-            </attributeReference>
-            
-            <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
+  <bean id="RequisitionDocument-supplierDiversityLabel-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="supplierDiversityLabel" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Supplier Diversity" />
+    <property name="shortLabel" value="Supplier Diversity" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-vendorContactsLabel" parent="RequisitionDocument-vendorContactsLabel-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-vendorContactsLabel-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContactsLabel" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contacts" />
+    <property name="shortLabel" value="Contacts" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-billingName" parent="RequisitionDocument-billingName-parentBean" />
 
-            <attributeReference name="alternate1VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Vendor Name 1</label>
-                <shortLabel>Name 1</shortLabel>
+  <bean id="RequisitionDocument-billingName-parentBean" abstract="true" parent="BillingAddress-billingName">
+    <property name="label" value="Address" />
+  </bean>
+  <bean id="RequisitionDocument-billingLine1Address" parent="RequisitionDocument-billingLine1Address-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-billingLine1Address-parentBean" abstract="true" parent="BillingAddress-billingLine1Address">
+  </bean>
+  <bean id="RequisitionDocument-billingLine2Address" parent="RequisitionDocument-billingLine2Address-parentBean" />
 
-            <attributeReference name="alternate2VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Vendor Name 2</label>
-                <shortLabel>Name 2</shortLabel>
+  <bean id="RequisitionDocument-billingLine2Address-parentBean" abstract="true" parent="BillingAddress-billingLine2Address">
+  </bean>
+  <bean id="RequisitionDocument-billingCityName" parent="RequisitionDocument-billingCityName-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-billingCityName-parentBean" abstract="true" parent="BillingAddress-billingCityName">
+  </bean>
+  <bean id="RequisitionDocument-billingStateCode" parent="RequisitionDocument-billingStateCode-parentBean" />
 
-            <attributeReference name="alternate3VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Vendor Name 3</label>
-                <shortLabel>Name 3</shortLabel>
+  <bean id="RequisitionDocument-billingStateCode-parentBean" abstract="true" parent="BillingAddress-billingStateCode">
+  </bean>
+  <bean id="RequisitionDocument-billingPostalCode" parent="RequisitionDocument-billingPostalCode-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-billingPostalCode-parentBean" abstract="true" parent="BillingAddress-billingPostalCode">
+  </bean>
+  <bean id="RequisitionDocument-billingCountryCode" parent="RequisitionDocument-billingCountryCode-parentBean" />
 
-            <attributeReference name="alternate4VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Vendor Name 4</label>
-                <shortLabel>Name 4</shortLabel>
+  <bean id="RequisitionDocument-billingCountryCode-parentBean" abstract="true" parent="BillingAddress-billingCountryCode">
+  </bean>
+  <bean id="RequisitionDocument-billingPhoneNumber" parent="RequisitionDocument-billingPhoneNumber-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-billingPhoneNumber-parentBean" abstract="true" parent="BillingAddress-billingPhoneNumber">
+  </bean>
+  <bean id="RequisitionDocument-receivingName" parent="RequisitionDocument-receivingName-parentBean" />
 
-            <attributeReference name="alternate5VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Vendor Name 5</label>
-                <shortLabel>Name 5</shortLabel>
+  <bean id="RequisitionDocument-receivingName-parentBean" abstract="true" parent="ReceivingAddress-receivingName">
+    <property name="label" value="Receiving Address" />
+  </bean>
+  <bean id="RequisitionDocument-receivingLine1Address" parent="RequisitionDocument-receivingLine1Address-parentBean" />
 
-            </attributeReference>
+  <bean id="RequisitionDocument-receivingLine1Address-parentBean" abstract="true" parent="ReceivingAddress-receivingLine1Address">
+  </bean>
+  <bean id="RequisitionDocument-receivingLine2Address" parent="RequisitionDocument-receivingLine2Address-parentBean" />
 
-        </attributes>
-		<help parameterNamespace="KFS-PA" parameterDetailType="Requisition" parameterName="REQUISITION" />
-        <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<!-- for routing -->
-        		<workflowProperty path="documentHeader" />
-        		<workflowProperty path="accountsForRouting" />
-        		<workflowProperty path="accountsForRouting.account" />
-        		<workflowProperty path="accountsForRouting.subAccount" />
-        		<workflowProperty path="commodityCodesForRouting" />
-        		<!-- extras for searching -->
-        		<workflowProperty path="status" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-        
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="RequisitionDocument-receivingLine2Address-parentBean" abstract="true" parent="ReceivingAddress-receivingLine2Address">
+  </bean>
+  <bean id="RequisitionDocument-receivingCityName" parent="RequisitionDocument-receivingCityName-parentBean" />
+
+  <bean id="RequisitionDocument-receivingCityName-parentBean" abstract="true" parent="ReceivingAddress-receivingCityName">
+  </bean>
+  <bean id="RequisitionDocument-receivingStateCode" parent="RequisitionDocument-receivingStateCode-parentBean" />
+
+  <bean id="RequisitionDocument-receivingStateCode-parentBean" abstract="true" parent="ReceivingAddress-receivingStateCode">
+  </bean>
+  <bean id="RequisitionDocument-receivingPostalCode" parent="RequisitionDocument-receivingPostalCode-parentBean" />
+
+  <bean id="RequisitionDocument-receivingPostalCode-parentBean" abstract="true" parent="ReceivingAddress-receivingPostalCode">
+  </bean>
+  <bean id="RequisitionDocument-receivingCountryCode" parent="RequisitionDocument-receivingCountryCode-parentBean" />
+
+  <bean id="RequisitionDocument-receivingCountryCode-parentBean" abstract="true" parent="ReceivingAddress-receivingCountryCode">
+  </bean>
+  <bean id="RequisitionDocument-addressToVendorIndicator" parent="RequisitionDocument-addressToVendorIndicator-parentBean" />
+
+  <bean id="RequisitionDocument-addressToVendorIndicator-parentBean" abstract="true" parent="ReceivingAddress-useReceivingIndicator">
+    <property name="name" value="addressToVendorIndicator" />
+    <property name="label" value="Shipping Address Presented to Vendor" />
+    <property name="shortLabel" value="Address to Vendor" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.AddressToVendorIndicatorValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryBuildingName" parent="RequisitionDocument-deliveryBuildingName-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building" />
+    <property name="shortLabel" value="Building" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryCampusCode" parent="RequisitionDocument-deliveryCampusCode-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+    <property name="name" value="deliveryCampusCode" />
+    <property name="label" value="Delivery Campus" />
+    <property name="shortLabel" value="Delivery Campus" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryBuildingOther" parent="RequisitionDocument-deliveryBuildingOther-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryBuildingOther-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingOther" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Other Building" />
+    <property name="shortLabel" value="Other Bldg." />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryBuildingLine1Address" parent="RequisitionDocument-deliveryBuildingLine1Address-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="deliveryBuildingLine1Address" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryBuildingLine2Address" parent="RequisitionDocument-deliveryBuildingLine2Address-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="deliveryBuildingLine2Address" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryBuildingRoomNumber" parent="RequisitionDocument-deliveryBuildingRoomNumber-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryBuildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Room" />
+    <property name="shortLabel" value="Room" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryCityName" parent="RequisitionDocument-deliveryCityName-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="deliveryCityName" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryStateCode" parent="RequisitionDocument-deliveryStateCode-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="deliveryStateCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryPostalCode" parent="RequisitionDocument-deliveryPostalCode-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="deliveryPostalCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryCountryCode" parent="RequisitionDocument-deliveryCountryCode-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="deliveryCountryCode" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryInstructionText" parent="RequisitionDocument-deliveryInstructionText-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryInstructionText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryInstructionText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Delivery Instructions" />
+    <property name="shortLabel" value="Instructions" />
+    <property name="maxLength" value="125" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="50" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryRequiredDate" parent="RequisitionDocument-deliveryRequiredDate-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryRequiredDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="deliveryRequiredDate" />
+    <property name="label" value="Date Required" />
+    <property name="shortLabel" value="Date Required" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryRequiredDateReasonCode" parent="RequisitionDocument-deliveryRequiredDateReasonCode-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryRequiredDateReasonCode-parentBean" abstract="true" parent="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode">
+    <property name="label" value="Date Required Reason" />
+    <property name="shortLabel" value="Date Reason" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-deliveryToEmailAddress" parent="RequisitionDocument-deliveryToEmailAddress-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+    <property name="name" value="deliveryToEmailAddress" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryToName" parent="RequisitionDocument-deliveryToName-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryToName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+    <property name="name" value="deliveryToName" />
+    <property name="label" value="Delivery To" />
+    <property name="shortLabel" value="To" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-deliveryToPhoneNumber" parent="RequisitionDocument-deliveryToPhoneNumber-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+    <property name="name" value="deliveryToPhoneNumber" />
+  </bean>
+  <bean id="RequisitionDocument-externalOrganizationB2bSupplierIdentifier" parent="RequisitionDocument-externalOrganizationB2bSupplierIdentifier-parentBean" />
+
+  <bean id="RequisitionDocument-externalOrganizationB2bSupplierIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="externalOrganizationB2bSupplierIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="External OrganizationB2b Supplier Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-fundingSourceCode" parent="RequisitionDocument-fundingSourceCode-parentBean" />
+
+  <bean id="RequisitionDocument-fundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
+    <property name="label" value="Funding Source" />
+    <property name="shortLabel" value="Funding Source" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-institutionContactEmailAddress" parent="RequisitionDocument-institutionContactEmailAddress-parentBean" />
+
+  <bean id="RequisitionDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+    <property name="name" value="institutionContactEmailAddress" />
+    <property name="label" value="Contact Email" />
+    <property name="shortLabel" value="Address" />
+  </bean>
+  <bean id="RequisitionDocument-institutionContactName" parent="RequisitionDocument-institutionContactName-parentBean" />
+
+  <bean id="RequisitionDocument-institutionContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionContactName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Contact Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-institutionContactPhoneNumber" parent="RequisitionDocument-institutionContactPhoneNumber-parentBean" />
+
+  <bean id="RequisitionDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+    <property name="name" value="institutionContactPhoneNumber" />
+    <property name="label" value="Contact Phone" />
+    <property name="shortLabel" value="Number" />
+  </bean>
+  <bean id="RequisitionDocument-nonInstitutionFundAccountNumber" parent="RequisitionDocument-nonInstitutionFundAccountNumber-parentBean" />
+
+  <bean id="RequisitionDocument-nonInstitutionFundAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="nonInstitutionFundAccountNumber" />
+    <property name="label" value="Non Institution Fund Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-nonInstitutionFundChartOfAccountsCode" parent="RequisitionDocument-nonInstitutionFundChartOfAccountsCode-parentBean" />
+
+  <bean id="RequisitionDocument-nonInstitutionFundChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="nonInstitutionFundChartOfAccountsCode" />
+    <property name="label" value="Non Institution Fund Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-nonInstitutionFundOrgChartOfAccountsCode" parent="RequisitionDocument-nonInstitutionFundOrgChartOfAccountsCode-parentBean" />
+
+  <bean id="RequisitionDocument-nonInstitutionFundOrgChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="nonInstitutionFundOrgChartOfAccountsCode" />
+    <property name="label" value="Non Institution Fund Org Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-nonInstitutionFundOrganizationCode" parent="RequisitionDocument-nonInstitutionFundOrganizationCode-parentBean" />
+
+  <bean id="RequisitionDocument-nonInstitutionFundOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="nonInstitutionFundOrganizationCode" />
+    <property name="label" value="Non Institution Fund Org Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-purchaseOrderAutomaticIndicator" parent="RequisitionDocument-purchaseOrderAutomaticIndicator-parentBean" />
+
+  <bean id="RequisitionDocument-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+    <property name="name" value="purchaseOrderAutomaticIndicator" />
+    <property name="label" value="Purchase Order Automatic Indicator" />
+    <property name="shortLabel" value="Indicator" />
+  </bean>
+  <bean id="RequisitionDocument-purchaseOrderCostSourceCode" parent="RequisitionDocument-purchaseOrderCostSourceCode-parentBean" />
+
+  <bean id="RequisitionDocument-purchaseOrderCostSourceCode-parentBean" abstract="true" parent="PurchaseOrderCostSource-purchaseOrderCostSourceCode">
+    <property name="label" value="Cost Source" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-purchaseOrderBeginDate" parent="RequisitionDocument-purchaseOrderBeginDate-parentBean" />
+
+  <bean id="RequisitionDocument-purchaseOrderBeginDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="purchaseOrderBeginDate" />
+    <property name="label" value="Begin/End Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="RequisitionDocument-purchaseOrderEndDate" parent="RequisitionDocument-purchaseOrderEndDate-parentBean" />
+
+  <bean id="RequisitionDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="purchaseOrderEndDate" />
+    <property name="label" value="Begin/End Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="RequisitionDocument-purchaseOrderTotalLimit" parent="RequisitionDocument-purchaseOrderTotalLimit-parentBean" />
+
+  <bean id="RequisitionDocument-purchaseOrderTotalLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="purchaseOrderTotalLimit" />
+    <property name="label" value="PO Total Cannot Exceed" />
+    <property name="shortLabel" value="Limit" />
+  </bean>
+  <bean id="RequisitionDocument-purchaseOrderTransmissionMethodCode" parent="RequisitionDocument-purchaseOrderTransmissionMethodCode-parentBean" />
+
+  <bean id="RequisitionDocument-purchaseOrderTransmissionMethodCode-parentBean" abstract="true" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode">
+    <property name="label" value="Method of PO Transmission" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-recurringPaymentTypeCode" parent="RequisitionDocument-recurringPaymentTypeCode-parentBean" />
+
+  <bean id="RequisitionDocument-recurringPaymentTypeCode-parentBean" abstract="true" parent="RecurringPaymentType-recurringPaymentTypeCode">
+    <property name="label" value="Type of Recurring Payment" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-requestorPersonEmailAddress" parent="RequisitionDocument-requestorPersonEmailAddress-parentBean" />
+
+  <bean id="RequisitionDocument-requestorPersonEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+    <property name="name" value="requestorPersonEmailAddress" />
+    <property name="label" value="Requestor Email" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-requestorPersonName" parent="RequisitionDocument-requestorPersonName-parentBean" />
+
+  <bean id="RequisitionDocument-requestorPersonName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requestorPersonName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Requestor Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-requestorPersonPhoneNumber" parent="RequisitionDocument-requestorPersonPhoneNumber-parentBean" />
+
+  <bean id="RequisitionDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+    <property name="name" value="requestorPersonPhoneNumber" />
+    <property name="label" value="Requestor Phone" />
+    <property name="shortLabel" value="Phone Number" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="RequisitionDocument-requisitionSourceCode" parent="RequisitionDocument-requisitionSourceCode-parentBean" />
+
+  <bean id="RequisitionDocument-requisitionSourceCode-parentBean" abstract="true" parent="RequisitionSource-requisitionSourceCode">
+  </bean>
+  <bean id="RequisitionDocument-vendorContractGeneratedIdentifier" parent="RequisitionDocument-vendorContractGeneratedIdentifier-parentBean" />
+
+  <bean id="RequisitionDocument-vendorContractGeneratedIdentifier-parentBean" abstract="true" parent="VendorContract-vendorContractGeneratedIdentifier">
+  </bean>
+  <bean id="RequisitionDocument-vendorFaxNumber" parent="RequisitionDocument-vendorFaxNumber-parentBean" />
+
+  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+    <property name="name" value="vendorFaxNumber" />
+    <property name="label" value="Fax Number" />
+    <property name="shortLabel" value="Number" />
+  </bean>
+  <bean id="RequisitionDocument-vendorNoteText" parent="RequisitionDocument-vendorNoteText-parentBean" />
+
+  <bean id="RequisitionDocument-vendorNoteText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorNoteText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Notes To Vendor" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="50" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-vendorPhoneNumber" parent="RequisitionDocument-vendorPhoneNumber-parentBean" />
+
+  <bean id="RequisitionDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+    <property name="name" value="vendorPhoneNumber" />
+    <property name="shortLabel" value="Number" />
+  </bean>
+  <bean id="RequisitionDocument-vendorRestrictedIndicator" parent="RequisitionDocument-vendorRestrictedIndicator-parentBean" />
+
+  <bean id="RequisitionDocument-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+    <property name="name" value="vendorRestrictedIndicator" />
+    <property name="label" value="Restricted Indicator" />
+    <property name="shortLabel" value="Restricted" />
+  </bean>
+  <bean id="RequisitionDocument-vendorPaymentTermsCode" parent="RequisitionDocument-vendorPaymentTermsCode-parentBean" />
+
+  <bean id="RequisitionDocument-vendorPaymentTermsCode-parentBean" abstract="true" parent="VendorDetail-vendorPaymentTermsCode">
+  </bean>
+  <bean id="RequisitionDocument-vendorShippingTitleCode" parent="RequisitionDocument-vendorShippingTitleCode-parentBean" />
+
+  <bean id="RequisitionDocument-vendorShippingTitleCode-parentBean" abstract="true" parent="VendorDetail-vendorShippingTitleCode">
+  </bean>
+  <bean id="RequisitionDocument-vendorShippingPaymentTermsCode" parent="RequisitionDocument-vendorShippingPaymentTermsCode-parentBean" />
+
+  <bean id="RequisitionDocument-vendorShippingPaymentTermsCode-parentBean" abstract="true" parent="VendorDetail-vendorShippingPaymentTermsCode">
+  </bean>
+  <bean id="RequisitionDocument-requisitionOrganizationReference1Text" parent="RequisitionDocument-requisitionOrganizationReference1Text-parentBean" />
+
+  <bean id="RequisitionDocument-requisitionOrganizationReference1Text-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionOrganizationReference1Text" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference 1" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-requisitionOrganizationReference2Text" parent="RequisitionDocument-requisitionOrganizationReference2Text-parentBean" />
+
+  <bean id="RequisitionDocument-requisitionOrganizationReference2Text-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionOrganizationReference2Text" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference 2" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-receivingDocumentRequiredIndicator" parent="RequisitionDocument-receivingDocumentRequiredIndicator-parentBean" />
+
+  <bean id="RequisitionDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="receivingDocumentRequiredIndicator" />
+    <property name="label" value="Receiving Required" />
+    <property name="shortLabel" value="Receiving Required" />
+  </bean>
+  <bean id="RequisitionDocument-paymentRequestPositiveApprovalIndicator" parent="RequisitionDocument-paymentRequestPositiveApprovalIndicator-parentBean" />
+
+  <bean id="RequisitionDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="paymentRequestPositiveApprovalIndicator" />
+    <property name="label" value="Payment Request Positive Approval Required" />
+    <property name="shortLabel" value="Payment Request Positive Approval Required" />
+  </bean>
+  <bean id="RequisitionDocument-requisitionOrganizationReference3Text" parent="RequisitionDocument-requisitionOrganizationReference3Text-parentBean" />
+
+  <bean id="RequisitionDocument-requisitionOrganizationReference3Text-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionOrganizationReference3Text" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference 3" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="RequisitionDocument-organizationAutomaticPurchaseOrderLimit" parent="RequisitionDocument-organizationAutomaticPurchaseOrderLimit-parentBean" />
+
+  <bean id="RequisitionDocument-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="organizationAutomaticPurchaseOrderLimit" />
+    <property name="label" value="APO Limit" />
+    <property name="shortLabel" value="APO Limit" />
+  </bean>
+  <bean id="RequisitionDocument-vendorHeaderGeneratedIdentifier" parent="RequisitionDocument-vendorHeaderGeneratedIdentifier-parentBean" />
+
+  <bean id="RequisitionDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="RequisitionDocument-vendorName" parent="RequisitionDocument-vendorName-parentBean" />
+
+  <bean id="RequisitionDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="label" value="Suggested Vendor" />
+  </bean>
+  <bean id="RequisitionDocument-vendorLine1Address" parent="RequisitionDocument-vendorLine1Address-parentBean" />
+
+  <bean id="RequisitionDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="vendorLine1Address" />
+  </bean>
+  <bean id="RequisitionDocument-vendorCityName" parent="RequisitionDocument-vendorCityName-parentBean" />
+
+  <bean id="RequisitionDocument-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="vendorCityName" />
+  </bean>
+  <bean id="RequisitionDocument-vendorCountryCode" parent="RequisitionDocument-vendorCountryCode-parentBean" />
+
+  <bean id="RequisitionDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="vendorCountryCode" />
+  </bean>
+  <bean id="RequisitionDocument-alternate1VendorName" parent="RequisitionDocument-alternate1VendorName-parentBean" />
+
+  <bean id="RequisitionDocument-alternate1VendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="alternate1VendorName" />
+    <property name="label" value="Vendor Name 1" />
+    <property name="shortLabel" value="Name 1" />
+  </bean>
+  <bean id="RequisitionDocument-alternate2VendorName" parent="RequisitionDocument-alternate2VendorName-parentBean" />
+
+  <bean id="RequisitionDocument-alternate2VendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="alternate2VendorName" />
+    <property name="label" value="Vendor Name 2" />
+    <property name="shortLabel" value="Name 2" />
+  </bean>
+  <bean id="RequisitionDocument-alternate3VendorName" parent="RequisitionDocument-alternate3VendorName-parentBean" />
+
+  <bean id="RequisitionDocument-alternate3VendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="alternate3VendorName" />
+    <property name="label" value="Vendor Name 3" />
+    <property name="shortLabel" value="Name 3" />
+  </bean>
+  <bean id="RequisitionDocument-alternate4VendorName" parent="RequisitionDocument-alternate4VendorName-parentBean" />
+
+  <bean id="RequisitionDocument-alternate4VendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="alternate4VendorName" />
+    <property name="label" value="Vendor Name 4" />
+    <property name="shortLabel" value="Name 4" />
+  </bean>
+  <bean id="RequisitionDocument-alternate5VendorName" parent="RequisitionDocument-alternate5VendorName-parentBean" />
+
+  <bean id="RequisitionDocument-alternate5VendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="alternate5VendorName" />
+    <property name="label" value="Vendor Name 5" />
+    <property name="shortLabel" value="Name 5" />
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="RequisitionDocument-workflowProperties" parent="RequisitionDocument-workflowProperties-parentBean" />
+
+  <bean id="RequisitionDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting.subAccount" />
+              <bean parent="WorkflowProperty"
+                    p:path="commodityCodesForRouting" />
+              <bean parent="WorkflowProperty"
+                    p:path="status" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

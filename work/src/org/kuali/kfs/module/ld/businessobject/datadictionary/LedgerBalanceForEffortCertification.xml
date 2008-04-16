@@ -1,286 +1,507 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.LedgerBalanceForEffortCertification">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Labor Ledger A21 View</title>
+  <bean id="LedgerBalanceForEffortCertification" parent="LedgerBalanceForEffortCertification-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="emplid" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="contractsGrantsBeginningBalanceAmount" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="month10Amount" />
-                <field attributeName="month11Amount" />
-                <field attributeName="month12Amount" />
-                <field attributeName="month13Amount" />
-                <field attributeName="month1Amount" />
-                <field attributeName="month2Amount" />
-                <field attributeName="month3Amount" />
-                <field attributeName="month4Amount" />
-                <field attributeName="month5Amount" />
-                <field attributeName="month6Amount" />
-                <field attributeName="month7Amount" />
-                <field attributeName="month8Amount" />
-                <field attributeName="month9Amount" />
-                <field attributeName="positionNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="transactionDateTimeStamp" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="LedgerBalanceForEffortCertification-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LedgerBalanceForEffortCertification" />
+    <property name="inquiryDefinition" >
+      <ref bean="LedgerBalanceForEffortCertification-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="LedgerBalanceForEffortCertification-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="LedgerBalanceForEffortCertification-effortCertificationReportNumber" />
+        <ref bean="LedgerBalanceForEffortCertification-emplid" />
+        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.personUniversalIdentifier" />
+        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.personUserIdentifier" />
+        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.personName" />
+        <ref bean="LedgerBalanceForEffortCertification-positionNumber" />
+        <ref bean="LedgerBalanceForEffortCertification-universityFiscalYear" />
+        <ref bean="LedgerBalanceForEffortCertification-subAccountNumber" />
+        <ref bean="LedgerBalanceForEffortCertification-accountNumber" />
+        <ref bean="LedgerBalanceForEffortCertification-chartOfAccountsCode" />
+        <ref bean="LedgerBalanceForEffortCertification-financialBalanceTypeCode" />
+        <ref bean="LedgerBalanceForEffortCertification-financialObjectCode" />
+        <ref bean="LedgerBalanceForEffortCertification-financialObjectTypeCode" />
+        <ref bean="LedgerBalanceForEffortCertification-financialSubObjectCode" />
+        <ref bean="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount" />
+        <ref bean="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount" />
+        <ref bean="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount" />
+        <ref bean="LedgerBalanceForEffortCertification-month1Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month2Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month3Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month4Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month5Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month6Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month7Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month8Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month9Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month10Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month11Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month12Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-month13Amount" />
+        <ref bean="LedgerBalanceForEffortCertification-transactionDateTimeStamp" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="ledgerPerson" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="ledgerPerson.personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="emplid"
+                    p:targetName="personPayrollIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="ledgerPerson.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="ledgerPerson.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="laborObject" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="laborObject.chartOfAccountsCode"
+                    p:targetName="chartOfAccountsCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="laborObject.financialObjectFringeOrSalaryCode"
+                    p:targetName="financialObjectFringeOrSalaryCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="laborObject.financialObjectCode"
+                    p:targetName="financialObjectCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="laborObject.universityFiscalYear"
+                    p:targetName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-	        <lookupableID>laborLedgerBalanceForEffortCertificationLookupable</lookupableID>	        
-            <title>Labor Ledger View for Effort Certification</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Look up a Ledger Balance</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                    <sortAttribute attributeName="subAccountNumber" />
-                	<sortAttribute attributeName="financialObjectCode" />
-                	<sortAttribute attributeName="positionNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="LedgerBalanceForEffortCertification-effortCertificationReportNumber" parent="LedgerBalanceForEffortCertification-effortCertificationReportNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true" />
-                <lookupField attributeName="emplid" required="true" />
-				<lookupField attributeName="effortCertificationReportNumber" required="true" />
-                
-                <lookupField attributeName="chartOfAccountsCode" required="true"/>
-                <lookupField attributeName="accountNumber" required="true"/>
-                <lookupField attributeName="subAccountNumber" required="true"/>
-                <lookupField attributeName="financialObjectCode" required="true"/>                
-                <lookupField attributeName="positionNumber" required="true"/>
-                
-                <lookupField attributeName="financialBalanceTypeCode" required="false"/>
-                <lookupField attributeName="financialObjectTypeCode" required="false"/>
-			</lookupFields>
+  <bean id="LedgerBalanceForEffortCertification-effortCertificationReportNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effortCertificationReportNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Effort Certification Report Number" />
+    <property name="shortLabel" value="Report Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Effort Certification ReportNumber" />
+    <property name="description" value="Effort Certification ReportNumber description..." />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-emplid" parent="LedgerBalanceForEffortCertification-emplid-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />                                
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="positionNumber" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="ledgerPerson.personName" />
+  <bean id="LedgerBalanceForEffortCertification-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+    <property name="name" value="emplid" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.personUniversalIdentifier" parent="LedgerBalanceForEffortCertification-ledgerPerson.personUniversalIdentifier-parentBean" />
 
-                <field attributeName="financialBeginningBalanceLineAmount" />                            
-                <field attributeName="contractsGrantsBeginningBalanceAmount" />                
-				<field attributeName="accountLineAnnualBalanceAmount" />
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="ledgerPerson.personUniversalIdentifier" />
+    <property name="label" value="Employee Univ ID" />
+    <property name="shortLabel" value="EmplUnvId" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="ledgerPerson.personUserIdentifier" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.personUserIdentifier" parent="LedgerBalanceForEffortCertification-ledgerPerson.personUserIdentifier-parentBean" />
 
-                <field attributeName="month1Amount" />
-                <field attributeName="month2Amount" />
-                <field attributeName="month3Amount" />
-                <field attributeName="month4Amount" />
-                <field attributeName="month5Amount" />
-                <field attributeName="month6Amount" />
-                <field attributeName="month7Amount" />
-                <field attributeName="month8Amount" />
-                <field attributeName="month9Amount" />
-                <field attributeName="month10Amount" />
-                <field attributeName="month11Amount" />
-                <field attributeName="month12Amount" />
-                <field attributeName="month13Amount" />
-            </resultFields>
-        </lookup>
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="ledgerPerson.personUserIdentifier" />
+    <property name="label" value="Employee User ID" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="ledgerPerson.personName"
+            p:universalIdAttributeName="ledgerPerson.personUniversalIdentifier"
+            p:userIdAttributeName="ledgerPerson.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.personName" parent="LedgerBalanceForEffortCertification-ledgerPerson.personName-parentBean" />
 
-        <attributes>
-             <attribute name="effortCertificationReportNumber" forceUppercase="true">
-                <label>Effort Certification Report Number</label>
-                <shortLabel>Report Number</shortLabel>
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="ledgerPerson.personName" />
+    <property name="label" value="Employee Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-positionNumber" parent="LedgerBalanceForEffortCertification-positionNumber-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="LedgerBalanceForEffortCertification-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-universityFiscalYear" parent="LedgerBalanceForEffortCertification-universityFiscalYear-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="LedgerBalanceForEffortCertification-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-subAccountNumber" parent="LedgerBalanceForEffortCertification-subAccountNumber-parentBean" />
 
-                <summary>Effort Certification ReportNumber</summary>
-                <description>Effort Certification ReportNumber description...</description>
-			</attribute>
+  <bean id="LedgerBalanceForEffortCertification-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-accountNumber" parent="LedgerBalanceForEffortCertification-accountNumber-parentBean" />
 
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+  <bean id="LedgerBalanceForEffortCertification-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-chartOfAccountsCode" parent="LedgerBalanceForEffortCertification-chartOfAccountsCode-parentBean" />
 
-            <attributeReference name="ledgerPerson.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Employee Univ ID</label>
-                <shortLabel>EmplUnvId</shortLabel>
-                <displayLabelAttribute>ledgerPerson.personUserIdentifier</displayLabelAttribute>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-                        
-            <attributeReference name="ledgerPerson.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Employee User ID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="ledgerPerson.personUniversalIdentifier" userIdAttributeName="ledgerPerson.personUserIdentifier" personNameAttributeName="ledgerPerson.personName" />
-                </control>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode" parent="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" />
 
-            <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Employee Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="financialBalanceTypeCode" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-financialObjectCode" parent="LedgerBalanceForEffortCertification-financialObjectCode-parentBean" />
 
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
+  <bean id="LedgerBalanceForEffortCertification-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-financialObjectTypeCode" parent="LedgerBalanceForEffortCertification-financialObjectTypeCode-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="financialObjectTypeCode" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode" parent="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" />
 
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
+  <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount" parent="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount-parentBean" />
 
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />			
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/> 
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />			
-			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />			
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
+  <bean id="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accountLineAnnualBalanceAmount" />
+    <property name="label" value="Account Line Annual Balance Amount" />
+    <property name="shortLabel" value="Account Line Annual Balance Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount" parent="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount-parentBean" />
 
-            <attributeReference name="accountLineAnnualBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Account Line Annual Balance Amount</label>
-                <shortLabel>Account Line Annual Balance Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="financialBeginningBalanceLineAmount" />
+    <property name="label" value="Beginning Balance Line Amount" />
+    <property name="shortLabel" value="Beginning Balance Line Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount" parent="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount-parentBean" />
 
-            <attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Beginning Balance Line Amount</label>
-                <shortLabel>Beginning Balance Line Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="contractsGrantsBeginningBalanceAmount" />
+    <property name="label" value="Contracts Grants Beginning Balance Amount" />
+    <property name="shortLabel" value="CG Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month1Amount" parent="LedgerBalanceForEffortCertification-month1Amount-parentBean" />
 
-            <attributeReference name="contractsGrantsBeginningBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Contracts Grants Beginning Balance Amount</label>
-                <shortLabel>CG Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month1Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month1Amount" />
+    <property name="label" value="July" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month2Amount" parent="LedgerBalanceForEffortCertification-month2Amount-parentBean" />
 
-            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>July</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month2Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month2Amount" />
+    <property name="label" value="August" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month3Amount" parent="LedgerBalanceForEffortCertification-month3Amount-parentBean" />
 
-            <attributeReference name="month2Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>August</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month3Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month3Amount" />
+    <property name="label" value="September" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month4Amount" parent="LedgerBalanceForEffortCertification-month4Amount-parentBean" />
 
-            <attributeReference name="month3Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>September</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month4Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month4Amount" />
+    <property name="label" value="October" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month5Amount" parent="LedgerBalanceForEffortCertification-month5Amount-parentBean" />
 
-            <attributeReference name="month4Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>October</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month5Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month5Amount" />
+    <property name="label" value="November" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month6Amount" parent="LedgerBalanceForEffortCertification-month6Amount-parentBean" />
 
-            <attributeReference name="month5Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>November</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month6Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month6Amount" />
+    <property name="label" value="December" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month7Amount" parent="LedgerBalanceForEffortCertification-month7Amount-parentBean" />
 
-            <attributeReference name="month6Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>December</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month7Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month7Amount" />
+    <property name="label" value="January" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month8Amount" parent="LedgerBalanceForEffortCertification-month8Amount-parentBean" />
 
-            <attributeReference name="month7Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>January</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month8Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month8Amount" />
+    <property name="label" value="February" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month9Amount" parent="LedgerBalanceForEffortCertification-month9Amount-parentBean" />
 
-            <attributeReference name="month8Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>February</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month9Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month9Amount" />
+    <property name="label" value="March" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month10Amount" parent="LedgerBalanceForEffortCertification-month10Amount-parentBean" />
 
-            <attributeReference name="month9Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>March</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month10Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month10Amount" />
+    <property name="label" value="April" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month11Amount" parent="LedgerBalanceForEffortCertification-month11Amount-parentBean" />
 
-            <attributeReference name="month10Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>April</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month11Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month11Amount" />
+    <property name="label" value="May" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month12Amount" parent="LedgerBalanceForEffortCertification-month12Amount-parentBean" />
 
-            <attributeReference name="month11Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>May</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month12Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month12Amount" />
+    <property name="label" value="June" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-month13Amount" parent="LedgerBalanceForEffortCertification-month13Amount-parentBean" />
 
-            <attributeReference name="month12Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>June</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-month13Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="month13Amount" />
+    <property name="label" value="Year End" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="LedgerBalanceForEffortCertification-transactionDateTimeStamp" parent="LedgerBalanceForEffortCertification-transactionDateTimeStamp-parentBean" />
 
-            <attributeReference name="month13Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Year End</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="LedgerBalanceForEffortCertification-transactionDateTimeStamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="transactionDateTimeStamp" />
+    <property name="label" value="Transaction Entry Processed" />
+    <property name="shortLabel" value="Entry Processed" />
+  </bean>
 
-            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Transaction Entry Processed</label>
-                <shortLabel>Entry Processed</shortLabel>
-            </attributeReference>
-        </attributes>
+<!-- Business Object Inquiry Definition -->
 
-        <relationships>
-            <relationship objectAttributeName="ledgerPerson" >
-                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
-				<supportAttribute sourceName="ledgerPerson.personUserIdentifier" targetName="personUserIdentifier" identifier="true"/>
-				<supportAttribute sourceName="ledgerPerson.personName" targetName="personName" />
-            </relationship>
-            <relationship objectAttributeName="laborObject" >
-                <primitiveAttribute sourceName="laborObject.chartOfAccountsCode" targetName="chartOfAccountsCode" />
-				<supportAttribute sourceName="laborObject.financialObjectFringeOrSalaryCode" targetName="financialObjectFringeOrSalaryCode"/>
-				<supportAttribute sourceName="laborObject.financialObjectCode" targetName="financialObjectCode" identifier="true"/>
-				<supportAttribute sourceName="laborObject.universityFiscalYear" targetName="universityFiscalYear" />
-            </relationship>
-        </relationships>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="LedgerBalanceForEffortCertification-inquiryDefinition" parent="LedgerBalanceForEffortCertification-inquiryDefinition-parentBean" />
+
+  <bean id="LedgerBalanceForEffortCertification-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Labor Ledger A21 View" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineAnnualBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBeginningBalanceLineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBalanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractsGrantsBeginningBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month10Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month11Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month12Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month13Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month3Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month4Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month5Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month6Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month7Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month8Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="month9Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDateTimeStamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="LedgerBalanceForEffortCertification-lookupDefinition" parent="LedgerBalanceForEffortCertification-lookupDefinition-parentBean" />
+
+  <bean id="LedgerBalanceForEffortCertification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Labor Ledger View for Effort Certification" />
+    <property name="lookupableID" value="laborLedgerBalanceForEffortCertificationLookupable" />
+    <property name="instructions" value="Look up a Ledger Balance" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="ledgerPerson.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBeginningBalanceLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractsGrantsBeginningBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month3Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month4Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month5Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month6Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month7Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month8Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month9Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month10Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month11Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month12Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="month13Amount" />
+      </list>
+    </property>
+  </bean>
+</beans>

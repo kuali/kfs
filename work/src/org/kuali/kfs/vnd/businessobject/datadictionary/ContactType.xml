@@ -1,96 +1,137 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.ContactType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Contact Type Inquiry</title>
+  <bean id="ContactType" parent="ContactType-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorContactTypeCode" />
-                <field attributeName="vendorContactTypeDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ContactType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.ContactType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ContactType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ContactType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorContactTypeCode" />
+    <property name="objectLabel" value="Contact Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ContactType-vendorContactTypeCode" />
+        <ref bean="ContactType-vendorContactTypeDescription" />
+        <ref bean="ContactType-active" />
+        <ref bean="ContactType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Contact Type Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Contact Type</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorContactTypeDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ContactType-vendorContactTypeCode" parent="ContactType-vendorContactTypeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorContactTypeCode" required="false" />
-                <lookupField attributeName="vendorContactTypeDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="ContactType-vendorContactTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContactTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contact Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ContactType-vendorContactTypeDescription" parent="ContactType-vendorContactTypeDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorContactTypeCode" />
-                <field attributeName="vendorContactTypeDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ContactType-vendorContactTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContactTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Contact Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ContactType-active" parent="ContactType-active-parentBean" />
 
-        <titleAttribute>vendorContactTypeCode</titleAttribute>
+  <bean id="ContactType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ContactType-versionNumber" parent="ContactType-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="ContactType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="vendorContactTypeCode" forceUppercase="true">
-                <label>Contact Type Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="ContactType-inquiryDefinition" parent="ContactType-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="ContactType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Contact Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="vendorContactTypeDescription" forceUppercase="true">
-                <label>Contact Type Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="ContactType-lookupDefinition" parent="ContactType-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Contact Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ContactType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Contact Type Lookup" />
+    <property name="instructions" value="Lookup a Contact Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

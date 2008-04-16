@@ -1,146 +1,294 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobal">
- 
-        <inquiry>
-            <title>Asset Retirement Global Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="documentNumber" />
-                        <field attributeName="inventoryStatusCode" />
-                        <field attributeName="mergedTargetCapitalAssetNumber" />
-                        <field attributeName="retirementDate" />
-                        <field attributeName="retirementReasonCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Asset Retirement Global Lookup</title>
+  <bean id="AssetRetirementGlobal" parent="AssetRetirementGlobal-parentBean" />
 
-            <instructions>Look up an Asset Retirement Global</instructions>
+  <bean id="AssetRetirementGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobal" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetRetirementGlobal-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetRetirementGlobal-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetRetirementGlobal-documentNumber" />
+        <ref bean="AssetRetirementGlobal-inventoryStatusCode" />
+        <ref bean="AssetRetirementGlobal-mergedTargetCapitalAssetNumber" />
+        <ref bean="AssetRetirementGlobal-retirementDate" />
+        <ref bean="AssetRetirementGlobal-retirementReasonCode" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.salePrice" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription" />
+        <ref bean="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber" />
+        <ref bean="AssetRetirementGlobal-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="inventoryStatusCode" required="false" />
-                <lookupField attributeName="mergedTargetCapitalAssetNumber" required="false" />
-                <lookupField attributeName="retirementDate" required="false" />
-                <lookupField attributeName="retirementReasonCode" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="inventoryStatusCode" />
-                <field attributeName="mergedTargetCapitalAssetNumber" />
-                <field attributeName="retirementDate" />
-                <field attributeName="retirementReasonCode" />
-            </resultFields>
-        </lookup>
+  <bean id="AssetRetirementGlobal-documentNumber" parent="AssetRetirementGlobal-documentNumber-parentBean" />
 
-        <attributes>
+  <bean id="AssetRetirementGlobal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="AssetRetirementGlobal-inventoryStatusCode" parent="AssetRetirementGlobal-inventoryStatusCode-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="AssetRetirementGlobal-inventoryStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="inventoryStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Inventory Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="inventoryStatusCode" />
+    <property name="description" value="inventoryStatusCode description..." />
+  </bean>
+  <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber" parent="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" />
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mergedTargetCapitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Merged Target Capital Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="mergedTargetCapitalAssetNumber" />
+    <property name="description" value="mergedTargetCapitalAssetNumber description..." />
+  </bean>
+  <bean id="AssetRetirementGlobal-retirementDate" parent="AssetRetirementGlobal-retirementDate-parentBean" />
 
-                <control>
-                    <text size="16" />
-                </control>
+  <bean id="AssetRetirementGlobal-retirementDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="retirementDate" />
+    <property name="label" value="Retirement Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="AssetRetirementGlobal-retirementReasonCode" parent="AssetRetirementGlobal-retirementReasonCode-parentBean" />
 
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
+  <bean id="AssetRetirementGlobal-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="retirementReasonCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Retirement Reason Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.module.cams.bo.AssetRetirementReason"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="retirementReasonCode"
+            p:labelAttribute="retirementReasonName" />
+    </property>
+    <property name="summary" value="retirementReasonCode" />
+    <property name="description" value="retirementReasonCode description..." />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode-parentBean" />
 
-            <attribute name="inventoryStatusCode" forceUppercase="true">
-                <label>Inventory Status Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementChartOfAccountsCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementChartOfAccountsCode">
+    <property name="name" value="sharedRetirementInfo.retirementChartOfAccountsCode" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementAccountNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementAccountNumber">
+    <property name="name" value="sharedRetirementInfo.retirementAccountNumber" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName-parentBean" />
 
-                <control>
-                    <text size="3" />
-                </control>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementContactName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementContactName">
+    <property name="name" value="sharedRetirementInfo.retirementContactName" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName-parentBean" />
 
-                <summary>inventoryStatusCode</summary>
-                <description>inventoryStatusCode description...</description>
-			</attribute>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementInstitutionName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementInstitutionName">
+    <property name="name" value="sharedRetirementInfo.retirementInstitutionName" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress-parentBean" />
 
-            <attribute name="mergedTargetCapitalAssetNumber" forceUppercase="true">
-                <label>Merged Target Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStreetAddress-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStreetAddress">
+    <property name="name" value="sharedRetirementInfo.retirementStreetAddress" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName-parentBean" />
 
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCityName-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCityName">
+    <property name="name" value="sharedRetirementInfo.retirementCityName" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode-parentBean" />
 
-                <control>
-                    <text size="14" />
-                </control>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementStateCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementStateCode">
+    <property name="name" value="sharedRetirementInfo.retirementStateCode" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode-parentBean" />
 
-                <summary>mergedTargetCapitalAssetNumber</summary>
-                <description>mergedTargetCapitalAssetNumber description...</description>
-			</attribute>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementZipCode">
+    <property name="name" value="sharedRetirementInfo.retirementZipCode" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode-parentBean" />
 
-            <attributeReference name="retirementDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Retirement Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
-            
-            <attribute name="retirementReasonCode" forceUppercase="true">
-                <label>Retirement Reason Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementCountryCode">
+    <property name="name" value="sharedRetirementInfo.retirementCountryCode" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementPhoneNumber">
+    <property name="name" value="sharedRetirementInfo.retirementPhoneNumber" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice" parent="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice-parentBean" />
 
-                <control>
-                	<select
-                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-						businessObjectClass="org.kuali.module.cams.bo.AssetRetirementReason"
-						keyAttribute="retirementReasonCode"
-						labelAttribute="retirementReasonName" includeKeyInLabel="true" />
-                    <!-- text size="3" /-->
-                </control>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.estimatedSellingPrice-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-estimatedSellingPrice">
+    <property name="name" value="sharedRetirementInfo.estimatedSellingPrice" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.salePrice" parent="AssetRetirementGlobal-sharedRetirementInfo.salePrice-parentBean" />
 
-                <summary>retirementReasonCode</summary>
-                <description>retirementReasonCode description...</description>
-			</attribute>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.salePrice-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-salePrice">
+    <property name="name" value="sharedRetirementInfo.salePrice" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber-parentBean" />
 
-            <attributeReference name="sharedRetirementInfo.retirementChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementChartOfAccountsCode" />
-            <attributeReference name="sharedRetirementInfo.retirementAccountNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementAccountNumber" />
-            <attributeReference name="sharedRetirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementContactName" />
-            <attributeReference name="sharedRetirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementInstitutionName" />
-            <attributeReference name="sharedRetirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStreetAddress" />
-            <attributeReference name="sharedRetirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCityName" />
-            <attributeReference name="sharedRetirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStateCode" />
-            <attributeReference name="sharedRetirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementZipCode" />
-            <attributeReference name="sharedRetirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCountryCode" />
-            <attributeReference name="sharedRetirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementPhoneNumber" />
-            <attributeReference name="sharedRetirementInfo.estimatedSellingPrice" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="estimatedSellingPrice" />
-            <attributeReference name="sharedRetirementInfo.salePrice" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="salePrice" />
-            <attributeReference name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="cashReceiptFinancialDocumentNumber" />
-            <attributeReference name="sharedRetirementInfo.handlingFeeAmount" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="handlingFeeAmount" />
-            <attributeReference name="sharedRetirementInfo.preventiveMaintenanceAmount" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="preventiveMaintenanceAmount" />
-            <attributeReference name="sharedRetirementInfo.buyerDescription" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="buyerDescription" />
-            <attributeReference name="sharedRetirementInfo.paidCaseNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="paidCaseNumber" />
-            
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.cashReceiptFinancialDocumentNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-cashReceiptFinancialDocumentNumber">
+    <property name="name" value="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount" parent="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.handlingFeeAmount-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-handlingFeeAmount">
+    <property name="name" value="sharedRetirementInfo.handlingFeeAmount" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount" parent="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount-parentBean" />
+
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-preventiveMaintenanceAmount">
+    <property name="name" value="sharedRetirementInfo.preventiveMaintenanceAmount" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription" parent="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription-parentBean" />
+
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-buyerDescription">
+    <property name="name" value="sharedRetirementInfo.buyerDescription" />
+  </bean>
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber-parentBean" />
+
+  <bean id="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-paidCaseNumber">
+    <property name="name" value="sharedRetirementInfo.paidCaseNumber" />
+  </bean>
+  <bean id="AssetRetirementGlobal-versionNumber" parent="AssetRetirementGlobal-versionNumber-parentBean" />
+
+  <bean id="AssetRetirementGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AssetRetirementGlobal-inquiryDefinition" parent="AssetRetirementGlobal-inquiryDefinition-parentBean" />
+
+  <bean id="AssetRetirementGlobal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Retirement Global Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="inventoryStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="mergedTargetCapitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementReasonCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AssetRetirementGlobal-lookupDefinition" parent="AssetRetirementGlobal-lookupDefinition-parentBean" />
+
+  <bean id="AssetRetirementGlobal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Retirement Global Lookup" />
+    <property name="instructions" value="Look up an Asset Retirement Global" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="mergedTargetCapitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="retirementDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="retirementReasonCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="mergedTargetCapitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="retirementDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="retirementReasonCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

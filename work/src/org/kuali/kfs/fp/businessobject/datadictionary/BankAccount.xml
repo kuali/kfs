@@ -1,142 +1,218 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.BankAccount">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BankAccount" parent="BankAccount-parentBean" />
+
+  <bean id="BankAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.BankAccount" />
+    <property name="inquiryDefinition" >
+      <ref bean="BankAccount-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BankAccount-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="finDocumentBankAccountNumber" />
+    <property name="objectLabel" value="Bank Account" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BankAccount-financialDocumentBankCode" />
+        <ref bean="BankAccount-finDocumentBankAccountNumber" />
+        <ref bean="BankAccount-finDocumentBankAccountDesc" />
+        <ref bean="BankAccount-cashOffsetFinancialChartOfAccountCode" />
+        <ref bean="BankAccount-cashOffsetAccountNumber" />
+        <ref bean="BankAccount-cashOffsetSubAccountNumber" />
+        <ref bean="BankAccount-cashOffsetObjectCode" />
+        <ref bean="BankAccount-cashOffsetSubObjectCode" />
+        <ref bean="BankAccount-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Bank Account Inquiry</title>
+  <bean id="BankAccount-financialDocumentBankCode" parent="BankAccount-financialDocumentBankCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialDocumentBankCode" />
-                <field attributeName="finDocumentBankAccountNumber" />
-                <field attributeName="finDocumentBankAccountDesc" />
-                <field attributeName="cashOffsetFinancialChartOfAccountCode" />
-                <field attributeName="cashOffsetAccountNumber" />
-                <field attributeName="cashOffsetSubAccountNumber" />
-                <field attributeName="cashOffsetObjectCode" />
-                <field attributeName="cashOffsetSubObjectCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BankAccount-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-financialDocumentBankCode">
+  </bean>
+  <bean id="BankAccount-finDocumentBankAccountNumber" parent="BankAccount-finDocumentBankAccountNumber-parentBean" />
 
-        <lookup>
-            <title>Bank Account Lookup</title>
+  <bean id="BankAccount-finDocumentBankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finDocumentBankAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Bank Account Number" />
+    <property name="shortLabel" value="Bank Acct" />
+    <property name="maxLength" value="15" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="displayMask" >
+      <bean parent="Mask">
+        <property name="maskFormatter" >
+          <bean parent="MaskFormatterLiteral"
+                p:literal="***************" />
+        </property>
+      </bean>
+    </property>
+    <property name="displayWorkgroup" value="kualiUniversalGroup" />
+  </bean>
+  <bean id="BankAccount-finDocumentBankAccountDesc" parent="BankAccount-finDocumentBankAccountDesc-parentBean" />
 
-            <instructions>Lookup a Bank Account</instructions>
+  <bean id="BankAccount-finDocumentBankAccountDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finDocumentBankAccountDesc" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Bank Account Description" />
+    <property name="shortLabel" value="Bank Acct Desc" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="BankAccount-cashOffsetFinancialChartOfAccountCode" parent="BankAccount-cashOffsetFinancialChartOfAccountCode-parentBean" />
 
-            <defaultSort attributeName="financialDocumentBankCode" sortAscending="true" />
+  <bean id="BankAccount-cashOffsetFinancialChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="cashOffsetFinancialChartOfAccountCode" />
+    <property name="label" value="Cash Offset Chart Of Accounts" />
+    <property name="shortLabel" value="Cash Off CoA" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="BankAccount-cashOffsetAccountNumber" parent="BankAccount-cashOffsetAccountNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="financialDocumentBankCode" required="false" />
-                <lookupField attributeName="finDocumentBankAccountNumber" required="false" />
-                <lookupField attributeName="finDocumentBankAccountDesc" required="false" />
-                <lookupField attributeName="cashOffsetFinancialChartOfAccountCode" required="false" />
-                <lookupField attributeName="cashOffsetAccountNumber" required="false" />
-                <lookupField attributeName="cashOffsetSubAccountNumber" required="false" />
-                <lookupField attributeName="cashOffsetObjectCode" required="false" />
-                <lookupField attributeName="cashOffsetSubObjectCode" required="false" />
-            </lookupFields>
+  <bean id="BankAccount-cashOffsetAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="cashOffsetAccountNumber" />
+    <property name="label" value="Cash Offset Account Number" />
+    <property name="shortLabel" value="Cash Off Acct" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="BankAccount-cashOffsetSubAccountNumber" parent="BankAccount-cashOffsetSubAccountNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="financialDocumentBankCode" />
-                <field attributeName="finDocumentBankAccountNumber" />
-                <field attributeName="finDocumentBankAccountDesc" />
-                <field attributeName="cashOffsetFinancialChartOfAccountCode" />
-                <field attributeName="cashOffsetAccountNumber" />
-                <field attributeName="cashOffsetSubAccountNumber" />
-                <field attributeName="cashOffsetObjectCode" />
-                <field attributeName="cashOffsetSubObjectCode" />
-            </resultFields>
-        </lookup>
+  <bean id="BankAccount-cashOffsetSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="name" value="cashOffsetSubAccountNumber" />
+    <property name="label" value="Cash Offset Sub-Account Number" />
+    <property name="shortLabel" value="Cash Off Sub-Acct Nbr" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="BankAccount-cashOffsetObjectCode" parent="BankAccount-cashOffsetObjectCode-parentBean" />
 
-        <titleAttribute>finDocumentBankAccountNumber</titleAttribute>
+  <bean id="BankAccount-cashOffsetObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="cashOffsetObjectCode" />
+    <property name="label" value="Cash Offset Object Code" />
+    <property name="shortLabel" value="Cash Off Obj Cd" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="BankAccount-cashOffsetSubObjectCode" parent="BankAccount-cashOffsetSubObjectCode-parentBean" />
 
-        <attributes>
+  <bean id="BankAccount-cashOffsetSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="cashOffsetSubObjectCode" />
+    <property name="label" value="Cash Offset Sub-Object Code" />
+    <property name="shortLabel" value="Cash Off Sub-Obj Cd" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="BankAccount-versionNumber" parent="BankAccount-versionNumber-parentBean" />
 
-            <attributeReference name="financialDocumentBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">
-                <required>true</required>
-            </attributeReference>
+  <bean id="BankAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="finDocumentBankAccountNumber" forceUppercase="true">
-                <label>Bank Account Number</label>
-                <shortLabel>Bank Acct</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>15</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="15" />
-                </control>
-                
-                <attributeAuthorization>
-                  <displayWorkgroup>kualiUniversalGroup</displayWorkgroup>
-                  <displayMask><maskLiteral literal="***************"/></displayMask>
-                </attributeAuthorization>
-            </attribute>
 
-            <attribute name="finDocumentBankAccountDesc" forceUppercase="true">
-                <label>Bank Account Description</label>
-                <shortLabel>Bank Acct Desc</shortLabel>
+  <bean id="BankAccount-inquiryDefinition" parent="BankAccount-inquiryDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+  <bean id="BankAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Bank Account Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentBankCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finDocumentBankAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finDocumentBankAccountDesc" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashOffsetFinancialChartOfAccountCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashOffsetAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashOffsetSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashOffsetObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cashOffsetSubObjectCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="cashOffsetFinancialChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Cash Offset Chart Of Accounts</label>
-                <shortLabel>Cash Off CoA</shortLabel>
-                <required>false</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="cashOffsetAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Cash Offset Account Number</label>
-                <shortLabel>Cash Off Acct</shortLabel>
-                <required>false</required>
-            </attributeReference>
-            
-            <attributeReference name="cashOffsetSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-                <label>Cash Offset Sub-Account Number</label>
-                <shortLabel>Cash Off Sub-Acct Nbr</shortLabel>
-                <required>false</required>
-            </attributeReference>
 
-            <attributeReference name="cashOffsetObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Cash Offset Object Code</label>
-                <shortLabel>Cash Off Obj Cd</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="BankAccount-lookupDefinition" parent="BankAccount-lookupDefinition-parentBean" />
 
-            <attributeReference name="cashOffsetSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-                <label>Cash Offset Sub-Object Code</label>
-                <shortLabel>Cash Off Sub-Obj Cd</shortLabel>
-                <required>false</required>
-            </attributeReference>
-            
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Bank Account</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BankAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Bank Account Lookup" />
+    <property name="instructions" value="Lookup a Bank Account" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialDocumentBankCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentBankCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finDocumentBankAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finDocumentBankAccountDesc" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetFinancialChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetSubObjectCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentBankCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finDocumentBankAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finDocumentBankAccountDesc" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetFinancialChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cashOffsetSubObjectCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

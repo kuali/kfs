@@ -254,7 +254,7 @@ public class ParameterServiceImpl implements ParameterService {
     public List<ParameterDetailType> getNonDatabaseDetailTypes() {
         if (components.isEmpty()) {
             Map<String, ParameterDetailType> uniqueParameterDetailTypeMap = new HashMap<String, ParameterDetailType>();
-            dataDictionaryService.getDataDictionary().forceCompleteDataDictionaryLoad();
+            //dataDictionaryService.getDataDictionary().forceCompleteDataDictionaryLoad();
             for (BusinessObjectEntry businessObjectEntry : dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()) {
                 ParameterDetailType parameterDetailType = getParameterDetailType(businessObjectEntry.getBusinessObjectClass());
                 try {

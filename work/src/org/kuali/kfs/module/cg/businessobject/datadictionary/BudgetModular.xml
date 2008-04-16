@@ -1,112 +1,133 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetModular">
+  <bean id="BudgetModular" parent="BudgetModular-parentBean" />
+
+  <bean id="BudgetModular-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetModular" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetModular-inquiryDefinition" />
+    </property>
+    <property name="objectLabel" value="Modular Budget" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetModular-documentNumber" />
+        <ref bean="BudgetModular-budgetModularTaskNumber" />
+        <ref bean="BudgetModular-budgetModularPersonnelDescription" />
+        <ref bean="BudgetModular-budgetModularConsortiumDescription" />
+        <ref bean="BudgetModular-budgetModularVariableAdjustmentDescription" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Modular Budget Inquiry</title>
+  <bean id="BudgetModular-documentNumber" parent="BudgetModular-documentNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-                <!-- field attributeName="budgetAgency.agencyName" / -->
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetModular-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Header ID" />
+    <property name="shortLabel" value="Doc Header ID" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Doc Header ID" />
+    <property name="description" value="Doc Header ID" />
+  </bean>
+  <bean id="BudgetModular-budgetModularTaskNumber" parent="BudgetModular-budgetModularTaskNumber-parentBean" />
 
-        <attributes>
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Header ID</label>
-                <shortLabel>Doc Header ID</shortLabel>
+  <bean id="BudgetModular-budgetModularTaskNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetModularTaskNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Includes Modular Variance" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Budget Modular Task Number" />
+    <property name="description" value="Budget Modular Task Number..." />
+  </bean>
+  <bean id="BudgetModular-budgetModularPersonnelDescription" parent="BudgetModular-budgetModularPersonnelDescription-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
+  <bean id="BudgetModular-budgetModularPersonnelDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetModularPersonnelDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Explanation - Personnel" />
+    <property name="shortLabel" value="Modular Personnel" />
+    <property name="maxLength" value="50000" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="60" />
+    </property>
+    <property name="summary" value="Modular Budget Personnel Description" />
+    <property name="description" value="Modular Budget Personnel Description" />
+  </bean>
+  <bean id="BudgetModular-budgetModularConsortiumDescription" parent="BudgetModular-budgetModularConsortiumDescription-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="BudgetModular-budgetModularConsortiumDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetModularConsortiumDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Explanation - Consortium" />
+    <property name="shortLabel" value="Modular Consortium" />
+    <property name="maxLength" value="50000" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="60" />
+    </property>
+    <property name="summary" value="Modular Budget Consortium Description" />
+    <property name="description" value="Modular Budget Consortium Description" />
+  </bean>
+  <bean id="BudgetModular-budgetModularVariableAdjustmentDescription" parent="BudgetModular-budgetModularVariableAdjustmentDescription-parentBean" />
 
-                <summary>Doc Header ID</summary>
-                <description>Doc Header ID</description>
-            </attribute>
+  <bean id="BudgetModular-budgetModularVariableAdjustmentDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetModularVariableAdjustmentDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Explanation - Variable Adjustment" />
+    <property name="shortLabel" value="Modular Variable Adjustment" />
+    <property name="maxLength" value="50000" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="60" />
+    </property>
+    <property name="summary" value="Modular Budget Variable Adjustment Description" />
+    <property name="description" value="Modular Budget Variable Adjustment Description" />
+  </bean>
 
-            <attribute name="budgetModularTaskNumber" forceUppercase="true">
-                <label>Includes Modular Variance</label>
-                <shortLabel>Number</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>2</maxLength>
 
-                <control>
-                    <text size="2" />
-                </control>
+  <bean id="BudgetModular-inquiryDefinition" parent="BudgetModular-inquiryDefinition-parentBean" />
 
-                <summary>Budget Modular Task Number</summary>
-                <description>Budget Modular Task Number...</description>
-            </attribute>
-
-            <attribute name="budgetModularPersonnelDescription" forceUppercase="true">
-                <label>Explanation - Personnel</label>
-                <shortLabel>Modular Personnel</shortLabel>
-
-                <maxLength>50000</maxLength>
-
-                <control>
-                    <textarea rows="5" cols="60" />
-                </control>
-
-                <summary>Modular Budget Personnel Description</summary>
-                <description>Modular Budget Personnel Description</description>
-            </attribute>
-
-            <attribute name="budgetModularConsortiumDescription" forceUppercase="true">
-                <label>Explanation - Consortium</label>
-                <shortLabel>Modular Consortium</shortLabel>
-
-                <maxLength>50000</maxLength>
-
-                <control>
-                    <textarea rows="5" cols="60" />
-                </control>
-
-                <summary>Modular Budget Consortium Description</summary>
-                <description>Modular Budget Consortium Description</description>
-            </attribute>
-
-            <attribute name="budgetModularVariableAdjustmentDescription" forceUppercase="true">
-                <label>Explanation - Variable Adjustment</label>
-                <shortLabel>Modular Variable Adjustment</shortLabel>
-
-                <maxLength>50000</maxLength>
-
-                <control>
-                    <textarea rows="5" cols="60" />
-                </control>
-
-                <summary>Modular Budget Variable Adjustment Description</summary>
-                <description>Modular Budget Variable Adjustment Description</description>
-            </attribute>
-
-        </attributes>
-        
-        <objectLabel>Modular Budget</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetModular-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Modular Budget Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

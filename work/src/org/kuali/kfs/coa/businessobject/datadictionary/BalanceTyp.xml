@@ -1,120 +1,185 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.codes.BalanceTyp">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BalanceTyp" parent="BalanceTyp-parentBean" />
+
+  <bean id="BalanceTyp-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.BalanceTyp" />
+    <property name="inquiryDefinition" >
+      <ref bean="BalanceTyp-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BalanceTyp-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Balance Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BalanceTyp-code" />
+        <ref bean="BalanceTyp-name" />
+        <ref bean="BalanceTyp-financialBalanceTypeShortNm" />
+        <ref bean="BalanceTyp-financialOffsetGenerationIndicator" />
+        <ref bean="BalanceTyp-finBalanceTypeEncumIndicator" />
+        <ref bean="BalanceTyp-objectId" />
+        <ref bean="BalanceTyp-versionNumber" />
+        <ref bean="BalanceTyp-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Balance Type Inquiry</title>
+  <bean id="BalanceTyp-code" parent="BalanceTyp-code-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="financialBalanceTypeShortNm" />
-                <field attributeName="financialOffsetGenerationIndicator" />
-                <field attributeName="finBalanceTypeEncumIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BalanceTyp-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Balance Type Code" />
+    <property name="shortLabel" value="Balance Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="BalanceTyp-name" parent="BalanceTyp-name-parentBean" />
 
-        <lookup>
-            <title>Balance Type Lookup</title>
+  <bean id="BalanceTyp-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Balance Type Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="BalanceTyp-financialBalanceTypeShortNm" parent="BalanceTyp-financialBalanceTypeShortNm-parentBean" />
 
-            <instructions>Lookup a Balance Type</instructions>
+  <bean id="BalanceTyp-financialBalanceTypeShortNm-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialBalanceTypeShortNm" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Short Name" />
+    <property name="shortLabel" value="Short Name" />
+    <property name="maxLength" value="12" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="BalanceTyp-financialOffsetGenerationIndicator" parent="BalanceTyp-financialOffsetGenerationIndicator-parentBean" />
 
-            <defaultSort attributeName="code" sortAscending="true" />
+  <bean id="BalanceTyp-financialOffsetGenerationIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="financialOffsetGenerationIndicator" />
+    <property name="label" value="Offset Generation" />
+    <property name="shortLabel" value="Offset Gen" />
+  </bean>
+  <bean id="BalanceTyp-finBalanceTypeEncumIndicator" parent="BalanceTyp-finBalanceTypeEncumIndicator-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="code" required="false" />
-                <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="financialBalanceTypeShortNm" required="false" />
-                <lookupField attributeName="financialOffsetGenerationIndicator" required="false" />
-                <lookupField attributeName="finBalanceTypeEncumIndicator" required="false" />
-            </lookupFields>
+  <bean id="BalanceTyp-finBalanceTypeEncumIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="finBalanceTypeEncumIndicator" />
+    <property name="label" value="Encumbrance" />
+    <property name="shortLabel" value="Encumbrance" />
+  </bean>
+  <bean id="BalanceTyp-objectId" parent="BalanceTyp-objectId-parentBean" />
 
-            <resultFields>
-                <field attributeName="code" />
-                <field attributeName="name" />
-                <field attributeName="financialBalanceTypeShortNm" />
-                <field attributeName="financialOffsetGenerationIndicator" />
-                <field attributeName="finBalanceTypeEncumIndicator" />
-            </resultFields>
-        </lookup>
+  <bean id="BalanceTyp-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="BalanceTyp-versionNumber" parent="BalanceTyp-versionNumber-parentBean" />
 
-        <attributes>
-            <attribute name="code" forceUppercase="true">
-                <label>Balance Type Code</label>
-                <shortLabel>Balance Type</shortLabel>
+  <bean id="BalanceTyp-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="BalanceTyp-active" parent="BalanceTyp-active-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric allowWhitespace="false" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="BalanceTyp-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="name" forceUppercase="true">
-                <label>Balance Type Name</label>
-                <shortLabel>Name</shortLabel>
 
-                <maxLength>40</maxLength>
-                <required>true</required>
+  <bean id="BalanceTyp-inquiryDefinition" parent="BalanceTyp-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+  <bean id="BalanceTyp-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Balance Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBalanceTypeShortNm" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialOffsetGenerationIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finBalanceTypeEncumIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="financialBalanceTypeShortNm" forceUppercase="true">
-                <label>Short Name</label>
-                <shortLabel>Short Name</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>12</maxLength>
-                <required>true</required>
 
-                <control>
-                    <text size="12" />
-                </control>
-            </attribute>
+  <bean id="BalanceTyp-lookupDefinition" parent="BalanceTyp-lookupDefinition-parentBean" />
 
-            <attributeReference name="financialOffsetGenerationIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Offset Generation</label>
-                <shortLabel>Offset Gen</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="finBalanceTypeEncumIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Encumbrance</label>
-                <shortLabel>Encumbrance</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-        </attributes>
-        
-        <objectLabel>Balance Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BalanceTyp-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Balance Type Lookup" />
+    <property name="instructions" value="Lookup a Balance Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeShortNm" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialOffsetGenerationIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finBalanceTypeEncumIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeShortNm" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialOffsetGenerationIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finBalanceTypeEncumIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

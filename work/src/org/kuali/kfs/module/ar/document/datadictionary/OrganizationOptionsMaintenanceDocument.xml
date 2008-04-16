@@ -1,184 +1,168 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Copyright 2006-2007 The Kuali Foundation.
-	
-	Licensed under the Educational Community License, Version 1.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-	
-	http://www.opensource.org/licenses/ecl1.php
-	
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<maintenanceDocument>
-	
-		<businessObjectClass>
-			org.kuali.module.ar.bo.OrganizationOptions
-		</businessObjectClass>
-		<maintainableClass>
-			org.kuali.module.ar.maintenance.OrganizationOptionsMaintainableImpl
-		</maintainableClass>
-		<businessRulesClass>
-			org.kuali.module.ar.rules.OrganizationOptionsRule
-		</businessRulesClass>
-		<preRulesCheckClass>
-			org.kuali.module.ar.rules.OrganizationOptionsPreRules
-		</preRulesCheckClass>
-		<documentAuthorizerClass>
-			org.kuali.module.ar.document.authorization.OrganizationOptionsAuthorizer 
-		</documentAuthorizerClass>
-		<authorizations>
-			<authorization action="initiate">
-				<workgroups>
-					<workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-				</workgroups>
-			</authorization>
-		</authorizations>
+  <bean id="OrganizationOptionsMaintenanceDocument" parent="OrganizationOptionsMaintenanceDocument-parentBean" />
 
-		<documentTypeName>
-			OrganizationOptionsMaintenanceDocument
-		</documentTypeName>
-		<documentTypeCode>OOPT</documentTypeCode>
+  <bean id="OrganizationOptionsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.OrganizationOptions" />
+    <property name="maintainableClass" value="org.kuali.module.ar.maintenance.OrganizationOptionsMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions" />
+        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation" />
+        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress" />
+        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="processingChartOfAccount"
+              p:attributeToHighlightOnFail="processingChartOfAccountCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="processingOrganization"
+              p:attributeToHighlightOnFail="processingOrganizationCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
+      </list>
+    </property>
+    <property name="label" value="Organization Options Maintenance Document" />
+    <property name="shortLabel" value="OrgOptionsMaintDoc" />
+    <property name="summary" value="Organization Options maintenance document" />
+    <property name="description" value="Document used to create or update Organization Options
+			objects" />
+    <property name="documentTypeName" value="OrganizationOptionsMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.ar.rules.OrganizationOptionsRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.OrganizationOptionsAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.OrganizationOptionsPreRules" />
+    <property name="documentTypeCode" value="OOPT" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<label>Organization Options Maintenance Document</label>
-		<shortLabel>OrgOptionsMaintDoc</shortLabel>
-
-		<summary>Organization Options maintenance document</summary>
-		<description>
-			Document used to create or update Organization Options
-			objects
-		</description>
-
-		<lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="organizationCode" />
-		</lockingKeys>
-
-		<defaultExistenceChecks>
-			<reference attributeName="chartOfAccounts"
-				attributeToHighlightOnFail="chartOfAccountsCode" />
-			<reference attributeName="organization"
-				attributeToHighlightOnFail="organizationCode" />
-			<reference attributeName="processingChartOfAccount"
-				attributeToHighlightOnFail="processingChartOfAccountCode" />
-			<reference attributeName="processingOrganization"
-				attributeToHighlightOnFail="processingOrganizationCode" />
-		</defaultExistenceChecks>
-
-		<maintainableSections>
-			<maintainableSection title="Edit Organization Options">
-				<maintainableItems>
-					<maintainableField name="chartOfAccountsCode"
-						required="true">
-						<defaultValueFinderClass>
-							org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-					<maintainableField name="organizationCode"
-						required="true">
-						<defaultValueFinderClass>
-							org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-					<maintainableField
-						name="processingChartOfAccountCode" required="true">
-						<defaultValueFinderClass>
-							org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-					<maintainableField name="processingOrganizationCode"
-						required="true">
-						<defaultValueFinderClass>
-							org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
+<!-- Maintenance Section Definitions -->
 
 
-					<!--                    <maintainableField name="universityName" required="false" >-->
-					<!--                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>-->
-					<!--                    </maintainableField>      -->
-					                  
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions-parentBean" />
 
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Options" />
+    <property name="title" value="Edit Organization Options" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="processingChartOfAccountCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="processingOrganizationCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation-parentBean" />
 
-					<maintainableField name="versionNumber" />
-				</maintainableItems>
-			</maintainableSection>
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Invoice Information" />
+    <property name="title" value="Edit Organization Invoice Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCheckPayableToName"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationPaymentTermsText"
+              p:defaultValue="NET 30 DAYS" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationMessageText" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="printInvoiceIndicator"
+              p:defaultValue="Y" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean" />
 
-			<maintainableSection title="Edit Organization Invoice Information">
-				<maintainableItems>
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Remit To Address" />
+    <property name="title" value="Edit Organization Remit To Address" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRemitToAddressName"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToAddressNameValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRemitToLine1StreetAddress"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine1AddressValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRemitToLine2StreetAddress"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine2AddressValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRemitToCityName"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToCityNameValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRemitToStateCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToStateCodeValueFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationRemitToZipCode"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToZipCodeValueFinder" />
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone-parentBean" />
 
-					<maintainableField name="organizationCheckPayableToName" required="false">
-						<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-
-					<maintainableField name="organizationPaymentTermsText" required="false">
-						<defaultValue>NET 30 DAYS</defaultValue>
-					</maintainableField>
-
-					<maintainableField name="organizationMessageText" required="false" />
-	
-
-				<maintainableField name="printInvoiceIndicator">
-					<defaultValue>Y</defaultValue>
-				</maintainableField>
-
-				</maintainableItems>
-			</maintainableSection>
-
-            <maintainableSection title="Edit Organization Remit To Address">
-                <maintainableItems>
-                    <maintainableField name="organizationRemitToAddressName" required="true">
-                   		<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToAddressNameValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true">
-                    	<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine1AddressValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false">
-                    	<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine2AddressValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-                    <maintainableField name="organizationRemitToCityName" required="true">
-                    	<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToCityNameValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-                    <maintainableField name="organizationRemitToStateCode" required="true">
-                    	<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToStateCodeValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-                    <maintainableField name="organizationRemitToZipCode" required="true">
-                    	<defaultValueFinderClass>
-							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToZipCodeValueFinder
-						</defaultValueFinderClass>
-					</maintainableField>
-                </maintainableItems>
-            </maintainableSection>
-
-            <maintainableSection title="Edit Organization Phone">
-                <maintainableItems>
-                    <maintainableField name="organizationPhoneNumber" required="true"/>
-                    <maintainableField name="organizationFaxNumber" required="false"/>
-                    <maintainableField name="organization800PhoneNumber" required="false"/>
-                </maintainableItems>
-            </maintainableSection>
-
-        </maintainableSections>
-	</maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Phone" />
+    <property name="title" value="Edit Organization Phone" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationPhoneNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationFaxNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organization800PhoneNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

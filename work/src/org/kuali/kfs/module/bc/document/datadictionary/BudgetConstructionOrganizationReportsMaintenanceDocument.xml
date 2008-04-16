@@ -1,71 +1,104 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.budget.bo.BudgetConstructionOrganizationReports</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.budget.rules.BudgetConstructionOrganizationReportsRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OrganizationReportsMaintenanceDocument" parent="OrganizationReportsMaintenanceDocument-parentBean" />
 
-        <documentTypeName>OrganizationReportsMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BCOR</documentTypeCode>
+  <bean id="OrganizationReportsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrganizationReportsMaintenanceDocument-EditBCOrganizationReports" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="chartOfAccountsCode"
+              p:displayFieldName="Chart Of Accounts Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="organizationCode"
+              p:displayFieldName="Organization Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportsToChartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="reportsToChartOfAccountsCode"
+              p:displayFieldName="Reports To Chart Of Accounts Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportsToOrganization"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="reportsToOrganizationCode"
+              p:displayFieldName="Reports To Organization Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="responsibilityCenter"
+              p:activeIndicatorAttributeName="responsibilityCenterActiveIndicator"
+              p:attributeToHighlightOnFail="responsibilityCenterCode"
+              p:displayFieldName="Responsibility Center Code" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
+      </list>
+    </property>
+    <property name="label" value="Organization Reports" />
+    <property name="shortLabel" value="BC - Org Rpts Maint Doc" />
+    <property name="summary" value="Budget Construction Organization Reports Maintenance Document" />
+    <property name="description" value="Document used to create or update Budget Construction Organization Reports Maintenance Document objects" />
+    <property name="documentTypeName" value="OrganizationReportsMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.budget.rules.BudgetConstructionOrganizationReportsRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="BCOR" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Organization Reports</label>
-        <shortLabel>BC - Org Rpts Maint Doc</shortLabel>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Budget Construction Organization Reports Maintenance Document</summary>
-        <description>Document used to create or update Budget Construction Organization Reports Maintenance Document objects</description>
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="organizationCode" />
-        </lockingKeys>
+  <bean id="OrganizationReportsMaintenanceDocument-EditBCOrganizationReports" parent="OrganizationReportsMaintenanceDocument-EditBCOrganizationReports-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="chartOfAccountsCode" displayFieldName="Chart Of Accounts Code" />
-            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="organizationCode" displayFieldName="Organization Code" />
-            <reference attributeName="reportsToChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="reportsToChartOfAccountsCode" displayFieldName="Reports To Chart Of Accounts Code" />
-            <reference attributeName="reportsToOrganization" activeIndicatorAttributeName="organizationActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="reportsToOrganizationCode" displayFieldName="Reports To Organization Code" />
-            <reference attributeName="responsibilityCenter" activeIndicatorAttributeName="responsibilityCenterActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="responsibilityCenterCode" displayFieldName="Responsibility Center Code" />
- 
-        </defaultExistenceChecks>
-
-        <maintainableSections>
-            <maintainableSection title="Edit BC Organization Reports">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organizationCode" required="true" />
-                    <maintainableField name="reportsToChartOfAccountsCode" required="true" />
-                    <maintainableField name="reportsToOrganizationCode" required="true" />
-                    <maintainableField name="responsibilityCenterCode" required="true" />               
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OrganizationReportsMaintenanceDocument-EditBCOrganizationReports-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit BC Organization Reports" />
+    <property name="title" value="Edit BC Organization Reports" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToChartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToOrganizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="responsibilityCenterCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

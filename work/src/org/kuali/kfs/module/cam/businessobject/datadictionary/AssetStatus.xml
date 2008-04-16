@@ -1,86 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetStatus">
- 
-        <inquiry>
-            <title>Asset Status Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="inventoryStatusCode" />
-                        <field attributeName="inventoryStatusName" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Asset Status Lookup</title>
+  <bean id="AssetStatus" parent="AssetStatus-parentBean" />
 
-            <instructions>Look up an Asset Status</instructions>
+  <bean id="AssetStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetStatus" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetStatus-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetStatus-active" />
+        <ref bean="AssetStatus-inventoryStatusCode" />
+        <ref bean="AssetStatus-inventoryStatusName" />
+        <ref bean="AssetStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="inventoryStatusCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="inventoryStatusCode" required="false" />
-                <lookupField attributeName="inventoryStatusName" required="false" />
-                <lookupField attributeName="active" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="inventoryStatusCode" />
-                <field attributeName="inventoryStatusName" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="AssetStatus-active" parent="AssetStatus-active-parentBean" />
 
-        <attributes>
+  <bean id="AssetStatus-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="AssetStatus-inventoryStatusCode" parent="AssetStatus-inventoryStatusCode-parentBean" />
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="AssetStatus-inventoryStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="inventoryStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="inventoryStatusCode" />
+    <property name="description" value="inventoryStatusCode description..." />
+  </bean>
+  <bean id="AssetStatus-inventoryStatusName" parent="AssetStatus-inventoryStatusName-parentBean" />
 
-            <attribute name="inventoryStatusCode" forceUppercase="true">
-                <label>Asset Status Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AssetStatus-inventoryStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="inventoryStatusName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Asset Status Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="inventoryStatusName" />
+    <property name="description" value="inventoryStatusName description..." />
+  </bean>
+  <bean id="AssetStatus-versionNumber" parent="AssetStatus-versionNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="3" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>inventoryStatusCode</summary>
-                <description>inventoryStatusCode description...</description>
-			</attribute>
 
-            <attribute name="inventoryStatusName" forceUppercase="false">
-                <label>Asset Status Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="AssetStatus-inquiryDefinition" parent="AssetStatus-inquiryDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="AssetStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Status Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="inventoryStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="inventoryStatusName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="42" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>inventoryStatusName</summary>
-                <description>inventoryStatusName description...</description>
-			</attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AssetStatus-lookupDefinition" parent="AssetStatus-lookupDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AssetStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Status Lookup" />
+    <property name="instructions" value="Look up an Asset Status" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusName" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryStatusName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

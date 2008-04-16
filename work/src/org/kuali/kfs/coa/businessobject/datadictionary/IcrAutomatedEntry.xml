@@ -1,218 +1,319 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.IcrAutomatedEntry">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="IcrAutomatedEntry" parent="IcrAutomatedEntry-parentBean" />
+
+  <bean id="IcrAutomatedEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.IcrAutomatedEntry" />
+    <property name="inquiryDefinition" >
+      <ref bean="IcrAutomatedEntry-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="IcrAutomatedEntry-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="awardIndrCostRcvyEntryNbr" />
+    <property name="objectLabel" value="Indirect Cost Recovery Automated Entry" />
+    <property name="attributes" >
+      <list>
+        <ref bean="IcrAutomatedEntry-universityFiscalYear" />
+        <ref bean="IcrAutomatedEntry-financialIcrSeriesIdentifier" />
+        <ref bean="IcrAutomatedEntry-balanceTypeCode" />
+        <ref bean="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr" />
+        <ref bean="IcrAutomatedEntry-chartOfAccountsCode" />
+        <ref bean="IcrAutomatedEntry-accountNumber" />
+        <ref bean="IcrAutomatedEntry-subAccountNumber" />
+        <ref bean="IcrAutomatedEntry-financialObjectCode" />
+        <ref bean="IcrAutomatedEntry-financialSubObjectCode" />
+        <ref bean="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber" />
+        <ref bean="IcrAutomatedEntry-transactionDebitIndicator" />
+        <ref bean="IcrAutomatedEntry-awardIndrCostRcvyRatePct" />
+        <ref bean="IcrAutomatedEntry-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Indirect Cost Recovery Automated Entry Inquiry</title>
+  <bean id="IcrAutomatedEntry-universityFiscalYear" parent="IcrAutomatedEntry-universityFiscalYear-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="financialIcrSeriesIdentifier" />
-                <field attributeName="balanceTypeCode" />
-                <field attributeName="awardIndrCostRcvyEntryNbr" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="offsetBalanceSheetObjectCodeNumber" />
-                <field attributeName="transactionDebitIndicator" />
-                <field attributeName="awardIndrCostRcvyRatePct" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="IcrAutomatedEntry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="IcrAutomatedEntry-financialIcrSeriesIdentifier" parent="IcrAutomatedEntry-financialIcrSeriesIdentifier-parentBean" />
 
-        <lookup>
-            <title>Indirect Cost Recovery Automated Entry Lookup</title>
+  <bean id="IcrAutomatedEntry-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialIcrSeriesIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Series Id" />
+    <property name="shortLabel" value="Series Id" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-balanceTypeCode" parent="IcrAutomatedEntry-balanceTypeCode-parentBean" />
 
-            <instructions>Lookup an Indirect Cost Recovery Automated Entry</instructions>
+  <bean id="IcrAutomatedEntry-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+  </bean>
+  <bean id="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr" parent="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr-parentBean" />
 
-            <defaultSort attributeName="accountNumber" sortAscending="true" />
+  <bean id="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardIndrCostRcvyEntryNbr" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="ICR Entry Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-chartOfAccountsCode" parent="IcrAutomatedEntry-chartOfAccountsCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
-                <lookupField attributeName="balanceTypeCode" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="offsetBalanceSheetObjectCodeNumber" required="false" />
-            </lookupFields>
+  <bean id="IcrAutomatedEntry-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Code" />
+    <property name="shortLabel" value="Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-accountNumber" parent="IcrAutomatedEntry-accountNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="financialIcrSeriesIdentifier" />
-                <field attributeName="balanceTypeCode" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="offsetBalanceSheetObjectCodeNumber" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="awardIndrCostRcvyEntryNbr" />
-                <field attributeName="transactionDebitIndicator" />
-                <field attributeName="awardIndrCostRcvyRatePct" />
-            </resultFields>
-        </lookup>
+  <bean id="IcrAutomatedEntry-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account" />
+    <property name="shortLabel" value="ACCT" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-subAccountNumber" parent="IcrAutomatedEntry-subAccountNumber-parentBean" />
 
-      <titleAttribute>awardIndrCostRcvyEntryNbr</titleAttribute>
+  <bean id="IcrAutomatedEntry-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Account" />
+    <property name="shortLabel" value="SubAcct" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-financialObjectCode" parent="IcrAutomatedEntry-financialObjectCode-parentBean" />
 
-        <attributes>
+  <bean id="IcrAutomatedEntry-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Code" />
+    <property name="shortLabel" value="Object" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-financialSubObjectCode" parent="IcrAutomatedEntry-financialSubObjectCode-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <required>true</required>
-            </attributeReference>
-            <attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
-                <label>Series Id</label>
-                <shortLabel>Series Id</shortLabel>
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+  <bean id="IcrAutomatedEntry-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-Object Code" />
+    <property name="shortLabel" value="SubObject" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber" parent="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber-parentBean" />
 
-            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-                <required>true</required>
-            </attributeReference>
+  <bean id="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="offsetBalanceSheetObjectCodeNumber" />
+    <property name="label" value="Offset Object" />
+    <property name="shortLabel" value="Offset Object" />
+  </bean>
+  <bean id="IcrAutomatedEntry-transactionDebitIndicator" parent="IcrAutomatedEntry-transactionDebitIndicator-parentBean" />
 
-            <attribute name="awardIndrCostRcvyEntryNbr" forceUppercase="true">
-                <label>ICR Entry Number</label>
-                <shortLabel>Number</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+  <bean id="IcrAutomatedEntry-transactionDebitIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionDebitIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Debit Credit Code" />
+    <property name="shortLabel" value="D/C" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="CD" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.DebitCreditValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="IcrAutomatedEntry-awardIndrCostRcvyRatePct" parent="IcrAutomatedEntry-awardIndrCostRcvyRatePct-parentBean" />
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Chart</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
+  <bean id="IcrAutomatedEntry-awardIndrCostRcvyRatePct-parentBean" abstract="true" parent="AttributeReferenceDummy-percent">
+    <property name="name" value="awardIndrCostRcvyRatePct" />
+    <property name="label" value="ICR Percent" />
+    <property name="shortLabel" value="Rate%" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="IcrAutomatedEntry-versionNumber" parent="IcrAutomatedEntry-versionNumber-parentBean" />
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account</label>
-                <shortLabel>ACCT</shortLabel>
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="7" />
-                </control>
-            </attribute>
+  <bean id="IcrAutomatedEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub-Account</label>
-                <shortLabel>SubAcct</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <!-- KULRNE-4298: false for required allows for empty subaccount codes to be converted to dashes without complaint by the DictionaryValidationService. -->
-                <required>false</required>
-                <control>
-                    <text size="5" />
-                </control>
-            </attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Object Code</label>
-                <shortLabel>Object</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Sub-Object Code</label>
-                <shortLabel>SubObject</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <!-- KULRNE-4298: false for required allows for empty subobject codes to be converted to dashes without complaint by the DictionaryValidationService. -->
-                <required>false</required>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-            <attributeReference name="offsetBalanceSheetObjectCodeNumber" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Offset Object</label>
-                <shortLabel>Offset Object</shortLabel>
-                <required>true</required>
-            </attributeReference>
-
-            <attribute name="transactionDebitIndicator" forceUppercase="true">
-                <label>Transaction Debit Credit Code</label>
-                <shortLabel>D/C</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <charset validChars="CD" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.DebitCreditValuesFinder" />
-                </control>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attributeReference name="awardIndrCostRcvyRatePct" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
-                <label>ICR Percent</label>
-                <shortLabel>Rate%</shortLabel>
-                <required>true</required>
-            </attributeReference>
+  <bean id="IcrAutomatedEntry-inquiryDefinition" parent="IcrAutomatedEntry-inquiryDefinition-parentBean" />
+
+  <bean id="IcrAutomatedEntry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Indirect Cost Recovery Automated Entry Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialIcrSeriesIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="balanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="awardIndrCostRcvyEntryNbr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offsetBalanceSheetObjectCodeNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDebitIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="awardIndrCostRcvyRatePct" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
 
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="IcrAutomatedEntry-lookupDefinition" parent="IcrAutomatedEntry-lookupDefinition-parentBean" />
 
-        </attributes>
-        
-        <objectLabel>Indirect Cost Recovery Automated Entry</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="IcrAutomatedEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Indirect Cost Recovery Automated Entry Lookup" />
+    <property name="instructions" value="Lookup an Indirect Cost Recovery Automated Entry" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>accountNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialIcrSeriesIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="balanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="offsetBalanceSheetObjectCodeNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialIcrSeriesIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="balanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="offsetBalanceSheetObjectCodeNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="awardIndrCostRcvyEntryNbr" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDebitIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="awardIndrCostRcvyRatePct" />
+      </list>
+    </property>
+  </bean>
+</beans>

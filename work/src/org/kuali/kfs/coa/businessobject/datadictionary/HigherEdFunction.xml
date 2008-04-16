@@ -1,143 +1,197 @@
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.HigherEdFunction">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="HigherEdFunction" parent="HigherEdFunction-parentBean" />
+
+  <bean id="HigherEdFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.HigherEdFunction" />
+    <property name="inquiryDefinition" >
+      <ref bean="HigherEdFunction-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="HigherEdFunction-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="financialHigherEdFunctionCd" />
+    <property name="objectLabel" value="Higher Education Function" />
+    <property name="attributes" >
+      <list>
+        <ref bean="HigherEdFunction-financialHigherEdFunctionCd" />
+        <ref bean="HigherEdFunction-financialHigherEdFunctionNm" />
+        <ref bean="HigherEdFunction-codeAndDescription" />
+        <ref bean="HigherEdFunction-finUnivBdgtOfficeFunctionCd" />
+        <ref bean="HigherEdFunction-finAicpaFunctionCode" />
+        <ref bean="HigherEdFunction-financialFederalFunctionCode" />
+        <ref bean="HigherEdFunction-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Higher Education Function Inquiry</title>
+  <bean id="HigherEdFunction-financialHigherEdFunctionCd" parent="HigherEdFunction-financialHigherEdFunctionCd-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialHigherEdFunctionCd" />
-                <field attributeName="financialHigherEdFunctionNm" />
-                <field attributeName="finUnivBdgtOfficeFunctionCd" />
-                <field attributeName="finAicpaFunctionCode" />
-                <field attributeName="financialFederalFunctionCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="HigherEdFunction-financialHigherEdFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialHigherEdFunctionCd" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Higher Education Function Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="HigherEdFunction-financialHigherEdFunctionNm" parent="HigherEdFunction-financialHigherEdFunctionNm-parentBean" />
 
-        <lookup>
-            <title>Higher Education Function Lookup</title>
+  <bean id="HigherEdFunction-financialHigherEdFunctionNm-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialHigherEdFunctionNm" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Higher Education Function Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="HigherEdFunction-codeAndDescription" parent="HigherEdFunction-codeAndDescription-parentBean" />
 
-            <instructions>Lookup a Higher Education Function</instructions>
+  <bean id="HigherEdFunction-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Higher Education Function Code" />
+    <property name="shortLabel" value="Higher Education Function Code" />
+    <property name="maxLength" value="47" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="HigherEdFunction-finUnivBdgtOfficeFunctionCd" parent="HigherEdFunction-finUnivBdgtOfficeFunctionCd-parentBean" />
 
-            <defaultSort attributeName="financialHigherEdFunctionCd" sortAscending="true" />
+  <bean id="HigherEdFunction-finUnivBdgtOfficeFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finUnivBdgtOfficeFunctionCd" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Budget Office Function Code" />
+    <property name="shortLabel" value="UBO" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="HigherEdFunction-finAicpaFunctionCode" parent="HigherEdFunction-finAicpaFunctionCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="financialHigherEdFunctionCd" />
-                <lookupField attributeName="financialHigherEdFunctionNm" />
-            </lookupFields>
+  <bean id="HigherEdFunction-finAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finAicpaFunctionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="AICPA Function Code" />
+    <property name="shortLabel" value="AICPA" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="HigherEdFunction-financialFederalFunctionCode" parent="HigherEdFunction-financialFederalFunctionCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="financialHigherEdFunctionCd" />
-                <field attributeName="financialHigherEdFunctionNm" />
-                <field attributeName="finUnivBdgtOfficeFunctionCd" />
-                <field attributeName="finAicpaFunctionCode" />
-                <field attributeName="financialFederalFunctionCode" />
-            </resultFields>
-        </lookup>
+  <bean id="HigherEdFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialFederalFunctionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Federal Function Code" />
+    <property name="shortLabel" value="Fed" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="HigherEdFunction-versionNumber" parent="HigherEdFunction-versionNumber-parentBean" />
 
-       <titleAttribute>financialHigherEdFunctionCd</titleAttribute>
- 
-       <attributes>
+  <bean id="HigherEdFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="financialHigherEdFunctionCd" forceUppercase="true">
-                <label>Higher Education Function Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
-
-            <attribute name="financialHigherEdFunctionNm" forceUppercase="true">
-                <label>Higher Education Function Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-
-            <attribute name="codeAndDescription" forceUppercase="false">
-                <label>Higher Education Function Code</label>
-                <shortLabel>Higher Education Function Code</shortLabel>
-
-                <maxLength>47</maxLength>
-
-                <control>
-                    <text size="47" />
-                </control>
-            </attribute>
-
-            <attribute name="finUnivBdgtOfficeFunctionCd" forceUppercase="true">
-                <label>University Budget Office Function Code</label>
-                <shortLabel>UBO</shortLabel>
-
-                <maxLength>3</maxLength>
-                <required>true</required>
-
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-
-            <attribute name="finAicpaFunctionCode" forceUppercase="true">
-                <label>AICPA Function Code</label>
-                <shortLabel>AICPA</shortLabel>
-
-                <maxLength>3</maxLength>
-                <required>true</required>
-
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="financialFederalFunctionCode" forceUppercase="true">
-                <label>Federal Function Code</label>
-                <shortLabel>Fed</shortLabel>
+  <bean id="HigherEdFunction-inquiryDefinition" parent="HigherEdFunction-inquiryDefinition-parentBean" />
 
-                <maxLength>3</maxLength>
-                <required>true</required>
+  <bean id="HigherEdFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Higher Education Function Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialHigherEdFunctionCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialHigherEdFunctionNm" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finUnivBdgtOfficeFunctionCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finAicpaFunctionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialFederalFunctionCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-        </attributes>
-        
-        <objectLabel>Higher Education Function</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="HigherEdFunction-lookupDefinition" parent="HigherEdFunction-lookupDefinition-parentBean" />
 
+  <bean id="HigherEdFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Higher Education Function Lookup" />
+    <property name="instructions" value="Lookup a Higher Education Function" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialHigherEdFunctionCd</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialHigherEdFunctionCd" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialHigherEdFunctionNm" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialHigherEdFunctionCd" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialHigherEdFunctionNm" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finUnivBdgtOfficeFunctionCd" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finAicpaFunctionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialFederalFunctionCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

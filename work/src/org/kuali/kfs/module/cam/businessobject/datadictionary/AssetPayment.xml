@@ -1,955 +1,1329 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetPayment">
- 
-        <inquiry>
-            <title>Asset Payment Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="accountChargeAmount" />
-                        <field attributeName="accountNumber" />
-                        <field attributeName="accumulatedPrimaryDepreciationAmount" />
-                        <field attributeName="accumulatedSecondaryDepreciationAmount" />
-                        <field attributeName="capitalAssetNumber" />
-                        <field attributeName="chartOfAccountsCode" />
-                        <field attributeName="documentNumber" />
-                        <field attributeName="financialDocumentPostingDate" />
-                        <field attributeName="financialDocumentPostingPeriodCode" />
-                        <field attributeName="financialDocumentPostingYear" />
-                        <field attributeName="financialDocumentTypeCode" />
-                        <field attributeName="financialObjectCode" />
-                        <field attributeName="financialSubObjectCode" />
-                        <field attributeName="financialSystemOriginationCode" />
-                        <field attributeName="organizationReferenceId" />
-                        <field attributeName="paymentSequenceNumber" />
-                        <field attributeName="period10Depreciation1Amount" />
-                        <field attributeName="period10Depreciation2Amount" />
-                        <field attributeName="period11Depreciation1Amount" />
-                        <field attributeName="period11Depreciation2Amount" />
-                        <field attributeName="period12Depreciation1Amount" />
-                        <field attributeName="period12Depreciation2Amount" />
-                        <field attributeName="period1Depreciation1Amount" />
-                        <field attributeName="period1Depreciation2Amount" />
-                        <field attributeName="period2Depreciation1Amount" />
-                        <field attributeName="period2Depreciation2Amount" />
-                        <field attributeName="period3Depreciation1Amount" />
-                        <field attributeName="period3Depreciation2Amount" />
-                        <field attributeName="period4Depreciation1Amount" />
-                        <field attributeName="period4Depreciation2Amount" />
-                        <field attributeName="period5Depreciation1Amount" />
-                        <field attributeName="period5Depreciation2Amount" />
-                        <field attributeName="period6Depreciation1Amount" />
-                        <field attributeName="period6Depreciation2Amount" />
-                        <field attributeName="period7Depreciation1Amount" />
-                        <field attributeName="period7Depreciation2Amount" />
-                        <field attributeName="period8Depreciation1Amount" />
-                        <field attributeName="period8Depreciation2Amount" />
-                        <field attributeName="period9Depreciation1Amount" />
-                        <field attributeName="period9Depreciation2Amount" />
-                        <field attributeName="previousYearPrimaryDepreciationAmount" />
-                        <field attributeName="previousYearSecondaryDepreciationAmount" />
-                        <field attributeName="primaryDepreciationBaseAmount" />
-                        <field attributeName="projectCode" />
-                        <field attributeName="purchaseOrderNumber" />
-                        <field attributeName="requisitionNumber" />
-                        <field attributeName="secondaryDepreciationBaseAmount" />
-                        <field attributeName="subAccountNumber" />
-                        <field attributeName="transferPaymentCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
-
-        <lookup>
-            <lookupableID>assetPaymentLookupable</lookupableID>
-            <title>Asset Payment Lookup</title>
-
-            <instructions>Look up an Asset Payment</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                    <sortAttribute attributeName="paymentSequenceNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="accountChargeAmount" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="accumulatedPrimaryDepreciationAmount" required="false" />
-                <lookupField attributeName="accumulatedSecondaryDepreciationAmount" required="false" />
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentPostingDate" required="false" />
-                <lookupField attributeName="financialDocumentPostingPeriodCode" required="false" />
-                <lookupField attributeName="financialDocumentPostingYear" required="false" />
-                <lookupField attributeName="financialDocumentTypeCode" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="financialSystemOriginationCode" required="false" />
-                <lookupField attributeName="organizationReferenceId" required="false" />
-                <lookupField attributeName="paymentSequenceNumber" required="false" />
-                <lookupField attributeName="period10Depreciation1Amount" required="false" />
-                <lookupField attributeName="period10Depreciation2Amount" required="false" />
-                <lookupField attributeName="period11Depreciation1Amount" required="false" />
-                <lookupField attributeName="period11Depreciation2Amount" required="false" />
-                <lookupField attributeName="period12Depreciation1Amount" required="false" />
-                <lookupField attributeName="period12Depreciation2Amount" required="false" />
-                <lookupField attributeName="period1Depreciation1Amount" required="false" />
-                <lookupField attributeName="period1Depreciation2Amount" required="false" />
-                <lookupField attributeName="period2Depreciation1Amount" required="false" />
-                <lookupField attributeName="period2Depreciation2Amount" required="false" />
-                <lookupField attributeName="period3Depreciation1Amount" required="false" />
-                <lookupField attributeName="period3Depreciation2Amount" required="false" />
-                <lookupField attributeName="period4Depreciation1Amount" required="false" />
-                <lookupField attributeName="period4Depreciation2Amount" required="false" />
-                <lookupField attributeName="period5Depreciation1Amount" required="false" />
-                <lookupField attributeName="period5Depreciation2Amount" required="false" />
-                <lookupField attributeName="period6Depreciation1Amount" required="false" />
-                <lookupField attributeName="period6Depreciation2Amount" required="false" />
-                <lookupField attributeName="period7Depreciation1Amount" required="false" />
-                <lookupField attributeName="period7Depreciation2Amount" required="false" />
-                <lookupField attributeName="period8Depreciation1Amount" required="false" />
-                <lookupField attributeName="period8Depreciation2Amount" required="false" />
-                <lookupField attributeName="period9Depreciation1Amount" required="false" />
-                <lookupField attributeName="period9Depreciation2Amount" required="false" />
-                <lookupField attributeName="previousYearPrimaryDepreciationAmount" required="false" />
-                <lookupField attributeName="previousYearSecondaryDepreciationAmount" required="false" />
-                <lookupField attributeName="primaryDepreciationBaseAmount" required="false" />
-                <lookupField attributeName="projectCode" required="false" />
-                <lookupField attributeName="purchaseOrderNumber" required="false" />
-                <lookupField attributeName="requisitionNumber" required="false" />
-                <lookupField attributeName="secondaryDepreciationBaseAmount" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="transferPaymentCode" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="accountChargeAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="accumulatedPrimaryDepreciationAmount" />
-                <field attributeName="accumulatedSecondaryDepreciationAmount" />
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentPostingDate" />
-                <field attributeName="financialDocumentPostingPeriodCode" />
-                <field attributeName="financialDocumentPostingYear" />
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="organizationReferenceId" />
-                <field attributeName="paymentSequenceNumber" />
-                <field attributeName="period10Depreciation1Amount" />
-                <field attributeName="period10Depreciation2Amount" />
-                <field attributeName="period11Depreciation1Amount" />
-                <field attributeName="period11Depreciation2Amount" />
-                <field attributeName="period12Depreciation1Amount" />
-                <field attributeName="period12Depreciation2Amount" />
-                <field attributeName="period1Depreciation1Amount" />
-                <field attributeName="period1Depreciation2Amount" />
-                <field attributeName="period2Depreciation1Amount" />
-                <field attributeName="period2Depreciation2Amount" />
-                <field attributeName="period3Depreciation1Amount" />
-                <field attributeName="period3Depreciation2Amount" />
-                <field attributeName="period4Depreciation1Amount" />
-                <field attributeName="period4Depreciation2Amount" />
-                <field attributeName="period5Depreciation1Amount" />
-                <field attributeName="period5Depreciation2Amount" />
-                <field attributeName="period6Depreciation1Amount" />
-                <field attributeName="period6Depreciation2Amount" />
-                <field attributeName="period7Depreciation1Amount" />
-                <field attributeName="period7Depreciation2Amount" />
-                <field attributeName="period8Depreciation1Amount" />
-                <field attributeName="period8Depreciation2Amount" />
-                <field attributeName="period9Depreciation1Amount" />
-                <field attributeName="period9Depreciation2Amount" />
-                <field attributeName="previousYearPrimaryDepreciationAmount" />
-                <field attributeName="previousYearSecondaryDepreciationAmount" />
-                <field attributeName="primaryDepreciationBaseAmount" />
-                <field attributeName="projectCode" />
-                <field attributeName="purchaseOrderNumber" />
-                <field attributeName="requisitionNumber" />
-                <field attributeName="secondaryDepreciationBaseAmount" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="transferPaymentCode" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="accountChargeAmount" forceUppercase="true">
-                <label>Account Charge Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>accountChargeAmount</summary>
-                <description>accountChargeAmount description...</description>
-
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
-
-            <attribute name="accumulatedPrimaryDepreciationAmount" forceUppercase="true">
-                <label>Accumulated Primary Depreciation Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>accumulatedPrimaryDepreciationAmount</summary>
-                <description>accumulatedPrimaryDepreciationAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="accumulatedSecondaryDepreciationAmount" forceUppercase="true">
-                <label>Accumulated Secondary Depreciation Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>accumulatedSecondaryDepreciationAmount</summary>
-                <description>accumulatedSecondaryDepreciationAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-			
-			<attributeReference name="financialDocumentPostingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Financial Document Posting Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
-
-            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
-                <label>Financial Document Posting Period Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialDocumentPostingPeriodCode</summary>
-                <description>financialDocumentPostingPeriodCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
-                <label>Financial Document Posting Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Financial Document Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialDocumentTypeCode</summary>
-                <description>financialDocumentTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialSystemOriginationCode" forceUppercase="true">
-                <label>Financial System Origination Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialSystemOriginationCode</summary>
-                <description>financialSystemOriginationCode description...</description>
-			</attribute>
-
-            <attribute name="organizationReferenceId" forceUppercase="true">
-                <label>Organization Reference Id</label>
-                <shortLabel>Id</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>organizationReferenceId</summary>
-                <description>organizationReferenceId description...</description>
-			</attribute>
-
-            <attribute name="paymentSequenceNumber" forceUppercase="true">
-                <label>Payment Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>paymentSequenceNumber</summary>
-                <description>paymentSequenceNumber description...</description>
-			</attribute>
-
-            <attribute name="period10Depreciation1Amount" forceUppercase="true">
-                <label>Period10 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period10Depreciation1Amount</summary>
-                <description>period10Depreciation1Amount description...</description>
-			</attribute>
-
-            <attribute name="period10Depreciation2Amount" forceUppercase="true">
-                <label>Period10 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period10Depreciation2Amount</summary>
-                <description>period10Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period11Depreciation1Amount" forceUppercase="true">
-                <label>Period11 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period11Depreciation1Amount</summary>
-                <description>period11Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period11Depreciation2Amount" forceUppercase="true">
-                <label>Period11 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period11Depreciation2Amount</summary>
-                <description>period11Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period12Depreciation1Amount" forceUppercase="true">
-                <label>Period12 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period12Depreciation1Amount</summary>
-                <description>period12Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period12Depreciation2Amount" forceUppercase="true">
-                <label>Period12 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period12Depreciation2Amount</summary>
-                <description>period12Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period1Depreciation1Amount" forceUppercase="true">
-                <label>Period1 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period1Depreciation1Amount</summary>
-                <description>period1Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period1Depreciation2Amount" forceUppercase="true">
-                <label>Period1 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period1Depreciation2Amount</summary>
-                <description>period1Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period2Depreciation1Amount" forceUppercase="true">
-                <label>Period2 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period2Depreciation1Amount</summary>
-                <description>period2Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period2Depreciation2Amount" forceUppercase="true">
-                <label>Period2 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period2Depreciation2Amount</summary>
-                <description>period2Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period3Depreciation1Amount" forceUppercase="true">
-                <label>Period3 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period3Depreciation1Amount</summary>
-                <description>period3Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period3Depreciation2Amount" forceUppercase="true">
-                <label>Period3 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period3Depreciation2Amount</summary>
-                <description>period3Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period4Depreciation1Amount" forceUppercase="true">
-                <label>Period4 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period4Depreciation1Amount</summary>
-                <description>period4Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period4Depreciation2Amount" forceUppercase="true">
-                <label>Period4 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period4Depreciation2Amount</summary>
-                <description>period4Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period5Depreciation1Amount" forceUppercase="true">
-                <label>Period5 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period5Depreciation1Amount</summary>
-                <description>period5Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period5Depreciation2Amount" forceUppercase="true">
-                <label>Period5 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period5Depreciation2Amount</summary>
-                <description>period5Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period6Depreciation1Amount" forceUppercase="true">
-                <label>Period6 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period6Depreciation1Amount</summary>
-                <description>period6Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period6Depreciation2Amount" forceUppercase="true">
-                <label>Period6 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period6Depreciation2Amount</summary>
-                <description>period6Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period7Depreciation1Amount" forceUppercase="true">
-                <label>Period7 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period7Depreciation1Amount</summary>
-                <description>period7Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period7Depreciation2Amount" forceUppercase="true">
-                <label>Period7 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period7Depreciation2Amount</summary>
-                <description>period7Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period8Depreciation1Amount" forceUppercase="true">
-                <label>Period8 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period8Depreciation1Amount</summary>
-                <description>period8Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period8Depreciation2Amount" forceUppercase="true">
-                <label>Period8 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period8Depreciation2Amount</summary>
-                <description>period8Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period9Depreciation1Amount" forceUppercase="true">
-                <label>Period9 Depreciation1 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period9Depreciation1Amount</summary>
-                <description>period9Depreciation1Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="period9Depreciation2Amount" forceUppercase="true">
-                <label>Period9 Depreciation2 Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>period9Depreciation2Amount</summary>
-                <description>period9Depreciation2Amount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="previousYearPrimaryDepreciationAmount" forceUppercase="true">
-                <label>Previous Year Primary Depreciation Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>previousYearPrimaryDepreciationAmount</summary>
-                <description>previousYearPrimaryDepreciationAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="previousYearSecondaryDepreciationAmount" forceUppercase="true">
-                <label>Previous Year Secondary Depreciation Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>previousYearSecondaryDepreciationAmount</summary>
-                <description>previousYearSecondaryDepreciationAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="primaryDepreciationBaseAmount" forceUppercase="true">
-                <label>Primary Depreciation Base Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>primaryDepreciationBaseAmount</summary>
-                <description>primaryDepreciationBaseAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="projectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>projectCode</summary>
-                <description>projectCode description...</description>
-			</attribute>
-
-            <attribute name="purchaseOrderNumber" forceUppercase="true">
-                <label>Purchase Order Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderNumber</summary>
-                <description>purchaseOrderNumber description...</description>
-			</attribute>
-
-            <attribute name="requisitionNumber" forceUppercase="true">
-                <label>Requisition Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>requisitionNumber</summary>
-                <description>requisitionNumber description...</description>
-			</attribute>
-
-            <attribute name="secondaryDepreciationBaseAmount" forceUppercase="true">
-                <label>Secondary Depreciation Base Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>secondaryDepreciationBaseAmount</summary>
-                <description>secondaryDepreciationBaseAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="transferPaymentCode" forceUppercase="true">
-                <label>Transfer Payment Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>transferPaymentCode</summary>
-                <description>transferPaymentCode description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="yearToDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-            	<label>Year to Date</label>
-				<shortLabel>yearToDate</shortLabel>
-				<summary>Year to Date</summary>
-				<description>Year to Date</description>
-			</attributeReference>
-			
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AssetPayment" parent="AssetPayment-parentBean" />
+
+  <bean id="AssetPayment-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetPayment" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetPayment-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetPayment-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetPayment-accountChargeAmount" />
+        <ref bean="AssetPayment-accountNumber" />
+        <ref bean="AssetPayment-accumulatedPrimaryDepreciationAmount" />
+        <ref bean="AssetPayment-accumulatedSecondaryDepreciationAmount" />
+        <ref bean="AssetPayment-capitalAssetNumber" />
+        <ref bean="AssetPayment-chartOfAccountsCode" />
+        <ref bean="AssetPayment-documentNumber" />
+        <ref bean="AssetPayment-financialDocumentPostingDate" />
+        <ref bean="AssetPayment-financialDocumentPostingPeriodCode" />
+        <ref bean="AssetPayment-financialDocumentPostingYear" />
+        <ref bean="AssetPayment-financialDocumentTypeCode" />
+        <ref bean="AssetPayment-financialObjectCode" />
+        <ref bean="AssetPayment-financialSubObjectCode" />
+        <ref bean="AssetPayment-financialSystemOriginationCode" />
+        <ref bean="AssetPayment-organizationReferenceId" />
+        <ref bean="AssetPayment-paymentSequenceNumber" />
+        <ref bean="AssetPayment-period10Depreciation1Amount" />
+        <ref bean="AssetPayment-period10Depreciation2Amount" />
+        <ref bean="AssetPayment-period11Depreciation1Amount" />
+        <ref bean="AssetPayment-period11Depreciation2Amount" />
+        <ref bean="AssetPayment-period12Depreciation1Amount" />
+        <ref bean="AssetPayment-period12Depreciation2Amount" />
+        <ref bean="AssetPayment-period1Depreciation1Amount" />
+        <ref bean="AssetPayment-period1Depreciation2Amount" />
+        <ref bean="AssetPayment-period2Depreciation1Amount" />
+        <ref bean="AssetPayment-period2Depreciation2Amount" />
+        <ref bean="AssetPayment-period3Depreciation1Amount" />
+        <ref bean="AssetPayment-period3Depreciation2Amount" />
+        <ref bean="AssetPayment-period4Depreciation1Amount" />
+        <ref bean="AssetPayment-period4Depreciation2Amount" />
+        <ref bean="AssetPayment-period5Depreciation1Amount" />
+        <ref bean="AssetPayment-period5Depreciation2Amount" />
+        <ref bean="AssetPayment-period6Depreciation1Amount" />
+        <ref bean="AssetPayment-period6Depreciation2Amount" />
+        <ref bean="AssetPayment-period7Depreciation1Amount" />
+        <ref bean="AssetPayment-period7Depreciation2Amount" />
+        <ref bean="AssetPayment-period8Depreciation1Amount" />
+        <ref bean="AssetPayment-period8Depreciation2Amount" />
+        <ref bean="AssetPayment-period9Depreciation1Amount" />
+        <ref bean="AssetPayment-period9Depreciation2Amount" />
+        <ref bean="AssetPayment-previousYearPrimaryDepreciationAmount" />
+        <ref bean="AssetPayment-previousYearSecondaryDepreciationAmount" />
+        <ref bean="AssetPayment-primaryDepreciationBaseAmount" />
+        <ref bean="AssetPayment-projectCode" />
+        <ref bean="AssetPayment-purchaseOrderNumber" />
+        <ref bean="AssetPayment-requisitionNumber" />
+        <ref bean="AssetPayment-secondaryDepreciationBaseAmount" />
+        <ref bean="AssetPayment-subAccountNumber" />
+        <ref bean="AssetPayment-transferPaymentCode" />
+        <ref bean="AssetPayment-versionNumber" />
+        <ref bean="AssetPayment-yearToDate" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AssetPayment-accountChargeAmount" parent="AssetPayment-accountChargeAmount-parentBean" />
+
+  <bean id="AssetPayment-accountChargeAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountChargeAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Charge Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accountChargeAmount" />
+    <property name="description" value="accountChargeAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-accountNumber" parent="AssetPayment-accountNumber-parentBean" />
+
+  <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount" parent="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" />
+
+  <bean id="AssetPayment-accumulatedPrimaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accumulatedPrimaryDepreciationAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Accumulated Primary Depreciation Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accumulatedPrimaryDepreciationAmount" />
+    <property name="description" value="accumulatedPrimaryDepreciationAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-accumulatedSecondaryDepreciationAmount" parent="AssetPayment-accumulatedSecondaryDepreciationAmount-parentBean" />
+
+  <bean id="AssetPayment-accumulatedSecondaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accumulatedSecondaryDepreciationAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Accumulated Secondary Depreciation Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accumulatedSecondaryDepreciationAmount" />
+    <property name="description" value="accumulatedSecondaryDepreciationAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-capitalAssetNumber" parent="AssetPayment-capitalAssetNumber-parentBean" />
+
+  <bean id="AssetPayment-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="capitalAssetNumber" />
+    <property name="description" value="capitalAssetNumber description..." />
+  </bean>
+  <bean id="AssetPayment-chartOfAccountsCode" parent="AssetPayment-chartOfAccountsCode-parentBean" />
+
+  <bean id="AssetPayment-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="AssetPayment-documentNumber" parent="AssetPayment-documentNumber-parentBean" />
+
+  <bean id="AssetPayment-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="AssetPayment-financialDocumentPostingDate" parent="AssetPayment-financialDocumentPostingDate-parentBean" />
+
+  <bean id="AssetPayment-financialDocumentPostingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="financialDocumentPostingDate" />
+    <property name="label" value="Financial Document Posting Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="AssetPayment-financialDocumentPostingPeriodCode" parent="AssetPayment-financialDocumentPostingPeriodCode-parentBean" />
+
+  <bean id="AssetPayment-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentPostingPeriodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Posting Period Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialDocumentPostingPeriodCode" />
+    <property name="description" value="financialDocumentPostingPeriodCode description..." />
+  </bean>
+  <bean id="AssetPayment-financialDocumentPostingYear" parent="AssetPayment-financialDocumentPostingYear-parentBean" />
+
+  <bean id="AssetPayment-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentPostingYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Posting Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialDocumentPostingYear" />
+    <property name="description" value="financialDocumentPostingYear description..." />
+  </bean>
+  <bean id="AssetPayment-financialDocumentTypeCode" parent="AssetPayment-financialDocumentTypeCode-parentBean" />
+
+  <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialDocumentTypeCode" />
+    <property name="description" value="financialDocumentTypeCode description..." />
+  </bean>
+  <bean id="AssetPayment-financialObjectCode" parent="AssetPayment-financialObjectCode-parentBean" />
+
+  <bean id="AssetPayment-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialObjectCode" />
+    <property name="description" value="financialObjectCode description..." />
+  </bean>
+  <bean id="AssetPayment-financialSubObjectCode" parent="AssetPayment-financialSubObjectCode-parentBean" />
+
+  <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Sub Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="financialSubObjectCode" />
+    <property name="description" value="financialSubObjectCode description..." />
+  </bean>
+  <bean id="AssetPayment-financialSystemOriginationCode" parent="AssetPayment-financialSystemOriginationCode-parentBean" />
+
+  <bean id="AssetPayment-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemOriginationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Origination Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialSystemOriginationCode" />
+    <property name="description" value="financialSystemOriginationCode description..." />
+  </bean>
+  <bean id="AssetPayment-organizationReferenceId" parent="AssetPayment-organizationReferenceId-parentBean" />
+
+  <bean id="AssetPayment-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="organizationReferenceId" />
+    <property name="description" value="organizationReferenceId description..." />
+  </bean>
+  <bean id="AssetPayment-paymentSequenceNumber" parent="AssetPayment-paymentSequenceNumber-parentBean" />
+
+  <bean id="AssetPayment-paymentSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Sequence Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="paymentSequenceNumber" />
+    <property name="description" value="paymentSequenceNumber description..." />
+  </bean>
+  <bean id="AssetPayment-period10Depreciation1Amount" parent="AssetPayment-period10Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period10Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period10Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period10 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period10Depreciation1Amount" />
+    <property name="description" value="period10Depreciation1Amount description..." />
+  </bean>
+  <bean id="AssetPayment-period10Depreciation2Amount" parent="AssetPayment-period10Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period10Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period10Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period10 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period10Depreciation2Amount" />
+    <property name="description" value="period10Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period11Depreciation1Amount" parent="AssetPayment-period11Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period11Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period11Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period11 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period11Depreciation1Amount" />
+    <property name="description" value="period11Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period11Depreciation2Amount" parent="AssetPayment-period11Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period11Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period11Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period11 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period11Depreciation2Amount" />
+    <property name="description" value="period11Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period12Depreciation1Amount" parent="AssetPayment-period12Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period12Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period12Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period12 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period12Depreciation1Amount" />
+    <property name="description" value="period12Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period12Depreciation2Amount" parent="AssetPayment-period12Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period12Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period12Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period12 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period12Depreciation2Amount" />
+    <property name="description" value="period12Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period1Depreciation1Amount" parent="AssetPayment-period1Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period1Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period1Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period1 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period1Depreciation1Amount" />
+    <property name="description" value="period1Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period1Depreciation2Amount" parent="AssetPayment-period1Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period1Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period1Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period1 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period1Depreciation2Amount" />
+    <property name="description" value="period1Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period2Depreciation1Amount" parent="AssetPayment-period2Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period2Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period2Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period2 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period2Depreciation1Amount" />
+    <property name="description" value="period2Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period2Depreciation2Amount" parent="AssetPayment-period2Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period2Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period2Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period2 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period2Depreciation2Amount" />
+    <property name="description" value="period2Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period3Depreciation1Amount" parent="AssetPayment-period3Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period3Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period3Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period3 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period3Depreciation1Amount" />
+    <property name="description" value="period3Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period3Depreciation2Amount" parent="AssetPayment-period3Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period3Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period3Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period3 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period3Depreciation2Amount" />
+    <property name="description" value="period3Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period4Depreciation1Amount" parent="AssetPayment-period4Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period4Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period4Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period4 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period4Depreciation1Amount" />
+    <property name="description" value="period4Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period4Depreciation2Amount" parent="AssetPayment-period4Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period4Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period4Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period4 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period4Depreciation2Amount" />
+    <property name="description" value="period4Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period5Depreciation1Amount" parent="AssetPayment-period5Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period5Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period5Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period5 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period5Depreciation1Amount" />
+    <property name="description" value="period5Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period5Depreciation2Amount" parent="AssetPayment-period5Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period5Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period5Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period5 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period5Depreciation2Amount" />
+    <property name="description" value="period5Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period6Depreciation1Amount" parent="AssetPayment-period6Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period6Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period6Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period6 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period6Depreciation1Amount" />
+    <property name="description" value="period6Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period6Depreciation2Amount" parent="AssetPayment-period6Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period6Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period6Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period6 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period6Depreciation2Amount" />
+    <property name="description" value="period6Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period7Depreciation1Amount" parent="AssetPayment-period7Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period7Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period7Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period7 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period7Depreciation1Amount" />
+    <property name="description" value="period7Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period7Depreciation2Amount" parent="AssetPayment-period7Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period7Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period7Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period7 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period7Depreciation2Amount" />
+    <property name="description" value="period7Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period8Depreciation1Amount" parent="AssetPayment-period8Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period8Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period8Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period8 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period8Depreciation1Amount" />
+    <property name="description" value="period8Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period8Depreciation2Amount" parent="AssetPayment-period8Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period8Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period8Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period8 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period8Depreciation2Amount" />
+    <property name="description" value="period8Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period9Depreciation1Amount" parent="AssetPayment-period9Depreciation1Amount-parentBean" />
+
+  <bean id="AssetPayment-period9Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period9Depreciation1Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period9 Depreciation1 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period9Depreciation1Amount" />
+    <property name="description" value="period9Depreciation1Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-period9Depreciation2Amount" parent="AssetPayment-period9Depreciation2Amount-parentBean" />
+
+  <bean id="AssetPayment-period9Depreciation2Amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="period9Depreciation2Amount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Period9 Depreciation2 Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="period9Depreciation2Amount" />
+    <property name="description" value="period9Depreciation2Amount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-previousYearPrimaryDepreciationAmount" parent="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" />
+
+  <bean id="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="previousYearPrimaryDepreciationAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Previous Year Primary Depreciation Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="previousYearPrimaryDepreciationAmount" />
+    <property name="description" value="previousYearPrimaryDepreciationAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-previousYearSecondaryDepreciationAmount" parent="AssetPayment-previousYearSecondaryDepreciationAmount-parentBean" />
+
+  <bean id="AssetPayment-previousYearSecondaryDepreciationAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="previousYearSecondaryDepreciationAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Previous Year Secondary Depreciation Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="previousYearSecondaryDepreciationAmount" />
+    <property name="description" value="previousYearSecondaryDepreciationAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-primaryDepreciationBaseAmount" parent="AssetPayment-primaryDepreciationBaseAmount-parentBean" />
+
+  <bean id="AssetPayment-primaryDepreciationBaseAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="primaryDepreciationBaseAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Primary Depreciation Base Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="primaryDepreciationBaseAmount" />
+    <property name="description" value="primaryDepreciationBaseAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-projectCode" parent="AssetPayment-projectCode-parentBean" />
+
+  <bean id="AssetPayment-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="projectCode" />
+    <property name="description" value="projectCode description..." />
+  </bean>
+  <bean id="AssetPayment-purchaseOrderNumber" parent="AssetPayment-purchaseOrderNumber-parentBean" />
+
+  <bean id="AssetPayment-purchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="purchaseOrderNumber" />
+    <property name="description" value="purchaseOrderNumber description..." />
+  </bean>
+  <bean id="AssetPayment-requisitionNumber" parent="AssetPayment-requisitionNumber-parentBean" />
+
+  <bean id="AssetPayment-requisitionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Requisition Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="requisitionNumber" />
+    <property name="description" value="requisitionNumber description..." />
+  </bean>
+  <bean id="AssetPayment-secondaryDepreciationBaseAmount" parent="AssetPayment-secondaryDepreciationBaseAmount-parentBean" />
+
+  <bean id="AssetPayment-secondaryDepreciationBaseAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="secondaryDepreciationBaseAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Secondary Depreciation Base Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="secondaryDepreciationBaseAmount" />
+    <property name="description" value="secondaryDepreciationBaseAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPayment-subAccountNumber" parent="AssetPayment-subAccountNumber-parentBean" />
+
+  <bean id="AssetPayment-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="AssetPayment-transferPaymentCode" parent="AssetPayment-transferPaymentCode-parentBean" />
+
+  <bean id="AssetPayment-transferPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transferPaymentCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transfer Payment Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="transferPaymentCode" />
+    <property name="description" value="transferPaymentCode description..." />
+  </bean>
+  <bean id="AssetPayment-versionNumber" parent="AssetPayment-versionNumber-parentBean" />
+
+  <bean id="AssetPayment-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="AssetPayment-yearToDate" parent="AssetPayment-yearToDate-parentBean" />
+
+  <bean id="AssetPayment-yearToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="yearToDate" />
+    <property name="label" value="Year to Date" />
+    <property name="shortLabel" value="yearToDate" />
+    <property name="summary" value="Year to Date" />
+    <property name="description" value="Year to Date" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AssetPayment-inquiryDefinition" parent="AssetPayment-inquiryDefinition-parentBean" />
+
+  <bean id="AssetPayment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Payment Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountChargeAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accumulatedPrimaryDepreciationAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accumulatedSecondaryDepreciationAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReferenceId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentSequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period10Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period10Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period11Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period11Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period12Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period12Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period1Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period1Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period2Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period2Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period3Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period3Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period4Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period4Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period5Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period5Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period6Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period6Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period7Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period7Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period8Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period8Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period9Depreciation1Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="period9Depreciation2Amount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="previousYearPrimaryDepreciationAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="previousYearSecondaryDepreciationAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="primaryDepreciationBaseAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="requisitionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="secondaryDepreciationBaseAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transferPaymentCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AssetPayment-lookupDefinition" parent="AssetPayment-lookupDefinition-parentBean" />
+
+  <bean id="AssetPayment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Payment Lookup" />
+    <property name="lookupableID" value="assetPaymentLookupable" />
+    <property name="instructions" value="Look up an Asset Payment" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountChargeAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accumulatedPrimaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accumulatedSecondaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period10Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period10Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period11Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period11Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period12Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period12Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period1Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period1Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period2Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period2Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period3Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period3Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period4Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period4Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period5Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period5Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period6Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period6Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period7Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period7Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period8Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period8Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period9Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period9Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="previousYearPrimaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="previousYearSecondaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="primaryDepreciationBaseAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requisitionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="secondaryDepreciationBaseAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transferPaymentCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountChargeAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accumulatedPrimaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accumulatedSecondaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period10Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period10Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period11Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period11Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period12Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period12Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period1Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period1Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period2Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period2Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period3Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period3Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period4Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period4Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period5Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period5Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period6Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period6Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period7Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period7Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period8Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period8Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period9Depreciation1Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="period9Depreciation2Amount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="previousYearPrimaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="previousYearSecondaryDepreciationAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="primaryDepreciationBaseAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requisitionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="secondaryDepreciationBaseAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transferPaymentCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

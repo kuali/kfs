@@ -1,184 +1,248 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.BuildingParameter">
- 
-        <inquiry>
-            <title>Building Parameter Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="buildingCode" />
-                        <field attributeName="buildingOverrideAddressCityName" />
-                        <field attributeName="buildingOverrideAddressStateCode" />
-                        <field attributeName="buildingOverrideAddressZipCode" />
-                        <field attributeName="buildingOverrideCode" />
-                        <field attributeName="buildingOverrideName" />
-                        <field attributeName="buildingOverrideStreetAddress" />
-                        <field attributeName="campusCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Building Parameter Lookup</title>
+  <bean id="BuildingParameter" parent="BuildingParameter-parentBean" />
 
-            <instructions>Look up a Building Parameter</instructions>
+  <bean id="BuildingParameter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.BuildingParameter" />
+    <property name="inquiryDefinition" >
+      <ref bean="BuildingParameter-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BuildingParameter-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BuildingParameter-buildingCode" />
+        <ref bean="BuildingParameter-buildingOverrideAddressCityName" />
+        <ref bean="BuildingParameter-buildingOverrideAddressStateCode" />
+        <ref bean="BuildingParameter-buildingOverrideAddressZipCode" />
+        <ref bean="BuildingParameter-buildingOverrideCode" />
+        <ref bean="BuildingParameter-buildingOverrideName" />
+        <ref bean="BuildingParameter-buildingOverrideStreetAddress" />
+        <ref bean="BuildingParameter-campusCode" />
+        <ref bean="BuildingParameter-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="campusCode" />
-                    <sortAttribute attributeName="buildingCode" />
-                    <sortAttribute attributeName="buildingOverrideCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="buildingCode" required="false" />
-                <lookupField attributeName="buildingOverrideAddressCityName" required="false" />
-                <lookupField attributeName="buildingOverrideAddressStateCode" required="false" />
-                <lookupField attributeName="buildingOverrideAddressZipCode" required="false" />
-                <lookupField attributeName="buildingOverrideCode" required="false" />
-                <lookupField attributeName="buildingOverrideName" required="false" />
-                <lookupField attributeName="buildingOverrideStreetAddress" required="false" />
-                <lookupField attributeName="campusCode" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingOverrideAddressCityName" />
-                <field attributeName="buildingOverrideAddressStateCode" />
-                <field attributeName="buildingOverrideAddressZipCode" />
-                <field attributeName="buildingOverrideCode" />
-                <field attributeName="buildingOverrideName" />
-                <field attributeName="buildingOverrideStreetAddress" />
-                <field attributeName="campusCode" />
-            </resultFields>
-        </lookup>
+  <bean id="BuildingParameter-buildingCode" parent="BuildingParameter-buildingCode-parentBean" />
 
-        <attributes>
+  <bean id="BuildingParameter-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Code" />
+    <property name="shortLabel" value="Building Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-buildingOverrideAddressCityName" parent="BuildingParameter-buildingOverrideAddressCityName-parentBean" />
 
-            <attribute name="buildingCode" forceUppercase="true">
-                <label>Building Code</label>
-                <shortLabel>Building Code</shortLabel>
+  <bean id="BuildingParameter-buildingOverrideAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingOverrideAddressCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Override Address City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-buildingOverrideAddressStateCode" parent="BuildingParameter-buildingOverrideAddressStateCode-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
+  <bean id="BuildingParameter-buildingOverrideAddressStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingOverrideAddressStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Override Address State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-buildingOverrideAddressZipCode" parent="BuildingParameter-buildingOverrideAddressZipCode-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingOverrideAddressZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Override Address Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-buildingOverrideCode" parent="BuildingParameter-buildingOverrideCode-parentBean" />
 
-            </attribute>
+  <bean id="BuildingParameter-buildingOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingOverrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-buildingOverrideName" parent="BuildingParameter-buildingOverrideName-parentBean" />
 
-            <attribute name="buildingOverrideAddressCityName" forceUppercase="true">
-                <label>Building Override Address City Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="BuildingParameter-buildingOverrideName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingOverrideName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Override Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-buildingOverrideStreetAddress" parent="BuildingParameter-buildingOverrideStreetAddress-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BuildingParameter-buildingOverrideStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingOverrideStreetAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Override Street Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="BuildingParameter-campusCode" parent="BuildingParameter-campusCode-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="BuildingParameter-campusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="BuildingParameter-versionNumber" parent="BuildingParameter-versionNumber-parentBean" />
 
-			</attribute>
+  <bean id="BuildingParameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="buildingOverrideAddressStateCode" forceUppercase="true">
-                <label>Building Override Address State Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="BuildingParameter-inquiryDefinition" parent="BuildingParameter-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="BuildingParameter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Building Parameter Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingOverrideAddressCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingOverrideAddressStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingOverrideAddressZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingOverrideCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingOverrideName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingOverrideStreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="buildingOverrideAddressZipCode" forceUppercase="true">
-                <label>Building Override Address Zip Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="13" />
-                </control>
+  <bean id="BuildingParameter-lookupDefinition" parent="BuildingParameter-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attribute name="buildingOverrideCode" forceUppercase="true">
-                <label>Building Override Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-			</attribute>
-
-            <attribute name="buildingOverrideName" forceUppercase="true">
-                <label>Building Override Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-            <attribute name="buildingOverrideStreetAddress" forceUppercase="true">
-                <label>Building Override Street Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-			</attribute>
-
-			<attributeReference name="campusCode"
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
-				sourceAttributeName="campusCode">
-                <required>true</required>
-			</attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BuildingParameter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Building Parameter Lookup" />
+    <property name="instructions" value="Look up a Building Parameter" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideAddressCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideAddressStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideAddressZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideStreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideAddressCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideAddressStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideAddressZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingOverrideStreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

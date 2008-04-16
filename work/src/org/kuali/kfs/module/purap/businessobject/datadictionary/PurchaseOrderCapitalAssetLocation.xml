@@ -1,278 +1,395 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderCapitalAssetLocation">
- 
-        <inquiry>
-            <title>Purchase Order Capital Asset Location Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="buildingCode" />
-                        <field attributeName="buildingRoomNumber" />
-                        <field attributeName="campusCode" />
-                        <field attributeName="capitalAssetCityName" />
-                        <field attributeName="capitalAssetCountryCode" />
-                        <field attributeName="capitalAssetLine1Address" />
-                        <field attributeName="capitalAssetLocationNumber" />
-                        <field attributeName="capitalAssetPostalCode" />
-                        <field attributeName="capitalAssetStateCode" />
-                        <field attributeName="capitalAssetSystemNumber" />
-                        <field attributeName="documentNumber" />
-                        <field attributeName="itemQuantity" />
-                        <field attributeName="offCampusIndicator" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Purchase Order Capital Asset Location Lookup</title>
+  <bean id="PurchaseOrderCapitalAssetLocation" parent="PurchaseOrderCapitalAssetLocation-parentBean" />
 
-            <instructions>Look up a Purchase Order Capital Asset Location</instructions>
+  <bean id="PurchaseOrderCapitalAssetLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderCapitalAssetLocation" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchaseOrderCapitalAssetLocation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchaseOrderCapitalAssetLocation-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderCapitalAssetLocation-buildingCode" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-buildingRoomNumber" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-campusCode" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetCityName" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetLocationNumber" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetSystemNumber" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-documentNumber" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-itemQuantity" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-offCampusIndicator" />
+        <ref bean="PurchaseOrderCapitalAssetLocation-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                    <sortAttribute attributeName="capitalAssetSystemNumber" />
-                    <sortAttribute attributeName="capitalAssetLocationNumber" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="buildingCode" required="false" />
-                <lookupField attributeName="buildingRoomNumber" required="false" />
-                <lookupField attributeName="campusCode" required="false" />
-                <lookupField attributeName="capitalAssetCityName" required="false" />
-                <lookupField attributeName="capitalAssetCountryCode" required="false" />
-                <lookupField attributeName="capitalAssetLine1Address" required="false" />
-                <lookupField attributeName="capitalAssetLocationNumber" required="false" />
-                <lookupField attributeName="capitalAssetPostalCode" required="false" />
-                <lookupField attributeName="capitalAssetStateCode" required="false" />
-                <lookupField attributeName="capitalAssetSystemNumber" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="itemQuantity" required="false" />
-                <lookupField attributeName="offCampusIndicator" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingRoomNumber" />
-                <field attributeName="campusCode" />
-                <field attributeName="capitalAssetCityName" />
-                <field attributeName="capitalAssetCountryCode" />
-                <field attributeName="capitalAssetLine1Address" />
-                <field attributeName="capitalAssetLocationNumber" />
-                <field attributeName="capitalAssetPostalCode" />
-                <field attributeName="capitalAssetStateCode" />
-                <field attributeName="capitalAssetSystemNumber" />
-                <field attributeName="documentNumber" />
-                <field attributeName="itemQuantity" />
-                <field attributeName="offCampusIndicator" />
-            </resultFields>
-        </lookup>
+  <bean id="PurchaseOrderCapitalAssetLocation-buildingCode" parent="PurchaseOrderCapitalAssetLocation-buildingCode-parentBean" />
 
-        <attributes>
+  <bean id="PurchaseOrderCapitalAssetLocation-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="buildingCode" />
+    <property name="description" value="buildingCode description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-buildingRoomNumber" parent="PurchaseOrderCapitalAssetLocation-buildingRoomNumber-parentBean" />
 
-            <attribute name="buildingCode" forceUppercase="true">
-                <label>Building Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="PurchaseOrderCapitalAssetLocation-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="buildingRoomNumber" />
+    <property name="description" value="buildingRoomNumber description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-campusCode" parent="PurchaseOrderCapitalAssetLocation-campusCode-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="PurchaseOrderCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="campusCode" />
+    <property name="description" value="campusCode description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCityName" parent="PurchaseOrderCapitalAssetLocation-capitalAssetCityName-parentBean" />
 
-                <control>
-                    <text size="12" />
-                </control>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+    <property name="summary" value="capitalAssetCityName" />
+    <property name="description" value="capitalAssetCityName description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean" />
 
-                <summary>buildingCode</summary>
-                <description>buildingCode description...</description>
-			</attribute>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Country Code" />
+    <property name="shortLabel" value="Country Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="capitalAssetCountryCode" />
+    <property name="description" value="capitalAssetCountryCode description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address" parent="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address-parentBean" />
 
-            <attribute name="buildingRoomNumber" forceUppercase="true">
-                <label>Building Room Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetLine1Address" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Line1 Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+    <property name="summary" value="capitalAssetLine1Address" />
+    <property name="description" value="capitalAssetLine1Address description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLocationNumber" parent="PurchaseOrderCapitalAssetLocation-capitalAssetLocationNumber-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLocationNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetLocationNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Location Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="capitalAssetLocationNumber" />
+    <property name="description" value="capitalAssetLocationNumber description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetPostalCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Postal Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+    <property name="summary" value="capitalAssetPostalCode" />
+    <property name="description" value="capitalAssetPostalCode description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean" />
 
-                <summary>buildingRoomNumber</summary>
-                <description>buildingRoomNumber description...</description>
-			</attribute>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="capitalAssetStateCode" />
+    <property name="description" value="capitalAssetStateCode description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetSystemNumber" parent="PurchaseOrderCapitalAssetLocation-capitalAssetSystemNumber-parentBean" />
 
-            <attribute name="campusCode" forceUppercase="true">
-                <label>Campus Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetSystemNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetSystemNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset System Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="capitalAssetSystemNumber" />
+    <property name="description" value="capitalAssetSystemNumber description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-documentNumber" parent="PurchaseOrderCapitalAssetLocation-documentNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="PurchaseOrderCapitalAssetLocation-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-itemQuantity" parent="PurchaseOrderCapitalAssetLocation-itemQuantity-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="PurchaseOrderCapitalAssetLocation-itemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemQuantity" />
+    <property name="description" value="itemQuantity description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-offCampusIndicator" parent="PurchaseOrderCapitalAssetLocation-offCampusIndicator-parentBean" />
 
-                <summary>campusCode</summary>
-                <description>campusCode description...</description>
-			</attribute>
+  <bean id="PurchaseOrderCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offCampusIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Off Campus Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="offCampusIndicator" />
+    <property name="description" value="offCampusIndicator description..." />
+  </bean>
+  <bean id="PurchaseOrderCapitalAssetLocation-versionNumber" parent="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" />
 
-            <attribute name="capitalAssetCityName" forceUppercase="true">
-                <label>Capital Asset City Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="47" />
-                </control>
 
-                <summary>capitalAssetCityName</summary>
-                <description>capitalAssetCityName description...</description>
-			</attribute>
+  <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition" parent="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean" />
 
-            <attribute name="capitalAssetCountryCode" forceUppercase="true">
-                <label>Capital Asset Country Code</label>
-                <shortLabel>Country Code</shortLabel>
+  <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purchase Order Capital Asset Location Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetLocationNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetPostalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetSystemNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="offCampusIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="4" />
-                </control>
 
-                <summary>capitalAssetCountryCode</summary>
-                <description>capitalAssetCountryCode description...</description>
-			</attribute>
+  <bean id="PurchaseOrderCapitalAssetLocation-lookupDefinition" parent="PurchaseOrderCapitalAssetLocation-lookupDefinition-parentBean" />
 
-            <attribute name="capitalAssetLine1Address" forceUppercase="true">
-                <label>Capital Asset Line1 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-                <summary>capitalAssetLine1Address</summary>
-                <description>capitalAssetLine1Address description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetLocationNumber" forceUppercase="true">
-                <label>Capital Asset Location Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>capitalAssetLocationNumber</summary>
-                <description>capitalAssetLocationNumber description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetPostalCode" forceUppercase="true">
-                <label>Capital Asset Postal Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-                <summary>capitalAssetPostalCode</summary>
-                <description>capitalAssetPostalCode description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetStateCode" forceUppercase="true">
-                <label>Capital Asset State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>capitalAssetStateCode</summary>
-                <description>capitalAssetStateCode description...</description>
-			</attribute>
-
-            <attribute name="capitalAssetSystemNumber" forceUppercase="true">
-                <label>Capital Asset System Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>capitalAssetSystemNumber</summary>
-                <description>capitalAssetSystemNumber description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="itemQuantity" forceUppercase="true">
-                <label>Item Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemQuantity</summary>
-                <description>itemQuantity description...</description>
-			</attribute>
-
-            <attribute name="offCampusIndicator" forceUppercase="true">
-                <label>Off Campus Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>offCampusIndicator</summary>
-                <description>offCampusIndicator description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PurchaseOrderCapitalAssetLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purchase Order Capital Asset Location Lookup" />
+    <property name="instructions" value="Look up a Purchase Order Capital Asset Location" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetLocationNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetSystemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="offCampusIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetLocationNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetSystemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="offCampusIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

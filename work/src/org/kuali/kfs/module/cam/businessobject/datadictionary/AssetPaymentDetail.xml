@@ -1,366 +1,703 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd"
-    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
-    
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetPaymentDetail">
-        <attributes>
-            <attribute name="accountChargeAmount" forceUppercase="true">
-                <label>Account Charge Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>accountChargeAmount</summary>
-                <description>accountChargeAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <!-- attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Account Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Object</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Sub-Object</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="organizationReferenceId" forceUppercase="true">
-                <label>Organization Reference Id</label>
-                <shortLabel>Id</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>organizationReferenceId</summary>
-                <description>organizationReferenceId description...</description>
-			</attribute>
-
-            <attribute name="projectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>projectCode</summary>
-                <description>projectCode description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute-->
-
-            <attribute name="expenditureFinancialDocumentNumber" forceUppercase="true">
-                <label>Expenditure Financial Document Number</label>
-                <shortLabel>Fin. Doc#</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>expenditureFinancialDocumentNumber</summary>
-                <description>expenditureFinancialDocumentNumber description...</description>
-			</attribute>
-
-            <attribute name="expenditureFinancialDocumentPostedDate" forceUppercase="true">
-                <label>Expenditure Financial Document Posted Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-                <summary>expenditureFinancialDocumentPostedDate</summary>
-                <description>expenditureFinancialDocumentPostedDate description...</description>
-			</attribute>
-
-            <attribute name="expenditureFinancialDocumentTypeCode" forceUppercase="true">
-                <label>Expenditure Financial Document Type Code</label>
-                <shortLabel>Doc. Type</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-    			<required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-                <summary>expenditureFinancialDocumentTypeCode</summary>
-                <description>expenditureFinancialDocumentTypeCode description...</description>
-			</attribute>
-
-            <attribute name="expenditureFinancialSystemOriginationCode" forceUppercase="true">
-                <label>Expenditure Financial System Origination Code</label>
-                <shortLabel>Org. CD</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>expenditureFinancialSystemOriginationCode</summary>
-                <description>expenditureFinancialSystemOriginationCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentLineNumber" forceUppercase="true">
-                <label>Financial Document Line Number</label>
-                <shortLabel>Line#</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>financialDocumentLineNumber</summary>
-                <description>financialDocumentLineNumber description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentOverrideCode" forceUppercase="true">
-                <label>Financial Document Override Code</label>
-                <shortLabel>Override CD</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>financialDocumentOverrideCode</summary>
-                <description>financialDocumentOverrideCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
-                <label>Financial Document Posting Period Code</label>
-                <shortLabel>Fiscal Month</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialDocumentPostingPeriodCode</summary>
-                <description>financialDocumentPostingPeriodCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
-                <label>Financial Document Posting Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
-			</attribute>
-
-
-            <attribute name="paymentApplicationDate" forceUppercase="true">
-                <label>Payment Application Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-				<required>true</required>
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>paymentApplicationDate</summary>
-                <description>paymentApplicationDate description...</description>
-			</attribute>
-
-            <attribute name="primaryDepreciationPaymentAmount" forceUppercase="true">
-                <label>Primary Depreciation Payment Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>primaryDepreciationPaymentAmount</summary>
-                <description>primaryDepreciationPaymentAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-
-            <attribute name="purchaseOrderNumber" forceUppercase="true">
-                <label>Purchase Order Number</label>
-                <shortLabel>PO. #</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderNumber</summary>
-                <description>purchaseOrderNumber description...</description>
-			</attribute>
-
-            <attribute name="requisitionNumber" forceUppercase="true">
-                <label>Requisition Number</label>
-                <shortLabel>Req. #</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>requisitionNumber</summary>
-                <description>requisitionNumber description...</description>
-			</attribute>
-
-            <attribute name="secondaryDepreciationPaymentAmount" forceUppercase="true">
-                <label>Secondary Depreciation Payment Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>secondaryDepreciationPaymentAmount</summary>
-                <description>secondaryDepreciationPaymentAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-
-            <attribute name="transferPaymentIndicator" forceUppercase="true">
-                <label>Transfer Payment Indicator</label>
-                <shortLabel>Transf. Code</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>transferPaymentIndicator</summary>
-                <description>transferPaymentIndicator description...</description>
-			</attribute>
-
-  	        &accountingLineBaseAttributes;
-
-            <!-- attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" /-->
-
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AssetPaymentDetail" parent="AssetPaymentDetail-parentBean" />
+
+  <bean id="AssetPaymentDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetPaymentDetail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetPaymentDetail-accountChargeAmount" />
+        <ref bean="AssetPaymentDetail-expenditureFinancialDocumentNumber" />
+        <ref bean="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" />
+        <ref bean="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" />
+        <ref bean="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" />
+        <ref bean="AssetPaymentDetail-financialDocumentLineNumber" />
+        <ref bean="AssetPaymentDetail-financialDocumentOverrideCode" />
+        <ref bean="AssetPaymentDetail-financialDocumentPostingPeriodCode" />
+        <ref bean="AssetPaymentDetail-financialDocumentPostingYear" />
+        <ref bean="AssetPaymentDetail-paymentApplicationDate" />
+        <ref bean="AssetPaymentDetail-primaryDepreciationPaymentAmount" />
+        <ref bean="AssetPaymentDetail-purchaseOrderNumber" />
+        <ref bean="AssetPaymentDetail-requisitionNumber" />
+        <ref bean="AssetPaymentDetail-secondaryDepreciationPaymentAmount" />
+        <ref bean="AssetPaymentDetail-transferPaymentIndicator" />
+        <ref bean="AssetPaymentDetail-objectCode.financialObjectTypeCode" />
+        <ref bean="AssetPaymentDetail-objectCode.financialObjectSubTypeCode" />
+        <ref bean="AssetPaymentDetail-objectCode.financialObjectLevelCode" />
+        <ref bean="AssetPaymentDetail-account.financialHigherEdFunctionCd" />
+        <ref bean="AssetPaymentDetail-account.subFundGroupCode" />
+        <ref bean="AssetPaymentDetail-account.subFundGroup.fundGroupCode" />
+        <ref bean="AssetPaymentDetail-balanceTypeCode" />
+        <ref bean="AssetPaymentDetail-referenceNumber" />
+        <ref bean="AssetPaymentDetail-sequenceNumber" />
+        <ref bean="AssetPaymentDetail-financialObjectCode" />
+        <ref bean="AssetPaymentDetail-accountNumber" />
+        <ref bean="AssetPaymentDetail-objectId" />
+        <ref bean="AssetPaymentDetail-organizationReferenceId" />
+        <ref bean="AssetPaymentDetail-chartOfAccountsCode" />
+        <ref bean="AssetPaymentDetail-postingYear" />
+        <ref bean="AssetPaymentDetail-referenceOriginCode" />
+        <ref bean="AssetPaymentDetail-overrideCode" />
+        <ref bean="AssetPaymentDetail-amount" />
+        <ref bean="AssetPaymentDetail-subAccountNumber" />
+        <ref bean="AssetPaymentDetail-referenceTypeCode" />
+        <ref bean="AssetPaymentDetail-projectCode" />
+        <ref bean="AssetPaymentDetail-financialSubObjectCode" />
+        <ref bean="AssetPaymentDetail-versionNumber" />
+        <ref bean="AssetPaymentDetail-documentNumber" />
+        <ref bean="AssetPaymentDetail-debitCreditCode" />
+        <ref bean="AssetPaymentDetail-encumbranceUpdateCode" />
+        <ref bean="AssetPaymentDetail-objectTypeCode" />
+        <ref bean="AssetPaymentDetail-accountExpiredOverride" />
+        <ref bean="AssetPaymentDetail-nonFringeAccountOverride" />
+        <ref bean="AssetPaymentDetail-objectBudgetOverride" />
+        <ref bean="AssetPaymentDetail-financialDocumentLineDescription" />
+        <ref bean="AssetPaymentDetail-salesTaxRequired" />
+        <ref bean="AssetPaymentDetail-salesTax.chartOfAccountsCode" />
+        <ref bean="AssetPaymentDetail-salesTax.accountNumber" />
+        <ref bean="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount" />
+        <ref bean="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount" />
+        <ref bean="AssetPaymentDetail-salesTax.financialDocumentSaleDate" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AssetPaymentDetail-accountChargeAmount" parent="AssetPaymentDetail-accountChargeAmount-parentBean" />
+
+  <bean id="AssetPaymentDetail-accountChargeAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountChargeAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Charge Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accountChargeAmount" />
+    <property name="description" value="accountChargeAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber" parent="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="expenditureFinancialDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Expenditure Financial Document Number" />
+    <property name="shortLabel" value="Fin. Doc#" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="expenditureFinancialDocumentNumber" />
+    <property name="description" value="expenditureFinancialDocumentNumber description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" parent="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" />
+
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="expenditureFinancialDocumentPostedDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Expenditure Financial Document Posted Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="expenditureFinancialDocumentPostedDate" />
+    <property name="description" value="expenditureFinancialDocumentPostedDate description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" parent="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="expenditureFinancialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Expenditure Financial Document Type Code" />
+    <property name="shortLabel" value="Doc. Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="expenditureFinancialDocumentTypeCode" />
+    <property name="description" value="expenditureFinancialDocumentTypeCode description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" parent="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="expenditureFinancialSystemOriginationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Expenditure Financial System Origination Code" />
+    <property name="shortLabel" value="Org. CD" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="expenditureFinancialSystemOriginationCode" />
+    <property name="description" value="expenditureFinancialSystemOriginationCode description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-financialDocumentLineNumber" parent="AssetPaymentDetail-financialDocumentLineNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Line Number" />
+    <property name="shortLabel" value="Line#" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="financialDocumentLineNumber" />
+    <property name="description" value="financialDocumentLineNumber description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-financialDocumentOverrideCode" parent="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentOverrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Override Code" />
+    <property name="shortLabel" value="Override CD" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="financialDocumentOverrideCode" />
+    <property name="description" value="financialDocumentOverrideCode description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-financialDocumentPostingPeriodCode" parent="AssetPaymentDetail-financialDocumentPostingPeriodCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentPostingPeriodCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Posting Period Code" />
+    <property name="shortLabel" value="Fiscal Month" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialDocumentPostingPeriodCode" />
+    <property name="description" value="financialDocumentPostingPeriodCode description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-financialDocumentPostingYear" parent="AssetPaymentDetail-financialDocumentPostingYear-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentPostingYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Posting Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialDocumentPostingYear" />
+    <property name="description" value="financialDocumentPostingYear description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-paymentApplicationDate" parent="AssetPaymentDetail-paymentApplicationDate-parentBean" />
+
+  <bean id="AssetPaymentDetail-paymentApplicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentApplicationDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Application Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="paymentApplicationDate" />
+    <property name="description" value="paymentApplicationDate description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-primaryDepreciationPaymentAmount" parent="AssetPaymentDetail-primaryDepreciationPaymentAmount-parentBean" />
+
+  <bean id="AssetPaymentDetail-primaryDepreciationPaymentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="primaryDepreciationPaymentAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Primary Depreciation Payment Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="primaryDepreciationPaymentAmount" />
+    <property name="description" value="primaryDepreciationPaymentAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPaymentDetail-purchaseOrderNumber" parent="AssetPaymentDetail-purchaseOrderNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-purchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Number" />
+    <property name="shortLabel" value="PO. #" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="purchaseOrderNumber" />
+    <property name="description" value="purchaseOrderNumber description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-requisitionNumber" parent="AssetPaymentDetail-requisitionNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-requisitionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requisitionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Requisition Number" />
+    <property name="shortLabel" value="Req. #" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="requisitionNumber" />
+    <property name="description" value="requisitionNumber description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-secondaryDepreciationPaymentAmount" parent="AssetPaymentDetail-secondaryDepreciationPaymentAmount-parentBean" />
+
+  <bean id="AssetPaymentDetail-secondaryDepreciationPaymentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="secondaryDepreciationPaymentAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Secondary Depreciation Payment Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="secondaryDepreciationPaymentAmount" />
+    <property name="description" value="secondaryDepreciationPaymentAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="AssetPaymentDetail-transferPaymentIndicator" parent="AssetPaymentDetail-transferPaymentIndicator-parentBean" />
+
+  <bean id="AssetPaymentDetail-transferPaymentIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transferPaymentIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transfer Payment Indicator" />
+    <property name="shortLabel" value="Transf. Code" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="transferPaymentIndicator" />
+    <property name="description" value="transferPaymentIndicator description..." />
+  </bean>
+  <bean id="AssetPaymentDetail-objectCode.financialObjectTypeCode" parent="AssetPaymentDetail-objectCode.financialObjectTypeCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
+    <property name="name" value="objectCode.financialObjectTypeCode" />
+  </bean>
+  <bean id="AssetPaymentDetail-objectCode.financialObjectSubTypeCode" parent="AssetPaymentDetail-objectCode.financialObjectSubTypeCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+  </bean>
+  <bean id="AssetPaymentDetail-objectCode.financialObjectLevelCode" parent="AssetPaymentDetail-objectCode.financialObjectLevelCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
+    <property name="name" value="objectCode.financialObjectLevelCode" />
+  </bean>
+  <bean id="AssetPaymentDetail-account.financialHigherEdFunctionCd" parent="AssetPaymentDetail-account.financialHigherEdFunctionCd-parentBean" />
+
+  <bean id="AssetPaymentDetail-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="name" value="account.financialHigherEdFunctionCd" />
+  </bean>
+  <bean id="AssetPaymentDetail-account.subFundGroupCode" parent="AssetPaymentDetail-account.subFundGroupCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode" />
+  </bean>
+  <bean id="AssetPaymentDetail-account.subFundGroup.fundGroupCode" parent="AssetPaymentDetail-account.subFundGroup.fundGroupCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="account.subFundGroup.fundGroupCode" />
+  </bean>
+  <bean id="AssetPaymentDetail-balanceTypeCode" parent="AssetPaymentDetail-balanceTypeCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetPaymentDetail-referenceNumber" parent="AssetPaymentDetail-referenceNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Number" />
+    <property name="shortLabel" value="Ref Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+  </bean>
+  <bean id="AssetPaymentDetail-sequenceNumber" parent="AssetPaymentDetail-sequenceNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="sequenceNumber" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetPaymentDetail-financialObjectCode" parent="AssetPaymentDetail-financialObjectCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+  </bean>
+  <bean id="AssetPaymentDetail-accountNumber" parent="AssetPaymentDetail-accountNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="AssetPaymentDetail-objectId" parent="AssetPaymentDetail-objectId-parentBean" />
+
+  <bean id="AssetPaymentDetail-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetPaymentDetail-organizationReferenceId" parent="AssetPaymentDetail-organizationReferenceId-parentBean" />
+
+  <bean id="AssetPaymentDetail-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Org Ref Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+  </bean>
+  <bean id="AssetPaymentDetail-chartOfAccountsCode" parent="AssetPaymentDetail-chartOfAccountsCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+  </bean>
+  <bean id="AssetPaymentDetail-postingYear" parent="AssetPaymentDetail-postingYear-parentBean" />
+
+  <bean id="AssetPaymentDetail-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="AssetPaymentDetail-referenceOriginCode" parent="AssetPaymentDetail-referenceOriginCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceOriginCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Ref Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
+
+  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The total dollar amount of check or batch of checks." />
+  </bean>
+  <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+  </bean>
+  <bean id="AssetPaymentDetail-referenceTypeCode" parent="AssetPaymentDetail-referenceTypeCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+    <property name="name" value="referenceTypeCode" />
+    <property name="label" value="Reference Type Code" />
+    <property name="shortLabel" value="Ref Type Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="AssetPaymentDetail-projectCode" parent="AssetPaymentDetail-projectCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The title of the project." />
+  </bean>
+  <bean id="AssetPaymentDetail-financialSubObjectCode" parent="AssetPaymentDetail-financialSubObjectCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="AssetPaymentDetail-versionNumber" parent="AssetPaymentDetail-versionNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetPaymentDetail-documentNumber" parent="AssetPaymentDetail-documentNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetPaymentDetail-debitCreditCode" parent="AssetPaymentDetail-debitCreditCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="debitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit or Debit Code" />
+    <property name="shortLabel" value="Credit/Debit" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="DC" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+  </bean>
+  <bean id="AssetPaymentDetail-encumbranceUpdateCode" parent="AssetPaymentDetail-encumbranceUpdateCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="encumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Encumbrance Update" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="AssetPaymentDetail-objectTypeCode" parent="AssetPaymentDetail-objectTypeCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="objectTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AssetPaymentDetail-accountExpiredOverride" parent="AssetPaymentDetail-accountExpiredOverride-parentBean" />
+
+  <bean id="AssetPaymentDetail-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountExpiredOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Expired Override" />
+    <property name="shortLabel" value="Expired Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+  </bean>
+  <bean id="AssetPaymentDetail-nonFringeAccountOverride" parent="AssetPaymentDetail-nonFringeAccountOverride-parentBean" />
+
+  <bean id="AssetPaymentDetail-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Non-fringe Account Override" />
+    <property name="shortLabel" value="Non-fringe Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+  </bean>
+  <bean id="AssetPaymentDetail-objectBudgetOverride" parent="AssetPaymentDetail-objectBudgetOverride-parentBean" />
+
+  <bean id="AssetPaymentDetail-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectBudgetOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Non-Budgeted Override" />
+    <property name="shortLabel" value="Non-Budgeted Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+  </bean>
+  <bean id="AssetPaymentDetail-financialDocumentLineDescription" parent="AssetPaymentDetail-financialDocumentLineDescription-parentBean" />
+
+  <bean id="AssetPaymentDetail-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Description" />
+    <property name="shortLabel" value="Line Desc" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+  </bean>
+  <bean id="AssetPaymentDetail-salesTaxRequired" parent="AssetPaymentDetail-salesTaxRequired-parentBean" />
+
+  <bean id="AssetPaymentDetail-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxRequired" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sales Tax Required" />
+    <property name="shortLabel" value="Sales Tax Reqd" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+  </bean>
+  <bean id="AssetPaymentDetail-salesTax.chartOfAccountsCode" parent="AssetPaymentDetail-salesTax.chartOfAccountsCode-parentBean" />
+
+  <bean id="AssetPaymentDetail-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
+    <property name="name" value="salesTax.chartOfAccountsCode" />
+    <property name="label" value="Sales Tax Chart of Accounts Code" />
+    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+  </bean>
+  <bean id="AssetPaymentDetail-salesTax.accountNumber" parent="AssetPaymentDetail-salesTax.accountNumber-parentBean" />
+
+  <bean id="AssetPaymentDetail-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
+    <property name="name" value="salesTax.accountNumber" />
+    <property name="label" value="Sales Tax Account Number" />
+    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Account Number that Sales Tax is collected against" />
+  </bean>
+  <bean id="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount" parent="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+
+  <bean id="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
+    <property name="label" value="Gross Sales Amount" />
+    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="description" value="Gross Sales Amount to be taxed" />
+  </bean>
+  <bean id="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount" parent="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+
+  <bean id="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
+    <property name="label" value="Taxable Sales Amount" />
+    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="description" value="Taxable Sales Amount to be taxed" />
+  </bean>
+  <bean id="AssetPaymentDetail-salesTax.financialDocumentSaleDate" parent="AssetPaymentDetail-salesTax.financialDocumentSaleDate-parentBean" />
+
+  <bean id="AssetPaymentDetail-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate" />
+    <property name="label" value="Sale Date" />
+    <property name="description" value="Date of Sale" />
+  </bean>
+</beans>

@@ -1,396 +1,417 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.SystemInformation">
- 
-        <inquiry>
-            <title>System Information Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                    	<!-- 
-                    	<field attributeName="active" />
-                    	 -->
-                    	<field attributeName="universityFiscalYear" />
-                    	<field attributeName="processingChartOfAccountCode" />
-                        <field attributeName="processingOrganizationCode" />
-                        <field attributeName="lockboxNumber" />
-                        <field attributeName="salesTaxAccountNumber" />
-                        <field attributeName="salesTaxFinancialObjectCode" />
-                        <field attributeName="adjustmentObjectCode" />
-                        <field attributeName="universityClearingChartOfAccountsCode" />
-                        <field attributeName="universityClearingAccountNumber" />
-                        <field attributeName="universityClearingSubAccountNumber" />
-                        <field attributeName="universityClearingObjectCode" />
-                        <field attributeName="universityClearingSubObjectCode" />
-                        <field attributeName="creditCardObjectCode" />
-                        <field attributeName="discountObjectCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
-
-        <lookup>
-            <title>System Information Lookup</title>
-
-            <instructions>Look up System Information</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="processingChartOfAccountCode" />
-                    <sortAttribute attributeName="processingOrganizationCode" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="processingChartOfAccountCode" required="false" />
-                <lookupField attributeName="processingOrganizationCode" required="false" />
-                <lookupField attributeName="lockboxNumber" required="false" />
-                <!--  
-                <lookupField attributeName="adjustmentObjectCode" required="false" />
-                <lookupField attributeName="creditCardObjectCode" required="false" />
-                <lookupField attributeName="discountObjectCode" required="false" />
-                <lookupField attributeName="salesTaxAccountNumber" required="false" />
-                <lookupField attributeName="salesTaxFinancialObjectCode" required="false" />
-                <lookupField attributeName="universityClearingAccountNumber" required="false" />
-                <lookupField attributeName="universityClearingChartOfAccountsCode" required="false" />
-                <lookupField attributeName="universityClearingObjectCode" required="false" />
-                <lookupField attributeName="universityClearingSubAccountNumber" required="false" />
-                <lookupField attributeName="universityClearingSubObjectCode" required="false" />
-                <lookupField attributeName="active" required="false" />
-                -->
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="processingChartOfAccountCode" />
-                <field attributeName="processingOrganizationCode" />
-                <field attributeName="lockboxNumber" />
-                <field attributeName="salesTaxAccountNumber" />
-                <field attributeName="salesTaxFinancialObjectCode" />
-                <field attributeName="adjustmentObjectCode" />
-                <field attributeName="universityClearingChartOfAccountsCode" />
-                <field attributeName="universityClearingAccountNumber" />
-                <field attributeName="universityClearingSubAccountNumber" />
-                <field attributeName="universityClearingObjectCode" />
-                <field attributeName="universityClearingSubObjectCode" />
-                <field attributeName="creditCardObjectCode" />
-                <field attributeName="discountObjectCode" />
-              <!--  
-                <field attributeName="active" />
-              -->
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>active</summary>
-                <description>active description...</description>
-			</attribute>
-
-            <attribute name="adjustmentObjectCode" forceUppercase="true">
-                <label>Adjustment Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>adjustmentObjectCode</summary>
-                <description>adjustmentObjectCode description...</description>
-			</attribute>
-
-            <attribute name="lockboxNumber" forceUppercase="true">
-                <label>Lockbox Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>lockboxNumber</summary>
-                <description>lockboxNumber description...</description>
-			</attribute>
-			
-            <attribute name="financialDocumentInitiatorIdentifier" forceUppercase="true">
-                <label>Lockbox Document Initiator</label>
-                <shortLabel>Initiator</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>financialDocumentInitiatorIdentifier</summary>
-                <description>financialDocumentInitiatorIdentifier description...</description>
-			</attribute>			
-
-            <attribute name="creditCardObjectCode" forceUppercase="true">
-                <label>Credit Card Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>creditCardObjectCode</summary>
-                <description>creditCardObjectCode description...</description>
-			</attribute>
-
-            <attribute name="processingChartOfAccountCode" forceUppercase="true">
-                <label>Processing Chart</label>
-                <shortLabel>Processing Chart</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>processingChartOfAccountCode</summary>
-                <description>processingChartOfAccountCode description...</description>
-			</attribute>
-
-            <attribute name="processingOrganizationCode" forceUppercase="true">
-                <label>Processing Organization</label>
-                <shortLabel>Processing Organization</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>processingOrganizationCode</summary>
-                <description>processingOrganizationCode description...</description>
-			</attribute>
-
-            <attribute name="discountObjectCode" forceUppercase="true">
-                <label>Discount Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>discountObjectCode</summary>
-                <description>discountObjectCode description...</description>
-			</attribute>
-
-            <attribute name="salesTaxAccountNumber" forceUppercase="true">
-                <label>Sales Tax Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>salesTaxAccountNumber</summary>
-                <description>salesTaxAccountNumber description...</description>
-			</attribute>
-
-            <attribute name="salesTaxFinancialObjectCode" forceUppercase="true">
-                <label>Sales Tax Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>salesTaxFinancialObjectCode</summary>
-                <description>salesTaxFinancialObjectCode description...</description>
-			</attribute>
-
-<!-- 
-            <attribute name="universityClearingAccountNumber" forceUppercase="true">
-                <label>University Clearing Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>universityClearingAccountNumber</summary>
-                <description>universityClearingAccountNumber description...</description>
-			</attribute>
--->
-<!-- 
-            <attribute name="universityClearingChartOfAccountsCode" forceUppercase="true">
-                <label>University Clearing Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>universityClearingChartOfAccountsCode</summary>
-                <description>universityClearingChartOfAccountsCode description...</description>
-			</attribute>
--->
-<!-- 
-            <attribute name="universityClearingObjectCode" forceUppercase="true">
-                <label>University Clearing Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityClearingObjectCode</summary>
-                <description>universityClearingObjectCode description...</description>
-			</attribute>
--->
-            <attribute name="universityClearingSubAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>universityClearingSubAccountNumber</summary>
-                <description>universityClearingSubAccountNumber description...</description>
-			</attribute>
- <!-- 
-            <attribute name="universityClearingSubObjectCode" forceUppercase="true">
-                <label>University Clearing Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>universityClearingSubObjectCode</summary>
-                <description>universityClearingSubObjectCode description...</description>
-		</attribute>
--->
-<!-- 
-            <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
--->
-			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>University Fiscal Year</label>
-                <shortLabel>University Fiscal Year</shortLabel>
-			</attributeReference>
-			
-			<attributeReference name="universityClearingChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Chart Of Account</label>
-                <shortLabel>University Clearing Chart Of Accounts Code</shortLabel>
-			</attributeReference>
-			
-			<attributeReference name="universityClearingAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Account Number</label>
-                <shortLabel>University Clearing Account Number</shortLabel>
-			</attributeReference>
-			
-			<attributeReference name="universityClearingObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Object Code</label>
-                <shortLabel>University Clearing Object Code</shortLabel>
-			</attributeReference>
-			
-			<attributeReference name="universityClearingSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-                <label>Sub Object Code</label>
-                <shortLabel>University Clearing Sub Object Code</shortLabel>
-			</attributeReference>
-			
-          	<attributeReference name="organizationCheckPayableToName" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationCheckPayableToName">
-                <label>Remit to Name</label>
-         	</attributeReference> 
-			
-			<attributeReference name="organizationRemitToAddressName" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToAddressName">
-                <label>Address Name</label>
-                <shortLabel>Name</shortLabel>
-         	</attributeReference>
-         	
-            <attributeReference name="organizationRemitToLine1StreetAddress" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToLine1StreetAddress">
-                <label>Line 1 Street Address</label>
-         	</attributeReference>
-         	
-         	<attributeReference name="organizationRemitToLine2StreetAddress" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToLine2StreetAddress">
-                <label>Line 2 Street Address</label>
-         	</attributeReference>
-         	
-         	<attributeReference name="organizationRemitToCityName" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToCityName">
-                <label>City Name</label>
-         	</attributeReference>
-         	
-          	<attributeReference name="organizationRemitToStateCode" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToStateCode">
-                <label>State</label>
-         	</attributeReference>
-         	
-          	<attributeReference name="organizationRemitToZipCode" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToZipCode">
-                <label>Zip Code</label>
-         	</attributeReference>       
-  	
-         	
-         	
-         	
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SystemInformation" parent="SystemInformation-parentBean" />
+
+  <bean id="SystemInformation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.SystemInformation" />
+    <property name="inquiryDefinition" >
+      <ref bean="SystemInformation-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SystemInformation-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="SystemInformation-active" />
+        <ref bean="SystemInformation-adjustmentObjectCode" />
+        <ref bean="SystemInformation-lockboxNumber" />
+        <ref bean="SystemInformation-financialDocumentInitiatorIdentifier" />
+        <ref bean="SystemInformation-creditCardObjectCode" />
+        <ref bean="SystemInformation-processingChartOfAccountCode" />
+        <ref bean="SystemInformation-processingOrganizationCode" />
+        <ref bean="SystemInformation-discountObjectCode" />
+        <ref bean="SystemInformation-salesTaxAccountNumber" />
+        <ref bean="SystemInformation-salesTaxFinancialObjectCode" />
+        <ref bean="SystemInformation-universityClearingSubAccountNumber" />
+        <ref bean="SystemInformation-universityFiscalYear" />
+        <ref bean="SystemInformation-universityClearingChartOfAccountsCode" />
+        <ref bean="SystemInformation-universityClearingAccountNumber" />
+        <ref bean="SystemInformation-universityClearingObjectCode" />
+        <ref bean="SystemInformation-universityClearingSubObjectCode" />
+        <ref bean="SystemInformation-organizationCheckPayableToName" />
+        <ref bean="SystemInformation-organizationRemitToAddressName" />
+        <ref bean="SystemInformation-organizationRemitToLine1StreetAddress" />
+        <ref bean="SystemInformation-organizationRemitToLine2StreetAddress" />
+        <ref bean="SystemInformation-organizationRemitToCityName" />
+        <ref bean="SystemInformation-organizationRemitToStateCode" />
+        <ref bean="SystemInformation-organizationRemitToZipCode" />
+        <ref bean="SystemInformation-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="SystemInformation-active" parent="SystemInformation-active-parentBean" />
+
+  <bean id="SystemInformation-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="active" />
+    <property name="description" value="active description..." />
+  </bean>
+  <bean id="SystemInformation-adjustmentObjectCode" parent="SystemInformation-adjustmentObjectCode-parentBean" />
+
+  <bean id="SystemInformation-adjustmentObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adjustmentObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Adjustment Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="adjustmentObjectCode" />
+    <property name="description" value="adjustmentObjectCode description..." />
+  </bean>
+  <bean id="SystemInformation-lockboxNumber" parent="SystemInformation-lockboxNumber-parentBean" />
+
+  <bean id="SystemInformation-lockboxNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lockboxNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Lockbox Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="lockboxNumber" />
+    <property name="description" value="lockboxNumber description..." />
+  </bean>
+  <bean id="SystemInformation-financialDocumentInitiatorIdentifier" parent="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" />
+
+  <bean id="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentInitiatorIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Lockbox Document Initiator" />
+    <property name="shortLabel" value="Initiator" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="financialDocumentInitiatorIdentifier" />
+    <property name="description" value="financialDocumentInitiatorIdentifier description..." />
+  </bean>
+  <bean id="SystemInformation-creditCardObjectCode" parent="SystemInformation-creditCardObjectCode-parentBean" />
+
+  <bean id="SystemInformation-creditCardObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditCardObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit Card Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="creditCardObjectCode" />
+    <property name="description" value="creditCardObjectCode description..." />
+  </bean>
+  <bean id="SystemInformation-processingChartOfAccountCode" parent="SystemInformation-processingChartOfAccountCode-parentBean" />
+
+  <bean id="SystemInformation-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingChartOfAccountCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Processing Chart" />
+    <property name="shortLabel" value="Processing Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="processingChartOfAccountCode" />
+    <property name="description" value="processingChartOfAccountCode description..." />
+  </bean>
+  <bean id="SystemInformation-processingOrganizationCode" parent="SystemInformation-processingOrganizationCode-parentBean" />
+
+  <bean id="SystemInformation-processingOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingOrganizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Processing Organization" />
+    <property name="shortLabel" value="Processing Organization" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="processingOrganizationCode" />
+    <property name="description" value="processingOrganizationCode description..." />
+  </bean>
+  <bean id="SystemInformation-discountObjectCode" parent="SystemInformation-discountObjectCode-parentBean" />
+
+  <bean id="SystemInformation-discountObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="discountObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Discount Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="discountObjectCode" />
+    <property name="description" value="discountObjectCode description..." />
+  </bean>
+  <bean id="SystemInformation-salesTaxAccountNumber" parent="SystemInformation-salesTaxAccountNumber-parentBean" />
+
+  <bean id="SystemInformation-salesTaxAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sales Tax Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="salesTaxAccountNumber" />
+    <property name="description" value="salesTaxAccountNumber description..." />
+  </bean>
+  <bean id="SystemInformation-salesTaxFinancialObjectCode" parent="SystemInformation-salesTaxFinancialObjectCode-parentBean" />
+
+  <bean id="SystemInformation-salesTaxFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxFinancialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sales Tax Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="salesTaxFinancialObjectCode" />
+    <property name="description" value="salesTaxFinancialObjectCode description..." />
+  </bean>
+  <bean id="SystemInformation-universityClearingSubAccountNumber" parent="SystemInformation-universityClearingSubAccountNumber-parentBean" />
+
+  <bean id="SystemInformation-universityClearingSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityClearingSubAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="universityClearingSubAccountNumber" />
+    <property name="description" value="universityClearingSubAccountNumber description..." />
+  </bean>
+  <bean id="SystemInformation-universityFiscalYear" parent="SystemInformation-universityFiscalYear-parentBean" />
+
+  <bean id="SystemInformation-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="shortLabel" value="University Fiscal Year" />
+  </bean>
+  <bean id="SystemInformation-universityClearingChartOfAccountsCode" parent="SystemInformation-universityClearingChartOfAccountsCode-parentBean" />
+
+  <bean id="SystemInformation-universityClearingChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="universityClearingChartOfAccountsCode" />
+    <property name="label" value="Chart Of Account" />
+    <property name="shortLabel" value="University Clearing Chart Of Accounts Code" />
+  </bean>
+  <bean id="SystemInformation-universityClearingAccountNumber" parent="SystemInformation-universityClearingAccountNumber-parentBean" />
+
+  <bean id="SystemInformation-universityClearingAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="universityClearingAccountNumber" />
+    <property name="shortLabel" value="University Clearing Account Number" />
+  </bean>
+  <bean id="SystemInformation-universityClearingObjectCode" parent="SystemInformation-universityClearingObjectCode-parentBean" />
+
+  <bean id="SystemInformation-universityClearingObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="universityClearingObjectCode" />
+    <property name="shortLabel" value="University Clearing Object Code" />
+  </bean>
+  <bean id="SystemInformation-universityClearingSubObjectCode" parent="SystemInformation-universityClearingSubObjectCode-parentBean" />
+
+  <bean id="SystemInformation-universityClearingSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="universityClearingSubObjectCode" />
+    <property name="label" value="Sub Object Code" />
+    <property name="shortLabel" value="University Clearing Sub Object Code" />
+  </bean>
+  <bean id="SystemInformation-organizationCheckPayableToName" parent="SystemInformation-organizationCheckPayableToName-parentBean" />
+
+  <bean id="SystemInformation-organizationCheckPayableToName-parentBean" abstract="true" parent="OrganizationOptions-organizationCheckPayableToName">
+    <property name="label" value="Remit to Name" />
+  </bean>
+  <bean id="SystemInformation-organizationRemitToAddressName" parent="SystemInformation-organizationRemitToAddressName-parentBean" />
+
+  <bean id="SystemInformation-organizationRemitToAddressName-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToAddressName">
+  </bean>
+  <bean id="SystemInformation-organizationRemitToLine1StreetAddress" parent="SystemInformation-organizationRemitToLine1StreetAddress-parentBean" />
+
+  <bean id="SystemInformation-organizationRemitToLine1StreetAddress-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToLine1StreetAddress">
+  </bean>
+  <bean id="SystemInformation-organizationRemitToLine2StreetAddress" parent="SystemInformation-organizationRemitToLine2StreetAddress-parentBean" />
+
+  <bean id="SystemInformation-organizationRemitToLine2StreetAddress-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToLine2StreetAddress">
+  </bean>
+  <bean id="SystemInformation-organizationRemitToCityName" parent="SystemInformation-organizationRemitToCityName-parentBean" />
+
+  <bean id="SystemInformation-organizationRemitToCityName-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToCityName">
+  </bean>
+  <bean id="SystemInformation-organizationRemitToStateCode" parent="SystemInformation-organizationRemitToStateCode-parentBean" />
+
+  <bean id="SystemInformation-organizationRemitToStateCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToStateCode">
+    <property name="label" value="State" />
+  </bean>
+  <bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
+
+  <bean id="SystemInformation-organizationRemitToZipCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToZipCode">
+  </bean>
+  <bean id="SystemInformation-versionNumber" parent="SystemInformation-versionNumber-parentBean" />
+
+  <bean id="SystemInformation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="SystemInformation-inquiryDefinition" parent="SystemInformation-inquiryDefinition-parentBean" />
+
+  <bean id="SystemInformation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="System Information Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingChartOfAccountCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingOrganizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lockboxNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salesTaxAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salesTaxFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="adjustmentObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityClearingChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityClearingAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityClearingSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityClearingObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityClearingSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="creditCardObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="discountObjectCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SystemInformation-lookupDefinition" parent="SystemInformation-lookupDefinition-parentBean" />
+
+  <bean id="SystemInformation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="System Information Lookup" />
+    <property name="instructions" value="Look up System Information" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingOrganizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lockboxNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingOrganizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lockboxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salesTaxAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salesTaxFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="adjustmentObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityClearingChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityClearingAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityClearingSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityClearingObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityClearingSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="creditCardObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="discountObjectCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,63 +1,85 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kfs.bo.Country</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="CountryMaintenanceDocument" parent="CountryMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CountryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.Country" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CountryMaintenanceDocument-EditCountry" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>postalCountryCode</value>
+      </list>
+    </property>
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="summary" value="Country maintenance document" />
+    <property name="description" value="Document used to create or update Country objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-SY"
+            p:parameterName="COUNTRY"
+            p:parameterDetailType="Country" />
+    </property>
+    <property name="documentTypeName" value="CountryMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="CTRY" />
+    <property name="workflowProperties" >
+      <ref bean="CountryMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>CountryMaintenanceDocument</documentTypeName>
-        <documentTypeCode>CTRY</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Country</label>
 
-        <summary>Country maintenance document</summary>
-        <description>Document used to create or update Country objects</description>
-        <help parameterNamespace="KFS-SY" parameterDetailType="Country" parameterName="COUNTRY" />
+  <bean id="CountryMaintenanceDocument-EditCountry" parent="CountryMaintenanceDocument-EditCountry-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="postalCountryCode" />
-        </lockingKeys>
+  <bean id="CountryMaintenanceDocument-EditCountry-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Country" />
+    <property name="title" value="Edit Country" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCountryCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCountryName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCountryRestrictedIndicator"
+              p:defaultValue="false"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Country">
-                <maintainableItems>
-                    <maintainableField name="postalCountryCode" required="true" />
-                    <maintainableField name="postalCountryName" required="true" />
-                    <maintainableField name="postalCountryRestrictedIndicator" required="true">
-                        <defaultValue>false</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="CountryMaintenanceDocument-workflowProperties" parent="CountryMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="CountryMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

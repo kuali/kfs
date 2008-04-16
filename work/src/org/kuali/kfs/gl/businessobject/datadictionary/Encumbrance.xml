@@ -1,186 +1,296 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.Encumbrance">
+  <bean id="Encumbrance" parent="Encumbrance-parentBean" />
 
-        <inquiry>
-            <title>Open Encumbrance</title>
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" forceInquiry="true" />
-                <field attributeName="accountNumber" forceInquiry="true" />
-                <field attributeName="objectCode" />
-                <field attributeName="balanceTypeCode" />
-                <field attributeName="subAccountNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Encumbrance-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.gl.bo.Encumbrance" />
+    <property name="inquiryDefinition" >
+      <ref bean="Encumbrance-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Encumbrance-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="Encumbrance-universityFiscalYear" />
+        <ref bean="Encumbrance-chartOfAccountsCode" />
+        <ref bean="Encumbrance-accountNumber" />
+        <ref bean="Encumbrance-subAccountNumber" />
+        <ref bean="Encumbrance-objectCode" />
+        <ref bean="Encumbrance-subObjectCode" />
+        <ref bean="Encumbrance-balanceTypeCode" />
+        <ref bean="Encumbrance-accountLineEncumbranceAmount" />
+        <ref bean="Encumbrance-accountLineEncumbranceClosedAmount" />
+        <ref bean="Encumbrance-accountLineEncumbranceOutstandingAmount" />
+        <ref bean="Encumbrance-transactionEncumbranceDescription" />
+        <ref bean="Encumbrance-documentTypeCode" />
+        <ref bean="Encumbrance-documentNumber" />
+        <ref bean="Encumbrance-originCode" />
+        <ref bean="Encumbrance-transactionEncumbranceDate" />
+        <ref bean="Encumbrance-timestamp" />
+        <ref bean="Encumbrance-dummyBusinessObject.pendingEntryOption" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <lookupableID>glEncumbranceLookupable</lookupableID>
-            <title>Open Encumbrance Lookup</title>
-            <instructions>Lookup Open Encumbrance Entry for a Transaction Processing document.</instructions>
-            <defaultSort attributeName="objectCode" />
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
 
-                <lookupField attributeName="chartOfAccountsCode"/>
-                <lookupField attributeName="accountNumber" noLookup="false" />
-                <lookupField attributeName="subAccountNumber" forceLookup="true" />
-                <lookupField attributeName="objectCode" />
-                <lookupField attributeName="subObjectCode" />
-                <lookupField attributeName="balanceTypeCode" >
-	                <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLEncumbranceBalanceTypeOptionFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="documentTypeCode" />
-                <lookupField attributeName="originCode" />
-                <lookupField attributeName="documentNumber" />
+  <bean id="Encumbrance-universityFiscalYear" parent="Encumbrance-universityFiscalYear-parentBean" />
 
-                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
-                </lookupField>
-            </lookupFields>
+  <bean id="Encumbrance-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fisc Year" />
+  </bean>
+  <bean id="Encumbrance-chartOfAccountsCode" parent="Encumbrance-chartOfAccountsCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="objectCode" />
-                <field attributeName="subObjectCode" />
-                <field attributeName="balanceTypeCode" />
-                <field attributeName="documentTypeCode" />
-                <field attributeName="originCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="transactionEncumbranceDescription" />
-                <field attributeName="accountLineEncumbranceAmount" />
-                <field attributeName="accountLineEncumbranceClosedAmount" />
-                <!-- accountLineEncumbranceOutstandingAmount = accountLineEncumbranceAmount - accountLineEncumbranceClosedAmount -->
-                <field attributeName="accountLineEncumbranceOutstandingAmount" />
-                <field attributeName="transactionEncumbranceDate" />
-            </resultFields>
-        </lookup>
+  <bean id="Encumbrance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="Encumbrance-accountNumber" parent="Encumbrance-accountNumber-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fisc Year</shortLabel>
-            </attributeReference>
+  <bean id="Encumbrance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="Encumbrance-subAccountNumber" parent="Encumbrance-subAccountNumber-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="Encumbrance-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="Encumbrance-objectCode" parent="Encumbrance-objectCode-parentBean" />
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-            </attributeReference>
+  <bean id="Encumbrance-objectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="objectCode" />
+  </bean>
+  <bean id="Encumbrance-subObjectCode" parent="Encumbrance-subObjectCode-parentBean" />
 
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-            </attributeReference>
+  <bean id="Encumbrance-subObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="name" value="subObjectCode" />
+  </bean>
+  <bean id="Encumbrance-balanceTypeCode" parent="Encumbrance-balanceTypeCode-parentBean" />
 
-            <attributeReference name="objectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-            </attributeReference>
+  <bean id="Encumbrance-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-financialBalanceTypeShortNm">
+    <property name="name" value="balanceTypeCode" />
+    <property name="label" value="Balance Type" />
+    <property name="shortLabel" value="Balance Type" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Encumbrance-accountLineEncumbranceAmount" parent="Encumbrance-accountLineEncumbranceAmount-parentBean" />
 
-            <attributeReference name="subObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-            </attributeReference>
+  <bean id="Encumbrance-accountLineEncumbranceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accountLineEncumbranceAmount" />
+    <property name="label" value="Open Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Encumbrance-accountLineEncumbranceClosedAmount" parent="Encumbrance-accountLineEncumbranceClosedAmount-parentBean" />
 
-            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="financialBalanceTypeShortNm">
-                <label>Balance Type</label>
-                <shortLabel>Balance Type</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="2" />
-	                <!-- 
-	                    <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLEncumbranceBalanceTypeOptionFinder" />
-	                -->
-                </control>
-            </attributeReference>
+  <bean id="Encumbrance-accountLineEncumbranceClosedAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accountLineEncumbranceClosedAmount" />
+    <property name="label" value="Closed Amount" />
+    <property name="shortLabel" value="Closed Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Encumbrance-accountLineEncumbranceOutstandingAmount" parent="Encumbrance-accountLineEncumbranceOutstandingAmount-parentBean" />
 
-            <attributeReference name="accountLineEncumbranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Open Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="Encumbrance-accountLineEncumbranceOutstandingAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="accountLineEncumbranceOutstandingAmount" />
+    <property name="label" value="Outstanding Amount" />
+    <property name="shortLabel" value="Outstanding Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Encumbrance-transactionEncumbranceDescription" parent="Encumbrance-transactionEncumbranceDescription-parentBean" />
 
-            <attributeReference name="accountLineEncumbranceClosedAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Closed Amount</label>
-                <shortLabel>Closed Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-            
-            <attributeReference name="accountLineEncumbranceOutstandingAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Outstanding Amount</label>
-                <shortLabel>Outstanding Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+  <bean id="Encumbrance-transactionEncumbranceDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionEncumbranceDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="Encumbrance-documentTypeCode" parent="Encumbrance-documentTypeCode-parentBean" />
 
-            <attribute name="transactionEncumbranceDescription" forceUppercase="false">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
-                <maxLength>40</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+  <bean id="Encumbrance-documentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Type" />
+    <property name="shortLabel" value="Document Type Code" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="Encumbrance-documentNumber" parent="Encumbrance-documentNumber-parentBean" />
 
-            <attribute name="documentTypeCode" forceUppercase="true">
-                <label>Document Type</label>
-                <shortLabel>Document Type Code</shortLabel>
-                <maxLength>4</maxLength>
-                <control>
-                    <text size="6" />
-                </control>
-            </attribute>
+  <bean id="Encumbrance-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Doc Number" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="Encumbrance-originCode" parent="Encumbrance-originCode-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="false">
-                <label>Document Number</label>
-                <shortLabel>Doc Number</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="12" />
-                </control>
-            </attribute>
+  <bean id="Encumbrance-originCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="originCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Origin Code" />
+    <property name="shortLabel" value="Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="Encumbrance-transactionEncumbranceDate" parent="Encumbrance-transactionEncumbranceDate-parentBean" />
 
-            <attribute name="originCode" forceUppercase="false">
-                <label>Origin Code</label>
-                <shortLabel>Origin Code</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+  <bean id="Encumbrance-transactionEncumbranceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="transactionEncumbranceDate" />
+    <property name="label" value="Transaction Date" />
+    <property name="shortLabel" value="Transaction Date" />
+  </bean>
+  <bean id="Encumbrance-timestamp" parent="Encumbrance-timestamp-parentBean" />
 
-            <attributeReference name="transactionEncumbranceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Transaction Date</label>
-                <shortLabel>Transaction Date</shortLabel>
-            </attributeReference>
+  <bean id="Encumbrance-timestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="timestamp" />
+    <property name="label" value="Transaction Entry Processed" />
+    <property name="shortLabel" value="Entry Processed" />
+  </bean>
+  <bean id="Encumbrance-dummyBusinessObject.pendingEntryOption" parent="Encumbrance-dummyBusinessObject.pendingEntryOption-parentBean" />
 
-            <attributeReference name="timestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Transaction Entry Processed</label>
-                <shortLabel>Entry Processed</shortLabel>
-            </attributeReference>
+  <bean id="Encumbrance-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
+    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+  </bean>
 
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Encumbrance-inquiryDefinition" parent="Encumbrance-inquiryDefinition-parentBean" />
+
+  <bean id="Encumbrance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Open Encumbrance" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="objectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="balanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Encumbrance-lookupDefinition" parent="Encumbrance-lookupDefinition-parentBean" />
+
+  <bean id="Encumbrance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Open Encumbrance Lookup" />
+    <property name="lookupableID" value="glEncumbranceLookupable" />
+    <property name="instructions" value="Lookup Open Encumbrance Entry for a Transaction Processing document." />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>objectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="objectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="balanceTypeCode"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLEncumbranceBalanceTypeOptionFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="originCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.pendingEntryOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="objectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="balanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="originCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionEncumbranceDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineEncumbranceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineEncumbranceClosedAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineEncumbranceOutstandingAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionEncumbranceDate" />
+      </list>
+    </property>
+  </bean>
+</beans>

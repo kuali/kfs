@@ -1,68 +1,95 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kfs.bo.PostalZipCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="PostalZipCodeMaintenanceDocument" parent="PostalZipCodeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PostalZipCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.PostalZipCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PostalZipCodeMaintenanceDocument-EditPostalCodes" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="state"
+              p:attributeToHighlightOnFail="postalStateCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>postalZipCode</value>
+      </list>
+    </property>
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="summary" value="Postal Code maintenance document" />
+    <property name="description" value="Document used to create or update Postal Code objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-SY"
+            p:parameterName="POSTAL_CODE"
+            p:parameterDetailType="PostalZipCode" />
+    </property>
+    <property name="documentTypeName" value="PostalZipCodeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ZIPC" />
+    <property name="workflowProperties" >
+      <ref bean="PostalZipCodeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>PostalZipCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ZIPC</documentTypeCode>
-
-        <label>Postal Code</label>
-
-        <summary>Postal Code maintenance document</summary>
-        <description>Document used to create or update Postal Code objects</description>
-        <help parameterNamespace="KFS-SY" parameterDetailType="PostalZipCode" parameterName="POSTAL_CODE" />
-
-        <lockingKeys>
-            <field attributeName="postalZipCode" />
-        </lockingKeys>
+<!-- Maintenance Section Definitions -->
 
 
-        <defaultExistenceChecks>
-            <reference attributeName="state" attributeToHighlightOnFail="postalStateCode" />
-        </defaultExistenceChecks>
+  <bean id="PostalZipCodeMaintenanceDocument-EditPostalCodes" parent="PostalZipCodeMaintenanceDocument-EditPostalCodes-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Postal Codes">
-                <maintainableItems>
-                    <maintainableField name="postalZipCode" required="true" />
-                    <maintainableField name="postalStateCode" required="true" />
-                    <maintainableField name="postalCityName" required="true" />
-                    <maintainableField name="buildingCode" required="false" />
-                    <maintainableField name="buildingRoomNumber" required="false" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="PostalZipCodeMaintenanceDocument-EditPostalCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Postal Codes" />
+    <property name="title" value="Edit Postal Codes" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalZipCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalStateCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCityName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="buildingCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="buildingRoomNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PostalZipCodeMaintenanceDocument-workflowProperties" parent="PostalZipCodeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="PostalZipCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

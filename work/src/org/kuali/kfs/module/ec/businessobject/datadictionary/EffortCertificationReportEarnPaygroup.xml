@@ -1,94 +1,155 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup">
- 
-        <inquiry>
-            <title>Effort Certification Report Earn Pay Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                    	<field attributeName="universityFiscalYear" />
-                    	<field attributeName="effortCertificationReportTypeCode" />
-                        <field attributeName="earnCode" />
-                        <field attributeName="payGroup" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Report Earn Paygroup Lookup</title>
+  <bean id="EffortCertificationReportEarnPaygroup" parent="EffortCertificationReportEarnPaygroup-parentBean" />
 
-            <instructions>Report Earn Paygroup Lookup</instructions>
+  <bean id="EffortCertificationReportEarnPaygroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup" />
+    <property name="inquiryDefinition" >
+      <ref bean="EffortCertificationReportEarnPaygroup-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EffortCertificationReportEarnPaygroup-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode" />
+        <ref bean="EffortCertificationReportEarnPaygroup-earnCode" />
+        <ref bean="EffortCertificationReportEarnPaygroup-payGroup" />
+        <ref bean="EffortCertificationReportEarnPaygroup-universityFiscalYear" />
+        <ref bean="EffortCertificationReportEarnPaygroup-active" />
+        <ref bean="EffortCertificationReportEarnPaygroup-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="effortCertificationReportTypeCode" />
-                    <sortAttribute attributeName="earnCode" />
-                    <sortAttribute attributeName="payGroup" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-            	<lookupField attributeName="universityFiscalYear" required="false" />
-            	<lookupField attributeName="effortCertificationReportTypeCode" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportTypeCode" />
-                <field attributeName="earnCode" />
-                <field attributeName="payGroup" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode" parent="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode-parentBean" />
 
-        <attributes>
+  <bean id="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode-parentBean" abstract="true" parent="EffortCertificationReportType-effortCertificationReportTypeCode">
+  </bean>
+  <bean id="EffortCertificationReportEarnPaygroup-earnCode" parent="EffortCertificationReportEarnPaygroup-earnCode-parentBean" />
 
-            <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode"/>
+  <bean id="EffortCertificationReportEarnPaygroup-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="earnCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Earn Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="earnCode" />
+    <property name="description" value="earnCode description..." />
+  </bean>
+  <bean id="EffortCertificationReportEarnPaygroup-payGroup" parent="EffortCertificationReportEarnPaygroup-payGroup-parentBean" />
 
-            <attribute name="earnCode" forceUppercase="true">
-                <label>Earn Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="EffortCertificationReportEarnPaygroup-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payGroup" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Group" />
+    <property name="shortLabel" value="Group" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="payGroup" />
+    <property name="description" value="payGroup description..." />
+  </bean>
+  <bean id="EffortCertificationReportEarnPaygroup-universityFiscalYear" parent="EffortCertificationReportEarnPaygroup-universityFiscalYear-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="EffortCertificationReportEarnPaygroup-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="EffortCertificationReportEarnPaygroup-active" parent="EffortCertificationReportEarnPaygroup-active-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="EffortCertificationReportEarnPaygroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="EffortCertificationReportEarnPaygroup-versionNumber" parent="EffortCertificationReportEarnPaygroup-versionNumber-parentBean" />
 
-                <summary>earnCode</summary>
-                <description>earnCode description...</description>
-			</attribute>
+  <bean id="EffortCertificationReportEarnPaygroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="payGroup" forceUppercase="true">
-                <label>Pay Group</label>
-                <shortLabel>Group</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="EffortCertificationReportEarnPaygroup-inquiryDefinition" parent="EffortCertificationReportEarnPaygroup-inquiryDefinition-parentBean" />
 
-                <summary>payGroup</summary>
-                <description>payGroup description...</description>
-			</attribute>
+  <bean id="EffortCertificationReportEarnPaygroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Effort Certification Report Earn Pay Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="earnCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payGroup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-			
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+<!-- Business Object Lookup Definition -->
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="EffortCertificationReportEarnPaygroup-lookupDefinition" parent="EffortCertificationReportEarnPaygroup-lookupDefinition-parentBean" />
+
+  <bean id="EffortCertificationReportEarnPaygroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Report Earn Paygroup Lookup" />
+    <property name="instructions" value="Report Earn Paygroup Lookup" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="earnCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payGroup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

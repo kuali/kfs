@@ -1,62 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition">
- 
-        <inquiry>
-            <title>Effort Certification Report Position Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="effortCertificationReportNumber" />
-                        <field attributeName="effortCertificationReportPositionObjectGroupCode" />
-                        <field attributeName="active" />
-                        <field attributeName="universityFiscalYear" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Effort Certification Report Position Lookup</title>
+  <bean id="EffortCertificationReportPosition" parent="EffortCertificationReportPosition-parentBean" />
 
-            <instructions>Look up Effort Certification Report Position</instructions>
+  <bean id="EffortCertificationReportPosition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportPosition" />
+    <property name="inquiryDefinition" >
+      <ref bean="EffortCertificationReportPosition-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EffortCertificationReportPosition-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="EffortCertificationReportPosition-effortCertificationReportNumber" />
+        <ref bean="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" />
+        <ref bean="EffortCertificationReportPosition-universityFiscalYear" />
+        <ref bean="EffortCertificationReportPosition-active" />
+        <ref bean="EffortCertificationReportPosition-versionNumber" />
+        <ref bean="EffortCertificationReportPosition-newCollectionRecord" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="effortCertificationReportNumber" />
-                    <sortAttribute attributeName="effortCertificationReportPositionObjectGroupCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-            	<lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="effortCertificationReportNumber" required="false" />
-                <lookupField attributeName="effortCertificationReportPositionObjectGroupCode" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
 
-            <resultFields>
-            	<field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportNumber" />
-                <field attributeName="effortCertificationReportPositionObjectGroupCode" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="EffortCertificationReportPosition-effortCertificationReportNumber" parent="EffortCertificationReportPosition-effortCertificationReportNumber-parentBean" />
 
-        <attributes>
-            <attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber"/>
-            <attributeReference name="effortCertificationReportPositionObjectGroupCode" sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup" sourceAttributeName="positionObjectGroupCode"/>
+  <bean id="EffortCertificationReportPosition-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
+  </bean>
+  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" />
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="PositionObjectGroup-positionObjectGroupCode">
+    <property name="name" value="effortCertificationReportPositionObjectGroupCode" />
+  </bean>
+  <bean id="EffortCertificationReportPosition-universityFiscalYear" parent="EffortCertificationReportPosition-universityFiscalYear-parentBean" />
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			<attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="EffortCertificationReportPosition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="EffortCertificationReportPosition-active" parent="EffortCertificationReportPosition-active-parentBean" />
+
+  <bean id="EffortCertificationReportPosition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="EffortCertificationReportPosition-versionNumber" parent="EffortCertificationReportPosition-versionNumber-parentBean" />
+
+  <bean id="EffortCertificationReportPosition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="EffortCertificationReportPosition-newCollectionRecord" parent="EffortCertificationReportPosition-newCollectionRecord-parentBean" />
+
+  <bean id="EffortCertificationReportPosition-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="EffortCertificationReportPosition-inquiryDefinition" parent="EffortCertificationReportPosition-inquiryDefinition-parentBean" />
+
+  <bean id="EffortCertificationReportPosition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Effort Certification Report Position Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationReportPositionObjectGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="EffortCertificationReportPosition-lookupDefinition" parent="EffortCertificationReportPosition-lookupDefinition-parentBean" />
+
+  <bean id="EffortCertificationReportPosition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Effort Certification Report Position Lookup" />
+    <property name="instructions" value="Look up Effort Certification Report Position" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportPositionObjectGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationReportPositionObjectGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

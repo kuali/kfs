@@ -1,60 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.AicpaFunction</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="AicpaFunctionMaintenanceDocument" parent="AicpaFunctionMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AicpaFunctionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.AicpaFunction" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AicpaFunctionMaintenanceDocument-EditAICPAFunction" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>financialAicpaFunctionCode</value>
+      </list>
+    </property>
+    <property name="label" value="AICPA Function" />
+    <property name="shortLabel" value="AICPA Function" />
+    <property name="summary" value="AICPA Function Maintenance Document" />
+    <property name="description" value="Document used to create or update AICPA Function Maintenance Document objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="AICPA_FUNCTION"
+            p:parameterDetailType="AicpaFunction" />
+    </property>
+    <property name="documentTypeName" value="AicpaFunctionMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="AFUN" />
+    <property name="workflowProperties" >
+      <ref bean="AicpaFunctionMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>AicpaFunctionMaintenanceDocument</documentTypeName>
-        <documentTypeCode>AFUN</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>AICPA Function</label>
 
-        <summary>AICPA Function Maintenance Document</summary>
-        <description>Document used to create or update AICPA Function Maintenance Document objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="AicpaFunction" parameterName="AICPA_FUNCTION" />
-        
-        <lockingKeys>
-            <field attributeName="financialAicpaFunctionCode" />
-        </lockingKeys>
+  <bean id="AicpaFunctionMaintenanceDocument-EditAICPAFunction" parent="AicpaFunctionMaintenanceDocument-EditAICPAFunction-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit AICPA Function">
-                <maintainableItems>
-                    <maintainableField name="financialAicpaFunctionCode" required="true" />
-                    <maintainableField name="financialAicpaFunctionName" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AicpaFunctionMaintenanceDocument-EditAICPAFunction-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit AICPA Function" />
+    <property name="title" value="Edit AICPA Function" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialAicpaFunctionCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialAicpaFunctionName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="AicpaFunctionMaintenanceDocument-workflowProperties" parent="AicpaFunctionMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AicpaFunctionMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

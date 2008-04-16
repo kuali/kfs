@@ -1,96 +1,136 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.Carrier">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Carrier Inquiry</title>
+  <bean id="Carrier" parent="Carrier-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="carrierCode" />
-                <field attributeName="carrierDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Carrier-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.Carrier" />
+    <property name="inquiryDefinition" >
+      <ref bean="Carrier-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Carrier-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="carrierCode" />
+    <property name="objectLabel" value="Carrier" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Carrier-carrierCode" />
+        <ref bean="Carrier-carrierDescription" />
+        <ref bean="Carrier-active" />
+        <ref bean="Carrier-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Carrier Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Carrier</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="carrierDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="Carrier-carrierCode" parent="Carrier-carrierCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="carrierCode" required="false" />
-                <lookupField attributeName="carrierDescription" required="false" />
-                <lookupField attributeName="active" required="false" >
-                	<defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
+  <bean id="Carrier-carrierCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="carrierCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Carrier Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="Carrier-carrierDescription" parent="Carrier-carrierDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="carrierCode" />
-                <field attributeName="carrierDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="Carrier-carrierDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="carrierDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Carrier Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="Carrier-active" parent="Carrier-active-parentBean" />
 
-        <titleAttribute>carrierCode</titleAttribute>
+  <bean id="Carrier-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="Carrier-versionNumber" parent="Carrier-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="Carrier-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="carrierCode" forceUppercase="true">
-                <label>Carrier Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="Carrier-inquiryDefinition" parent="Carrier-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="Carrier-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Carrier Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="carrierCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="carrierDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="carrierDescription" forceUppercase="true">
-                <label>Carrier Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="Carrier-lookupDefinition" parent="Carrier-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Carrier</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="Carrier-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Carrier Lookup" />
+    <property name="instructions" value="Lookup a Carrier" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="carrierCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="carrierDescription" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="carrierCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="carrierDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

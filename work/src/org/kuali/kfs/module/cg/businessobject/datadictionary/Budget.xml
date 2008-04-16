@@ -1,455 +1,557 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.Budget">
-
-
-        <inquiry>
-            <title>Budget Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="documentNumber" />
-                <!-- field attributeName="budgetAgency.agencyName" / -->
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-		<lookup>
-            <title>Budget Lookup</title>
-
-            <instructions>Look up a Budget</instructions>
-
-            <defaultSort attributeName="documentNumber" sortAscending="true" />
-
-            <lookupFields>
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="budgetName" required="false" />
-                <lookupField attributeName="budgetProjectDirectorUniversalIdentifier" required="false" />
-                <lookupField attributeName="universalUser.personUserIdentifier" required="false" />
-                <lookupField attributeName="universalUser.personName" required="false" />
-                <!--  <lookupField attributeName="budgetAgency.agencyNumber" required="false" /> --> 
-                <lookupField attributeName="budgetAgency.fullName" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="budgetName" />
-                <field attributeName="budgetParentTrackNumber" />
-                <field attributeName="electronicResearchAdministrationGrantNumber" />
-                <field attributeName="budgetTypeCodeText" />
-                <field attributeName="projectDirector.universalUser.personUserIdentifier" />               
-                <field attributeName="projectDirector.universalUser.personName" forceInquiry="true" />
-                <field attributeName="budgetAgency.agencyNumber" />
-                <field attributeName="budgetAgency.fullName" />
-            </resultFields>
-		</lookup>
-
-        <attributes>
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Header ID</label>
-                <shortLabel>Doc Header ID</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Doc Header ID</summary>
-                <description>Doc Header ID</description>
-            </attribute>
-
-            <attribute name="budgetParentTrackNumber" forceUppercase="true">
-                <label>Parent Budget Number</label>
-                <shortLabel>parent number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Budget Tracking Number</summary>
-                <description>Budget Tracking Number</description>
-            </attribute>
-
-            <attribute name="budgetName" forceUppercase="true">
-                <label>Budget Name</label>
-                <shortLabel>Budget Name</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <required>false</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-
-                <summary>Budget Name</summary>
-                <description>Budget Name</description>
-            </attribute>
-
-            <attribute name="institutionCostShareIndicator" forceUppercase="true">
-                <label>Institution Cost Share</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Institution Cost Share</summary>
-                <description>Indicates whether the current budget has institution cost share</description>
-            </attribute>
-
-            <attribute name="budgetThirdPartyCostShareIndicator" forceUppercase="true">
-                <label>Third Party Cost Share</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Third Party Cost Share</summary>
-                <description>Indicates whether the current budget has third party cost share</description>
-            </attribute>
-
-            <attribute name="electronicResearchAdministrationGrantNumber" forceUppercase="true">
-                <label>Grant Number</label>
-                <shortLabel>Grant Number</shortLabel>
-
-                <maxLength>27</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <required>false</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-
-                <summary>Grant Number</summary>
-                <description>Grant Number</description>
-            </attribute>
-
-            <attribute name="budgetProgramAnnouncementNumber" forceUppercase="true">
-                <label>Program Announcement Number</label>
-                <shortLabel>Pgm Anncmnt Nbr</shortLabel>
-
-                <maxLength>110</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <required>false</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-
-                <summary>Agency Program Announcement Number</summary>
-                <description>The program announcement number published by the agency in the RFP</description>
-            </attribute>
-
-            <attribute name="budgetProgramAnnouncementName" forceUppercase="true">
-                <label>Program Announcement Name</label>
-                <shortLabel>Pgm Anncmnt Nm</shortLabel>
-
-                <maxLength>110</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <required>false</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-
-                <summary>Agency Program Announcement Name</summary>
-                <description>The program announcement name published by the agency in the RFP</description>
-            </attribute>
-
-            <attribute name="budgetTypeCodeText" forceUppercase="true">
-                <label>Budget Type</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <required>false</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-
-                <summary>Budget Type Code</summary>
-                <description>Budget Type Code</description>
-            </attribute>
-
-            <attribute name="budgetPersonnelInflationRate" forceUppercase="true">
-                <label>Personnel Inflation Rate</label>
-                <shortLabel>Rate</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <required>true</required>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>Personnel Inflation Rate</summary>
-                <description>The inflation rate used to calculate future period personnel expenses.</description>
-            </attribute>
-
-            <attribute name="budgetNonpersonnelInflationRate" forceUppercase="true">
-                <label>Nonpersonnel Inflation Rate</label>
-                <shortLabel>Rate</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <required>true</required>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>Nonpersonnel Inflation Rate</summary>
-                <description>Nonpersonnel Inflation Rate</description>
-            </attribute>
-
-            <attribute name="budgetFringeRateDescription" forceUppercase="true">
-                <label>Benefit Rate Change Justification</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>250</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="50" />
-                </control>
-
-                <summary>Benefit Rate Change Justification</summary>
-                <description>Benefit Rate Change Justification...</description>
-            </attribute>
-
-            <attribute name="routeSheetTrackNumber" forceUppercase="true">
-                <label>Route Sheet Tracking Number</label>
-                <shortLabel>RS Tracking Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>Route Sheet Tracking Number</summary>
-                <description>Route Sheet Tracking Number</description>
-            </attribute>
-
-            <attribute name="agencyModularIndicator" forceUppercase="true">
-                <label>Agency Modular Indicator</label>
-                <shortLabel>Modular</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Agency Modular Indicator</summary>
-                <description>Agency Modular Indicator</description>
-            </attribute>
-
-            <attributeReference name="budgetAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Budget Agency</label>
-                <shortLabel>Agency</shortLabel>
-                <summary>Budget Agency</summary>
-                <description>Budget Agency...</description>
-            </attributeReference>
-
-			<attributeReference name="budgetAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-				<label>Budget Agency Number</label>
-				<shortLabel>Budget Ag Num</shortLabel>
-				<summary>Budget Agency Number</summary>
-				<description>BudgetAgencyNumber...</description>
-			</attributeReference>
-
-            <attributeReference name="federalPassThroughAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Federal Pass Through</label>
-                <shortLabel>Fed PT Agency</shortLabel>
-                <required>false</required>
-                <summary>Federal Pass Through Agency ...</summary>
-                <description>Federal Pass Through Agency ...</description>
-            </attributeReference>
-
-            <attributeReference name="budgetProjectDirectorUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Project Director</label>
-                <shortLabel>Project Director</shortLabel>
-                <displayLabelAttribute>universalUser.personUserIdentifier</displayLabelAttribute>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>Project Director ...</summary>
-                <description>Project Director ...</description>
-            </attributeReference>
-            <attributeReference name="projectDirector.universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Project Director UserID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="budgetProjectDirectorUniversalIdentifier" userIdAttributeName="universalUser.personUserIdentifier" personNameAttributeName="universalUser.personName" />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The username of the Project Director for the Budget. </description>
-            </attributeReference>
-
-            <attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Project Director Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Project Director.</description>
-            </attributeReference>
-
-            <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Project Director UserID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="budgetProjectDirectorUniversalIdentifier" userIdAttributeName="universalUser.personUserIdentifier" personNameAttributeName="universalUser.personName" />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The username of the Project Director for the Budget. </description>
-            </attributeReference>
-
-            <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Project Director Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Project Director.</description>
-            </attributeReference>
-
-            <attributeReference name="budgetAgency.agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Budget Agency Number</label>
-                <shortLabel>Agency Number</shortLabel>
-                <required>false</required>
-                <control>
-                    <text size="6" />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Agency Number for the Budget. </description>
-            </attributeReference>
-
-            <attributeReference name="budgetAgency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
-                <label>Budget Agency Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <text size="50" />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Budget Agency.</description>
-            </attributeReference>
-
-        </attributes>
-
-        <collections>
-            <collection name="tasks">
-                <label>Tasks</label>
-                <shortLabel>Tasks</shortLabel>
-                <summary>Budget Tasks</summary>
-                <description>Tasks that occur as part of the budget</description>
-            </collection>
-
-            <collection name="periods">
-                <label>Periods</label>
-                <shortLabel>Period</shortLabel>
-                <summary>Budget Periods</summary>
-                <description>Periods that occur during of the budget</description>
-            </collection>
-        </collections>
-
-        <relationships>
-            <relationship objectAttributeName="universalUser" >
-                <primitiveAttribute sourceName="budgetProjectDirectorUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="universalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="universalUser.personName" targetName="personName" />
-            </relationship>
-            <relationship objectAttributeName="budgetAgency" >
-                <primitiveAttribute sourceName="budgetAgencyNumber" targetName="agencyNumber" />
-				<supportAttribute sourceName="budgetAgency.fullName" targetName="fullName" identifier="true" />
-            </relationship>
-		</relationships>
-
-        <objectLabel>Budget</objectLabel>
-        <objectDescription>Help description for budget parameters - general.</objectDescription>
-		
-    </businessObject>
-</dictionaryEntry>
-
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Budget" parent="Budget-parentBean" />
+
+  <bean id="Budget-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.Budget" />
+    <property name="inquiryDefinition" >
+      <ref bean="Budget-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Budget-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Budget" />
+    <property name="objectDescription" value="Help description for budget parameters - general." />
+    <property name="attributes" >
+      <list>
+        <ref bean="Budget-documentNumber" />
+        <ref bean="Budget-budgetParentTrackNumber" />
+        <ref bean="Budget-budgetName" />
+        <ref bean="Budget-institutionCostShareIndicator" />
+        <ref bean="Budget-budgetThirdPartyCostShareIndicator" />
+        <ref bean="Budget-electronicResearchAdministrationGrantNumber" />
+        <ref bean="Budget-budgetProgramAnnouncementNumber" />
+        <ref bean="Budget-budgetProgramAnnouncementName" />
+        <ref bean="Budget-budgetTypeCodeText" />
+        <ref bean="Budget-budgetPersonnelInflationRate" />
+        <ref bean="Budget-budgetNonpersonnelInflationRate" />
+        <ref bean="Budget-budgetFringeRateDescription" />
+        <ref bean="Budget-routeSheetTrackNumber" />
+        <ref bean="Budget-agencyModularIndicator" />
+        <ref bean="Budget-budgetAgency" />
+        <ref bean="Budget-budgetAgencyNumber" />
+        <ref bean="Budget-federalPassThroughAgency" />
+        <ref bean="Budget-budgetProjectDirectorUniversalIdentifier" />
+        <ref bean="Budget-projectDirector.universalUser.personUserIdentifier" />
+        <ref bean="Budget-projectDirector.universalUser.personName" />
+        <ref bean="Budget-universalUser.personUserIdentifier" />
+        <ref bean="Budget-universalUser.personName" />
+        <ref bean="Budget-budgetAgency.agencyNumber" />
+        <ref bean="Budget-budgetAgency.fullName" />
+      </list>
+    </property>
+    <property name="collections" >
+      <list>
+        <bean parent="CollectionDefinition"
+              p:name="tasks"
+              p:label="Tasks"
+              p:shortLabel="Tasks"
+              p:summary="Budget Tasks"
+              p:description="Tasks that occur as part of the budget" />
+        <bean parent="CollectionDefinition"
+              p:name="periods"
+              p:label="Periods"
+              p:shortLabel="Period"
+              p:summary="Budget Periods"
+              p:description="Periods that occur during of the budget" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="universalUser" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="budgetProjectDirectorUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="universalUser.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="universalUser.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="budgetAgency" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="budgetAgencyNumber"
+                    p:targetName="agencyNumber" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="budgetAgency.fullName"
+                    p:targetName="fullName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Budget-documentNumber" parent="Budget-documentNumber-parentBean" />
+
+  <bean id="Budget-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Header ID" />
+    <property name="shortLabel" value="Doc Header ID" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Doc Header ID" />
+    <property name="description" value="Doc Header ID" />
+  </bean>
+  <bean id="Budget-budgetParentTrackNumber" parent="Budget-budgetParentTrackNumber-parentBean" />
+
+  <bean id="Budget-budgetParentTrackNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetParentTrackNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Parent Budget Number" />
+    <property name="shortLabel" value="parent number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Budget Tracking Number" />
+    <property name="description" value="Budget Tracking Number" />
+  </bean>
+  <bean id="Budget-budgetName" parent="Budget-budgetName-parentBean" />
+
+  <bean id="Budget-budgetName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Name" />
+    <property name="shortLabel" value="Budget Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Budget Name" />
+    <property name="description" value="Budget Name" />
+  </bean>
+  <bean id="Budget-institutionCostShareIndicator" parent="Budget-institutionCostShareIndicator-parentBean" />
+
+  <bean id="Budget-institutionCostShareIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionCostShareIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Institution Cost Share" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Institution Cost Share" />
+    <property name="description" value="Indicates whether the current budget has institution cost share" />
+  </bean>
+  <bean id="Budget-budgetThirdPartyCostShareIndicator" parent="Budget-budgetThirdPartyCostShareIndicator-parentBean" />
+
+  <bean id="Budget-budgetThirdPartyCostShareIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetThirdPartyCostShareIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Third Party Cost Share" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Third Party Cost Share" />
+    <property name="description" value="Indicates whether the current budget has third party cost share" />
+  </bean>
+  <bean id="Budget-electronicResearchAdministrationGrantNumber" parent="Budget-electronicResearchAdministrationGrantNumber-parentBean" />
+
+  <bean id="Budget-electronicResearchAdministrationGrantNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="electronicResearchAdministrationGrantNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Grant Number" />
+    <property name="shortLabel" value="Grant Number" />
+    <property name="maxLength" value="27" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Grant Number" />
+    <property name="description" value="Grant Number" />
+  </bean>
+  <bean id="Budget-budgetProgramAnnouncementNumber" parent="Budget-budgetProgramAnnouncementNumber-parentBean" />
+
+  <bean id="Budget-budgetProgramAnnouncementNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetProgramAnnouncementNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Program Announcement Number" />
+    <property name="shortLabel" value="Pgm Anncmnt Nbr" />
+    <property name="maxLength" value="110" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Agency Program Announcement Number" />
+    <property name="description" value="The program announcement number published by the agency in the RFP" />
+  </bean>
+  <bean id="Budget-budgetProgramAnnouncementName" parent="Budget-budgetProgramAnnouncementName-parentBean" />
+
+  <bean id="Budget-budgetProgramAnnouncementName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetProgramAnnouncementName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Program Announcement Name" />
+    <property name="shortLabel" value="Pgm Anncmnt Nm" />
+    <property name="maxLength" value="110" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Agency Program Announcement Name" />
+    <property name="description" value="The program announcement name published by the agency in the RFP" />
+  </bean>
+  <bean id="Budget-budgetTypeCodeText" parent="Budget-budgetTypeCodeText-parentBean" />
+
+  <bean id="Budget-budgetTypeCodeText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetTypeCodeText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Budget Type" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Budget Type Code" />
+    <property name="description" value="Budget Type Code" />
+  </bean>
+  <bean id="Budget-budgetPersonnelInflationRate" parent="Budget-budgetPersonnelInflationRate-parentBean" />
+
+  <bean id="Budget-budgetPersonnelInflationRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPersonnelInflationRate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Personnel Inflation Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Personnel Inflation Rate" />
+    <property name="description" value="The inflation rate used to calculate future period personnel expenses." />
+  </bean>
+  <bean id="Budget-budgetNonpersonnelInflationRate" parent="Budget-budgetNonpersonnelInflationRate-parentBean" />
+
+  <bean id="Budget-budgetNonpersonnelInflationRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetNonpersonnelInflationRate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Nonpersonnel Inflation Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Nonpersonnel Inflation Rate" />
+    <property name="description" value="Nonpersonnel Inflation Rate" />
+  </bean>
+  <bean id="Budget-budgetFringeRateDescription" parent="Budget-budgetFringeRateDescription-parentBean" />
+
+  <bean id="Budget-budgetFringeRateDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetFringeRateDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Benefit Rate Change Justification" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="250" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="50" />
+    </property>
+    <property name="summary" value="Benefit Rate Change Justification" />
+    <property name="description" value="Benefit Rate Change Justification..." />
+  </bean>
+  <bean id="Budget-routeSheetTrackNumber" parent="Budget-routeSheetTrackNumber-parentBean" />
+
+  <bean id="Budget-routeSheetTrackNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="routeSheetTrackNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Route Sheet Tracking Number" />
+    <property name="shortLabel" value="RS Tracking Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Route Sheet Tracking Number" />
+    <property name="description" value="Route Sheet Tracking Number" />
+  </bean>
+  <bean id="Budget-agencyModularIndicator" parent="Budget-agencyModularIndicator-parentBean" />
+
+  <bean id="Budget-agencyModularIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyModularIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Modular Indicator" />
+    <property name="shortLabel" value="Modular" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Agency Modular Indicator" />
+    <property name="description" value="Agency Modular Indicator" />
+  </bean>
+  <bean id="Budget-budgetAgency" parent="Budget-budgetAgency-parentBean" />
+
+  <bean id="Budget-budgetAgency-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="budgetAgency" />
+    <property name="label" value="Budget Agency" />
+    <property name="shortLabel" value="Agency" />
+    <property name="summary" value="Budget Agency" />
+    <property name="description" value="Budget Agency..." />
+  </bean>
+  <bean id="Budget-budgetAgencyNumber" parent="Budget-budgetAgencyNumber-parentBean" />
+
+  <bean id="Budget-budgetAgencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="budgetAgencyNumber" />
+    <property name="label" value="Budget Agency Number" />
+    <property name="shortLabel" value="Budget Ag Num" />
+    <property name="summary" value="Budget Agency Number" />
+    <property name="description" value="BudgetAgencyNumber..." />
+  </bean>
+  <bean id="Budget-federalPassThroughAgency" parent="Budget-federalPassThroughAgency-parentBean" />
+
+  <bean id="Budget-federalPassThroughAgency-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="federalPassThroughAgency" />
+    <property name="label" value="Federal Pass Through" />
+    <property name="shortLabel" value="Fed PT Agency" />
+    <property name="summary" value="Federal Pass Through Agency ..." />
+    <property name="description" value="Federal Pass Through Agency ..." />
+  </bean>
+  <bean id="Budget-budgetProjectDirectorUniversalIdentifier" parent="Budget-budgetProjectDirectorUniversalIdentifier-parentBean" />
+
+  <bean id="Budget-budgetProjectDirectorUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="budgetProjectDirectorUniversalIdentifier" />
+    <property name="label" value="Project Director" />
+    <property name="shortLabel" value="Project Director" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Project Director ..." />
+    <property name="description" value="Project Director ..." />
+    <property name="displayLabelAttribute" value="universalUser.personUserIdentifier" />
+  </bean>
+  <bean id="Budget-projectDirector.universalUser.personUserIdentifier" parent="Budget-projectDirector.universalUser.personUserIdentifier-parentBean" />
+
+  <bean id="Budget-projectDirector.universalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="projectDirector.universalUser.personUserIdentifier" />
+    <property name="label" value="Project Director UserID" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="universalUser.personName"
+            p:universalIdAttributeName="budgetProjectDirectorUniversalIdentifier"
+            p:userIdAttributeName="universalUser.personUserIdentifier" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The username of the Project Director for the Budget." />
+  </bean>
+  <bean id="Budget-projectDirector.universalUser.personName" parent="Budget-projectDirector.universalUser.personName-parentBean" />
+
+  <bean id="Budget-projectDirector.universalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="projectDirector.universalUser.personName" />
+    <property name="label" value="Project Director Name" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Name of the Project Director." />
+  </bean>
+  <bean id="Budget-universalUser.personUserIdentifier" parent="Budget-universalUser.personUserIdentifier-parentBean" />
+
+  <bean id="Budget-universalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="universalUser.personUserIdentifier" />
+    <property name="label" value="Project Director UserID" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="universalUser.personName"
+            p:universalIdAttributeName="budgetProjectDirectorUniversalIdentifier"
+            p:userIdAttributeName="universalUser.personUserIdentifier" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The username of the Project Director for the Budget." />
+  </bean>
+  <bean id="Budget-universalUser.personName" parent="Budget-universalUser.personName-parentBean" />
+
+  <bean id="Budget-universalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="universalUser.personName" />
+    <property name="label" value="Project Director Name" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Name of the Project Director." />
+  </bean>
+  <bean id="Budget-budgetAgency.agencyNumber" parent="Budget-budgetAgency.agencyNumber-parentBean" />
+
+  <bean id="Budget-budgetAgency.agencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="budgetAgency.agencyNumber" />
+    <property name="label" value="Budget Agency Number" />
+    <property name="shortLabel" value="Agency Number" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Agency Number for the Budget." />
+  </bean>
+  <bean id="Budget-budgetAgency.fullName" parent="Budget-budgetAgency.fullName-parentBean" />
+
+  <bean id="Budget-budgetAgency.fullName-parentBean" abstract="true" parent="Agency-fullName">
+    <property name="name" value="budgetAgency.fullName" />
+    <property name="label" value="Budget Agency Name" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Name of the Budget Agency." />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Budget-inquiryDefinition" parent="Budget-inquiryDefinition-parentBean" />
+
+  <bean id="Budget-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Budget-lookupDefinition" parent="Budget-lookupDefinition-parentBean" />
+
+  <bean id="Budget-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Lookup" />
+    <property name="instructions" value="Look up a Budget" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>documentNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetProjectDirectorUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universalUser.personUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universalUser.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetAgency.fullName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetParentTrackNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="electronicResearchAdministrationGrantNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetTypeCodeText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectDirector.universalUser.personUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectDirector.universalUser.personName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetAgency.agencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetAgency.fullName" />
+      </list>
+    </property>
+  </bean>
+</beans>

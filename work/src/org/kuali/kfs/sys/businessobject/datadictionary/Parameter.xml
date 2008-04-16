@@ -1,198 +1,285 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.Parameter">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Parameter Inquiry</title>
-            <inquirySections>
-                <inquirySection title="Parameter Information">
-                    <inquiryFields>
-                        <field attributeName="parameterNamespace.codeAndDescription" />
-                        <field attributeName="parameterDetailType.parameterDetailTypeName" noInquiry="true" />
-                        <field attributeName="parameterName" noInquiry="true" />
-                        <field attributeName="parameterValue" />
-                        <field attributeName="parameterConstraintCode" />
-                        <field attributeName="parameterDescription" />
-                        <field attributeName="parameterType.name" />
-                        <field attributeName="parameterWorkgroupName" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>
-        </inquiry>
-        <lookup>
-            <lookupableID>parameterLookupable</lookupableID>
-            <title>Parameter Lookup</title>
+  <bean id="Parameter" parent="Parameter-parentBean" />
 
-            <instructions>Look up a system parameter.</instructions>
-            <defaultSort attributeName="parameterName" sortAscending="true" />
-            <lookupFields>
-                <lookupField attributeName="parameterNamespaceCode" required="false" />
-                <lookupField attributeName="parameterDetailType.parameterDetailTypeName" noLookup="true" />
-                <lookupField attributeName="parameterName" noLookup="true" />
-                <lookupField attributeName="parameterValue" />
-                <lookupField attributeName="parameterTypeCode" />
-                <lookupField attributeName="parameterWorkgroupName" />
-            </lookupFields>
-            <resultFields>
-                <field attributeName="parameterNamespaceCode" forceInquiry="true" />
-                <field attributeName="parameterDetailType.parameterDetailTypeName" noInquiry="true" />
-                <field attributeName="parameterName" forceInquiry="true" maxLength="60" />
-                <field attributeName="parameterValue" maxLength="40" />
-                <field attributeName="parameterConstraintCode" />
-                <field attributeName="parameterDescription" maxLength="40" />
-                <field attributeName="parameterType.name" forceInquiry="true" />
-                <field attributeName="parameterWorkgroupName" />
-            </resultFields>
-        </lookup>
+  <bean id="Parameter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.core.bo.Parameter" />
+    <property name="inquiryDefinition" >
+      <ref bean="Parameter-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Parameter-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="parameterName" />
+    <property name="objectLabel" value="Parameter" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Parameter-parameterNamespaceCode" />
+        <ref bean="Parameter-parameterDetailTypeCode" />
+        <ref bean="Parameter-parameterName" />
+        <ref bean="Parameter-parameterValue" />
+        <ref bean="Parameter-parameterDescription" />
+        <ref bean="Parameter-parameterConstraintCode" />
+        <ref bean="Parameter-parameterTypeCode" />
+        <ref bean="Parameter-parameterType.name" />
+        <ref bean="Parameter-parameterDetailType.parameterDetailTypeName" />
+        <ref bean="Parameter-parameterWorkgroupName" />
+        <ref bean="Parameter-parameterNamespace.codeAndDescription" />
+        <ref bean="Parameter-objectId" />
+        <ref bean="Parameter-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <titleAttribute>parameterName</titleAttribute>
+<!-- Attribute Definitions -->
 
-        <attributes>
-            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="code">
-                <required>true</required>
-                <control>
-                    <select
-                        valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"
-                    />
-                        <!--  
-                            script="this.form.submit();"
-                            if ( typeof refreshAfterNamespaceChange == 'function' )  
-                        -->
-                </control>
-                <summary>The namespace that the parameter is associated with.</summary>
-                <description>
-                    This value is used to categorize parameters by namespace.
-                </description>
-            </attributeReference>
-            <attributeReference name="parameterDetailTypeCode" sourceClassName="org.kuali.core.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeCode" >
-                <required>true</required>
 
-            </attributeReference>
-            <attribute name="parameterName" forceUppercase="false">
-                <label>Parameter Name</label>
-                <shortLabel>Parm Nm</shortLabel>
-                <maxLength>100</maxLength>
-                <validationPattern>
-                    <alphaNumeric allowUnderscore="true" allowWhitespace="false" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="50" />
-                </control>
-                <summary>The name of the parameter.</summary>
-                <description>
-                    This will be used as the identifier for the parameter. Parameter
-                    values will be accessed using this field and the namespace as the key.
-                </description>
-            </attribute>
-            <attribute name="parameterValue" forceUppercase="false">
-                <label>Parameter Value</label>
-                <shortLabel>Parm Val</shortLabel>
-                <maxLength>4000</maxLength>
-                <control>
-                    <textarea rows="3" cols="40" />
-                </control>
-                <summary>The text associated with this parameter.</summary>
-                <description>
-                    This field houses the actual value associated with the parameter. This
-                    is what's returned by the KualiConfigurationService.
-                </description>
-            </attribute>
-            <attribute name="parameterDescription"
-                forceUppercase="false"
-            >
-                <label>Parameter Description</label>
-                <shortLabel>Desc</shortLabel>
-                <maxLength>4000</maxLength>
-                <required>true</required>
-                <control>
-                    <textarea rows="3" cols="40" />
-                </control>
-                <summary>The description of this parameter.</summary>
-                <description>
-                    This field houses the purpose of this parameter.
-                </description>
-            </attribute>
-            
-            <attribute name="parameterConstraintCode" >
-                <label>Parameter Constraint Code</label>
-                <shortLabel>Cons. Code</shortLabel>
+  <bean id="Parameter-parameterNamespaceCode" parent="Parameter-parameterNamespaceCode-parentBean" />
 
-                <maxLength>1</maxLength>
-                <required>true</required>
-                <control>
-                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterOperatorValuesFinder" />
-                </control>
+  <bean id="Parameter-parameterNamespaceCode-parentBean" abstract="true" parent="ParameterNamespace-code">
+    <property name="name" value="parameterNamespaceCode" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="The namespace that the parameter is associated with." />
+    <property name="description" value="This value is used to categorize parameters by namespace." />
+  </bean>
+  <bean id="Parameter-parameterDetailTypeCode" parent="Parameter-parameterDetailTypeCode-parentBean" />
 
-                <summary>parameterConstraintCode</summary>
-                <description>parameterConstraintCode description...</description>
-            </attribute>
-            
-            
-            <attributeReference name="parameterTypeCode" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="code" >
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterTypeValuesFinder" />
-                </control>
-            </attributeReference>
+  <bean id="Parameter-parameterDetailTypeCode-parentBean" abstract="true" parent="ParameterDetailType-parameterDetailTypeCode">
+  </bean>
+  <bean id="Parameter-parameterName" parent="Parameter-parameterName-parentBean" />
 
-            <attributeReference name="parameterType.name" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="name">
-                <label>Parameter Type</label>
-                <required>false</required>
-            </attributeReference>
+  <bean id="Parameter-parameterName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parameter Name" />
+    <property name="shortLabel" value="Parm Nm" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:allowUnderscore="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="The name of the parameter." />
+    <property name="description" value="This will be used as the identifier for the parameter. Parameter
+                    values will be accessed using this field and the namespace as the key." />
+  </bean>
+  <bean id="Parameter-parameterValue" parent="Parameter-parameterValue-parentBean" />
 
-            <attributeReference name="parameterDetailType.parameterDetailTypeName" sourceClassName="org.kuali.core.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeName">
-                <label>Component</label>
-                <required>false</required>
-            </attributeReference>
-            
-            <attribute name="parameterWorkgroupName">
-                <label>Workgroup</label>
-                <shortLabel>Workgroup</shortLabel>
+  <bean id="Parameter-parameterValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterValue" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parameter Value" />
+    <property name="shortLabel" value="Parm Val" />
+    <property name="maxLength" value="4000" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="The text associated with this parameter." />
+    <property name="description" value="This field houses the actual value associated with the parameter. This
+                    is what&apos;s returned by the KualiConfigurationService." />
+  </bean>
+  <bean id="Parameter-parameterDescription" parent="Parameter-parameterDescription-parentBean" />
 
-                <maxLength>70</maxLength>
-                <required>true</required>
-                <control>
-                	<workflowWorkgroup size="20"/>                    
-                </control>
+  <bean id="Parameter-parameterDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parameter Description" />
+    <property name="shortLabel" value="Desc" />
+    <property name="maxLength" value="4000" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="The description of this parameter." />
+    <property name="description" value="This field houses the purpose of this parameter." />
+  </bean>
+  <bean id="Parameter-parameterConstraintCode" parent="Parameter-parameterConstraintCode-parentBean" />
 
-                <summary>
-                    ID of workgroup which can edit this parameter.
-                </summary>
-                <description>
-                    ID of workgroup which can edit this parameter.
-                </description>
-            </attribute>
-            
-            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
-            
-            <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="objectId"
-            />
-            <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="versionNumber"
-            />
-        </attributes>
-        <objectLabel>Parameter</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="Parameter-parameterConstraintCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterConstraintCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Parameter Constraint Code" />
+    <property name="shortLabel" value="Cons. Code" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterOperatorValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="parameterConstraintCode" />
+    <property name="description" value="parameterConstraintCode description..." />
+  </bean>
+  <bean id="Parameter-parameterTypeCode" parent="Parameter-parameterTypeCode-parentBean" />
+
+  <bean id="Parameter-parameterTypeCode-parentBean" abstract="true" parent="ParameterType-code">
+    <property name="name" value="parameterTypeCode" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Parameter-parameterType.name" parent="Parameter-parameterType.name-parentBean" />
+
+  <bean id="Parameter-parameterType.name-parentBean" abstract="true" parent="ParameterType-name">
+    <property name="name" value="parameterType.name" />
+    <property name="label" value="Parameter Type" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Parameter-parameterDetailType.parameterDetailTypeName" parent="Parameter-parameterDetailType.parameterDetailTypeName-parentBean" />
+
+  <bean id="Parameter-parameterDetailType.parameterDetailTypeName-parentBean" abstract="true" parent="ParameterDetailType-parameterDetailTypeName">
+    <property name="name" value="parameterDetailType.parameterDetailTypeName" />
+    <property name="label" value="Component" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Parameter-parameterWorkgroupName" parent="Parameter-parameterWorkgroupName-parentBean" />
+
+  <bean id="Parameter-parameterWorkgroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parameterWorkgroupName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Workgroup" />
+    <property name="shortLabel" value="Workgroup" />
+    <property name="maxLength" value="70" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="WorkflowWorkgroupControlDefinition" />
+    </property>
+    <property name="summary" value="ID of workgroup which can edit this parameter." />
+    <property name="description" value="ID of workgroup which can edit this parameter." />
+  </bean>
+  <bean id="Parameter-parameterNamespace.codeAndDescription" parent="Parameter-parameterNamespace.codeAndDescription-parentBean" />
+
+  <bean id="Parameter-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="ParameterNamespace-codeAndDescription">
+    <property name="name" value="parameterNamespace.codeAndDescription" />
+  </bean>
+  <bean id="Parameter-objectId" parent="Parameter-objectId-parentBean" />
+
+  <bean id="Parameter-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="Parameter-versionNumber" parent="Parameter-versionNumber-parentBean" />
+
+  <bean id="Parameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Parameter-inquiryDefinition" parent="Parameter-inquiryDefinition-parentBean" />
+
+  <bean id="Parameter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Parameter Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Parameter Information" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterNamespace.codeAndDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterDetailType.parameterDetailTypeName"
+                    p:noInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterName"
+                    p:noInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterValue" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterConstraintCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterType.name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="parameterWorkgroupName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Parameter-lookupDefinition" parent="Parameter-lookupDefinition-parentBean" />
+
+  <bean id="Parameter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Parameter Lookup" />
+    <property name="lookupableID" value="parameterLookupable" />
+    <property name="instructions" value="Look up a system parameter." />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>parameterName</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterNamespaceCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterDetailType.parameterDetailTypeName"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterName"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterWorkgroupName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterNamespaceCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterDetailType.parameterDetailTypeName"
+              p:noInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:maxLength="60"
+              p:attributeName="parameterName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:maxLength="40"
+              p:attributeName="parameterValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterConstraintCode" />
+        <bean parent="FieldDefinition"
+              p:maxLength="40"
+              p:attributeName="parameterDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterType.name"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterWorkgroupName" />
+      </list>
+    </property>
+  </bean>
+</beans>

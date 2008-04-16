@@ -1,197 +1,265 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.Subcontractor">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Sub-Contractor Inquiry</title>
+  <bean id="Subcontractor" parent="Subcontractor-parentBean" />
 
-            <inquirySections><inquirySection title="Subcontractor Details"><inquiryFields>
-                <field attributeName="subcontractorNumber" />
-                <field attributeName="subcontractorName" />
-                <field attributeName="subcontractorAddressLine1" />
-                <field attributeName="subcontractorAddressLine2" />
-                <field attributeName="subcontractorCity" />
-                <field attributeName="subcontractorStateCode" />
-                <field attributeName="subcontractorZipCode" />
-                <field attributeName="subcontractorCountryCode" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Subcontractor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Subcontractor" />
+    <property name="inquiryDefinition" >
+      <ref bean="Subcontractor-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Subcontractor-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="subcontractorNumber" />
+    <property name="objectLabel" value="Sub-Contractor" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Subcontractor-subcontractorNumber" />
+        <ref bean="Subcontractor-subcontractorName" />
+        <ref bean="Subcontractor-subcontractorAddressLine1" />
+        <ref bean="Subcontractor-subcontractorAddressLine2" />
+        <ref bean="Subcontractor-subcontractorCity" />
+        <ref bean="Subcontractor-subcontractorStateCode" />
+        <ref bean="Subcontractor-subcontractorZipCode" />
+        <ref bean="Subcontractor-subcontractorCountryCode" />
+        <ref bean="Subcontractor-active" />
+        <ref bean="Subcontractor-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Sub-Contractor Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Subcontractor</instructions>
 
-            <defaultSort attributeName="subcontractorName" sortAscending="true" />
+  <bean id="Subcontractor-subcontractorNumber" parent="Subcontractor-subcontractorNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="subcontractorNumber" required="false" />
-                <lookupField attributeName="subcontractorName" required="false" />
-                <lookupField attributeName="subcontractorCity" required="false" />
-                <lookupField attributeName="subcontractorStateCode" required="false" />
-                <lookupField attributeName="subcontractorZipCode" required="false" />
-                <lookupField attributeName="subcontractorCountryCode" required="false" />
-                <lookupField attributeName="active" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
+  <bean id="Subcontractor-subcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Subcontractor Number" />
+    <property name="shortLabel" value="Nbr" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="Subcontractor-subcontractorName" parent="Subcontractor-subcontractorName-parentBean" />
 
-            <resultFields>
-                <field attributeName="subcontractorNumber" />
-                <field attributeName="subcontractorName" />
-                <field attributeName="subcontractorAddressLine1" />
-                <field attributeName="subcontractorAddressLine2" />
-                <field attributeName="subcontractorCity" />
-                <field attributeName="subcontractorStateCode" />
-                <field attributeName="subcontractorZipCode" />
-                <field attributeName="subcontractorCountryCode" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="Subcontractor-subcontractorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Subcontractor Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  <bean id="Subcontractor-subcontractorAddressLine1" parent="Subcontractor-subcontractorAddressLine1-parentBean" />
 
-        <titleAttribute>subcontractorNumber</titleAttribute>
+  <bean id="Subcontractor-subcontractorAddressLine1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorAddressLine1" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address Line 1" />
+    <property name="shortLabel" value="Address1" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+  </bean>
+  <bean id="Subcontractor-subcontractorAddressLine2" parent="Subcontractor-subcontractorAddressLine2-parentBean" />
 
-        <attributes>
+  <bean id="Subcontractor-subcontractorAddressLine2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorAddressLine2" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address Line 2" />
+    <property name="shortLabel" value="Address2" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="Subcontractor-subcontractorCity" parent="Subcontractor-subcontractorCity-parentBean" />
 
-            <attribute name="subcontractorNumber" forceUppercase="true">
-                <label>Subcontractor Number</label>
-                <shortLabel>Nbr</shortLabel>
+  <bean id="Subcontractor-subcontractorCity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorCity" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Subcontractor City" />
+    <property name="shortLabel" value="City" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="Subcontractor-subcontractorStateCode" parent="Subcontractor-subcontractorStateCode-parentBean" />
 
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
+  <bean id="Subcontractor-subcontractorStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="name" value="subcontractorStateCode" />
+    <property name="label" value="State Code" />
+    <property name="shortLabel" value="State" />
+  </bean>
+  <bean id="Subcontractor-subcontractorZipCode" parent="Subcontractor-subcontractorZipCode-parentBean" />
 
-                <control>
-                    <text size="7" />
-                </control>
-            </attribute>
+  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subcontractorZipCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="ZIP Code" />
+    <property name="shortLabel" value="ZIP" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="ZipcodeValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="Subcontractor-subcontractorCountryCode" parent="Subcontractor-subcontractorCountryCode-parentBean" />
 
-            <attribute name="subcontractorName" forceUppercase="true">
-                <label>Subcontractor Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="Subcontractor-subcontractorCountryCode-parentBean" abstract="true" parent="Country-postalCountryCode">
+    <property name="name" value="subcontractorCountryCode" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="15" />
+  </bean>
+  <bean id="Subcontractor-active" parent="Subcontractor-active-parentBean" />
 
-                <maxLength>50</maxLength>
+  <bean id="Subcontractor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+    <property name="shortLabel" value="Active" />
+  </bean>
+  <bean id="Subcontractor-versionNumber" parent="Subcontractor-versionNumber-parentBean" />
 
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="Subcontractor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="50" />
-                </control>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="subcontractorAddressLine1" forceUppercase="false">
-                <label>Address Line 1</label>
-                <shortLabel>Address1</shortLabel>
 
-                <maxLength>25</maxLength>
+  <bean id="Subcontractor-inquiryDefinition" parent="Subcontractor-inquiryDefinition-parentBean" />
 
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="Subcontractor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sub-Contractor Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Subcontractor Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorAddressLine1" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorAddressLine2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorCity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subcontractorCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="25" />
-                </control>
-            </attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="subcontractorAddressLine2" forceUppercase="false">
-                <label>Address Line 2</label>
-                <shortLabel>Address2</shortLabel>
 
-                <maxLength>20</maxLength>
+  <bean id="Subcontractor-lookupDefinition" parent="Subcontractor-lookupDefinition-parentBean" />
 
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-
-            <attribute name="subcontractorCity" forceUppercase="false">
-                <label>Subcontractor City</label>
-                <shortLabel>City</shortLabel>
-
-                <maxLength>20</maxLength>
-
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-
-            <attributeReference name="subcontractorStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
-                <label>State Code</label>
-                <shortLabel>State</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <required>true</required>
-            </attributeReference>
-
-            <attribute name="subcontractorZipCode" forceUppercase="false">
-                <label>ZIP Code</label>
-                <shortLabel>ZIP</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <zipcode />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-            </attribute>
-
-            <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryCode">
-                <label>Country Code</label>
-                <shortLabel>Country</shortLabel>
-
-                <maxLength>15</maxLength>
-
-                <required>true</required>
-            </attributeReference>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
-            	<label>Active Indicator</label>
-            	<shortLabel>Active</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Sub-Contractor</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="Subcontractor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sub-Contractor Lookup" />
+    <property name="instructions" value="Lookup an Subcontractor" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>subcontractorName</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorCity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorCountryCode" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorAddressLine1" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorAddressLine2" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorCity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subcontractorCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

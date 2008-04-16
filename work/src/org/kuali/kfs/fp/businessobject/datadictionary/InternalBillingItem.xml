@@ -1,101 +1,128 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.InternalBillingItem">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="InternalBillingItem" parent="InternalBillingItem-parentBean" />
+
+  <bean id="InternalBillingItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.InternalBillingItem" />
+    <property name="attributes" >
+      <list>
+        <ref bean="InternalBillingItem-itemUnitAmount" />
+        <ref bean="InternalBillingItem-itemStockDescription" />
+        <ref bean="InternalBillingItem-itemServiceDate" />
+        <ref bean="InternalBillingItem-total" />
+        <ref bean="InternalBillingItem-itemStockNumber" />
+        <ref bean="InternalBillingItem-objectId" />
+        <ref bean="InternalBillingItem-itemSequenceId" />
+        <ref bean="InternalBillingItem-unitOfMeasureCode" />
+        <ref bean="InternalBillingItem-itemQuantity" />
+        <ref bean="InternalBillingItem-versionNumber" />
+        <ref bean="InternalBillingItem-documentNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <attributes>
-            <attributeReference name="itemUnitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Item Unit Amount</label>
-                <shortLabel>Item Cost</shortLabel>
-                <exclusiveMin>0</exclusiveMin>
-                <required>true</required>
-            </attributeReference>
+  <bean id="InternalBillingItem-itemUnitAmount" parent="InternalBillingItem-itemUnitAmount-parentBean" />
 
-            <attribute name="itemStockDescription" forceUppercase="true">
-                <label>Item Stock Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="InternalBillingItem-itemUnitAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="itemUnitAmount" />
+    <property name="label" value="Item Unit Amount" />
+    <property name="shortLabel" value="Item Cost" />
+    <property name="required" value="true" />
+    <property name="exclusiveMin" value="0" />
+  </bean>
+  <bean id="InternalBillingItem-itemStockDescription" parent="InternalBillingItem-itemStockDescription-parentBean" />
 
-                <maxLength>40</maxLength>
+  <bean id="InternalBillingItem-itemStockDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemStockDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Stock Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="InternalBillingItem-itemServiceDate" parent="InternalBillingItem-itemServiceDate-parentBean" />
 
-                <control>
-                    <text size="30" />
-                </control>
-            </attribute>
+  <bean id="InternalBillingItem-itemServiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="itemServiceDate" />
+    <property name="label" value="Item Service Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="InternalBillingItem-total" parent="InternalBillingItem-total-parentBean" />
 
-            <attributeReference name="itemServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Item Service Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
+  <bean id="InternalBillingItem-total-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="total" />
+    <property name="label" value="Total" />
+    <property name="shortLabel" value="Total" />
+  </bean>
+  <bean id="InternalBillingItem-itemStockNumber" parent="InternalBillingItem-itemStockNumber-parentBean" />
 
-            <attributeReference name="total" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total</label>
-                <shortLabel>Total</shortLabel>
-            </attributeReference>
+  <bean id="InternalBillingItem-itemStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemStockNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Stock Number" />
+    <property name="shortLabel" value="Stock#" />
+    <property name="maxLength" value="9" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="InternalBillingItem-objectId" parent="InternalBillingItem-objectId-parentBean" />
 
-            <attribute name="itemStockNumber" forceUppercase="true">
-                <label>Item Stock Number</label>
-                <shortLabel>Stock#</shortLabel>
+  <bean id="InternalBillingItem-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  </bean>
+  <bean id="InternalBillingItem-itemSequenceId" parent="InternalBillingItem-itemSequenceId-parentBean" />
 
-                <maxLength>9</maxLength>
+  <bean id="InternalBillingItem-itemSequenceId-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="itemSequenceId" />
+  </bean>
+  <bean id="InternalBillingItem-unitOfMeasureCode" parent="InternalBillingItem-unitOfMeasureCode-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
-            </attribute>
+  <bean id="InternalBillingItem-unitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitOfMeasureCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Unit Of Measure Code" />
+    <property name="shortLabel" value="UoM" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="InternalBillingItem-itemQuantity" parent="InternalBillingItem-itemQuantity-parentBean" />
 
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+  <bean id="InternalBillingItem-itemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="22" />
+    <property name="exclusiveMin" value="0" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="InternalBillingItem-versionNumber" parent="InternalBillingItem-versionNumber-parentBean" />
 
-            <attributeReference name="itemSequenceId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+  <bean id="InternalBillingItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="InternalBillingItem-documentNumber" parent="InternalBillingItem-documentNumber-parentBean" />
 
-            <attribute name="unitOfMeasureCode" forceUppercase="true">
-                <label>Unit Of Measure Code</label>
-                <shortLabel>UoM</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="itemQuantity" forceUppercase="true">
-                <label>Item Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>22</maxLength>
-                <exclusiveMin>0</exclusiveMin>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
-        </attributes>
-
-    </businessObject>
-</dictionaryEntry>
+  <bean id="InternalBillingItem-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+</beans>

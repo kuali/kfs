@@ -1,134 +1,298 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.AssetRetirementGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.cams.maintenance.AssetRetirementGlobalMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.cams.rules.AssetRetirementGlobalRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.cams.document.authorization.AssetRetirementAuthorizer</documentAuthorizerClass>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AssetRetirementGlobalMaintenanceDocument" parent="AssetRetirementGlobalMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AssetRetirementGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>AR</documentTypeCode>
-        
-        <label>Asset Retirement Global</label>
+  <bean id="AssetRetirementGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.cams.maintenance.AssetRetirementGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AssetRetirementGlobalMaintenanceDocument-RetirementInformation" />
+        <ref bean="AssetRetirementGlobalMaintenanceDocument-ExternalTransferorGift" />
+        <ref bean="AssetRetirementGlobalMaintenanceDocument-Theft" />
+        <ref bean="AssetRetirementGlobalMaintenanceDocument-AuctionorSold" />
+        <ref bean="AssetRetirementGlobalMaintenanceDocument-AssetDetailInformation" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="asset"
+              p:collection="assetRetirementGlobalDetails"
+              p:attributeToHighlightOnFail="capitalAssetNumber" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Asset Retirement Global" />
+    <property name="shortLabel" value="Asset Retirement Global" />
+    <property name="summary" value="Retirement Global Asset Maintenance Document" />
+    <property name="description" value="Document used to create or update global retirement asset document." />
+    <property name="documentTypeName" value="AssetRetirementGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetRetirementGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.AssetRetirementAuthorizer" />
+    <property name="documentTypeCode" value="AR" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <summary>Retirement Global Asset Maintenance Document</summary>
-        <description>Document used to create or update global retirement asset document.</description>
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
- 
-         <defaultExistenceChecks>
-            <reference collection="assetRetirementGlobalDetails" attributeName="asset" attributeToHighlightOnFail="capitalAssetNumber" />
-        </defaultExistenceChecks>
-        
-        <maintainableSections>
-            <maintainableSection title="Retirement Information">
-                <maintainableItems>
-	                <subSectionHeader name="Retirement Reason" />
-                	<maintainableField name="versionNumber"  />
-                	<maintainableField name="retirementReasonCode"  readOnly="true"/>
-                	<maintainableField name="retirementDate" required="true"/>
-                	<maintainableField name="mergedTargetCapitalAssetNumber" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="External Transfer or Gift" id="ExternalTransferOrGift">
-	            <maintainableItems>
-                	<maintainableField name="sharedRetirementInfo.retirementContactName"  />
-                	<maintainableField name="sharedRetirementInfo.retirementInstitutionName"  />
-                	<maintainableField name="sharedRetirementInfo.retirementStreetAddress"  />
-                	<maintainableField name="sharedRetirementInfo.retirementCityName"  />
-                	<maintainableField name="sharedRetirementInfo.retirementStateCode"  />
-                	<maintainableField name="sharedRetirementInfo.retirementZipCode"  />
-                	<maintainableField name="sharedRetirementInfo.retirementCountryCode"  />
-                	<maintainableField name="sharedRetirementInfo.retirementPhoneNumber"  />
-               </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Theft" id="Theft">
-            	<maintainableItems>
-                	<maintainableField name="sharedRetirementInfo.paidCaseNumber"  />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Auction or Sold" id="AuctionOrSold">
-            	<maintainableItems>
-                	<maintainableField name="sharedRetirementInfo.buyerDescription"  />
-                	<maintainableField name="sharedRetirementInfo.salePrice"  />
-                	<maintainableField name="sharedRetirementInfo.estimatedSellingPrice"  />
-                	<maintainableField name="sharedRetirementInfo.handlingFeeAmount"  />
-                	<maintainableField name="sharedRetirementInfo.preventiveMaintenanceAmount"  />
-                	<maintainableField name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber"  />
-                	<maintainableField name="sharedRetirementInfo.retirementChartOfAccountsCode"  />
-                	<maintainableField name="sharedRetirementInfo.retirementAccountNumber"  />
-	            </maintainableItems>
-            </maintainableSection>
-       		<maintainableSection title="Asset Detail Information">
-            	<maintainableItems>
-            		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
-	                <subSectionHeader name="Asset Detail Information" />
-            		<maintainableField name="versionNumber"  />
-                	<maintainableField name="capitalAssetNumber" template="capitalAssetNumber" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.organizationOwnerChartOfAccountsCode" template="organizationOwnerChartOfAccountsCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.organizationOwnerAccountNumber" template="organizationOwnerAccountNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <!-- maintainableField name="asset.organizationOwnerAccount.organizationCode" readOnly="true" readOnlyAfterAdd="true" /-->
-                    <maintainableField name="asset.agencyNumber" template="agencyNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.acquisitionTypeCode" template="acquisitionTypeCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.inventoryStatusCode" template="inventoryStatusCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.conditionCode" template="conditionCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.capitalAssetDescription" template="capitalAssetDescription" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.capitalAssetTypeCode" template="capitalAssetTypeCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.vendorName" template="vendorName" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.manufacturerName" template="manufacturerName" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.manufacturerModelNumber" template="manufacturerModelNumber" readOnly="true" readOnlyAfterAdd="true" />
-					<maintainableField name="asset.serialNumber" template="serialNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.campusTagNumber" template="campusTagNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.oldTagNumber" template="oldTagNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.governmentTagNumber" template="governmentTagNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.nationalStockNumber" template="nationalStockNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.lastInventoryDate" template="lastInventoryDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.createDate" template="createDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.financialDocumentPostingYear" template="financialDocumentPostingYear" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.financialDocumentPostingPeriodCode" template="financialDocumentPostingPeriodCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.capitalAssetInServiceDate" template="capitalAssetInServiceDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.depreciationDate" template="depreciationDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.totalCostAmount" template="totalCostAmount" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.federalContribution" template="federalContribution" readOnly="true" readOnlyAfterAdd="true" />
-                	<maintainableField name="newCollectionRecord" />
-                	<summaryFields>
-                        <summaryField name="capitalAssetNumber" />
-                    </summaryFields>
-                    <duplicateIdentificationFields>
-                    	<duplicateIdentificationField name="capitalAssetNumber"/>
-                    </duplicateIdentificationFields>
-            		</maintainableCollection>
-            	</maintainableItems>
-            </maintainableSection>     
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementInformation" parent="AssetRetirementGlobalMaintenanceDocument-RetirementInformation-parentBean" />
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Retirement Information" />
+    <property name="title" value="Retirement Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableSubSectionHeaderDefinition"
+              p:name="Retirement Reason" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="retirementReasonCode"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="retirementDate"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAssetNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AssetRetirementGlobalMaintenanceDocument-ExternalTransferorGift" parent="AssetRetirementGlobalMaintenanceDocument-ExternalTransferorGift-parentBean" />
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-ExternalTransferorGift-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="ExternalTransferOrGift" />
+    <property name="title" value="External Transfer or Gift" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementContactName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementInstitutionName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementStreetAddress" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementCityName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementStateCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementZipCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementCountryCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementPhoneNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AssetRetirementGlobalMaintenanceDocument-Theft" parent="AssetRetirementGlobalMaintenanceDocument-Theft-parentBean" />
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-Theft-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Theft" />
+    <property name="title" value="Theft" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.paidCaseNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AssetRetirementGlobalMaintenanceDocument-AuctionorSold" parent="AssetRetirementGlobalMaintenanceDocument-AuctionorSold-parentBean" />
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-AuctionorSold-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="AuctionOrSold" />
+    <property name="title" value="Auction or Sold" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.buyerDescription" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.salePrice" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.estimatedSellingPrice" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.handlingFeeAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.preventiveMaintenanceAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sharedRetirementInfo.retirementAccountNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AssetRetirementGlobalMaintenanceDocument-AssetDetailInformation" parent="AssetRetirementGlobalMaintenanceDocument-AssetDetailInformation-parentBean" />
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Asset Detail Information" />
+    <property name="title" value="Asset Detail Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="assetRetirementGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" />
+          <property name="summaryTitle" value="Asset Retired" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="capitalAssetNumber"
+                    p:readOnlyAfterAdd="true"
+                    p:template="capitalAssetNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.organizationOwnerChartOfAccountsCode"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="organizationOwnerChartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.organizationOwnerAccountNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="organizationOwnerAccountNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.agencyNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="agencyNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.acquisitionTypeCode"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="acquisitionTypeCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.inventoryStatusCode"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="inventoryStatusCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.conditionCode"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="conditionCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.capitalAssetDescription"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="capitalAssetDescription" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.capitalAssetTypeCode"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="capitalAssetTypeCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.vendorName"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="vendorName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.manufacturerName"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="manufacturerName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.manufacturerModelNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="manufacturerModelNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.serialNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="serialNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.campusTagNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="campusTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.oldTagNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="oldTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.governmentTagNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="governmentTagNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.nationalStockNumber"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="nationalStockNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.lastInventoryDate"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="lastInventoryDate" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.createDate"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="createDate" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.financialDocumentPostingYear"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="financialDocumentPostingYear" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.financialDocumentPostingPeriodCode"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="financialDocumentPostingPeriodCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.capitalAssetInServiceDate"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="capitalAssetInServiceDate" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.depreciationDate"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="depreciationDate" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.totalCostAmount"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="totalCostAmount" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.federalContribution"
+                    p:readOnly="true"
+                    p:readOnlyAfterAdd="true"
+                    p:template="federalContribution" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

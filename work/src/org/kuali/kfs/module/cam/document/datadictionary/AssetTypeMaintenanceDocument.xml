@@ -1,61 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.AssetType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AssetTypeMaintenanceDocument" parent="AssetTypeMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AssetTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ASST</documentTypeCode>
+  <bean id="AssetTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AssetTypeMaintenanceDocument-EditAssetTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>capitalAssetTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Asset Type Code" />
+    <property name="shortLabel" value="Asset Type Code" />
+    <property name="summary" value="Asset type code maintenance document" />
+    <property name="description" value="Document used to create or update asset type code objects" />
+    <property name="documentTypeName" value="AssetTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ASST" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Asset Type Code</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Asset type code maintenance document</summary>
-        <description>Document used to create or update asset type code objects</description>
 
-        <lockingKeys>
-            <field attributeName="capitalAssetTypeCode" />
-        </lockingKeys>
-                
-        <maintainableSections>
-            <maintainableSection title="Edit Asset Type Code">
-                <maintainableItems>
-                    <maintainableField name="capitalAssetTypeCode" required="true" />
-                    <maintainableField name="capitalAssetTypeDescription" required="true" />
-                    <maintainableField name="depreciableLifeLimit" required="false" />
-                    <maintainableField name="movingIndicator" required="false" />
-                    <maintainableField name="requiredBuildingIndicator" required="false" />
-                    <maintainableField name="active" required="false" />
-					<maintainableField name="versionNumber" />             
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AssetTypeMaintenanceDocument-EditAssetTypeCode" parent="AssetTypeMaintenanceDocument-EditAssetTypeCode-parentBean" />
+
+  <bean id="AssetTypeMaintenanceDocument-EditAssetTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Asset Type Code" />
+    <property name="title" value="Edit Asset Type Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTypeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="depreciableLifeLimit" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="movingIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="requiredBuildingIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

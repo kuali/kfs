@@ -1,55 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.CashieringTransaction">
-    	<attributes>
-    		<attribute name="workgroupName" forceUppercase="true">
-                <label>Workgroup Name</label>
-                <shortLabel>Name</shortLabel>
-                
-                <maxLength>70</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-                <control>
-                    <hidden />
-                </control>
-            </attribute>
-            <attribute name="referenceFinancialDocumentNumber">
-                <label>Document Number</label>
-                <shortLabel>DocNum</shortLabel>
+  <bean id="CashieringTransaction" parent="CashieringTransaction-parentBean" />
 
-				<maxLength>12</maxLength>
-                <control>
-                    <hidden />
-                </control>
-            </attribute>
-            <attributeReference name="transactionStarted" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Transaction Started</label>
-                <shortLabel>TrnsStrtd</shortLabel>
+  <bean id="CashieringTransaction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.CashieringTransaction" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CashieringTransaction-workgroupName" />
+        <ref bean="CashieringTransaction-referenceFinancialDocumentNumber" />
+        <ref bean="CashieringTransaction-transactionStarted" />
+      </list>
+    </property>
+  </bean>
 
-				<required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-            </attributeReference>
-    	</attributes>
-    </businessObject>
-</dictionaryEntry>
+<!-- Attribute Definitions -->
+
+
+  <bean id="CashieringTransaction-workgroupName" parent="CashieringTransaction-workgroupName-parentBean" />
+
+  <bean id="CashieringTransaction-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workgroupName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Workgroup Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="70" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CashieringTransaction-referenceFinancialDocumentNumber" parent="CashieringTransaction-referenceFinancialDocumentNumber-parentBean" />
+
+  <bean id="CashieringTransaction-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="DocNum" />
+    <property name="maxLength" value="12" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="CashieringTransaction-transactionStarted" parent="CashieringTransaction-transactionStarted-parentBean" />
+
+  <bean id="CashieringTransaction-transactionStarted-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="transactionStarted" />
+    <property name="label" value="Transaction Started" />
+    <property name="shortLabel" value="TrnsStrtd" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+</beans>

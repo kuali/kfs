@@ -1,36 +1,265 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
-<!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
-]>
-<dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.purap.bo.PurApSummaryItem">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<attributes>
+  <bean id="PurApSummaryItem" parent="PurApSummaryItem-parentBean" />
 
-			&purApItemBaseAttributes;
-            
-			<attributeReference name="estimatedEncumberanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-    			<label>Estimated Encumberance Amount</label>
-    			<shortLabel>Est Enc. Amount</shortLabel>
+  <bean id="PurApSummaryItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurApSummaryItem" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PurApSummaryItem-versionNumber" />
+        <ref bean="PurApSummaryItem-itemIdentifier" />
+        <ref bean="PurApSummaryItem-itemLineNumber" />
+        <ref bean="PurApSummaryItem-itemUnitOfMeasureCode" />
+        <ref bean="PurApSummaryItem-purapDocumentIdentifier" />
+        <ref bean="PurApSummaryItem-itemAssignedToTradeInIndicator" />
+        <ref bean="PurApSummaryItem-extendedPrice" />
+        <ref bean="PurApSummaryItem-itemUnitPrice" />
+        <ref bean="PurApSummaryItem-itemTypeCode" />
+        <ref bean="PurApSummaryItem-itemCatalogNumber" />
+        <ref bean="PurApSummaryItem-itemDescription" />
+        <ref bean="PurApSummaryItem-capitalAssetTransactionTypeCode" />
+        <ref bean="PurApSummaryItem-itemCapitalAssetNoteText" />
+        <ref bean="PurApSummaryItem-itemAuxiliaryPartIdentifier" />
+        <ref bean="PurApSummaryItem-externalOrganizationB2bProductReferenceNumber" />
+        <ref bean="PurApSummaryItem-externalOrganizationB2bProductTypeName" />
+        <ref bean="PurApSummaryItem-estimatedEncumberanceAmount" />
+      </list>
+    </property>
+  </bean>
 
-			</attributeReference>
-		</attributes>
-	</businessObject>
-</dictionaryEntry>
+<!-- Attribute Definitions -->
+
+
+  <bean id="PurApSummaryItem-versionNumber" parent="PurApSummaryItem-versionNumber-parentBean" />
+
+  <bean id="PurApSummaryItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="PurApSummaryItem-itemIdentifier" parent="PurApSummaryItem-itemIdentifier-parentBean" />
+
+  <bean id="PurApSummaryItem-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+    <property name="name" value="itemIdentifier" />
+    <property name="label" value="Item Identifier" />
+  </bean>
+  <bean id="PurApSummaryItem-itemLineNumber" parent="PurApSummaryItem-itemLineNumber-parentBean" />
+
+  <bean id="PurApSummaryItem-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Line Number" />
+    <property name="shortLabel" value="Item Line #" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-itemUnitOfMeasureCode" parent="PurApSummaryItem-itemUnitOfMeasureCode-parentBean" />
+
+  <bean id="PurApSummaryItem-itemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemUnitOfMeasureCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Unit Of Measure Code" />
+    <property name="shortLabel" value="UOM" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.UnitOfMeasureValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-purapDocumentIdentifier" parent="PurApSummaryItem-purapDocumentIdentifier-parentBean" />
+
+  <bean id="PurApSummaryItem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purapDocumentIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Requisition Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-itemAssignedToTradeInIndicator" parent="PurApSummaryItem-itemAssignedToTradeInIndicator-parentBean" />
+
+  <bean id="PurApSummaryItem-itemAssignedToTradeInIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemAssignedToTradeInIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Assigned To Trade In Indicator" />
+    <property name="shortLabel" value="Trade In" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-extendedPrice" parent="PurApSummaryItem-extendedPrice-parentBean" />
+
+  <bean id="PurApSummaryItem-extendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="extendedPrice" />
+    <property name="label" value="Extended Price" />
+    <property name="shortLabel" value="Extended Cost" />
+  </bean>
+  <bean id="PurApSummaryItem-itemUnitPrice" parent="PurApSummaryItem-itemUnitPrice-parentBean" />
+
+  <bean id="PurApSummaryItem-itemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+    <property name="name" value="itemUnitPrice" />
+    <property name="label" value="Unit Cost" />
+    <property name="shortLabel" value="Unit Cost" />
+  </bean>
+  <bean id="PurApSummaryItem-itemTypeCode" parent="PurApSummaryItem-itemTypeCode-parentBean" />
+
+  <bean id="PurApSummaryItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Type Code" />
+    <property name="shortLabel" value="Item Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-itemCatalogNumber" parent="PurApSummaryItem-itemCatalogNumber-parentBean" />
+
+  <bean id="PurApSummaryItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCatalogNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Catalog Number" />
+    <property name="shortLabel" value="Catalog #" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-itemDescription" parent="PurApSummaryItem-itemDescription-parentBean" />
+
+  <bean id="PurApSummaryItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="4"
+            p:cols="50" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-capitalAssetTransactionTypeCode" parent="PurApSummaryItem-capitalAssetTransactionTypeCode-parentBean" />
+
+  <bean id="PurApSummaryItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetTransactionTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Transaction Type" />
+    <property name="shortLabel" value="Asset Tran Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CapitalAssetTransactionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-itemCapitalAssetNoteText" parent="PurApSummaryItem-itemCapitalAssetNoteText-parentBean" />
+
+  <bean id="PurApSummaryItem-itemCapitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCapitalAssetNoteText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="800" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-itemAuxiliaryPartIdentifier" parent="PurApSummaryItem-itemAuxiliaryPartIdentifier-parentBean" />
+
+  <bean id="PurApSummaryItem-itemAuxiliaryPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemAuxiliaryPartIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Auxiliary Part Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-externalOrganizationB2bProductReferenceNumber" parent="PurApSummaryItem-externalOrganizationB2bProductReferenceNumber-parentBean" />
+
+  <bean id="PurApSummaryItem-externalOrganizationB2bProductReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="externalOrganizationB2bProductReferenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="External OrganizationB2b Product Reference Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-externalOrganizationB2bProductTypeName" parent="PurApSummaryItem-externalOrganizationB2bProductTypeName-parentBean" />
+
+  <bean id="PurApSummaryItem-externalOrganizationB2bProductTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="externalOrganizationB2bProductTypeName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="External OrganizationB2b Product Type Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="17" />
+    </property>
+  </bean>
+  <bean id="PurApSummaryItem-estimatedEncumberanceAmount" parent="PurApSummaryItem-estimatedEncumberanceAmount-parentBean" />
+
+  <bean id="PurApSummaryItem-estimatedEncumberanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="estimatedEncumberanceAmount" />
+    <property name="label" value="Estimated Encumberance Amount" />
+    <property name="shortLabel" value="Est Enc. Amount" />
+  </bean>
+</beans>

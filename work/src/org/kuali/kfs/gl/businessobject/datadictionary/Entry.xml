@@ -1,303 +1,472 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.Entry">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>General Ledger Entry</title>
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="universityFiscalPeriodCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="transactionLedgerEntrySequenceNumber" />
-                <field attributeName="transactionLedgerEntryDescription" />
-                <field attributeName="transactionLedgerEntryAmount" />
-                <field attributeName="transactionDebitCreditCode" />
-                <field attributeName="transactionDate" />
-                <field attributeName="organizationDocumentNumber" />
-                <field attributeName="projectCode" />
-                <field attributeName="organizationReferenceId" />
-                <field attributeName="referenceFinancialDocumentTypeCode" />
-                <field attributeName="referenceFinancialSystemOriginationCode" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-                <field attributeName="financialDocumentReversalDate" />
-                <field attributeName="transactionEncumbranceUpdateCode" />
-                <field attributeName="transactionPostingDate" />
-                <field attributeName="transactionDateTimeStamp" noInquiry="true" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Entry" parent="Entry-parentBean" />
 
-        <lookup>
-            <lookupableID>glEntryLookupable</lookupableID>
+  <bean id="Entry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.gl.bo.Entry" />
+    <property name="inquiryDefinition" >
+      <ref bean="Entry-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Entry-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="Entry-universityFiscalYear" />
+        <ref bean="Entry-chartOfAccountsCode" />
+        <ref bean="Entry-accountNumber" />
+        <ref bean="Entry-subAccountNumber" />
+        <ref bean="Entry-financialObjectCode" />
+        <ref bean="Entry-financialSubObjectCode" />
+        <ref bean="Entry-financialObjectTypeCode" />
+        <ref bean="Entry-financialBalanceTypeCode" />
+        <ref bean="Entry-universityFiscalPeriodCode" />
+        <ref bean="Entry-financialDocumentTypeCode" />
+        <ref bean="Entry-financialSystemOriginationCode" />
+        <ref bean="Entry-documentNumber" />
+        <ref bean="Entry-transactionLedgerEntrySequenceNumber" />
+        <ref bean="Entry-transactionLedgerEntryDescription" />
+        <ref bean="Entry-transactionLedgerEntryAmount" />
+        <ref bean="Entry-transactionDebitCreditCode" />
+        <ref bean="Entry-transactionDate" />
+        <ref bean="Entry-organizationDocumentNumber" />
+        <ref bean="Entry-projectCode" />
+        <ref bean="Entry-organizationReferenceId" />
+        <ref bean="Entry-referenceFinancialDocumentTypeCode" />
+        <ref bean="Entry-referenceFinancialSystemOriginationCode" />
+        <ref bean="Entry-referenceFinancialDocumentNumber" />
+        <ref bean="Entry-financialDocumentReversalDate" />
+        <ref bean="Entry-transactionEncumbranceUpdateCode" />
+        <ref bean="Entry-transactionPostingDate" />
+        <ref bean="Entry-transactionDateTimeStamp" />
+        <ref bean="Entry-dummyBusinessObject.pendingEntryOption" />
+      </list>
+    </property>
+  </bean>
 
-            <title>General Ledger Entry Lookup</title>
-            <instructions>Lookup General Ledger Entries</instructions>
-            <defaultSort attributeName="financialObjectCode" sortAscending="true" />
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
 
-                <lookupField attributeName="chartOfAccountsCode" />
-                <lookupField attributeName="accountNumber" />
-                <lookupField attributeName="subAccountNumber" forceLookup="true" />
-                <lookupField attributeName="financialObjectCode" />
-                <lookupField attributeName="financialSubObjectCode" />
-                
-                <lookupField attributeName="financialBalanceTypeCode">
-                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder</defaultValueFinderClass>
-                </lookupField>
-                	                
-                <lookupField attributeName="financialObjectTypeCode" />
+  <bean id="Entry-universityFiscalYear" parent="Entry-universityFiscalYear-parentBean" />
 
-                <lookupField attributeName="universityFiscalPeriodCode">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder</defaultValueFinderClass>
-                </lookupField>
+  <bean id="Entry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fisc Year" />
+  </bean>
+  <bean id="Entry-chartOfAccountsCode" parent="Entry-chartOfAccountsCode-parentBean" />
 
-                <lookupField attributeName="financialDocumentTypeCode" />
-                <lookupField attributeName="financialSystemOriginationCode" />
-                <lookupField attributeName="documentNumber" />
-                <lookupField attributeName="organizationDocumentNumber" />
+  <bean id="Entry-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="Entry-accountNumber" parent="Entry-accountNumber-parentBean" />
 
-                <lookupField attributeName="projectCode" />
-                <lookupField attributeName="organizationReferenceId" />
+  <bean id="Entry-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="Entry-subAccountNumber" parent="Entry-subAccountNumber-parentBean" />
 
-                <lookupField attributeName="referenceFinancialDocumentTypeCode" />
-                <lookupField attributeName="referenceFinancialSystemOriginationCode" />
-                <lookupField attributeName="referenceFinancialDocumentNumber" />
+  <bean id="Entry-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="Entry-financialObjectCode" parent="Entry-financialObjectCode-parentBean" />
 
-                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
-                </lookupField>
-            </lookupFields>
+  <bean id="Entry-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="Entry-financialSubObjectCode" parent="Entry-financialSubObjectCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
+  <bean id="Entry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  </bean>
+  <bean id="Entry-financialObjectTypeCode" parent="Entry-financialObjectTypeCode-parentBean" />
 
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
+  <bean id="Entry-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="financialObjectTypeCode" />
+  </bean>
+  <bean id="Entry-financialBalanceTypeCode" parent="Entry-financialBalanceTypeCode-parentBean" />
 
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialObjectTypeCode" />
+  <bean id="Entry-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="financialBalanceTypeCode" />
+  </bean>
+  <bean id="Entry-universityFiscalPeriodCode" parent="Entry-universityFiscalPeriodCode-parentBean" />
 
-                <field attributeName="universityFiscalPeriodCode" />
+  <bean id="Entry-universityFiscalPeriodCode-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+    <property name="name" value="universityFiscalPeriodCode" />
+    <property name="label" value="Fiscal Period" />
+    <property name="shortLabel" value="Fiscal Period" />
+  </bean>
+  <bean id="Entry-financialDocumentTypeCode" parent="Entry-financialDocumentTypeCode-parentBean" />
 
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="documentNumber" />
+  <bean id="Entry-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Type Code" />
+    <property name="shortLabel" value="Doc. Type Code" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="Entry-financialSystemOriginationCode" parent="Entry-financialSystemOriginationCode-parentBean" />
 
-                <field attributeName="transactionLedgerEntryDescription" />
-                <field attributeName="transactionLedgerEntryAmount" />
+  <bean id="Entry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemOriginationCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Origin Code" />
+    <property name="shortLabel" value="Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="Entry-documentNumber" parent="Entry-documentNumber-parentBean" />
 
-                <field attributeName="transactionDebitCreditCode" />
-                <field attributeName="transactionDate" />
-                <field attributeName="organizationDocumentNumber" />
+  <bean id="Entry-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="Entry-transactionLedgerEntrySequenceNumber" parent="Entry-transactionLedgerEntrySequenceNumber-parentBean" />
 
-                <field attributeName="projectCode" />
-                <field attributeName="organizationReferenceId" />
+  <bean id="Entry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="transactionLedgerEntrySequenceNumber" />
+  </bean>
+  <bean id="Entry-transactionLedgerEntryDescription" parent="Entry-transactionLedgerEntryDescription-parentBean" />
 
-                <field attributeName="referenceFinancialDocumentTypeCode" />
-                <field attributeName="referenceFinancialSystemOriginationCode" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="Entry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionLedgerEntryDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Transaction Ledger Entry Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="Entry-transactionLedgerEntryAmount" parent="Entry-transactionLedgerEntryAmount-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fisc Year</shortLabel>
-            </attributeReference>
+  <bean id="Entry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="transactionLedgerEntryAmount" />
+    <property name="label" value="Transaction Ledger Entry Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="Entry-transactionDebitCreditCode" parent="Entry-transactionDebitCreditCode-parentBean" />
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="Entry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionDebitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Debit Credit Code" />
+    <property name="shortLabel" value="D/C" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Entry-transactionDate" parent="Entry-transactionDate-parentBean" />
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-            </attributeReference>
+  <bean id="Entry-transactionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="transactionDate" />
+    <property name="label" value="Transaction Date" />
+    <property name="shortLabel" value="Date" />
+  </bean>
+  <bean id="Entry-organizationDocumentNumber" parent="Entry-organizationDocumentNumber-parentBean" />
 
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-            </attributeReference>
+  <bean id="Entry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationDocumentNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Document Number" />
+    <property name="shortLabel" value="Org. Doc. Nbr." />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="Entry-projectCode" parent="Entry-projectCode-parentBean" />
 
-            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-            </attributeReference>
+  <bean id="Entry-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+  </bean>
+  <bean id="Entry-organizationReferenceId" parent="Entry-organizationReferenceId-parentBean" />
 
-            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-            </attributeReference>
+  <bean id="Entry-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Org Ref ID" />
+    <property name="maxLength" value="8" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="Entry-referenceFinancialDocumentTypeCode" parent="Entry-referenceFinancialDocumentTypeCode-parentBean" />
 
-            <attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code">
-            </attributeReference>
+  <bean id="Entry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialDocumentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Document Type Code" />
+    <property name="shortLabel" value="Ref Doc Type Code" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="Entry-referenceFinancialSystemOriginationCode" parent="Entry-referenceFinancialSystemOriginationCode-parentBean" />
 
-            <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-                <label>Balance Type Code</label>
-                <shortLabel>Balance Type</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="Entry-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialSystemOriginationCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Ref Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Entry-referenceFinancialDocumentNumber" parent="Entry-referenceFinancialDocumentNumber-parentBean" />
 
-            <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
-                <label>Fiscal Period</label>
-                <shortLabel>Fiscal Period</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                	<text size="2" />
-                </control>
-            </attributeReference>
+  <bean id="Entry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reference Document Number" />
+    <property name="shortLabel" value="Ref Doc Number" />
+    <property name="maxLength" value="9" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="Entry-financialDocumentReversalDate" parent="Entry-financialDocumentReversalDate-parentBean" />
 
-            <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Document Type Code</label>
-                <shortLabel>Doc. Type Code</shortLabel>
-                <maxLength>4</maxLength>
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
+  <bean id="Entry-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="financialDocumentReversalDate" />
+    <property name="label" value="Document Reversal Date" />
+    <property name="shortLabel" value="Doc. Reversal Date" />
+  </bean>
+  <bean id="Entry-transactionEncumbranceUpdateCode" parent="Entry-transactionEncumbranceUpdateCode-parentBean" />
 
-            <attribute name="financialSystemOriginationCode" forceUppercase="false">
-                <label>Origin Code</label>
-                <shortLabel>Origin Code</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
+  <bean id="Entry-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionEncumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Encmbr. Updt. Code" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="Entry-transactionPostingDate" parent="Entry-transactionPostingDate-parentBean" />
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
-            </attributeReference>
+  <bean id="Entry-transactionPostingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="transactionPostingDate" />
+  </bean>
+  <bean id="Entry-transactionDateTimeStamp" parent="Entry-transactionDateTimeStamp-parentBean" />
 
-            <attributeReference name="transactionLedgerEntrySequenceNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+  <bean id="Entry-transactionDateTimeStamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="transactionDateTimeStamp" />
+  </bean>
+  <bean id="Entry-dummyBusinessObject.pendingEntryOption" parent="Entry-dummyBusinessObject.pendingEntryOption-parentBean" />
 
-            <attribute name="transactionLedgerEntryDescription" forceUppercase="false">
-                <label>Transaction Ledger Entry Description</label>
-                <shortLabel>Description</shortLabel>
-                <maxLength>40</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+  <bean id="Entry-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
+    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+    <property name="label" value="Pending Entry Approved Indicator" />
+    <property name="shortLabel" value="Pending Entry Approved Indicator" />
+  </bean>
 
-            <attributeReference name="transactionLedgerEntryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Transaction Ledger Entry Amount</label>
-                <shortLabel>Amount</shortLabel>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="transactionDebitCreditCode" forceUppercase="true">
-                <label>Debit Credit Code</label>
-                <shortLabel>D/C</shortLabel>
-                <maxLength>1</maxLength>
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
 
-            <attributeReference name="transactionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Transaction Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
+  <bean id="Entry-inquiryDefinition" parent="Entry-inquiryDefinition-parentBean" />
 
-            <attribute name="organizationDocumentNumber" forceUppercase="false">
-                <label>Organization Document Number</label>
-                <shortLabel>Org. Doc. Nbr.</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="12" />
-                </control>
-            </attribute>
+  <bean id="Entry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="General Ledger Entry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBalanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntrySequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntryDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntryAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDebitCreditCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReferenceId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentReversalDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionEncumbranceUpdateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPostingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDateTimeStamp"
+                    p:noInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code" />
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="organizationReferenceId" forceUppercase="false">
-                <label>Organization Reference Id</label>
-                <shortLabel>Org Ref ID</shortLabel>
-                <maxLength>8</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-            </attribute>
 
-            <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
-                <label>Reference Document Type Code</label>
-                <shortLabel>Ref Doc Type Code</shortLabel>
-                <maxLength>4</maxLength>
-                <control>
-                    <text size="5" />
-                </control>
-            </attribute>
+  <bean id="Entry-lookupDefinition" parent="Entry-lookupDefinition-parentBean" />
 
-            <attribute name="referenceFinancialSystemOriginationCode" forceUppercase="false">
-                <label>Reference Origin Code</label>
-                <shortLabel>Ref Origin Code</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
-
-            <attribute name="referenceFinancialDocumentNumber" forceUppercase="false">
-                <label>Reference Document Number</label>
-                <shortLabel>Ref Doc Number</shortLabel>
-                <maxLength>9</maxLength>
-                <control>
-                    <text size="11" />
-                </control>
-            </attribute>
-
-            <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Document Reversal Date</label>
-                <shortLabel>Doc. Reversal Date</shortLabel>
-            </attributeReference>
-
-            <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
-                <label>Encumbrance Update Code</label>
-                <shortLabel>Encmbr. Updt. Code</shortLabel>
-                <maxLength>1</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-            <attributeReference name="transactionPostingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" />
-
-            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" />
-
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" >
-            	<label>Pending Entry Approved Indicator</label>
-                <shortLabel>Pending Entry Approved Indicator</shortLabel>
-            </attributeReference>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="Entry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="General Ledger Entry Lookup" />
+    <property name="lookupableID" value="glEntryLookupable" />
+    <property name="instructions" value="Lookup General Ledger Entries" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialObjectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear"
+              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalPeriodCode"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.pendingEntryOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDebitCreditCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

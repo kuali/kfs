@@ -1,118 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.bo.AdhocWorkgroup">
-    	
-    	<attributes>
-    	
-    		<attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Document Number</shortLabel>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-                <maxLength>8</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="AdhocWorkgroup" parent="AdhocWorkgroup-parentBean" />
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
-            
-			<attribute name="workgroupName">
-                <label>Workgroup Identifier</label>
-                <shortLabel>Workgroup</shortLabel>
+  <bean id="AdhocWorkgroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.bo.AdhocWorkgroup" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AdhocWorkgroup-documentNumber" />
+        <ref bean="AdhocWorkgroup-workgroupName" />
+        <ref bean="AdhocWorkgroup-permissionCode" />
+        <ref bean="AdhocWorkgroup-addedByPerson" />
+        <ref bean="AdhocWorkgroup-personAddedTimestamp" />
+        <ref bean="AdhocWorkgroup-objectId" />
+        <ref bean="AdhocWorkgroup-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>70</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="72" />
-                </control>
-            </attribute>
-            
-            <attribute name="permissionCode">
-                <label>Permission Type</label>
-                <maxLength>2</maxLength>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder" />
-                </control>
-            </attribute>
-            
-            <attribute name="addedByPerson" forceUppercase="true">
-                <label>Added By Person</label>
-                <shortLabel>prsnAdd</shortLabel>
+<!-- Attribute Definitions -->
 
-                <maxLength>20</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
 
-                <control>
-                    <text size="20" />
-                </control>
-            </attribute>
-            
-            <attribute name="personAddedTimestamp" forceUppercase="false">
-                <label>Person Added Timestamp</label>
-                <shortLabel>prsnAddTs</shortLabel>
+  <bean id="AdhocWorkgroup-documentNumber" parent="AdhocWorkgroup-documentNumber-parentBean" />
 
-                <maxLength>10</maxLength>
+  <bean id="AdhocWorkgroup-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Document Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="AdhocWorkgroup-workgroupName" parent="AdhocWorkgroup-workgroupName-parentBean" />
 
-                <validationPattern><date /></validationPattern>
+  <bean id="AdhocWorkgroup-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workgroupName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Workgroup Identifier" />
+    <property name="shortLabel" value="Workgroup" />
+    <property name="maxLength" value="70" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="72" />
+    </property>
+  </bean>
+  <bean id="AdhocWorkgroup-permissionCode" parent="AdhocWorkgroup-permissionCode-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
-            </attribute>
-            
-            <attribute name="objectId" forceUppercase="true">
-                <label>Object Id</label>
-                <shortLabel>GUID</shortLabel>
+  <bean id="AdhocWorkgroup-permissionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="permissionCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Permission Type" />
+    <property name="shortLabel" value="Permission Type" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="AdhocWorkgroup-addedByPerson" parent="AdhocWorkgroup-addedByPerson-parentBean" />
 
-                <maxLength>36</maxLength>
+  <bean id="AdhocWorkgroup-addedByPerson-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="addedByPerson" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Added By Person" />
+    <property name="shortLabel" value="prsnAdd" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  <bean id="AdhocWorkgroup-personAddedTimestamp" parent="AdhocWorkgroup-personAddedTimestamp-parentBean" />
 
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="AdhocWorkgroup-personAddedTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personAddedTimestamp" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person Added Timestamp" />
+    <property name="shortLabel" value="prsnAddTs" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="AdhocWorkgroup-objectId" parent="AdhocWorkgroup-objectId-parentBean" />
 
-                <control>
-                    <text size="36" />
-                </control>
-            </attribute>
+  <bean id="AdhocWorkgroup-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+  </bean>
+  <bean id="AdhocWorkgroup-versionNumber" parent="AdhocWorkgroup-versionNumber-parentBean" />
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-            </attribute>
-    	
-    	</attributes>
-    	
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AdhocWorkgroup-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+  </bean>
+</beans>

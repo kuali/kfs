@@ -1,149 +1,225 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader">
- 
-        <inquiry>
-            <title>Accounts Receivable Document Header Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="customerNumber" />
-                        <field attributeName="documentNumber" />
-                        <field attributeName="entryDate" />
-                        <field attributeName="financialDocumentExplanationText" />
-                        <field attributeName="processingChartOfAccountCode" />
-                        <field attributeName="processingOrganizationCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Accounts Receivable Document Header Lookup</title>
+  <bean id="AccountsReceivableDocumentHeader" parent="AccountsReceivableDocumentHeader-parentBean" />
 
-            <instructions>Look up an Accounts Receivable Document Header</instructions>
+  <bean id="AccountsReceivableDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader" />
+    <property name="inquiryDefinition" >
+      <ref bean="AccountsReceivableDocumentHeader-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AccountsReceivableDocumentHeader-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AccountsReceivableDocumentHeader-customerNumber" />
+        <ref bean="AccountsReceivableDocumentHeader-documentNumber" />
+        <ref bean="AccountsReceivableDocumentHeader-entryDate" />
+        <ref bean="AccountsReceivableDocumentHeader-financialDocumentExplanationText" />
+        <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccountCode" />
+        <ref bean="AccountsReceivableDocumentHeader-processingOrganizationCode" />
+        <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" />
+        <ref bean="AccountsReceivableDocumentHeader-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="customerNumber" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="entryDate" required="false" />
-                <lookupField attributeName="financialDocumentExplanationText" required="false" />
-                <lookupField attributeName="processingChartOfAccountCode" required="false" />
-                <lookupField attributeName="processingOrganizationCode" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="customerNumber" />
-                <field attributeName="documentNumber" />
-                <field attributeName="entryDate" />
-                <field attributeName="financialDocumentExplanationText" />
-                <field attributeName="processingChartOfAccountCode" />
-                <field attributeName="processingOrganizationCode" />
-            </resultFields>
-        </lookup>
+  <bean id="AccountsReceivableDocumentHeader-customerNumber" parent="AccountsReceivableDocumentHeader-customerNumber-parentBean" />
 
-        <attributes>
+  <bean id="AccountsReceivableDocumentHeader-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-documentNumber" parent="AccountsReceivableDocumentHeader-documentNumber-parentBean" />
 
-			<attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber"/>
+  <bean id="AccountsReceivableDocumentHeader-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-entryDate" parent="AccountsReceivableDocumentHeader-entryDate-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="AccountsReceivableDocumentHeader-entryDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="entryDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Entry Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="entryDate" />
+    <property name="description" value="entryDate description..." />
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-financialDocumentExplanationText" parent="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean" />
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentExplanationText" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Explanation Text" />
+    <property name="shortLabel" value="Text" />
+    <property name="maxLength" value="400" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="financialDocumentExplanationText" />
+    <property name="description" value="financialDocumentExplanationText description..." />
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" />
 
-                <control>
-                    <text size="16" />
-                </control>
+  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingChartOfAccountCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Processing Chart Of Account Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="processingChartOfAccountCode" />
+    <property name="description" value="processingChartOfAccountCode description..." />
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode" parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" />
 
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
+  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingOrganizationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Processing Organization Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="processingOrganizationCode" />
+    <property name="description" value="processingOrganizationCode description..." />
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean" />
 
-            <attribute name="entryDate" forceUppercase="true">
-                <label>Entry Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingChartOfAccCodeAndOrgCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Processing Org" />
+    <property name="shortLabel" value="Processing Org" />
+    <property name="maxLength" value="11" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="AccountsReceivableDocumentHeader-versionNumber" parent="AccountsReceivableDocumentHeader-versionNumber-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="AccountsReceivableDocumentHeader-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="9" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>entryDate</summary>
-                <description>entryDate description...</description>
-			</attribute>
 
-            <attribute name="financialDocumentExplanationText" forceUppercase="true">
-                <label>Financial Document Explanation Text</label>
-                <shortLabel>Text</shortLabel>
+  <bean id="AccountsReceivableDocumentHeader-inquiryDefinition" parent="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean" />
 
-                <maxLength>400</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Accounts Receivable Document Header Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="entryDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentExplanationText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingChartOfAccountCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingOrganizationCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>financialDocumentExplanationText</summary>
-                <description>financialDocumentExplanationText description...</description>
-			</attribute>
 
-            <attribute name="processingChartOfAccountCode" forceUppercase="true">
-                <label>Processing Chart Of Account Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AccountsReceivableDocumentHeader-lookupDefinition" parent="AccountsReceivableDocumentHeader-lookupDefinition-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>processingChartOfAccountCode</summary>
-                <description>processingChartOfAccountCode description...</description>
-			</attribute>
-
-            <attribute name="processingOrganizationCode" forceUppercase="true">
-                <label>Processing Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>processingOrganizationCode</summary>
-                <description>processingOrganizationCode description...</description>
-			</attribute>
-			
-			<attribute name="processingChartOfAccCodeAndOrgCode" forceUppercase="true">
-                <label>Processing Org</label>
-                <shortLabel>Processing Org</shortLabel>
-
-                <maxLength>11</maxLength>
-
-                <control>
-                    <text size="11" />
-                </control>
-            </attribute>		
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AccountsReceivableDocumentHeader-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Accounts Receivable Document Header Lookup" />
+    <property name="instructions" value="Look up an Accounts Receivable Document Header" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="entryDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentExplanationText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingOrganizationCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="entryDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentExplanationText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingOrganizationCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,64 +1,99 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.Security">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Security" parent="Security-parentBean" />
+
+  <bean id="Security-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Security" />
+    <property name="inquiryDefinition" >
+      <ref bean="Security-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Security-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="Security-kualiUser.personUniversalIdentifier" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Contracts and Grants Security</title>
+  <bean id="Security-kualiUser.personUniversalIdentifier" parent="Security-kualiUser.personUniversalIdentifier-parentBean" />
 
-            <inquirySections><inquirySection title="Security Details"><inquiryFields>
-                <field attributeName="kualiUser.personUniversalIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Security-kualiUser.personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="kualiUser.personUniversalIdentifier" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Kuali Universal User ID" />
+    <property name="shortLabel" value="UniversalID" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="50" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Contracts and Grants Security Lookup</title>
+<!-- Business Object Inquiry Definition -->
 
-            <instructions>Lookup a Contracts and Grants Security Record</instructions>
 
-            <defaultSort attributeName="kualiUser.personUniversalIdentifier" sortAscending="true" />
+  <bean id="Security-inquiryDefinition" parent="Security-inquiryDefinition-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="kualiUser.personUniversalIdentifier" required="true" />
-            </lookupFields>
+  <bean id="Security-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Contracts and Grants Security" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Security Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="kualiUser.personUniversalIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <resultFields>
-                <field attributeName="kualiUser.personUniversalIdentifier" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Lookup Definition -->
 
-        <attributes>
-            <attribute name="kualiUser.personUniversalIdentifier" forceUppercase="false">
-                <label>Kuali Universal User ID</label>
-                <shortLabel>UniversalID</shortLabel>
 
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter exactLength="50" />
-                </validationPattern>
+  <bean id="Security-lookupDefinition" parent="Security-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="50" />
-                </control>
-            </attribute>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="Security-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Contracts and Grants Security Lookup" />
+    <property name="instructions" value="Lookup a Contracts and Grants Security Record" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>kualiUser.personUniversalIdentifier</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="kualiUser.personUniversalIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="kualiUser.personUniversalIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

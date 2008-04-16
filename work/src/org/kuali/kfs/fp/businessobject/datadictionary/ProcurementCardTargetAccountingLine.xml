@@ -1,34 +1,422 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd" [
-<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">
-]>
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProcurementCardTargetAccountingLine" parent="ProcurementCardTargetAccountingLine-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-objectCode.financialObjectTypeCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-objectCode.financialObjectSubTypeCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-objectCode.financialObjectLevelCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-account.financialHigherEdFunctionCd" />
+        <ref bean="ProcurementCardTargetAccountingLine-account.subFundGroupCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-account.subFundGroup.fundGroupCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-balanceTypeCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-referenceNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-sequenceNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-financialObjectCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-accountNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-objectId" />
+        <ref bean="ProcurementCardTargetAccountingLine-organizationReferenceId" />
+        <ref bean="ProcurementCardTargetAccountingLine-chartOfAccountsCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-postingYear" />
+        <ref bean="ProcurementCardTargetAccountingLine-referenceOriginCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-overrideCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-amount" />
+        <ref bean="ProcurementCardTargetAccountingLine-subAccountNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-referenceTypeCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-projectCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-financialSubObjectCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-versionNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-documentNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-debitCreditCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-encumbranceUpdateCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-objectTypeCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-accountExpiredOverride" />
+        <ref bean="ProcurementCardTargetAccountingLine-nonFringeAccountOverride" />
+        <ref bean="ProcurementCardTargetAccountingLine-objectBudgetOverride" />
+        <ref bean="ProcurementCardTargetAccountingLine-financialDocumentLineDescription" />
+        <ref bean="ProcurementCardTargetAccountingLine-salesTaxRequired" />
+        <ref bean="ProcurementCardTargetAccountingLine-salesTax.chartOfAccountsCode" />
+        <ref bean="ProcurementCardTargetAccountingLine-salesTax.accountNumber" />
+        <ref bean="ProcurementCardTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
+        <ref bean="ProcurementCardTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
+        <ref bean="ProcurementCardTargetAccountingLine-salesTax.financialDocumentSaleDate" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <attributes>
+  <bean id="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber" parent="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber-parentBean" />
 
-            <attributeReference name="financialDocumentTransactionLineNumber" sourceClassName="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" sourceAttributeName="financialDocumentTransactionLineNumber" />
+  <bean id="ProcurementCardTargetAccountingLine-financialDocumentTransactionLineNumber-parentBean" abstract="true" parent="ProcurementCardSourceAccountingLine-financialDocumentTransactionLineNumber">
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectTypeCode" parent="ProcurementCardTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" />
 
-            &accountingLineBaseAttributes;
-        </attributes>
+  <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
+    <property name="name" value="objectCode.financialObjectTypeCode" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectSubTypeCode" parent="ProcurementCardTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" />
 
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectLevelCode" parent="ProcurementCardTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
+    <property name="name" value="objectCode.financialObjectLevelCode" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-account.financialHigherEdFunctionCd" parent="ProcurementCardTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="name" value="account.financialHigherEdFunctionCd" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-account.subFundGroupCode" parent="ProcurementCardTargetAccountingLine-account.subFundGroupCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-account.subFundGroup.fundGroupCode" parent="ProcurementCardTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="account.subFundGroup.fundGroupCode" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-balanceTypeCode" parent="ProcurementCardTargetAccountingLine-balanceTypeCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-referenceNumber" parent="ProcurementCardTargetAccountingLine-referenceNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Number" />
+    <property name="shortLabel" value="Ref Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-sequenceNumber" parent="ProcurementCardTargetAccountingLine-sequenceNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="sequenceNumber" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-financialObjectCode" parent="ProcurementCardTargetAccountingLine-financialObjectCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-accountNumber" parent="ProcurementCardTargetAccountingLine-accountNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-objectId" parent="ProcurementCardTargetAccountingLine-objectId-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-organizationReferenceId" parent="ProcurementCardTargetAccountingLine-organizationReferenceId-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Org Ref Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-chartOfAccountsCode" parent="ProcurementCardTargetAccountingLine-chartOfAccountsCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-postingYear" parent="ProcurementCardTargetAccountingLine-postingYear-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-referenceOriginCode" parent="ProcurementCardTargetAccountingLine-referenceOriginCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceOriginCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Ref Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-overrideCode" parent="ProcurementCardTargetAccountingLine-overrideCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-amount" parent="ProcurementCardTargetAccountingLine-amount-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The total dollar amount of check or batch of checks." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-subAccountNumber" parent="ProcurementCardTargetAccountingLine-subAccountNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode" parent="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+    <property name="name" value="referenceTypeCode" />
+    <property name="label" value="Reference Type Code" />
+    <property name="shortLabel" value="Ref Type Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-projectCode" parent="ProcurementCardTargetAccountingLine-projectCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The title of the project." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-financialSubObjectCode" parent="ProcurementCardTargetAccountingLine-financialSubObjectCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-versionNumber" parent="ProcurementCardTargetAccountingLine-versionNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-documentNumber" parent="ProcurementCardTargetAccountingLine-documentNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-debitCreditCode" parent="ProcurementCardTargetAccountingLine-debitCreditCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="debitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit or Debit Code" />
+    <property name="shortLabel" value="Credit/Debit" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="DC" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-encumbranceUpdateCode" parent="ProcurementCardTargetAccountingLine-encumbranceUpdateCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="encumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Encumbrance Update" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-objectTypeCode" parent="ProcurementCardTargetAccountingLine-objectTypeCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="objectTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-accountExpiredOverride" parent="ProcurementCardTargetAccountingLine-accountExpiredOverride-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountExpiredOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Expired Override" />
+    <property name="shortLabel" value="Expired Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-nonFringeAccountOverride" parent="ProcurementCardTargetAccountingLine-nonFringeAccountOverride-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Non-fringe Account Override" />
+    <property name="shortLabel" value="Non-fringe Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-objectBudgetOverride" parent="ProcurementCardTargetAccountingLine-objectBudgetOverride-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectBudgetOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Non-Budgeted Override" />
+    <property name="shortLabel" value="Non-Budgeted Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-financialDocumentLineDescription" parent="ProcurementCardTargetAccountingLine-financialDocumentLineDescription-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Description" />
+    <property name="shortLabel" value="Line Desc" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-salesTaxRequired" parent="ProcurementCardTargetAccountingLine-salesTaxRequired-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxRequired" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sales Tax Required" />
+    <property name="shortLabel" value="Sales Tax Reqd" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.chartOfAccountsCode" parent="ProcurementCardTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
+    <property name="name" value="salesTax.chartOfAccountsCode" />
+    <property name="label" value="Sales Tax Chart of Accounts Code" />
+    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.accountNumber" parent="ProcurementCardTargetAccountingLine-salesTax.accountNumber-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
+    <property name="name" value="salesTax.accountNumber" />
+    <property name="label" value="Sales Tax Account Number" />
+    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Account Number that Sales Tax is collected against" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="ProcurementCardTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
+    <property name="label" value="Gross Sales Amount" />
+    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="description" value="Gross Sales Amount to be taxed" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="ProcurementCardTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
+    <property name="label" value="Taxable Sales Amount" />
+    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="description" value="Taxable Sales Amount to be taxed" />
+  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.financialDocumentSaleDate" parent="ProcurementCardTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
+
+  <bean id="ProcurementCardTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate" />
+    <property name="label" value="Sale Date" />
+    <property name="description" value="Date of Sale" />
+  </bean>
+</beans>

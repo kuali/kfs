@@ -1,59 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.OrgType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="OrgTypeMaintenanceDocument" parent="OrgTypeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OrgTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrgType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrgTypeMaintenanceDocument-EditOrganizationType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>organizationTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Organization Type" />
+    <property name="shortLabel" value="Organization Type" />
+    <property name="summary" value="Organization Type Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create new Organization Types, or modify existing Organization Types." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="ORGANIZATION_TYPE"
+            p:parameterDetailType="OrgType" />
+    </property>
+    <property name="documentTypeName" value="OrgTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ORTY" />
+    <property name="workflowProperties" >
+      <ref bean="OrgTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>OrgTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ORTY</documentTypeCode>
-        <label>Organization Type</label>
-        <summary>Organization Type Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="OrgType" parameterName="ORGANIZATION_TYPE" />
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="organizationTypeCode" />
-        </lockingKeys>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Organization Type">
-                <maintainableItems>
-                    <maintainableField name="organizationTypeCode" required="true" />
-                    <maintainableField name="organizationTypeName" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
+  <bean id="OrgTypeMaintenanceDocument-EditOrganizationType" parent="OrgTypeMaintenanceDocument-EditOrganizationType-parentBean" />
 
-</dictionaryEntry>
+  <bean id="OrgTypeMaintenanceDocument-EditOrganizationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Type" />
+    <property name="title" value="Edit Organization Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationTypeName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="OrgTypeMaintenanceDocument-workflowProperties" parent="OrgTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="OrgTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

@@ -1,211 +1,507 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.LedgerEntryForExpenseTransfer">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="LedgerEntryForExpenseTransfer" parent="LedgerEntryForExpenseTransfer-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LedgerEntryForExpenseTransfer" />
+    <property name="inquiryDefinition" >
+      <ref bean="LedgerEntryForExpenseTransfer-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="LedgerEntryForExpenseTransfer-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="LedgerEntryForExpenseTransfer-universityFiscalPeriodCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-universityFiscalYear" />
+        <ref bean="LedgerEntryForExpenseTransfer-accountNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-subAccountNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-chartOfAccountsCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-earnCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-emplid" />
+        <ref bean="LedgerEntryForExpenseTransfer-employeeRecord" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialBalanceTypeCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-documentNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialDocumentReversalDate" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialDocumentTypeCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialObjectCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialObjectTypeCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialSubObjectCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-financialSystemOriginationCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-grade" />
+        <ref bean="LedgerEntryForExpenseTransfer-hrmsCompany" />
+        <ref bean="LedgerEntryForExpenseTransfer-laborLedgerOriginalAccountNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-laborLedgerOriginalChartOfAccountsCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialObjectCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialSubObjectCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-laborLedgerOriginalSubAccountNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-organizationDocumentNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-organizationReferenceId" />
+        <ref bean="LedgerEntryForExpenseTransfer-payGroup" />
+        <ref bean="LedgerEntryForExpenseTransfer-payPeriodEndDate" />
+        <ref bean="LedgerEntryForExpenseTransfer-payrollEndDateFiscalPeriodCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-payrollEndDateFiscalYear" />
+        <ref bean="LedgerEntryForExpenseTransfer-positionNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-projectCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-referenceFinancialDocumentNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-referenceFinancialDocumentTypeCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-referenceFinancialSystemOriginationCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-runIdentifier" />
+        <ref bean="LedgerEntryForExpenseTransfer-salaryAdministrationPlan" />
+        <ref bean="LedgerEntryForExpenseTransfer-setid" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionDate" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionDateTimeStamp" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionDebitCreditCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionEncumbranceUpdateCode" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionLedgerEntryAmount" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionLedgerEntryDescription" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionLedgerEntrySequenceNumber" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionPostingDate" />
+        <ref bean="LedgerEntryForExpenseTransfer-transactionTotalHours" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Ledger Entry Inquiry</title>
+  <bean id="LedgerEntryForExpenseTransfer-universityFiscalPeriodCode" parent="LedgerEntryForExpenseTransfer-universityFiscalPeriodCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="earnCode" />
-                <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentReversalDate" />
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="grade" />
-                <field attributeName="hrmsCompany" />
-                <field attributeName="laborLedgerOriginalAccountNumber" />
-                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
-                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
-                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />
-                <field attributeName="laborLedgerOriginalSubAccountNumber" />
-                <field attributeName="organizationDocumentNumber" />
-                <field attributeName="organizationReferenceId" />
-                <field attributeName="payGroup" />
-                <field attributeName="payPeriodEndDate" />
-                <field attributeName="payrollEndDateFiscalPeriodCode" />
-                <field attributeName="payrollEndDateFiscalYear" />
-                <field attributeName="positionNumber" />
-                <field attributeName="projectCode" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-                <field attributeName="referenceFinancialDocumentTypeCode" />
-                <field attributeName="referenceFinancialSystemOriginationCode" />
-                <field attributeName="runIdentifier" />
-                <field attributeName="salaryAdministrationPlan" />
-                <field attributeName="setid" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="transactionDate" />
-                <field attributeName="transactionDateTimeStamp" />
-                <field attributeName="transactionDebitCreditCode" />
-                <field attributeName="transactionEncumbranceUpdateCode" />
-                <field attributeName="transactionLedgerEntryAmount" />
-                <field attributeName="transactionLedgerEntryDescription" />
-                <field attributeName="transactionLedgerEntrySequenceNumber" />
-                <field attributeName="transactionPostingDate" />
-                <field attributeName="transactionTotalHours" />
-                <field attributeName="universityFiscalPeriodCode" />
-                <field attributeName="universityFiscalYear" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="LedgerEntryForExpenseTransfer-universityFiscalPeriodCode-parentBean" abstract="true" parent="LedgerEntry-universityFiscalPeriodCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-universityFiscalYear" parent="LedgerEntryForExpenseTransfer-universityFiscalYear-parentBean" />
 
-        <lookup>
-        	<lookupableID>laborLedgerEntryForExpenseTransferLookupable</lookupableID>
-        	
-            <title>Ledger Entry for Expense Transfer Lookup</title>
-            <instructions>Look up a Ledger Entry for Expense Transfer </instructions>
+  <bean id="LedgerEntryForExpenseTransfer-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-accountNumber" parent="LedgerEntryForExpenseTransfer-accountNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="financialBalanceTypeCode" />
-                    <sortAttribute attributeName="subAccountNumber" />
-                    <sortAttribute attributeName="financialObjectCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="LedgerEntryForExpenseTransfer-accountNumber-parentBean" abstract="true" parent="LedgerEntry-accountNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-subAccountNumber" parent="LedgerEntryForExpenseTransfer-subAccountNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />                
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                
-                <lookupField attributeName="financialBalanceTypeCode" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialObjectTypeCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                
-                <lookupField attributeName="universityFiscalPeriodCode" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-            </lookupFields>
+  <bean id="LedgerEntryForExpenseTransfer-subAccountNumber-parentBean" abstract="true" parent="LedgerEntry-subAccountNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-chartOfAccountsCode" parent="LedgerEntryForExpenseTransfer-chartOfAccountsCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="universityFiscalPeriodCode" />
-                <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="positionNumber" />
-                <field attributeName="projectCode" />
-                <field attributeName="transactionLedgerEntryDescription" />
-                <field attributeName="transactionLedgerEntryAmount" />
-                <field attributeName="transactionDebitCreditCode" />
-                <field attributeName="transactionDate" />
-                <field attributeName="organizationDocumentNumber" />
-                <field attributeName="organizationReferenceId" />
-                <field attributeName="referenceFinancialDocumentTypeCode" />
-                <field attributeName="referenceFinancialSystemOriginationCode" />
-                <field attributeName="referenceFinancialDocumentNumber" />
-                <field attributeName="financialDocumentReversalDate" />
-                <field attributeName="transactionEncumbranceUpdateCode" />
-                <field attributeName="transactionPostingDate" />
-                <field attributeName="payPeriodEndDate" />
-                <field attributeName="transactionTotalHours" />
-                <field attributeName="payrollEndDateFiscalYear" />
-                <field attributeName="payrollEndDateFiscalPeriodCode" />
-                <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
-				<field attributeName="earnCode" />
-                <field attributeName="payGroup" />
-                <field attributeName="salaryAdministrationPlan" />
-				<field attributeName="grade" />
-                <field attributeName="runIdentifier" />
-                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
-                <field attributeName="laborLedgerOriginalAccountNumber" />
-                <field attributeName="laborLedgerOriginalSubAccountNumber" />
-                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
-                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />				
-                <field attributeName="hrmsCompany" />
-                <field attributeName="setid" />				
-                <field attributeName="transactionDateTimeStamp" />
-                <field attributeName="transactionLedgerEntrySequenceNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="LedgerEntryForExpenseTransfer-chartOfAccountsCode-parentBean" abstract="true" parent="LedgerEntry-chartOfAccountsCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-earnCode" parent="LedgerEntryForExpenseTransfer-earnCode-parentBean" />
 
-        <attributes>
-            <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="universityFiscalPeriodCode" />
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="accountNumber"/>
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="subAccountNumber" />            
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="chartOfAccountsCode"/>
-            
-            <attributeReference name="earnCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="earnCode"/>
-            <attributeReference name="emplid" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="emplid" />
-            <attributeReference name="employeeRecord" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="employeeRecord" />
-            <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialBalanceTypeCode" />
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="documentNumber" />
-            <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialDocumentReversalDate" />
-            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialDocumentTypeCode" />
-            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialObjectCode" />
-            <attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialObjectTypeCode" />
-            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialSubObjectCode" />
-            <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialSystemOriginationCode" />
-            
-            <attributeReference name="grade" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="grade" />
-            <attributeReference name="hrmsCompany" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="hrmsCompany" />
-            <attributeReference name="laborLedgerOriginalAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalAccountNumber" />
-            <attributeReference name="laborLedgerOriginalChartOfAccountsCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalChartOfAccountsCode" />
-            <attributeReference name="laborLedgerOriginalFinancialObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalFinancialObjectCode" />
-            <attributeReference name="laborLedgerOriginalFinancialSubObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalFinancialSubObjectCode" />
-            <attributeReference name="laborLedgerOriginalSubAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalSubAccountNumber" />
-            <attributeReference name="organizationDocumentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="organizationDocumentNumber" />
-            <attributeReference name="organizationReferenceId" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="organizationReferenceId" />
-            <attributeReference name="payGroup" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payGroup" />
-            <attributeReference name="payPeriodEndDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payPeriodEndDate" />
-            <attributeReference name="payrollEndDateFiscalPeriodCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payrollEndDateFiscalPeriodCode" />
-            <attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payrollEndDateFiscalYear" />
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="positionNumber" />
-            <attributeReference name="projectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="projectCode" />
+  <bean id="LedgerEntryForExpenseTransfer-earnCode-parentBean" abstract="true" parent="LedgerEntry-earnCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-emplid" parent="LedgerEntryForExpenseTransfer-emplid-parentBean" />
 
-            <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="referenceFinancialDocumentNumber" />
-            <attributeReference name="referenceFinancialDocumentTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="referenceFinancialDocumentTypeCode" />
-            <attributeReference name="referenceFinancialSystemOriginationCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="referenceFinancialSystemOriginationCode" />
+  <bean id="LedgerEntryForExpenseTransfer-emplid-parentBean" abstract="true" parent="LedgerEntry-emplid">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-employeeRecord" parent="LedgerEntryForExpenseTransfer-employeeRecord-parentBean" />
 
-            <attributeReference name="runIdentifier" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="runIdentifier" />
-            <attributeReference name="salaryAdministrationPlan" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="salaryAdministrationPlan" />
-            <attributeReference name="setid" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="setid" />
+  <bean id="LedgerEntryForExpenseTransfer-employeeRecord-parentBean" abstract="true" parent="LedgerEntry-employeeRecord">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialBalanceTypeCode" parent="LedgerEntryForExpenseTransfer-financialBalanceTypeCode-parentBean" />
 
-            <attributeReference name="transactionDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDate" />
-            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDateTimeStamp" />
-            <attributeReference name="transactionDebitCreditCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDebitCreditCode" />
-            <attributeReference name="transactionEncumbranceUpdateCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionEncumbranceUpdateCode" />
-            <attributeReference name="transactionLedgerEntryAmount" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionLedgerEntryAmount" />
-            <attributeReference name="transactionLedgerEntryDescription" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionLedgerEntryDescription" />
-            <attributeReference name="transactionLedgerEntrySequenceNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionLedgerEntrySequenceNumber" />
-            <attributeReference name="transactionPostingDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionPostingDate" />
-            <attributeReference name="transactionTotalHours" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionTotalHours" />
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="LedgerEntryForExpenseTransfer-financialBalanceTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialBalanceTypeCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-documentNumber" parent="LedgerEntryForExpenseTransfer-documentNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-documentNumber-parentBean" abstract="true" parent="LedgerEntry-documentNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialDocumentReversalDate" parent="LedgerEntryForExpenseTransfer-financialDocumentReversalDate-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-financialDocumentReversalDate-parentBean" abstract="true" parent="LedgerEntry-financialDocumentReversalDate">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialDocumentTypeCode" parent="LedgerEntryForExpenseTransfer-financialDocumentTypeCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-financialDocumentTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialDocumentTypeCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialObjectCode" parent="LedgerEntryForExpenseTransfer-financialObjectCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-financialObjectCode-parentBean" abstract="true" parent="LedgerEntry-financialObjectCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialObjectTypeCode" parent="LedgerEntryForExpenseTransfer-financialObjectTypeCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-financialObjectTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialObjectTypeCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialSubObjectCode" parent="LedgerEntryForExpenseTransfer-financialSubObjectCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-financialSubObjectCode-parentBean" abstract="true" parent="LedgerEntry-financialSubObjectCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-financialSystemOriginationCode" parent="LedgerEntryForExpenseTransfer-financialSystemOriginationCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-financialSystemOriginationCode-parentBean" abstract="true" parent="LedgerEntry-financialSystemOriginationCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-grade" parent="LedgerEntryForExpenseTransfer-grade-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-grade-parentBean" abstract="true" parent="LedgerEntry-grade">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-hrmsCompany" parent="LedgerEntryForExpenseTransfer-hrmsCompany-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-hrmsCompany-parentBean" abstract="true" parent="LedgerEntry-hrmsCompany">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalAccountNumber" parent="LedgerEntryForExpenseTransfer-laborLedgerOriginalAccountNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="LedgerEntry-laborLedgerOriginalAccountNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalChartOfAccountsCode" parent="LedgerEntryForExpenseTransfer-laborLedgerOriginalChartOfAccountsCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="LedgerEntry-laborLedgerOriginalChartOfAccountsCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialObjectCode" parent="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialObjectCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="LedgerEntry-laborLedgerOriginalFinancialObjectCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialSubObjectCode" parent="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialSubObjectCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalSubAccountNumber" parent="LedgerEntryForExpenseTransfer-laborLedgerOriginalSubAccountNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="LedgerEntry-laborLedgerOriginalSubAccountNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-organizationDocumentNumber" parent="LedgerEntryForExpenseTransfer-organizationDocumentNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-organizationDocumentNumber-parentBean" abstract="true" parent="LedgerEntry-organizationDocumentNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-organizationReferenceId" parent="LedgerEntryForExpenseTransfer-organizationReferenceId-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-organizationReferenceId-parentBean" abstract="true" parent="LedgerEntry-organizationReferenceId">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-payGroup" parent="LedgerEntryForExpenseTransfer-payGroup-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-payGroup-parentBean" abstract="true" parent="LedgerEntry-payGroup">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-payPeriodEndDate" parent="LedgerEntryForExpenseTransfer-payPeriodEndDate-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-payPeriodEndDate-parentBean" abstract="true" parent="LedgerEntry-payPeriodEndDate">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-payrollEndDateFiscalPeriodCode" parent="LedgerEntryForExpenseTransfer-payrollEndDateFiscalPeriodCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="LedgerEntry-payrollEndDateFiscalPeriodCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-payrollEndDateFiscalYear" parent="LedgerEntryForExpenseTransfer-payrollEndDateFiscalYear-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-payrollEndDateFiscalYear-parentBean" abstract="true" parent="LedgerEntry-payrollEndDateFiscalYear">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-positionNumber" parent="LedgerEntryForExpenseTransfer-positionNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-positionNumber-parentBean" abstract="true" parent="LedgerEntry-positionNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-projectCode" parent="LedgerEntryForExpenseTransfer-projectCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-projectCode-parentBean" abstract="true" parent="LedgerEntry-projectCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-referenceFinancialDocumentNumber" parent="LedgerEntryForExpenseTransfer-referenceFinancialDocumentNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="LedgerEntry-referenceFinancialDocumentNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-referenceFinancialDocumentTypeCode" parent="LedgerEntryForExpenseTransfer-referenceFinancialDocumentTypeCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="LedgerEntry-referenceFinancialDocumentTypeCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-referenceFinancialSystemOriginationCode" parent="LedgerEntryForExpenseTransfer-referenceFinancialSystemOriginationCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="LedgerEntry-referenceFinancialSystemOriginationCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-runIdentifier" parent="LedgerEntryForExpenseTransfer-runIdentifier-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-runIdentifier-parentBean" abstract="true" parent="LedgerEntry-runIdentifier">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-salaryAdministrationPlan" parent="LedgerEntryForExpenseTransfer-salaryAdministrationPlan-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-salaryAdministrationPlan-parentBean" abstract="true" parent="LedgerEntry-salaryAdministrationPlan">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-setid" parent="LedgerEntryForExpenseTransfer-setid-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-setid-parentBean" abstract="true" parent="LedgerEntry-setid">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionDate" parent="LedgerEntryForExpenseTransfer-transactionDate-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionDate-parentBean" abstract="true" parent="LedgerEntry-transactionDate">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionDateTimeStamp" parent="LedgerEntryForExpenseTransfer-transactionDateTimeStamp-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionDateTimeStamp-parentBean" abstract="true" parent="LedgerEntry-transactionDateTimeStamp">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionDebitCreditCode" parent="LedgerEntryForExpenseTransfer-transactionDebitCreditCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionDebitCreditCode-parentBean" abstract="true" parent="LedgerEntry-transactionDebitCreditCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionEncumbranceUpdateCode" parent="LedgerEntryForExpenseTransfer-transactionEncumbranceUpdateCode-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="LedgerEntry-transactionEncumbranceUpdateCode">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionLedgerEntryAmount" parent="LedgerEntryForExpenseTransfer-transactionLedgerEntryAmount-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionLedgerEntryAmount-parentBean" abstract="true" parent="LedgerEntry-transactionLedgerEntryAmount">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionLedgerEntryDescription" parent="LedgerEntryForExpenseTransfer-transactionLedgerEntryDescription-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionLedgerEntryDescription-parentBean" abstract="true" parent="LedgerEntry-transactionLedgerEntryDescription">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionLedgerEntrySequenceNumber" parent="LedgerEntryForExpenseTransfer-transactionLedgerEntrySequenceNumber-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="LedgerEntry-transactionLedgerEntrySequenceNumber">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionPostingDate" parent="LedgerEntryForExpenseTransfer-transactionPostingDate-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionPostingDate-parentBean" abstract="true" parent="LedgerEntry-transactionPostingDate">
+  </bean>
+  <bean id="LedgerEntryForExpenseTransfer-transactionTotalHours" parent="LedgerEntryForExpenseTransfer-transactionTotalHours-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-transactionTotalHours-parentBean" abstract="true" parent="LedgerEntry-transactionTotalHours">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="LedgerEntryForExpenseTransfer-inquiryDefinition" parent="LedgerEntryForExpenseTransfer-inquiryDefinition-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Ledger Entry Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="earnCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="employeeRecord" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialBalanceTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentReversalDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="grade" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="hrmsCompany" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="laborLedgerOriginalSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationReferenceId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payGroup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payPeriodEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payrollEndDateFiscalPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payrollEndDateFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialSystemOriginationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="runIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="salaryAdministrationPlan" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="setid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDateTimeStamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionDebitCreditCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionEncumbranceUpdateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntryAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntryDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionLedgerEntrySequenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionPostingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionTotalHours" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalPeriodCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="LedgerEntryForExpenseTransfer-lookupDefinition" parent="LedgerEntryForExpenseTransfer-lookupDefinition-parentBean" />
+
+  <bean id="LedgerEntryForExpenseTransfer-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ledger Entry for Expense Transfer Lookup" />
+    <property name="lookupableID" value="laborLedgerEntryForExpenseTransferLookupable" />
+    <property name="instructions" value="Look up a Ledger Entry for Expense Transfer" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntryAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDebitCreditCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialSystemOriginationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentReversalDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionEncumbranceUpdateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionPostingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payPeriodEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionTotalHours" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payrollEndDateFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payrollEndDateFiscalPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employeeRecord" />
+        <bean parent="FieldDefinition"
+              p:attributeName="earnCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payGroup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryAdministrationPlan" />
+        <bean parent="FieldDefinition"
+              p:attributeName="grade" />
+        <bean parent="FieldDefinition"
+              p:attributeName="runIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalFinancialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition"
+              p:attributeName="setid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionDateTimeStamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionLedgerEntrySequenceNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

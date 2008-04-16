@@ -1,106 +1,227 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kfs.bo.Options</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="OptionsMaintenanceDocument" parent="OptionsMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OptionsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.Options" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OptionsMaintenanceDocument-EditSystemOptions" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="universityFinChartOfAcct"
+              p:attributeToHighlightOnFail="universityFinChartOfAcctCd"
+              p:displayFieldName="Chart of Accounts" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="objectType"
+              p:attributeToHighlightOnFail="finObjectTypeIncomecashCode"
+              p:displayFieldName="Income/Cash Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjTypeExpenditureexp"
+              p:attributeToHighlightOnFail="finObjTypeExpenditureexpCd"
+              p:displayFieldName="Expenditure/Expense Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjTypeExpendNotExp"
+              p:attributeToHighlightOnFail="finObjTypeExpendNotExpCode"
+              p:displayFieldName="Expenditure Not Expense Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjTypeExpNotExpend"
+              p:attributeToHighlightOnFail="finObjTypeExpNotExpendCode"
+              p:displayFieldName="Expense Not Expenditure Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialObjectTypeAssets"
+              p:attributeToHighlightOnFail="financialObjectTypeAssetsCd"
+              p:displayFieldName="Assets Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjectTypeLiabilities"
+              p:attributeToHighlightOnFail="finObjectTypeLiabilitiesCode"
+              p:displayFieldName="Liabilities Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjectTypeFundBalance"
+              p:attributeToHighlightOnFail="finObjectTypeFundBalanceCd"
+              p:displayFieldName="Fund Balance Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjTypeIncomeNotCash"
+              p:attributeToHighlightOnFail="finObjTypeIncomeNotCashCd"
+              p:displayFieldName="Income Not Cash Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjTypeCshNotIncome"
+              p:attributeToHighlightOnFail="finObjTypeCshNotIncomeCd"
+              p:displayFieldName="Cash Not Income Object Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="actualFinancialBalanceType"
+              p:attributeToHighlightOnFail="actualFinancialBalanceTypeCd"
+              p:displayFieldName="Actuals Balance Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="budgetCheckingBalanceType"
+              p:attributeToHighlightOnFail="budgetCheckingBalanceTypeCd"
+              p:displayFieldName="Budget Checking Balance Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="extrnlEncumFinBalanceTyp"
+              p:attributeToHighlightOnFail="extrnlEncumFinBalanceTypCd"
+              p:displayFieldName="External Encumbrance Balance Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="intrnlEncumFinBalanceTyp"
+              p:attributeToHighlightOnFail="intrnlEncumFinBalanceTypCd"
+              p:displayFieldName="Internal Encumbrance Balance Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="preencumbranceFinBalType"
+              p:attributeToHighlightOnFail="preencumbranceFinBalTypeCd"
+              p:displayFieldName="Pre-Encumbrance Balance Type" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="eliminationsFinBalanceType"
+              p:attributeToHighlightOnFail="eliminationsFinBalanceTypeCd"
+              p:displayFieldName="Eliminations Balance Type" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>universityFiscalYear</value>
+      </list>
+    </property>
+    <property name="label" value="System Options" />
+    <property name="shortLabel" value="System Options" />
+    <property name="summary" value="SystemOptionsMaintenanceDocument" />
+    <property name="description" value="Document used to create or update Options" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-SY"
+            p:parameterName="OPTIONS"
+            p:parameterDetailType="Options" />
+    </property>
+    <property name="documentTypeName" value="OptionsMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="SOPT" />
+    <property name="workflowProperties" >
+      <ref bean="OptionsMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>OptionsMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SOPT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>System Options</label>
 
-        <summary>SystemOptionsMaintenanceDocument</summary>
-        <description>Document used to create or update Options</description>
-        <help parameterNamespace="KFS-SY" parameterDetailType="Options" parameterName="OPTIONS" />
+  <bean id="OptionsMaintenanceDocument-EditSystemOptions" parent="OptionsMaintenanceDocument-EditSystemOptions-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="universityFiscalYear" />
-        </lockingKeys>
+  <bean id="OptionsMaintenanceDocument-EditSystemOptions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit System Options" />
+    <property name="title" value="Edit System Options" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYearName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYearStartYr"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYearStartMo"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialBeginBalanceLoadInd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetCheckingOptionsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFinChartOfAcctCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="actualFinancialBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="budgetCheckingBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="extrnlEncumFinBalanceTypCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="intrnlEncumFinBalanceTypCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="preencumbranceFinBalTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="eliminationsFinBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjTypeExpenditureexpCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjTypeExpendNotExpCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjTypeExpNotExpendCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjectTypeIncomecashCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjTypeIncomeNotCashCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjTypeCshNotIncomeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectTypeAssetsCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjectTypeLiabilitiesCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjectTypeFundBalanceCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="costShareEncumbranceBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="baseBudgetFinancialBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="monthlyBudgetFinancialBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectTypeTransferIncomeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectTypeTransferExpenseCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="nominalFinancialBalanceTypeCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <defaultExistenceChecks>
-            <reference attributeName="universityFinChartOfAcct" attributeToHighlightOnFail="universityFinChartOfAcctCd" displayFieldName="Chart of Accounts" />
-            <reference attributeName="objectType" attributeToHighlightOnFail="finObjectTypeIncomecashCode" displayFieldName="Income/Cash Object Type" />
-            <reference attributeName="finObjTypeExpenditureexp" attributeToHighlightOnFail="finObjTypeExpenditureexpCd" displayFieldName="Expenditure/Expense Object Type" />
-            <reference attributeName="finObjTypeExpendNotExp" attributeToHighlightOnFail="finObjTypeExpendNotExpCode" displayFieldName="Expenditure Not Expense Object Type" />
-            <reference attributeName="finObjTypeExpNotExpend" attributeToHighlightOnFail="finObjTypeExpNotExpendCode" displayFieldName="Expense Not Expenditure Object Type" />
+<!-- Exported Workflow Properties -->
 
-            <reference attributeName="financialObjectTypeAssets" attributeToHighlightOnFail="financialObjectTypeAssetsCd" displayFieldName="Assets Object Type" />
-            <reference attributeName="finObjectTypeLiabilities" attributeToHighlightOnFail="finObjectTypeLiabilitiesCode" displayFieldName="Liabilities Object Type" />
-            <reference attributeName="finObjectTypeFundBalance" attributeToHighlightOnFail="finObjectTypeFundBalanceCd" displayFieldName="Fund Balance Object Type" />
-            <reference attributeName="finObjTypeIncomeNotCash" attributeToHighlightOnFail="finObjTypeIncomeNotCashCd" displayFieldName="Income Not Cash Object Type" />
-            <reference attributeName="finObjTypeCshNotIncome" attributeToHighlightOnFail="finObjTypeCshNotIncomeCd" displayFieldName="Cash Not Income Object Type" />
-            <reference attributeName="actualFinancialBalanceType" attributeToHighlightOnFail="actualFinancialBalanceTypeCd" displayFieldName="Actuals Balance Type" />
-            <reference attributeName="budgetCheckingBalanceType" attributeToHighlightOnFail="budgetCheckingBalanceTypeCd" displayFieldName="Budget Checking Balance Type" />
-            <reference attributeName="extrnlEncumFinBalanceTyp" attributeToHighlightOnFail="extrnlEncumFinBalanceTypCd" displayFieldName="External Encumbrance Balance Type" />
-            <reference attributeName="intrnlEncumFinBalanceTyp" attributeToHighlightOnFail="intrnlEncumFinBalanceTypCd" displayFieldName="Internal Encumbrance Balance Type" />
-            <reference attributeName="preencumbranceFinBalType" attributeToHighlightOnFail="preencumbranceFinBalTypeCd" displayFieldName="Pre-Encumbrance Balance Type" />
-            <reference attributeName="eliminationsFinBalanceType" attributeToHighlightOnFail="eliminationsFinBalanceTypeCd" displayFieldName="Eliminations Balance Type" />
-        </defaultExistenceChecks>
 
-        <maintainableSections>
-            <maintainableSection title="Edit System Options">
-                <maintainableItems>
-                    <maintainableField name="universityFiscalYear" required="true" />
-                    <maintainableField name="universityFiscalYearName" required="true" />
-                    <maintainableField name="universityFiscalYearStartYr" required="true" />
-                    <maintainableField name="universityFiscalYearStartMo" required="true" />
-                    <maintainableField name="financialBeginBalanceLoadInd" required="true" />
-                    <maintainableField name="budgetCheckingOptionsCode" required="true" />
-                    <maintainableField name="universityFinChartOfAcctCd" required="true" />
-                    <maintainableField name="actualFinancialBalanceTypeCd" required="true" />
-                    <maintainableField name="budgetCheckingBalanceTypeCd" required="true" />
-                    <maintainableField name="extrnlEncumFinBalanceTypCd" required="true" />
-                    <maintainableField name="intrnlEncumFinBalanceTypCd" required="true" />
-                    <maintainableField name="preencumbranceFinBalTypeCd" required="true" />
-                    <maintainableField name="eliminationsFinBalanceTypeCd" required="true" />
-                    <maintainableField name="finObjTypeExpenditureexpCd" required="true" />
-                    <maintainableField name="finObjTypeExpendNotExpCode" required="true" />
-                    <maintainableField name="finObjTypeExpNotExpendCode" required="true" />
-                    <maintainableField name="finObjectTypeIncomecashCode" required="true" />
-                    <maintainableField name="finObjTypeIncomeNotCashCd" required="true" />
-                    <maintainableField name="finObjTypeCshNotIncomeCd" required="true" />
-                    <maintainableField name="financialObjectTypeAssetsCd" required="true" />
-                    <maintainableField name="finObjectTypeLiabilitiesCode" required="true" />
-                    <maintainableField name="finObjectTypeFundBalanceCd" required="true" />
-	                <maintainableField name="costShareEncumbranceBalanceTypeCd" required="true" />
-	                <maintainableField name="baseBudgetFinancialBalanceTypeCd" required="true" />
-	                <maintainableField name="monthlyBudgetFinancialBalanceTypeCd" required="true" />
-	                <maintainableField name="financialObjectTypeTransferIncomeCd" required="true" />
-	                <maintainableField name="financialObjectTypeTransferExpenseCd" required="true" />
-	                <maintainableField name="nominalFinancialBalanceTypeCd" required="true" />
-	                <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OptionsMaintenanceDocument-workflowProperties" parent="OptionsMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="OptionsMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

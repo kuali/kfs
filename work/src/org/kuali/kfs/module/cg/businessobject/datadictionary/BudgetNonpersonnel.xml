@@ -1,272 +1,292 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
+  <bean id="BudgetNonpersonnel" parent="BudgetNonpersonnel-parentBean" />
 
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetNonpersonnel">
+  <bean id="BudgetNonpersonnel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetNonpersonnel" />
+    <property name="objectLabel" value="Budget Nonpersonnel" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetNonpersonnel-budgetNonpersonnelCategoryCode" />
+        <ref bean="BudgetNonpersonnel-budgetNonpersonnelSubCategoryCode" />
+        <ref bean="BudgetNonpersonnel-budgetNonpersonnelSequenceNumber" />
+        <ref bean="BudgetNonpersonnel-budgetNonpersonnelDescription" />
+        <ref bean="BudgetNonpersonnel-agencyRequestAmount" />
+        <ref bean="BudgetNonpersonnel-budgetThirdPartyCostShareAmount" />
+        <ref bean="BudgetNonpersonnel-budgetInstitutionCostShareAmount" />
+        <ref bean="BudgetNonpersonnel-budgetOriginSequenceNumber" />
+        <ref bean="BudgetNonpersonnel-agencyCopyIndicator" />
+        <ref bean="BudgetNonpersonnel-budgetInstitutionCostShareCopyIndicator" />
+        <ref bean="BudgetNonpersonnel-budgetThirdPartyCostShareCopyIndicator" />
+        <ref bean="BudgetNonpersonnel-budgetOriginAgencyAmount" />
+        <ref bean="BudgetNonpersonnel-budgetOriginInstitutionCostShareAmount" />
+        <ref bean="BudgetNonpersonnel-budgetOriginThirdPartyCostShareAmount" />
+        <ref bean="BudgetNonpersonnel-nonpersonnelObjectCode" />
+      </list>
+    </property>
+  </bean>
 
-
-        <attributes>
-            <attribute name="budgetNonpersonnelCategoryCode" forceUppercase="true">
-                <label>Category</label>
-                <shortLabel>Code</shortLabel>
-                <maxLength>2</maxLength>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>Category Code</summary>
-                <description>Category Code</description>
-            </attribute>
-            
-            <attribute name="budgetNonpersonnelSubCategoryCode" forceUppercase="true">
-                <label>Sub-category</label>
-                <shortLabel>Code</shortLabel>
-                
-                <maxLength>3</maxLength>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>Sub Category Code</summary>
-                <description>Sub Category Code</description>
-            </attribute>
+<!-- Attribute Definitions -->
 
 
-            <attribute name="budgetNonpersonnelSequenceNumber" forceUppercase="true">
-                <label>Sequence Number</label>
-                <shortLabel>Sequence Number</shortLabel>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelCategoryCode" parent="BudgetNonpersonnel-budgetNonpersonnelCategoryCode-parentBean" />
 
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetNonpersonnelCategoryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Category" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Category Code" />
+    <property name="description" value="Category Code" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelSubCategoryCode" parent="BudgetNonpersonnel-budgetNonpersonnelSubCategoryCode-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelSubCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetNonpersonnelSubCategoryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub-category" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Sub Category Code" />
+    <property name="description" value="Sub Category Code" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelSequenceNumber" parent="BudgetNonpersonnel-budgetNonpersonnelSequenceNumber-parentBean" />
 
-                <summary>Sequence Number</summary>
-                <description>Sequence Number</description>
-            </attribute>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetNonpersonnelSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelDescription" parent="BudgetNonpersonnel-budgetNonpersonnelDescription-parentBean" />
 
-            <attribute name="budgetNonpersonnelDescription" forceUppercase="true">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="BudgetNonpersonnel-budgetNonpersonnelDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetNonpersonnelDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="BudgetNonpersonnel-agencyRequestAmount" parent="BudgetNonpersonnel-agencyRequestAmount-parentBean" />
 
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>false</required>
+  <bean id="BudgetNonpersonnel-agencyRequestAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyRequestAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Agency Amount Requested" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Agency Requested Amount" />
+    <property name="description" value="Agency Requested Amount" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetThirdPartyCostShareAmount" parent="BudgetNonpersonnel-budgetThirdPartyCostShareAmount-parentBean" />
 
-                <control>
-                    <text size="20" />
-                </control>
+  <bean id="BudgetNonpersonnel-budgetThirdPartyCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetThirdPartyCostShareAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="3rd Party Cost Share" />
+    <property name="shortLabel" value="3rd Party" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Third Party Cost Share Amount" />
+    <property name="description" value="Third Party Cost Share Amount" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetInstitutionCostShareAmount" parent="BudgetNonpersonnel-budgetInstitutionCostShareAmount-parentBean" />
 
-                <summary>Description</summary>
-                <description>Description</description>
-            </attribute>
+  <bean id="BudgetNonpersonnel-budgetInstitutionCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetInstitutionCostShareAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Institution Cost Share" />
+    <property name="shortLabel" value="Institution" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Institution Cost Share Amount" />
+    <property name="description" value="Institution Cost Share Amount" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetOriginSequenceNumber" parent="BudgetNonpersonnel-budgetOriginSequenceNumber-parentBean" />
 
-            <attribute name="agencyRequestAmount" forceUppercase="true">
-                <label>Agency Amount Requested</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="BudgetNonpersonnel-budgetOriginSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetOriginSequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Origin Sequence Number" />
+    <property name="shortLabel" value="Origin Sequence Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Origin Sequence Number" />
+    <property name="description" value="Origin Sequence Number" />
+  </bean>
+  <bean id="BudgetNonpersonnel-agencyCopyIndicator" parent="BudgetNonpersonnel-agencyCopyIndicator-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
+  <bean id="BudgetNonpersonnel-agencyCopyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="agencyCopyIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Copy Indicator" />
+    <property name="shortLabel" value="Copy Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Copy Indicator" />
+    <property name="description" value="Copy Indicator" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetInstitutionCostShareCopyIndicator" parent="BudgetNonpersonnel-budgetInstitutionCostShareCopyIndicator-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="BudgetNonpersonnel-budgetInstitutionCostShareCopyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetInstitutionCostShareCopyIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Institution Cost Share Copy Indicator" />
+    <property name="shortLabel" value="Institution Cost Share Copy Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Institution Cost Share Copy Indicator" />
+    <property name="description" value="Institution Cost Share Copy Indicator" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetThirdPartyCostShareCopyIndicator" parent="BudgetNonpersonnel-budgetThirdPartyCostShareCopyIndicator-parentBean" />
 
-                <summary>Agency Requested Amount</summary>
-                <description>Agency Requested Amount</description>
-            </attribute>
+  <bean id="BudgetNonpersonnel-budgetThirdPartyCostShareCopyIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetThirdPartyCostShareCopyIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Third Party Cost Share Copy Indicator" />
+    <property name="shortLabel" value="Third Party Cost Share Copy Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Third Party Cost Share Copy Indicator" />
+    <property name="description" value="Third PartyCost Share Copy Indicator" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetOriginAgencyAmount" parent="BudgetNonpersonnel-budgetOriginAgencyAmount-parentBean" />
 
-            <attribute name="budgetThirdPartyCostShareAmount" forceUppercase="true">
-                <label>3rd Party Cost Share</label>
-                <shortLabel>3rd Party</shortLabel>
+  <bean id="BudgetNonpersonnel-budgetOriginAgencyAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetOriginAgencyAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Origin Agency Amount" />
+    <property name="shortLabel" value="Origin Agency Amount" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Origin Agency Amount" />
+    <property name="description" value="Origin Agency Amount" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetOriginInstitutionCostShareAmount" parent="BudgetNonpersonnel-budgetOriginInstitutionCostShareAmount-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
+  <bean id="BudgetNonpersonnel-budgetOriginInstitutionCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetOriginInstitutionCostShareAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Origin Institution Cost Share Amount" />
+    <property name="shortLabel" value="Origin Institution Cost Share Amount" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Origin Institution Cost Share Amount" />
+    <property name="description" value="Origin Institution Cost Share Amount" />
+  </bean>
+  <bean id="BudgetNonpersonnel-budgetOriginThirdPartyCostShareAmount" parent="BudgetNonpersonnel-budgetOriginThirdPartyCostShareAmount-parentBean" />
 
-                <control>
-                    <text size="10" />
-                </control>
+  <bean id="BudgetNonpersonnel-budgetOriginThirdPartyCostShareAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetOriginThirdPartyCostShareAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Origin Third Party Cost Share Amount" />
+    <property name="shortLabel" value="Origin Third Party Cost Share Amount" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Origin Third Party Cost Share Amount" />
+    <property name="description" value="Origin Third Party Cost Share Amount" />
+  </bean>
+  <bean id="BudgetNonpersonnel-nonpersonnelObjectCode" parent="BudgetNonpersonnel-nonpersonnelObjectCode-parentBean" />
 
-                <summary>Third Party Cost Share Amount</summary>
-                <description>Third Party Cost Share Amount</description>
-            </attribute>
-
-            <attribute name="budgetInstitutionCostShareAmount" forceUppercase="true">
-                <label>Institution Cost Share</label>
-                <shortLabel>Institution</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Institution Cost Share Amount</summary>
-                <description>Institution Cost Share Amount</description>
-            </attribute>
-
-            <attribute name="budgetOriginSequenceNumber" forceUppercase="true">
-                <label>Origin Sequence Number</label>
-                <shortLabel>Origin Sequence Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Origin Sequence Number</summary>
-                <description>Origin Sequence Number</description>
-            </attribute>
-
-            <attribute name="agencyCopyIndicator" forceUppercase="true">
-                <label>Copy Indicator</label>
-                <shortLabel>Copy Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Copy Indicator</summary>
-                <description>Copy Indicator</description>
-            </attribute>
-
-            <attribute name="budgetInstitutionCostShareCopyIndicator" forceUppercase="true">
-                <label>Institution Cost Share Copy Indicator</label>
-                <shortLabel>Institution Cost Share Copy Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Institution Cost Share Copy Indicator</summary>
-                <description>Institution Cost Share Copy Indicator</description>
-            </attribute>
-
-            <attribute name="budgetThirdPartyCostShareCopyIndicator" forceUppercase="true">
-                <label>Third Party Cost Share Copy Indicator</label>
-                <shortLabel>Third Party Cost Share Copy Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Third Party Cost Share Copy Indicator</summary>
-                <description>Third PartyCost Share Copy Indicator</description>
-            </attribute>
-
-            <attribute name="budgetOriginAgencyAmount" forceUppercase="true">
-                <label>Origin Agency Amount</label>
-                <shortLabel>Origin Agency Amount</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Origin Agency Amount</summary>
-                <description>Origin Agency Amount</description>
-            </attribute>
-
-            <attribute name="budgetOriginInstitutionCostShareAmount" forceUppercase="true">
-                <label>Origin Institution Cost Share Amount</label>
-                <shortLabel>Origin Institution Cost Share Amount</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Origin Institution Cost Share Amount</summary>
-                <description>Origin Institution Cost Share Amount</description>
-            </attribute>
-
-            <attribute name="budgetOriginThirdPartyCostShareAmount" forceUppercase="true">
-                <label>Origin Third Party Cost Share Amount</label>
-                <shortLabel>Origin Third Party Cost Share Amount</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Origin Third Party Cost Share Amount</summary>
-                <description>Origin Third Party Cost Share Amount</description>
-            </attribute>
-
-            <attributeReference name="nonpersonnelObjectCode" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode" sourceAttributeName="budgetNonpersonnelObjectCode">
-                <label>Nonpersonnel Object Code</label>
-                <shortLabel>Nonpersonnel Object Code</shortLabel>
-                <summary>Nonpersonnel Object Code ...</summary>
-                <description>Nonpersonnel Object Code ...</description>
-            </attributeReference>
-
-        </attributes>
-        <objectLabel>Budget Nonpersonnel</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="BudgetNonpersonnel-nonpersonnelObjectCode-parentBean" abstract="true" parent="NonpersonnelObjectCode-budgetNonpersonnelObjectCode">
+    <property name="name" value="nonpersonnelObjectCode" />
+    <property name="label" value="Nonpersonnel Object Code" />
+    <property name="shortLabel" value="Nonpersonnel Object Code" />
+    <property name="summary" value="Nonpersonnel Object Code ..." />
+    <property name="description" value="Nonpersonnel Object Code ..." />
+  </bean>
+</beans>

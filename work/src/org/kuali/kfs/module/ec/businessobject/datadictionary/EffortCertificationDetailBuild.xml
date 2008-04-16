@@ -1,125 +1,253 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetailBuild">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Effort Certification Extract Line Build Inquiry</title>
+  <bean id="EffortCertificationDetailBuild" parent="EffortCertificationDetailBuild-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-            	<field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
-                
-                <field attributeName="effortCertificationBuildNumber" />
-            	<field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
-                <field attributeName="effortCertificationDocumentBuild.emplid"/>
-                               
-                <field attributeName="chartOfAccountsCode" />                                
-                <field attributeName="accountNumber" />   
-                <field attributeName="subAccountNumber" />
-                <field attributeName="positionNumber" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="sourceChartOfAccountsCode" />
-                <field attributeName="sourceAccountNumber" />
-                <field attributeName="costShareSourceSubAccountNumber" /> 
-                <field attributeName="financialDocumentPostingYear" /> 
+  <bean id="EffortCertificationDetailBuild-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationDetailBuild" />
+    <property name="inquiryDefinition" >
+      <ref bean="EffortCertificationDetailBuild-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EffortCertificationDetailBuild-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationBuildNumber" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationPayrollAmount" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent" />
+        <ref bean="EffortCertificationDetailBuild-financialDocumentPostingYear" />
+        <ref bean="EffortCertificationDetailBuild-accountNumber" />
+        <ref bean="EffortCertificationDetailBuild-chartOfAccountsCode" />
+        <ref bean="EffortCertificationDetailBuild-subAccountNumber" />
+        <ref bean="EffortCertificationDetailBuild-financialObjectCode" />
+        <ref bean="EffortCertificationDetailBuild-positionNumber" />
+        <ref bean="EffortCertificationDetailBuild-sourceAccountNumber" />
+        <ref bean="EffortCertificationDetailBuild-sourceChartOfAccountsCode" />
+        <ref bean="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" />
+        <ref bean="EffortCertificationDetailBuild-versionNumber" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="effortCertificationDocumentBuild.employee" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="effortCertificationDocumentBuild.employee.personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="effortCertificationDocumentBuild.emplid"
+                    p:targetName="personPayrollIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <field attributeName="effortCertificationUpdatedOverallPercent" /> 
-                <field attributeName="effortCertificationCalculatedOverallPercent" />                               
-                <field attributeName="effortCertificationPayrollAmount" />
-                
-                <field attributeName="effortCertificationOriginalPayrollAmount" />              
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+<!-- Attribute Definitions -->
 
-        <lookup>
-            <title>Effort Certification Extract Build Lookup</title>
 
-            <instructions>Look up an Effort Certification Extract Build</instructions>
+  <bean id="EffortCertificationDetailBuild-effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationBuildNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="effortCertificationBuildNumber" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="EffortCertificationDetailBuild-effortCertificationBuildNumber-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-effortCertificationBuildNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount" parent="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="effortCertificationDocumentBuild.universityFiscalYear" required="true" />
-                <lookupField attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" required="false" />
-                <lookupField attributeName="effortCertificationDocumentBuild.emplid" required="false" />
-            </lookupFields>
+  <bean id="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationOriginalPayrollAmount">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationPayrollAmount" parent="EffortCertificationDetailBuild-effortCertificationPayrollAmount-parentBean" />
 
-            <resultFields>                                                            
-            	<field attributeName="effortCertificationBuildNumber" />
-            	
-            	<field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
-            	<field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
-                <field attributeName="effortCertificationDocumentBuild.emplid"/>
-                              
-                <field attributeName="chartOfAccountsCode" />                                
-                <field attributeName="accountNumber" />   
-                <field attributeName="subAccountNumber" />
-                                
-                <field attributeName="sourceChartOfAccountsCode" />
-                <field attributeName="sourceAccountNumber" />
-                
-                <field attributeName="effortCertificationCalculatedOverallPercent" />
-                <field attributeName="effortCertificationPayrollAmount" />
-            </resultFields>
-        </lookup>
+  <bean id="EffortCertificationDetailBuild-effortCertificationPayrollAmount-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationPayrollAmount">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent-parentBean" />
 
-        <attributes>			
-            <attributeReference name="effortCertificationBuildNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="effortCertificationBuildNumber" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent-parentBean" />
 
-            <attributeReference name="effortCertificationOriginalPayrollAmount" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="effortCertificationOriginalPayrollAmount" />
-            <attributeReference name="effortCertificationPayrollAmount" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="effortCertificationPayrollAmount" />			
-			<attributeReference name="effortCertificationCalculatedOverallPercent" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="effortCertificationCalculatedOverallPercent" />		
-            <attributeReference name="effortCertificationUpdatedOverallPercent" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="effortCertificationUpdatedOverallPercent" />		
-            <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="financialDocumentPostingYear" />
-            
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-financialDocumentPostingYear" parent="EffortCertificationDetailBuild-financialDocumentPostingYear-parentBean" />
 
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
+  <bean id="EffortCertificationDetailBuild-financialDocumentPostingYear-parentBean" abstract="true" parent="EffortCertificationDetail-financialDocumentPostingYear">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-accountNumber" parent="EffortCertificationDetailBuild-accountNumber-parentBean" />
 
-			<attributeReference name="sourceAccountNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="sourceAccountNumber" />
-            <attributeReference name="sourceChartOfAccountsCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="sourceChartOfAccountsCode"/>
-            <attributeReference name="costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDetail" sourceAttributeName="costShareSourceSubAccountNumber" />
+  <bean id="EffortCertificationDetailBuild-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-chartOfAccountsCode" parent="EffortCertificationDetailBuild-chartOfAccountsCode-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            
-			<attributeReference name="effortCertificationDocumentBuild.effortCertificationBuildNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="effortCertificationBuildNumber" />
-            <attributeReference name="effortCertificationDocumentBuild.emplid" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="emplid"/>
-            <attributeReference name="effortCertificationDocumentBuild.universityFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="universityFiscalYear"/>			
-			<attributeReference name="effortCertificationDocumentBuild.effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="effortCertificationReportNumber"/>
-            
-        </attributes>
-        
-        <relationships>
-            <relationship objectAttributeName="effortCertificationDocumentBuild.employee" >
-                <primitiveAttribute sourceName="effortCertificationDocumentBuild.employee.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="effortCertificationDocumentBuild.emplid" targetName="personPayrollIdentifier" identifier="true" />
-	        </relationship>
-        </relationships>        
-    </businessObject>
-</dictionaryEntry>
+  <bean id="EffortCertificationDetailBuild-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-subAccountNumber" parent="EffortCertificationDetailBuild-subAccountNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-financialObjectCode" parent="EffortCertificationDetailBuild-financialObjectCode-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-positionNumber" parent="EffortCertificationDetailBuild-positionNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-sourceAccountNumber" parent="EffortCertificationDetailBuild-sourceAccountNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-sourceAccountNumber-parentBean" abstract="true" parent="EffortCertificationDetail-sourceAccountNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-sourceChartOfAccountsCode" parent="EffortCertificationDetailBuild-sourceChartOfAccountsCode-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-sourceChartOfAccountsCode-parentBean" abstract="true" parent="EffortCertificationDetail-sourceChartOfAccountsCode">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" parent="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="EffortCertificationDetail-costShareSourceSubAccountNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-versionNumber" parent="EffortCertificationDetailBuild-versionNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-effortCertificationBuildNumber">
+    <property name="name" value="effortCertificationDocumentBuild.effortCertificationBuildNumber" />
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-emplid">
+    <property name="name" value="effortCertificationDocumentBuild.emplid" />
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-universityFiscalYear">
+    <property name="name" value="effortCertificationDocumentBuild.universityFiscalYear" />
+  </bean>
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-effortCertificationReportNumber">
+    <property name="name" value="effortCertificationDocumentBuild.effortCertificationReportNumber" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="EffortCertificationDetailBuild-inquiryDefinition" parent="EffortCertificationDetailBuild-inquiryDefinition-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Effort Certification Extract Line Build Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationDocumentBuild.universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationBuildNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationDocumentBuild.emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sourceChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sourceAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="costShareSourceSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationUpdatedOverallPercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationCalculatedOverallPercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationPayrollAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="effortCertificationOriginalPayrollAmount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="EffortCertificationDetailBuild-lookupDefinition" parent="EffortCertificationDetailBuild-lookupDefinition-parentBean" />
+
+  <bean id="EffortCertificationDetailBuild-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Effort Certification Extract Build Lookup" />
+    <property name="instructions" value="Look up an Effort Certification Extract Build" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="effortCertificationDocumentBuild.universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDocumentBuild.emplid" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationBuildNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDocumentBuild.universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationDocumentBuild.emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sourceChartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sourceAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationCalculatedOverallPercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="effortCertificationPayrollAmount" />
+      </list>
+    </property>
+  </bean>
+</beans>

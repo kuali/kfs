@@ -1,90 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.AicpaFunction">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AicpaFunction" parent="AicpaFunction-parentBean" />
+
+  <bean id="AicpaFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.AicpaFunction" />
+    <property name="inquiryDefinition" >
+      <ref bean="AicpaFunction-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AicpaFunction-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="financialAicpaFunctionCode" />
+    <property name="objectLabel" value="AICPA Function" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AicpaFunction-financialAicpaFunctionCode" />
+        <ref bean="AicpaFunction-financialAicpaFunctionName" />
+        <ref bean="AicpaFunction-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>AICPA Function Inquiry</title>
+  <bean id="AicpaFunction-financialAicpaFunctionCode" parent="AicpaFunction-financialAicpaFunctionCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialAicpaFunctionCode" />
-                <field attributeName="financialAicpaFunctionName" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AicpaFunction-financialAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialAicpaFunctionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="AICPA Function Code" />
+    <property name="shortLabel" value="AICPA" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="AicpaFunction-financialAicpaFunctionName" parent="AicpaFunction-financialAicpaFunctionName-parentBean" />
 
-        <lookup>
-            <title>AICPA Function Lookup</title>
+  <bean id="AicpaFunction-financialAicpaFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialAicpaFunctionName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="AICPA Function Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="AicpaFunction-versionNumber" parent="AicpaFunction-versionNumber-parentBean" />
 
-            <instructions>Lookup an AICPA Function</instructions>
+  <bean id="AicpaFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <defaultSort attributeName="financialAicpaFunctionCode" sortAscending="true" />
-
-            <lookupFields>
-                <lookupField attributeName="financialAicpaFunctionCode" />
-                <lookupField attributeName="financialAicpaFunctionName" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="financialAicpaFunctionCode" forceInquiry="true" />
-                <field attributeName="financialAicpaFunctionName" />
-            </resultFields>
-        </lookup>
-
-        <titleAttribute>financialAicpaFunctionCode</titleAttribute>
-
-        <attributes>
-
-            <attribute name="financialAicpaFunctionCode" forceUppercase="true">
-                <label>AICPA Function Code</label>
-                <shortLabel>AICPA</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-            <attribute name="financialAicpaFunctionName" forceUppercase="true">
-                <label>AICPA Function Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AicpaFunction-inquiryDefinition" parent="AicpaFunction-inquiryDefinition-parentBean" />
 
-        </attributes>
-        
-        <objectLabel>AICPA Function</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AicpaFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="AICPA Function Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialAicpaFunctionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialAicpaFunctionName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AicpaFunction-lookupDefinition" parent="AicpaFunction-lookupDefinition-parentBean" />
+
+  <bean id="AicpaFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="AICPA Function Lookup" />
+    <property name="instructions" value="Lookup an AICPA Function" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialAicpaFunctionCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialAicpaFunctionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialAicpaFunctionName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialAicpaFunctionCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialAicpaFunctionName" />
+      </list>
+    </property>
+  </bean>
+</beans>

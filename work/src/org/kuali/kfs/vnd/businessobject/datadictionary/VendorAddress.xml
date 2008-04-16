@@ -1,203 +1,320 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorAddress">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Vendor Address Inquiry</title>
+  <bean id="VendorAddress" parent="VendorAddress-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorAddressEmailAddress" />
-                <field attributeName="vendorAddressGeneratedIdentifier" />
-                <field attributeName="vendorAddressInternationalProvinceName" />
-                <field attributeName="vendorAddressTypeCode" />
-                <field attributeName="vendorAttentionName" />
-                <field attributeName="vendorBusinessToBusinessUrlAddress" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorCountryCode" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorStateCode" />
-                <field attributeName="vendorZipCode" />
-                <field attributeName="vendorFaxNumber" />
-                <field attributeName="active"/>               
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="VendorAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorAddress" />
+    <property name="inquiryDefinition" >
+      <ref bean="VendorAddress-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="VendorAddress-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Address" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorAddress-vendorAddressEmailAddress" />
+        <ref bean="VendorAddress-vendorAddressGeneratedIdentifier" />
+        <ref bean="VendorAddress-vendorBusinessToBusinessUrlAddress" />
+        <ref bean="VendorAddress-vendorDefaultAddressIndicator" />
+        <ref bean="VendorAddress-vendorFaxNumber" />
+        <ref bean="VendorAddress-vendorAddressTypeCode" />
+        <ref bean="VendorAddress-newCollectionRecord" />
+        <ref bean="VendorAddress-versionNumber" />
+        <ref bean="VendorAddress-vendorLine1Address" />
+        <ref bean="VendorAddress-vendorLine2Address" />
+        <ref bean="VendorAddress-vendorCityName" />
+        <ref bean="VendorAddress-vendorStateCode" />
+        <ref bean="VendorAddress-vendorZipCode" />
+        <ref bean="VendorAddress-vendorCountryCode" />
+        <ref bean="VendorAddress-vendorAddressInternationalProvinceName" />
+        <ref bean="VendorAddress-vendorAttentionName" />
+        <ref bean="VendorAddress-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorAddress-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorAddress-active" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <lookupableID>vendorAddressLookupable</lookupableID>
-            
-            <title>Vendor Address Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Vendor Address</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorAddressTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorAddress-vendorAddressEmailAddress" parent="VendorAddress-vendorAddressEmailAddress-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="true" />
-                <lookupField attributeName="vendorDetailAssignedIdentifier" required="true" />
-                <lookupField attributeName="vendorAddressTypeCode" required="false" />
-                <lookupField attributeName="vendorLine1Address" required="false" />
-                <lookupField attributeName="vendorLine2Address" required="false" />
-                <lookupField attributeName="vendorCityName" required="false" />
-                <lookupField attributeName="vendorStateCode" required="false" />
-                <lookupField attributeName="vendorZipCode" required="false" />
-                <lookupField attributeName="vendorAddressInternationalProvinceName" required="false" />
-                <lookupField attributeName="vendorCountryCode" required="false" />
-                <lookupField attributeName="vendorAttentionName" required="false" />
-                <lookupField attributeName="vendorBusinessToBusinessUrlAddress" required="false" />
-                <lookupField attributeName="vendorFaxNumber" required="false" />
-                <lookupField attributeName="vendorAddressEmailAddress" required="false" />
-                <lookupField attributeName="active" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField> 
-            </lookupFields>
+  <bean id="VendorAddress-vendorAddressEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorAddressEmailAddress" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Email Address" />
+    <property name="shortLabel" value="Email Address" />
+    <property name="maxLength" value="90" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="VendorAddress-vendorAddressGeneratedIdentifier" parent="VendorAddress-vendorAddressGeneratedIdentifier-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorAddressTypeCode" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorStateCode" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorZipCode" />
-                <field attributeName="vendorCountryCode" />
-                <field attributeName="vendorFaxNumber" />
-            	<field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="VendorAddress-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorAddressGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Address Generated Identifier" />
+    <property name="shortLabel" value="Vendor Address Generated Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorAddress-vendorBusinessToBusinessUrlAddress" parent="VendorAddress-vendorBusinessToBusinessUrlAddress-parentBean" />
 
-        <attributes>
+  <bean id="VendorAddress-vendorBusinessToBusinessUrlAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorBusinessToBusinessUrlAddress" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="URL" />
+    <property name="shortLabel" value="URL" />
+    <property name="maxLength" value="90" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="VendorAddress-vendorDefaultAddressIndicator" parent="VendorAddress-vendorDefaultAddressIndicator-parentBean" />
 
-            <attribute name="vendorAddressEmailAddress" forceUppercase="false">
-                <label>Email Address</label>
-                <shortLabel>Email Address</shortLabel>
+  <bean id="VendorAddress-vendorDefaultAddressIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorDefaultAddressIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Set as Default Address" />
+    <property name="shortLabel" value="Default Address" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorAddress-vendorFaxNumber" parent="VendorAddress-vendorFaxNumber-parentBean" />
 
-                <maxLength>90</maxLength>
-                <validationPattern>
-                    <emailAddress />
-                </validationPattern>
+  <bean id="VendorAddress-vendorFaxNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+    <property name="name" value="vendorFaxNumber" />
+    <property name="label" value="Vendor Fax Number" />
+    <property name="shortLabel" value="Vendor Fax Number" />
+    <property name="maxLength" value="14" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+  </bean>
+  <bean id="VendorAddress-vendorAddressTypeCode" parent="VendorAddress-vendorAddressTypeCode-parentBean" />
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="VendorAddress-vendorAddressTypeCode-parentBean" abstract="true" parent="AddressType-vendorAddressTypeCode">
+    <property name="label" value="Address Type" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.AddressTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorAddress-newCollectionRecord" parent="VendorAddress-newCollectionRecord-parentBean" />
 
-			</attribute>
+  <bean id="VendorAddress-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorAddress-versionNumber" parent="VendorAddress-versionNumber-parentBean" />
 
-            <attribute name="vendorAddressGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Address Generated Identifier</label>
-                <shortLabel>Vendor Address Generated Identifier</shortLabel>
+  <bean id="VendorAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorAddress-vendorLine1Address" parent="VendorAddress-vendorLine1Address-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="VendorAddress-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="vendorLine1Address" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="VendorAddress-vendorLine2Address" parent="VendorAddress-vendorLine2Address-parentBean" />
 
-                <control>
-                    <hidden/>
-                </control>
+  <bean id="VendorAddress-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="vendorLine2Address" />
+  </bean>
+  <bean id="VendorAddress-vendorCityName" parent="VendorAddress-vendorCityName-parentBean" />
 
-			</attribute>
+  <bean id="VendorAddress-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="vendorCityName" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="VendorAddress-vendorStateCode" parent="VendorAddress-vendorStateCode-parentBean" />
 
-            <attribute name="vendorBusinessToBusinessUrlAddress" forceUppercase="false">
-                <label>URL</label>
-                <shortLabel>URL</shortLabel>
+  <bean id="VendorAddress-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="vendorStateCode" />
+  </bean>
+  <bean id="VendorAddress-vendorZipCode" parent="VendorAddress-vendorZipCode-parentBean" />
 
-                <maxLength>90</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="vendorZipCode" />
+  </bean>
+  <bean id="VendorAddress-vendorCountryCode" parent="VendorAddress-vendorCountryCode-parentBean" />
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="VendorAddress-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="vendorCountryCode" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="VendorAddress-vendorAddressInternationalProvinceName" parent="VendorAddress-vendorAddressInternationalProvinceName-parentBean" />
 
-			</attribute>
+  <bean id="VendorAddress-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+    <property name="name" value="vendorAddressInternationalProvinceName" />
+  </bean>
+  <bean id="VendorAddress-vendorAttentionName" parent="VendorAddress-vendorAttentionName-parentBean" />
 
-            <attribute name="vendorDefaultAddressIndicator" forceUppercase="false">
-                <label>Set as Default Address</label>
-                <shortLabel>Default Address</shortLabel>
+  <bean id="VendorAddress-vendorAttentionName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+    <property name="name" value="vendorAttentionName" />
+  </bean>
+  <bean id="VendorAddress-vendorHeaderGeneratedIdentifier" parent="VendorAddress-vendorHeaderGeneratedIdentifier-parentBean" />
 
-                <maxLength>1</maxLength>
+  <bean id="VendorAddress-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="VendorAddress-vendorDetailAssignedIdentifier" parent="VendorAddress-vendorDetailAssignedIdentifier-parentBean" />
 
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
-                </control>
+  <bean id="VendorAddress-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorAddress-active" parent="VendorAddress-active-parentBean" />
 
-            </attribute>
+  <bean id="VendorAddress-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-			<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
-                <label>Vendor Fax Number</label>
-                <shortLabel>Vendor Fax Number</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>14</maxLength>
- 
-                <control>
-                    <text size="14" />
-                </control>
 
-			</attributeReference>
-			
-			<attributeReference name="vendorAddressTypeCode" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeCode">
-                <label>Address Type</label>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.AddressTypeValuesFinder" />
-                </control>
-			</attributeReference>
-			
-			<attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
-			
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			<attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" >
-                <required>true</required>
-            </attributeReference>
-			<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address" />
-			<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" >
-                <required>true</required>
-            </attributeReference>
-            
-			<attributeReference name="vendorStateCode" 
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
-				sourceAttributeName="stateCode">
-				
-			</attributeReference>
-			
-			<attributeReference name="vendorZipCode" 
-				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
-				sourceAttributeName="zipCode" >
-				
-			</attributeReference>
-			
-			<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" >
-                <required>true</required>
-            </attributeReference>
-			<attributeReference name="vendorAddressInternationalProvinceName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="internationalProvinceName" />
-			<attributeReference name="vendorAttentionName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName" />
-			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-        </attributes>
-        <objectLabel>Address</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorAddress-inquiryDefinition" parent="VendorAddress-inquiryDefinition-parentBean" />
+
+  <bean id="VendorAddress-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Vendor Address Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAddressEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAddressGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAddressInternationalProvinceName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAddressTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAttentionName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorBusinessToBusinessUrlAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCountryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorFaxNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="VendorAddress-lookupDefinition" parent="VendorAddress-lookupDefinition-parentBean" />
+
+  <bean id="VendorAddress-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Address Lookup" />
+    <property name="lookupableID" value="vendorAddressLookupable" />
+    <property name="instructions" value="Lookup an Vendor Address" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:required="true"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAddressTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAddressInternationalProvinceName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAttentionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorBusinessToBusinessUrlAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorFaxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAddressEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAddressTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorFaxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

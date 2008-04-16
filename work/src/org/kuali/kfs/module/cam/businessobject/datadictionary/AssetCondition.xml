@@ -1,86 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetCondition">
- 
-        <inquiry>
-            <title>Asset Condition Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="active" />
-                        <field attributeName="assetConditionCode" />
-                        <field attributeName="assetConditionName" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Asset Condition Lookup</title>
+  <bean id="AssetCondition" parent="AssetCondition-parentBean" />
 
-            <instructions>Look up an Asset Condition</instructions>
+  <bean id="AssetCondition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetCondition" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetCondition-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetCondition-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetCondition-active" />
+        <ref bean="AssetCondition-assetConditionCode" />
+        <ref bean="AssetCondition-assetConditionName" />
+        <ref bean="AssetCondition-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="assetConditionCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="assetConditionCode" required="false" />
-                <lookupField attributeName="assetConditionName" required="false" />
-                <lookupField attributeName="active" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="assetConditionCode" />
-                <field attributeName="assetConditionName" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="AssetCondition-active" parent="AssetCondition-active-parentBean" />
 
-        <attributes>
+  <bean id="AssetCondition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="AssetCondition-assetConditionCode" parent="AssetCondition-assetConditionCode-parentBean" />
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="AssetCondition-assetConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetConditionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Condition Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="assetConditionCode" />
+    <property name="description" value="assetConditionCode description..." />
+  </bean>
+  <bean id="AssetCondition-assetConditionName" parent="AssetCondition-assetConditionName-parentBean" />
 
-            <attribute name="assetConditionCode" forceUppercase="true">
-                <label>Asset Condition Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AssetCondition-assetConditionName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetConditionName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Asset Condition Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="assetConditionName" />
+    <property name="description" value="assetConditionName description..." />
+  </bean>
+  <bean id="AssetCondition-versionNumber" parent="AssetCondition-versionNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AssetCondition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="3" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>assetConditionCode</summary>
-                <description>assetConditionCode description...</description>
-			</attribute>
 
-            <attribute name="assetConditionName" forceUppercase="false">
-                <label>Asset Condition Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="AssetCondition-inquiryDefinition" parent="AssetCondition-inquiryDefinition-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="AssetCondition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Condition Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetConditionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetConditionName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="42" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>assetConditionName</summary>
-                <description>assetConditionName description...</description>
-			</attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AssetCondition-lookupDefinition" parent="AssetCondition-lookupDefinition-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AssetCondition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Condition Lookup" />
+    <property name="instructions" value="Look up an Asset Condition" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="assetConditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetConditionName" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="assetConditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetConditionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

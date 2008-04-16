@@ -1,70 +1,91 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.AssetObjectCode</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AssetObjectCodeMaintenanceDocument" parent="AssetObjectCodeMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AssetObjectCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>COBJ</documentTypeCode>
+  <bean id="AssetObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetObjectCode" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AssetObjectCodeMaintenanceDocument-EditAssetObjectCode" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="capitalizationFinancialObject"
+              p:attributeToHighlightOnFail="capitalizationFinancialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="accumulatedDepreciationFinancialObject"
+              p:attributeToHighlightOnFail="accumulatedDepreciationFinancialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="depreciationExpenseFinancialObject"
+              p:attributeToHighlightOnFail="depreciationExpenseFinancialObjectCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>universityFiscalYear</value>
+        <value>chartOfAccountsCode</value>
+        <value>financialObjectSubTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Asset Object Code" />
+    <property name="shortLabel" value="Asset Object Code" />
+    <property name="summary" value="Asset Object Code maintenance document" />
+    <property name="description" value="Document used to create or update Asset Object Code objects" />
+    <property name="documentTypeName" value="AssetObjectCodeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="COBJ" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Asset Object Code</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Asset Object Code maintenance document</summary>
-        <description>Document used to create or update Asset Object Code objects</description>
 
-        <lockingKeys>
-            <field attributeName="universityFiscalYear" />
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="financialObjectSubTypeCode" />
-        </lockingKeys>
-        
-        <defaultExistenceChecks>
-            <reference attributeName="capitalizationFinancialObject" attributeToHighlightOnFail="capitalizationFinancialObjectCode" />
-            <reference attributeName="accumulatedDepreciationFinancialObject" attributeToHighlightOnFail="accumulatedDepreciationFinancialObjectCode" />
-            <reference attributeName="depreciationExpenseFinancialObject" attributeToHighlightOnFail="depreciationExpenseFinancialObjectCode" />
-        </defaultExistenceChecks>
-        
-        <maintainableSections>
-            <maintainableSection title="Edit Asset Object Code">
-                <maintainableItems>
-                    <maintainableField name="universityFiscalYear" required="true" />
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="financialObjectSubTypeCode" required="true" />
-                    <maintainableField name="capitalizationFinancialObjectCode" required="false" />
-                    <maintainableField name="accumulatedDepreciationFinancialObjectCode" required="false" />
-                    <maintainableField name="depreciationExpenseFinancialObjectCode" required="false" />
-					<maintainableField name="active" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AssetObjectCodeMaintenanceDocument-EditAssetObjectCode" parent="AssetObjectCodeMaintenanceDocument-EditAssetObjectCode-parentBean" />
+
+  <bean id="AssetObjectCodeMaintenanceDocument-EditAssetObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Asset Object Code" />
+    <property name="title" value="Edit Asset Object Code" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectSubTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalizationFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accumulatedDepreciationFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="depreciationExpenseFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

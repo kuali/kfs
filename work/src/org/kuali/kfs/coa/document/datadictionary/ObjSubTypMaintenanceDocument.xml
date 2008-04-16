@@ -1,60 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.ObjSubTyp</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ObjSubTypMaintenanceDocument" parent="ObjSubTypMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+  <bean id="ObjSubTypMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjSubTyp" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ObjSubTypMaintenanceDocument-EditObjectSub-Type" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+    <property name="label" value="Object Sub-Type" />
+    <property name="shortLabel" value="Object Sub-Type" />
+    <property name="summary" value="Object Sub-Type Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="OBJECT_SUB_TYPE"
+            p:parameterDetailType="ObjSubTyp" />
+    </property>
+    <property name="documentTypeName" value="ObjSubTypMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="OSTY" />
+    <property name="workflowProperties" >
+      <ref bean="ObjSubTypMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<!-- Maintenance Section Definitions -->
 
-        <documentTypeName>ObjSubTypMaintenanceDocument</documentTypeName>
-        <documentTypeCode>OSTY</documentTypeCode>
-        <label>Object Sub-Type</label>
-        <summary>Object Sub-Type Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ObjSubTyp" parameterName="OBJECT_SUB_TYPE" />
 
-        <lockingKeys>
-            <field attributeName="code" />
-        </lockingKeys>
+  <bean id="ObjSubTypMaintenanceDocument-EditObjectSub-Type" parent="ObjSubTypMaintenanceDocument-EditObjectSub-Type-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Object Sub-Type">
-                <maintainableItems>
-                    <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
+  <bean id="ObjSubTypMaintenanceDocument-EditObjectSub-Type-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Object Sub-Type" />
+    <property name="title" value="Edit Object Sub-Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ObjSubTypMaintenanceDocument-workflowProperties" parent="ObjSubTypMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ObjSubTypMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

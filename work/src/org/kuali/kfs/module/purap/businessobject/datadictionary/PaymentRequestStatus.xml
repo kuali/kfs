@@ -1,88 +1,123 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestStatus">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Payment Request Status Inquiry</title>
+  <bean id="PaymentRequestStatus" parent="PaymentRequestStatus-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="statusCode" />
-                <field attributeName="statusDescription" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PaymentRequestStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PaymentRequestStatus" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentRequestStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentRequestStatus-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="paymentRequestStatusCode" />
+    <property name="objectLabel" value="Payment Request Status" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentRequestStatus-statusCode" />
+        <ref bean="PaymentRequestStatus-statusDescription" />
+        <ref bean="PaymentRequestStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Payment Request Status Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Payment Request Status</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="statusDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PaymentRequestStatus-statusCode" parent="PaymentRequestStatus-statusCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="statusCode" required="false" />
-                <lookupField attributeName="statusDescription" required="false" />
-            </lookupFields>
+  <bean id="PaymentRequestStatus-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="statusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Request Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="PaymentRequestStatus-statusDescription" parent="PaymentRequestStatus-statusDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="statusCode" />
-                <field attributeName="statusDescription" />
-            </resultFields>
-        </lookup>
+  <bean id="PaymentRequestStatus-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="statusDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Request Status Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="PaymentRequestStatus-versionNumber" parent="PaymentRequestStatus-versionNumber-parentBean" />
 
-        <titleAttribute>paymentRequestStatusCode</titleAttribute>
+  <bean id="PaymentRequestStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-        <attributes>
-            <attribute name="statusCode" forceUppercase="true">
-                <label>Payment Request Status Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="PaymentRequestStatus-inquiryDefinition" parent="PaymentRequestStatus-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="PaymentRequestStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Request Status Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="statusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="statusDescription" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="statusDescription" forceUppercase="true">
-                <label>Payment Request Status Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="PaymentRequestStatus-lookupDefinition" parent="PaymentRequestStatus-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Payment Request Status</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PaymentRequestStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Request Status Lookup" />
+    <property name="instructions" value="Lookup a Payment Request Status" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="statusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="statusDescription" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="statusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="statusDescription" />
+      </list>
+    </property>
+  </bean>
+</beans>

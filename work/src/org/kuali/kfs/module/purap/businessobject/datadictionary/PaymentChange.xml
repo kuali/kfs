@@ -1,113 +1,155 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentChange">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Payment Change Inquiry</title>
+  <bean id="PaymentChange" parent="PaymentChange-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="paymentChangeIdentifier" />
-                <field attributeName="creditMemoIdentifier" />
-                <field attributeName="paymentRequestIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PaymentChange-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PaymentChange" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentChange-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentChange-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentChange-paymentChangeIdentifier" />
+        <ref bean="PaymentChange-creditMemoIdentifier" />
+        <ref bean="PaymentChange-paymentRequestIdentifier" />
+        <ref bean="PaymentChange-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Payment Change Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Payment Change</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="paymentChangeIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PaymentChange-paymentChangeIdentifier" parent="PaymentChange-paymentChangeIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="paymentChangeIdentifier" required="false" />
-                <lookupField attributeName="creditMemoIdentifier" required="false" />
-                <lookupField attributeName="paymentRequestIdentifier" required="false" />
-            </lookupFields>
+  <bean id="PaymentChange-paymentChangeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentChangeIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Change Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="PaymentChange-creditMemoIdentifier" parent="PaymentChange-creditMemoIdentifier-parentBean" />
 
-            <resultFields>
-                <field attributeName="paymentChangeIdentifier" />
-                <field attributeName="creditMemoIdentifier" />
-                <field attributeName="paymentRequestIdentifier" />
-            </resultFields>
-        </lookup>
+  <bean id="PaymentChange-creditMemoIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditMemoIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit Memo Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="PaymentChange-paymentRequestIdentifier" parent="PaymentChange-paymentRequestIdentifier-parentBean" />
 
-        <attributes>
+  <bean id="PaymentChange-paymentRequestIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentRequestIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Request Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="PaymentChange-versionNumber" parent="PaymentChange-versionNumber-parentBean" />
 
-            <attribute name="paymentChangeIdentifier" forceUppercase="true">
-                <label>Payment Change Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="PaymentChange-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="12" />
-                </control>
 
-			</attribute>
+  <bean id="PaymentChange-inquiryDefinition" parent="PaymentChange-inquiryDefinition-parentBean" />
 
-            <attribute name="creditMemoIdentifier" forceUppercase="true">
-                <label>Credit Memo Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="PaymentChange-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Change Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentChangeIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="creditMemoIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentRequestIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="11" />
-                </control>
 
-			</attribute>
+  <bean id="PaymentChange-lookupDefinition" parent="PaymentChange-lookupDefinition-parentBean" />
 
-            <attribute name="paymentRequestIdentifier" forceUppercase="true">
-                <label>Payment Request Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PaymentChange-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Change Lookup" />
+    <property name="instructions" value="Lookup a Payment Change" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentChangeIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="creditMemoIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentRequestIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentChangeIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="creditMemoIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentRequestIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

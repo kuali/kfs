@@ -1,57 +1,69 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.purap.document.PurchaseOrderReopenDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderReopenDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.PurchaseOrderReopenDocumentAuthorizer</documentAuthorizerClass>
-        
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_PUR_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <documentTypeName>PurchaseOrderReopenDocument</documentTypeName>
-        <documentTypeCode>POR</documentTypeCode>
+  <bean id="PurchaseOrderReopenDocument" parent="PurchaseOrderReopenDocument-parentBean" />
 
-        <label>Purchase Order Reopen</label>
+  <bean id="PurchaseOrderReopenDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Purchase Order Reopen" />
+    <property name="shortLabel" value="Purchase Order Reopen" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="PURCHASE_ORDER"
+            p:parameterDetailType="PurchaseOrder" />
+    </property>
+    <property name="documentTypeName" value="PurchaseOrderReopenDocument" />
+    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderReopenDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderReopenDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderReopenDocumentAuthorizer" />
+    <property name="documentTypeCode" value="POR" />
+    <property name="workflowProperties" >
+      <ref bean="PurchaseOrderReopenDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<!-- properties for routing -->
-        		<workflowProperty path="documentHeader" />
-        		<workflowProperty path="accountsForRouting" />
-        		<workflowProperty path="accountsForRouting.account" />
-        		<!-- extra properties for searches -->
-        		<workflowProperty path="status" />
-        		<workflowProperty path="contractManager" />
-        		<workflowProperty path="vendorContract" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-        
-    </transactionalDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PurchaseOrderReopenDocument-workflowProperties" parent="PurchaseOrderReopenDocument-workflowProperties-parentBean" />
+
+  <bean id="PurchaseOrderReopenDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="status" />
+              <bean parent="WorkflowProperty"
+                    p:path="contractManager" />
+              <bean parent="WorkflowProperty"
+                    p:path="vendorContract" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

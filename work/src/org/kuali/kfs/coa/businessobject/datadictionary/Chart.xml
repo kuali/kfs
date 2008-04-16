@@ -1,312 +1,361 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.Chart">
+  <bean id="Chart" parent="Chart-parentBean" />
+
+  <bean id="Chart-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Chart" />
+    <property name="inquiryDefinition" >
+      <ref bean="Chart-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Chart-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="chartOfAccountsCode" />
+    <property name="objectLabel" value="Chart" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Chart-chartOfAccountsCode" />
+        <ref bean="Chart-codeAndDescription" />
+        <ref bean="Chart-finCoaManagerUniversalId" />
+        <ref bean="Chart-finCoaManagerUniversal.personUserIdentifier" />
+        <ref bean="Chart-finCoaManagerUniversal.personName" />
+        <ref bean="Chart-finChartOfAccountDescription" />
+        <ref bean="Chart-finChartOfAccountActiveIndicator" />
+        <ref bean="Chart-financialCashObjectCode" />
+        <ref bean="Chart-finAccountsPayableObjectCode" />
+        <ref bean="Chart-incBdgtEliminationsFinObjCd" />
+        <ref bean="Chart-expBdgtEliminationsFinObjCd" />
+        <ref bean="Chart-reportsToChartOfAccountsCode" />
+        <ref bean="Chart-finAccountsReceivableObjCode" />
+        <ref bean="Chart-finInternalEncumbranceObjCd" />
+        <ref bean="Chart-finExternalEncumbranceObjCd" />
+        <ref bean="Chart-finPreEncumbranceObjectCode" />
+        <ref bean="Chart-icrIncomeFinancialObjectCode" />
+        <ref bean="Chart-icrExpenseFinancialObjectCd" />
+        <ref bean="Chart-fundBalanceObjectCode" />
+        <ref bean="Chart-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="finCoaManagerUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="finCoaManagerUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="finCoaManagerUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="finCoaManagerUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Chart Inquiry</title>
+  <bean id="Chart-chartOfAccountsCode" parent="Chart-chartOfAccountsCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="finCoaManagerUniversal.personName" />
-                <field attributeName="finChartOfAccountDescription" />
-                <field attributeName="finChartOfAccountActiveIndicator" />
-                <field attributeName="financialCashObjectCode" />
-                <field attributeName="finAccountsPayableObjectCode" />
-                <field attributeName="incBdgtEliminationsFinObjCd" />
-                <field attributeName="expBdgtEliminationsFinObjCd" />
-                <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="finAccountsReceivableObjCode" />
-                <field attributeName="finInternalEncumbranceObjCd" />
-                <field attributeName="finExternalEncumbranceObjCd" />
-                <field attributeName="finPreEncumbranceObjectCode" />
-                <field attributeName="icrIncomeFinancialObjectCode" />
-                <field attributeName="icrExpenseFinancialObjectCd" />
-                <field attributeName="fundBalanceObjectCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Chart-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Code" />
+    <property name="shortLabel" value="Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="Chart-codeAndDescription" parent="Chart-codeAndDescription-parentBean" />
 
-        <lookup>
-            <title>Chart Lookup</title>
+  <bean id="Chart-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Chart Code" />
+    <property name="shortLabel" value="Chart Code" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="Chart-finCoaManagerUniversalId" parent="Chart-finCoaManagerUniversalId-parentBean" />
 
-            <instructions>Lookup a Chart</instructions>
+  <bean id="Chart-finCoaManagerUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="finCoaManagerUniversalId" />
+    <property name="label" value="Chart Manager Employee Id" />
+    <property name="shortLabel" value="Chart Manager" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="finCoaManagerUniversal.personUserIdentifier" />
+  </bean>
+  <bean id="Chart-finCoaManagerUniversal.personUserIdentifier" parent="Chart-finCoaManagerUniversal.personUserIdentifier-parentBean" />
 
-            <defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />
+  <bean id="Chart-finCoaManagerUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="finCoaManagerUniversal.personUserIdentifier" />
+    <property name="label" value="Chart Manager UserID" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="finCoaManagerUniversal.personName"
+            p:universalIdAttributeName="finCoaManagerUniversalId"
+            p:userIdAttributeName="finCoaManagerUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="Chart-finCoaManagerUniversal.personName" parent="Chart-finCoaManagerUniversal.personName-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="chartOfAccountsCode" required="false" noLookup="true" />
-                <lookupField attributeName="finChartOfAccountDescription" />
-                <lookupField attributeName="finChartOfAccountActiveIndicator">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-                <lookupField attributeName="financialCashObjectCode" />
-                <lookupField attributeName="finAccountsPayableObjectCode" />
-            </lookupFields>
+  <bean id="Chart-finCoaManagerUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="finCoaManagerUniversal.personName" />
+    <property name="label" value="Chart Manager Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-finChartOfAccountDescription" parent="Chart-finChartOfAccountDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="finChartOfAccountDescription" />
-                <field attributeName="finChartOfAccountActiveIndicator" />
-                <field attributeName="financialCashObjectCode" />
-                <field attributeName="finAccountsPayableObjectCode" />
-                <field attributeName="finCoaManagerUniversal.personName" />
-            </resultFields>
-        </lookup>
+  <bean id="Chart-finChartOfAccountDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finChartOfAccountDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Chart Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="Chart-finChartOfAccountActiveIndicator" parent="Chart-finChartOfAccountActiveIndicator-parentBean" />
 
-        <titleAttribute>chartOfAccountsCode</titleAttribute>
+  <bean id="Chart-finChartOfAccountActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="finChartOfAccountActiveIndicator" />
+    <property name="label" value="Chart Active Indicator" />
+    <property name="shortLabel" value="ChartActive" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-financialCashObjectCode" parent="Chart-financialCashObjectCode-parentBean" />
 
-        <!--
-            Note that this has alot of items that should 
-            be converted to <attributeReference> tags, but until the 
-            underlying BO is updated to use real sub-objects rather 
-            than just strings, doing that will cause this DD to break.
-        -->
-        <attributes>
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Chart</shortLabel>
+  <bean id="Chart-financialCashObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="financialCashObjectCode" />
+    <property name="label" value="Cash Object Code" />
+    <property name="shortLabel" value="CashObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-finAccountsPayableObjectCode" parent="Chart-finAccountsPayableObjectCode-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha exactLength="2" />
-                </validationPattern>
-                <required>true</required>
+  <bean id="Chart-finAccountsPayableObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="finAccountsPayableObjectCode" />
+    <property name="label" value="Accounts Payable Object Code" />
+    <property name="shortLabel" value="APObjectCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-incBdgtEliminationsFinObjCd" parent="Chart-incBdgtEliminationsFinObjCd-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
-            </attribute>
+  <bean id="Chart-incBdgtEliminationsFinObjCd-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="incBdgtEliminationsFinObjCd" />
+    <property name="label" value="Income Budget Elimination Object Code" />
+    <property name="shortLabel" value="incBudgElimObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-expBdgtEliminationsFinObjCd" parent="Chart-expBdgtEliminationsFinObjCd-parentBean" />
 
-            <attribute name="codeAndDescription" forceUppercase="false">
-                <label>Chart Code</label>
-                <shortLabel>Chart Code</shortLabel>
+  <bean id="Chart-expBdgtEliminationsFinObjCd-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="expBdgtEliminationsFinObjCd" />
+    <property name="label" value="Expense Budget Elimination Object Code" />
+    <property name="shortLabel" value="expBudgElimObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-reportsToChartOfAccountsCode" parent="Chart-reportsToChartOfAccountsCode-parentBean" />
 
-                <maxLength>45</maxLength>
+  <bean id="Chart-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="reportsToChartOfAccountsCode" />
+    <property name="label" value="Reports To Chart of Accounts Code" />
+    <property name="shortLabel" value="rptsToChartCode" />
+  </bean>
+  <bean id="Chart-finAccountsReceivableObjCode" parent="Chart-finAccountsReceivableObjCode-parentBean" />
 
-                <control>
-                    <text size="45" />
-                </control>
-            </attribute>
+  <bean id="Chart-finAccountsReceivableObjCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="finAccountsReceivableObjCode" />
+    <property name="label" value="Accounts Receivable Object Code" />
+    <property name="shortLabel" value="acctsReceivObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-finInternalEncumbranceObjCd" parent="Chart-finInternalEncumbranceObjCd-parentBean" />
 
-            <attributeReference name="finCoaManagerUniversalId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Chart Manager Employee Id</label>
-                <shortLabel>Chart Manager</shortLabel>
-                <displayLabelAttribute>finCoaManagerUniversal.personUserIdentifier</displayLabelAttribute>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
+  <bean id="Chart-finInternalEncumbranceObjCd-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="finInternalEncumbranceObjCd" />
+    <property name="label" value="Internal Encumbrances Object Code" />
+    <property name="shortLabel" value="intEncumObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-finExternalEncumbranceObjCd" parent="Chart-finExternalEncumbranceObjCd-parentBean" />
 
-            <attributeReference name="finCoaManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Chart Manager UserID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="finCoaManagerUniversalId" userIdAttributeName="finCoaManagerUniversal.personUserIdentifier" personNameAttributeName="finCoaManagerUniversal.personName" />
-                </control>
-            </attributeReference>
+  <bean id="Chart-finExternalEncumbranceObjCd-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="finExternalEncumbranceObjCd" />
+    <property name="label" value="External Encumbrances Object Code" />
+    <property name="shortLabel" value="exEncumObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-finPreEncumbranceObjectCode" parent="Chart-finPreEncumbranceObjectCode-parentBean" />
 
-            <attributeReference name="finCoaManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Chart Manager Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
+  <bean id="Chart-finPreEncumbranceObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="finPreEncumbranceObjectCode" />
+    <property name="label" value="Pre Encumbrances Object Code" />
+    <property name="shortLabel" value="PreEncumObjCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-icrIncomeFinancialObjectCode" parent="Chart-icrIncomeFinancialObjectCode-parentBean" />
 
-            <attribute name="finChartOfAccountDescription" forceUppercase="false">
-                <label>Chart Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="Chart-icrIncomeFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="icrIncomeFinancialObjectCode" />
+    <property name="label" value="Indirect Cost Recovery Income Object Code" />
+    <property name="shortLabel" value="IndirecCostRecovIncObjCde" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-icrExpenseFinancialObjectCd" parent="Chart-icrExpenseFinancialObjectCd-parentBean" />
 
-                <maxLength>40</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
-            <attributeReference name="finChartOfAccountActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
-                <label>Chart Active Indicator</label>
-                <shortLabel>ChartActive</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="Chart-icrExpenseFinancialObjectCd-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="icrExpenseFinancialObjectCd" />
+    <property name="label" value="Indirect Cost Recovery Expense Object Code" />
+    <property name="shortLabel" value="IndirecCostRecovExpObjCde" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-fundBalanceObjectCode" parent="Chart-fundBalanceObjectCode-parentBean" />
 
-            <attributeReference name="financialCashObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Cash Object Code</label>
-                <shortLabel>CashObjCode</shortLabel>
+  <bean id="Chart-fundBalanceObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="fundBalanceObjectCode" />
+    <property name="label" value="Fund Balance Object Code" />
+    <property name="shortLabel" value="FndBalObjCde" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Chart-versionNumber" parent="Chart-versionNumber-parentBean" />
 
-                <maxLength>4</maxLength>
-                <required>false</required>
+  <bean id="Chart-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="finAccountsPayableObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Accounts Payable Object Code</label>
-                <shortLabel>APObjectCode</shortLabel>
 
-                <maxLength>4</maxLength>
-                <required>false</required>
+  <bean id="Chart-inquiryDefinition" parent="Chart-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
+  <bean id="Chart-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Chart Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finCoaManagerUniversal.personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finChartOfAccountDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finChartOfAccountActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialCashObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finAccountsPayableObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="incBdgtEliminationsFinObjCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expBdgtEliminationsFinObjCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="reportsToChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finAccountsReceivableObjCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finInternalEncumbranceObjCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finExternalEncumbranceObjCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="finPreEncumbranceObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="icrIncomeFinancialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="icrExpenseFinancialObjectCd" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fundBalanceObjectCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="incBdgtEliminationsFinObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Income Budget Elimination Object Code</label>
-                <shortLabel>incBudgElimObjCode</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>4</maxLength>
-                <required>false</required>
 
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
+  <bean id="Chart-lookupDefinition" parent="Chart-lookupDefinition-parentBean" />
 
-            <attributeReference name="expBdgtEliminationsFinObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Expense Budget Elimination Object Code</label>
-                <shortLabel>expBudgElimObjCode</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Reports To Chart of Accounts Code</label>
-                <shortLabel>rptsToChartCode</shortLabel>
-
-                <maxLength>2</maxLength>
-                <required>true</required>
-
-                <control>
-                	<text size="2"/>
-                </control>
-            </attributeReference>
-
-            <attributeReference name="finAccountsReceivableObjCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Accounts Receivable Object Code</label>
-                <shortLabel>acctsReceivObjCode</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="finInternalEncumbranceObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Internal Encumbrances Object Code</label>
-                <shortLabel>intEncumObjCode</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="finExternalEncumbranceObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>External Encumbrances Object Code</label>
-                <shortLabel>exEncumObjCode</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="finPreEncumbranceObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Pre Encumbrances Object Code</label>
-                <shortLabel>PreEncumObjCode</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="icrIncomeFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Indirect Cost Recovery Income Object Code</label>
-                <shortLabel>IndirecCostRecovIncObjCde</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-            <attributeReference name="icrExpenseFinancialObjectCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Indirect Cost Recovery Expense Object Code</label>
-                <shortLabel>IndirecCostRecovExpObjCde</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="fundBalanceObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Fund Balance Object Code</label>
-                <shortLabel>FndBalObjCde</shortLabel>
-
-                <maxLength>4</maxLength>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-
-        <relationships>
-            <relationship objectAttributeName="finCoaManagerUniversal" >
-                <primitiveAttribute sourceName="finCoaManagerUniversalId" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="finCoaManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="finCoaManagerUniversal.personName" targetName="personName" />
-            </relationship>
-        </relationships>
-
-        <objectLabel>Chart</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="Chart-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Chart Lookup" />
+    <property name="instructions" value="Lookup a Chart" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>chartOfAccountsCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finChartOfAccountDescription" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="finChartOfAccountActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialCashObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finAccountsPayableObjectCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finChartOfAccountDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finChartOfAccountActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialCashObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finAccountsPayableObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="finCoaManagerUniversal.personName" />
+      </list>
+    </property>
+  </bean>
+</beans>

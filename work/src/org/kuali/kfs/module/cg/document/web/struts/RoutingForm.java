@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.format.PhoneNumberFormatter;
 import org.kuali.kfs.context.SpringContext;
@@ -86,7 +87,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
 
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class.getName());
-        this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
+        this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderNavigationList().toArray( new HeaderNavigation[] {} ));
 
         setDocument(new RoutingFormDocument());
 

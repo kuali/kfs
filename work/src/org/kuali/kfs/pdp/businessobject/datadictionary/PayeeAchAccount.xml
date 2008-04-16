@@ -1,281 +1,415 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.pdp.bo.PayeeAchAccount">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Payee ACH Account</title>
-            
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="achAccountGeneratedIdentifier" />
-                <field attributeName="bankRoutingNumber" />
-                <field attributeName="bankAccountNumber" />
-                <field attributeName="payeeName" />
-                <field attributeName="payeeEmailAddress" />
-                <field attributeName="payeeIdentifierTypeCode" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="disbVchrPayeeIdNumber" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="payeeSocialSecurityNumber" />
-                <field attributeName="payeeFederalEmployerIdentificationNumber" />
-                <field attributeName="psdTransactionCode" />
-                <field attributeName="active" />
-                <field attributeName="bankAccountTypeCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-        
-        <lookup>
-            <lookupableID>pdpPayeeAchAccountLookupable</lookupableID>
+  <bean id="PayeeAchAccount" parent="PayeeAchAccount-parentBean" />
 
-            <title>Payee ACH Account Lookup</title>
+  <bean id="PayeeAchAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.pdp.bo.PayeeAchAccount" />
+    <property name="inquiryDefinition" >
+      <ref bean="PayeeAchAccount-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PayeeAchAccount-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PayeeAchAccount-achAccountGeneratedIdentifier" />
+        <ref bean="PayeeAchAccount-bankAccountNumber" />
+        <ref bean="PayeeAchAccount-bankAccountTypeCode" />
+        <ref bean="PayeeAchAccount-payeeName" />
+        <ref bean="PayeeAchAccount-payeeEmailAddress" />
+        <ref bean="PayeeAchAccount-payeeIdentifierTypeCode" />
+        <ref bean="PayeeAchAccount-payeeSocialSecurityNumber" />
+        <ref bean="PayeeAchAccount-payeeFederalEmployerIdentificationNumber" />
+        <ref bean="PayeeAchAccount-psdTransactionCode" />
+        <ref bean="PayeeAchAccount-bankRoutingNumber" />
+        <ref bean="PayeeAchAccount-vendorHeaderGeneratedIdentifier" />
+        <ref bean="PayeeAchAccount-vendorDetailAssignedIdentifier" />
+        <ref bean="PayeeAchAccount-vendorNumber" />
+        <ref bean="PayeeAchAccount-disbVchrPayeeIdNumber" />
+        <ref bean="PayeeAchAccount-personUniversalIdentifier" />
+        <ref bean="PayeeAchAccount-active" />
+        <ref bean="PayeeAchAccount-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="vendorDetail" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="vendorNumber"
+                    p:targetName="vendorNumber" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="vendorHeaderGeneratedIdentifier"
+                    p:targetName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="vendorDetailAssignedIdentifier"
+                    p:targetName="vendorDetailAssignedIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <instructions>Lookup a Payee ACH Account</instructions>
+<!-- Attribute Definitions -->
 
-            <defaultSort attributeName="achAccountGeneratedIdentifier" sortAscending="true" />
 
-            <lookupFields>
-                <lookupField attributeName="bankRoutingNumber" />
-                <lookupField attributeName="bankAccountNumber" />
-                <lookupField attributeName="bankAccountTypeCode" />
-                <lookupField attributeName="payeeName" />
-                <lookupField attributeName="payeeIdentifierTypeCode" />
-                <lookupField attributeName="vendorNumber" />
-                <lookupField attributeName="disbVchrPayeeIdNumber" />
-                <lookupField attributeName="personUniversalIdentifier" />
-                <lookupField attributeName="payeeSocialSecurityNumber" />
-                <lookupField attributeName="payeeFederalEmployerIdentificationNumber" />
-                <lookupField attributeName="psdTransactionCode" />
-                <lookupField attributeName="active" />
-            </lookupFields>
+  <bean id="PayeeAchAccount-achAccountGeneratedIdentifier" parent="PayeeAchAccount-achAccountGeneratedIdentifier-parentBean" />
 
-            <resultFields>
-                <field attributeName="payeeName" />
-                <field attributeName="payeeEmailAddress" />
-                <field attributeName="payeeIdentifierTypeCode" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
-        
-       <attributes>
-            <attribute name="achAccountGeneratedIdentifier" forceUppercase="true">
-                <label>ACH Account Generated Identifier</label>
-                <shortLabel>ACH Account ID</shortLabel>
-                <maxLength>10</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>ACH Account Generated Identifier</summary>
-                <description>ACH Account Generated ID.</description>
-            </attribute>
-           
-            <attribute name="bankAccountNumber" forceUppercase="true">
-                <label>Bank Account Number</label>
-                <shortLabel>Bank Account Number</shortLabel>
-                <maxLength>17</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="17" />
-                </control>
-                <attributeAuthorization>
-					<displayWorkgroup>PD_VIEW_ACH</displayWorkgroup>
-					<displayMask>
-						<maskLiteral literal="*****************" />
-					</displayMask>
-				</attributeAuthorization>
-                <summary>Bank Account Number</summary>
-                <description>Bank Account Number.</description>
-            </attribute>
-            
-            <attribute name="bankAccountTypeCode" >
-                <label>Account Type</label>
-                <shortLabel>Account Type</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <charset validChars="23" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.CheckingSavingsValuesFinder" />
-                </control>
-                <summary>Bank Account Type Code summary...</summary>
-                <description>22=Checking 32=Savings.</description>
-            </attribute>
+  <bean id="PayeeAchAccount-achAccountGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="achAccountGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="ACH Account Generated Identifier" />
+    <property name="shortLabel" value="ACH Account ID" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="ACH Account Generated Identifier" />
+    <property name="description" value="ACH Account Generated ID." />
+  </bean>
+  <bean id="PayeeAchAccount-bankAccountNumber" parent="PayeeAchAccount-bankAccountNumber-parentBean" />
 
-             <attribute name="payeeName" forceUppercase="true">
-                <label>Name</label>
-                <shortLabel>Name</shortLabel>
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="51" />
-                </control>
-                <summary>Name</summary>
-                <description>Payee Name.</description>
-            </attribute>
-  
-             <attribute name="payeeEmailAddress" >
-                <label>Email Address</label>
-                <shortLabel>Email Address</shortLabel>
-                <maxLength>43</maxLength>
-                <validationPattern>
-                    <emailAddress />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="43" />
-                </control>
-                <summary>Payee Email Address</summary>
-                <description>Payee Email Address.</description>
-             </attribute>
-             
-             <attribute name="payeeIdentifierTypeCode" forceUppercase="true">
-                <label>Payee Type Code</label>
-                <shortLabel>Payee Type Code</shortLabel>
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <charset validChars="EFPSV" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.PayeeTypeCodeValuesFinder" />
-                </control>
-                <summary>Payee Type Code</summary>
-                <description>E=Employee V=Vendor F=FEIN S=SSN P=DV Payee</description>
-            </attribute>
+  <bean id="PayeeAchAccount-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Bank Account Number" />
+    <property name="shortLabel" value="Bank Account Number" />
+    <property name="maxLength" value="17" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="17" />
+    </property>
+    <property name="displayMask" >
+      <bean parent="Mask">
+        <property name="maskFormatter" >
+          <bean parent="MaskFormatterLiteral"
+                p:literal="*****************" />
+        </property>
+      </bean>
+    </property>
+    <property name="displayWorkgroup" value="PD_VIEW_ACH" />
+    <property name="summary" value="Bank Account Number" />
+    <property name="description" value="Bank Account Number." />
+  </bean>
+  <bean id="PayeeAchAccount-bankAccountTypeCode" parent="PayeeAchAccount-bankAccountTypeCode-parentBean" />
 
-             <attribute name="payeeSocialSecurityNumber" >
-                <label>Social Security Number</label>
-                <shortLabel>SSN</shortLabel>
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <control>
-                    <text size="9" />
-                </control>
-                <attributeAuthorization>
-					<displayWorkgroup>KAULI_PDP_ACH</displayWorkgroup>
-					<displayMask>
-						<maskLiteral literal="*********" />
-					</displayMask>
-				</attributeAuthorization>
-                <summary>Payee SSN</summary>
-                <description>Payee SSN.</description>
-            </attribute>
+  <bean id="PayeeAchAccount-bankAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankAccountTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Type" />
+    <property name="shortLabel" value="Account Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="23" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.CheckingSavingsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Bank Account Type Code summary..." />
+    <property name="description" value="22=Checking 32=Savings." />
+  </bean>
+  <bean id="PayeeAchAccount-payeeName" parent="PayeeAchAccount-payeeName-parentBean" />
 
-             <attribute name="payeeFederalEmployerIdentificationNumber" forceUppercase="true">
-                <label>FEIN Number</label>
-                <shortLabel>FEIN Number</shortLabel>
-                <maxLength>9</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <control>
-                    <text size="9" />
-                </control>
-                <summary>Federal Employee Identification Number</summary>
-                <description>Federal Employee Identification Number.</description>
-            </attribute>
+  <bean id="PayeeAchAccount-payeeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="51" />
+    </property>
+    <property name="summary" value="Name" />
+    <property name="description" value="Payee Name." />
+  </bean>
+  <bean id="PayeeAchAccount-payeeEmailAddress" parent="PayeeAchAccount-payeeEmailAddress-parentBean" />
 
-             <attribute name="psdTransactionCode" forceUppercase="true">
-                <label>PSD Transaction Code</label>
-                <shortLabel>PSD Transaction Code</shortLabel>
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="5" />
-                </control>
-                <summary>PSD Transaction Code</summary>
-                <description>PSD Transaction Code.</description>
-            </attribute>
-            
-            <attributeReference name="bankRoutingNumber" sourceClassName="org.kuali.module.pdp.bo.AchBank" sourceAttributeName="bankRoutingNumber" />
-            
-			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
-                <label>Vendor</label>
-                <shortLabel>Vendor</shortLabel>
-                <control>
-                    <hidden/>
-                </control>
-			</attributeReference>
-			
-			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
-                <label>Vendor</label>
-                <shortLabel>Vendor</shortLabel>
-                <control>
-                    <hidden/>
-                </control>
-			</attributeReference>
+  <bean id="PayeeAchAccount-payeeEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeEmailAddress" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Email Address" />
+    <property name="shortLabel" value="Email Address" />
+    <property name="maxLength" value="43" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="43" />
+    </property>
+    <property name="summary" value="Payee Email Address" />
+    <property name="description" value="Payee Email Address." />
+  </bean>
+  <bean id="PayeeAchAccount-payeeIdentifierTypeCode" parent="PayeeAchAccount-payeeIdentifierTypeCode-parentBean" />
 
-			<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber">
-                <label>Vendor Number</label>
-                <shortLabel>Vendor Number</shortLabel>
-                <control>
-                    <lookupReadonly/>
-                </control>
-			</attributeReference>
-			             
-            <attributeReference name="disbVchrPayeeIdNumber" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeIdNumber">
-            	<label>Disbursement Voucher Payee ID</label>
-            </attributeReference> 
+  <bean id="PayeeAchAccount-payeeIdentifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeIdentifierTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payee Type Code" />
+    <property name="shortLabel" value="Payee Type Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="EFPSV" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.PayeeTypeCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Payee Type Code" />
+    <property name="description" value="E=Employee V=Vendor F=FEIN S=SSN P=DV Payee" />
+  </bean>
+  <bean id="PayeeAchAccount-payeeSocialSecurityNumber" parent="PayeeAchAccount-payeeSocialSecurityNumber-parentBean" />
 
-             <attributeReference name="personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Payee User ID</label>
-                <shortLabel>Payee User ID</shortLabel>
-            </attributeReference>
+  <bean id="PayeeAchAccount-payeeSocialSecurityNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeSocialSecurityNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Social Security Number" />
+    <property name="shortLabel" value="SSN" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="displayMask" >
+      <bean parent="Mask">
+        <property name="maskFormatter" >
+          <bean parent="MaskFormatterLiteral"
+                p:literal="*********" />
+        </property>
+      </bean>
+    </property>
+    <property name="displayWorkgroup" value="KAULI_PDP_ACH" />
+    <property name="summary" value="Payee SSN" />
+    <property name="description" value="Payee SSN." />
+  </bean>
+  <bean id="PayeeAchAccount-payeeFederalEmployerIdentificationNumber" parent="PayeeAchAccount-payeeFederalEmployerIdentificationNumber-parentBean" />
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" >
-            	<required>true</required>
-            </attributeReference>      
+  <bean id="PayeeAchAccount-payeeFederalEmployerIdentificationNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeFederalEmployerIdentificationNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="FEIN Number" />
+    <property name="shortLabel" value="FEIN Number" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="Federal Employee Identification Number" />
+    <property name="description" value="Federal Employee Identification Number." />
+  </bean>
+  <bean id="PayeeAchAccount-psdTransactionCode" parent="PayeeAchAccount-psdTransactionCode-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			
-        </attributes>
-        <relationships>
-            <relationship objectAttributeName="vendorDetail" >
-                <!-- defining another pseudo-relationship between vendorDetail and this object.  This allows us to have lookups on the vendor number
-                     rather than the 2 fields that comprise the vendor number (i.e. the header and the detail).
-                     
-                     In effect, we're declaring a new pseudo-foreign key relationship between the PayeeAchAccount and the VendorDetail table.  We're saying
-                     that the vendorNumber in both tables will match up, but the vendorNumber is really a pseudo-field that consists of the vendor header
-                     and the vendor detail number, which actually comprise the foreign key.
-                     
-                     When returning a vendor number, the vendor header and vendor detail values will be returned as well. -->
-                <primitiveAttribute sourceName="vendorNumber" targetName="vendorNumber" />
-                <supportAttribute sourceName="vendorHeaderGeneratedIdentifier" targetName="vendorHeaderGeneratedIdentifier" />
-                <supportAttribute sourceName="vendorDetailAssignedIdentifier" targetName="vendorDetailAssignedIdentifier" />
-            </relationship>
-        </relationships>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PayeeAchAccount-psdTransactionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="psdTransactionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="PSD Transaction Code" />
+    <property name="shortLabel" value="PSD Transaction Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="PSD Transaction Code" />
+    <property name="description" value="PSD Transaction Code." />
+  </bean>
+  <bean id="PayeeAchAccount-bankRoutingNumber" parent="PayeeAchAccount-bankRoutingNumber-parentBean" />
+
+  <bean id="PayeeAchAccount-bankRoutingNumber-parentBean" abstract="true" parent="AchBank-bankRoutingNumber">
+  </bean>
+  <bean id="PayeeAchAccount-vendorHeaderGeneratedIdentifier" parent="PayeeAchAccount-vendorHeaderGeneratedIdentifier-parentBean" />
+
+  <bean id="PayeeAchAccount-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+    <property name="label" value="Vendor" />
+    <property name="shortLabel" value="Vendor" />
+  </bean>
+  <bean id="PayeeAchAccount-vendorDetailAssignedIdentifier" parent="PayeeAchAccount-vendorDetailAssignedIdentifier-parentBean" />
+
+  <bean id="PayeeAchAccount-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+    <property name="label" value="Vendor" />
+    <property name="shortLabel" value="Vendor" />
+  </bean>
+  <bean id="PayeeAchAccount-vendorNumber" parent="PayeeAchAccount-vendorNumber-parentBean" />
+
+  <bean id="PayeeAchAccount-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+    <property name="shortLabel" value="Vendor Number" />
+    <property name="control" >
+      <bean parent="LookupReadonlyControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PayeeAchAccount-disbVchrPayeeIdNumber" parent="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" />
+
+  <bean id="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" abstract="true" parent="Payee-payeeIdNumber">
+    <property name="name" value="disbVchrPayeeIdNumber" />
+    <property name="label" value="Disbursement Voucher Payee ID" />
+  </bean>
+  <bean id="PayeeAchAccount-personUniversalIdentifier" parent="PayeeAchAccount-personUniversalIdentifier-parentBean" />
+
+  <bean id="PayeeAchAccount-personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="label" value="Payee User ID" />
+    <property name="shortLabel" value="Payee User ID" />
+  </bean>
+  <bean id="PayeeAchAccount-active" parent="PayeeAchAccount-active-parentBean" />
+
+  <bean id="PayeeAchAccount-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="PayeeAchAccount-versionNumber" parent="PayeeAchAccount-versionNumber-parentBean" />
+
+  <bean id="PayeeAchAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PayeeAchAccount-inquiryDefinition" parent="PayeeAchAccount-inquiryDefinition-parentBean" />
+
+  <bean id="PayeeAchAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payee ACH Account" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="achAccountGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankRoutingNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeIdentifierTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="disbVchrPayeeIdNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeSocialSecurityNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeFederalEmployerIdentificationNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="psdTransactionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankAccountTypeCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PayeeAchAccount-lookupDefinition" parent="PayeeAchAccount-lookupDefinition-parentBean" />
+
+  <bean id="PayeeAchAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payee ACH Account Lookup" />
+    <property name="lookupableID" value="pdpPayeeAchAccountLookupable" />
+    <property name="instructions" value="Lookup a Payee ACH Account" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>achAccountGeneratedIdentifier</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="bankRoutingNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankAccountTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeIdentifierTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="disbVchrPayeeIdNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeSocialSecurityNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeFederalEmployerIdentificationNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="psdTransactionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="payeeIdentifierTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,64 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.financial.bo.MessageOfTheDay</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="MessageOfTheDayMaintenanceDocument" parent="MessageOfTheDayMaintenanceDocument-parentBean" />
 
-        <documentTypeName>MessageOfTheDayMaintenanceDocument</documentTypeName>
-        <documentTypeCode>MOTD</documentTypeCode>
+  <bean id="MessageOfTheDayMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.MessageOfTheDay" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialSystemOrigination"
+              p:attributeToHighlightOnFail="financialSystemOriginationCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>financialSystemOriginationCode</value>
+      </list>
+    </property>
+    <property name="label" value="Message Of The Day" />
+    <property name="shortLabel" value="Message Of The Day" />
+    <property name="summary" value="Message Of The Day maintenance document" />
+    <property name="description" value="Document used to create or update Message Of The Day objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="MESSAGE_OF_THE_DAY"
+            p:parameterDetailType="MessageOfTheDay" />
+    </property>
+    <property name="documentTypeName" value="MessageOfTheDayMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="MOTD" />
+    <property name="workflowProperties" >
+      <ref bean="MessageOfTheDayMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Message Of The Day</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Message Of The Day maintenance document</summary>
-        <description>Document used to create or update Message Of The Day objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="MessageOfTheDay" parameterName="MESSAGE_OF_THE_DAY" />
 
-        <lockingKeys>
-            <field attributeName="financialSystemOriginationCode" />
-        </lockingKeys>
+  <bean id="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay" parent="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="financialSystemOrigination" attributeToHighlightOnFail="financialSystemOriginationCode" />
-        </defaultExistenceChecks>
-        
-        <maintainableSections>
-            <maintainableSection title="Edit Message Of The Day">
-                <maintainableItems>
-                    <maintainableField name="financialSystemOriginationCode" required="true" />
-                    <maintainableField name="financialSystemMessageOfTheDayText" required="false" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Message Of The Day" />
+    <property name="title" value="Edit Message Of The Day" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialSystemOriginationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialSystemMessageOfTheDayText" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="MessageOfTheDayMaintenanceDocument-workflowProperties" parent="MessageOfTheDayMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="MessageOfTheDayMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

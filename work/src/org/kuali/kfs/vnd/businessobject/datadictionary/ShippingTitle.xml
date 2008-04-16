@@ -1,96 +1,137 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.ShippingTitle">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Shipping Title Inquiry</title>
+  <bean id="ShippingTitle" parent="ShippingTitle-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorShippingTitleCode" />
-                <field attributeName="vendorShippingTitleDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ShippingTitle-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.ShippingTitle" />
+    <property name="inquiryDefinition" >
+      <ref bean="ShippingTitle-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ShippingTitle-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorShippingTitleCode" />
+    <property name="objectLabel" value="Shipping Title" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ShippingTitle-vendorShippingTitleCode" />
+        <ref bean="ShippingTitle-vendorShippingTitleDescription" />
+        <ref bean="ShippingTitle-active" />
+        <ref bean="ShippingTitle-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Shipping Title Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Shipping Title</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorShippingTitleDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ShippingTitle-vendorShippingTitleCode" parent="ShippingTitle-vendorShippingTitleCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorShippingTitleCode" required="false" />
-                <lookupField attributeName="vendorShippingTitleDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="ShippingTitle-vendorShippingTitleCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorShippingTitleCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipping Title Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="ShippingTitle-vendorShippingTitleDescription" parent="ShippingTitle-vendorShippingTitleDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorShippingTitleCode" />
-                <field attributeName="vendorShippingTitleDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="ShippingTitle-vendorShippingTitleDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorShippingTitleDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Shipping Title Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="ShippingTitle-active" parent="ShippingTitle-active-parentBean" />
 
-        <titleAttribute>vendorShippingTitleCode</titleAttribute>
+  <bean id="ShippingTitle-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="ShippingTitle-versionNumber" parent="ShippingTitle-versionNumber-parentBean" />
 
-        <attributes>
+  <bean id="ShippingTitle-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="vendorShippingTitleCode" forceUppercase="true">
-                <label>Shipping Title Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="ShippingTitle-inquiryDefinition" parent="ShippingTitle-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="ShippingTitle-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Shipping Title Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingTitleCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShippingTitleDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="vendorShippingTitleDescription" forceUppercase="true">
-                <label>Shipping Title Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="ShippingTitle-lookupDefinition" parent="ShippingTitle-lookupDefinition-parentBean" />
 
-			</attribute>
-			
-			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			
-        </attributes>
-        <objectLabel>Shipping Title</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ShippingTitle-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Shipping Title Lookup" />
+    <property name="instructions" value="Lookup a Shipping Title" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingTitleCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingTitleDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingTitleCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShippingTitleDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

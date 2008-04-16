@@ -1,73 +1,109 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<maintenanceDocument>
-        <businessObjectClass>org.kuali.module.labor.bo.BenefitsCalculation</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.labor.rules.BenefitsCalculationDocumentRule</businessRulesClass>
+  <bean id="BenefitsCalculationMaintenanceDocument" parent="BenefitsCalculationMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="BenefitsCalculationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.BenefitsCalculation" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="BenefitsCalculationMaintenanceDocument-EditLaborCalculation" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="universityFiscal"
+              p:attributeToHighlightOnFail="universityFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="positionFringeBenefitObject"
+              p:attributeToHighlightOnFail="positionFringeBenefitObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="positionBenefitType"
+              p:attributeToHighlightOnFail="positionBenefitTypeCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>universityFiscalYear</value>
+        <value>chartOfAccountsCode</value>
+        <value>positionBenefitTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Labor Benefits Calculation" />
+    <property name="shortLabel" value="Labor Benefits Calculation" />
+    <property name="summary" value="Labor Calculation Maintenance Document" />
+    <property name="description" value="Document used to create or update Labor calculations." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-LD"
+            p:parameterName="LABOR_BENEFITS_CALCULATION"
+            p:parameterDetailType="BenefitsCalculation" />
+    </property>
+    <property name="documentTypeName" value="BenefitsCalculationMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.labor.rules.BenefitsCalculationDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="BCAL" />
+    <property name="workflowProperties" >
+      <ref bean="BenefitsCalculationMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<documentTypeName>BenefitsCalculationMaintenanceDocument</documentTypeName>
-		<documentTypeCode>BCAL</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-		<label>Labor Benefits Calculation</label>
-		
-		<summary>Labor Calculation Maintenance Document</summary>
-		<description>Document used to create or update Labor calculations.</description>
-        <help parameterNamespace="KFS-LD" parameterDetailType="BenefitsCalculation" parameterName="LABOR_BENEFITS_CALCULATION" />
 
-        <lockingKeys>
-			<field attributeName="universityFiscalYear" />
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="positionBenefitTypeCode" />	
-		</lockingKeys>         
+  <bean id="BenefitsCalculationMaintenanceDocument-EditLaborCalculation" parent="BenefitsCalculationMaintenanceDocument-EditLaborCalculation-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
-            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />          
-            <reference attributeName="positionFringeBenefitObject" attributeToHighlightOnFail="positionFringeBenefitObjectCode" />          
-            <reference attributeName="positionBenefitType" attributeToHighlightOnFail="positionBenefitTypeCode" />          
-        </defaultExistenceChecks>
+  <bean id="BenefitsCalculationMaintenanceDocument-EditLaborCalculation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Labor Calculation" />
+    <property name="title" value="Edit Labor Calculation" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionBenefitTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionFringeBenefitObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="positionFringeBenefitPercent"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Labor Calculation">
-	        	<maintainableItems>
-	            	<maintainableField name="universityFiscalYear" required="true" />
-	            	<maintainableField name="chartOfAccountsCode" required="true" />
-	            	<maintainableField name="positionBenefitTypeCode" required="true"/>
-	            	<maintainableField name="positionFringeBenefitObjectCode" required="true"/>
-	            	<maintainableField name="positionFringeBenefitPercent" required="true"/>
-	            	<maintainableField name="versionNumber" />
-	         	</maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	    
-	    <workflowProperties />
-	</maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="BenefitsCalculationMaintenanceDocument-workflowProperties" parent="BenefitsCalculationMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="BenefitsCalculationMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

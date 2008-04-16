@@ -1,58 +1,83 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.purap.bo.CapitalAssetTransactionType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="CapitalAssetTransactionTypeMaintenanceDocument" parent="CapitalAssetTransactionTypeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_PUR_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="CapitalAssetTransactionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.CapitalAssetTransactionType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CapitalAssetTransactionTypeMaintenanceDocument-EditCapitalAssetTransactionType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>capitalAssetTransactionTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Capital Asset Transaction Type" />
+    <property name="shortLabel" value="Capital Asset Transaction Type" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="CAPITAL_ASSET_TRANSACTION_TYPE"
+            p:parameterDetailType="CapitalAssetTransactionType" />
+    </property>
+    <property name="documentTypeName" value="CapitalAssetTransactionTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMTT" />
+    <property name="workflowProperties" >
+      <ref bean="CapitalAssetTransactionTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>CapitalAssetTransactionTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMTT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Capital Asset Transaction Type</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="CapitalAssetTransactionType" parameterName="CAPITAL_ASSET_TRANSACTION_TYPE" />
 
-        <lockingKeys>
-            <field attributeName="capitalAssetTransactionTypeCode" />
-        </lockingKeys>
+  <bean id="CapitalAssetTransactionTypeMaintenanceDocument-EditCapitalAssetTransactionType" parent="CapitalAssetTransactionTypeMaintenanceDocument-EditCapitalAssetTransactionType-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Capital Asset Transaction Type">
-                <maintainableItems>
-                    <maintainableField name="capitalAssetTransactionTypeCode" required="true" />
-                	<maintainableField name="capitalAssetTransactionTypeDescription" required="true" />
-                	<maintainableField name="capitalAssetTransactionTypeServiceIndicator" />
-                	<maintainableField name="active" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="CapitalAssetTransactionTypeMaintenanceDocument-EditCapitalAssetTransactionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Capital Asset Transaction Type" />
+    <property name="title" value="Edit Capital Asset Transaction Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTransactionTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTransactionTypeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetTransactionTypeServiceIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="CapitalAssetTransactionTypeMaintenanceDocument-workflowProperties" parent="CapitalAssetTransactionTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="CapitalAssetTransactionTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

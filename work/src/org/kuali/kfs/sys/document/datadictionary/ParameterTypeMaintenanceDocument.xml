@@ -1,64 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.core.bo.ParameterType</businessObjectClass>
-        <maintainableClass>
-            org.kuali.core.maintenance.KualiMaintainableImpl
-        </maintainableClass>
-        <businessRulesClass>
-            org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase
-        </businessRulesClass>
-        <documentAuthorizerClass>
-            org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
-        </documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_PARAMETER_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
-        <documentTypeName>ParameterTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PTYP</documentTypeCode>
-        <label>Parameter Type</label>
-        <summary>Parameter Type Maintenance Document</summary>
-        <description>
-            This document can be used to create or update parameter types.
-        </description>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lockingKeys>
-            <field attributeName="code" />
-        </lockingKeys>
+  <bean id="ParameterTypeMaintenanceDocument" parent="ParameterTypeMaintenanceDocument-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Parameter Type">
-                <maintainableItems>
-                    <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="active" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-       	
-       	<workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ParameterTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.core.bo.ParameterType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ParameterTypeMaintenanceDocument-EditParameterType" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>code</value>
+      </list>
+    </property>
+    <property name="label" value="Parameter Type" />
+    <property name="shortLabel" value="Parameter Type" />
+    <property name="summary" value="Parameter Type Maintenance Document" />
+    <property name="description" value="This document can be used to create or update parameter types." />
+    <property name="documentTypeName" value="ParameterTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PTYP" />
+    <property name="workflowProperties" >
+      <ref bean="ParameterTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_PARAMETER_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ParameterTypeMaintenanceDocument-EditParameterType" parent="ParameterTypeMaintenanceDocument-EditParameterType-parentBean" />
+
+  <bean id="ParameterTypeMaintenanceDocument-EditParameterType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Parameter Type" />
+    <property name="title" value="Edit Parameter Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ParameterTypeMaintenanceDocument-workflowProperties" parent="ParameterTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ParameterTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

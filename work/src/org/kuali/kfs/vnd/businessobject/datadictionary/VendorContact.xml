@@ -1,172 +1,286 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContact">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Vendor Contact Inquiry</title>
+  <bean id="VendorContact" parent="VendorContact-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-            	<field attributeName="vendorContactTypeCode" />
-            	<field attributeName="vendorContactName" />
-            	<field attributeName="vendorContactEmailAddress" />
-                <field attributeName="vendorContactGeneratedIdentifier" />             
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="vendorContactCommentText" />
-                <field attributeName="active"/>               
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="VendorContact-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContact" />
+    <property name="inquiryDefinition" >
+      <ref bean="VendorContact-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="VendorContact-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorContact-vendorContactGeneratedIdentifier" />
+        <ref bean="VendorContact-vendorContactTypeCode" />
+        <ref bean="VendorContact-vendorContactName" />
+        <ref bean="VendorContact-vendorContactCommentText" />
+        <ref bean="VendorContact-vendorContactEmailAddress" />
+        <ref bean="VendorContact-phoneNumberForLookup" />
+        <ref bean="VendorContact-faxForLookup" />
+        <ref bean="VendorContact-tollFreeForLookup" />
+        <ref bean="VendorContact-newCollectionRecord" />
+        <ref bean="VendorContact-vendorLine1Address" />
+        <ref bean="VendorContact-vendorLine2Address" />
+        <ref bean="VendorContact-vendorCityName" />
+        <ref bean="VendorContact-vendorStateCode" />
+        <ref bean="VendorContact-vendorCountryCode" />
+        <ref bean="VendorContact-vendorZipCode" />
+        <ref bean="VendorContact-vendorAddressInternationalProvinceName" />
+        <ref bean="VendorContact-vendorAttentionName" />
+        <ref bean="VendorContact-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorContact-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorContact-versionNumber" />
+        <ref bean="VendorContact-active" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>           
-            <lookupableID>vendorContactLookupable</lookupableID>
-            <title>Vendor Contact Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Vendor Contact</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorContactGeneratedIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorContact-vendorContactGeneratedIdentifier" parent="VendorContact-vendorContactGeneratedIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorContactName" required="false" />
-                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />      
-                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" /> 
-                <lookupField attributeName="vendorContactTypeCode" required="false" />         
-                <lookupField attributeName="vendorContactEmailAddress" required="false" />                            
-                <lookupField attributeName="active" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField> 
-            </lookupFields>
+  <bean id="VendorContact-vendorContactGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContactGeneratedIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Contact Generated Identifier" />
+    <property name="shortLabel" value="Contact Gen. ID" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorContact-vendorContactTypeCode" parent="VendorContact-vendorContactTypeCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorContactName" />
-            	<field attributeName="vendorHeaderGeneratedIdentifier" />
-            	<field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorContactTypeCode" />
-                <field attributeName="vendorContactEmailAddress" />
-                <field attributeName="phoneNumberForLookup" />
-                <field attributeName="faxForLookup" />
-                <field attributeName="tollFreeForLookup" />
-                <field attributeName="active"/>               
-            </resultFields>
-        </lookup>
-        
-        <attributes>
+  <bean id="VendorContact-vendorContactTypeCode-parentBean" abstract="true" parent="ContactType-vendorContactTypeCode">
+    <property name="label" value="Contact Type" />
+    <property name="shortLabel" value="Contact Type" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContactTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorContact-vendorContactName" parent="VendorContact-vendorContactName-parentBean" />
 
-			<attribute name="vendorContactGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Contact Generated Identifier</label>
-                <shortLabel>Contact Gen. ID</shortLabel>
+  <bean id="VendorContact-vendorContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContactName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  <bean id="VendorContact-vendorContactCommentText" parent="VendorContact-vendorContactCommentText-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="VendorContact-vendorContactCommentText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorContactCommentText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="800" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="VendorContact-vendorContactEmailAddress" parent="VendorContact-vendorContactEmailAddress-parentBean" />
 
-                <control>
-                    <hidden />
-                </control>
+  <bean id="VendorContact-vendorContactEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+    <property name="name" value="vendorContactEmailAddress" />
+    <property name="label" value="Email Address" />
+  </bean>
+  <bean id="VendorContact-phoneNumberForLookup" parent="VendorContact-phoneNumberForLookup-parentBean" />
 
-			</attribute>
+  <bean id="VendorContact-phoneNumberForLookup-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+    <property name="name" value="phoneNumberForLookup" />
+  </bean>
+  <bean id="VendorContact-faxForLookup" parent="VendorContact-faxForLookup-parentBean" />
 
-            <attributeReference name="vendorContactTypeCode"
-            	sourceClassName="org.kuali.module.vendor.bo.ContactType"
-            	sourceAttributeName="vendorContactTypeCode">
-                <label>Contact Type</label>
-                <shortLabel>Contact Type</shortLabel>
-                <required>true</required>
+  <bean id="VendorContact-faxForLookup-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+    <property name="name" value="faxForLookup" />
+    <property name="label" value="Fax Number" />
+    <property name="shortLabel" value="Fax" />
+  </bean>
+  <bean id="VendorContact-tollFreeForLookup" parent="VendorContact-tollFreeForLookup-parentBean" />
 
-				<control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContactTypeValuesFinder" />
-                </control>
-			</attributeReference>
-						
-            <attribute name="vendorContactName">
-                <label>Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="VendorContact-tollFreeForLookup-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+    <property name="name" value="tollFreeForLookup" />
+    <property name="label" value="Toll Free Number" />
+    <property name="shortLabel" value="Toll Free" />
+  </bean>
+  <bean id="VendorContact-newCollectionRecord" parent="VendorContact-newCollectionRecord-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <required>true</required>
+  <bean id="VendorContact-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="VendorContact-vendorLine1Address" parent="VendorContact-vendorLine1Address-parentBean" />
 
-                <control>
-                    <text size="45" />
-                </control>
+  <bean id="VendorContact-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+    <property name="name" value="vendorLine1Address" />
+  </bean>
+  <bean id="VendorContact-vendorLine2Address" parent="VendorContact-vendorLine2Address-parentBean" />
 
-			</attribute>
-			
-            <attribute name="vendorContactCommentText">
-                <label>Comments</label>
-                <shortLabel>Comments</shortLabel>
+  <bean id="VendorContact-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+    <property name="name" value="vendorLine2Address" />
+  </bean>
+  <bean id="VendorContact-vendorCityName" parent="VendorContact-vendorCityName-parentBean" />
 
-                <maxLength>800</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+  <bean id="VendorContact-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+    <property name="name" value="vendorCityName" />
+  </bean>
+  <bean id="VendorContact-vendorStateCode" parent="VendorContact-vendorStateCode-parentBean" />
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
+  <bean id="VendorContact-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+    <property name="name" value="vendorStateCode" />
+  </bean>
+  <bean id="VendorContact-vendorCountryCode" parent="VendorContact-vendorCountryCode-parentBean" />
 
-			</attribute>
+  <bean id="VendorContact-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+    <property name="name" value="vendorCountryCode" />
+  </bean>
+  <bean id="VendorContact-vendorZipCode" parent="VendorContact-vendorZipCode-parentBean" />
 
-            <attributeReference name="vendorContactEmailAddress"
-            	sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-            	sourceAttributeName="emailAddress">
-                <label>Email Address</label>
-                <shortLabel>Email</shortLabel>
+  <bean id="VendorContact-vendorZipCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+    <property name="name" value="vendorZipCode" />
+  </bean>
+  <bean id="VendorContact-vendorAddressInternationalProvinceName" parent="VendorContact-vendorAddressInternationalProvinceName-parentBean" />
 
-			</attributeReference>
-			
-            <attributeReference name="phoneNumberForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
-                <label>Phone Number</label>
-                <shortLabel>Phone</shortLabel>
+  <bean id="VendorContact-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+    <property name="name" value="vendorAddressInternationalProvinceName" />
+  </bean>
+  <bean id="VendorContact-vendorAttentionName" parent="VendorContact-vendorAttentionName-parentBean" />
 
-            </attributeReference>
+  <bean id="VendorContact-vendorAttentionName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+    <property name="name" value="vendorAttentionName" />
+  </bean>
+  <bean id="VendorContact-vendorHeaderGeneratedIdentifier" parent="VendorContact-vendorHeaderGeneratedIdentifier-parentBean" />
 
-            <attributeReference name="faxForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
-                <label>Fax Number</label>
-                <shortLabel>Fax</shortLabel>
+  <bean id="VendorContact-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  </bean>
+  <bean id="VendorContact-vendorDetailAssignedIdentifier" parent="VendorContact-vendorDetailAssignedIdentifier-parentBean" />
 
-            </attributeReference>
+  <bean id="VendorContact-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorContact-versionNumber" parent="VendorContact-versionNumber-parentBean" />
 
-            <attributeReference name="tollFreeForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
-                <label>Toll Free Number</label>
-                <shortLabel>Toll Free</shortLabel>
+  <bean id="VendorContact-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorContact-active" parent="VendorContact-active-parentBean" />
 
-            </attributeReference>
-            
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
-                        					
-            <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" />
-            <attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address" />
-            <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" />
-            <attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode" />
-            <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" />
-            <attributeReference name="vendorZipCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode" />
-            <attributeReference name="vendorAddressInternationalProvinceName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="internationalProvinceName" />
-            <attributeReference name="vendorAttentionName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName" />
-            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
-            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorContact-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="VendorContact-inquiryDefinition" parent="VendorContact-inquiryDefinition-parentBean" />
+
+  <bean id="VendorContact-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Vendor Contact Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContactCommentText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="VendorContact-lookupDefinition" parent="VendorContact-lookupDefinition-parentBean" />
+
+  <bean id="VendorContact-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Contact Lookup" />
+    <property name="lookupableID" value="vendorContactLookupable" />
+    <property name="instructions" value="Lookup a Vendor Contact" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContactEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="phoneNumberForLookup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="faxForLookup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="tollFreeForLookup" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

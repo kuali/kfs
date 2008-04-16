@@ -1,80 +1,483 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd"
-    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ExpenseTransferSourceAccountingLine" parent="ExpenseTransferSourceAccountingLine-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ExpenseTransferSourceAccountingLine-emplid" />
+        <ref bean="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalPeriodCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalYear" />
+        <ref bean="ExpenseTransferSourceAccountingLine-payrollTotalHours" />
+        <ref bean="ExpenseTransferSourceAccountingLine-positionNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-objectCode.financialObjectTypeCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-objectCode.financialObjectSubTypeCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-objectCode.financialObjectLevelCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-account.financialHigherEdFunctionCd" />
+        <ref bean="ExpenseTransferSourceAccountingLine-account.subFundGroupCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-account.subFundGroup.fundGroupCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-balanceTypeCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-referenceNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-sequenceNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-financialObjectCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-accountNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-objectId" />
+        <ref bean="ExpenseTransferSourceAccountingLine-organizationReferenceId" />
+        <ref bean="ExpenseTransferSourceAccountingLine-chartOfAccountsCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-postingYear" />
+        <ref bean="ExpenseTransferSourceAccountingLine-referenceOriginCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-overrideCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-amount" />
+        <ref bean="ExpenseTransferSourceAccountingLine-subAccountNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-referenceTypeCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-projectCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-financialSubObjectCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-versionNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-documentNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-debitCreditCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-encumbranceUpdateCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-objectTypeCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-accountExpiredOverride" />
+        <ref bean="ExpenseTransferSourceAccountingLine-nonFringeAccountOverride" />
+        <ref bean="ExpenseTransferSourceAccountingLine-objectBudgetOverride" />
+        <ref bean="ExpenseTransferSourceAccountingLine-financialDocumentLineDescription" />
+        <ref bean="ExpenseTransferSourceAccountingLine-salesTaxRequired" />
+        <ref bean="ExpenseTransferSourceAccountingLine-salesTax.chartOfAccountsCode" />
+        <ref bean="ExpenseTransferSourceAccountingLine-salesTax.accountNumber" />
+        <ref bean="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
+        <ref bean="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
+        <ref bean="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <attributes>                
-            <attribute name="emplid" forceUppercase="true">
-				<label>Employee ID</label>
-				<shortLabel>Empl ID</shortLabel>
+  <bean id="ExpenseTransferSourceAccountingLine-emplid" parent="ExpenseTransferSourceAccountingLine-emplid-parentBean" />
 
-				<maxLength>11</maxLength>
-				<required>false</required>
+  <bean id="ExpenseTransferSourceAccountingLine-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emplid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Employee ID" />
+    <property name="shortLabel" value="Empl ID" />
+    <property name="maxLength" value="11" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalPeriodCode" parent="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" />
 
-				<control>
-					<text size="13" />
-				</control>
-			</attribute>     
+  <bean id="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+    <property name="name" value="payrollEndDateFiscalPeriodCode" />
+    <property name="label" value="Payroll End Date Fiscal Period Code" />
+    <property name="shortLabel" value="Pay Per" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalYear" parent="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalYear-parentBean" />
 
-            <attributeReference name="payrollEndDateFiscalPeriodCode"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="universityFiscalAccountingPeriod" >
-                <label>Payroll End Date Fiscal Period Code</label>
-                <shortLabel>Pay Per</shortLabel>
-            </attributeReference>
+  <bean id="ExpenseTransferSourceAccountingLine-payrollEndDateFiscalYear-parentBean" abstract="true" parent="SourceAccountingLine-postingYear">
+    <property name="name" value="payrollEndDateFiscalYear" />
+    <property name="label" value="Payroll End Date Fiscal Year" />
+    <property name="shortLabel" value="Pay FY" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-payrollTotalHours" parent="ExpenseTransferSourceAccountingLine-payrollTotalHours-parentBean" />
 
-            <attributeReference name="payrollEndDateFiscalYear"
-                sourceClassName="org.kuali.kfs.bo.SourceAccountingLine"
-                sourceAttributeName="postingYear" >
-                <label>Payroll End Date Fiscal Year</label>
-                <shortLabel>Pay FY</shortLabel>
-			</attributeReference>
+  <bean id="ExpenseTransferSourceAccountingLine-payrollTotalHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payrollTotalHours" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payroll Total Hours" />
+    <property name="shortLabel" value="Pay Hrs" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-positionNumber" parent="ExpenseTransferSourceAccountingLine-positionNumber-parentBean" />
 
-            <attribute name="payrollTotalHours" forceUppercase="true">
-                <label>Payroll Total Hours</label>
-                <shortLabel>Pay Hrs</shortLabel>
+  <bean id="ExpenseTransferSourceAccountingLine-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Number" />
+    <property name="shortLabel" value="Position" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-objectCode.financialObjectTypeCode" parent="ExpenseTransferSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+  <bean id="ExpenseTransferSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
+    <property name="name" value="objectCode.financialObjectTypeCode" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-objectCode.financialObjectSubTypeCode" parent="ExpenseTransferSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
-			</attribute>
+  <bean id="ExpenseTransferSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-objectCode.financialObjectLevelCode" parent="ExpenseTransferSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean" />
 
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Position</shortLabel>
+  <bean id="ExpenseTransferSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
+    <property name="name" value="objectCode.financialObjectLevelCode" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-account.financialHigherEdFunctionCd" parent="ExpenseTransferSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
-                <control>
-                    <text size="10" />
-                </control>
-			</attribute>
+  <bean id="ExpenseTransferSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="name" value="account.financialHigherEdFunctionCd" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-account.subFundGroupCode" parent="ExpenseTransferSourceAccountingLine-account.subFundGroupCode-parentBean" />
 
-            &accountingLineBaseAttributes;
+  <bean id="ExpenseTransferSourceAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-account.subFundGroup.fundGroupCode" parent="ExpenseTransferSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean" />
 
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ExpenseTransferSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="account.subFundGroup.fundGroupCode" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-balanceTypeCode" parent="ExpenseTransferSourceAccountingLine-balanceTypeCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-referenceNumber" parent="ExpenseTransferSourceAccountingLine-referenceNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Number" />
+    <property name="shortLabel" value="Ref Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-sequenceNumber" parent="ExpenseTransferSourceAccountingLine-sequenceNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="sequenceNumber" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-financialObjectCode" parent="ExpenseTransferSourceAccountingLine-financialObjectCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-accountNumber" parent="ExpenseTransferSourceAccountingLine-accountNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-objectId" parent="ExpenseTransferSourceAccountingLine-objectId-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-organizationReferenceId" parent="ExpenseTransferSourceAccountingLine-organizationReferenceId-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Org Ref Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-chartOfAccountsCode" parent="ExpenseTransferSourceAccountingLine-chartOfAccountsCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-postingYear" parent="ExpenseTransferSourceAccountingLine-postingYear-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-referenceOriginCode" parent="ExpenseTransferSourceAccountingLine-referenceOriginCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceOriginCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Ref Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-overrideCode" parent="ExpenseTransferSourceAccountingLine-overrideCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-amount" parent="ExpenseTransferSourceAccountingLine-amount-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The total dollar amount of check or batch of checks." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-subAccountNumber" parent="ExpenseTransferSourceAccountingLine-subAccountNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode" parent="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+    <property name="name" value="referenceTypeCode" />
+    <property name="label" value="Reference Type Code" />
+    <property name="shortLabel" value="Ref Type Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-projectCode" parent="ExpenseTransferSourceAccountingLine-projectCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The title of the project." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-financialSubObjectCode" parent="ExpenseTransferSourceAccountingLine-financialSubObjectCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-versionNumber" parent="ExpenseTransferSourceAccountingLine-versionNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-documentNumber" parent="ExpenseTransferSourceAccountingLine-documentNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-debitCreditCode" parent="ExpenseTransferSourceAccountingLine-debitCreditCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="debitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit or Debit Code" />
+    <property name="shortLabel" value="Credit/Debit" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="DC" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-encumbranceUpdateCode" parent="ExpenseTransferSourceAccountingLine-encumbranceUpdateCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="encumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Encumbrance Update" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-objectTypeCode" parent="ExpenseTransferSourceAccountingLine-objectTypeCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="objectTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-accountExpiredOverride" parent="ExpenseTransferSourceAccountingLine-accountExpiredOverride-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountExpiredOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Expired Override" />
+    <property name="shortLabel" value="Expired Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-nonFringeAccountOverride" parent="ExpenseTransferSourceAccountingLine-nonFringeAccountOverride-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Non-fringe Account Override" />
+    <property name="shortLabel" value="Non-fringe Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-objectBudgetOverride" parent="ExpenseTransferSourceAccountingLine-objectBudgetOverride-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectBudgetOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Non-Budgeted Override" />
+    <property name="shortLabel" value="Non-Budgeted Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-financialDocumentLineDescription" parent="ExpenseTransferSourceAccountingLine-financialDocumentLineDescription-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Description" />
+    <property name="shortLabel" value="Line Desc" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-salesTaxRequired" parent="ExpenseTransferSourceAccountingLine-salesTaxRequired-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxRequired" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sales Tax Required" />
+    <property name="shortLabel" value="Sales Tax Reqd" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.chartOfAccountsCode" parent="ExpenseTransferSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
+    <property name="name" value="salesTax.chartOfAccountsCode" />
+    <property name="label" value="Sales Tax Chart of Accounts Code" />
+    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.accountNumber" parent="ExpenseTransferSourceAccountingLine-salesTax.accountNumber-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
+    <property name="name" value="salesTax.accountNumber" />
+    <property name="label" value="Sales Tax Account Number" />
+    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Account Number that Sales Tax is collected against" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
+    <property name="label" value="Gross Sales Amount" />
+    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="description" value="Gross Sales Amount to be taxed" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
+    <property name="label" value="Taxable Sales Amount" />
+    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="description" value="Taxable Sales Amount to be taxed" />
+  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
+
+  <bean id="ExpenseTransferSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate" />
+    <property name="label" value="Sale Date" />
+    <property name="description" value="Date of Sale" />
+  </bean>
+</beans>

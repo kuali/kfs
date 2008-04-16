@@ -1,90 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="UniversityBudgetOfficeFunction" parent="UniversityBudgetOfficeFunction-parentBean" />
+
+  <bean id="UniversityBudgetOfficeFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction" />
+    <property name="inquiryDefinition" >
+      <ref bean="UniversityBudgetOfficeFunction-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="UniversityBudgetOfficeFunction-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="financialUniversityBudgetOfficeFunctionCode" />
+    <property name="objectLabel" value="University Budget Office Function" />
+    <property name="attributes" >
+      <list>
+        <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" />
+        <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" />
+        <ref bean="UniversityBudgetOfficeFunction-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>University Budget Office Function Inquiry</title>
+  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialUniversityBudgetOfficeFunctionCode" />
-                <field attributeName="financialUniversityBudgetOfficeFunctionName" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialUniversityBudgetOfficeFunctionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Budget Office Function Code" />
+    <property name="shortLabel" value="UBOC" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName-parentBean" />
 
-        <lookup>
-            <title>University Budget Office Function Lookup</title>
+  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialUniversityBudgetOfficeFunctionName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="University Budget Office Function Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="UniversityBudgetOfficeFunction-versionNumber" parent="UniversityBudgetOfficeFunction-versionNumber-parentBean" />
 
-            <instructions>Lookup a University Budget Office Function</instructions>
+  <bean id="UniversityBudgetOfficeFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <defaultSort attributeName="financialUniversityBudgetOfficeFunctionCode" sortAscending="true" />
-
-            <lookupFields>
-                <lookupField attributeName="financialUniversityBudgetOfficeFunctionCode" />
-                <lookupField attributeName="financialUniversityBudgetOfficeFunctionName" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="financialUniversityBudgetOfficeFunctionCode" />
-                <field attributeName="financialUniversityBudgetOfficeFunctionName" />
-            </resultFields>
-        </lookup>
-
-        <titleAttribute>financialUniversityBudgetOfficeFunctionCode</titleAttribute>
-
-        <attributes>
-
-            <attribute name="financialUniversityBudgetOfficeFunctionCode" forceUppercase="true">
-                <label>University Budget Office Function Code</label>
-                <shortLabel>UBOC</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="3" />
-                </control>
-            </attribute>
-
-            <attribute name="financialUniversityBudgetOfficeFunctionName" forceUppercase="true">
-                <label>University Budget Office Function Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <required>true</required>
-
-                <control>
-                    <text size="40" />
-                </control>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="UniversityBudgetOfficeFunction-inquiryDefinition" parent="UniversityBudgetOfficeFunction-inquiryDefinition-parentBean" />
 
-        </attributes>
-        
-        <objectLabel>University Budget Office Function</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="UniversityBudgetOfficeFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="University Budget Office Function Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialUniversityBudgetOfficeFunctionName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="UniversityBudgetOfficeFunction-lookupDefinition" parent="UniversityBudgetOfficeFunction-lookupDefinition-parentBean" />
+
+  <bean id="UniversityBudgetOfficeFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="University Budget Office Function Lookup" />
+    <property name="instructions" value="Lookup a University Budget Office Function" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>financialUniversityBudgetOfficeFunctionCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialUniversityBudgetOfficeFunctionName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialUniversityBudgetOfficeFunctionName" />
+      </list>
+    </property>
+  </bean>
+</beans>

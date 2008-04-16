@@ -1,138 +1,184 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionIntendedIncumbentSelect" parent="BudgetConstructionIntendedIncumbentSelect-parentBean" />
+
+  <bean id="BudgetConstructionIntendedIncumbentSelect-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionIntendedIncumbentSelect-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionIntendedIncumbentSelect-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-emplid" />
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-financialObjectCode" />
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-personName" />
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption" />
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Intended Incumbent Select Inquiry</title>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-emplid" parent="BudgetConstructionIntendedIncumbentSelect-emplid-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="emplid" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="personName" />
-                <field attributeName="personUniversalIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="emplid" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Emplid" />
+    <property name="shortLabel" value="Emplid" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="emplid" />
+    <property name="description" value="emplid description..." />
+  </bean>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-financialObjectCode" parent="BudgetConstructionIntendedIncumbentSelect-financialObjectCode-parentBean" />
 
-        <lookup>
-            <!-- Use this to include the hidden field personUniversalIdentifier in the search criteria -->
-            <lookupableID>intendedIncumbentSelectLookupable</lookupableID>	        
+  <bean id="BudgetConstructionIntendedIncumbentSelect-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialObjectCode" />
+    <property name="description" value="financialObjectCode description..." />
+  </bean>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-personName" parent="BudgetConstructionIntendedIncumbentSelect-personName-parentBean" />
 
-            <title>Budget Construction Intended Incumbent Select Lookup</title>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-personName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="52" />
+    </property>
+    <property name="summary" value="personName" />
+    <property name="description" value="personName description..." />
+  </bean>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-personUniversalIdentifier" parent="BudgetConstructionIntendedIncumbentSelect-personUniversalIdentifier-parentBean" />
 
-            <instructions>Look up a Budget Construction Intended Incumbent Select</instructions>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption" parent="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="personName" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-linkButtonOption">
+    <property name="name" value="dummyBusinessObject.linkButtonOption" />
+    <property name="label" value="Incumbent Salary Setting" />
+    <property name="shortLabel" value="Incumbent SalSet" />
+    <property name="summary" value="Incumbent Salary Setting" />
+    <property name="description" value="Incumbent Salary Setting ..." />
+  </bean>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-versionNumber" parent="BudgetConstructionIntendedIncumbentSelect-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="personName" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-            </lookupFields>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="emplid" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="personName" />
-                <field attributeName="dummyBusinessObject.linkButtonOption" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-inquiryDefinition" parent="BudgetConstructionIntendedIncumbentSelect-inquiryDefinition-parentBean" />
 
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Intended Incumbent Select Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="emplid" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="13" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
 
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-lookupDefinition" parent="BudgetConstructionIntendedIncumbentSelect-lookupDefinition-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="personName" forceUppercase="true">
-                <label>Person Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>personName</summary>
-                <description>personName description...</description>
-			</attribute>
-
-            <!-- marked hidden and used in the lookup criteria to operate on rows associated with the user -->
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-			<attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
-                <label>Incumbent Salary Setting</label>
-                <shortLabel>Incumbent SalSet</shortLabel>
-                <summary>Incumbent Salary Setting</summary>
-                <description>Incumbent Salary Setting ...</description>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionIntendedIncumbentSelect-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Intended Incumbent Select Lookup" />
+    <property name="lookupableID" value="intendedIncumbentSelectLookupable" />
+    <property name="instructions" value="Look up a Budget Construction Intended Incumbent Select" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.linkButtonOption" />
+      </list>
+    </property>
+  </bean>
+</beans>

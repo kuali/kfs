@@ -1,205 +1,433 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument >
-        <businessObjectClass>org.kuali.module.cg.bo.Award</businessObjectClass>
-        <maintainableClass>org.kuali.module.cg.maintenance.AwardMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.cg.rules.AwardRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.cg.rules.AwardPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AwardMaintenanceDocument" parent="AwardMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AwardMaintenanceDocument</documentTypeName>
-        <documentTypeCode>AWRD</documentTypeCode>
-		
-        <webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
-        <webScriptFile>../dwr/interface/AgencyService.js</webScriptFile>
-        <webScriptFile>../dwr/interface/OrganizationService.js</webScriptFile>
-        <webScriptFile>../dwr/interface/ProjectDirectorService.js</webScriptFile>
-        <webScriptFile>../dwr/interface/SubcontractorService.js</webScriptFile>
-		<webScriptFile>../scripts/cg/proposalDocument.js</webScriptFile>
+  <bean id="AwardMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Award" />
+    <property name="maintainableClass" value="org.kuali.module.cg.maintenance.AwardMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AwardMaintenanceDocument-AwardMaintenance" />
+        <ref bean="AwardMaintenanceDocument-Accounts" />
+        <ref bean="AwardMaintenanceDocument-ProjectDirectors" />
+        <ref bean="AwardMaintenanceDocument-Organizations" />
+        <ref bean="AwardMaintenanceDocument-Subcontractors" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="proposal"
+              p:attributeToHighlightOnFail="proposalNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="proposalAwardType"
+              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:attributeToHighlightOnFail="proposalAwardTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="awardStatus"
+              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:attributeToHighlightOnFail="awardStatusCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="letterOfCreditFundGroup"
+              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:attributeToHighlightOnFail="letterOfCreditFundGroupCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="grantDescription"
+              p:activeIndicatorAttributeName="grantDescriptionActiveCode"
+              p:attributeToHighlightOnFail="grantDescriptionCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="agency"
+              p:activeIndicatorAttributeName="historicalIndicator"
+              p:attributeToHighlightOnFail="agencyNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="federalPassThroughAgency"
+              p:activeIndicatorAttributeName="historicalIndicator"
+              p:attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="awardPurpose"
+              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:attributeToHighlightOnFail="awardPurposeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:collection="awardAccounts"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="accountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:collection="awardOrganizations"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="subcontractor"
+              p:collection="awardSubcontractors"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="subcontractorNumber" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>proposalNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Award" />
+    <property name="shortLabel" value="Award" />
+    <property name="summary" value="Award maintenance document" />
+    <property name="description" value="Document used to create or update Award objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CG"
+            p:parameterName="AWARD"
+            p:parameterDetailType="Award" />
+    </property>
+    <property name="documentTypeName" value="AwardMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.cg.rules.AwardRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.cg.rules.AwardPreRules" />
+    <property name="documentTypeCode" value="AWRD" />
+    <property name="displayTopicFieldInNotes" value="true" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../dwr/interface/AgencyService.js</value>
+        <value>../dwr/interface/OrganizationService.js</value>
+        <value>../dwr/interface/ProjectDirectorService.js</value>
+        <value>../dwr/interface/SubcontractorService.js</value>
+        <value>../scripts/cg/proposalDocument.js</value>
+      </list>
+    </property>
+    <property name="workflowProperties" >
+      <ref bean="AwardMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Award</label>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Award maintenance document</summary>
-        <description>Document used to create or update Award objects</description>
-        <help parameterNamespace="KFS-CG" parameterDetailType="Award" parameterName="AWARD" />
 
-        <lockingKeys>
-            <field attributeName="proposalNumber" />
-        </lockingKeys>
+  <bean id="AwardMaintenanceDocument-AwardMaintenance" parent="AwardMaintenanceDocument-AwardMaintenance-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="proposal" attributeToHighlightOnFail="proposalNumber" />
-			<reference attributeName="proposalAwardType" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalAwardTypeCode" />
-			<reference attributeName="awardStatus" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardStatusCode" />
-            <reference attributeName="letterOfCreditFundGroup" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="letterOfCreditFundGroupCode" />
-            <reference attributeName="grantDescription" activeIndicatorAttributeName="grantDescriptionActiveCode" attributeToHighlightOnFail="grantDescriptionCode" />
-            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="agencyNumber" />
-            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
-            <reference attributeName="awardPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardPurposeCode" />
-			<reference collection="awardAccounts" attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" />
-			<reference collection="awardOrganizations" attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
-			<reference collection="awardSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />
- 		</defaultExistenceChecks>
+  <bean id="AwardMaintenanceDocument-AwardMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Award Maintenance" />
+    <property name="title" value="Award Maintenance" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="proposalNumber"
+              p:required="true"
+              p:readOnlyAfterAdd="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardStatusCode"
+              p:defaultValue="A"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="agencyNumber"
+              p:required="true"
+              p:webUILeaveFieldFunction="onblur_agencyNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="agency.fullName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardProjectTitle"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardBeginningDate"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardEndingDate"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardDirectCostAmount"
+              p:required="true"
+              p:webUILeaveFieldFunction="onblur_awardDirectCostAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardIndirectCostAmount"
+              p:required="true"
+              p:webUILeaveFieldFunction="onblur_awardIndirectCostAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardTotalAmount"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="agencyFuture1Amount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="agencyFuture2Amount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="agencyFuture3Amount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardEntryDate"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardClosingDate"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="proposalAwardTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="proposal.grantNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="grantDescriptionCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardPurposeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="federalFundedAmount"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="federalPassThroughIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="federalPassThroughAgencyNumber"
+              p:webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="federalPassThroughAgency.fullName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="federalPassThroughFundedAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardAllocatedUniversityComputingServicesAmount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardAddendumNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="letterOfCreditFundGroupCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="awardDocumentNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="workgroupName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="agencyAnalystName" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="analystTelephoneNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AwardMaintenanceDocument-Accounts" parent="AwardMaintenanceDocument-Accounts-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Award Maintenance">
-                <maintainableItems>
-                    <maintainableField name="proposalNumber" required="true" readOnlyAfterAdd="true"/>
-                    <maintainableField name="awardStatusCode" required="true">
-                        <defaultValue>A</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="agencyNumber" required="true" webUILeaveFieldFunction="onblur_agencyNumber"/>
-                    <maintainableField name="agency.fullName" readOnly="true" />
-                    <maintainableField name="awardProjectTitle" required="true" />
-                    <maintainableField name="awardBeginningDate" required="true" />
-                    <maintainableField name="awardEndingDate" required="true" />
-                    <maintainableField name="awardDirectCostAmount" required="true" webUILeaveFieldFunction="onblur_awardDirectCostAmount" />
-                    <maintainableField name="awardIndirectCostAmount" required="true" webUILeaveFieldFunction="onblur_awardIndirectCostAmount" />
-                    <maintainableField name="awardTotalAmount" readOnly="true" />
-					<maintainableField name="agencyFuture1Amount" />
-					<maintainableField name="agencyFuture2Amount" />
-					<maintainableField name="agencyFuture3Amount" />
-                    <maintainableField name="awardEntryDate" required="true" />
-                    <maintainableField name="awardClosingDate" readOnly="true" />
-                    <maintainableField name="proposalAwardTypeCode" required="true" />
-					<maintainableField name="proposal.grantNumber" />
-					<maintainableField name="grantDescriptionCode" required="true" />
-                    <maintainableField name="awardPurposeCode" required="true" />
-                    <maintainableField name="federalFundedAmount" readOnly="true" />
-                    <maintainableField name="federalPassThroughIndicator" />
-                    <maintainableField name="federalPassThroughAgencyNumber" webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
-                    <maintainableField name="federalPassThroughAgency.fullName" readOnly="true" />
-					<maintainableField name="federalPassThroughFundedAmount" />
-                    <maintainableField name="awardAllocatedUniversityComputingServicesAmount" />
-                    <maintainableField name="awardAddendumNumber" />
-                    <maintainableField name="letterOfCreditFundGroupCode" />
-                    <maintainableField name="awardDocumentNumber" />
-                    <maintainableField name="workgroupName" />
-                    <maintainableField name="agencyAnalystName" />
-                    <maintainableField name="analystTelephoneNumber" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-			
-			<maintainableSection title="Accounts">
-				<maintainableItems>
-					<maintainableCollection name="awardAccounts" businessObjectClass="org.kuali.module.cg.bo.AwardAccount">
-						<maintainableField name="chartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup"/>
-						<maintainableField name="accountNumber" required="true" webUILeaveFieldFunction="accountNameLookup"/>
-						<maintainableField name="account.accountName" readOnly="true" />
+  <bean id="AwardMaintenanceDocument-Accounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Accounts" />
+    <property name="title" value="Accounts" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="awardAccounts" />
+          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardAccount" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectDirector.personName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:required="true"
+                    p:webUILeaveFieldFunction="accountNameLookup" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="accountNumber"
+                    p:required="true"
+                    p:webUILeaveFieldFunction="accountNameLookup" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="account.accountName"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectDirector.personUserIdentifier"
+                    p:required="true"
+                    p:overrideFieldConversions="personUniversalIdentifier:personUniversalIdentifier"
+                    p:overrideLookupClass="org.kuali.module.cg.bo.ProjectDirector"
+                    p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectDirector.personName"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="personUniversalIdentifier"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="AwardMaintenanceDocument-ProjectDirectors" parent="AwardMaintenanceDocument-ProjectDirectors-parentBean" />
 
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup">
-                        	<overrideLookupClass>org.kuali.module.cg.bo.ProjectDirector</overrideLookupClass>
-							<overrideFieldConversions>personUniversalIdentifier:personUniversalIdentifier</overrideFieldConversions>
-                        </maintainableField>
-						<maintainableField name="projectDirector.personName" readOnly="true"/>
-						<maintainableField name="personUniversalIdentifier" readOnly="true">
-						</maintainableField>
-						<!-- hidden fields -->
-						<maintainableField name="newCollectionRecord" />
-						<maintainableField name="versionNumber" />
-						<summaryFields>
-							<summaryField name="projectDirector.personName"/>
-							<summaryField name="chartOfAccountsCode" />
-							<summaryField name="accountNumber" />
-						</summaryFields>
-					</maintainableCollection>
-				</maintainableItems>
-			</maintainableSection>
-			
-			<maintainableSection title="Project Directors">
-				<maintainableItems>
-					<maintainableCollection name="awardProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup" />
-						<maintainableField name="projectDirector.personName" readOnly="true"/>
-						<maintainableField name="personUniversalIdentifier" readOnly="true" />
-						<maintainableField name="awardPrimaryProjectDirectorIndicator" required="false" />
-						<maintainableField name="awardProjectDirectorProjectTitle" required="false" />
-						<!-- hidden fields -->
-						<maintainableField name="newCollectionRecord" />
-						<maintainableField name="versionNumber" />
-						<summaryFields>
-							<summaryField name="projectDirector.personName"/>
-							<summaryField name="awardPrimaryProjectDirectorIndicator" />
-							<summaryField name="awardProjectDirectorProjectTitle" />
-						</summaryFields>
-					</maintainableCollection>
-				</maintainableItems>
-			</maintainableSection>
-			
-            <maintainableSection title="Organizations">
-                <maintainableItems>
-                    <maintainableCollection name="awardOrganizations" businessObjectClass="org.kuali.module.cg.bo.AwardOrganization" attributeToHighlightOnDuplicateKey="organizationCode">
-                        <maintainableField name="chartOfAccountsCode" required="true" webUILeaveFieldFunction="organizationNameLookup"/>
-                        <maintainableField name="organizationCode" required="true" webUILeaveFieldFunction="organizationNameLookup"/>
-						<maintainableField name="organization.organizationName" readOnly="true" />
-                        <maintainableField name="awardPrimaryOrganizationIndicator" required="false" />
-                        <maintainableField name="newCollectionRecord" />
-                        <maintainableField name="versionNumber" />
-                        <summaryFields>
-                            <summaryField name="chartOfAccountsCode" />
-                            <summaryField name="organizationCode" />
-                            <summaryField name="awardPrimaryOrganizationIndicator" />
-                        </summaryFields>
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
+  <bean id="AwardMaintenanceDocument-ProjectDirectors-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Project Directors" />
+    <property name="title" value="Project Directors" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="awardProjectDirectors" />
+          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardProjectDirector" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectDirector.personName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardPrimaryProjectDirectorIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardProjectDirectorProjectTitle" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectDirector.personUserIdentifier"
+                    p:required="true"
+                    p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="projectDirector.personName"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="personUniversalIdentifier"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardPrimaryProjectDirectorIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardProjectDirectorProjectTitle" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="AwardMaintenanceDocument-Organizations" parent="AwardMaintenanceDocument-Organizations-parentBean" />
 
-			<maintainableSection title="Subcontractors">
-				<maintainableItems>
-					<maintainableCollection name="awardSubcontractors" businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor" >
-						<maintainableField name="subcontractorNumber" required="true"  webUILeaveFieldFunction="onblur_subcontractorNumber"/>
-						<maintainableField name="subcontractor.subcontractorName" readOnly="true" />
-						<maintainableField name="awardSubcontractorDescription" />
-						<maintainableField name="subcontractorAmount">
-							<defaultValue>0.00</defaultValue>
-						</maintainableField>
-						<maintainableField name="newCollectionRecord" />
-						<summaryFields>
-							<summaryField name="subcontractor.subcontractorName" />
-							<summaryField name="subcontractorAmount" />
-						</summaryFields>
-					</maintainableCollection>
-				</maintainableItems>
-			</maintainableSection>
-            
-        </maintainableSections>
-		
-        <allowsNoteDelete>false</allowsNoteDelete>
-        <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="oldMaintainableObject.businessObject" />
-        		<workflowProperty path="newMaintainableObject.businessObject" />
-        		<workflowProperty path="newMaintainableObject.businessObject.Agency" />
-        		<workflowProperty path="newMaintainableObject.businessObject.Proposal.proposalResearchRisks.researchRiskTypeCode" />
-			</workflowPropertyGroup>
-		</workflowProperties>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AwardMaintenanceDocument-Organizations-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Organizations" />
+    <property name="title" value="Organizations" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="awardOrganizations" />
+          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardOrganization" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardPrimaryOrganizationIndicator" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:required="true"
+                    p:webUILeaveFieldFunction="organizationNameLookup" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationCode"
+                    p:required="true"
+                    p:webUILeaveFieldFunction="organizationNameLookup" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="organization.organizationName"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardPrimaryOrganizationIndicator" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+          <property name="attributeToHighlightOnDuplicateKey" value="organizationCode" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="AwardMaintenanceDocument-Subcontractors" parent="AwardMaintenanceDocument-Subcontractors-parentBean" />
+
+  <bean id="AwardMaintenanceDocument-Subcontractors-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Subcontractors" />
+    <property name="title" value="Subcontractors" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="awardSubcontractors" />
+          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardSubcontractor" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="subcontractor.subcontractorName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="subcontractorAmount" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="subcontractorNumber"
+                    p:required="true"
+                    p:webUILeaveFieldFunction="onblur_subcontractorNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="subcontractor.subcontractorName"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="awardSubcontractorDescription" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="subcontractorAmount"
+                    p:defaultValue="0.00" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="AwardMaintenanceDocument-workflowProperties" parent="AwardMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AwardMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="oldMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.Agency" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.Proposal.proposalResearchRisks.researchRiskTypeCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

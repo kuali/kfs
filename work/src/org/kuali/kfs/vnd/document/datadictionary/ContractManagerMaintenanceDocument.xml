@@ -1,64 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.vendor.bo.ContractManager</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ContractManagerMaintenanceDocument" parent="ContractManagerMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_MAINTENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ContractManagerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.ContractManager" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ContractManagerMaintenanceDocument-EditContractManager" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>contractManagerCode</value>
+      </list>
+    </property>
+    <property name="label" value="Contract Manager" />
+    <property name="shortLabel" value="Contract Manager" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-VN"
+            p:parameterName="CONTRACT_MANAGER"
+            p:parameterDetailType="ContractManager" />
+    </property>
+    <property name="documentTypeName" value="ContractManagerMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PMCO" />
+    <property name="workflowProperties" >
+      <ref bean="ContractManagerMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ContractManagerMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMCO</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Contract Manager</label>
-        <help parameterNamespace="KFS-VN" parameterDetailType="ContractManager" parameterName="CONTRACT_MANAGER" />
 
-        <lockingKeys>
-            <field attributeName="contractManagerCode" />
-        </lockingKeys>
+  <bean id="ContractManagerMaintenanceDocument-EditContractManager" parent="ContractManagerMaintenanceDocument-EditContractManager-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Contract Manager">
-                <maintainableItems>
-                    <maintainableField name="contractManagerCode" required="true" />
-                	<maintainableField name="contractManagerUserIdentifier" required="true" >
-                		<overrideLookupClass>org.kuali.core.bo.user.UniversalUser</overrideLookupClass>
-                		<overrideFieldConversions>personUserIdentifier:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber</overrideFieldConversions>
-                	</maintainableField>
-                	<maintainableField name="contractManagerName" required="true" />
-                	<maintainableField name="contractManagerPhoneNumber" required="true" />
-                	<maintainableField name="contractManagerFaxNumber" required="true" />
-                	<maintainableField name="contractManagerDelegationDollarLimit" required="true" />
-                	<maintainableField name="contractManagerSignatureImageLocationDescription" required="true" />
-                	<maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ContractManagerMaintenanceDocument-EditContractManager-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Contract Manager" />
+    <property name="title" value="Edit Contract Manager" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerUserIdentifier"
+              p:required="true"
+              p:overrideFieldConversions="personUserIdentifier:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber"
+              p:overrideLookupClass="org.kuali.core.bo.user.UniversalUser" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerPhoneNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerFaxNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerDelegationDollarLimit"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="contractManagerSignatureImageLocationDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ContractManagerMaintenanceDocument-workflowProperties" parent="ContractManagerMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ContractManagerMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

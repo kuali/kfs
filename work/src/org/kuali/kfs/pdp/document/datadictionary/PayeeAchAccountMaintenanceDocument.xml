@@ -1,94 +1,148 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.pdp.bo.PayeeAchAccount</businessObjectClass>
-        <maintainableClass>org.kuali.module.pdp.document.maintenance.PayeeAchAccountMaintainable</maintainableClass>
-        <businessRulesClass>org.kuali.module.pdp.rules.PayeeAchAccountRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.pdp.rules.PayeeAchAccountPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.module.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PD_VIEW_ACH</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PayeeAchAccountMaintenanceDocument" parent="PayeeAchAccountMaintenanceDocument-parentBean" />
 
-        <documentTypeName>PayeeAchAccountMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PAAT</documentTypeCode>
+  <bean id="PayeeAchAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.pdp.bo.PayeeAchAccount" />
+    <property name="maintainableClass" value="org.kuali.module.pdp.document.maintenance.PayeeAchAccountMaintainable" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PayeeAchAccountMaintenanceDocument-EditPayeeACHAccount" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="bankRouting"
+              p:attributeToHighlightOnFail="bankRoutingNumber" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>achAccountGeneratedIdentifier</value>
+      </list>
+    </property>
+    <property name="label" value="Payee ACH Account Maintenance Document" />
+    <property name="shortLabel" value="PayeeAchAccountMaintenanceDocument" />
+    <property name="summary" value="Payee ACH account maintenance document" />
+    <property name="description" value="Document used to create or update Payee ACH Account objects" />
+    <property name="documentTypeName" value="PayeeAchAccountMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.pdp.rules.PayeeAchAccountRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.module.pdp.rules.PayeeAchAccountPreRules" />
+    <property name="documentTypeCode" value="PAAT" />
+    <property name="workflowProperties" >
+      <ref bean="PayeeAchAccountMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PD_VIEW_ACH</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Payee ACH Account Maintenance Document</label>
-        <shortLabel>PayeeAchAccountMaintenanceDocument</shortLabel>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Payee ACH account maintenance document</summary>
-        <description>Document used to create or update Payee ACH Account objects</description>
 
-        <lockingKeys>
-            <field attributeName="achAccountGeneratedIdentifier" />
-        </lockingKeys>
+  <bean id="PayeeAchAccountMaintenanceDocument-EditPayeeACHAccount" parent="PayeeAchAccountMaintenanceDocument-EditPayeeACHAccount-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="bankRouting" attributeToHighlightOnFail="bankRoutingNumber" />        
-        </defaultExistenceChecks>
+  <bean id="PayeeAchAccountMaintenanceDocument-EditPayeeACHAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Payee ACH Account" />
+    <property name="title" value="Edit Payee ACH Account" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="achAccountGeneratedIdentifier" />
+        <bean parent="MaintainableFieldDefinition">
+          <property name="name" value="bankRoutingNumber" />
+          <property name="required" value="true" />
+          <property name="displayMask" >
+            <bean parent="Mask">
+              <property name="maskFormatter" >
+                <bean parent="MaskFormatterLiteral"
+                      p:literal="*********" />
+              </property>
+            </bean>
+          </property>
+          <property name="displayEditMode" value="entry" />
+        </bean>
+        <bean parent="MaintainableFieldDefinition">
+          <property name="name" value="bankAccountNumber" />
+          <property name="required" value="true" />
+          <property name="displayMask" >
+            <bean parent="Mask">
+              <property name="maskFormatter" >
+                <bean parent="MaskFormatterLiteral"
+                      p:literal="*****************" />
+              </property>
+            </bean>
+          </property>
+          <property name="displayEditMode" value="entry" />
+        </bean>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankAccountTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="payeeName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="payeeEmailAddress"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="psdTransactionCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="payeeIdentifierTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorHeaderGeneratedIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorDetailAssignedIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="disbVchrPayeeIdNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personUniversalIdentifier" />
+        <bean parent="MaintainableFieldDefinition">
+          <property name="name" value="payeeSocialSecurityNumber" />
+          <property name="displayMask" >
+            <bean parent="Mask">
+              <property name="maskFormatter" >
+                <bean parent="MaskFormatterLiteral"
+                      p:literal="*********" />
+              </property>
+            </bean>
+          </property>
+          <property name="displayEditMode" value="entry" />
+        </bean>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="payeeFederalEmployerIdentificationNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Payee ACH Account">
-                <maintainableItems>
-                    <maintainableField name="achAccountGeneratedIdentifier" />
-                    <maintainableField name="bankRoutingNumber" required="true" >
-                    	<fieldAuthorization>
- 							<displayEditMode>entry</displayEditMode>
- 							<displayMask><maskLiteral literal="*********"/></displayMask>
- 						</fieldAuthorization>
- 					</maintainableField>
-                    <maintainableField name="bankAccountNumber" required="true" >
-                    	<fieldAuthorization>
-                    		<displayEditMode>entry</displayEditMode>
-                    		<displayMask><maskLiteral literal="*****************"/></displayMask>
-                    	</fieldAuthorization>
-                    </maintainableField>
-                    <maintainableField name="bankAccountTypeCode" required="true" />
-                    <maintainableField name="payeeName" required="true" />
-               		<maintainableField name="payeeEmailAddress" required="true" />
-               		<maintainableField name="psdTransactionCode" required="true" />
-               		<maintainableField name="payeeIdentifierTypeCode" required="true" />
-                	<maintainableField name="vendorHeaderGeneratedIdentifier" />
-                	<maintainableField name="vendorDetailAssignedIdentifier" />
-                	<maintainableField name="vendorNumber" />
-                	<maintainableField name="disbVchrPayeeIdNumber" />
-                	<maintainableField name="personUniversalIdentifier" />
- 					<maintainableField name="payeeSocialSecurityNumber" >
- 						<fieldAuthorization>
- 							<displayEditMode>entry</displayEditMode>
- 							<displayMask><maskLiteral literal="*********"/></displayMask>
- 						</fieldAuthorization>
- 					</maintainableField>
- 					<maintainableField name="payeeFederalEmployerIdentificationNumber" />
- 					<maintainableField name="active" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PayeeAchAccountMaintenanceDocument-workflowProperties" parent="PayeeAchAccountMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="PayeeAchAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

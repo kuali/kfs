@@ -1,96 +1,134 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteList">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Purchase Order Quote List Inquiry</title>
+  <bean id="PurchaseOrderQuoteList" parent="PurchaseOrderQuoteList-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderQuoteListName" />
-                <field attributeName="contractManagerCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PurchaseOrderQuoteList-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteList" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchaseOrderQuoteList-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchaseOrderQuoteList-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="purchaseOrderQuoteListName" />
+    <property name="objectLabel" value="Purchase Order Quote List" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier" />
+        <ref bean="PurchaseOrderQuoteList-purchaseOrderQuoteListName" />
+        <ref bean="PurchaseOrderQuoteList-contractManagerCode" />
+        <ref bean="PurchaseOrderQuoteList-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Purchase Order Quote List Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Purchase Order Quote List</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="contractManagerCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier" parent="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="purchaseOrderQuoteListName" required="false" />
-                <lookupField attributeName="contractManagerCode" required="false" />
-            </lookupFields>
+  <bean id="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteListIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Quote List Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteList-purchaseOrderQuoteListName" parent="PurchaseOrderQuoteList-purchaseOrderQuoteListName-parentBean" />
 
-            <resultFields>
-                <field attributeName="purchaseOrderQuoteListName" />
-                <field attributeName="contractManagerCode" />
-            </resultFields>
-        </lookup>
+  <bean id="PurchaseOrderQuoteList-purchaseOrderQuoteListName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteListName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Purchase Order Quote List Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="102" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteList-contractManagerCode" parent="PurchaseOrderQuoteList-contractManagerCode-parentBean" />
 
-        <titleAttribute>purchaseOrderQuoteListName</titleAttribute>
+  <bean id="PurchaseOrderQuoteList-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
+    <property name="label" value="Contract Manager" />
+    <property name="shortLabel" value="Contract Manager" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderQuoteList-versionNumber" parent="PurchaseOrderQuoteList-versionNumber-parentBean" />
 
-        <attributes>
-			
-            <attribute name="purchaseOrderQuoteListIdentifier" forceUppercase="true">
-                <label>Purchase Order Quote List Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="PurchaseOrderQuoteList-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <hidden />
-                </control>
 
-			</attribute>
+  <bean id="PurchaseOrderQuoteList-inquiryDefinition" parent="PurchaseOrderQuoteList-inquiryDefinition-parentBean" />
 
-            <attribute name="purchaseOrderQuoteListName" forceUppercase="false">
-                <label>Purchase Order Quote List Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="PurchaseOrderQuoteList-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purchase Order Quote List Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteListName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractManagerCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>100</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="102" />
-                </control>
 
-			</attribute>
-			
-			<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
-                <label>Contract Manager</label>
-                <shortLabel>Contract Manager</shortLabel>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder" />
-                </control>
-            </attributeReference>			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			
-        </attributes>
-        <objectLabel>Purchase Order Quote List</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PurchaseOrderQuoteList-lookupDefinition" parent="PurchaseOrderQuoteList-lookupDefinition-parentBean" />
+
+  <bean id="PurchaseOrderQuoteList-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purchase Order Quote List Lookup" />
+    <property name="instructions" value="Lookup an Purchase Order Quote List" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteListName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteListName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractManagerCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

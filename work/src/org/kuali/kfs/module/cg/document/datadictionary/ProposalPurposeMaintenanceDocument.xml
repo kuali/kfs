@@ -1,62 +1,84 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cg.bo.ProposalPurpose</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ProposalPurposeMaintenanceDocument" parent="ProposalPurposeMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ProposalPurposeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalPurpose" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ProposalPurposeMaintenanceDocument-EditProposalPurpose" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>proposalPurposeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Proposal Purpose" />
+    <property name="shortLabel" value="Proposal Purpose" />
+    <property name="summary" value="Proposal Purpose Maintenance Document" />
+    <property name="description" value="Document used to create or update Proposal Purpose objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CG"
+            p:parameterName="PROPOSAL_PURPOSE"
+            p:parameterDetailType="ProposalPurpose" />
+    </property>
+    <property name="documentTypeName" value="ProposalPurposeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PURP" />
+    <property name="workflowProperties" >
+      <ref bean="ProposalPurposeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ProposalPurposeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PURP</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Proposal Purpose</label>
 
-        <summary>Proposal Purpose Maintenance Document</summary>
-        <description>Document used to create or update Proposal Purpose objects</description>
-        <help parameterNamespace="KFS-CG" parameterDetailType="ProposalPurpose" parameterName="PROPOSAL_PURPOSE" />
+  <bean id="ProposalPurposeMaintenanceDocument-EditProposalPurpose" parent="ProposalPurposeMaintenanceDocument-EditProposalPurpose-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="proposalPurposeCode" />
-        </lockingKeys>
+  <bean id="ProposalPurposeMaintenanceDocument-EditProposalPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Proposal Purpose" />
+    <property name="title" value="Edit Proposal Purpose" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="proposalPurposeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="proposalPurposeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="rowActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Proposal Purpose">
-                <maintainableItems>
-                    <maintainableField name="proposalPurposeCode" required="true" />
-                    <maintainableField name="proposalPurposeDescription" required="true" />
-                    <maintainableField name="rowActiveIndicator">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        <workflowProperties/>
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ProposalPurposeMaintenanceDocument-workflowProperties" parent="ProposalPurposeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ProposalPurposeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

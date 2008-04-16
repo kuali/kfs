@@ -1,68 +1,97 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.budget.bo.BudgetConstructionAccountReports</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.budget.rules.BudgetConstructionAccountReportsRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="AccountReportsMaintenanceDocument" parent="AccountReportsMaintenanceDocument-parentBean" />
 
-        <documentTypeName>AccountReportsMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BCAR</documentTypeCode>
+  <bean id="AccountReportsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAccountReports" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="AccountReportsMaintenanceDocument-EditBCAccountReports" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="chartOfAccountsCode"
+              p:displayFieldName="Chart Of Accounts Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorReversed="true"
+              p:attributeToHighlightOnFail="accountNumber"
+              p:displayFieldName="Account Number" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportsToChartOfAccounts"
+              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:attributeToHighlightOnFail="reportsToChartOfAccountsCode"
+              p:displayFieldName="Reports To Chart Of Accounts Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportsToOrganization"
+              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:attributeToHighlightOnFail="reportsToOrganizationCode"
+              p:displayFieldName="Reports To Organization Code" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Account Reports" />
+    <property name="shortLabel" value="BC - Account Rpts Maint Doc" />
+    <property name="summary" value="Budget Construction Account Reports Maintenance Document" />
+    <property name="description" value="Document used to create or update Budget Construction Account Reports Maintenance Document objects" />
+    <property name="documentTypeName" value="AccountReportsMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.budget.rules.BudgetConstructionAccountReportsRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="BCAR" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <label>Account Reports</label>
-        <shortLabel>BC - Account Rpts Maint Doc</shortLabel>
+<!-- Maintenance Section Definitions -->
 
-        <summary>Budget Construction Account Reports Maintenance Document</summary>
-        <description>Document used to create or update Budget Construction Account Reports Maintenance Document objects</description>
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="accountNumber" />
-        </lockingKeys>
+  <bean id="AccountReportsMaintenanceDocument-EditBCAccountReports" parent="AccountReportsMaintenanceDocument-EditBCAccountReports-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="chartOfAccountsCode" displayFieldName="Chart Of Accounts Code" />
-            <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account Number" />
-            <reference attributeName="reportsToChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="reportsToChartOfAccountsCode" displayFieldName="Reports To Chart Of Accounts Code" />
-            <reference attributeName="reportsToOrganization" activeIndicatorAttributeName="organizationActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="reportsToOrganizationCode" displayFieldName="Reports To Organization Code" />
-        </defaultExistenceChecks>
-
-        <maintainableSections>
-            <maintainableSection title="Edit BC Account Reports">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="reportsToChartOfAccountsCode" required="true" />
-                    <maintainableField name="reportsToOrganizationCode" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="AccountReportsMaintenanceDocument-EditBCAccountReports-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit BC Account Reports" />
+    <property name="title" value="Edit BC Account Reports" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToChartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToOrganizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

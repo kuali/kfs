@@ -38,7 +38,6 @@ import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.exception.InitException;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -535,7 +534,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL rulesUrl = classLoader.getResource(digestorRulesFileName);
         if (rulesUrl == null) {
-            throw new InitException("unable to locate digester rules file " + digestorRulesFileName);
+            throw new RuntimeException("unable to locate digester rules file " + digestorRulesFileName);
         }
 
         // create and init digester

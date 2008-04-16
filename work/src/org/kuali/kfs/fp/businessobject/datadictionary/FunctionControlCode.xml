@@ -1,106 +1,143 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.FunctionControlCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="FunctionControlCode" parent="FunctionControlCode-parentBean" />
+
+  <bean id="FunctionControlCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.FunctionControlCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="FunctionControlCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="FunctionControlCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="financialSystemFunctionControlCode" />
+    <property name="objectLabel" value="Function Control Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="FunctionControlCode-financialSystemFunctionControlCode" />
+        <ref bean="FunctionControlCode-financialSystemFunctionDescription" />
+        <ref bean="FunctionControlCode-financialSystemFunctionDefaultIndicator" />
+        <ref bean="FunctionControlCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Function Control Code Inquiry</title>
+  <bean id="FunctionControlCode-financialSystemFunctionControlCode" parent="FunctionControlCode-financialSystemFunctionControlCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialSystemFunctionControlCode" />
-                <field attributeName="financialSystemFunctionDescription" />
-                <field attributeName="financialSystemFunctionDefaultIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="FunctionControlCode-financialSystemFunctionControlCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemFunctionControlCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Function Control Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="FunctionControlCode-financialSystemFunctionDescription" parent="FunctionControlCode-financialSystemFunctionDescription-parentBean" />
 
-        <lookup>
-            <title>Function Control Code Lookup</title>
+  <bean id="FunctionControlCode-financialSystemFunctionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemFunctionDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Function Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+  </bean>
+  <bean id="FunctionControlCode-financialSystemFunctionDefaultIndicator" parent="FunctionControlCode-financialSystemFunctionDefaultIndicator-parentBean" />
 
-            <instructions>Lookup an Function Control Code</instructions>
+  <bean id="FunctionControlCode-financialSystemFunctionDefaultIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSystemFunctionDefaultIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Function Default Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="0" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="FunctionControlCode-versionNumber" parent="FunctionControlCode-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="financialSystemFunctionControlCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="FunctionControlCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="financialSystemFunctionControlCode" required="false" />
-                <lookupField attributeName="financialSystemFunctionDescription" required="false" />
-                <lookupField attributeName="financialSystemFunctionDefaultIndicator" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="financialSystemFunctionControlCode" />
-                <field attributeName="financialSystemFunctionDescription" />
-                <field attributeName="financialSystemFunctionDefaultIndicator" />
-            </resultFields>
-        </lookup>
-        
-       <titleAttribute>financialSystemFunctionControlCode</titleAttribute>
-       
-        <attributes>
 
-            <attribute name="financialSystemFunctionControlCode" forceUppercase="true">
-                <label>Financial System Function Control Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="FunctionControlCode-inquiryDefinition" parent="FunctionControlCode-inquiryDefinition-parentBean" />
 
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="FunctionControlCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Function Control Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemFunctionControlCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemFunctionDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemFunctionDefaultIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="8" />
-                </control>
-            </attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="financialSystemFunctionDescription" forceUppercase="true">
-                <label>Financial System Function Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="42" />
-                </control>
-            </attribute>
+  <bean id="FunctionControlCode-lookupDefinition" parent="FunctionControlCode-lookupDefinition-parentBean" />
 
-            <attribute name="financialSystemFunctionDefaultIndicator" forceUppercase="true">
-                <label>Financial System Function Default Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>$attribute.maxLength</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Function Control Code</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="FunctionControlCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Function Control Code Lookup" />
+    <property name="instructions" value="Lookup an Function Control Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionControlCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionDefaultIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionControlCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSystemFunctionDefaultIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

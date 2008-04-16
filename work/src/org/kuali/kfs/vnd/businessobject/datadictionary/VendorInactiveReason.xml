@@ -1,94 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorInactiveReason">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Vendor Inactive Reason Inquiry</title>
+  <bean id="VendorInactiveReason" parent="VendorInactiveReason-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorInactiveReasonCode" />
-                <field attributeName="vendorInactiveReasonDescription" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="VendorInactiveReason-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorInactiveReason" />
+    <property name="inquiryDefinition" >
+      <ref bean="VendorInactiveReason-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="VendorInactiveReason-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorInactiveReasonCode" />
+    <property name="objectLabel" value="Vendor Inactive Reason" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorInactiveReason-vendorInactiveReasonCode" />
+        <ref bean="VendorInactiveReason-vendorInactiveReasonDescription" />
+        <ref bean="VendorInactiveReason-versionNumber" />
+        <ref bean="VendorInactiveReason-active" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Vendor Inactive Reason Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Look up a Vendor Inactive Reason</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorInactiveReasonDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorInactiveReason-vendorInactiveReasonCode" parent="VendorInactiveReason-vendorInactiveReasonCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorInactiveReasonCode" required="false" />
-                <lookupField attributeName="vendorInactiveReasonDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="VendorInactiveReason-vendorInactiveReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorInactiveReasonCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Inactive Reason Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="VendorInactiveReason-vendorInactiveReasonDescription" parent="VendorInactiveReason-vendorInactiveReasonDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorInactiveReasonCode" />
-                <field attributeName="vendorInactiveReasonDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="VendorInactiveReason-vendorInactiveReasonDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorInactiveReasonDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Inactive Reason Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="VendorInactiveReason-versionNumber" parent="VendorInactiveReason-versionNumber-parentBean" />
 
-        <titleAttribute>vendorInactiveReasonCode</titleAttribute>
+  <bean id="VendorInactiveReason-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="VendorInactiveReason-active" parent="VendorInactiveReason-active-parentBean" />
 
-        <attributes>
+  <bean id="VendorInactiveReason-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-            <attribute name="vendorInactiveReasonCode" forceUppercase="true">
-                <label>Vendor Inactive Reason Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="VendorInactiveReason-inquiryDefinition" parent="VendorInactiveReason-inquiryDefinition-parentBean" />
 
-			</attribute>
+  <bean id="VendorInactiveReason-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Vendor Inactive Reason Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorInactiveReasonCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorInactiveReasonDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="vendorInactiveReasonDescription" forceUppercase="true">
-                <label>Vendor Inactive Reason Description</label>
-                <shortLabel>Description</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="VendorInactiveReason-lookupDefinition" parent="VendorInactiveReason-lookupDefinition-parentBean" />
 
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-        </attributes>
-        <objectLabel>Vendor Inactive Reason</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorInactiveReason-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Inactive Reason Lookup" />
+    <property name="instructions" value="Look up a Vendor Inactive Reason" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorInactiveReasonCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorInactiveReasonDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorInactiveReasonCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorInactiveReasonDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

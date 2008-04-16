@@ -1,105 +1,174 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "../../../../../../../../../rice/kns/src/main/resources/org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<maintenanceDocument>
-        <businessObjectClass>org.kuali.module.effort.bo.EffortCertificationReportDefinition</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.effort.rules.EffortCertificationReportDefinitionRule</businessRulesClass>
-		<preRulesCheckClass>org.kuali.module.effort.rules.EffortCertificationReportDefinitionMaintenanceDocumentPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>KUALI_EFFORT_ADMIN</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument" parent="EffortCertificationReportDefinitionMaintenanceDocument-parentBean" />
 
-		<documentTypeName>EffortCertificationReportDefinitionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ARPT</documentTypeCode>
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportDefinition" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition" />
+        <ref bean="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="options"
+              p:attributeToHighlightOnFail="universityFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="effortCertificationPeriodStatusCode"
+              p:attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportBeginFiscalYear"
+              p:attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportBeginPeriod"
+              p:attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportEndFiscalYear"
+              p:attributeToHighlightOnFail="effortCertificationReportEndFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportEndPeriod"
+              p:attributeToHighlightOnFail="effortCertificationReportEndPeriodCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expenseTransferYear"
+              p:attributeToHighlightOnFail="expenseTransferFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expenseTransferFiscalPeriod"
+              p:attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="effortCertificationReportType"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="effortCertificationReportTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="positionObjectGroup"
+              p:collection="effortCertificationReportPositions"
+              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>universityFiscalYear</value>
+        <value>effortCertificationReportNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Report Definition Maintenance Document" />
+    <property name="shortLabel" value="Effort Cert Report Maint Doc" />
+    <property name="summary" value="Effort Certification Report Definition Maintenance Document" />
+    <property name="description" value="Document used to create or update Effort Certification Report Maintenance Document" />
+    <property name="documentTypeName" value="EffortCertificationReportDefinitionMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.effort.rules.EffortCertificationReportDefinitionRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.effort.rules.EffortCertificationReportDefinitionMaintenanceDocumentPreRules" />
+    <property name="documentTypeCode" value="ARPT" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>KUALI_EFFORT_ADMIN</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<label>Report Definition Maintenance Document</label>
-		<shortLabel>Effort Cert Report Maint Doc</shortLabel>
-		
-		<summary>Effort Certification Report Definition Maintenance Document</summary>
-		<description>Document used to create or update Effort Certification Report Maintenance Document</description>
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="universityFiscalYear" />
-			<field attributeName="effortCertificationReportNumber" />
-		</lockingKeys>  
-		<defaultExistenceChecks>
-			<reference attributeName="options" attributeToHighlightOnFail="universityFiscalYear" />
-			<reference attributeName="effortCertificationPeriodStatusCode" attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode" />
-			<reference attributeName="reportBeginFiscalYear" attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear" />
-			<reference attributeName="reportBeginPeriod" attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode" />
-			<reference attributeName="reportEndFiscalYear" attributeToHighlightOnFail="effortCertificationReportEndFiscalYear" />
-			<reference attributeName="reportEndPeriod" attributeToHighlightOnFail="effortCertificationReportEndPeriodCode" />
-			<reference attributeName="expenseTransferYear" attributeToHighlightOnFail="expenseTransferFiscalYear" />
-			<reference attributeName="expenseTransferFiscalPeriod" attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
-			<reference attributeName="effortCertificationReportType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="effortCertificationReportTypeCode" />
-			<reference collection="effortCertificationReportPositions" attributeName="positionObjectGroup" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
-		</defaultExistenceChecks>
-		
-	    <maintainableSections>
-	        <maintainableSection title="Edit Report Definition">
-	        	<maintainableItems>
-	        		<maintainableField name="universityFiscalYear" required="true" />
-	                <maintainableField name="effortCertificationReportNumber" required="true" />
-	                <maintainableField name="effortCertificationReportPeriodTitle" required="true" />
-	                <maintainableField name="effortCertificationReportPeriodStatusCode" required="true" />
-	                <maintainableField name="effortCertificationReportBeginFiscalYear" required="true" />
-	                <maintainableField name="effortCertificationReportBeginPeriodCode" required="true" />
-	                <maintainableField name="effortCertificationReportEndFiscalYear" required="true" />
-	                <maintainableField name="effortCertificationReportEndPeriodCode" required="true" />
-	        	    <maintainableField name="effortCertificationReportTypeCode" required="true" />
-	        	    <maintainableField name="expenseTransferFiscalYear" required="true" />
-	                <maintainableField name="expenseTransferFiscalPeriodCode" required="true" />
-	                <maintainableField name="effortCertificationReportReturnDate" />
-	                <maintainableField name="active" required="true" >
-			        	<defaultValue>true</defaultValue>
-					</maintainableField>
-	                <maintainableField name="versionNumber" />
-	         	</maintainableItems>
-	        </maintainableSection>
-	        <maintainableSection title="Edit Report Position Object Group Codes">
-				<maintainableItems>
-					<maintainableCollection name="effortCertificationReportPositions" 
-						businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition"
-						summaryTitle="Position Object Group Codes">
-						<maintainableField name="effortCertificationReportPositionObjectGroupCode" required="true" />
-						<maintainableField name="active" required="true" >
-			            	<defaultValue>true</defaultValue>
-						</maintainableField>
-			            <maintainableField name="newCollectionRecord" />
-			            <maintainableField name="versionNumber" />
-			            <summaryFields>
-                            <summaryField name="effortCertificationReportPositionObjectGroupCode" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                        	<duplicateIdentificationField name="effortCertificationReportPositionObjectGroupCode" />
-					    	<duplicateIdentificationField name="universityFiscalYear" />
-							<duplicateIdentificationField name="effortCertificationReportNumber" />
-						</duplicateIdentificationFields>
-			        </maintainableCollection>
-				</maintainableItems>
-			</maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
-</dictionaryEntry>
+
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition" parent="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition-parentBean" />
+
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportDefinition-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Report Definition" />
+    <property name="title" value="Edit Report Definition" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportPeriodTitle"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportPeriodStatusCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportBeginFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportBeginPeriodCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportEndFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportEndPeriodCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="expenseTransferFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="expenseTransferFiscalPeriodCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="effortCertificationReportReturnDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes" parent="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes-parentBean" />
+
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-EditReportPositionObjectGroupCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Report Position Object Group Codes" />
+    <property name="title" value="Edit Report Position Object Group Codes" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="effortCertificationReportPositions" />
+          <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportPosition" />
+          <property name="summaryTitle" value="Position Object Group Codes" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="effortCertificationReportPositionObjectGroupCode" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="effortCertificationReportPositionObjectGroupCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="active"
+                    p:defaultValue="true"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

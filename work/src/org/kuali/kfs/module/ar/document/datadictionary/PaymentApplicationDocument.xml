@@ -1,44 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.ar.document.PaymentApplicationDocument</documentClass>
-        <businessRulesClass>org.kuali.module.ar.rules.PaymentApplicationDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PaymentApplicationDocument" parent="PaymentApplicationDocument-parentBean" />
 
-        <documentTypeName>PaymentApplicationDocument</documentTypeName>
-        <documentTypeCode>APP</documentTypeCode>
-
-        <label>Application</label>
-
-        <!--  <help parameterNamespace="KFS-AR" parameterDetailType="Application" parameterName="APPLICATION" /> -->
-  
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="PaymentApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Application" />
+    <property name="shortLabel" value="Application" />
+    <property name="documentTypeName" value="PaymentApplicationDocument" />
+    <property name="documentClass" value="org.kuali.module.ar.document.PaymentApplicationDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.ar.rules.PaymentApplicationDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
+    <property name="documentTypeCode" value="APP" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

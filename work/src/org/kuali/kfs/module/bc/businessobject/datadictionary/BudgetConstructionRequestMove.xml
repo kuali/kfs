@@ -1,434 +1,599 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionRequestMove">
-
-
-        <inquiry>
-            <title>Budget Construction Request Move Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialDocumentMonth10LineAmount" />
-                <field attributeName="financialDocumentMonth11LineAmount" />
-                <field attributeName="financialDocumentMonth12LineAmount" />
-                <field attributeName="financialDocumentMonth1LineAmount" />
-                <field attributeName="financialDocumentMonth2LineAmount" />
-                <field attributeName="financialDocumentMonth3LineAmount" />
-                <field attributeName="financialDocumentMonth4LineAmount" />
-                <field attributeName="financialDocumentMonth5LineAmount" />
-                <field attributeName="financialDocumentMonth6LineAmount" />
-                <field attributeName="financialDocumentMonth7LineAmount" />
-                <field attributeName="financialDocumentMonth8LineAmount" />
-                <field attributeName="financialDocumentMonth9LineAmount" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="requestUpdateErrorCode" />
-                <field attributeName="subAccountNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Budget Construction Request Move Lookup</title>
-
-            <instructions>Look up a Budget Construction Request Move</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="accountLineAnnualBalanceAmount" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialDocumentMonth10LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth11LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth12LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth1LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth2LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth3LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth4LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth5LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth6LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth7LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth8LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentMonth9LineAmount" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialObjectTypeCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="requestUpdateErrorCode" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialDocumentMonth10LineAmount" />
-                <field attributeName="financialDocumentMonth11LineAmount" />
-                <field attributeName="financialDocumentMonth12LineAmount" />
-                <field attributeName="financialDocumentMonth1LineAmount" />
-                <field attributeName="financialDocumentMonth2LineAmount" />
-                <field attributeName="financialDocumentMonth3LineAmount" />
-                <field attributeName="financialDocumentMonth4LineAmount" />
-                <field attributeName="financialDocumentMonth5LineAmount" />
-                <field attributeName="financialDocumentMonth6LineAmount" />
-                <field attributeName="financialDocumentMonth7LineAmount" />
-                <field attributeName="financialDocumentMonth8LineAmount" />
-                <field attributeName="financialDocumentMonth9LineAmount" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="requestUpdateErrorCode" />
-                <field attributeName="subAccountNumber" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="accountLineAnnualBalanceAmount" forceUppercase="true">
-                <label>Account Line Annual Balance Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
-			</attribute>
-
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth10LineAmount" forceUppercase="true">
-                <label>Financial Document Month10 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth10LineAmount</summary>
-                <description>financialDocumentMonth10LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth11LineAmount" forceUppercase="true">
-                <label>Financial Document Month11 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth11LineAmount</summary>
-                <description>financialDocumentMonth11LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth12LineAmount" forceUppercase="true">
-                <label>Financial Document Month12 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth12LineAmount</summary>
-                <description>financialDocumentMonth12LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth1LineAmount" forceUppercase="true">
-                <label>Financial Document Month1 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth1LineAmount</summary>
-                <description>financialDocumentMonth1LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth2LineAmount" forceUppercase="true">
-                <label>Financial Document Month2 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth2LineAmount</summary>
-                <description>financialDocumentMonth2LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth3LineAmount" forceUppercase="true">
-                <label>Financial Document Month3 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth3LineAmount</summary>
-                <description>financialDocumentMonth3LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth4LineAmount" forceUppercase="true">
-                <label>Financial Document Month4 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth4LineAmount</summary>
-                <description>financialDocumentMonth4LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth5LineAmount" forceUppercase="true">
-                <label>Financial Document Month5 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth5LineAmount</summary>
-                <description>financialDocumentMonth5LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth6LineAmount" forceUppercase="true">
-                <label>Financial Document Month6 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth6LineAmount</summary>
-                <description>financialDocumentMonth6LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth7LineAmount" forceUppercase="true">
-                <label>Financial Document Month7 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth7LineAmount</summary>
-                <description>financialDocumentMonth7LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth8LineAmount" forceUppercase="true">
-                <label>Financial Document Month8 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth8LineAmount</summary>
-                <description>financialDocumentMonth8LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentMonth9LineAmount" forceUppercase="true">
-                <label>Financial Document Month9 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentMonth9LineAmount</summary>
-                <description>financialDocumentMonth9LineAmount description...</description>
-			</attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialObjectTypeCode" forceUppercase="true">
-                <label>Financial Object Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialObjectTypeCode</summary>
-                <description>financialObjectTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
-			</attribute>
-
-            <attribute name="requestUpdateErrorCode" forceUppercase="true">
-                <label>Request Update Error Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>requestUpdateErrorCode</summary>
-                <description>requestUpdateErrorCode description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionRequestMove" parent="BudgetConstructionRequestMove-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionRequestMove" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionRequestMove-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionRequestMove-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionRequestMove-accountLineAnnualBalanceAmount" />
+        <ref bean="BudgetConstructionRequestMove-accountNumber" />
+        <ref bean="BudgetConstructionRequestMove-chartOfAccountsCode" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth10LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth11LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth12LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth1LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth2LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth3LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth4LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth5LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth6LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth7LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth8LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialDocumentMonth9LineAmount" />
+        <ref bean="BudgetConstructionRequestMove-financialObjectCode" />
+        <ref bean="BudgetConstructionRequestMove-financialObjectTypeCode" />
+        <ref bean="BudgetConstructionRequestMove-financialSubObjectCode" />
+        <ref bean="BudgetConstructionRequestMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionRequestMove-requestUpdateErrorCode" />
+        <ref bean="BudgetConstructionRequestMove-subAccountNumber" />
+        <ref bean="BudgetConstructionRequestMove-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BudgetConstructionRequestMove-accountLineAnnualBalanceAmount" parent="BudgetConstructionRequestMove-accountLineAnnualBalanceAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountLineAnnualBalanceAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Line Annual Balance Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="accountLineAnnualBalanceAmount" />
+    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-accountNumber" parent="BudgetConstructionRequestMove-accountNumber-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-chartOfAccountsCode" parent="BudgetConstructionRequestMove-chartOfAccountsCode-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth10LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth10LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth10LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth10LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month10 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth10LineAmount" />
+    <property name="description" value="financialDocumentMonth10LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth11LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth11LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth11LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth11LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month11 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth11LineAmount" />
+    <property name="description" value="financialDocumentMonth11LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth12LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth12LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth12LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth12LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month12 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth12LineAmount" />
+    <property name="description" value="financialDocumentMonth12LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth1LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth1LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth1LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth1LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month1 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth1LineAmount" />
+    <property name="description" value="financialDocumentMonth1LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth2LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth2LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth2LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth2LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month2 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth2LineAmount" />
+    <property name="description" value="financialDocumentMonth2LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth3LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth3LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth3LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth3LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month3 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth3LineAmount" />
+    <property name="description" value="financialDocumentMonth3LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth4LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth4LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth4LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth4LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month4 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth4LineAmount" />
+    <property name="description" value="financialDocumentMonth4LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth5LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth5LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth5LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth5LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month5 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth5LineAmount" />
+    <property name="description" value="financialDocumentMonth5LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth6LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth6LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth6LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth6LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month6 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth6LineAmount" />
+    <property name="description" value="financialDocumentMonth6LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth7LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth7LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth7LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth7LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month7 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth7LineAmount" />
+    <property name="description" value="financialDocumentMonth7LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth8LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth8LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth8LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth8LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month8 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth8LineAmount" />
+    <property name="description" value="financialDocumentMonth8LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth9LineAmount" parent="BudgetConstructionRequestMove-financialDocumentMonth9LineAmount-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialDocumentMonth9LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth9LineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Month9 Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentMonth9LineAmount" />
+    <property name="description" value="financialDocumentMonth9LineAmount description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialObjectCode" parent="BudgetConstructionRequestMove-financialObjectCode-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialObjectCode" />
+    <property name="description" value="financialObjectCode description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialObjectTypeCode" parent="BudgetConstructionRequestMove-financialObjectTypeCode-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="financialObjectTypeCode" />
+    <property name="description" value="financialObjectTypeCode description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-financialSubObjectCode" parent="BudgetConstructionRequestMove-financialSubObjectCode-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Sub Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="financialSubObjectCode" />
+    <property name="description" value="financialSubObjectCode description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-personUniversalIdentifier" parent="BudgetConstructionRequestMove-personUniversalIdentifier-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Person Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="personUniversalIdentifier" />
+    <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-requestUpdateErrorCode" parent="BudgetConstructionRequestMove-requestUpdateErrorCode-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-requestUpdateErrorCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requestUpdateErrorCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Request Update Error Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="requestUpdateErrorCode" />
+    <property name="description" value="requestUpdateErrorCode description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-subAccountNumber" parent="BudgetConstructionRequestMove-subAccountNumber-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionRequestMove-versionNumber" parent="BudgetConstructionRequestMove-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="BudgetConstructionRequestMove-inquiryDefinition" parent="BudgetConstructionRequestMove-inquiryDefinition-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Request Move Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountLineAnnualBalanceAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth10LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth11LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth12LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth1LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth2LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth3LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth4LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth5LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth6LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth7LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth8LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentMonth9LineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="requestUpdateErrorCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetConstructionRequestMove-lookupDefinition" parent="BudgetConstructionRequestMove-lookupDefinition-parentBean" />
+
+  <bean id="BudgetConstructionRequestMove-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Request Move Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Request Move" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth10LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth11LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth12LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth1LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth2LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth3LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth4LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth5LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth6LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth7LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth8LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth9LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requestUpdateErrorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth10LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth11LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth12LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth1LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth2LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth3LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth4LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth5LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth6LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth7LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth8LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentMonth9LineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requestUpdateErrorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

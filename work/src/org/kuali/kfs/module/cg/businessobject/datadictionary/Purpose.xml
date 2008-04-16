@@ -1,115 +1,163 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.Purpose">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Purpose" parent="Purpose-parentBean" />
+
+  <bean id="Purpose-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.Purpose" />
+    <property name="inquiryDefinition" >
+      <ref bean="Purpose-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Purpose-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Purpose" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Purpose-purposeCode" />
+        <ref bean="Purpose-purposeDescription" />
+        <ref bean="Purpose-userSortNumber" />
+        <ref bean="Purpose-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="Purpose-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Purpose Inquiry</title>
+  <bean id="Purpose-purposeCode" parent="Purpose-purposeCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purposeCode" />
-                <field attributeName="purposeDescription" />
-                <field attributeName="userSortNumber" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Purpose-purposeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purposeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purpose Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="purposeCode" />
+    <property name="description" value="purposeCode description..." />
+  </bean>
+  <bean id="Purpose-purposeDescription" parent="Purpose-purposeDescription-parentBean" />
 
-        <lookup>
-            <title>Purpose Lookup</title>
+  <bean id="Purpose-purposeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purposeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Purpose Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="26" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="28" />
+    </property>
+    <property name="summary" value="purposeDescription" />
+    <property name="description" value="purposeDescription description..." />
+  </bean>
+  <bean id="Purpose-userSortNumber" parent="Purpose-userSortNumber-parentBean" />
 
-            <instructions>Look up a Purpose</instructions>
+  <bean id="Purpose-userSortNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userSortNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sort Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="userSortNumber" />
+    <property name="description" value="userSortNumber description..." />
+  </bean>
+  <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator" parent="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="purposeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  </bean>
+  <bean id="Purpose-versionNumber" parent="Purpose-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="purposeCode" required="false" />
-                <lookupField attributeName="purposeDescription" required="false" />
-                <lookupField attributeName="userSortNumber" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-            </lookupFields>
+  <bean id="Purpose-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="purposeCode" />
-                <field attributeName="purposeDescription" />
-                <field attributeName="userSortNumber" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="purposeCode" forceUppercase="true">
-                <label>Purpose Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="Purpose-inquiryDefinition" parent="Purpose-inquiryDefinition-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="Purpose-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purpose Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="purposeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purposeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="userSortNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="3" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>purposeCode</summary>
-                <description>purposeCode description...</description>
-			</attribute>
 
-            <attribute name="purposeDescription" forceUppercase="false">
-                <label>Purpose Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="Purpose-lookupDefinition" parent="Purpose-lookupDefinition-parentBean" />
 
-                <maxLength>26</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="28" />
-                </control>
-
-                <summary>purposeDescription</summary>
-                <description>purposeDescription description...</description>
-			</attribute>
-
-            <attribute name="userSortNumber" forceUppercase="true">
-                <label>Sort Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>userSortNumber</summary>
-                <description>userSortNumber description...</description>
-			</attribute>
-
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Purpose</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="Purpose-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purpose Lookup" />
+    <property name="instructions" value="Look up a Purpose" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purposeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purposeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userSortNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purposeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purposeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userSortNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

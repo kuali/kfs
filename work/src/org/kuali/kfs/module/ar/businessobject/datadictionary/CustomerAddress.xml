@@ -1,260 +1,374 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerAddress">
- 
-        <inquiry>
-            <title>Customer Address Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="customerAddressEndDate" />
-                        <field attributeName="customerAddressIdentifier" />
-                        <field attributeName="customerAddressName" />
-                        <field attributeName="customerAddressTypeCode" />
-                        <field attributeName="customerCityName" />
-                        <field attributeName="customerEmailAddress" />
-                        <field attributeName="customerInternationalMailCode" />
-                        <field attributeName="customerLine1StreetAddress" />
-                        <field attributeName="customerLine2StreetAddress" />
-                        <field attributeName="customerNumber" />
-                        <field attributeName="customerStateCode" />
-                        <field attributeName="customerZipCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Customer Address Lookup</title>
+  <bean id="CustomerAddress" parent="CustomerAddress-parentBean" />
 
-            <instructions>Look up a Customer Address</instructions>
+  <bean id="CustomerAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerAddress" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomerAddress-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomerAddress-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomerAddress-customerAddressEndDate" />
+        <ref bean="CustomerAddress-customerAddressIdentifier" />
+        <ref bean="CustomerAddress-customerAddressName" />
+        <ref bean="CustomerAddress-customerAddressTypeCode" />
+        <ref bean="CustomerAddress-customerCityName" />
+        <ref bean="CustomerAddress-customerEmailAddress" />
+        <ref bean="CustomerAddress-customerInternationalMailCode" />
+        <ref bean="CustomerAddress-customerLine1StreetAddress" />
+        <ref bean="CustomerAddress-customerLine2StreetAddress" />
+        <ref bean="CustomerAddress-customerNumber" />
+        <ref bean="CustomerAddress-customerStateCode" />
+        <ref bean="CustomerAddress-customerZipCode" />
+        <ref bean="CustomerAddress-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="customerNumber" />
-                    <sortAttribute attributeName="customerAddressIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="customerAddressEndDate" required="false" />
-                <lookupField attributeName="customerAddressIdentifier" required="false" />
-                <lookupField attributeName="customerAddressName" required="false" />
-                <lookupField attributeName="customerAddressTypeCode" required="false" />
-                <lookupField attributeName="customerCityName" required="false" />
-                <lookupField attributeName="customerEmailAddress" required="false" />
-                <lookupField attributeName="customerInternationalMailCode" required="false" />
-                <lookupField attributeName="customerLine1StreetAddress" required="false" />
-                <lookupField attributeName="customerLine2StreetAddress" required="false" />
-                <lookupField attributeName="customerNumber" required="false" />
-                <lookupField attributeName="customerStateCode" required="false" />
-                <lookupField attributeName="customerZipCode" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="customerAddressEndDate" />
-                <field attributeName="customerAddressIdentifier" />
-                <field attributeName="customerAddressName" />
-                <field attributeName="customerAddressTypeCode" />
-                <field attributeName="customerCityName" />
-                <field attributeName="customerEmailAddress" />
-                <field attributeName="customerInternationalMailCode" />
-                <field attributeName="customerLine1StreetAddress" />
-                <field attributeName="customerLine2StreetAddress" />
-                <field attributeName="customerNumber" />
-                <field attributeName="customerStateCode" />
-                <field attributeName="customerZipCode" />
-            </resultFields>
-        </lookup>
+  <bean id="CustomerAddress-customerAddressEndDate" parent="CustomerAddress-customerAddressEndDate-parentBean" />
 
-        <attributes>
+  <bean id="CustomerAddress-customerAddressEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Address End Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="customerAddressEndDate" />
+    <property name="description" value="customerAddressEndDate description..." />
+  </bean>
+  <bean id="CustomerAddress-customerAddressIdentifier" parent="CustomerAddress-customerAddressIdentifier-parentBean" />
 
-            <attribute name="customerAddressEndDate" forceUppercase="true">
-                <label>Customer Address End Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="CustomerAddress-customerAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Address Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="customerAddressIdentifier" />
+    <property name="description" value="customerAddressIdentifier description..." />
+  </bean>
+  <bean id="CustomerAddress-customerAddressName" parent="CustomerAddress-customerAddressName-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="CustomerAddress-customerAddressName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Address Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="customerAddressName" />
+    <property name="description" value="customerAddressName description..." />
+  </bean>
+  <bean id="CustomerAddress-customerAddressTypeCode" parent="CustomerAddress-customerAddressTypeCode-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
+  <bean id="CustomerAddress-customerAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Address Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="customerAddressTypeCode" />
+    <property name="description" value="customerAddressTypeCode description..." />
+  </bean>
+  <bean id="CustomerAddress-customerCityName" parent="CustomerAddress-customerCityName-parentBean" />
 
-                <summary>customerAddressEndDate</summary>
-                <description>customerAddressEndDate description...</description>
-			</attribute>
+  <bean id="CustomerAddress-customerCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerCityName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer City Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="27" />
+    </property>
+    <property name="summary" value="customerCityName" />
+    <property name="description" value="customerCityName description..." />
+  </bean>
+  <bean id="CustomerAddress-customerEmailAddress" parent="CustomerAddress-customerEmailAddress-parentBean" />
 
-            <attribute name="customerAddressIdentifier" forceUppercase="true">
-                <label>Customer Address Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="CustomerAddress-customerEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerEmailAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Email Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="62" />
+    </property>
+    <property name="summary" value="customerEmailAddress" />
+    <property name="description" value="customerEmailAddress description..." />
+  </bean>
+  <bean id="CustomerAddress-customerInternationalMailCode" parent="CustomerAddress-customerInternationalMailCode-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="CustomerAddress-customerInternationalMailCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerInternationalMailCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer International Mail Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+    <property name="summary" value="customerInternationalMailCode" />
+    <property name="description" value="customerInternationalMailCode description..." />
+  </bean>
+  <bean id="CustomerAddress-customerLine1StreetAddress" parent="CustomerAddress-customerLine1StreetAddress-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
+  <bean id="CustomerAddress-customerLine1StreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerLine1StreetAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Line1 Street Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="customerLine1StreetAddress" />
+    <property name="description" value="customerLine1StreetAddress description..." />
+  </bean>
+  <bean id="CustomerAddress-customerLine2StreetAddress" parent="CustomerAddress-customerLine2StreetAddress-parentBean" />
 
-                <summary>customerAddressIdentifier</summary>
-                <description>customerAddressIdentifier description...</description>
-			</attribute>
+  <bean id="CustomerAddress-customerLine2StreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerLine2StreetAddress" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Line2 Street Address" />
+    <property name="shortLabel" value="Address" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="customerLine2StreetAddress" />
+    <property name="description" value="customerLine2StreetAddress description..." />
+  </bean>
+  <bean id="CustomerAddress-customerNumber" parent="CustomerAddress-customerNumber-parentBean" />
 
-            <attribute name="customerAddressName" forceUppercase="true">
-                <label>Customer Address Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="CustomerAddress-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="customerNumber" />
+    <property name="description" value="customerNumber description..." />
+  </bean>
+  <bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="CustomerAddress-customerStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerStateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer State Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="customerStateCode" />
+    <property name="description" value="customerStateCode description..." />
+  </bean>
+  <bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
-                <control>
-                    <text size="42" />
-                </control>
+  <bean id="CustomerAddress-customerZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerZipCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Zip Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="customerZipCode" />
+    <property name="description" value="customerZipCode description..." />
+  </bean>
+  <bean id="CustomerAddress-versionNumber" parent="CustomerAddress-versionNumber-parentBean" />
 
-                <summary>customerAddressName</summary>
-                <description>customerAddressName description...</description>
-			</attribute>
+  <bean id="CustomerAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="customerAddressTypeCode" forceUppercase="true">
-                <label>Customer Address Type Code</label>
-                <shortLabel>Code</shortLabel>
+<!-- Business Object Inquiry Definition -->
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="CustomerAddress-inquiryDefinition" parent="CustomerAddress-inquiryDefinition-parentBean" />
 
-                <summary>customerAddressTypeCode</summary>
-                <description>customerAddressTypeCode description...</description>
-			</attribute>
+  <bean id="CustomerAddress-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Customer Address Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerAddressEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerAddressIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerAddressName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerAddressTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerInternationalMailCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerLine1StreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerLine2StreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerZipCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attribute name="customerCityName" forceUppercase="true">
-                <label>Customer City Name</label>
-                <shortLabel>Name</shortLabel>
+<!-- Business Object Lookup Definition -->
 
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="27" />
-                </control>
+  <bean id="CustomerAddress-lookupDefinition" parent="CustomerAddress-lookupDefinition-parentBean" />
 
-                <summary>customerCityName</summary>
-                <description>customerCityName description...</description>
-			</attribute>
-
-            <attribute name="customerEmailAddress" forceUppercase="true">
-                <label>Customer Email Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>60</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="62" />
-                </control>
-
-                <summary>customerEmailAddress</summary>
-                <description>customerEmailAddress description...</description>
-			</attribute>
-
-            <attribute name="customerInternationalMailCode" forceUppercase="true">
-                <label>Customer International Mail Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-                <summary>customerInternationalMailCode</summary>
-                <description>customerInternationalMailCode description...</description>
-			</attribute>
-
-            <attribute name="customerLine1StreetAddress" forceUppercase="true">
-                <label>Customer Line1 Street Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>customerLine1StreetAddress</summary>
-                <description>customerLine1StreetAddress description...</description>
-			</attribute>
-
-            <attribute name="customerLine2StreetAddress" forceUppercase="true">
-                <label>Customer Line2 Street Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>customerLine2StreetAddress</summary>
-                <description>customerLine2StreetAddress description...</description>
-			</attribute>
-
-            <attribute name="customerNumber" forceUppercase="true">
-                <label>Customer Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>customerNumber</summary>
-                <description>customerNumber description...</description>
-			</attribute>
-
-            <attribute name="customerStateCode" forceUppercase="true">
-                <label>Customer State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>customerStateCode</summary>
-                <description>customerStateCode description...</description>
-			</attribute>
-
-            <attribute name="customerZipCode" forceUppercase="true">
-                <label>Customer Zip Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>customerZipCode</summary>
-                <description>customerZipCode description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CustomerAddress-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Address Lookup" />
+    <property name="instructions" value="Look up a Customer Address" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerInternationalMailCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerLine1StreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerLine2StreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerZipCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerInternationalMailCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerLine1StreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerLine2StreetAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerZipCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

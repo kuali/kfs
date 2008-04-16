@@ -24,7 +24,6 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.AttributeReferenceDefinition;
 import org.kuali.core.datadictionary.DataDictionaryEntryBase;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
@@ -379,18 +378,19 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
             inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClass(businessObject, attributeName);
         }
 
-        if (attributeDefinition instanceof AttributeReferenceDefinition) {
-            AttributeReferenceDefinition attributeReferenceDefinition = (AttributeReferenceDefinition) attributeDefinition;
-            LOG.debug("Source Classname = " + attributeReferenceDefinition.getSourceClassName());
-            LOG.debug("Source Attribute = " + attributeReferenceDefinition.getSourceAttributeName());
-
-            try {
-                inquiryBusinessObjectClass = Class.forName(attributeReferenceDefinition.getSourceClassName());
-            }
-            catch (Exception e) {
-                throw new IllegalArgumentException("fail to construct a Class");
-            }
-        }
+        // TODO: need to get class for which this property belongs
+//        if (attributeDefinition instanceof AttributeReferenceDefinition) {
+//            AttributeReferenceDefinition attributeReferenceDefinition = (AttributeReferenceDefinition) attributeDefinition;
+//            LOG.debug("Source Classname = " + attributeReferenceDefinition.getSourceClassName());
+//            LOG.debug("Source Attribute = " + attributeReferenceDefinition.getSourceAttributeName());
+//
+//            try {
+//                inquiryBusinessObjectClass = Class.forName(attributeReferenceDefinition.getSourceClassName());
+//            }
+//            catch (Exception e) {
+//                throw new IllegalArgumentException("fail to construct a Class");
+//            }
+//        }
 
         return inquiryBusinessObjectClass;
     }

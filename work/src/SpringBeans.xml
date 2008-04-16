@@ -344,16 +344,52 @@
 		</property>
 	</bean>
 
-	<bean id="validationCompletionUtils" class="org.kuali.core.datadictionary.ValidationCompletionUtils">
-		<property name="persistenceStructureService" ref="persistenceStructureService" />
-	</bean>
-	
 	<bean id="dataDictionaryService" class="org.kuali.core.service.impl.DataDictionaryServiceImpl">
-		<constructor-arg ref="validationCompletionUtils" />
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="authorizationService" ref="authorizationService" />
 		<property name="kualiGroupService" ref="kualiGroupService" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
+        <property name="baselinePackages">
+            <list>
+				<value>classpath:org/kuali/core/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/AdHocRoutePerson.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/AdHocRouteWorkgroup.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/Attachment.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/AttributeReferenceDummy.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/BusinessObjectAttributeEntry.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/Campus.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/CampusType.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/DocumentGroup.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/DocumentHeader.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/DocumentStatus.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/DocumentType.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/EmployeeStatus.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/EmployeeType.xml</value>
+
+                <value>classpath:org/kuali/core/bo/datadictionary/ParameterNamespace.xml</value>
+                <value>classpath:org/kuali/core/bo/datadictionary/ParameterType.xml</value>
+                <value>classpath:org/kuali/core/bo/datadictionary/ParameterDetailType.xml</value>
+                <value>classpath:org/kuali/core/bo/datadictionary/Parameter.xml</value>
+
+				<value>classpath:org/kuali/core/bo/datadictionary/Note.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/NoteType.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/UniversalUser.xml</value>
+				<value>classpath:org/kuali/core/bo/datadictionary/RiceUser.xml</value>
+
+                <value>classpath:org/kuali/core/document/datadictionary/ParameterNamespaceMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/core/document/datadictionary/ParameterTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/core/document/datadictionary/ParameterDetailTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/core/document/datadictionary/ParameterMaintenanceDocument.xml</value>
+
+				<value>classpath:org/kuali/core/document/datadictionary/CampusMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/core/document/datadictionary/CampusTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/core/document/datadictionary/DocumentTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/core/document/datadictionary/EmployeeStatusMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/core/document/datadictionary/EmployeeTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/core/document/datadictionary/UniversalUserMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/core/document/datadictionary/RiceUserMaintenanceDocument.xml</value>
+            </list>
+        </property>
 	</bean>
 
 	<bean id="businessObjectService" class="org.kuali.core.service.impl.BusinessObjectServiceImpl">
@@ -708,6 +744,7 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 
 	<bean id="kualiInquirable" class="org.kuali.core.inquiry.KualiInquirableImpl" singleton="false" />

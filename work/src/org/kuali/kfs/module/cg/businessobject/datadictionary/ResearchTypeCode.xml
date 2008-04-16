@@ -1,97 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.ResearchTypeCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ResearchTypeCode" parent="ResearchTypeCode-parentBean" />
+
+  <bean id="ResearchTypeCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.ResearchTypeCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="ResearchTypeCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ResearchTypeCode-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Research Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ResearchTypeCode-researchTypeCode" />
+        <ref bean="ResearchTypeCode-researchTypeDescription" />
+        <ref bean="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="ResearchTypeCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Research Type Inquiry</title>
+  <bean id="ResearchTypeCode-researchTypeCode" parent="ResearchTypeCode-researchTypeCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="researchTypeCode" />
-                <field attributeName="researchTypeDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ResearchTypeCode-researchTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="researchTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Research Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="researchTypeCode" />
+    <property name="description" value="researchTypeCode description..." />
+  </bean>
+  <bean id="ResearchTypeCode-researchTypeDescription" parent="ResearchTypeCode-researchTypeDescription-parentBean" />
 
-        <lookup>
-            <title>Research Type Lookup</title>
+  <bean id="ResearchTypeCode-researchTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="researchTypeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Research Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="researchTypeDescription" />
+    <property name="description" value="researchTypeDescription description..." />
+  </bean>
+  <bean id="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator" parent="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-            <instructions>Look up a Research Type</instructions>
+  <bean id="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  </bean>
+  <bean id="ResearchTypeCode-versionNumber" parent="ResearchTypeCode-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="researchTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ResearchTypeCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="researchTypeCode" required="false" />
-                <lookupField attributeName="researchTypeDescription" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="researchTypeCode" />
-                <field attributeName="researchTypeDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="ResearchTypeCode-inquiryDefinition" parent="ResearchTypeCode-inquiryDefinition-parentBean" />
 
-            <attribute name="researchTypeCode" forceUppercase="true">
-                <label>Research Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="ResearchTypeCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Research Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="researchTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="researchTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="3" />
-                </control>
 
-                <summary>researchTypeCode</summary>
-                <description>researchTypeCode description...</description>
-			</attribute>
+  <bean id="ResearchTypeCode-lookupDefinition" parent="ResearchTypeCode-lookupDefinition-parentBean" />
 
-            <attribute name="researchTypeDescription" forceUppercase="false">
-                <label>Research Type Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>researchTypeDescription</summary>
-                <description>researchTypeDescription description...</description>
-			</attribute>
-
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Research Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ResearchTypeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Research Type Lookup" />
+    <property name="instructions" value="Look up a Research Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="researchTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="researchTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="researchTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="researchTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,117 +1,168 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
+  <bean id="DisbursementVoucherPayeeDetail" parent="DisbursementVoucherPayeeDetail-parentBean" />
+
+  <bean id="DisbursementVoucherPayeeDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail" />
+    <property name="titleAttribute" value="dvPayeeDetail" />
+    <property name="objectLabel" value="DV Payee Detail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPaymentReasonCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitPersonName" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitLine1Addr" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitLine2Addr" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitCityName" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitStateCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitZipCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrRemitCountryCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrPayeeEmployeeCode" />
+        <ref bean="DisbursementVoucherPayeeDetail-disbVchrAlienPaymentCode" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        
-        <titleAttribute>dvPayeeDetail</titleAttribute>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPaymentReasonCode" parent="DisbursementVoucherPayeeDetail-disbVchrPaymentReasonCode-parentBean" />
 
-        <attributes>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPaymentReasonCode-parentBean" abstract="true" parent="PaymentReasonCode-code">
+    <property name="name" value="disbVchrPaymentReasonCode" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber-parentBean" />
 
-            <attributeReference name="disbVchrPaymentReasonCode" sourceClassName="org.kuali.module.financial.bo.PaymentReasonCode" sourceAttributeName="code">
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder" />
-                </control>
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber-parentBean" abstract="true" parent="Payee-payeeIdNumber">
+    <property name="name" value="disbVchrPayeeIdNumber" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeCode" parent="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeCode-parentBean" />
 
-            <attributeReference name="disbVchrPayeeIdNumber" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeIdNumber">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbursementVoucherPayeeTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee Type" />
+    <property name="shortLabel" value="Pay Type" />
+    <property name="maxLength" value="25" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName" parent="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" />
 
-            <attribute name="disbursementVoucherPayeeTypeCode">
-                <label>Payee Type</label>
-                <shortLabel>Pay Type</shortLabel>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" abstract="true" parent="Payee-payeePersonName">
+    <property name="name" value="disbVchrPayeePersonName" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr-parentBean" />
 
-                <maxLength>25</maxLength>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr-parentBean" abstract="true" parent="Payee-payeeLine1Addr">
+    <property name="name" value="disbVchrPayeeLine1Addr" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr-parentBean" />
 
-                <required>true</required>
-                
-                <control>
-                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder" />
-                </control>
-            </attribute>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr-parentBean" abstract="true" parent="Payee-payeeLine2Addr">
+    <property name="name" value="disbVchrPayeeLine2Addr" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName-parentBean" />
 
-            <attributeReference name="disbVchrPayeePersonName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeePersonName">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName-parentBean" abstract="true" parent="Payee-payeeCityName">
+    <property name="name" value="disbVchrPayeeCityName" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode-parentBean" />
 
-            <attributeReference name="disbVchrPayeeLine1Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine1Addr">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode-parentBean" abstract="true" parent="Payee-payeeStateCode">
+    <property name="name" value="disbVchrPayeeStateCode" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" />
 
-            <attributeReference name="disbVchrPayeeLine2Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine2Addr">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="Payee-payeeZipCode">
+    <property name="name" value="disbVchrPayeeZipCode" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" />
 
-            <attributeReference name="disbVchrPayeeCityName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCityName">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" abstract="true" parent="Payee-payeeCountryCode">
+    <property name="name" value="disbVchrPayeeCountryCode" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitPersonName" parent="DisbursementVoucherPayeeDetail-disbVchrRemitPersonName-parentBean" />
 
-            <attributeReference name="disbVchrPayeeStateCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeStateCode">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitPersonName-parentBean" abstract="true" parent="Payee-payeePersonName">
+    <property name="name" value="disbVchrRemitPersonName" />
+    <property name="label" value="Remit Name" />
+    <property name="shortLabel" value="Remit Nm" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrRemitLine1Addr-parentBean" />
 
-            <attributeReference name="disbVchrPayeeZipCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeZipCode">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitLine1Addr-parentBean" abstract="true" parent="Payee-payeeLine1Addr">
+    <property name="name" value="disbVchrRemitLine1Addr" />
+    <property name="label" value="Remit Address 1" />
+    <property name="shortLabel" value="Remit Addr 1" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitLine2Addr" parent="DisbursementVoucherPayeeDetail-disbVchrRemitLine2Addr-parentBean" />
 
-            <attributeReference name="disbVchrPayeeCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitLine2Addr-parentBean" abstract="true" parent="Payee-payeeLine2Addr">
+    <property name="name" value="disbVchrRemitLine2Addr" />
+    <property name="label" value="Remit Address 2" />
+    <property name="shortLabel" value="Remit Addr 2" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitCityName" parent="DisbursementVoucherPayeeDetail-disbVchrRemitCityName-parentBean" />
 
-            <attributeReference name="disbVchrRemitPersonName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeePersonName">
-                <label>Remit Name</label>
-                <shortLabel>Remit Nm</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitCityName-parentBean" abstract="true" parent="Payee-payeeCityName">
+    <property name="name" value="disbVchrRemitCityName" />
+    <property name="label" value="Remit City" />
+    <property name="shortLabel" value="Remit City" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitStateCode" parent="DisbursementVoucherPayeeDetail-disbVchrRemitStateCode-parentBean" />
 
-            <attributeReference name="disbVchrRemitLine1Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine1Addr">
-                <label>Remit Address 1</label>
-                <shortLabel>Remit Addr 1</shortLabel>
-                <required>false</required>
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitStateCode-parentBean" abstract="true" parent="Payee-payeeStateCode">
+    <property name="name" value="disbVchrRemitStateCode" />
+    <property name="label" value="Remit State" />
+    <property name="shortLabel" value="Remit State" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrRemitZipCode-parentBean" />
 
-            <attributeReference name="disbVchrRemitLine2Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine2Addr">
-                <label>Remit Address 2</label>
-                <shortLabel>Remit Addr 2</shortLabel>
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitZipCode-parentBean" abstract="true" parent="Payee-payeeZipCode">
+    <property name="name" value="disbVchrRemitZipCode" />
+    <property name="label" value="Remit Postal Code" />
+    <property name="shortLabel" value="Remit Postal" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitCountryCode" parent="DisbursementVoucherPayeeDetail-disbVchrRemitCountryCode-parentBean" />
 
-            <attributeReference name="disbVchrRemitCityName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCityName">
-                <label>Remit City</label>
-                <shortLabel>Remit City</shortLabel>
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrRemitCountryCode-parentBean" abstract="true" parent="Payee-payeeCountryCode">
+    <property name="name" value="disbVchrRemitCountryCode" />
+    <property name="label" value="Remit Country" />
+    <property name="shortLabel" value="Remit Cntry" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeEmployeeCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeEmployeeCode-parentBean" />
 
-            <attributeReference name="disbVchrRemitStateCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeStateCode">
-                <label>Remit State</label>
-                <shortLabel>Remit State</shortLabel>
-            </attributeReference>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeEmployeeCode-parentBean" abstract="true" parent="Payee-payeeEmployeeCode">
+    <property name="name" value="disbVchrPayeeEmployeeCode" />
+  </bean>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrAlienPaymentCode" parent="DisbursementVoucherPayeeDetail-disbVchrAlienPaymentCode-parentBean" />
 
-            <attributeReference name="disbVchrRemitZipCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeZipCode">
-                <label>Remit Postal Code</label>
-                <shortLabel>Remit Postal</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="disbVchrRemitCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">
-                <label>Remit Country</label>
-                <shortLabel>Remit Cntry</shortLabel>
-                <required>false</required>
-            </attributeReference>
-
-            <attributeReference name="disbVchrPayeeEmployeeCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeEmployeeCode" />
-
-            <attributeReference name="disbVchrAlienPaymentCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="alienPaymentCode" />
-        </attributes>
-        <objectLabel>DV Payee Detail</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrAlienPaymentCode-parentBean" abstract="true" parent="Payee-alienPaymentCode">
+    <property name="name" value="disbVchrAlienPaymentCode" />
+  </bean>
+</beans>

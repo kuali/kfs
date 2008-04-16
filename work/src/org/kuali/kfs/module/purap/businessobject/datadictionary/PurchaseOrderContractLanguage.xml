@@ -1,107 +1,156 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderContractLanguage">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Purchase Order Contract Language Inquiry</title>
+  <bean id="PurchaseOrderContractLanguage" parent="PurchaseOrderContractLanguage-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="campusCode" />
-                <field attributeName="purchaseOrderContractLanguageDescription" />
-                <field attributeName="contractLanguageCreateDate" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PurchaseOrderContractLanguage-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderContractLanguage" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchaseOrderContractLanguage-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchaseOrderContractLanguage-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Purchase Order Contract Language" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderContractLanguage-purchaseOrderContractLanguageIdentifier" />
+        <ref bean="PurchaseOrderContractLanguage-campusCode" />
+        <ref bean="PurchaseOrderContractLanguage-purchaseOrderContractLanguageDescription" />
+        <ref bean="PurchaseOrderContractLanguage-contractLanguageCreateDate" />
+        <ref bean="PurchaseOrderContractLanguage-active" />
+        <ref bean="PurchaseOrderContractLanguage-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Purchase Order Contract Language Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Purchase Order Contract Language</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="campusCode" />
-                    <sortAttribute attributeName="contractLanguageCreateDate"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PurchaseOrderContractLanguage-purchaseOrderContractLanguageIdentifier" parent="PurchaseOrderContractLanguage-purchaseOrderContractLanguageIdentifier-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="campusCode" required="false" noLookup="true"/>
-                <lookupField attributeName="purchaseOrderContractLanguageDescription" required="false" />
-                <lookupField attributeName="contractLanguageCreateDate" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
+  <bean id="PurchaseOrderContractLanguage-purchaseOrderContractLanguageIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderContractLanguageIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Contract Language Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderContractLanguage-campusCode" parent="PurchaseOrderContractLanguage-campusCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="campusCode" />
-                <field attributeName="purchaseOrderContractLanguageDescription" />
-                <field attributeName="contractLanguageCreateDate" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="PurchaseOrderContractLanguage-campusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+    <property name="label" value="Purchasing Office Campus Code" />
+    <property name="shortLabel" value="Code" />
+  </bean>
+  <bean id="PurchaseOrderContractLanguage-purchaseOrderContractLanguageDescription" parent="PurchaseOrderContractLanguage-purchaseOrderContractLanguageDescription-parentBean" />
 
-        <attributes>
+  <bean id="PurchaseOrderContractLanguage-purchaseOrderContractLanguageDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderContractLanguageDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Purchase Order Contract Language Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderContractLanguage-contractLanguageCreateDate" parent="PurchaseOrderContractLanguage-contractLanguageCreateDate-parentBean" />
 
-            <attribute name="purchaseOrderContractLanguageIdentifier" forceUppercase="true">
-                <label>Purchase Order Contract Language Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+  <bean id="PurchaseOrderContractLanguage-contractLanguageCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="contractLanguageCreateDate" />
+    <property name="label" value="Contract Language Create Date" />
+    <property name="shortLabel" value="Create Date" />
+  </bean>
+  <bean id="PurchaseOrderContractLanguage-active" parent="PurchaseOrderContractLanguage-active-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="PurchaseOrderContractLanguage-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="PurchaseOrderContractLanguage-versionNumber" parent="PurchaseOrderContractLanguage-versionNumber-parentBean" />
 
-                <control>
-                    <hidden/>
-                </control>
+  <bean id="PurchaseOrderContractLanguage-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			</attribute>
-			
-			<attributeReference name="campusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >
-                <label>Purchasing Office Campus Code</label>
-                <shortLabel>Code</shortLabel>
-			</attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="purchaseOrderContractLanguageDescription">
-                <label>Purchase Order Contract Language Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+  <bean id="PurchaseOrderContractLanguage-inquiryDefinition" parent="PurchaseOrderContractLanguage-inquiryDefinition-parentBean" />
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
+  <bean id="PurchaseOrderContractLanguage-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purchase Order Contract Language Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderContractLanguageDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contractLanguageCreateDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="contractLanguageCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Contract Language Create Date</label>
-                <shortLabel>Create Date</shortLabel>
 
-            </attributeReference>
+  <bean id="PurchaseOrderContractLanguage-lookupDefinition" parent="PurchaseOrderContractLanguage-lookupDefinition-parentBean" />
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            
-        </attributes>
-        <objectLabel>Purchase Order Contract Language</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PurchaseOrderContractLanguage-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purchase Order Contract Language Lookup" />
+    <property name="instructions" value="Lookup a Purchase Order Contract Language" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderContractLanguageDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractLanguageCreateDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderContractLanguageDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contractLanguageCreateDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

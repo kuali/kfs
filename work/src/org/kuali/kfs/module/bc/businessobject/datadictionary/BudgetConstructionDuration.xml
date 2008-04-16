@@ -1,111 +1,148 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionDuration">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionDuration" parent="BudgetConstructionDuration-parentBean" />
+
+  <bean id="BudgetConstructionDuration-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionDuration" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionDuration-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionDuration-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="appointmentDurationCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionDuration-appointmentDurationCode" />
+        <ref bean="BudgetConstructionDuration-appointmentDurationDescription" />
+        <ref bean="BudgetConstructionDuration-rowActiveIndicator" />
+        <ref bean="BudgetConstructionDuration-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Budget Construction Duration Inquiry</title>
+  <bean id="BudgetConstructionDuration-appointmentDurationCode" parent="BudgetConstructionDuration-appointmentDurationCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="appointmentDurationCode" />
-                <field attributeName="appointmentDurationDescription" />
-                <field attributeName="rowActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetConstructionDuration-appointmentDurationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentDurationCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Duration Code" />
+    <property name="shortLabel" value="Duration Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Appointment Duration Code" />
+    <property name="description" value="Leave of absence duration code for an appointment." />
+  </bean>
+  <bean id="BudgetConstructionDuration-appointmentDurationDescription" parent="BudgetConstructionDuration-appointmentDurationDescription-parentBean" />
 
-        <lookup>
-            <title>Budget Construction Duration Lookup</title>
+  <bean id="BudgetConstructionDuration-appointmentDurationDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentDurationDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Duration Description" />
+    <property name="shortLabel" value="Duration Desc" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="42" />
+    </property>
+    <property name="summary" value="Appointment Duration Description" />
+    <property name="description" value="Appointment Duration Description" />
+  </bean>
+  <bean id="BudgetConstructionDuration-rowActiveIndicator" parent="BudgetConstructionDuration-rowActiveIndicator-parentBean" />
 
-            <instructions>Look up a Budget Construction Duration</instructions>
+  <bean id="BudgetConstructionDuration-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rowActiveIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Duration Code active indicator" />
+    <property name="shortLabel" value="Active Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Duration Code active indicator" />
+    <property name="description" value="Appointment Duration Code active indicator." />
+  </bean>
+  <bean id="BudgetConstructionDuration-versionNumber" parent="BudgetConstructionDuration-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="appointmentDurationCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetConstructionDuration-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="appointmentDurationCode" required="false" />
-                <lookupField attributeName="appointmentDurationDescription" required="false" />
-                <lookupField attributeName="rowActiveIndicator" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="appointmentDurationCode" forceInquiry="true"  />
-                <field attributeName="appointmentDurationDescription" />
-                <field attributeName="rowActiveIndicator" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
 
-        <titleAttribute>appointmentDurationCode</titleAttribute>
-  
-        <attributes>
+  <bean id="BudgetConstructionDuration-inquiryDefinition" parent="BudgetConstructionDuration-inquiryDefinition-parentBean" />
 
-            <attribute name="appointmentDurationCode" forceUppercase="true">
-                <label>Appointment Duration Code</label>
-                <shortLabel>Duration Code</shortLabel>
+  <bean id="BudgetConstructionDuration-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Duration Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentDurationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentDurationDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rowActiveIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="6" />
-                </control>
 
-                <summary>Appointment Duration Code</summary>
-                <description>Leave of absence duration code for an appointment.</description>
-			</attribute>
+  <bean id="BudgetConstructionDuration-lookupDefinition" parent="BudgetConstructionDuration-lookupDefinition-parentBean" />
 
-            <attribute name="appointmentDurationDescription" forceUppercase="true">
-                <label>Appointment Duration Description</label>
-                <shortLabel>Duration Desc</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>Appointment Duration Description</summary>
-                <description>Appointment Duration Description</description>
-			</attribute>
-
-            <attribute name="rowActiveIndicator" forceUppercase="true">
-                <label>Duration Code active indicator</label>
-                <shortLabel>Active Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Duration Code active indicator</summary>
-                <description>Appointment Duration Code active indicator.</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="BudgetConstructionDuration-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Duration Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Duration" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentDurationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentDurationDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rowActiveIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentDurationCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentDurationDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rowActiveIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,99 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.financial.document.JournalVoucherDocument</documentClass>
-        <businessRulesClass>org.kuali.module.financial.rules.JournalVoucherDocumentRule</businessRulesClass>
+  <bean id="JournalVoucherDocument" parent="JournalVoucherDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>FP_JOURNAL_VOUCHER_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="JournalVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="allowsErrorCorrection" value="true" />
+    <property name="label" value="Journal Voucher" />
+    <property name="shortLabel" value="Journal Voucher" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Journal Voucher (JV) document is used to perform accounting tasks that cannot be done by any of the specialized financial documents. The JV document is a very open ended financial transactions document, with few checks of business rules. The main purpose of the Journal Voucher is to record accruals and allocations, and to adjust entries. The JV document can also be used to fix errors that may occur in the system which inadvertently put the General Ledger out of balance." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="JOURNAL_VOUCHER"
+            p:parameterDetailType="JournalVoucher" />
+    </property>
+    <property name="documentTypeName" value="JournalVoucherDocument" />
+    <property name="documentClass" value="org.kuali.module.financial.document.JournalVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.financial.rules.JournalVoucherDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer" />
+    <property name="documentTypeCode" value="JV" />
+    <property name="allowsCopy" value="true" />
+    <property name="workflowProperties" >
+      <ref bean="JournalVoucherDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>FP_JOURNAL_VOUCHER_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="JournalVoucherDocument-accountingPeriod" />
+        <ref bean="JournalVoucherDocument-reversalDate" />
+        <ref bean="JournalVoucherDocument-balanceTypeCode" />
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>JournalVoucherDocument</documentTypeName>
-        <documentTypeCode>JV</documentTypeCode>
+<!-- Attribute Definitions -->
 
-        <label>Journal Voucher</label>
 
-        <attributes>
-            <attribute name="accountingPeriod" forceUppercase="false">
-                <label>Accounting Period</label>
-                <shortLabel>Acct. Prd.</shortLabel>
+  <bean id="JournalVoucherDocument-accountingPeriod" parent="JournalVoucherDocument-accountingPeriod-parentBean" />
 
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
+  <bean id="JournalVoucherDocument-accountingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountingPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Accounting Period" />
+    <property name="shortLabel" value="Acct. Prd." />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The calendar accounting periods during which the Journal Voucher applies. Select one from the pulldown list." />
+  </bean>
+  <bean id="JournalVoucherDocument-reversalDate" parent="JournalVoucherDocument-reversalDate-parentBean" />
 
-                <required>true</required>
+  <bean id="JournalVoucherDocument-reversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="reversalDate" />
+    <property name="label" value="Reversal Date" />
+    <property name="shortLabel" value="Reversal Date" />
+    <property name="required" value="false" />
+    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document's date. Use the calendar icon to select and format the Reversal Date." />
+  </bean>
+  <bean id="JournalVoucherDocument-balanceTypeCode" parent="JournalVoucherDocument-balanceTypeCode-parentBean" />
 
-                <control>
-                    <text size="50" />
-                </control>
+  <bean id="JournalVoucherDocument-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list." />
+  </bean>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The calendar accounting periods during which the Journal Voucher applies. Select one from the pulldown list.</description>
-            </attribute>
+<!-- Exported Workflow Properties -->
 
-            <attributeReference name="reversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Reversal Date</label>
-                <shortLabel>Reversal Date</shortLabel>
 
-                <required>false</required>
+  <bean id="JournalVoucherDocument-workflowProperties" parent="JournalVoucherDocument-workflowProperties-parentBean" />
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document.  The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date.</description>
-            </attributeReference>
-
-            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-                <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list.</description>
-
-            </attributeReference>
-        </attributes>
-
-        <summary>
-            <![CDATA[&nbsp;]]>
-        </summary>
-        <description>The Journal Voucher (JV) document is used to perform accounting tasks that cannot be done by any of the specialized financial documents. The JV document is a very open ended financial transactions document, with few checks of business rules. The main purpose of the Journal Voucher is to record accruals and allocations, and to adjust entries. The JV document can also be used to fix errors that may occur in the system which inadvertently put the General Ledger out of balance.</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="JournalVoucher" parameterName="JOURNAL_VOUCHER" />        
-        <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>true</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="documentHeader" />
-				<workflowProperty path="sourceAccountingLines" />
-			</workflowPropertyGroup>
-		</workflowProperties>
-    </transactionalDocument>
-</dictionaryEntry>
+  <bean id="JournalVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

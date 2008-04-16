@@ -1,39 +1,467 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
-<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">
-<!ENTITY purApAccountingLineBaseAttributes SYSTEM "../dictionary/entity/PurApAccountingLineBaseAttributes.xml">
-]> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestAccount">
+  <bean id="PaymentRequestAccount" parent="PaymentRequestAccount-parentBean" />
 
-        <attributes>
-            &accountingLineBaseAttributes;
-            &purApAccountingLineBaseAttributes;
+  <bean id="PaymentRequestAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PaymentRequestAccount" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentRequestAccount-objectCode.financialObjectTypeCode" />
+        <ref bean="PaymentRequestAccount-objectCode.financialObjectSubTypeCode" />
+        <ref bean="PaymentRequestAccount-objectCode.financialObjectLevelCode" />
+        <ref bean="PaymentRequestAccount-account.financialHigherEdFunctionCd" />
+        <ref bean="PaymentRequestAccount-account.subFundGroupCode" />
+        <ref bean="PaymentRequestAccount-account.subFundGroup.fundGroupCode" />
+        <ref bean="PaymentRequestAccount-balanceTypeCode" />
+        <ref bean="PaymentRequestAccount-referenceNumber" />
+        <ref bean="PaymentRequestAccount-sequenceNumber" />
+        <ref bean="PaymentRequestAccount-financialObjectCode" />
+        <ref bean="PaymentRequestAccount-accountNumber" />
+        <ref bean="PaymentRequestAccount-objectId" />
+        <ref bean="PaymentRequestAccount-organizationReferenceId" />
+        <ref bean="PaymentRequestAccount-chartOfAccountsCode" />
+        <ref bean="PaymentRequestAccount-postingYear" />
+        <ref bean="PaymentRequestAccount-referenceOriginCode" />
+        <ref bean="PaymentRequestAccount-overrideCode" />
+        <ref bean="PaymentRequestAccount-amount" />
+        <ref bean="PaymentRequestAccount-subAccountNumber" />
+        <ref bean="PaymentRequestAccount-referenceTypeCode" />
+        <ref bean="PaymentRequestAccount-projectCode" />
+        <ref bean="PaymentRequestAccount-financialSubObjectCode" />
+        <ref bean="PaymentRequestAccount-versionNumber" />
+        <ref bean="PaymentRequestAccount-documentNumber" />
+        <ref bean="PaymentRequestAccount-debitCreditCode" />
+        <ref bean="PaymentRequestAccount-encumbranceUpdateCode" />
+        <ref bean="PaymentRequestAccount-objectTypeCode" />
+        <ref bean="PaymentRequestAccount-accountExpiredOverride" />
+        <ref bean="PaymentRequestAccount-nonFringeAccountOverride" />
+        <ref bean="PaymentRequestAccount-objectBudgetOverride" />
+        <ref bean="PaymentRequestAccount-financialDocumentLineDescription" />
+        <ref bean="PaymentRequestAccount-salesTaxRequired" />
+        <ref bean="PaymentRequestAccount-salesTax.chartOfAccountsCode" />
+        <ref bean="PaymentRequestAccount-salesTax.accountNumber" />
+        <ref bean="PaymentRequestAccount-salesTax.financialDocumentGrossSalesAmount" />
+        <ref bean="PaymentRequestAccount-salesTax.financialDocumentTaxableSalesAmount" />
+        <ref bean="PaymentRequestAccount-salesTax.financialDocumentSaleDate" />
+        <ref bean="PaymentRequestAccount-itemIdentifier" />
+        <ref bean="PaymentRequestAccount-accountLinePercent" />
+        <ref bean="PaymentRequestAccount-accountIdentifier" />
+        <ref bean="PaymentRequestAccount-disencumberedAmount" />
+      </list>
+    </property>
+  </bean>
 
-			<attributeReference name="disencumberedAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Disencumbered Amount</label>
-				<shortLabel>Disencumbered Amount</shortLabel>
+<!-- Attribute Definitions -->
 
-			</attributeReference>
-			
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+
+  <bean id="PaymentRequestAccount-objectCode.financialObjectTypeCode" parent="PaymentRequestAccount-objectCode.financialObjectTypeCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
+    <property name="name" value="objectCode.financialObjectTypeCode" />
+  </bean>
+  <bean id="PaymentRequestAccount-objectCode.financialObjectSubTypeCode" parent="PaymentRequestAccount-objectCode.financialObjectSubTypeCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+  </bean>
+  <bean id="PaymentRequestAccount-objectCode.financialObjectLevelCode" parent="PaymentRequestAccount-objectCode.financialObjectLevelCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
+    <property name="name" value="objectCode.financialObjectLevelCode" />
+  </bean>
+  <bean id="PaymentRequestAccount-account.financialHigherEdFunctionCd" parent="PaymentRequestAccount-account.financialHigherEdFunctionCd-parentBean" />
+
+  <bean id="PaymentRequestAccount-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="name" value="account.financialHigherEdFunctionCd" />
+  </bean>
+  <bean id="PaymentRequestAccount-account.subFundGroupCode" parent="PaymentRequestAccount-account.subFundGroupCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode" />
+  </bean>
+  <bean id="PaymentRequestAccount-account.subFundGroup.fundGroupCode" parent="PaymentRequestAccount-account.subFundGroup.fundGroupCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="account.subFundGroup.fundGroupCode" />
+  </bean>
+  <bean id="PaymentRequestAccount-balanceTypeCode" parent="PaymentRequestAccount-balanceTypeCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
+    <property name="name" value="balanceTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PaymentRequestAccount-referenceNumber" parent="PaymentRequestAccount-referenceNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Number" />
+    <property name="shortLabel" value="Ref Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+  </bean>
+  <bean id="PaymentRequestAccount-sequenceNumber" parent="PaymentRequestAccount-sequenceNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="name" value="sequenceNumber" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PaymentRequestAccount-financialObjectCode" parent="PaymentRequestAccount-financialObjectCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+  </bean>
+  <bean id="PaymentRequestAccount-accountNumber" parent="PaymentRequestAccount-accountNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="PaymentRequestAccount-objectId" parent="PaymentRequestAccount-objectId-parentBean" />
+
+  <bean id="PaymentRequestAccount-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PaymentRequestAccount-organizationReferenceId" parent="PaymentRequestAccount-organizationReferenceId-parentBean" />
+
+  <bean id="PaymentRequestAccount-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference Id" />
+    <property name="shortLabel" value="Org Ref Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+  </bean>
+  <bean id="PaymentRequestAccount-chartOfAccountsCode" parent="PaymentRequestAccount-chartOfAccountsCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+  </bean>
+  <bean id="PaymentRequestAccount-postingYear" parent="PaymentRequestAccount-postingYear-parentBean" />
+
+  <bean id="PaymentRequestAccount-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="PaymentRequestAccount-referenceOriginCode" parent="PaymentRequestAccount-referenceOriginCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceOriginCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Origin Code" />
+    <property name="shortLabel" value="Ref Origin Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="PaymentRequestAccount-overrideCode" parent="PaymentRequestAccount-overrideCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="PaymentRequestAccount-amount" parent="PaymentRequestAccount-amount-parentBean" />
+
+  <bean id="PaymentRequestAccount-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The total dollar amount of check or batch of checks." />
+  </bean>
+  <bean id="PaymentRequestAccount-subAccountNumber" parent="PaymentRequestAccount-subAccountNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+  </bean>
+  <bean id="PaymentRequestAccount-referenceTypeCode" parent="PaymentRequestAccount-referenceTypeCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+    <property name="name" value="referenceTypeCode" />
+    <property name="label" value="Reference Type Code" />
+    <property name="shortLabel" value="Ref Type Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+  </bean>
+  <bean id="PaymentRequestAccount-projectCode" parent="PaymentRequestAccount-projectCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The title of the project." />
+  </bean>
+  <bean id="PaymentRequestAccount-financialSubObjectCode" parent="PaymentRequestAccount-financialSubObjectCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="PaymentRequestAccount-versionNumber" parent="PaymentRequestAccount-versionNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PaymentRequestAccount-documentNumber" parent="PaymentRequestAccount-documentNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PaymentRequestAccount-debitCreditCode" parent="PaymentRequestAccount-debitCreditCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="debitCreditCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Credit or Debit Code" />
+    <property name="shortLabel" value="Credit/Debit" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="CharsetValidationPattern"
+            p:validChars="DC" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+  </bean>
+  <bean id="PaymentRequestAccount-encumbranceUpdateCode" parent="PaymentRequestAccount-encumbranceUpdateCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="encumbranceUpdateCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Encumbrance Update Code" />
+    <property name="shortLabel" value="Encumbrance Update" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+  </bean>
+  <bean id="PaymentRequestAccount-objectTypeCode" parent="PaymentRequestAccount-objectTypeCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="objectTypeCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PaymentRequestAccount-accountExpiredOverride" parent="PaymentRequestAccount-accountExpiredOverride-parentBean" />
+
+  <bean id="PaymentRequestAccount-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountExpiredOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Account Expired Override" />
+    <property name="shortLabel" value="Expired Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+  </bean>
+  <bean id="PaymentRequestAccount-nonFringeAccountOverride" parent="PaymentRequestAccount-nonFringeAccountOverride-parentBean" />
+
+  <bean id="PaymentRequestAccount-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Non-fringe Account Override" />
+    <property name="shortLabel" value="Non-fringe Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+  </bean>
+  <bean id="PaymentRequestAccount-objectBudgetOverride" parent="PaymentRequestAccount-objectBudgetOverride-parentBean" />
+
+  <bean id="PaymentRequestAccount-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectBudgetOverride" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Non-Budgeted Override" />
+    <property name="shortLabel" value="Non-Budgeted Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+  </bean>
+  <bean id="PaymentRequestAccount-financialDocumentLineDescription" parent="PaymentRequestAccount-financialDocumentLineDescription-parentBean" />
+
+  <bean id="PaymentRequestAccount-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Description" />
+    <property name="shortLabel" value="Line Desc" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+  </bean>
+  <bean id="PaymentRequestAccount-salesTaxRequired" parent="PaymentRequestAccount-salesTaxRequired-parentBean" />
+
+  <bean id="PaymentRequestAccount-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxRequired" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sales Tax Required" />
+    <property name="shortLabel" value="Sales Tax Reqd" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+  </bean>
+  <bean id="PaymentRequestAccount-salesTax.chartOfAccountsCode" parent="PaymentRequestAccount-salesTax.chartOfAccountsCode-parentBean" />
+
+  <bean id="PaymentRequestAccount-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
+    <property name="name" value="salesTax.chartOfAccountsCode" />
+    <property name="label" value="Sales Tax Chart of Accounts Code" />
+    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+  </bean>
+  <bean id="PaymentRequestAccount-salesTax.accountNumber" parent="PaymentRequestAccount-salesTax.accountNumber-parentBean" />
+
+  <bean id="PaymentRequestAccount-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
+    <property name="name" value="salesTax.accountNumber" />
+    <property name="label" value="Sales Tax Account Number" />
+    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Account Number that Sales Tax is collected against" />
+  </bean>
+  <bean id="PaymentRequestAccount-salesTax.financialDocumentGrossSalesAmount" parent="PaymentRequestAccount-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+
+  <bean id="PaymentRequestAccount-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
+    <property name="label" value="Gross Sales Amount" />
+    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="description" value="Gross Sales Amount to be taxed" />
+  </bean>
+  <bean id="PaymentRequestAccount-salesTax.financialDocumentTaxableSalesAmount" parent="PaymentRequestAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+
+  <bean id="PaymentRequestAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
+    <property name="label" value="Taxable Sales Amount" />
+    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="description" value="Taxable Sales Amount to be taxed" />
+  </bean>
+  <bean id="PaymentRequestAccount-salesTax.financialDocumentSaleDate" parent="PaymentRequestAccount-salesTax.financialDocumentSaleDate-parentBean" />
+
+  <bean id="PaymentRequestAccount-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate" />
+    <property name="label" value="Sale Date" />
+    <property name="description" value="Date of Sale" />
+  </bean>
+  <bean id="PaymentRequestAccount-itemIdentifier" parent="PaymentRequestAccount-itemIdentifier-parentBean" />
+
+  <bean id="PaymentRequestAccount-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+    <property name="name" value="itemIdentifier" />
+    <property name="label" value="Item Identifier" />
+  </bean>
+  <bean id="PaymentRequestAccount-accountLinePercent" parent="PaymentRequestAccount-accountLinePercent-parentBean" />
+
+  <bean id="PaymentRequestAccount-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountLinePercent" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Line Percent" />
+    <property name="shortLabel" value="Percent" />
+    <property name="maxLength" value="340" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="PaymentRequestAccount-accountIdentifier" parent="PaymentRequestAccount-accountIdentifier-parentBean" />
+
+  <bean id="PaymentRequestAccount-accountIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="PaymentRequestAccount-disencumberedAmount" parent="PaymentRequestAccount-disencumberedAmount-parentBean" />
+
+  <bean id="PaymentRequestAccount-disencumberedAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+    <property name="name" value="disencumberedAmount" />
+    <property name="label" value="Disencumbered Amount" />
+    <property name="shortLabel" value="Disencumbered Amount" />
+  </bean>
+</beans>

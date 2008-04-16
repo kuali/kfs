@@ -1,107 +1,188 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.ObjectCodeGlobal</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.ObjectCodeGlobalMaintainableImpl</maintainableClass>
+  <bean id="ObjectCodeGlobalMaintenanceDocument" parent="ObjectCodeGlobalMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.ObjectCodeGlobalRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.chart.rules.ObjectCodeGlobalPreRules</preRulesCheckClass>
+  <bean id="ObjectCodeGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobal" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.ObjectCodeGlobalMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance" />
+        <ref bean="ObjectCodeGlobalMaintenanceDocument-EditMultipleYearandChart" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finObjMandatoryTrnfrelim"
+              p:attributeToHighlightOnFail="finObjMandatoryTrnfrOrElimCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialBudgetAggregation"
+              p:attributeToHighlightOnFail="financialBudgetAggregationCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialFederalFunded"
+              p:attributeToHighlightOnFail="financialFederalFundedCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialObjectType"
+              p:attributeToHighlightOnFail="financialObjectTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialObjectSubType"
+              p:attributeToHighlightOnFail="financialObjectSubTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="reportsToFinancialObject"
+              p:attributeToHighlightOnFail="reportsToFinancialObjectCode" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="label" value="Object Code Global" />
+    <property name="shortLabel" value="Object Code Global" />
+    <property name="summary" value="Global Object Code Maintenance Document" />
+    <property name="description" value="Document used to create or update global account document." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="OBJECT_CODE_GLOBAL"
+            p:parameterDetailType="ObjectCodeGlobal" />
+    </property>
+    <property name="documentTypeName" value="ObjectCodeGlobalMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectCodeGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.ObjectCodeGlobalPreRules" />
+    <property name="documentTypeCode" value="GOBJ" />
+    <property name="workflowProperties" >
+      <ref bean="ObjectCodeGlobalMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>Kuali_ROLE_GLOBAL_OBJECT_CODE_USER</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>Kuali_ROLE_GLOBAL_OBJECT_CODE_USER</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<!-- Maintenance Section Definitions -->
 
-        <documentTypeName>ObjectCodeGlobalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>GOBJ</documentTypeCode>
 
-        <label>Object Code Global</label>
+  <bean id="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance" parent="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance-parentBean" />
 
-        <summary>Global Object Code Maintenance Document</summary>
-        <description>Document used to create or update global account document.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectCodeGlobal" parameterName="OBJECT_CODE_GLOBAL" />
+  <bean id="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Global Object Code Maintenance" />
+    <property name="title" value="Global Object Code Maintenance" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectCodeName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectCodeShortName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToFinancialObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectLevelCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectSubTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="historicalFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialBudgetAggregationCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finObjMandatoryTrnfrOrElimCd"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialFederalFundedCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="nextYearFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="ObjectCodeGlobalMaintenanceDocument-EditMultipleYearandChart" parent="ObjectCodeGlobalMaintenanceDocument-EditMultipleYearandChart-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="documentNumber" />
-        </lockingKeys>
-        <defaultExistenceChecks>
-            <reference attributeName="finObjMandatoryTrnfrelim" attributeToHighlightOnFail="finObjMandatoryTrnfrOrElimCd" />
-            <reference attributeName="financialBudgetAggregation" attributeToHighlightOnFail="financialBudgetAggregationCd" />
-            <reference attributeName="financialFederalFunded" attributeToHighlightOnFail="financialFederalFundedCode" />
-            <reference attributeName="financialObjectType" attributeToHighlightOnFail="financialObjectTypeCode" />
-			<reference attributeName="financialObjectSubType" attributeToHighlightOnFail="financialObjectSubTypeCode" />   
-			<reference attributeName="reportsToFinancialObject" attributeToHighlightOnFail="reportsToFinancialObjectCode" />         
-        </defaultExistenceChecks>
- 
-        <maintainableSections>
-            <maintainableSection title="Global Object Code Maintenance">
-                <maintainableItems>
-                <maintainableField name="financialObjectCode" required="true" />
-                <maintainableField name="financialObjectCodeName" required="true" />
-                <maintainableField name="financialObjectCodeShortName" required="true" />
-                <maintainableField name="reportsToFinancialObjectCode" required="true" />
-                <maintainableField name="financialObjectTypeCode" required="true" />
-                <maintainableField name="financialObjectLevelCode" required="true" />
-                <maintainableField name="financialObjectSubTypeCode" required="true" />
-                <maintainableField name="historicalFinancialObjectCode" />
-                <maintainableField name="financialObjectActiveIndicator">
-                    <defaultValue>true</defaultValue>
-                </maintainableField>
-                <maintainableField name="financialBudgetAggregationCd" required="true" />
-                <maintainableField name="finObjMandatoryTrnfrOrElimCd" required="true" />
-                <maintainableField name="financialFederalFundedCode" required="true" />
-                <maintainableField name="nextYearFinancialObjectCode" />
-                <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-            <maintainableSection title="Edit Multiple Year and Chart">
-                <maintainableItems>
-                    <maintainableCollection name="objectCodeGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="objectCodeGlobalDetails" summaryTitle="Year and Chart">
-                        <maintainableField name="universityFiscalYear" readOnlyAfterAdd="true" >
-                        	<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-						</maintainableField>                        	
-                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" readOnlyAfterAdd="true" />
-                        <maintainableField name="versionNumber" />
-                        <maintainableField name="newCollectionRecord" />
-                        <summaryFields>
-                            <summaryField name="universityFiscalYear" />
-                            <summaryField name="chartOfAccountsCode" />
-                        </summaryFields>
-                        <duplicateIdentificationFields>
-                            <duplicateIdentificationField name="chartOfAccountsCode"/>
-                        </duplicateIdentificationFields>                        
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<workflowProperty path="newMaintainableObject.businessObject.objectCodeGlobalDetails" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ObjectCodeGlobalMaintenanceDocument-EditMultipleYearandChart-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Multiple Year and Chart" />
+    <property name="title" value="Edit Multiple Year and Chart" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="objectCodeGlobalDetails" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" />
+          <property name="summaryTitle" value="Year and Chart" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="universityFiscalYear" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="universityFiscalYear"
+                    p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder"
+                    p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode"
+                    p:readOnlyAfterAdd="true"
+                    p:template="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ObjectCodeGlobalMaintenanceDocument-workflowProperties" parent="ObjectCodeGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ObjectCodeGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.objectCodeGlobalDetails" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

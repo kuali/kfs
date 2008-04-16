@@ -1,473 +1,624 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionPosition">
-
-
-        <inquiry>
-            <title>Budget Construction Position Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-            
-                <field attributeName="positionNumber" />
-                <field attributeName="positionDescription" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="positionEffectiveDate" />
-                <field attributeName="positionEffectiveStatus" />
-                <field attributeName="positionStatus" />
-                <field attributeName="setidDepartment" />
-                <field attributeName="positionDepartmentIdentifier" />
-                <field attributeName="jobCode" />
-                <field attributeName="jobCodeDescription" />
-                <field attributeName="budgetedPosition" />
-                <field attributeName="confidentialPosition" />
-                <field attributeName="positionUnionCode" />
-                <field attributeName="positionRegularTemporary" />
-            	<field attributeName="positionStandardHoursDefault" />
-                <field attributeName="iuNormalWorkMonths" />
-                <field attributeName="iuPayMonths" />
-                <field attributeName="positionFullTimeEquivalency" />
-                <field attributeName="positionSalaryPlanDefault" />
-                <field attributeName="positionGradeDefault" />
-                <field attributeName="responsibilityCenterCode" />
-                <field attributeName="setidSalary" />
-                <field attributeName="setidJobCode" /> 
-                <field attributeName="iuDefaultObjectCode" />               
-                <field attributeName="iuPositionType" />           
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Budget Construction Position Lookup</title>
-
-            <instructions>Look up a Budget Construction Position</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="positionNumber" />
-                    <sortAttribute attributeName="universityFiscalYear" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="positionDescription" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
-                <lookupField attributeName="positionRegularTemporary" required="false" />
-                <lookupField attributeName="positionSalaryPlanDefault" required="false" />
-                <lookupField attributeName="positionGradeDefault" required="false" />
-                <lookupField attributeName="iuPositionType" required="false" />
-             </lookupFields>
-
-            <resultFields>
-                <field attributeName="positionNumber" />
-                <field attributeName="positionDescription" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="positionEffectiveStatus" />
-                <field attributeName="setidDepartment" />
-                <field attributeName="positionDepartmentIdentifier" />
-                <field attributeName="confidentialPosition" />
-                <field attributeName="positionRegularTemporary" />                
-                <field attributeName="positionSalaryPlanDefault" />
-                <field attributeName="positionGradeDefault" />
-            </resultFields>
-        </lookup>
-
-       <titleAttribute>positionNumber</titleAttribute>
-
-        <attributes>
-
-            <attributeReference name="budgetedPosition" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Budgeted Position</label>
-                <shortLabel>Budgeted</shortLabel>
-                <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Budgeted flag for the position.</description>
-            </attributeReference>
-
-            <attributeReference name="confidentialPosition" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Confidential Position</label>
-                <shortLabel>Conf. Pos.</shortLabel>
-                <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Confidential flag for the position.</description>
-            </attributeReference>
-
-            <attribute name="iuDefaultObjectCode" forceUppercase="true">
-                <label>Default Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Default Object Code</summary>
-                <description>Default Object Code for the position.</description>
-			</attribute>
-
-            <attribute name="iuNormalWorkMonths" forceUppercase="true">
-                <label>Normal Work Months</label>
-                <shortLabel>WM</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Normal Work Months</summary>
-                <description>Normal Work Months value for the position.</description>
-			</attribute>
-
-            <attribute name="iuPayMonths" forceUppercase="true">
-                <label>Pay Months</label>
-                <shortLabel>PM</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>iuPayMonths</summary>
-                <description>iuPayMonths description...</description>
-			</attribute>
-
-            <attribute name="iuPositionType" forceUppercase="true">
-                <label>Position Type</label>
-                <shortLabel>Position Type</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Position Type</summary>
-                <description>Position Type for the position.</description>
-			</attribute>
-
-            <attribute name="jobCode" forceUppercase="true">
-                <label>Job Code</label>
-                <shortLabel>Job Code</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Job Code</summary>
-                <description>Job Code for the position.</description>
-			</attribute>
-
-            <attribute name="jobCodeDescription" forceUppercase="true">
-                <label>Job Code Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>Job Code Description</summary>
-                <description>Job Code description for the position.</description>
-			</attribute>
-
-            <attribute name="positionDepartmentIdentifier" forceUppercase="true">
-                <label>Position Department Identifier</label>
-                <shortLabel>Department Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>Position Department Identifier</summary>
-                <description>Position Department Identifier for the position</description>
-			</attribute>
-
-            <attribute name="positionDescription" forceUppercase="true">
-                <label>Position Description</label>
-                <shortLabel>Position Desc</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>Position Description</summary>
-                <description>Description for the position.</description>
-			</attribute>
-			
-            <attributeReference name="positionEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Position Effective Date</label>
-                <shortLabel>Pos Eff Date</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Effective Date for the position.</description>
-            </attributeReference>
-
-            <attribute name="positionEffectiveStatus" forceUppercase="true">
-                <label>Position Effective Status</label>
-                <shortLabel>Pos Eff Status</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
- 				<control>
-                    <select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionEffectiveStatusValuesFinder" />
-                </control>
-
-                <summary>Position Effective Status </summary>
-                <description>Effective Status for the position.</description>
-			</attribute>
-
-            <attribute name="positionFullTimeEquivalency" forceUppercase="true">
-                <label>Position Full Time Equivalency</label>
-                <shortLabel>FTE</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><fixedPoint allowNegative="false" precision="4" scale="2"/></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>Position Full Time Equivalency</summary>
-                <description>Full time equivalent value for the position.</description>
-			</attribute>
-
-            <attribute name="positionGradeDefault" forceUppercase="true">
-                <label>Position Salary Grade Default</label>
-                <shortLabel>Grd</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Position Salary Grade Default</summary>
-                <description>Default salary grade for the position</description>
-			</attribute>
-
-            <attribute name="positionLockUserIdentifier" forceUppercase="true">
-                <label>Position Lock User Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>Position Lock User Identifier</summary>
-                <description>Position Lock User Identifier</description>
-			</attribute>
-
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Position Number</summary>
-                <description>Position Number for the position</description>
-			</attribute>
-
-            <attribute name="positionRegularTemporary" forceUppercase="true">
-                <label>Position Regular Temporary</label>
-                <shortLabel>Pos Reg/Temp</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionRegularTemporaryValuesFinder" />
-                </control>
-
-                <summary>Position Regular Temporary</summary>
-                <description>Position Regular Temporary flag for the position</description>
-			</attribute>
-
-            <attribute name="positionSalaryPlanDefault" forceUppercase="true">
-                <label>Position Salary Plan Default</label>
-                <shortLabel>SPln</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Position Salary Plan Default</summary>
-                <description>Default Salary Plan for the position</description>
-			</attribute>
-
-            <attribute name="positionStandardHoursDefault" forceUppercase="true">
-                <label>Position Standard Hours Default</label>
-                <shortLabel>Pos Std Hrs Default</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><fixedPoint allowNegative="false" precision="4" scale="2"/></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>Position Standard Hours Default</summary>
-                <description>Standard Hours Default for the position.</description>
-			</attribute>
-
-
-            <attribute name="positionStatus" forceUppercase="true">
-                <label>Position Status</label>
-                <shortLabel>Position Status</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                   <select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionStatusValuesFinder" />
-                </control>
-
-                <summary>Position Status </summary>
-                <description>Status of the position.</description>
-			</attribute>
-
-
-            <attribute name="positionUnionCode" forceUppercase="true">
-                <label>Position Union Code</label>
-                <shortLabel>Position Union Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Position Union Code</summary>
-                <description>Union Code for the position.</description>
-			</attribute>
-
-            <attribute name="responsibilityCenterCode" forceUppercase="true">
-                <label>Responsibility Center Code</label>
-                <shortLabel>RC Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Responsibility Center Code</summary>
-                <description>Responsibility Center Code for the position.</description>
-			</attribute>
-
-            <attribute name="setidDepartment" forceUppercase="true">
-                <label>Department Set Id</label>
-                <shortLabel>Dept Set Id</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>Department Set Id</summary>
-                <description>Department Set Id for the position.</description>
-			</attribute>
-
-            <attribute name="setidJobCode" forceUppercase="true">
-                <label>Job Code Set Id</label>
-                <shortLabel>Job Code Set Id</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>Job Code Set Id</summary>
-                <description>Job Code Set Id for the position.</description>
-			</attribute>
-
-            <attribute name="setidSalary" forceUppercase="true">
-                <label>Salary Set Id</label>
-                <shortLabel>Salary Set Id</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>Salary Set Id</summary>
-                <description>Salary Set Id for the position.</description>
-			</attribute>
-
-			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>University Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-                <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>This identifies the fiscal year.</description>
-            </attributeReference>
-            
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BudgetConstructionPosition" parent="BudgetConstructionPosition-parentBean" />
+
+  <bean id="BudgetConstructionPosition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionPosition" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetConstructionPosition-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetConstructionPosition-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="positionNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetConstructionPosition-budgetedPosition" />
+        <ref bean="BudgetConstructionPosition-confidentialPosition" />
+        <ref bean="BudgetConstructionPosition-iuDefaultObjectCode" />
+        <ref bean="BudgetConstructionPosition-iuNormalWorkMonths" />
+        <ref bean="BudgetConstructionPosition-iuPayMonths" />
+        <ref bean="BudgetConstructionPosition-iuPositionType" />
+        <ref bean="BudgetConstructionPosition-jobCode" />
+        <ref bean="BudgetConstructionPosition-jobCodeDescription" />
+        <ref bean="BudgetConstructionPosition-positionDepartmentIdentifier" />
+        <ref bean="BudgetConstructionPosition-positionDescription" />
+        <ref bean="BudgetConstructionPosition-positionEffectiveDate" />
+        <ref bean="BudgetConstructionPosition-positionEffectiveStatus" />
+        <ref bean="BudgetConstructionPosition-positionFullTimeEquivalency" />
+        <ref bean="BudgetConstructionPosition-positionGradeDefault" />
+        <ref bean="BudgetConstructionPosition-positionLockUserIdentifier" />
+        <ref bean="BudgetConstructionPosition-positionNumber" />
+        <ref bean="BudgetConstructionPosition-positionRegularTemporary" />
+        <ref bean="BudgetConstructionPosition-positionSalaryPlanDefault" />
+        <ref bean="BudgetConstructionPosition-positionStandardHoursDefault" />
+        <ref bean="BudgetConstructionPosition-positionStatus" />
+        <ref bean="BudgetConstructionPosition-positionUnionCode" />
+        <ref bean="BudgetConstructionPosition-responsibilityCenterCode" />
+        <ref bean="BudgetConstructionPosition-setidDepartment" />
+        <ref bean="BudgetConstructionPosition-setidJobCode" />
+        <ref bean="BudgetConstructionPosition-setidSalary" />
+        <ref bean="BudgetConstructionPosition-universityFiscalYear" />
+        <ref bean="BudgetConstructionPosition-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BudgetConstructionPosition-budgetedPosition" parent="BudgetConstructionPosition-budgetedPosition-parentBean" />
+
+  <bean id="BudgetConstructionPosition-budgetedPosition-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="budgetedPosition" />
+    <property name="label" value="Budgeted Position" />
+    <property name="shortLabel" value="Budgeted" />
+    <property name="required" value="true" />
+    <property name="description" value="Budgeted flag for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-confidentialPosition" parent="BudgetConstructionPosition-confidentialPosition-parentBean" />
+
+  <bean id="BudgetConstructionPosition-confidentialPosition-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="confidentialPosition" />
+    <property name="label" value="Confidential Position" />
+    <property name="shortLabel" value="Conf. Pos." />
+    <property name="required" value="true" />
+    <property name="description" value="Confidential flag for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-iuDefaultObjectCode" parent="BudgetConstructionPosition-iuDefaultObjectCode-parentBean" />
+
+  <bean id="BudgetConstructionPosition-iuDefaultObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="iuDefaultObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Default Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Default Object Code" />
+    <property name="description" value="Default Object Code for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-iuNormalWorkMonths" parent="BudgetConstructionPosition-iuNormalWorkMonths-parentBean" />
+
+  <bean id="BudgetConstructionPosition-iuNormalWorkMonths-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="iuNormalWorkMonths" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Normal Work Months" />
+    <property name="shortLabel" value="WM" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Normal Work Months" />
+    <property name="description" value="Normal Work Months value for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-iuPayMonths" parent="BudgetConstructionPosition-iuPayMonths-parentBean" />
+
+  <bean id="BudgetConstructionPosition-iuPayMonths-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="iuPayMonths" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pay Months" />
+    <property name="shortLabel" value="PM" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="iuPayMonths" />
+    <property name="description" value="iuPayMonths description..." />
+  </bean>
+  <bean id="BudgetConstructionPosition-iuPositionType" parent="BudgetConstructionPosition-iuPositionType-parentBean" />
+
+  <bean id="BudgetConstructionPosition-iuPositionType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="iuPositionType" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Type" />
+    <property name="shortLabel" value="Position Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Position Type" />
+    <property name="description" value="Position Type for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-jobCode" parent="BudgetConstructionPosition-jobCode-parentBean" />
+
+  <bean id="BudgetConstructionPosition-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Job Code" />
+    <property name="shortLabel" value="Job Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Job Code" />
+    <property name="description" value="Job Code for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-jobCodeDescription" parent="BudgetConstructionPosition-jobCodeDescription-parentBean" />
+
+  <bean id="BudgetConstructionPosition-jobCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobCodeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Job Code Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="Job Code Description" />
+    <property name="description" value="Job Code description for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionDepartmentIdentifier" parent="BudgetConstructionPosition-positionDepartmentIdentifier-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionDepartmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionDepartmentIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Department Identifier" />
+    <property name="shortLabel" value="Department Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Position Department Identifier" />
+    <property name="description" value="Position Department Identifier for the position" />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionDescription" parent="BudgetConstructionPosition-positionDescription-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Description" />
+    <property name="shortLabel" value="Position Desc" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="Position Description" />
+    <property name="description" value="Description for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionEffectiveDate" parent="BudgetConstructionPosition-positionEffectiveDate-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="positionEffectiveDate" />
+    <property name="label" value="Position Effective Date" />
+    <property name="shortLabel" value="Pos Eff Date" />
+    <property name="description" value="Effective Date for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionEffectiveStatus" parent="BudgetConstructionPosition-positionEffectiveStatus-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionEffectiveStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionEffectiveStatus" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Effective Status" />
+    <property name="shortLabel" value="Pos Eff Status" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionEffectiveStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Position Effective Status" />
+    <property name="description" value="Effective Status for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionFullTimeEquivalency" parent="BudgetConstructionPosition-positionFullTimeEquivalency-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionFullTimeEquivalency-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionFullTimeEquivalency" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Full Time Equivalency" />
+    <property name="shortLabel" value="FTE" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="4"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="Position Full Time Equivalency" />
+    <property name="description" value="Full time equivalent value for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionGradeDefault" parent="BudgetConstructionPosition-positionGradeDefault-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionGradeDefault-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionGradeDefault" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Salary Grade Default" />
+    <property name="shortLabel" value="Grd" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Position Salary Grade Default" />
+    <property name="description" value="Default salary grade for the position" />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionLockUserIdentifier" parent="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionLockUserIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Lock User Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Position Lock User Identifier" />
+    <property name="description" value="Position Lock User Identifier" />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionNumber" parent="BudgetConstructionPosition-positionNumber-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Position Number" />
+    <property name="description" value="Position Number for the position" />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionRegularTemporary" parent="BudgetConstructionPosition-positionRegularTemporary-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionRegularTemporary-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionRegularTemporary" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Regular Temporary" />
+    <property name="shortLabel" value="Pos Reg/Temp" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionRegularTemporaryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Position Regular Temporary" />
+    <property name="description" value="Position Regular Temporary flag for the position" />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionSalaryPlanDefault" parent="BudgetConstructionPosition-positionSalaryPlanDefault-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionSalaryPlanDefault-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionSalaryPlanDefault" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Salary Plan Default" />
+    <property name="shortLabel" value="SPln" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Position Salary Plan Default" />
+    <property name="description" value="Default Salary Plan for the position" />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionStandardHoursDefault" parent="BudgetConstructionPosition-positionStandardHoursDefault-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionStandardHoursDefault-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionStandardHoursDefault" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Standard Hours Default" />
+    <property name="shortLabel" value="Pos Std Hrs Default" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="4"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Position Standard Hours Default" />
+    <property name="description" value="Standard Hours Default for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionStatus" parent="BudgetConstructionPosition-positionStatus-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionStatus" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Status" />
+    <property name="shortLabel" value="Position Status" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Position Status" />
+    <property name="description" value="Status of the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-positionUnionCode" parent="BudgetConstructionPosition-positionUnionCode-parentBean" />
+
+  <bean id="BudgetConstructionPosition-positionUnionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="positionUnionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Position Union Code" />
+    <property name="shortLabel" value="Position Union Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Position Union Code" />
+    <property name="description" value="Union Code for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-responsibilityCenterCode" parent="BudgetConstructionPosition-responsibilityCenterCode-parentBean" />
+
+  <bean id="BudgetConstructionPosition-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="responsibilityCenterCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Responsibility Center Code" />
+    <property name="shortLabel" value="RC Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Responsibility Center Code" />
+    <property name="description" value="Responsibility Center Code for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-setidDepartment" parent="BudgetConstructionPosition-setidDepartment-parentBean" />
+
+  <bean id="BudgetConstructionPosition-setidDepartment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="setidDepartment" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Department Set Id" />
+    <property name="shortLabel" value="Dept Set Id" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Department Set Id" />
+    <property name="description" value="Department Set Id for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-setidJobCode" parent="BudgetConstructionPosition-setidJobCode-parentBean" />
+
+  <bean id="BudgetConstructionPosition-setidJobCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="setidJobCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Job Code Set Id" />
+    <property name="shortLabel" value="Job Code Set Id" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Job Code Set Id" />
+    <property name="description" value="Job Code Set Id for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-setidSalary" parent="BudgetConstructionPosition-setidSalary-parentBean" />
+
+  <bean id="BudgetConstructionPosition-setidSalary-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="setidSalary" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Salary Set Id" />
+    <property name="shortLabel" value="Salary Set Id" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Salary Set Id" />
+    <property name="description" value="Salary Set Id for the position." />
+  </bean>
+  <bean id="BudgetConstructionPosition-universityFiscalYear" parent="BudgetConstructionPosition-universityFiscalYear-parentBean" />
+
+  <bean id="BudgetConstructionPosition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="required" value="true" />
+    <property name="description" value="This identifies the fiscal year." />
+  </bean>
+  <bean id="BudgetConstructionPosition-versionNumber" parent="BudgetConstructionPosition-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionPosition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="BudgetConstructionPosition-inquiryDefinition" parent="BudgetConstructionPosition-inquiryDefinition-parentBean" />
+
+  <bean id="BudgetConstructionPosition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Construction Position Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionEffectiveDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionEffectiveStatus" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionStatus" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="setidDepartment" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionDepartmentIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobCodeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetedPosition" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="confidentialPosition" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionUnionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionRegularTemporary" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionStandardHoursDefault" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="iuNormalWorkMonths" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="iuPayMonths" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionFullTimeEquivalency" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionSalaryPlanDefault" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionGradeDefault" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="responsibilityCenterCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="setidSalary" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="setidJobCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="iuDefaultObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="iuPositionType" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetConstructionPosition-lookupDefinition" parent="BudgetConstructionPosition-lookupDefinition-parentBean" />
+
+  <bean id="BudgetConstructionPosition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Construction Position Lookup" />
+    <property name="instructions" value="Look up a Budget Construction Position" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionDepartmentIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionRegularTemporary" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionSalaryPlanDefault" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionGradeDefault" />
+        <bean parent="FieldDefinition"
+              p:attributeName="iuPositionType" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionEffectiveStatus" />
+        <bean parent="FieldDefinition"
+              p:attributeName="setidDepartment" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionDepartmentIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="confidentialPosition" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionRegularTemporary" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionSalaryPlanDefault" />
+        <bean parent="FieldDefinition"
+              p:attributeName="positionGradeDefault" />
+      </list>
+    </property>
+  </bean>
+</beans>

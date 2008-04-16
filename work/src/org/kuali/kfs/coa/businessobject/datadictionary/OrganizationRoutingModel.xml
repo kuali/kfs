@@ -1,131 +1,171 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModel">
-        <attributes>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-            <attributeReference name="financialDocumentTypeCode" 
-            					sourceClassName="org.kuali.core.bo.DocumentType" 
-            					sourceAttributeName="financialDocumentTypeCode" />
-            					
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-            	<required>true</required>
-            </attributeReference>
-            
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-            	<required>true</required>
-            </attributeReference>
-            
-            <attributeReference name="organizationRoutingModelName" sourceClassName="org.kuali.module.chart.bo.OrganizationRoutingModelName" sourceAttributeName="organizationRoutingModelName">
-            	<required>true</required>
-            </attributeReference>
-            
-            <attributeReference name="accountDelegatePrimaryRoutingIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Account Delegate Primary Route</label>
-                <shortLabel>PrimaryRoute</shortLabel>
-            </attributeReference>
-            <attributeReference name="accountDelegateStartDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Account Delegate Start Date</label>
-                <shortLabel>DelegateStartDt</shortLabel>
-                <required>true</required>
-            </attributeReference>
-            
-             <attributeReference name="accountDelegateUniversalId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Account Delegate Unvl ID</label>
-                <shortLabel>AccDelegateID</shortLabel>
-                <displayLabelAttribute>accountDelegate.personUserIdentifier</displayLabelAttribute>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
+  <bean id="OrganizationRoutingModel" parent="OrganizationRoutingModel-parentBean" />
 
-            <attributeReference name="accountDelegate.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Account Delegate UserID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="accountDelegateUniversalId" userIdAttributeName="accountDelegate.personUserIdentifier" personNameAttributeName="accountDelegate.personName" />
-                </control>
-            </attributeReference>
+  <bean id="OrganizationRoutingModel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationRoutingModel" />
+    <property name="objectLabel" value="Organization Routing Model Delegate" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationRoutingModel-financialDocumentTypeCode" />
+        <ref bean="OrganizationRoutingModel-chartOfAccountsCode" />
+        <ref bean="OrganizationRoutingModel-organizationCode" />
+        <ref bean="OrganizationRoutingModel-organizationRoutingModelName" />
+        <ref bean="OrganizationRoutingModel-accountDelegatePrimaryRoutingIndicator" />
+        <ref bean="OrganizationRoutingModel-accountDelegateStartDate" />
+        <ref bean="OrganizationRoutingModel-accountDelegateUniversalId" />
+        <ref bean="OrganizationRoutingModel-accountDelegate.personUserIdentifier" />
+        <ref bean="OrganizationRoutingModel-accountDelegate.personName" />
+        <ref bean="OrganizationRoutingModel-approvalFromThisAmount" />
+        <ref bean="OrganizationRoutingModel-approvalToThisAmount" />
+        <ref bean="OrganizationRoutingModel-active" />
+        <ref bean="OrganizationRoutingModel-newCollectionRecord" />
+        <ref bean="OrganizationRoutingModel-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="accountDelegate" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="accountDelegateUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="accountDelegate.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="accountDelegate.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="accountDelegate.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Account Delegate User Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
+<!-- Attribute Definitions -->
 
-            <attribute name="approvalFromThisAmount" forceUppercase="true">
-                <label>Approval From This Amount</label>
-                <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+  <bean id="OrganizationRoutingModel-financialDocumentTypeCode" parent="OrganizationRoutingModel-financialDocumentTypeCode-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
-            </attribute>
+  <bean id="OrganizationRoutingModel-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  </bean>
+  <bean id="OrganizationRoutingModel-chartOfAccountsCode" parent="OrganizationRoutingModel-chartOfAccountsCode-parentBean" />
 
-            <attribute name="approvalToThisAmount" forceUppercase="true">
-                <label>Approval To This Amount</label>
-                <shortLabel>Amount</shortLabel>
+  <bean id="OrganizationRoutingModel-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationRoutingModel-organizationCode" parent="OrganizationRoutingModel-organizationCode-parentBean" />
 
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+  <bean id="OrganizationRoutingModel-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="OrganizationRoutingModel-organizationRoutingModelName" parent="OrganizationRoutingModel-organizationRoutingModelName-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
-            </attribute>
-            
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Active</label>
-                <shortLabel>Act.</shortLabel>
-            </attributeReference>
-            
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
+  <bean id="OrganizationRoutingModel-organizationRoutingModelName-parentBean" abstract="true" parent="OrganizationRoutingModelName-organizationRoutingModelName">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationRoutingModel-accountDelegatePrimaryRoutingIndicator" parent="OrganizationRoutingModel-accountDelegatePrimaryRoutingIndicator-parentBean" />
 
-            <attributeReference name="versionNumber" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="versionNumber" />
+  <bean id="OrganizationRoutingModel-accountDelegatePrimaryRoutingIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="accountDelegatePrimaryRoutingIndicator" />
+    <property name="label" value="Account Delegate Primary Route" />
+    <property name="shortLabel" value="PrimaryRoute" />
+  </bean>
+  <bean id="OrganizationRoutingModel-accountDelegateStartDate" parent="OrganizationRoutingModel-accountDelegateStartDate-parentBean" />
 
-        </attributes>
+  <bean id="OrganizationRoutingModel-accountDelegateStartDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="accountDelegateStartDate" />
+    <property name="label" value="Account Delegate Start Date" />
+    <property name="shortLabel" value="DelegateStartDt" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationRoutingModel-accountDelegateUniversalId" parent="OrganizationRoutingModel-accountDelegateUniversalId-parentBean" />
 
-        <relationships>
-            <relationship objectAttributeName="accountDelegate" >
-                <primitiveAttribute sourceName="accountDelegateUniversalId" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="accountDelegate.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="accountDelegate.personName" targetName="personName" />
-            </relationship>
-        </relationships>
+  <bean id="OrganizationRoutingModel-accountDelegateUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="accountDelegateUniversalId" />
+    <property name="label" value="Account Delegate Unvl ID" />
+    <property name="shortLabel" value="AccDelegateID" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="accountDelegate.personUserIdentifier" />
+  </bean>
+  <bean id="OrganizationRoutingModel-accountDelegate.personUserIdentifier" parent="OrganizationRoutingModel-accountDelegate.personUserIdentifier-parentBean" />
 
-		<objectLabel>Organization Routing Model Delegate</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="OrganizationRoutingModel-accountDelegate.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="accountDelegate.personUserIdentifier" />
+    <property name="label" value="Account Delegate UserID" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="accountDelegate.personName"
+            p:universalIdAttributeName="accountDelegateUniversalId"
+            p:userIdAttributeName="accountDelegate.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModel-accountDelegate.personName" parent="OrganizationRoutingModel-accountDelegate.personName-parentBean" />
+
+  <bean id="OrganizationRoutingModel-accountDelegate.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="accountDelegate.personName" />
+    <property name="label" value="Account Delegate User Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationRoutingModel-approvalFromThisAmount" parent="OrganizationRoutingModel-approvalFromThisAmount-parentBean" />
+
+  <bean id="OrganizationRoutingModel-approvalFromThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="approvalFromThisAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Approval From This Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModel-approvalToThisAmount" parent="OrganizationRoutingModel-approvalToThisAmount-parentBean" />
+
+  <bean id="OrganizationRoutingModel-approvalToThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="approvalToThisAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Approval To This Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  <bean id="OrganizationRoutingModel-active" parent="OrganizationRoutingModel-active-parentBean" />
+
+  <bean id="OrganizationRoutingModel-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Act." />
+  </bean>
+  <bean id="OrganizationRoutingModel-newCollectionRecord" parent="OrganizationRoutingModel-newCollectionRecord-parentBean" />
+
+  <bean id="OrganizationRoutingModel-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="OrganizationRoutingModel-versionNumber" parent="OrganizationRoutingModel-versionNumber-parentBean" />
+
+  <bean id="OrganizationRoutingModel-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

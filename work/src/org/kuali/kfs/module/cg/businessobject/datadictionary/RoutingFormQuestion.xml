@@ -1,74 +1,80 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormQuestion">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoutingFormQuestion" parent="RoutingFormQuestion-parentBean" />
+
+  <bean id="RoutingFormQuestion-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormQuestion" />
+    <property name="attributes" >
+      <list>
+        <ref bean="RoutingFormQuestion-documentNumber" />
+        <ref bean="RoutingFormQuestion-questionTypeCode" />
+        <ref bean="RoutingFormQuestion-yesNoIndicator" />
+        <ref bean="RoutingFormQuestion-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <attributes>
-        
-        	<attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="RoutingFormQuestion-documentNumber" parent="RoutingFormQuestion-documentNumber-parentBean" />
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="RoutingFormQuestion-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormQuestion-questionTypeCode" parent="RoutingFormQuestion-questionTypeCode-parentBean" />
 
-                <control>
-                    <text size="16" />
-                </control>
+  <bean id="RoutingFormQuestion-questionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="questionTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Question Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="questionTypeCode" />
+    <property name="description" value="questionTypeCode description..." />
+  </bean>
+  <bean id="RoutingFormQuestion-yesNoIndicator" parent="RoutingFormQuestion-yesNoIndicator-parentBean" />
 
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-			
-			<attribute name="questionTypeCode" forceUppercase="true">
-                <label>Question Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="RoutingFormQuestion-yesNoIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="yesNoIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Yes/No Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="yesNoIndicator" />
+    <property name="description" value="yesNoIndicator description..." />
+  </bean>
+  <bean id="RoutingFormQuestion-versionNumber" parent="RoutingFormQuestion-versionNumber-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>questionTypeCode</summary>
-                <description>questionTypeCode description...</description>
-			</attribute>
-
-            <attribute name="yesNoIndicator" forceUppercase="true">
-                <label>Yes/No Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
-                </control>
-
-                <summary>yesNoIndicator</summary>
-                <description>yesNoIndicator description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RoutingFormQuestion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

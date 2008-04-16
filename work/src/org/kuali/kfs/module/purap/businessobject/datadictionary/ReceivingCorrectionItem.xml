@@ -1,313 +1,450 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.ReceivingCorrectionItem">
- 
-        <inquiry>
-            <title>Receiving Correction Item Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="documentNumber" />
-                        <field attributeName="itemCatalogNumber" />
-                        <field attributeName="itemCorrectedDamagedTotalQuantity" />
-                        <field attributeName="itemCorrectedReceivedTotalQuantity" />
-                        <field attributeName="itemCorrectedReturnedTotalQuantity" />
-                        <field attributeName="itemDescription" />
-                        <field attributeName="itemLineNumber" />
-                        <field attributeName="itemOriginalDamagedTotalQuantity" />
-                        <field attributeName="itemOriginalReceivedTotalQuantity" />
-                        <field attributeName="itemOriginalReturnedTotalQuantity" />
-                        <field attributeName="itemReasonAddedCode" />
-                        <field attributeName="itemTypeCode" />
-                        <field attributeName="itemUnitOfMeasureCode" />
-                        <field attributeName="purchaseOrderIdentifier" />
-                        <field attributeName="receivingCorrectionItemIdentifier" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
-
-        <lookup>
-            <title>Receiving Correction Item Lookup</title>
-
-            <instructions>Look up a Receiving Correction Item</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="receivingCorrectionItemIdentifier" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="itemCatalogNumber" required="false" />
-                <lookupField attributeName="itemCorrectedDamagedTotalQuantity" required="false" />
-                <lookupField attributeName="itemCorrectedReceivedTotalQuantity" required="false" />
-                <lookupField attributeName="itemCorrectedReturnedTotalQuantity" required="false" />
-                <lookupField attributeName="itemDescription" required="false" />
-                <lookupField attributeName="itemLineNumber" required="false" />
-                <lookupField attributeName="itemOriginalDamagedTotalQuantity" required="false" />
-                <lookupField attributeName="itemOriginalReceivedTotalQuantity" required="false" />
-                <lookupField attributeName="itemOriginalReturnedTotalQuantity" required="false" />
-                <lookupField attributeName="itemReasonAddedCode" required="false" />
-                <lookupField attributeName="itemTypeCode" required="false" />
-                <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
-                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
-                <lookupField attributeName="receivingCorrectionItemIdentifier" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="itemCatalogNumber" />
-                <field attributeName="itemCorrectedDamagedTotalQuantity" />
-                <field attributeName="itemCorrectedReceivedTotalQuantity" />
-                <field attributeName="itemCorrectedReturnedTotalQuantity" />
-                <field attributeName="itemDescription" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemOriginalDamagedTotalQuantity" />
-                <field attributeName="itemOriginalReceivedTotalQuantity" />
-                <field attributeName="itemOriginalReturnedTotalQuantity" />
-                <field attributeName="itemReasonAddedCode" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitOfMeasureCode" />
-                <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="receivingCorrectionItemIdentifier" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="itemCatalogNumber" forceUppercase="true">
-                <label>Item Catalog Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>itemCatalogNumber</summary>
-                <description>itemCatalogNumber description...</description>
-			</attribute>
-
-            <attribute name="itemCorrectedDamagedTotalQuantity" forceUppercase="true">
-                <label>Item Corrected Damaged Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemCorrectedDamagedTotalQuantity</summary>
-                <description>itemCorrectedDamagedTotalQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemCorrectedReceivedTotalQuantity" forceUppercase="true">
-                <label>Item Corrected Received Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemCorrectedReceivedTotalQuantity</summary>
-                <description>itemCorrectedReceivedTotalQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemCorrectedReturnedTotalQuantity" forceUppercase="true">
-                <label>Item Corrected Returned Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemCorrectedReturnedTotalQuantity</summary>
-                <description>itemCorrectedReturnedTotalQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemDescription" forceUppercase="true">
-                <label>Item Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemDescription</summary>
-                <description>itemDescription description...</description>
-			</attribute>
-
-            <attribute name="itemLineNumber" forceUppercase="true">
-                <label>Item Line Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>itemLineNumber</summary>
-                <description>itemLineNumber description...</description>
-			</attribute>
-
-            <attribute name="itemOriginalDamagedTotalQuantity" forceUppercase="true">
-                <label>Item Original Damaged Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemOriginalDamagedTotalQuantity</summary>
-                <description>itemOriginalDamagedTotalQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemOriginalReceivedTotalQuantity" forceUppercase="true">
-                <label>Item Original Received Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemOriginalReceivedTotalQuantity</summary>
-                <description>itemOriginalReceivedTotalQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemOriginalReturnedTotalQuantity" forceUppercase="true">
-                <label>Item Original Returned Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemOriginalReturnedTotalQuantity</summary>
-                <description>itemOriginalReturnedTotalQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemReasonAddedCode" forceUppercase="true">
-                <label>Item Reason Added Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>itemReasonAddedCode</summary>
-                <description>itemReasonAddedCode description...</description>
-			</attribute>
-
-            <attribute name="itemTypeCode" forceUppercase="true">
-                <label>Item Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>itemTypeCode</summary>
-                <description>itemTypeCode description...</description>
-			</attribute>
-
-            <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
-                <label>Item Unit Of Measure Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>itemUnitOfMeasureCode</summary>
-                <description>itemUnitOfMeasureCode description...</description>
-			</attribute>
-
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderIdentifier</summary>
-                <description>purchaseOrderIdentifier description...</description>
-			</attribute>
-
-            <attribute name="receivingCorrectionItemIdentifier" forceUppercase="true">
-                <label>Receiving Correction Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>receivingCorrectionItemIdentifier</summary>
-                <description>receivingCorrectionItemIdentifier description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ReceivingCorrectionItem" parent="ReceivingCorrectionItem-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ReceivingCorrectionItem" />
+    <property name="inquiryDefinition" >
+      <ref bean="ReceivingCorrectionItem-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ReceivingCorrectionItem-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ReceivingCorrectionItem-documentNumber" />
+        <ref bean="ReceivingCorrectionItem-itemCatalogNumber" />
+        <ref bean="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemDescription" />
+        <ref bean="ReceivingCorrectionItem-itemLineNumber" />
+        <ref bean="ReceivingCorrectionItem-itemOriginalDamagedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemOriginalReceivedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemOriginalReturnedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemReasonAddedCode" />
+        <ref bean="ReceivingCorrectionItem-itemTypeCode" />
+        <ref bean="ReceivingCorrectionItem-itemUnitOfMeasureCode" />
+        <ref bean="ReceivingCorrectionItem-purchaseOrderIdentifier" />
+        <ref bean="ReceivingCorrectionItem-receivingCorrectionItemIdentifier" />
+        <ref bean="ReceivingCorrectionItem-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ReceivingCorrectionItem-documentNumber" parent="ReceivingCorrectionItem-documentNumber-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemCatalogNumber" parent="ReceivingCorrectionItem-itemCatalogNumber-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCatalogNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Catalog Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="itemCatalogNumber" />
+    <property name="description" value="itemCatalogNumber description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity" parent="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCorrectedDamagedTotalQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Corrected Damaged Total Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemCorrectedDamagedTotalQuantity" />
+    <property name="description" value="itemCorrectedDamagedTotalQuantity description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity" parent="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCorrectedReceivedTotalQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Corrected Received Total Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemCorrectedReceivedTotalQuantity" />
+    <property name="description" value="itemCorrectedReceivedTotalQuantity description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity" parent="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCorrectedReturnedTotalQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Corrected Returned Total Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemCorrectedReturnedTotalQuantity" />
+    <property name="description" value="itemCorrectedReturnedTotalQuantity description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemDescription" parent="ReceivingCorrectionItem-itemDescription-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="80" />
+    </property>
+    <property name="summary" value="itemDescription" />
+    <property name="description" value="itemDescription description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemLineNumber" parent="ReceivingCorrectionItem-itemLineNumber-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Line Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="itemLineNumber" />
+    <property name="description" value="itemLineNumber description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemOriginalDamagedTotalQuantity" parent="ReceivingCorrectionItem-itemOriginalDamagedTotalQuantity-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemOriginalDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemOriginalDamagedTotalQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Original Damaged Total Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemOriginalDamagedTotalQuantity" />
+    <property name="description" value="itemOriginalDamagedTotalQuantity description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemOriginalReceivedTotalQuantity" parent="ReceivingCorrectionItem-itemOriginalReceivedTotalQuantity-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemOriginalReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemOriginalReceivedTotalQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Original Received Total Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemOriginalReceivedTotalQuantity" />
+    <property name="description" value="itemOriginalReceivedTotalQuantity description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemOriginalReturnedTotalQuantity" parent="ReceivingCorrectionItem-itemOriginalReturnedTotalQuantity-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemOriginalReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemOriginalReturnedTotalQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Original Returned Total Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="13" />
+    </property>
+    <property name="summary" value="itemOriginalReturnedTotalQuantity" />
+    <property name="description" value="itemOriginalReturnedTotalQuantity description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemReasonAddedCode" parent="ReceivingCorrectionItem-itemReasonAddedCode-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemReasonAddedCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemReasonAddedCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Reason Added Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="itemReasonAddedCode" />
+    <property name="description" value="itemReasonAddedCode description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemTypeCode" parent="ReceivingCorrectionItem-itemTypeCode-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="itemTypeCode" />
+    <property name="description" value="itemTypeCode description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-itemUnitOfMeasureCode" parent="ReceivingCorrectionItem-itemUnitOfMeasureCode-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-itemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemUnitOfMeasureCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Unit Of Measure Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="itemUnitOfMeasureCode" />
+    <property name="description" value="itemUnitOfMeasureCode description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-purchaseOrderIdentifier" parent="ReceivingCorrectionItem-purchaseOrderIdentifier-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="purchaseOrderIdentifier" />
+    <property name="description" value="purchaseOrderIdentifier description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-receivingCorrectionItemIdentifier" parent="ReceivingCorrectionItem-receivingCorrectionItemIdentifier-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-receivingCorrectionItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingCorrectionItemIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Receiving Correction Item Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="receivingCorrectionItemIdentifier" />
+    <property name="description" value="receivingCorrectionItemIdentifier description..." />
+  </bean>
+  <bean id="ReceivingCorrectionItem-versionNumber" parent="ReceivingCorrectionItem-versionNumber-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ReceivingCorrectionItem-inquiryDefinition" parent="ReceivingCorrectionItem-inquiryDefinition-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Receiving Correction Item Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemCatalogNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemCorrectedDamagedTotalQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemCorrectedReceivedTotalQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemCorrectedReturnedTotalQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemLineNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemOriginalDamagedTotalQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemOriginalReceivedTotalQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemOriginalReturnedTotalQuantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemReasonAddedCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemUnitOfMeasureCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="receivingCorrectionItemIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ReceivingCorrectionItem-lookupDefinition" parent="ReceivingCorrectionItem-lookupDefinition-parentBean" />
+
+  <bean id="ReceivingCorrectionItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Receiving Correction Item Lookup" />
+    <property name="instructions" value="Look up a Receiving Correction Item" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCatalogNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCorrectedDamagedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCorrectedReceivedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCorrectedReturnedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemOriginalDamagedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemOriginalReceivedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemOriginalReturnedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemReasonAddedCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemUnitOfMeasureCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingCorrectionItemIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCatalogNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCorrectedDamagedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCorrectedReceivedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemCorrectedReturnedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemOriginalDamagedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemOriginalReceivedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemOriginalReturnedTotalQuantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemReasonAddedCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemUnitOfMeasureCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="receivingCorrectionItemIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

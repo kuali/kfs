@@ -1,75 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.ReportingCodes</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.chart.rules.ReportingCodesRule</businessRulesClass>
+  <bean id="ReportingCodesMaintenanceDocument" parent="ReportingCodesMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ReportingCodesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ReportingCodes" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chart"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="org"
+              p:attributeToHighlightOnFail="organizationCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="universalUser"
+              p:attributeToHighlightOnFail="universalUser.personUserIdentifier" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
+        <value>financialReportingCode</value>
+      </list>
+    </property>
+    <property name="label" value="Financial Reporting Code" />
+    <property name="shortLabel" value="Financial Reporting Code" />
+    <property name="summary" value="Financial Reporting Code Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create, remove or modify Financial Reporting Codes." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="FINANCIAL_REPORTING_CODE"
+            p:parameterDetailType="ReportingCodes" />
+    </property>
+    <property name="documentTypeName" value="ReportingCodesMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ReportingCodesRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="RPTC" />
+    <property name="workflowProperties" >
+      <ref bean="ReportingCodesMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ReportingCodesMaintenanceDocument</documentTypeName>
-        <documentTypeCode>RPTC</documentTypeCode>
-        <label>Financial Reporting Code</label>
-        <summary>Financial Reporting Code Maintenance Document</summary>
-        <description>Maintenance document which allows you to create, remove or modify Financial Reporting Codes.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ReportingCodes" parameterName="FINANCIAL_REPORTING_CODE" />
+<!-- Maintenance Section Definitions -->
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="organizationCode" />
-            <field attributeName="financialReportingCode" />
-        </lockingKeys>
 
-        <defaultExistenceChecks>
-            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" />
-            <reference attributeName="org" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="universalUser" attributeToHighlightOnFail="universalUser.personUserIdentifier" />
-        </defaultExistenceChecks>
+  <bean id="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes" parent="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes-parentBean" />
 
-        <maintainableSections>
-            <maintainableSection title="Edit Financial Reporting Codes">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organizationCode" required="true" />
-                    <maintainableField name="financialReportingCode" required="true" />
-                    <maintainableField name="financialReportingCodeDescription" required="true" />
-                    <maintainableField name="financialReportingCodeMgrId" required="true" readOnly="true" />
-                    <maintainableField name="universalUser.personUserIdentifier" required="true" />
-                    <maintainableField name="universalUser.personName" required="false" readOnly="true" />
-                    <maintainableField name="financialReportsToReportingCode" required="true" />
-                    <maintainableField name="versionNumber" />
+  <bean id="ReportingCodesMaintenanceDocument-EditFinancialReportingCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Financial Reporting Codes" />
+    <property name="title" value="Edit Financial Reporting Codes" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialReportingCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialReportingCodeDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialReportingCodeMgrId"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universalUser.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universalUser.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialReportsToReportingCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties/>
-    </maintenanceDocument>
+<!-- Exported Workflow Properties -->
 
-</dictionaryEntry>
+
+  <bean id="ReportingCodesMaintenanceDocument-workflowProperties" parent="ReportingCodesMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ReportingCodesMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

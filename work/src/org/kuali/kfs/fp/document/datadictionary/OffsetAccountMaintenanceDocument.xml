@@ -1,73 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.financial.bo.OffsetAccount</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="OffsetAccountMaintenanceDocument" parent="OffsetAccountMaintenanceDocument-parentBean" />
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OffsetAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.financial.bo.OffsetAccount" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OffsetAccountMaintenanceDocument-EditOffsetAccount" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chart"
+              p:attributeToHighlightOnFail="chartOfAccountsCode"
+              p:displayFieldName="Chart of Accounts" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:attributeToHighlightOnFail="accountNumber"
+              p:displayFieldName="Account" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="objectCodeCurrent"
+              p:attributeToHighlightOnFail="financialOffsetObjectCode"
+              p:displayFieldName="Offset Object Code" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialOffsetChartOfAccount"
+              p:attributeToHighlightOnFail="financialOffsetChartOfAccountCode"
+              p:displayFieldName="Offset Chart of Accounts" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialOffsetAccount"
+              p:attributeToHighlightOnFail="financialOffsetAccountNumber"
+              p:displayFieldName="Offset Account" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+        <value>financialOffsetObjectCode</value>
+      </list>
+    </property>
+    <property name="label" value="Offset Account" />
+    <property name="shortLabel" value="Offset Account" />
+    <property name="summary" value="OffsetAccountMaintenanceDocument" />
+    <property name="description" value="Document used to create or update Offset Accounts" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-FP"
+            p:parameterName="OFFSET_ACCOUNT"
+            p:parameterDetailType="OffsetAccount" />
+    </property>
+    <property name="documentTypeName" value="OffsetAccountMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="OFAC" />
+    <property name="workflowProperties" >
+      <ref bean="OffsetAccountMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>OffsetAccountMaintenanceDocument</documentTypeName>
-        <documentTypeCode>OFAC</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Offset Account</label>
 
-        <summary>OffsetAccountMaintenanceDocument</summary>
-        <description>Document used to create or update Offset Accounts</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="OffsetAccount" parameterName="OFFSET_ACCOUNT" />
+  <bean id="OffsetAccountMaintenanceDocument-EditOffsetAccount" parent="OffsetAccountMaintenanceDocument-EditOffsetAccount-parentBean" />
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="accountNumber" />
-            <field attributeName="financialOffsetObjectCode" />
-        </lockingKeys>
+  <bean id="OffsetAccountMaintenanceDocument-EditOffsetAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Offset Account" />
+    <property name="title" value="Edit Offset Account" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialOffsetObjectCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialOffsetChartOfAccountCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialOffsetAccountNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <defaultExistenceChecks>
-            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" displayFieldName="Chart of Accounts" />
-            <reference attributeName="account" attributeToHighlightOnFail="accountNumber" displayFieldName="Account" />
-            <reference attributeName="objectCodeCurrent" attributeToHighlightOnFail="financialOffsetObjectCode" displayFieldName="Offset Object Code" />
-            <reference attributeName="financialOffsetChartOfAccount" attributeToHighlightOnFail="financialOffsetChartOfAccountCode" displayFieldName="Offset Chart of Accounts" />
-            <reference attributeName="financialOffsetAccount" attributeToHighlightOnFail="financialOffsetAccountNumber" displayFieldName="Offset Account" />
-        </defaultExistenceChecks>
+<!-- Exported Workflow Properties -->
 
-        <maintainableSections>
-            <maintainableSection title="Edit Offset Account">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="financialOffsetObjectCode" required="true" />
-                    <maintainableField name="financialOffsetChartOfAccountCode" required="true" />
-                    <maintainableField name="financialOffsetAccountNumber" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <workflowProperties />
-    </maintenanceDocument>
-</dictionaryEntry>
+
+  <bean id="OffsetAccountMaintenanceDocument-workflowProperties" parent="OffsetAccountMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="OffsetAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

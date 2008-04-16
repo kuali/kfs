@@ -1,134 +1,224 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.AwardAccount">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardAccount" parent="AwardAccount-parentBean" />
+
+  <bean id="AwardAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardAccount" />
+    <property name="inquiryDefinition" >
+      <ref bean="AwardAccount-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AwardAccount-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardAccount-proposalNumber" />
+        <ref bean="AwardAccount-personUniversalIdentifier" />
+        <ref bean="AwardAccount-projectDirector.personUserIdentifier" />
+        <ref bean="AwardAccount-projectDirector.personName" />
+        <ref bean="AwardAccount-projectDirector.universalUser.personName" />
+        <ref bean="AwardAccount-chartOfAccountsCode" />
+        <ref bean="AwardAccount-accountNumber" />
+        <ref bean="AwardAccount-account.accountName" />
+        <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
+        <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
+        <ref bean="AwardAccount-award.workgroupName" />
+        <ref bean="AwardAccount-award.kualiGroupNames" />
+        <ref bean="AwardAccount-newCollectionRecord" />
+        <ref bean="AwardAccount-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="projectDirector.universalUser" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="projectDirector.personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="projectDirector.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="projectDirector.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Award Account Inquiry</title>
+  <bean id="AwardAccount-proposalNumber" parent="AwardAccount-proposalNumber-parentBean" />
 
-            <inquirySections><inquirySection title="Award Account Details"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="proposalNumber" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AwardAccount-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+  </bean>
+  <bean id="AwardAccount-personUniversalIdentifier" parent="AwardAccount-personUniversalIdentifier-parentBean" />
 
-        <lookup>
-            <title>Award Account Lookup</title>
+  <bean id="AwardAccount-personUniversalIdentifier-parentBean" abstract="true" parent="ProjectDirector-personUniversalIdentifier">
+    <property name="label" value="Project Director ID" />
+    <property name="shortLabel" value="Proj Dir ID" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="AwardAccount-projectDirector.personUserIdentifier" parent="AwardAccount-projectDirector.personUserIdentifier-parentBean" />
 
-            <instructions>Look up an Award Account</instructions>
+  <bean id="AwardAccount-projectDirector.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="projectDirector.personUserIdentifier" />
+    <property name="label" value="Project Director User ID" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="AwardAccount-projectDirector.personName" parent="AwardAccount-projectDirector.personName-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="AwardAccount-projectDirector.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="projectDirector.personName" />
+    <property name="label" value="Director Name" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  <bean id="AwardAccount-projectDirector.universalUser.personName" parent="AwardAccount-projectDirector.universalUser.personName-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="proposalNumber" required="false" />
-            </lookupFields>
+  <bean id="AwardAccount-projectDirector.universalUser.personName-parentBean" abstract="true" parent="AwardAccount-projectDirector.personName">
+    <property name="name" value="projectDirector.universalUser.personName" />
+  </bean>
+  <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="proposalNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="AwardAccount-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean" />
 
-        <attributes>
+  <bean id="AwardAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="AwardAccount-account.accountName" parent="AwardAccount-account.accountName-parentBean" />
 
-            <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber">
-            </attributeReference>
-			
-			<attributeReference name="personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
-            	<label>Project Director ID</label>
-            	<shortLabel>Proj Dir ID</shortLabel>
-                <control>
-                    <hidden/>
-                </control>
-            </attributeReference>
-            
-            <attributeReference name="projectDirector.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-            	<label>Project Director User ID</label>
-            	<required>false</required>
-            </attributeReference>
+  <bean id="AwardAccount-account.accountName-parentBean" abstract="true" parent="Account-accountName">
+    <property name="name" value="account.accountName" />
+  </bean>
+  <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber" parent="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" />
 
-            <attributeReference name="projectDirector.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Director Name</label>
-            	<required>false</required>
-                <control>
-                    <text size="40" />
-                </control>
-            </attributeReference>
+  <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" abstract="true" parent="Proposal-federalPassThroughAgencyNumber">
+    <property name="name" value="award.proposal.federalPassThroughAgencyNumber" />
+    <property name="label" value="Proposal Federal Pass Through Agency Number" />
+    <property name="shortLabel" value="Proposal Fed Pass Agency Num" />
+  </bean>
+  <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" parent="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" />
 
-			<attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="projectDirector.personName">
-			</attributeReference>
+  <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="Proposal-proposalFederalPassThroughIndicator">
+    <property name="name" value="award.proposal.proposalFederalPassThroughIndicator" />
+  </bean>
+  <bean id="AwardAccount-award.workgroupName" parent="AwardAccount-award.workgroupName-parentBean" />
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AwardAccount-award.workgroupName-parentBean" abstract="true" parent="Award-workgroupName">
+    <property name="name" value="award.workgroupName" />
+  </bean>
+  <bean id="AwardAccount-award.kualiGroupNames" parent="AwardAccount-award.kualiGroupNames-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="AwardAccount-award.kualiGroupNames-parentBean" abstract="true" parent="Award-kualiGroupNames">
+    <property name="name" value="award.kualiGroupNames" />
+  </bean>
+  <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
 
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
-                </control>
-			</attribute>
+  <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="AwardAccount-versionNumber" parent="AwardAccount-versionNumber-parentBean" />
 
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
-			
-			<attributeReference name="account.accountName" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountName"/>
-  
-			<attributeReference name="award.proposal.federalPassThroughAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="federalPassThroughAgencyNumber">
-				<label>Proposal Federal Pass Through Agency Number</label>
-				<shortLabel>Proposal Fed Pass Agency Num</shortLabel>
-			</attributeReference>
+  <bean id="AwardAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			<attributeReference name="award.proposal.proposalFederalPassThroughIndicator" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalFederalPassThroughIndicator">
-			</attributeReference>
-			
-			<attributeReference name="award.workgroupName" sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="workgroupName" />			
+<!-- Business Object Inquiry Definition -->
 
-			<attributeReference name="award.kualiGroupNames" sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="kualiGroupNames" />
 
-            <attributeReference name="newCollectionRecord" 
-                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                                sourceAttributeName="newCollectionRecord" />
-                                
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="AwardAccount-inquiryDefinition" parent="AwardAccount-inquiryDefinition-parentBean" />
 
-        </attributes>
-        <relationships>
-            <relationship objectAttributeName="projectDirector.universalUser" >
-                <primitiveAttribute sourceName="projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="projectDirector.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="projectDirector.personName" targetName="personName" />
-            </relationship>
-       </relationships>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="AwardAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Award Account Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Award Account Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AwardAccount-lookupDefinition" parent="AwardAccount-lookupDefinition-parentBean" />
+
+  <bean id="AwardAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Award Account Lookup" />
+    <property name="instructions" value="Look up an Award Account" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

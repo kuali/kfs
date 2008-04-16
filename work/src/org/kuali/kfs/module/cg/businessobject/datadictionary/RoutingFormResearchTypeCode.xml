@@ -1,96 +1,124 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormResearchTypeCode">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RoutingFormResearchTypeCode" parent="RoutingFormResearchTypeCode-parentBean" />
+
+  <bean id="RoutingFormResearchTypeCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormResearchTypeCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="RoutingFormResearchTypeCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RoutingFormResearchTypeCode-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="RoutingFormResearchTypeCode-documentNumber" />
+        <ref bean="RoutingFormResearchTypeCode-researchTypeCode" />
+        <ref bean="RoutingFormResearchTypeCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Routing Form Research Type Code Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="documentNumber" />
-                        <field attributeName="researchTypeCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+  <bean id="RoutingFormResearchTypeCode-documentNumber" parent="RoutingFormResearchTypeCode-documentNumber-parentBean" />
 
-        <lookup>
-            <title>Routing Form Research Type Code Lookup</title>
+  <bean id="RoutingFormResearchTypeCode-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormResearchTypeCode-researchTypeCode" parent="RoutingFormResearchTypeCode-researchTypeCode-parentBean" />
 
-            <instructions>Look up a Routing Form Research Type Code</instructions>
+  <bean id="RoutingFormResearchTypeCode-researchTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="researchTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Research Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="researchTypeCode" />
+    <property name="description" value="researchTypeCode description..." />
+  </bean>
+  <bean id="RoutingFormResearchTypeCode-versionNumber" parent="RoutingFormResearchTypeCode-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                    <sortAttribute attributeName="researchTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RoutingFormResearchTypeCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="researchTypeCode" required="false" />
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-                <field attributeName="documentNumber" />
-                <field attributeName="researchTypeCode" />
-            </resultFields>
-        </lookup>
 
-        <attributes>
+  <bean id="RoutingFormResearchTypeCode-inquiryDefinition" parent="RoutingFormResearchTypeCode-inquiryDefinition-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="RoutingFormResearchTypeCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Routing Form Research Type Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="researchTypeCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="16" />
-                </control>
 
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
+  <bean id="RoutingFormResearchTypeCode-lookupDefinition" parent="RoutingFormResearchTypeCode-lookupDefinition-parentBean" />
 
-            <attribute name="researchTypeCode" forceUppercase="true">
-                <label>Research Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>researchTypeCode</summary>
-                <description>researchTypeCode description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="RoutingFormResearchTypeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Routing Form Research Type Code Lookup" />
+    <property name="instructions" value="Look up a Routing Form Research Type Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="researchTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="researchTypeCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

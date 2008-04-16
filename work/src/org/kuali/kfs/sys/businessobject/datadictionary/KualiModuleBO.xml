@@ -1,112 +1,133 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kfs.bo.KualiModuleBO">
-    
-    	<inquiry>
-			<title>Universal User Module Inquiry</title>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-			<inquirySections>
-				<inquirySection title="Module">
-					<inquiryFields>
-						<field attributeName="moduleName" />
-						<field attributeName="moduleCode" />
-						<field attributeName="moduleId" />
-					</inquiryFields>
-				</inquirySection>
-			</inquirySections>
-		</inquiry>
-    	
+  <bean id="KualiModuleBO" parent="KualiModuleBO-parentBean" />
 
-        <lookup>
-        	<lookupableID>moduleLookupable</lookupableID>
-            <title>Kuali Module Lookup</title>
+  <bean id="KualiModuleBO-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.bo.KualiModuleBO" />
+    <property name="inquiryDefinition" >
+      <ref bean="KualiModuleBO-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="KualiModuleBO-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="name" />
+    <property name="attributes" >
+      <list>
+        <ref bean="KualiModuleBO-moduleName" />
+        <ref bean="KualiModuleBO-moduleCode" />
+        <ref bean="KualiModuleBO-moduleId" />
+      </list>
+    </property>
+  </bean>
 
-            <instructions>Kuali Module Lookup</instructions>
+<!-- Attribute Definitions -->
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="moduleName" />
-                </sortAttributes>
-            </defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="moduleName" required="false" />
-                <lookupField attributeName="moduleCode" required="false" />
-                <!--  <lookupField attributeName="moduleId" required="false" />-->
-            </lookupFields>
+  <bean id="KualiModuleBO-moduleName" parent="KualiModuleBO-moduleName-parentBean" />
 
-            <resultFields>
-                <field attributeName="moduleName" />
-                <field attributeName="moduleCode" />
-                <!-- <field attributeName="moduleId" />-->
-                
-            </resultFields>
-        </lookup>
-        
-        <titleAttribute>name</titleAttribute>
+  <bean id="KualiModuleBO-moduleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Module Name" />
+    <property name="description" value="Module Name description..." />
+  </bean>
+  <bean id="KualiModuleBO-moduleCode" parent="KualiModuleBO-moduleCode-parentBean" />
 
-        <attributes>
+  <bean id="KualiModuleBO-moduleCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Module Code" />
+    <property name="description" value="Module Code description..." />
+  </bean>
+  <bean id="KualiModuleBO-moduleId" parent="KualiModuleBO-moduleId-parentBean" />
 
-            <attribute name="moduleName" forceUppercase="false">
-                <label>Module Name</label>
-                <shortLabel>Name</shortLabel>
+  <bean id="KualiModuleBO-moduleId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Id" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Module Id" />
+    <property name="description" value="Module Id description..." />
+  </bean>
 
-                <maxLength>40</maxLength>
+<!-- Business Object Inquiry Definition -->
 
-                <control>
-                    <text size="20" />
-                </control>
 
-                <summary>Module Name</summary>
-                <description>Module Name description...</description>
-			</attribute>
+  <bean id="KualiModuleBO-inquiryDefinition" parent="KualiModuleBO-inquiryDefinition-parentBean" />
 
-            <attribute name="moduleCode" forceUppercase="false">
-                <label>Module Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="KualiModuleBO-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Universal User Module Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Module" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>2</maxLength>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="2" />
-                </control>
 
-                <summary>Module Code</summary>
-                <description>Module Code description...</description>
-			</attribute>
+  <bean id="KualiModuleBO-lookupDefinition" parent="KualiModuleBO-lookupDefinition-parentBean" />
 
-            <attribute name="moduleId" forceUppercase="false">
-                <label>Module Id</label>
-                <shortLabel>Id</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <control>
-                    <text size="2" />
-                </control>
-
-                <summary>Module Id</summary>
-                <description>Module Id description...</description>
-			</attribute>
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="KualiModuleBO-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Kuali Module Lookup" />
+    <property name="lookupableID" value="moduleLookupable" />
+    <property name="instructions" value="Kuali Module Lookup" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

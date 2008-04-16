@@ -1,201 +1,272 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Vendor Type Inquiry</title>
+  <bean id="VendorType" parent="VendorType-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="vendorTypeCode" />
-                <field attributeName="vendorTypeDescription" />
-                <field attributeName="vendorAddressTypeRequiredCode" />
-                <field attributeName="vendorTaxNumberRequiredIndicator" />
-                <field attributeName="vendorTypeChangeAllowedIndicator" />
-                <field attributeName="vendorContractAllowedIndicator" />
-                <field attributeName="vendorShowReviewIndicator" />
-                <field attributeName="commodityRequiredIndicator" />
-                <field attributeName="vendorReviewText" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="VendorType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorType" />
+    <property name="inquiryDefinition" >
+      <ref bean="VendorType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="VendorType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="vendorTypeCode" />
+    <property name="objectLabel" value="Vendor Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="VendorType-vendorTypeCode" />
+        <ref bean="VendorType-vendorTypeDescription" />
+        <ref bean="VendorType-vendorTaxNumberRequiredIndicator" />
+        <ref bean="VendorType-vendorTypeChangeAllowedIndicator" />
+        <ref bean="VendorType-vendorContractAllowedIndicator" />
+        <ref bean="VendorType-vendorShowReviewIndicator" />
+        <ref bean="VendorType-commodityRequiredIndicator" />
+        <ref bean="VendorType-vendorReviewText" />
+        <ref bean="VendorType-vendorAddressTypeRequiredCode" />
+        <ref bean="VendorType-addressType.vendorAddressTypeDescription" />
+        <ref bean="VendorType-active" />
+        <ref bean="VendorType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Vendor Type Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup a Vendor Type</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="vendorTypeDescription" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="VendorType-vendorTypeCode" parent="VendorType-vendorTypeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="vendorTypeCode" required="false"/>
-                <lookupField attributeName="vendorTypeDescription" required="false" />
-                <lookupField attributeName="vendorAddressTypeRequiredCode" required="false" />
-                <lookupField attributeName="vendorTaxNumberRequiredIndicator" required="false" />
-                <lookupField attributeName="vendorTypeChangeAllowedIndicator" required="false" />
-                <lookupField attributeName="vendorContractAllowedIndicator" required="false" />
-                <lookupField attributeName="vendorShowReviewIndicator" />
-                <lookupField attributeName="commodityRequiredIndicator" />
-                <lookupField attributeName="vendorReviewText" />
-                <lookupField attributeName="active" required="false"/>               
-            </lookupFields>
+  <bean id="VendorType-vendorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorTypeDescription" parent="VendorType-vendorTypeDescription-parentBean" />
 
-            <resultFields>
-                <field attributeName="vendorTypeCode" />
-                <field attributeName="vendorTypeDescription" />
-                <field attributeName="addressType.vendorAddressTypeDescription" />
-                <field attributeName="vendorTaxNumberRequiredIndicator" />
-                <field attributeName="vendorTypeChangeAllowedIndicator" />
-                <field attributeName="vendorContractAllowedIndicator" />
-                <field attributeName="vendorShowReviewIndicator" />
-                <field attributeName="commodityRequiredIndicator" />
-                <field attributeName="vendorReviewText" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="VendorType-vendorTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Vendor Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorTaxNumberRequiredIndicator" parent="VendorType-vendorTaxNumberRequiredIndicator-parentBean" />
 
-        <titleAttribute>vendorTypeCode</titleAttribute>
+  <bean id="VendorType-vendorTaxNumberRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+    <property name="name" value="vendorTaxNumberRequiredIndicator" />
+    <property name="label" value="Tax Number Required" />
+    <property name="shortLabel" value="Tax # Required" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorTypeChangeAllowedIndicator" parent="VendorType-vendorTypeChangeAllowedIndicator-parentBean" />
 
-        <attributes>
+  <bean id="VendorType-vendorTypeChangeAllowedIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+    <property name="name" value="vendorTypeChangeAllowedIndicator" />
+    <property name="label" value="Type Change Allowed" />
+    <property name="shortLabel" value="Type Change" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorContractAllowedIndicator" parent="VendorType-vendorContractAllowedIndicator-parentBean" />
 
-            <attribute name="vendorTypeCode" forceUppercase="true">
-                <label>Vendor Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="VendorType-vendorContractAllowedIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+    <property name="name" value="vendorContractAllowedIndicator" />
+    <property name="label" value="Vendor Contract Allowed" />
+    <property name="shortLabel" value="Contract Allowed" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorShowReviewIndicator" parent="VendorType-vendorShowReviewIndicator-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="VendorType-vendorShowReviewIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+    <property name="name" value="vendorShowReviewIndicator" />
+    <property name="label" value="Show Review Page" />
+    <property name="shortLabel" value="Show Review Page" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorType-commodityRequiredIndicator" parent="VendorType-commodityRequiredIndicator-parentBean" />
 
-                <control>
-                    <text size="6" />
-                </control>
+  <bean id="VendorType-commodityRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+    <property name="name" value="commodityRequiredIndicator" />
+    <property name="label" value="Commodity Code Required" />
+    <property name="shortLabel" value="Commodity Code Required" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorReviewText" parent="VendorType-vendorReviewText-parentBean" />
 
-			</attribute>
+  <bean id="VendorType-vendorReviewText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorReviewText" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Vendor Review Page Text" />
+    <property name="shortLabel" value="Review Text" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="60" />
+    </property>
+  </bean>
+  <bean id="VendorType-vendorAddressTypeRequiredCode" parent="VendorType-vendorAddressTypeRequiredCode-parentBean" />
 
-            <attribute name="vendorTypeDescription" forceUppercase="true">
-                <label>Vendor Type Description</label>
-                <shortLabel>Description</shortLabel>
+  <bean id="VendorType-vendorAddressTypeRequiredCode-parentBean" abstract="true" parent="AddressType-vendorAddressTypeCode">
+    <property name="name" value="vendorAddressTypeRequiredCode" />
+    <property name="label" value="Address Type Required" />
+    <property name="shortLabel" value="Address Type Required" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.AddressTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="VendorType-addressType.vendorAddressTypeDescription" parent="VendorType-addressType.vendorAddressTypeDescription-parentBean" />
 
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="VendorType-addressType.vendorAddressTypeDescription-parentBean" abstract="true" parent="AddressType-vendorAddressTypeDescription">
+    <property name="name" value="addressType.vendorAddressTypeDescription" />
+    <property name="label" value="Address Type Required" />
+    <property name="shortLabel" value="Address Type Required" />
+  </bean>
+  <bean id="VendorType-active" parent="VendorType-active-parentBean" />
 
-                <control>
-                    <text size="47" />
-                </control>
+  <bean id="VendorType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="VendorType-versionNumber" parent="VendorType-versionNumber-parentBean" />
 
-			</attribute>
-			
-			<attributeReference name="vendorTaxNumberRequiredIndicator"
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-					sourceAttributeName="oneDigitTextCode">
-				<label>Tax Number Required</label>
-				<shortLabel>Tax # Required</shortLabel>
-				
-				<control>
-					<checkbox />
-				</control>
+  <bean id="VendorType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			</attributeReference>
-			
-			<attributeReference name="vendorTypeChangeAllowedIndicator"
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-					sourceAttributeName="oneDigitTextCode">
-				<label>Type Change Allowed</label>
-				<shortLabel>Type Change</shortLabel>
-				
-				<control>
-					<checkbox />
-				</control>
+<!-- Business Object Inquiry Definition -->
 
-			</attributeReference>
-			
-			<attributeReference name="vendorContractAllowedIndicator"
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-					sourceAttributeName="oneDigitTextCode">
-				<label>Vendor Contract Allowed</label>
-				<shortLabel>Contract Allowed</shortLabel>
-				
-				<control>
-					<checkbox />
-				</control>
 
-			</attributeReference>
-											
-			<attributeReference name="vendorShowReviewIndicator"
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-					sourceAttributeName="oneDigitTextCode">
-				<label>Show Review Page</label>
-				<shortLabel>Show Review Page</shortLabel>
-				
-				<control>
-					<checkbox />
-				</control>
+  <bean id="VendorType-inquiryDefinition" parent="VendorType-inquiryDefinition-parentBean" />
 
-			</attributeReference>
+  <bean id="VendorType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Vendor Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAddressTypeRequiredCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorTaxNumberRequiredIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorTypeChangeAllowedIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorContractAllowedIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorShowReviewIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="commodityRequiredIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorReviewText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="commodityRequiredIndicator"
-                    sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                    sourceAttributeName="oneDigitTextCode">
-                <label>Commodity Code Required</label>
-                <shortLabel>Commodity Code Required</shortLabel>
-                
-                <control>
-                    <checkbox />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-            </attributeReference>
-            
-            <attribute name="vendorReviewText" forceUppercase="false">
-                <label>Vendor Review Page Text</label>
-                <shortLabel>Review Text</shortLabel>
 
-                <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+  <bean id="VendorType-lookupDefinition" parent="VendorType-lookupDefinition-parentBean" />
 
-                <control>
-                    <textarea rows="5" cols="60" />
-                </control>
-
-			</attribute>
-			
-            <attributeReference name="vendorAddressTypeRequiredCode" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeCode">
-                <label>Address Type Required</label>
-                <shortLabel>Address Type Required</shortLabel>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.AddressTypeValuesFinder" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="addressType.vendorAddressTypeDescription" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeDescription" >
-                <label>Address Type Required</label>
-                <shortLabel>Address Type Required</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        <objectLabel>Vendor Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="VendorType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Vendor Type Lookup" />
+    <property name="instructions" value="Lookup a Vendor Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAddressTypeRequiredCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTaxNumberRequiredIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTypeChangeAllowedIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContractAllowedIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShowReviewIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="commodityRequiredIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorReviewText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="addressType.vendorAddressTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTaxNumberRequiredIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorTypeChangeAllowedIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorContractAllowedIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorShowReviewIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="commodityRequiredIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorReviewText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

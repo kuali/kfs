@@ -1,57 +1,69 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.purap.document.PurchaseOrderVoidDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderVoidDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.PurchaseOrderVoidDocumentAuthorizer</documentAuthorizerClass>
-        
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PA_PUR_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <documentTypeName>PurchaseOrderVoidDocument</documentTypeName>
-        <documentTypeCode>POV</documentTypeCode>
+  <bean id="PurchaseOrderVoidDocument" parent="PurchaseOrderVoidDocument-parentBean" />
 
-        <label>Purchase Order Void</label>
+  <bean id="PurchaseOrderVoidDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Purchase Order Void" />
+    <property name="shortLabel" value="Purchase Order Void" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="PURCHASE_ORDER"
+            p:parameterDetailType="PurchaseOrder" />
+    </property>
+    <property name="documentTypeName" value="PurchaseOrderVoidDocument" />
+    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderVoidDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderVoidDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderVoidDocumentAuthorizer" />
+    <property name="documentTypeCode" value="POV" />
+    <property name="workflowProperties" >
+      <ref bean="PurchaseOrderVoidDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_PUR_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-        <workflowProperties>
-        	<workflowPropertyGroup>
-        		<!-- properties for routing -->
-        		<workflowProperty path="documentHeader" />
-        		<workflowProperty path="accountsForRouting" />
-        		<workflowProperty path="accountsForRouting.account" />
-        		<!-- extra properties for searches -->
-        		<workflowProperty path="status" />
-        		<workflowProperty path="contractManager" />
-        		<workflowProperty path="vendorContract" />
-        	</workflowPropertyGroup>
-        </workflowProperties>
-        
-    </transactionalDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="PurchaseOrderVoidDocument-workflowProperties" parent="PurchaseOrderVoidDocument-workflowProperties-parentBean" />
+
+  <bean id="PurchaseOrderVoidDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting" />
+              <bean parent="WorkflowProperty"
+                    p:path="accountsForRouting.account" />
+              <bean parent="WorkflowProperty"
+                    p:path="status" />
+              <bean parent="WorkflowProperty"
+                    p:path="contractManager" />
+              <bean parent="WorkflowProperty"
+                    p:path="vendorContract" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,95 +1,160 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.Chart</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  <bean id="ChartMaintenanceDocument" parent="ChartMaintenanceDocument-parentBean" />
 
-        <businessRulesClass>org.kuali.module.chart.rules.ChartRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ChartMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Chart" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ChartMaintenanceDocument-EditChart" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finCoaManagerUniversal"
+              p:attributeToHighlightOnFail="finCoaManagerUniversal.personUserIdentifier"
+              p:displayFieldName="Chart Manager" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialCashObject"
+              p:attributeToHighlightOnFail="financialCashObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finAccountsPayableObject"
+              p:attributeToHighlightOnFail="finAccountsPayableObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finAccountsReceivableObj"
+              p:attributeToHighlightOnFail="finAccountsReceivableObjCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="incBdgtEliminationsFinObj"
+              p:attributeToHighlightOnFail="incBdgtEliminationsFinObjCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expBdgtEliminationsFinObj"
+              p:attributeToHighlightOnFail="expBdgtEliminationsFinObjCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finInternalEncumbranceObj"
+              p:attributeToHighlightOnFail="finInternalEncumbranceObjCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finExternalEncumbranceObj"
+              p:attributeToHighlightOnFail="finExternalEncumbranceObjCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="finPreEncumbranceObject"
+              p:attributeToHighlightOnFail="finPreEncumbranceObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="icrIncomeFinancialObject"
+              p:attributeToHighlightOnFail="icrIncomeFinancialObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="icrExpenseFinancialObject"
+              p:attributeToHighlightOnFail="icrExpenseFinancialObjectCd" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="fundBalanceObject"
+              p:attributeToHighlightOnFail="fundBalanceObject" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>chartOfAccountsCode</value>
+      </list>
+    </property>
+    <property name="label" value="Chart" />
+    <property name="shortLabel" value="Chart" />
+    <property name="summary" value="Chart maintenance document" />
+    <property name="description" value="Document used to create or update Chart objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="CHART"
+            p:parameterDetailType="Chart" />
+    </property>
+    <property name="documentTypeName" value="ChartMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ChartRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="COAT" />
+    <property name="workflowProperties" >
+      <ref bean="ChartMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTAINENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>ChartMaintenanceDocument</documentTypeName>
-        <documentTypeCode>COAT</documentTypeCode>
+<!-- Maintenance Section Definitions -->
 
-        <label>Chart</label>
 
-        <summary>Chart maintenance document</summary>
-        <description>Document used to create or update Chart objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Chart" parameterName="CHART" />
-        
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-        </lockingKeys>
+  <bean id="ChartMaintenanceDocument-EditChart" parent="ChartMaintenanceDocument-EditChart-parentBean" />
 
-        <defaultExistenceChecks>
-            <reference attributeName="finCoaManagerUniversal" attributeToHighlightOnFail="finCoaManagerUniversal.personUserIdentifier" displayFieldName="Chart Manager" />
-            <reference attributeName="financialCashObject" attributeToHighlightOnFail="financialCashObjectCode" />
-            <reference attributeName="finAccountsPayableObject" attributeToHighlightOnFail="finAccountsPayableObjectCode" />
-            <reference attributeName="finAccountsReceivableObj" attributeToHighlightOnFail="finAccountsReceivableObjCode" />
-            <reference attributeName="incBdgtEliminationsFinObj" attributeToHighlightOnFail="incBdgtEliminationsFinObjCd" />
-            <reference attributeName="expBdgtEliminationsFinObj" attributeToHighlightOnFail="expBdgtEliminationsFinObjCd" />
-            <reference attributeName="finInternalEncumbranceObj" attributeToHighlightOnFail="finInternalEncumbranceObjCd" />
-            <reference attributeName="finExternalEncumbranceObj" attributeToHighlightOnFail="finExternalEncumbranceObjCd" />
-            <reference attributeName="finPreEncumbranceObject" attributeToHighlightOnFail="finPreEncumbranceObjectCode" />
-            <reference attributeName="icrIncomeFinancialObject" attributeToHighlightOnFail="icrIncomeFinancialObjectCode" />
-            <reference attributeName="icrExpenseFinancialObject" attributeToHighlightOnFail="icrExpenseFinancialObjectCd" />
-            <reference attributeName="fundBalanceObject" attributeToHighlightOnFail="fundBalanceObject" />
-        </defaultExistenceChecks>
+  <bean id="ChartMaintenanceDocument-EditChart-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Chart" />
+    <property name="title" value="Edit Chart" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finCoaManagerUniversalId"
+              p:readOnly="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finCoaManagerUniversal.personUserIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finCoaManagerUniversal.personName"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finChartOfAccountDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finChartOfAccountActiveIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialCashObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finAccountsPayableObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="incBdgtEliminationsFinObjCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="expBdgtEliminationsFinObjCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="reportsToChartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finAccountsReceivableObjCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finInternalEncumbranceObjCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finExternalEncumbranceObjCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="finPreEncumbranceObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="icrIncomeFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="icrExpenseFinancialObjectCd" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="fundBalanceObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Chart">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="finCoaManagerUniversalId" required="true" readOnly="true" />
-                    <maintainableField name="finCoaManagerUniversal.personUserIdentifier" required="true" />
-                    <maintainableField name="finCoaManagerUniversal.personName" required="false" readOnly="true" />
-                    <maintainableField name="finChartOfAccountDescription" required="true" />
-                    <maintainableField name="finChartOfAccountActiveIndicator" />
-                    <maintainableField name="financialCashObjectCode" />
-                    <maintainableField name="finAccountsPayableObjectCode" />
-                    <maintainableField name="incBdgtEliminationsFinObjCd" />
-                    <maintainableField name="expBdgtEliminationsFinObjCd" />
-                    <maintainableField name="reportsToChartOfAccountsCode" required="true" />
-                    <maintainableField name="finAccountsReceivableObjCode" />
-                    <maintainableField name="finInternalEncumbranceObjCd" />
-                    <maintainableField name="finExternalEncumbranceObjCd" />
-                    <maintainableField name="finPreEncumbranceObjectCode" />
-                    <maintainableField name="icrIncomeFinancialObjectCode" />
-                    <maintainableField name="icrExpenseFinancialObjectCd" />
-                    <maintainableField name="fundBalanceObjectCode" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-        
-        <!-- since routing does not require any attributes, don't bother serializing anything -->
-        <workflowProperties>
-        </workflowProperties>
-        	
-    </maintenanceDocument>
-</dictionaryEntry>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ChartMaintenanceDocument-workflowProperties" parent="ChartMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ChartMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

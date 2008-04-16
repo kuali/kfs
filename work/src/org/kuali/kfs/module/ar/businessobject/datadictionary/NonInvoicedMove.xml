@@ -1,242 +1,349 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.NonInvoicedMove">
- 
-        <inquiry>
-            <title>Non-Invoiced Move Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="accountNumber" />
-                        <field attributeName="chartOfAccountsCode" />
-                        <field attributeName="documentNumber" />
-                        <field attributeName="financialDocumentLineAmount" />
-                        <field attributeName="financialDocumentLineNumber" />
-                        <field attributeName="financialDocumentOverrideCode" />
-                        <field attributeName="financialDocumentPostingYear" />
-                        <field attributeName="financialObjectCode" />
-                        <field attributeName="financialSubObjectCode" />
-                        <field attributeName="projectCode" />
-                        <field attributeName="subAccountNumber" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Non-Invoiced Move Lookup</title>
+  <bean id="NonInvoicedMove" parent="NonInvoicedMove-parentBean" />
 
-            <instructions>Look up a Non-Invoiced Move</instructions>
+  <bean id="NonInvoicedMove-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.NonInvoicedMove" />
+    <property name="inquiryDefinition" >
+      <ref bean="NonInvoicedMove-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="NonInvoicedMove-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="NonInvoicedMove-accountNumber" />
+        <ref bean="NonInvoicedMove-chartOfAccountsCode" />
+        <ref bean="NonInvoicedMove-documentNumber" />
+        <ref bean="NonInvoicedMove-financialDocumentLineAmount" />
+        <ref bean="NonInvoicedMove-financialDocumentLineNumber" />
+        <ref bean="NonInvoicedMove-financialDocumentOverrideCode" />
+        <ref bean="NonInvoicedMove-financialDocumentPostingYear" />
+        <ref bean="NonInvoicedMove-financialObjectCode" />
+        <ref bean="NonInvoicedMove-financialSubObjectCode" />
+        <ref bean="NonInvoicedMove-projectCode" />
+        <ref bean="NonInvoicedMove-subAccountNumber" />
+        <ref bean="NonInvoicedMove-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="documentNumber" />
-                    <sortAttribute attributeName="financialDocumentLineNumber" />
-                 </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentLineAmount" required="false" />
-                <lookupField attributeName="financialDocumentLineNumber" required="false" />
-                <lookupField attributeName="financialDocumentOverrideCode" required="false" />
-                <lookupField attributeName="financialDocumentPostingYear" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="projectCode" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentLineAmount" />
-                <field attributeName="financialDocumentLineNumber" />
-                <field attributeName="financialDocumentOverrideCode" />
-                <field attributeName="financialDocumentPostingYear" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="projectCode" />
-                <field attributeName="subAccountNumber" />
-            </resultFields>
-        </lookup>
+  <bean id="NonInvoicedMove-accountNumber" parent="NonInvoicedMove-accountNumber-parentBean" />
 
-        <attributes>
+  <bean id="NonInvoicedMove-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="accountNumber" />
+    <property name="description" value="accountNumber description..." />
+  </bean>
+  <bean id="NonInvoicedMove-chartOfAccountsCode" parent="NonInvoicedMove-chartOfAccountsCode-parentBean" />
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="NonInvoicedMove-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="chartOfAccountsCode" />
+    <property name="description" value="chartOfAccountsCode description..." />
+  </bean>
+  <bean id="NonInvoicedMove-documentNumber" parent="NonInvoicedMove-documentNumber-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="NonInvoicedMove-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="NonInvoicedMove-financialDocumentLineAmount" parent="NonInvoicedMove-financialDocumentLineAmount-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
+  <bean id="NonInvoicedMove-financialDocumentLineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Line Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+    <property name="summary" value="financialDocumentLineAmount" />
+    <property name="description" value="financialDocumentLineAmount description..." />
+  </bean>
+  <bean id="NonInvoicedMove-financialDocumentLineNumber" parent="NonInvoicedMove-financialDocumentLineNumber-parentBean" />
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
+  <bean id="NonInvoicedMove-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Line Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="financialDocumentLineNumber" />
+    <property name="description" value="financialDocumentLineNumber description..." />
+  </bean>
+  <bean id="NonInvoicedMove-financialDocumentOverrideCode" parent="NonInvoicedMove-financialDocumentOverrideCode-parentBean" />
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="NonInvoicedMove-financialDocumentOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentOverrideCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Override Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="financialDocumentOverrideCode" />
+    <property name="description" value="financialDocumentOverrideCode description..." />
+  </bean>
+  <bean id="NonInvoicedMove-financialDocumentPostingYear" parent="NonInvoicedMove-financialDocumentPostingYear-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="NonInvoicedMove-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentPostingYear" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Document Posting Year" />
+    <property name="shortLabel" value="Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialDocumentPostingYear" />
+    <property name="description" value="financialDocumentPostingYear description..." />
+  </bean>
+  <bean id="NonInvoicedMove-financialObjectCode" parent="NonInvoicedMove-financialObjectCode-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="NonInvoicedMove-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="financialObjectCode" />
+    <property name="description" value="financialObjectCode description..." />
+  </bean>
+  <bean id="NonInvoicedMove-financialSubObjectCode" parent="NonInvoicedMove-financialSubObjectCode-parentBean" />
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+  <bean id="NonInvoicedMove-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialSubObjectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial Sub Object Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="financialSubObjectCode" />
+    <property name="description" value="financialSubObjectCode description..." />
+  </bean>
+  <bean id="NonInvoicedMove-projectCode" parent="NonInvoicedMove-projectCode-parentBean" />
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="NonInvoicedMove-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="projectCode" />
+    <property name="description" value="projectCode description..." />
+  </bean>
+  <bean id="NonInvoicedMove-subAccountNumber" parent="NonInvoicedMove-subAccountNumber-parentBean" />
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="NonInvoicedMove-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="subAccountNumber" />
+    <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="NonInvoicedMove-versionNumber" parent="NonInvoicedMove-versionNumber-parentBean" />
 
-                <control>
-                    <text size="16" />
-                </control>
+  <bean id="NonInvoicedMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="financialDocumentLineAmount" forceUppercase="true">
-                <label>Financial Document Line Amount</label>
-                <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+  <bean id="NonInvoicedMove-inquiryDefinition" parent="NonInvoicedMove-inquiryDefinition-parentBean" />
 
-                <control>
-                    <text size="21" />
-                </control>
+  <bean id="NonInvoicedMove-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Non-Invoiced Move Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentLineAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentLineNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentOverrideCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentPostingYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <summary>financialDocumentLineAmount</summary>
-                <description>financialDocumentLineAmount description...</description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="financialDocumentLineNumber" forceUppercase="true">
-                <label>Financial Document Line Number</label>
-                <shortLabel>Number</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="NonInvoicedMove-lookupDefinition" parent="NonInvoicedMove-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>financialDocumentLineNumber</summary>
-                <description>financialDocumentLineNumber description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentOverrideCode" forceUppercase="true">
-                <label>Financial Document Override Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>financialDocumentOverrideCode</summary>
-                <description>financialDocumentOverrideCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
-                <label>Financial Document Posting Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
-			</attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="projectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>projectCode</summary>
-                <description>projectCode description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="NonInvoicedMove-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Non-Invoiced Move Lookup" />
+    <property name="instructions" value="Look up a Non-Invoiced Move" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentOverrideCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentOverrideCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAccountNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,232 +1,305 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationExtension">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<attributes>
-			<attributeReference name="chartOfAccountsCode" 
-						sourceClassName="org.kuali.module.chart.bo.Chart" 
-						sourceAttributeName="chartOfAccountsCode" />
-								
-     		<attributeReference name="organizationCode"
-				        sourceClassName="org.kuali.module.chart.bo.Org"
-				        sourceAttributeName="organizationCode" />
+  <bean id="OrganizationExtension" parent="OrganizationExtension-parentBean" />
 
-      		<attribute name="organizationExtension.hrmsCompany" forceUppercase="false">
-				<label>HRMS Company</label>
-				<shortLabel>HRMS Company</shortLabel>
+  <bean id="OrganizationExtension-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationExtension" />
+    <property name="objectLabel" value="Organization Extension" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationExtension-chartOfAccountsCode" />
+        <ref bean="OrganizationExtension-organizationCode" />
+        <ref bean="OrganizationExtension-organizationExtension.hrmsCompany" />
+        <ref bean="OrganizationExtension-hrmsIuOrganizationAddress2" />
+        <ref bean="OrganizationExtension-hrmsIuOrganizationAddress3" />
+        <ref bean="OrganizationExtension-hrmsIuCampusCode" />
+        <ref bean="OrganizationExtension-hrmsIuCampusBuilding" />
+        <ref bean="OrganizationExtension-hrmsIuCampusRoom" />
+        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversalId" />
+        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier" />
+        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversal.personName" />
+        <ref bean="OrganizationExtension-fiscalApproverUniversalId" />
+        <ref bean="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier" />
+        <ref bean="OrganizationExtension-fiscalApproverUniversal.personName" />
+        <ref bean="OrganizationExtension-hrmsIuPositionAllowedFlag" />
+        <ref bean="OrganizationExtension-hrmsIuTenureAllowedFlag" />
+        <ref bean="OrganizationExtension-hrmsIuTitleAllowedFlag" />
+        <ref bean="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag" />
+        <ref bean="OrganizationExtension-hrmsLastUpdateDate" />
+        <ref bean="OrganizationExtension-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="hrmsPersonnelApproverUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="hrmsPersonnelApproverUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="hrmsPersonnelApproverUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="hrmsPersonnelApproverUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="fiscalApproverUniversal" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="fiscalApproverUniversalId"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="fiscalApproverUniversal.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="fiscalApproverUniversal.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-				<maxLength>3</maxLength>
-				<validationPattern>
-				<alpha />
-        		</validationPattern>
-				<required>false</required>
-		
-		        <control>
-		          <text size="3" />
-		        </control>
-		      </attribute>
+<!-- Attribute Definitions -->
 
-								
-			<attribute name="hrmsIuOrganizationAddress2" forceUppercase="false">
-        		<label>Address-1</label>
-        		<shortLabel>Address-1</shortLabel>
-        		
-        		<maxLength>30</maxLength>
-        		<validationPattern><anyCharacter maxLength="30" allowWhitespace="true" /></validationPattern>
-        		
-				<control>
-					<text size="30" />
-				</control>
-			</attribute>
-			
-			<attribute name="hrmsIuOrganizationAddress3" forceUppercase="false">
-        		<label>Address-2</label>
-        		<shortLabel>Address-2</shortLabel>
-        		
-        		<maxLength>30</maxLength>
-        		<validationPattern><anyCharacter maxLength="30" allowWhitespace="true" /></validationPattern>
-        		
-				<control>
-					<text size="30" />
-				</control>
-			</attribute>
 
-			
-			<attribute name="hrmsIuCampusCode" forceUppercase="false">
-        		<label>Campus</label>
-        		<shortLabel>Campus</shortLabel>
-        		
-        		<maxLength>2</maxLength>
-        		<validationPattern><anyCharacter maxLength="2" /></validationPattern>
-        		
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
-				</control>
-			</attribute>
-			
-			<attribute name="hrmsIuCampusBuilding" forceUppercase="false">
-        		<label>Building</label>
-        		<shortLabel>Bldg</shortLabel>
-        		
-        		<maxLength>10</maxLength>
-        		<validationPattern><anyCharacter maxLength="10" /></validationPattern>
-        		
-				<control>
-					<text size="10" />
-				</control>
-			</attribute>
-			
-			<attribute name="hrmsIuCampusRoom" forceUppercase="false">
-        		<label>Room</label>
-        		<shortLabel>Room</shortLabel>
-        		
-        		<maxLength>8</maxLength>
-        		<validationPattern><anyCharacter maxLength="8" /></validationPattern>
-        		
-				<control>
-					<text size="8" />
-				</control>
-			</attribute>
-			
-      <attributeReference name="hrmsPersonnelApproverUniversalId"
-                         sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                         sourceAttributeName="personUniversalIdentifier">
-        <label>Personnel Approver UserID</label>
-        <shortLabel>Personnel Approver UserID</shortLabel>
-        <required>true</required>
-        <control><hidden /></control>
-      </attributeReference>
+  <bean id="OrganizationExtension-chartOfAccountsCode" parent="OrganizationExtension-chartOfAccountsCode-parentBean" />
 
-	  <attributeReference name="hrmsPersonnelApproverUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-	  					  sourceAttributeName="personUserIdentifier">
-			<label>Personnel Approver UserID</label>
-			<shortLabel>Personnel Approver</shortLabel>
-			<required>false</required>
-			<control>
-				<kualiUser universalIdAttributeName="hrmsPersonnelApproverUniversalId" 
-							userIdAttributeName="hrmsPersonnelApproverUniversal.personUserIdentifier" 
-							personNameAttributeName="hrmsPersonnelApproverUniversal.personName" />
-			</control>
-	  </attributeReference>
-	  
-		<attributeReference name="hrmsPersonnelApproverUniversal.personName" 
-							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-							sourceAttributeName="personName">
-			<label>Personnel Approver Name</label>
-			<shortLabel>Name</shortLabel>
-			<required>false</required>
-			<control><hidden /></control>
-		</attributeReference>
+  <bean id="OrganizationExtension-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationExtension-organizationCode" parent="OrganizationExtension-organizationCode-parentBean" />
 
-      <attributeReference name="fiscalApproverUniversalId"
-                          sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                          sourceAttributeName="personUniversalIdentifier">
-        <label>Fiscal Approver UserID</label>
-        <shortLabel>Fiscal Approver UserID</shortLabel>
-        <required>true</required>
-        <control><hidden /></control>
-      </attributeReference>
+  <bean id="OrganizationExtension-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  </bean>
+  <bean id="OrganizationExtension-organizationExtension.hrmsCompany" parent="OrganizationExtension-organizationExtension.hrmsCompany-parentBean" />
 
-	  <attributeReference name="fiscalApproverUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-	  					  sourceAttributeName="personUserIdentifier">
-			<label>Fiscal Approver UserID</label>
-			<shortLabel>Fiscal Approver</shortLabel>
-			<required>false</required>
-			<control>
-				<kualiUser universalIdAttributeName="fiscalApproverUniversalId" 
-							userIdAttributeName="fiscalApproverUniversal.personUserIdentifier" 
-							personNameAttributeName="fiscalApproverUniversal.personName" />
-			</control>
-	  </attributeReference>
-	  
-		<attributeReference name="fiscalApproverUniversal.personName" 
-							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-							sourceAttributeName="personName">
-			<label>Fiscal Approver Name</label>
-			<shortLabel>Name</shortLabel>
-			<required>false</required>
-			<control><hidden /></control>
-		</attributeReference>
+  <bean id="OrganizationExtension-organizationExtension.hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationExtension.hrmsCompany" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="HRMS Company" />
+    <property name="shortLabel" value="HRMS Company" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuOrganizationAddress2" parent="OrganizationExtension-hrmsIuOrganizationAddress2-parentBean" />
 
-		<attributeReference name="hrmsIuPositionAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Position Allowed</label>
-			<shortLabel>Position Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-		
-		<attributeReference name="hrmsIuTenureAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Tenure Allowed</label>
-			<shortLabel>Tenure Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-						
-		<attributeReference name="hrmsIuTitleAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Title Allowed</label>
-			<shortLabel>Title Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
-						
-		<attributeReference name="hrmsIuOccupationalUnitAllowedFlag" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericBoolean">
-			<label>Occupational Unit Allowed</label>
-			<shortLabel>Occupational Unit Allowed</shortLabel>
-			<required>true</required>
-		</attributeReference>
+  <bean id="OrganizationExtension-hrmsIuOrganizationAddress2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsIuOrganizationAddress2" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address-1" />
+    <property name="shortLabel" value="Address-1" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true"
+            p:maxLength="30" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuOrganizationAddress3" parent="OrganizationExtension-hrmsIuOrganizationAddress3-parentBean" />
 
-		<attributeReference name="hrmsLastUpdateDate" 
-					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					sourceAttributeName="genericTimestamp">
-			<label>Last Update Date</label>
-			<shortLabel>Last Update Date</shortLabel>
-		</attributeReference>
-											
-        <attributeReference name="versionNumber" 
-        					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-        					sourceAttributeName="versionNumber" />
+  <bean id="OrganizationExtension-hrmsIuOrganizationAddress3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsIuOrganizationAddress3" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address-2" />
+    <property name="shortLabel" value="Address-2" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true"
+            p:maxLength="30" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuCampusCode" parent="OrganizationExtension-hrmsIuCampusCode-parentBean" />
 
-		</attributes>
+  <bean id="OrganizationExtension-hrmsIuCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsIuCampusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Campus" />
+    <property name="shortLabel" value="Campus" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:maxLength="2" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuCampusBuilding" parent="OrganizationExtension-hrmsIuCampusBuilding-parentBean" />
 
-        <relationships>
-            <relationship objectAttributeName="hrmsPersonnelApproverUniversal" >
-                <primitiveAttribute sourceName="hrmsPersonnelApproverUniversalId" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="hrmsPersonnelApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="hrmsPersonnelApproverUniversal.personName" targetName="personName" />
-            </relationship>
+  <bean id="OrganizationExtension-hrmsIuCampusBuilding-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsIuCampusBuilding" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Building" />
+    <property name="shortLabel" value="Bldg" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:maxLength="10" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuCampusRoom" parent="OrganizationExtension-hrmsIuCampusRoom-parentBean" />
 
-            <relationship objectAttributeName="fiscalApproverUniversal" >
-                <primitiveAttribute sourceName="fiscalApproverUniversalId" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="fiscalApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="fiscalApproverUniversal.personName" targetName="personName" />
-            </relationship>
-        </relationships>
-		<objectLabel>Organization Extension</objectLabel>
-	</businessObject>
-</dictionaryEntry>
+  <bean id="OrganizationExtension-hrmsIuCampusRoom-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hrmsIuCampusRoom" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Room" />
+    <property name="shortLabel" value="Room" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:maxLength="8" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversalId" parent="OrganizationExtension-hrmsPersonnelApproverUniversalId-parentBean" />
 
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="hrmsPersonnelApproverUniversalId" />
+    <property name="label" value="Personnel Approver UserID" />
+    <property name="shortLabel" value="Personnel Approver UserID" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="hrmsPersonnelApproverUniversal.personUserIdentifier" />
+    <property name="label" value="Personnel Approver UserID" />
+    <property name="shortLabel" value="Personnel Approver" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="hrmsPersonnelApproverUniversal.personName"
+            p:universalIdAttributeName="hrmsPersonnelApproverUniversalId"
+            p:userIdAttributeName="hrmsPersonnelApproverUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personName" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.personName-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="hrmsPersonnelApproverUniversal.personName" />
+    <property name="label" value="Personnel Approver Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationExtension-fiscalApproverUniversalId" parent="OrganizationExtension-fiscalApproverUniversalId-parentBean" />
+
+  <bean id="OrganizationExtension-fiscalApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="fiscalApproverUniversalId" />
+    <property name="label" value="Fiscal Approver UserID" />
+    <property name="shortLabel" value="Fiscal Approver UserID" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier" parent="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier-parentBean" />
+
+  <bean id="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="fiscalApproverUniversal.personUserIdentifier" />
+    <property name="label" value="Fiscal Approver UserID" />
+    <property name="shortLabel" value="Fiscal Approver" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="fiscalApproverUniversal.personName"
+            p:universalIdAttributeName="fiscalApproverUniversalId"
+            p:userIdAttributeName="fiscalApproverUniversal.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="OrganizationExtension-fiscalApproverUniversal.personName" parent="OrganizationExtension-fiscalApproverUniversal.personName-parentBean" />
+
+  <bean id="OrganizationExtension-fiscalApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="fiscalApproverUniversal.personName" />
+    <property name="label" value="Fiscal Approver Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuPositionAllowedFlag" parent="OrganizationExtension-hrmsIuPositionAllowedFlag-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsIuPositionAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hrmsIuPositionAllowedFlag" />
+    <property name="label" value="Position Allowed" />
+    <property name="shortLabel" value="Position Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuTenureAllowedFlag" parent="OrganizationExtension-hrmsIuTenureAllowedFlag-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsIuTenureAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hrmsIuTenureAllowedFlag" />
+    <property name="label" value="Tenure Allowed" />
+    <property name="shortLabel" value="Tenure Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuTitleAllowedFlag" parent="OrganizationExtension-hrmsIuTitleAllowedFlag-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsIuTitleAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hrmsIuTitleAllowedFlag" />
+    <property name="label" value="Title Allowed" />
+    <property name="shortLabel" value="Title Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag" parent="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hrmsIuOccupationalUnitAllowedFlag" />
+    <property name="label" value="Occupational Unit Allowed" />
+    <property name="shortLabel" value="Occupational Unit Allowed" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationExtension-hrmsLastUpdateDate" parent="OrganizationExtension-hrmsLastUpdateDate-parentBean" />
+
+  <bean id="OrganizationExtension-hrmsLastUpdateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="hrmsLastUpdateDate" />
+    <property name="label" value="Last Update Date" />
+    <property name="shortLabel" value="Last Update Date" />
+  </bean>
+  <bean id="OrganizationExtension-versionNumber" parent="OrganizationExtension-versionNumber-parentBean" />
+
+  <bean id="OrganizationExtension-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

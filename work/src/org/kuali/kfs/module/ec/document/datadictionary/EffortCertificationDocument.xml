@@ -1,89 +1,117 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-    <transactionalDocument>
-        <documentClass>org.kuali.module.effort.document.EffortCertificationDocument</documentClass> 
-        <businessRulesClass>org.kuali.module.effort.rules.EffortCertificationDocumentRules</businessRulesClass>
+  <bean id="EffortCertificationDocument" parent="EffortCertificationDocument-parentBean" />
 
-		<documentAuthorizerClass>org.kuali.module.effort.document.authorization.EffortCertificationDocumentAuthorizer</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="EffortCertificationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Effort Certification" />
+    <property name="shortLabel" value="Effort Certification" />
+    <property name="summary" value="Effort Certification Document" />
+    <property name="description" value="Document for the efffort certification creation." />
+    <property name="documentTypeName" value="EffortCertificationDocument" />
+    <property name="documentClass" value="org.kuali.module.effort.document.EffortCertificationDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.effort.rules.EffortCertificationDocumentRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.effort.document.authorization.EffortCertificationDocumentAuthorizer" />
+    <property name="documentTypeCode" value="A21" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="EffortCertificationDocument-effortCertificationDocumentCode" />
+        <ref bean="EffortCertificationDocument-emplid" />
+        <ref bean="EffortCertificationDocument-documentNumber" />
+        <ref bean="EffortCertificationDocument-universityFiscalYear" />
+        <ref bean="EffortCertificationDocument-employee.personName" />
+        <ref bean="EffortCertificationDocument-employee.personUserIdentifier" />
+        <ref bean="EffortCertificationDocument-effortCertificationReportNumber" />
+        <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" />
+        <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" />
+        <ref bean="EffortCertificationDocument-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <documentTypeName>EffortCertificationDocument</documentTypeName>
-        <documentTypeCode>A21</documentTypeCode>
+<!-- Attribute Definitions -->
 
-        <label>Effort Certification</label>
-        
-        <attributes>
-            <attribute name="effortCertificationDocumentCode" forceUppercase="true">
-                <label>Effort Certification Document Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="EffortCertificationDocument-effortCertificationDocumentCode" parent="EffortCertificationDocument-effortCertificationDocumentCode-parentBean" />
 
-                <control>
-                    <text size="4" />
-                </control>
+  <bean id="EffortCertificationDocument-effortCertificationDocumentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="effortCertificationDocumentCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Effort Certification Document Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Effort Certification DocumentCode" />
+    <property name="description" value="Effort Certification LaborDocumentCode description..." />
+  </bean>
+  <bean id="EffortCertificationDocument-emplid" parent="EffortCertificationDocument-emplid-parentBean" />
 
-                <summary>Effort Certification DocumentCode</summary>
-                <description>Effort Certification LaborDocumentCode description...</description>
-			</attribute>
-			
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier">
-            	<required>true</required>
-            </attributeReference>
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-            	<label>Fiscal Year</label>
-            	<required>true</required>
-            </attributeReference>
-			<attributeReference name="employee.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
-				<label>Employee Name</label>
-			</attributeReference>
-            <attributeReference name="employee.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier" />
-            <attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber"  >
-				<label>Report Number</label>
-				<required>true</required>
-			</attributeReference>
-			<attributeReference name="effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportBeginFiscalYear"  >
-				<label>Report Start Date</label>
-			</attributeReference>
-			<attributeReference name="effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportEndFiscalYear"  >
-				<label>Report End Date</label>
-			</attributeReference>
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>       
+  <bean id="EffortCertificationDocument-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+    <property name="name" value="emplid" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="EffortCertificationDocument-documentNumber" parent="EffortCertificationDocument-documentNumber-parentBean" />
 
-        <summary>Effort Certification Document</summary>
-        <description>Document for the efffort certification creation.</description>
+  <bean id="EffortCertificationDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  </bean>
+  <bean id="EffortCertificationDocument-universityFiscalYear" parent="EffortCertificationDocument-universityFiscalYear-parentBean" />
 
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-          
-    </transactionalDocument>
-    
-</dictionaryEntry>
+  <bean id="EffortCertificationDocument-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="Fiscal Year" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="EffortCertificationDocument-employee.personName" parent="EffortCertificationDocument-employee.personName-parentBean" />
+
+  <bean id="EffortCertificationDocument-employee.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="employee.personName" />
+    <property name="label" value="Employee Name" />
+  </bean>
+  <bean id="EffortCertificationDocument-employee.personUserIdentifier" parent="EffortCertificationDocument-employee.personUserIdentifier-parentBean" />
+
+  <bean id="EffortCertificationDocument-employee.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="employee.personUserIdentifier" />
+  </bean>
+  <bean id="EffortCertificationDocument-effortCertificationReportNumber" parent="EffortCertificationDocument-effortCertificationReportNumber-parentBean" />
+
+  <bean id="EffortCertificationDocument-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" parent="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear-parentBean" />
+
+  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear">
+    <property name="name" value="effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" />
+    <property name="label" value="Report Start Date" />
+  </bean>
+  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" parent="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear-parentBean" />
+
+  <bean id="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear">
+    <property name="name" value="effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" />
+    <property name="label" value="Report End Date" />
+  </bean>
+  <bean id="EffortCertificationDocument-versionNumber" parent="EffortCertificationDocument-versionNumber-parentBean" />
+
+  <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

@@ -1,88 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerAddressType">
- 
-        <inquiry>
-            <title>Customer Address Type Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="customerAddressTypeCode" />
-                        <field attributeName="customerAddressTypeDescription" />
-                        <field attributeName="active" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <lookup>
-            <title>Customer Address Type Lookup</title>
+  <bean id="CustomerAddressType" parent="CustomerAddressType-parentBean" />
 
-            <instructions>Look up a Customer Address Type</instructions>
+  <bean id="CustomerAddressType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerAddressType" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomerAddressType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomerAddressType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="customerAddressTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomerAddressType-customerAddressTypeCode" />
+        <ref bean="CustomerAddressType-customerAddressTypeDescription" />
+        <ref bean="CustomerAddressType-active" />
+        <ref bean="CustomerAddressType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="customerAddressTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+<!-- Attribute Definitions -->
 
-            <lookupFields>
-                <lookupField attributeName="customerAddressTypeCode" required="false" />
-                <lookupField attributeName="customerAddressTypeDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
-            </lookupFields>
 
-            <resultFields>
-                <field attributeName="customerAddressTypeCode" />
-                <field attributeName="customerAddressTypeDescription" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
+  <bean id="CustomerAddressType-customerAddressTypeCode" parent="CustomerAddressType-customerAddressTypeCode-parentBean" />
 
-        <titleAttribute>customerAddressTypeCode</titleAttribute>
+  <bean id="CustomerAddressType-customerAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Address Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="customerAddressTypeCode" />
+    <property name="description" value="customerAddressTypeCode description..." />
+  </bean>
+  <bean id="CustomerAddressType-customerAddressTypeDescription" parent="CustomerAddressType-customerAddressTypeDescription-parentBean" />
 
-        <attributes>
+  <bean id="CustomerAddressType-customerAddressTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressTypeDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Address Type Description" />
+    <property name="shortLabel" value="Addr Typ Desc" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="customerAddressTypeDescription" />
+    <property name="description" value="customerAddressTypeDescription description..." />
+  </bean>
+  <bean id="CustomerAddressType-active" parent="CustomerAddressType-active-parentBean" />
 
-            <attribute name="customerAddressTypeCode" forceUppercase="true">
-                <label>Customer Address Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="CustomerAddressType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="CustomerAddressType-versionNumber" parent="CustomerAddressType-versionNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
+  <bean id="CustomerAddressType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                <control>
-                    <text size="4" />
-                </control>
+<!-- Business Object Inquiry Definition -->
 
-                <summary>customerAddressTypeCode</summary>
-                <description>customerAddressTypeCode description...</description>
-			</attribute>
 
-            <attribute name="customerAddressTypeDescription" forceUppercase="true">
-                <label>Customer Address Type Description</label>
-                <shortLabel>Addr Typ Desc</shortLabel>
+  <bean id="CustomerAddressType-inquiryDefinition" parent="CustomerAddressType-inquiryDefinition-parentBean" />
 
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>
-                <required>true</required>
+  <bean id="CustomerAddressType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Customer Address Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerAddressTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerAddressTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="32" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>customerAddressTypeDescription</summary>
-                <description>customerAddressTypeDescription description...</description>
-			</attribute>
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+  <bean id="CustomerAddressType-lookupDefinition" parent="CustomerAddressType-lookupDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="CustomerAddressType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Address Type Lookup" />
+    <property name="instructions" value="Look up a Customer Address Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

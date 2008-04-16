@@ -1,515 +1,777 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cg.bo.Proposal">
-
-        <inquiry>
-            <title>Proposal Inquiry</title>
-			<inquirableClass>org.kuali.module.cg.maintenance.ProposalInquirable</inquirableClass>
-
-            <inquirySections>
-                <inquirySection title="Proposal Details">
-                    <inquiryFields>
-                        <field attributeName="proposalNumber" />
-                        <field attributeName="oldProposalNumber" />
-                        <field attributeName="award.proposalNumber" />
-                        <field attributeName="agencyNumber" />
-                        <field attributeName="agency.reportingName" />
-                        <field attributeName="proposalProjectTitle" />
-                        <field attributeName="proposalStatusCode" />
-                        <field attributeName="grantNumber" />
-
-                        <field attributeName="proposalBeginningDate" />
-                        <field attributeName="proposalEndingDate" />
-                        <field attributeName="proposalSubmissionDate" />
-                        <field attributeName="proposalClosingDate" />
-                        <field attributeName="proposalRejectedDate" />
-                        <field attributeName="proposalLastUpdateDate" />
-                        <field attributeName="proposalDirectCostAmount" />
-                        <field attributeName="proposalIndirectCostAmount" />
-                        <field attributeName="proposalTotalAmount" />
-                        <field attributeName="proposalTotalProjectAmount" />
-
-                        <field attributeName="proposalAwardTypeCode" />
-                        <field attributeName="proposalPurposeCode" />
-                        <field attributeName="cfdaNumber" />
-                        <field attributeName="proposalFellowName" />
-                        <field attributeName="proposalDueDate" />
-                        <field attributeName="proposalFederalPassThroughIndicator" />
-                        <field attributeName="federalPassThroughAgencyNumber" />
-                        <field attributeName="federalPassThroughAgency.fullName" />
-                    </inquiryFields>
-                </inquirySection>
-                <inquirySection title="Organizations">
-                    <inquiryFields>
-                        <inquiryCollection name="proposalOrganizations" businessObjectClass="org.kuali.module.cg.bo.ProposalOrganization">
-                            <field attributeName="chartOfAccountsCode" />
-                            <field attributeName="organizationCode" />
-                            <field attributeName="proposalPrimaryOrganizationIndicator" />
-                            <inquirySummaryFields>
-                              <inquirySummaryField attributeName="chartOfAccountsCode" />
-                              <inquirySummaryField attributeName="organizationCode" />
-                              <inquirySummaryField attributeName="proposalPrimaryOrganizationIndicator" />
-                            </inquirySummaryFields>
-                        </inquiryCollection>
-                    </inquiryFields>
-                </inquirySection>
-                <inquirySection title="Project Directors">
-                    <inquiryFields>
-                        <inquiryCollection name="proposalProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.ProposalProjectDirector">
-                            <field attributeName="projectDirector.personUserIdentifier"/>
-                            <field attributeName="projectDirector.personName"/>
-                            <field attributeName="proposalPrimaryProjectDirectorIndicator"/>
-                            <field attributeName="proposalProjectDirectorProjectTitle"/>
-                            <inquirySummaryFields>
-                                <inquirySummaryField attributeName="projectDirector.personName" />
-                                <inquirySummaryField attributeName="proposalPrimaryProjectDirectorIndicator" />
-                                <inquirySummaryField attributeName="proposalProjectDirectorProjectTitle" />
-                            </inquirySummaryFields>
-                        </inquiryCollection>
-                    </inquiryFields>
-                </inquirySection>
-                <inquirySection title="Subcontractors">
-                    <inquiryFields>
-                        <inquiryCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor">
-                            <field attributeName="subcontractorNumber" />
-                            <field attributeName="subcontractor.subcontractorName" />
-                            <field attributeName="proposalSubcontractorDescription" />
-                            <field attributeName="proposalSubcontractorAmount"/>
-                            <inquirySummaryFields>
-                                <inquirySummaryField attributeName="subcontractor.subcontractorName" />
-                                <inquirySummaryField attributeName="proposalSubcontractorAmount" />
-                            </inquirySummaryFields>
-                        </inquiryCollection>
-                    </inquiryFields>
-                </inquirySection>
-                <inquirySection title="Research Risks">
-                    <inquiryFields>
-                        <inquiryCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk">
-                            <field attributeName="researchRiskType.researchRiskTypeDescription" />
-                            <field attributeName="active" />
-                            <inquirySummaryFields>
-                                <inquirySummaryField attributeName="researchRiskType.researchRiskTypeDescription" />
-                                <inquirySummaryField attributeName="active" />
-                            </inquirySummaryFields>
-                        </inquiryCollection>
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>
-        </inquiry>
-        
-        <lookup>
-        	<lookupableID>proposalLookupable</lookupableID>
-            <title>Proposal Lookup</title>
-
-            <instructions>Look up a Proposal</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="proposalNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="agencyNumber" required="false" />
-                <lookupField attributeName="proposalTotalAmount" required="false" />
-                <lookupField attributeName="agency.reportingName" required="false" />
-                <lookupField attributeName="proposalBeginningDate" required="false" />
-                <lookupField attributeName="proposalEndingDate" required="false" />
-                <lookupField attributeName="proposalProjectTitle" required="false" />
-				<lookupField attributeName="grantNumber" required="false" />
-                <lookupField attributeName="proposalStatusCode" required="false">
-					<defaultValue>P</defaultValue>
-				</lookupField>
-                <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
-                <lookupField attributeName="proposalPurposeCode" required="false" />
-                <lookupField attributeName="proposalFellowName" required="false" />
-                <lookupField attributeName="proposalOrganizations.organization.organizationCode" required="false" />
-                <lookupField attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" required="false" />
-                <lookupField attributeName="lookupPersonUniversalIdentifier" required="false" />
-                <lookupField attributeName="lookupUniversalUser.personUserIdentifier" required="false" />
-                <lookupField attributeName="lookupUniversalUser.personName" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="proposalNumber" />
-                <field attributeName="agency.fullName" />
-                <field attributeName="proposalTotalAmount" />
-                <field attributeName="proposalBeginningDate" />
-                <field attributeName="proposalEndingDate" />
-				<field attributeName="grantNumber" />
-                <field attributeName="proposalStatusCode" />
-                <field attributeName="proposalOrganizations" />
-                <field attributeName="proposalProjectDirectors" />
-            </resultFields>
-
-        </lookup>
-
-        <titleAttribute>proposalNumber</titleAttribute>
-
-        <attributes>
-
-        	<!-- Following 2 attributes only used for labels for Workflow Doc Search -->
-            <attributeReference name="routingChart"  sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="chartOfAccountsCode">
-            	<label>Chart</label>
-            	<shortLabel>Chart</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="routingOrg"  sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-            	<label>Organization</label>
-            	<shortLabel>Org</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="award.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber">
-                <label>Link to Award</label>
-                <shortLabel>Award Link</shortLabel>
-            </attributeReference>
-            
-            <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-				<label>Organization Code</label>
-				<shortLabel>Org Cd</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="proposalSubcontractors.subcontractor.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber">
-				<label>Subcontractor Number</label>
-				<shortLabel>Subcontr Num</shortLabel>
-            </attributeReference>
-			
-            <attributeReference name="proposalProjectDirectors.projectDirector.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
-				<label>Project Director ID</label>
-				<shortLabel>Proj Dir ID</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="lookupPersonUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Project Director Unvl ID</label>
-                <shortLabel>ProjDirUnvlId</shortLabel>
-                <displayLabelAttribute>lookupUniversalUser.personUserIdentifier</displayLabelAttribute>
-                <required>true</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="lookupUniversalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-				<label>Project Director User ID</label>
-				<shortLabel>Proj Dir User ID</shortLabel>
-                <control>
-                    <kualiUser universalIdAttributeName="lookupPersonUniversalIdentifier" userIdAttributeName="lookupUniversalUser.personUserIdentifier" personNameAttributeName="lookupUniversalUser.personName" />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="lookupUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Project Director User Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-
-            <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
-            </attributeReference>
-
-            <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
-                <label>Agency Name</label>
-            </attributeReference>
-
-            <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-            </attributeReference>
-
-            <attributeReference name="agency.reportingName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="reportingName">
-            </attributeReference>
-
-            <attribute name="cfdaNumber" forceUppercase="true">
-                <label>CFDA Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-			</attribute>
-
-            <attribute name="federalPassThroughAgencyNumber" forceUppercase="true">
-                <label>Federal Pass Through Agency Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-			</attribute>
-
-            <attributeReference name="federalPassThroughAgency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
-                <label>Federal Pass Through Agency Name</label>
-                <shortLabel>FPT Agency Name</shortLabel>
-            </attributeReference>
-
-            <attribute name="grantNumber" forceUppercase="true">
-                <label>Grant Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>27</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="29" />
-                </control>
-
-			</attribute>
-
-            <attribute name="oldProposalNumber" forceUppercase="true">
-                <label>Old Proposal Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
-
-            <attributeReference name="proposalAwardTypeCode" sourceClassName="org.kuali.module.cg.bo.ProposalAwardType" sourceAttributeName="proposalAwardTypeCode">
-                <label>Type</label>
-                <shortLabel>Type</shortLabel>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder" />
-                </control>
-
-			</attributeReference>
-
-            <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Start Date</label>
-                <shortLabel>Start</shortLabel>
-
-			</attributeReference>
-
-            <attributeReference name="proposalClosingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Close Date</label>
-                <shortLabel>Close</shortLabel>
-
-			</attributeReference>
-
-            <attributeReference name="proposalDirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Direct Cost Amount</label>
-                <shortLabel>Direct</shortLabel>
-
-                <exclusiveMin>-0.001</exclusiveMin>
-
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-
-            <attributeReference name="proposalDueDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Due Date</label>
-                <shortLabel>Due</shortLabel>
-
-			</attributeReference>
-
-            <attributeReference name="proposalEndingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Stop Date</label>
-                <shortLabel>Stop</shortLabel>
-
-			</attributeReference>
-
-            <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
-                <label>Federal Pass Through</label>
-                <shortLabel>FPT</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-			</attribute>
-
-            <attribute name="proposalFellowName" forceUppercase="true">
-                <label>Fellow Name</label>
-                <shortLabel>Fellow</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-			</attribute>
-
-            <attributeReference name="proposalIndirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Indirect Cost Amount</label>
-                <shortLabel>Indirect</shortLabel>
-
-                <exclusiveMin>-0.001</exclusiveMin>
-
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attributeReference name="proposalLastUpdateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Last Update</label>
-                <shortLabel>Update</shortLabel>
-
-			</attributeReference>
-
-            <attribute name="proposalNumber" forceUppercase="true">
-                <label>Proposal Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-			</attribute>
-
-            <attribute name="proposalProjectTitle">
-                <label>Project Title</label>
-                <shortLabel>Title</shortLabel>
-
-                <maxLength>250</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <textarea rows="3" cols="40"/>
-                </control>
-
-			</attribute>
-
-            <attributeReference name="proposalPurposeCode" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
-
-                <label>Purpose</label>
-                <shortLabel>Purpose</shortLabel>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder" />
-                </control>
-
-            </attributeReference>
-
-            <attributeReference name="proposalRejectedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Rejected Date</label>
-                <shortLabel>Rejected</shortLabel>
-
-			</attributeReference>
-
-            <attributeReference name="proposalStatusCode" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
-
-                <label>Status</label>
-                <shortLabel>Status</shortLabel>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalStatusValuesFinder" />
-                </control>
-
-            </attributeReference>
-
-            <attributeReference name="proposalSubmissionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Submission Date</label>
-                <shortLabel>Submit</shortLabel>
-
-			</attributeReference>
-
-            <attributeReference name="proposalTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total Amount</label>
-                <shortLabel>Total</shortLabel>
-
-                <exclusiveMin>-0.001</exclusiveMin>
-
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attributeReference>
-
-            <attributeReference name="proposalTotalProjectAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total Project Amount</label>
-                <shortLabel>Total Project</shortLabel>
-
-                <exclusiveMin>-0.001</exclusiveMin>
-                
-                <!--formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass-->
-			</attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-        
-        <collections>
-            <collection name="proposalOrganizations">
-                <label>Proposal Organizations</label>
-                <shortLabel>Organizations</shortLabel>
-                <elementLabel>Organization</elementLabel>
-            </collection>
-
-            <collection name="proposalProjectDirectors">
-                <label>Proposal Project Directors</label>
-                <shortLabel>Project Directors</shortLabel>
-                <elementLabel>Project Director</elementLabel>
-            </collection>
-
-            <collection name="proposalSubcontractors">
-                <label>Proposal Subcontractor</label>
-                <shortLabel>Subcontractors</shortLabel>
-                <elementLabel>Subcontractor</elementLabel>
-            </collection>
-
-			<collection name="proposalResearchRisks">
-                <label>Proposal Research Risks</label>
-                <shortLabel>Research Risks</shortLabel>
-                <elementLabel>Research Risk</elementLabel>
-            </collection>
-            
-        </collections>
-        
-        <relationships>
-            <relationship objectAttributeName="proposalOrganizations.organization" >
-                <primitiveAttribute sourceName="proposalOrganizations.organization.organizationCode" targetName="organizationCode" />
-            </relationship>
-            <relationship objectAttributeName="proposalSubcontractors.subcontractor" >
-                <primitiveAttribute sourceName="proposalSubcontractors.subcontractor.subcontractorNumber" targetName="subcontractorNumber" />
-            </relationship>
-            <relationship objectAttributeName="proposalProjectDirectors.projectDirector" >
-                <primitiveAttribute sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-            </relationship>
-            <relationship objectAttributeName="lookupUniversalUser" >
-                <primitiveAttribute sourceName="lookupPersonUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="lookupUniversalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="lookupUniversalUser.personName" targetName="personName" />
-            </relationship>
-        </relationships>
-        
-        <objectLabel>Proposal</objectLabel>
-    </businessObject>
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Proposal" parent="Proposal-parentBean" />
+
+  <bean id="Proposal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Proposal" />
+    <property name="inquiryDefinition" >
+      <ref bean="Proposal-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Proposal-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="proposalNumber" />
+    <property name="objectLabel" value="Proposal" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Proposal-routingChart" />
+        <ref bean="Proposal-routingOrg" />
+        <ref bean="Proposal-award.proposalNumber" />
+        <ref bean="Proposal-proposalOrganizations.organization.organizationCode" />
+        <ref bean="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" />
+        <ref bean="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier" />
+        <ref bean="Proposal-lookupPersonUniversalIdentifier" />
+        <ref bean="Proposal-lookupUniversalUser.personUserIdentifier" />
+        <ref bean="Proposal-lookupUniversalUser.personName" />
+        <ref bean="Proposal-proposal.grantNumber" />
+        <ref bean="Proposal-agency.fullName" />
+        <ref bean="Proposal-agencyNumber" />
+        <ref bean="Proposal-agency.reportingName" />
+        <ref bean="Proposal-cfdaNumber" />
+        <ref bean="Proposal-federalPassThroughAgencyNumber" />
+        <ref bean="Proposal-federalPassThroughAgency.fullName" />
+        <ref bean="Proposal-grantNumber" />
+        <ref bean="Proposal-oldProposalNumber" />
+        <ref bean="Proposal-proposalAwardTypeCode" />
+        <ref bean="Proposal-proposalBeginningDate" />
+        <ref bean="Proposal-proposalClosingDate" />
+        <ref bean="Proposal-proposalDirectCostAmount" />
+        <ref bean="Proposal-proposalDueDate" />
+        <ref bean="Proposal-proposalEndingDate" />
+        <ref bean="Proposal-proposalFederalPassThroughIndicator" />
+        <ref bean="Proposal-proposalFellowName" />
+        <ref bean="Proposal-proposalIndirectCostAmount" />
+        <ref bean="Proposal-proposalLastUpdateDate" />
+        <ref bean="Proposal-proposalNumber" />
+        <ref bean="Proposal-proposalProjectTitle" />
+        <ref bean="Proposal-proposalPurposeCode" />
+        <ref bean="Proposal-proposalRejectedDate" />
+        <ref bean="Proposal-proposalStatusCode" />
+        <ref bean="Proposal-proposalSubmissionDate" />
+        <ref bean="Proposal-proposalTotalAmount" />
+        <ref bean="Proposal-proposalTotalProjectAmount" />
+        <ref bean="Proposal-versionNumber" />
+      </list>
+    </property>
+    <property name="collections" >
+      <list>
+        <bean parent="CollectionDefinition"
+              p:name="proposalOrganizations"
+              p:label="Proposal Organizations"
+              p:shortLabel="Organizations"
+              p:elementLabel="Organization" />
+        <bean parent="CollectionDefinition"
+              p:name="proposalProjectDirectors"
+              p:label="Proposal Project Directors"
+              p:shortLabel="Project Directors"
+              p:elementLabel="Project Director" />
+        <bean parent="CollectionDefinition"
+              p:name="proposalSubcontractors"
+              p:label="Proposal Subcontractor"
+              p:shortLabel="Subcontractors"
+              p:elementLabel="Subcontractor" />
+        <bean parent="CollectionDefinition"
+              p:name="proposalResearchRisks"
+              p:label="Proposal Research Risks"
+              p:shortLabel="Research Risks"
+              p:elementLabel="Research Risk" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="proposalOrganizations.organization" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="proposalOrganizations.organization.organizationCode"
+                    p:targetName="organizationCode" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="proposalSubcontractors.subcontractor" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="proposalSubcontractors.subcontractor.subcontractorNumber"
+                    p:targetName="subcontractorNumber" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="proposalProjectDirectors.projectDirector" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="lookupUniversalUser" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="lookupPersonUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="lookupUniversalUser.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="lookupUniversalUser.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Proposal-routingChart" parent="Proposal-routingChart-parentBean" />
+
+  <bean id="Proposal-routingChart-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
+    <property name="name" value="routingChart" />
+    <property name="label" value="Chart" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Proposal-routingOrg" parent="Proposal-routingOrg-parentBean" />
+
+  <bean id="Proposal-routingOrg-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="routingOrg" />
+    <property name="label" value="Organization" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Proposal-award.proposalNumber" parent="Proposal-award.proposalNumber-parentBean" />
+
+  <bean id="Proposal-award.proposalNumber-parentBean" abstract="true" parent="Award-proposalNumber">
+    <property name="name" value="award.proposalNumber" />
+    <property name="label" value="Link to Award" />
+    <property name="shortLabel" value="Award Link" />
+  </bean>
+  <bean id="Proposal-proposalOrganizations.organization.organizationCode" parent="Proposal-proposalOrganizations.organization.organizationCode-parentBean" />
+
+  <bean id="Proposal-proposalOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="name" value="proposalOrganizations.organization.organizationCode" />
+    <property name="shortLabel" value="Org Cd" />
+  </bean>
+  <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" parent="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" />
+
+  <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" abstract="true" parent="Subcontractor-subcontractorNumber">
+    <property name="name" value="proposalSubcontractors.subcontractor.subcontractorNumber" />
+    <property name="shortLabel" value="Subcontr Num" />
+  </bean>
+  <bean id="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier" parent="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier-parentBean" />
+
+  <bean id="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier-parentBean" abstract="true" parent="ProjectDirector-personUniversalIdentifier">
+    <property name="name" value="proposalProjectDirectors.projectDirector.personUniversalIdentifier" />
+    <property name="label" value="Project Director ID" />
+    <property name="shortLabel" value="Proj Dir ID" />
+  </bean>
+  <bean id="Proposal-lookupPersonUniversalIdentifier" parent="Proposal-lookupPersonUniversalIdentifier-parentBean" />
+
+  <bean id="Proposal-lookupPersonUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="lookupPersonUniversalIdentifier" />
+    <property name="label" value="Project Director Unvl ID" />
+    <property name="shortLabel" value="ProjDirUnvlId" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="lookupUniversalUser.personUserIdentifier" />
+  </bean>
+  <bean id="Proposal-lookupUniversalUser.personUserIdentifier" parent="Proposal-lookupUniversalUser.personUserIdentifier-parentBean" />
+
+  <bean id="Proposal-lookupUniversalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="lookupUniversalUser.personUserIdentifier" />
+    <property name="label" value="Project Director User ID" />
+    <property name="shortLabel" value="Proj Dir User ID" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="lookupUniversalUser.personName"
+            p:universalIdAttributeName="lookupPersonUniversalIdentifier"
+            p:userIdAttributeName="lookupUniversalUser.personUserIdentifier" />
+    </property>
+  </bean>
+  <bean id="Proposal-lookupUniversalUser.personName" parent="Proposal-lookupUniversalUser.personName-parentBean" />
+
+  <bean id="Proposal-lookupUniversalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="lookupUniversalUser.personName" />
+    <property name="label" value="Project Director User Name" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="Proposal-proposal.grantNumber" parent="Proposal-proposal.grantNumber-parentBean" />
+
+  <bean id="Proposal-proposal.grantNumber-parentBean" abstract="true" parent="Proposal-grantNumber">
+    <property name="name" value="proposal.grantNumber" />
+  </bean>
+  <bean id="Proposal-agency.fullName" parent="Proposal-agency.fullName-parentBean" />
+
+  <bean id="Proposal-agency.fullName-parentBean" abstract="true" parent="Agency-fullName">
+    <property name="name" value="agency.fullName" />
+    <property name="label" value="Agency Name" />
+  </bean>
+  <bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean" />
+
+  <bean id="Proposal-agencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
+  </bean>
+  <bean id="Proposal-agency.reportingName" parent="Proposal-agency.reportingName-parentBean" />
+
+  <bean id="Proposal-agency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
+    <property name="name" value="agency.reportingName" />
+  </bean>
+  <bean id="Proposal-cfdaNumber" parent="Proposal-cfdaNumber-parentBean" />
+
+  <bean id="Proposal-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cfdaNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="CFDA Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="Proposal-federalPassThroughAgencyNumber" parent="Proposal-federalPassThroughAgencyNumber-parentBean" />
+
+  <bean id="Proposal-federalPassThroughAgencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="federalPassThroughAgencyNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Federal Pass Through Agency Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="Proposal-federalPassThroughAgency.fullName" parent="Proposal-federalPassThroughAgency.fullName-parentBean" />
+
+  <bean id="Proposal-federalPassThroughAgency.fullName-parentBean" abstract="true" parent="Agency-fullName">
+    <property name="name" value="federalPassThroughAgency.fullName" />
+    <property name="label" value="Federal Pass Through Agency Name" />
+    <property name="shortLabel" value="FPT Agency Name" />
+  </bean>
+  <bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean" />
+
+  <bean id="Proposal-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grantNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Grant Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="27" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="29" />
+    </property>
+  </bean>
+  <bean id="Proposal-oldProposalNumber" parent="Proposal-oldProposalNumber-parentBean" />
+
+  <bean id="Proposal-oldProposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="oldProposalNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Old Proposal Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalAwardTypeCode" parent="Proposal-proposalAwardTypeCode-parentBean" />
+
+  <bean id="Proposal-proposalAwardTypeCode-parentBean" abstract="true" parent="ProposalAwardType-proposalAwardTypeCode">
+    <property name="label" value="Type" />
+    <property name="shortLabel" value="Type" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalBeginningDate" parent="Proposal-proposalBeginningDate-parentBean" />
+
+  <bean id="Proposal-proposalBeginningDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalBeginningDate" />
+    <property name="label" value="Start Date" />
+    <property name="shortLabel" value="Start" />
+  </bean>
+  <bean id="Proposal-proposalClosingDate" parent="Proposal-proposalClosingDate-parentBean" />
+
+  <bean id="Proposal-proposalClosingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalClosingDate" />
+    <property name="label" value="Close Date" />
+    <property name="shortLabel" value="Close" />
+  </bean>
+  <bean id="Proposal-proposalDirectCostAmount" parent="Proposal-proposalDirectCostAmount-parentBean" />
+
+  <bean id="Proposal-proposalDirectCostAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="proposalDirectCostAmount" />
+    <property name="label" value="Direct Cost Amount" />
+    <property name="shortLabel" value="Direct" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="exclusiveMin" value="-0.001" />
+  </bean>
+  <bean id="Proposal-proposalDueDate" parent="Proposal-proposalDueDate-parentBean" />
+
+  <bean id="Proposal-proposalDueDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalDueDate" />
+    <property name="label" value="Due Date" />
+    <property name="shortLabel" value="Due" />
+  </bean>
+  <bean id="Proposal-proposalEndingDate" parent="Proposal-proposalEndingDate-parentBean" />
+
+  <bean id="Proposal-proposalEndingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalEndingDate" />
+    <property name="label" value="Stop Date" />
+    <property name="shortLabel" value="Stop" />
+  </bean>
+  <bean id="Proposal-proposalFederalPassThroughIndicator" parent="Proposal-proposalFederalPassThroughIndicator-parentBean" />
+
+  <bean id="Proposal-proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalFederalPassThroughIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Federal Pass Through" />
+    <property name="shortLabel" value="FPT" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean" />
+
+  <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalFellowName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Fellow Name" />
+    <property name="shortLabel" value="Fellow" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalIndirectCostAmount" parent="Proposal-proposalIndirectCostAmount-parentBean" />
+
+  <bean id="Proposal-proposalIndirectCostAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="proposalIndirectCostAmount" />
+    <property name="label" value="Indirect Cost Amount" />
+    <property name="shortLabel" value="Indirect" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="exclusiveMin" value="-0.001" />
+  </bean>
+  <bean id="Proposal-proposalLastUpdateDate" parent="Proposal-proposalLastUpdateDate-parentBean" />
+
+  <bean id="Proposal-proposalLastUpdateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalLastUpdateDate" />
+    <property name="label" value="Last Update" />
+    <property name="shortLabel" value="Update" />
+  </bean>
+  <bean id="Proposal-proposalNumber" parent="Proposal-proposalNumber-parentBean" />
+
+  <bean id="Proposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalProjectTitle" parent="Proposal-proposalProjectTitle-parentBean" />
+
+  <bean id="Proposal-proposalProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalProjectTitle" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Project Title" />
+    <property name="shortLabel" value="Title" />
+    <property name="maxLength" value="250" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalPurposeCode" parent="Proposal-proposalPurposeCode-parentBean" />
+
+  <bean id="Proposal-proposalPurposeCode-parentBean" abstract="true" parent="ProposalPurpose-proposalPurposeCode">
+    <property name="label" value="Purpose" />
+    <property name="shortLabel" value="Purpose" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalRejectedDate" parent="Proposal-proposalRejectedDate-parentBean" />
+
+  <bean id="Proposal-proposalRejectedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalRejectedDate" />
+    <property name="label" value="Rejected Date" />
+    <property name="shortLabel" value="Rejected" />
+  </bean>
+  <bean id="Proposal-proposalStatusCode" parent="Proposal-proposalStatusCode-parentBean" />
+
+  <bean id="Proposal-proposalStatusCode-parentBean" abstract="true" parent="ProposalStatus-proposalStatusCode">
+    <property name="label" value="Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalStatusValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="Proposal-proposalSubmissionDate" parent="Proposal-proposalSubmissionDate-parentBean" />
+
+  <bean id="Proposal-proposalSubmissionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="proposalSubmissionDate" />
+    <property name="label" value="Submission Date" />
+    <property name="shortLabel" value="Submit" />
+  </bean>
+  <bean id="Proposal-proposalTotalAmount" parent="Proposal-proposalTotalAmount-parentBean" />
+
+  <bean id="Proposal-proposalTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="proposalTotalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="exclusiveMin" value="-0.001" />
+  </bean>
+  <bean id="Proposal-proposalTotalProjectAmount" parent="Proposal-proposalTotalProjectAmount-parentBean" />
+
+  <bean id="Proposal-proposalTotalProjectAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="proposalTotalProjectAmount" />
+    <property name="label" value="Total Project Amount" />
+    <property name="shortLabel" value="Total Project" />
+    <property name="exclusiveMin" value="-0.001" />
+  </bean>
+  <bean id="Proposal-versionNumber" parent="Proposal-versionNumber-parentBean" />
+
+  <bean id="Proposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Proposal-inquiryDefinition" parent="Proposal-inquiryDefinition-parentBean" />
+
+  <bean id="Proposal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="oldProposalNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="award.proposalNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="agencyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="agency.reportingName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalProjectTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="grantNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalBeginningDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalEndingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalSubmissionDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalClosingDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalRejectedDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalLastUpdateDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalDirectCostAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalIndirectCostAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalTotalAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalTotalProjectAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalAwardTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalPurposeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cfdaNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalFellowName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalDueDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalFederalPassThroughIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="federalPassThroughAgencyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="federalPassThroughAgency.fullName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organizations" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="proposalOrganizations" />
+                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalOrganization" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="chartOfAccountsCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalPrimaryOrganizationIndicator" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="chartOfAccountsCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="organizationCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalPrimaryOrganizationIndicator" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Project Directors" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="proposalProjectDirectors" />
+                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalProjectDirector" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="projectDirector.personUserIdentifier" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="projectDirector.personName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalPrimaryProjectDirectorIndicator" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalProjectDirectorProjectTitle" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="projectDirector.personName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalPrimaryProjectDirectorIndicator" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalProjectDirectorProjectTitle" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Subcontractors" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="proposalSubcontractors" />
+                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalSubcontractor" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="subcontractorNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="subcontractor.subcontractorName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalSubcontractorDescription" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalSubcontractorAmount" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="subcontractor.subcontractorName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="proposalSubcontractorAmount" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Research Risks" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="proposalResearchRisks" />
+                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalResearchRisk" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="researchRiskType.researchRiskTypeDescription" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="active" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="researchRiskType.researchRiskTypeDescription" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="active" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.module.cg.maintenance.ProposalInquirable" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Proposal-lookupDefinition" parent="Proposal-lookupDefinition-parentBean" />
+
+  <bean id="Proposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Lookup" />
+    <property name="lookupableID" value="proposalLookupable" />
+    <property name="instructions" value="Look up a Proposal" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalTotalAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agency.reportingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalBeginningDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalEndingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalProjectTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="grantNumber" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="P"
+              p:attributeName="proposalStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="federalPassThroughAgencyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPurposeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalFellowName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalOrganizations.organization.organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupPersonUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupUniversalUser.personUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lookupUniversalUser.personName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agency.fullName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalTotalAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalBeginningDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalEndingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="grantNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalOrganizations" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalProjectDirectors" />
+      </list>
+    </property>
+  </bean>
+</beans>

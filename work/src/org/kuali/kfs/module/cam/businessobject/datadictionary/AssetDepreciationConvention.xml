@@ -1,70 +1,112 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationConvention">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<inquiry>
-			<title>Asset Depreciation Convention Inquiry</title>
+  <bean id="AssetDepreciationConvention" parent="AssetDepreciationConvention-parentBean" />
 
-			<inquirySections>
-				<inquirySection title="Header Text">
-					<inquiryFields>
-						<field attributeName="financialObjectSubTypeCode" />
-						<field attributeName="depreciationConventionCode" />
-					</inquiryFields>
-				</inquirySection>
-			</inquirySections>
-		</inquiry>
+  <bean id="AssetDepreciationConvention-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetDepreciationConvention" />
+    <property name="inquiryDefinition" >
+      <ref bean="AssetDepreciationConvention-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AssetDepreciationConvention-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetDepreciationConvention-financialObjectSubTypeCode" />
+        <ref bean="AssetDepreciationConvention-depreciationConventionCode" />
+        <ref bean="AssetDepreciationConvention-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-		<lookup>
-			<title>Asset Depreciation Convention Lookup</title>
+<!-- Attribute Definitions -->
 
-			<instructions>Look up an Asset Depreciation Convention</instructions>
 
-			<defaultSort sortAscending="true">
-				<sortAttributes>
-					<sortAttribute attributeName="financialObjectSubTypeCode" />
-				</sortAttributes>
-			</defaultSort>
+  <bean id="AssetDepreciationConvention-financialObjectSubTypeCode" parent="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" />
 
-			<lookupFields>
-				<lookupField attributeName="financialObjectSubTypeCode" required="false" />
-				<lookupField attributeName="depreciationConventionCode" required="false" />
-			</lookupFields>
+  <bean id="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjSubTyp-code">
+    <property name="name" value="financialObjectSubTypeCode" />
+    <property name="label" value="Financial Object Sub Type Code" />
+    <property name="shortLabel" value="Code" />
+  </bean>
+  <bean id="AssetDepreciationConvention-depreciationConventionCode" parent="AssetDepreciationConvention-depreciationConventionCode-parentBean" />
 
-			<resultFields>
-				<field attributeName="financialObjectSubTypeCode" />
-				<field attributeName="depreciationConventionCode" />
-			</resultFields>
-		</lookup>
+  <bean id="AssetDepreciationConvention-depreciationConventionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="depreciationConventionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Depreciation Convention Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.cams.lookup.keyvalues.AssetDepreciationConventionValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="depreciationConventionCode" />
+    <property name="description" value="depreciationConventionCode description..." />
+  </bean>
+  <bean id="AssetDepreciationConvention-versionNumber" parent="AssetDepreciationConvention-versionNumber-parentBean" />
 
-		<attributes>
+  <bean id="AssetDepreciationConvention-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			<attributeReference name="financialObjectSubTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjSubTyp" sourceAttributeName="code">
-				<label>Financial Object Sub Type Code</label>
-				<shortLabel>Code</shortLabel>
-				<required>true</required>
-			</attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-			<attribute name="depreciationConventionCode" forceUppercase="true">
-				<label>Depreciation Convention Code</label>
-				<shortLabel>Code</shortLabel>
 
-				<maxLength>2</maxLength>
-				<required>true</required>
+  <bean id="AssetDepreciationConvention-inquiryDefinition" parent="AssetDepreciationConvention-inquiryDefinition-parentBean" />
 
-				<control>
-					<select valuesFinderClass="org.kuali.module.cams.lookup.keyvalues.AssetDepreciationConventionValuesFinder" />
-				</control>
+  <bean id="AssetDepreciationConvention-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Depreciation Convention Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectSubTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="depreciationConventionCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-				<summary>depreciationConventionCode</summary>
-				<description>depreciationConventionCode description...</description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-		</attributes>
-	</businessObject>
-</dictionaryEntry>
+  <bean id="AssetDepreciationConvention-lookupDefinition" parent="AssetDepreciationConvention-lookupDefinition-parentBean" />
+
+  <bean id="AssetDepreciationConvention-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Depreciation Convention Lookup" />
+    <property name="instructions" value="Look up an Asset Depreciation Convention" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectSubTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="depreciationConventionCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectSubTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="depreciationConventionCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

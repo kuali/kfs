@@ -1,125 +1,167 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.ControlAttributeType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ControlAttributeType" parent="ControlAttributeType-parentBean" />
+
+  <bean id="ControlAttributeType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.ControlAttributeType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ControlAttributeType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ControlAttributeType-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ControlAttributeType-controlAttributeTypeCode" />
+        <ref bean="ControlAttributeType-controlAttributeTypeDescription" />
+        <ref bean="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="ControlAttributeType-requiredIndicator" />
+        <ref bean="ControlAttributeType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Control Attribute Type Inquiry</title>
+  <bean id="ControlAttributeType-controlAttributeTypeCode" parent="ControlAttributeType-controlAttributeTypeCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="controlAttributeTypeCode" />
-                <field attributeName="controlAttributeTypeDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="requiredIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ControlAttributeType-controlAttributeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="controlAttributeTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Control Attribute Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="controlAttributeTypeCode" />
+    <property name="description" value="controlAttributeTypeCode description..." />
+  </bean>
+  <bean id="ControlAttributeType-controlAttributeTypeDescription" parent="ControlAttributeType-controlAttributeTypeDescription-parentBean" />
 
-        <lookup>
-            <title>Control Attribute Type Lookup</title>
+  <bean id="ControlAttributeType-controlAttributeTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="controlAttributeTypeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Control Attribute Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="controlAttributeTypeDescription" />
+    <property name="description" value="controlAttributeTypeDescription description..." />
+  </bean>
+  <bean id="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator" parent="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-            <instructions>Look up a Control Attribute Type</instructions>
+  <bean id="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Data Object Maintenance Code Active Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="dataObjectMaintenanceCodeActiveIndicator" />
+    <property name="description" value="dataObjectMaintenanceCodeActiveIndicator description..." />
+  </bean>
+  <bean id="ControlAttributeType-requiredIndicator" parent="ControlAttributeType-requiredIndicator-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="controlAttributeTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ControlAttributeType-requiredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requiredIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Required Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="requiredIndicator" />
+    <property name="description" value="requiredIndicator description..." />
+  </bean>
+  <bean id="ControlAttributeType-versionNumber" parent="ControlAttributeType-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="controlAttributeTypeCode" required="false" />
-                <lookupField attributeName="controlAttributeTypeDescription" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="requiredIndicator" required="false" />
-            </lookupFields>
+  <bean id="ControlAttributeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="controlAttributeTypeCode" />
-                <field attributeName="controlAttributeTypeDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="requiredIndicator" />
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="controlAttributeTypeCode" forceUppercase="true">
-                <label>Control Attribute Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="ControlAttributeType-inquiryDefinition" parent="ControlAttributeType-inquiryDefinition-parentBean" />
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ControlAttributeType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Control Attribute Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="controlAttributeTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="controlAttributeTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="requiredIndicator" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="3" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>controlAttributeTypeCode</summary>
-                <description>controlAttributeTypeCode description...</description>
-			</attribute>
-			
-			<attribute name="controlAttributeTypeDescription" forceUppercase="false">
-                <label>Control Attribute Type Description</label>
-                <shortLabel>Description</shortLabel>
 
-                <maxLength>100</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+  <bean id="ControlAttributeType-lookupDefinition" parent="ControlAttributeType-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="20" />
-                </control>
-
-                <summary>controlAttributeTypeDescription</summary>
-                <description>controlAttributeTypeDescription description...</description>
-			</attribute>
-
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
-
-            <attribute name="requiredIndicator" forceUppercase="true">
-                <label>Required Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>requiredIndicator</summary>
-                <description>requiredIndicator description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="ControlAttributeType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Control Attribute Type Lookup" />
+    <property name="instructions" value="Look up a Control Attribute Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="controlAttributeTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="controlAttributeTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requiredIndicator" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="controlAttributeTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="controlAttributeTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requiredIndicator" />
+      </list>
+    </property>
+  </bean>
+</beans>

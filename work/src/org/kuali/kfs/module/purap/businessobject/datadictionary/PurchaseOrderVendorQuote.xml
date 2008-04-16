@@ -1,243 +1,397 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderVendorQuote">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-        <inquiry>
-            <title>Purchase Order Vendor Quote Inquiry</title>
+  <bean id="PurchaseOrderVendorQuote" parent="PurchaseOrderVendorQuote-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderQuoteAwardDate" />
-                <field attributeName="purchaseOrderQuotePriceExpirationDate" />
-                <field attributeName="purchaseOrderQuoteRankNumber" />
-                <field attributeName="purchaseOrderQuoteStatusCode" />
-                <field attributeName="purchaseOrderQuoteTransmitDate" />
-                <field attributeName="purchaseOrderQuoteTransmitTypeCode" />
-                <field attributeName="purchaseOrderVendorQuoteIdentifier" />
-                <field attributeName="vendorAttentionName" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorEmailAddress" />
-                <field attributeName="vendorFaxNumber" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorName" />
-                <field attributeName="vendorPhoneNumber" />
-                <field attributeName="vendorPostalCode" />
-                <field attributeName="vendorStateCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PurchaseOrderVendorQuote-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderVendorQuote" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchaseOrderVendorQuote-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchaseOrderVendorQuote-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier" />
+        <ref bean="PurchaseOrderVendorQuote-vendorName" />
+        <ref bean="PurchaseOrderVendorQuote-vendorNumber" />
+        <ref bean="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier" />
+        <ref bean="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier" />
+        <ref bean="PurchaseOrderVendorQuote-vendorAttentionName" />
+        <ref bean="PurchaseOrderVendorQuote-vendorLine1Address" />
+        <ref bean="PurchaseOrderVendorQuote-vendorLine2Address" />
+        <ref bean="PurchaseOrderVendorQuote-vendorCityName" />
+        <ref bean="PurchaseOrderVendorQuote-vendorStateCode" />
+        <ref bean="PurchaseOrderVendorQuote-vendorPostalCode" />
+        <ref bean="PurchaseOrderVendorQuote-vendorCountryCode" />
+        <ref bean="PurchaseOrderVendorQuote-vendorEmailAddress" />
+        <ref bean="PurchaseOrderVendorQuote-vendorFaxNumber" />
+        <ref bean="PurchaseOrderVendorQuote-vendorPhoneNumber" />
+        <ref bean="PurchaseOrderVendorQuote-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
-        <lookup>
-            <title>Purchase Order Vendor Quote Lookup</title>
+<!-- Attribute Definitions -->
 
-            <instructions>Lookup an Purchase Order Vendor Quote</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderVendorQuoteIdentifier" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="purchaseOrderQuoteAwardDate" required="false" />
-                <lookupField attributeName="purchaseOrderQuotePriceExpirationDate" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteRankNumber" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteStatusCode" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteTransmitDate" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteTransmitTypeCode" required="false" />
-                <lookupField attributeName="purchaseOrderVendorQuoteIdentifier" required="false" />
-                <lookupField attributeName="vendorAttentionName" required="false" />
-                <lookupField attributeName="vendorCityName" required="false" />
-                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" />
-                <lookupField attributeName="vendorEmailAddress" required="false" />
-                <lookupField attributeName="vendorFaxNumber" required="false" />
-                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />
-                <lookupField attributeName="vendorLine1Address" required="false" />
-                <lookupField attributeName="vendorLine2Address" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
-                <lookupField attributeName="vendorPhoneNumber" required="false" />
-                <lookupField attributeName="vendorPostalCode" required="false" />
-                <lookupField attributeName="vendorStateCode" required="false" />
-            </lookupFields>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteAwardDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Award Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.DateFormatter" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate-parentBean" />
 
-            <resultFields>
-                <field attributeName="purchaseOrderQuoteAwardDate" />
-                <field attributeName="purchaseOrderQuotePriceExpirationDate" />
-                <field attributeName="purchaseOrderQuoteRankNumber" />
-                <field attributeName="purchaseOrderQuoteStatusCode" />
-                <field attributeName="purchaseOrderQuoteTransmitDate" />
-                <field attributeName="purchaseOrderQuoteTransmitTypeCode" />
-                <field attributeName="purchaseOrderVendorQuoteIdentifier" />
-                <field attributeName="vendorAttentionName" />
-                <field attributeName="vendorCityName" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorEmailAddress" />
-                <field attributeName="vendorFaxNumber" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="vendorLine1Address" />
-                <field attributeName="vendorLine2Address" />
-                <field attributeName="vendorName" />
-                <field attributeName="vendorPhoneNumber" />
-                <field attributeName="vendorPostalCode" />
-                <field attributeName="vendorStateCode" />
-            </resultFields>
-        </lookup>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuotePriceExpirationDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pricing Expiration Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="formatterClass" value="org.kuali.core.web.format.DateFormatter" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber-parentBean" />
 
-        <attributes>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteRankNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Rank" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode-parentBean" />
 
-             <attribute name="purchaseOrderQuoteAwardDate" forceUppercase="true">
-                <label>Award Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Quote Status" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteStatusCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteTransmitDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transmit Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteTransmitTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transmit" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteTransmitTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier" parent="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier-parentBean" />
 
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-			</attribute>
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderVendorQuoteIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchase Order Vendor Quote Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorName" parent="PurchaseOrderVendorQuote-vendorName-parentBean" />
 
-            <attribute name="purchaseOrderQuotePriceExpirationDate" forceUppercase="true">
-                <label>Pricing Expiration Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="PurchaseOrderVendorQuote-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorNumber" parent="PurchaseOrderVendorQuote-vendorNumber-parentBean" />
 
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
+  <bean id="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier" parent="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier-parentBean" />
 
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-			</attribute>
+  <bean id="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorAttentionName" parent="PurchaseOrderVendorQuote-vendorAttentionName-parentBean" />
 
-            <attribute name="purchaseOrderQuoteRankNumber" forceUppercase="true">
-                <label>Rank</label>
-                <shortLabel>Number</shortLabel>
+  <bean id="PurchaseOrderVendorQuote-vendorAttentionName-parentBean" abstract="true" parent="VendorAddress-vendorAttentionName">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorLine1Address" parent="PurchaseOrderVendorQuote-vendorLine1Address-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-vendorLine1Address-parentBean" abstract="true" parent="VendorAddress-vendorLine1Address">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorLine2Address" parent="PurchaseOrderVendorQuote-vendorLine2Address-parentBean" />
 
-                <control>
-                    <text size="5" />
-                </control>
+  <bean id="PurchaseOrderVendorQuote-vendorLine2Address-parentBean" abstract="true" parent="VendorAddress-vendorLine2Address">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorCityName" parent="PurchaseOrderVendorQuote-vendorCityName-parentBean" />
 
-			</attribute>
+  <bean id="PurchaseOrderVendorQuote-vendorCityName-parentBean" abstract="true" parent="VendorAddress-vendorCityName">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorStateCode" parent="PurchaseOrderVendorQuote-vendorStateCode-parentBean" />
 
-            <attribute name="purchaseOrderQuoteStatusCode" forceUppercase="true">
-                <label>Quote Status</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="PurchaseOrderVendorQuote-vendorStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorPostalCode" parent="PurchaseOrderVendorQuote-vendorPostalCode-parentBean" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-vendorPostalCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
+    <property name="name" value="vendorPostalCode" />
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorCountryCode" parent="PurchaseOrderVendorQuote-vendorCountryCode-parentBean" />
 
-                <control>
-                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteStatusCodeValuesFinder" />
-                </control>
+  <bean id="PurchaseOrderVendorQuote-vendorCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
+    <property name="required" value="false" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorEmailAddress" parent="PurchaseOrderVendorQuote-vendorEmailAddress-parentBean" />
 
-			</attribute>
+  <bean id="PurchaseOrderVendorQuote-vendorEmailAddress-parentBean" abstract="true" parent="VendorAddress-vendorAddressEmailAddress">
+    <property name="name" value="vendorEmailAddress" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorFaxNumber" parent="PurchaseOrderVendorQuote-vendorFaxNumber-parentBean" />
 
-            <attribute name="purchaseOrderQuoteTransmitDate" forceUppercase="true">
-                <label>Transmit Date</label>
-                <shortLabel>Date</shortLabel>
+  <bean id="PurchaseOrderVendorQuote-vendorFaxNumber-parentBean" abstract="true" parent="VendorAddress-vendorFaxNumber">
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber" parent="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+    <property name="name" value="vendorPhoneNumber" />
+    <property name="label" value="Vendor Phone Number" />
+    <property name="shortLabel" value="Vendor Phone" />
+  </bean>
+  <bean id="PurchaseOrderVendorQuote-versionNumber" parent="PurchaseOrderVendorQuote-versionNumber-parentBean" />
 
-                <control>
-                    <text size="9" />
-                </control>
+  <bean id="PurchaseOrderVendorQuote-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="purchaseOrderQuoteTransmitTypeCode" forceUppercase="true">
-                <label>Transmit</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-inquiryDefinition" parent="PurchaseOrderVendorQuote-inquiryDefinition-parentBean" />
 
-                <control>
-                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteTransmitTypeValuesFinder" />
-                </control>
+  <bean id="PurchaseOrderVendorQuote-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Purchase Order Vendor Quote Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteAwardDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuotePriceExpirationDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteRankNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteTransmitDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderVendorQuoteIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorAttentionName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorFaxNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine1Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorLine2Address" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPostalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorStateCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attribute name="purchaseOrderVendorQuoteIdentifier" forceUppercase="true">
-                <label>Purchase Order Vendor Quote Identifier</label>
-                <shortLabel>Identifier</shortLabel>
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="PurchaseOrderVendorQuote-lookupDefinition" parent="PurchaseOrderVendorQuote-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="11" />
-                </control>
-
-			</attribute>
-
-			<attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName" >
-				<required>true</required>
-			</attributeReference>                 							
-
-			<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber" />         							
-
-			<attributeReference name="vendorHeaderGeneratedIdentifier" 
-				sourceClassName="org.kuali.module.vendor.bo.VendorDetail" 
-				sourceAttributeName="vendorHeaderGeneratedIdentifier" >
-				<control>
-        	<text size="12" />
-        </control>
-      </attributeReference>
-      
-      <attributeReference name="vendorDetailAssignedIdentifier" 
-      	sourceClassName="org.kuali.module.vendor.bo.VendorDetail" 
-      	sourceAttributeName="vendorDetailAssignedIdentifier" > 
-				<control>
-        	<text size="12" />
-        </control>
-      </attributeReference>
-
-			<attributeReference name="vendorAttentionName" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAttentionName" />
-			<attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorLine1Address" />
-			<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorLine2Address" />
-			<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorCityName" />					
-			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorStateCode" />							
-			<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorZipCode" >
-				<required>false</required>
-			</attributeReference>                 				
-			<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorCountryCode" >	
-				<required>false</required>
-			</attributeReference>                 							
-			<attributeReference name="vendorEmailAddress" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAddressEmailAddress" />
-			<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorFaxNumber" />
-      <attributeReference name="vendorPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"	sourceAttributeName="phoneNumberNoValidation">
-      	<label>Vendor Phone Number</label>
-        <shortLabel>Vendor Phone</shortLabel>
-			</attributeReference>      
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
-</dictionaryEntry>
+  <bean id="PurchaseOrderVendorQuote-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Purchase Order Vendor Quote Lookup" />
+    <property name="instructions" value="Lookup an Purchase Order Vendor Quote" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteAwardDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuotePriceExpirationDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteRankNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteTransmitDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderVendorQuoteIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAttentionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorFaxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStateCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteAwardDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuotePriceExpirationDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteRankNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteTransmitDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderVendorQuoteIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorAttentionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorFaxNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine1Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorLine2Address" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorPostalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorStateCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

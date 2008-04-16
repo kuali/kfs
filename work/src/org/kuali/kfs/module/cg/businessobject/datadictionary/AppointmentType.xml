@@ -1,197 +1,263 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.AppointmentType">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AppointmentType" parent="AppointmentType-parentBean" />
+
+  <bean id="AppointmentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.AppointmentType" />
+    <property name="inquiryDefinition" >
+      <ref bean="AppointmentType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AppointmentType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="appointmentTypeCode" />
+    <property name="objectLabel" value="Appointment Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AppointmentType-appointmentTypeCode" />
+        <ref bean="AppointmentType-appointmentTypeDescription" />
+        <ref bean="AppointmentType-appointmentTypeAbbrieviation" />
+        <ref bean="AppointmentType-fringeRateAmount" />
+        <ref bean="AppointmentType-costShareFringeRateAmount" />
+        <ref bean="AppointmentType-lastUpdate" />
+        <ref bean="AppointmentType-relatedAppointmentTypeCode" />
+        <ref bean="AppointmentType-objectId" />
+        <ref bean="AppointmentType-versionNumber" />
+        <ref bean="AppointmentType-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
 
 
-        <inquiry>
-            <title>Appointment Type Inquiry</title>
+  <bean id="AppointmentType-appointmentTypeCode" parent="AppointmentType-appointmentTypeCode-parentBean" />
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="appointmentTypeCode" />
-                <field attributeName="appointmentTypeDescription" />
-                <field attributeName="appointmentTypeAbbrieviation" />
-                <field attributeName="fringeRateAmount" />
-                <field attributeName="costShareFringeRateAmount" />
-                <field attributeName="relatedAppointmentTypeCode" />
-                <field attributeName="lastUpdate" />
-                <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="AppointmentType-appointmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Appointment Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="Appointment Type Code" />
+    <property name="description" value="The type of appointment for a given user." />
+  </bean>
+  <bean id="AppointmentType-appointmentTypeDescription" parent="AppointmentType-appointmentTypeDescription-parentBean" />
 
-        <lookup>
-            <title>Appointment Type Lookup</title>
+  <bean id="AppointmentType-appointmentTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentTypeDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Position Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Appointment Type Description" />
+    <property name="description" value="A description of the appointment type." />
+  </bean>
+  <bean id="AppointmentType-appointmentTypeAbbrieviation" parent="AppointmentType-appointmentTypeAbbrieviation-parentBean" />
 
-            <instructions>Lookup an Appointment Type</instructions>
+  <bean id="AppointmentType-appointmentTypeAbbrieviation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentTypeAbbrieviation" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Appointment Type Abbreviation" />
+    <property name="shortLabel" value="Appt Type Abrv" />
+    <property name="maxLength" value="25" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Appointment Type Abbrieviation" />
+    <property name="description" value="An abbreviation of the appointment type." />
+  </bean>
+  <bean id="AppointmentType-fringeRateAmount" parent="AppointmentType-fringeRateAmount-parentBean" />
 
-            <defaultSort attributeName="appointmentTypeCode" sortAscending="true" />
+  <bean id="AppointmentType-fringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fringeRateAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fringe Rate" />
+    <property name="shortLabel" value="Fringe" />
+    <property name="maxLength" value="8" />
+    <property name="inclusiveMax" value="99" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Fringe Rate" />
+    <property name="description" value="This is the fringe benefits rate that is charged on salaries that are booked to the project. The fringe rate is dependent on the employee classification." />
+  </bean>
+  <bean id="AppointmentType-costShareFringeRateAmount" parent="AppointmentType-costShareFringeRateAmount-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="appointmentTypeCode" required="false" />
-                <lookupField attributeName="appointmentTypeAbbrieviation" required="false" />
-                <lookupField attributeName="active" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
+  <bean id="AppointmentType-costShareFringeRateAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costShareFringeRateAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Share Fringe Rate" />
+    <property name="shortLabel" value="Cost Share Fringe" />
+    <property name="maxLength" value="8" />
+    <property name="inclusiveMax" value="99" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Cost Share Fringe Rate" />
+    <property name="description" value="This is the fringe benefits rate that is charged on cost-shared salaries. The fringe rate is dependent on the employee classification." />
+  </bean>
+  <bean id="AppointmentType-lastUpdate" parent="AppointmentType-lastUpdate-parentBean" />
 
-            <resultFields>
-                <field attributeName="appointmentTypeCode" />
-                <field attributeName="appointmentTypeDescription" />
-                <field attributeName="appointmentTypeAbbrieviation" />
-                <field attributeName="fringeRateAmount" />
-                <field attributeName="costShareFringeRateAmount" />
-                <field attributeName="lastUpdate" />
-                <field attributeName="active" />
-            </resultFields>
-        </lookup>
-        
-        <titleAttribute>appointmentTypeCode</titleAttribute>
+  <bean id="AppointmentType-lastUpdate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="lastUpdate" />
+    <property name="label" value="Last Update Timestamp" />
+    <property name="shortLabel" value="Last Update" />
+    <property name="summary" value="Last Update" />
+    <property name="description" value="The date of the most recent change to the fringe benefits rates." />
+  </bean>
+  <bean id="AppointmentType-relatedAppointmentTypeCode" parent="AppointmentType-relatedAppointmentTypeCode-parentBean" />
 
-        <attributes>
+  <bean id="AppointmentType-relatedAppointmentTypeCode-parentBean" abstract="true" parent="AppointmentType-appointmentTypeCode">
+    <property name="name" value="relatedAppointmentTypeCode" />
+    <property name="label" value="Related Appointment Type Code" />
+    <property name="shortLabel" value="Related Appt Type" />
+    <property name="summary" value="Related Appointment Type Code" />
+    <property name="description" value="The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment." />
+  </bean>
+  <bean id="AppointmentType-objectId" parent="AppointmentType-objectId-parentBean" />
 
-            <attribute name="appointmentTypeCode" forceUppercase="true">
-                <label>Appointment Type Code</label>
-                <shortLabel>Code</shortLabel>
+  <bean id="AppointmentType-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+    <property name="summary" value="Object ID" />
+    <property name="description" value="objectId description..." />
+  </bean>
+  <bean id="AppointmentType-versionNumber" parent="AppointmentType-versionNumber-parentBean" />
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric exactLength="2" />
-                </validationPattern>
+  <bean id="AppointmentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="AppointmentType-active" parent="AppointmentType-active-parentBean" />
 
-                <control>
-                    <text size="2" />
-                </control>
+  <bean id="AppointmentType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
-                <summary>Appointment Type Code</summary>
-                <description>The type of appointment for a given user.</description>
-            </attribute>
-
-            <attribute name="appointmentTypeDescription" forceUppercase="false">
-                <label>Position Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true"/>
-                </validationPattern>
-
-                <control>
-                    <text size="40" />
-                </control>
-
-                <summary>Appointment Type Description</summary>
-                <description>A description of the appointment type.</description>
-            </attribute>
-
-            <attribute name="appointmentTypeAbbrieviation" forceUppercase="false">
-                <label>Appointment Type Abbreviation</label>
-                <shortLabel>Appt Type Abrv</shortLabel>
-
-                <maxLength>25</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true"/>
-                </validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>Appointment Type Abbrieviation</summary>
-                <description>An abbreviation of the appointment type.</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
 
-            <attribute name="fringeRateAmount" forceUppercase="false">
-                <label>Fringe Rate</label>
-                <shortLabel>Fringe</shortLabel>
+  <bean id="AppointmentType-inquiryDefinition" parent="AppointmentType-inquiryDefinition-parentBean" />
 
-                <maxLength>8</maxLength>
-                <inclusiveMax>99</inclusiveMax>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
+  <bean id="AppointmentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Appointment Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentTypeAbbrieviation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fringeRateAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="costShareFringeRateAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="relatedAppointmentTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lastUpdate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="10" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>Fringe Rate</summary>
-                <description>This is the fringe benefits rate that is charged on salaries that are booked to the project. The fringe rate is dependent on the employee classification.</description>
-            </attribute>
 
-            <attribute name="costShareFringeRateAmount" forceUppercase="false">
-                <label>Cost Share Fringe Rate</label>
-                <shortLabel>Cost Share Fringe</shortLabel>
+  <bean id="AppointmentType-lookupDefinition" parent="AppointmentType-lookupDefinition-parentBean" />
 
-                <maxLength>8</maxLength>
-                <inclusiveMax>99</inclusiveMax>
-                <validationPattern>
-                    <floatingPoint />
-                </validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>Cost Share Fringe Rate</summary>
-                <description>This is the fringe benefits rate that is charged on cost-shared salaries. The fringe rate is dependent on the employee classification.</description>
-            </attribute>
-
-            <attributeReference name="lastUpdate"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Last Update Timestamp</label>
-                <shortLabel>Last Update</shortLabel>
-                <summary>Last Update</summary>
-                <description>The date of the most recent change to the fringe benefits rates.</description>
-            </attributeReference>
-            
-            <attributeReference name="relatedAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.AppointmentType" sourceAttributeName="appointmentTypeCode">
-                <label>Related Appointment Type Code</label>
-                <shortLabel>Related Appt Type</shortLabel>
-                <summary>Related Appointment Type Code</summary>
-                <description>The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment.</description>
-            </attributeReference>
-
-            <attribute name="objectId" forceUppercase="true">
-                <label>Object Id</label>
-                <shortLabel>GUID</shortLabel>
-
-                <maxLength>36</maxLength>
-
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
-
-                <control>
-                    <text size="36" />
-                </control>
-
-                <summary>Object ID</summary>
-                <description>objectId description...</description>
-            </attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-        </attributes>
-        <objectLabel>Appointment Type</objectLabel>
-    </businessObject>
-</dictionaryEntry>
-
+  <bean id="AppointmentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Appointment Type Lookup" />
+    <property name="instructions" value="Lookup an Appointment Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>appointmentTypeCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentTypeAbbrieviation" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentTypeAbbrieviation" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fringeRateAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="costShareFringeRateAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lastUpdate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

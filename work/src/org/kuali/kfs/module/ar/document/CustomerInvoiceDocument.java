@@ -5,10 +5,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Correctable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -38,7 +40,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDocument extends AccountingDocumentBase implements Copyable {
+public class CustomerInvoiceDocument extends AccountingDocumentBase implements Copyable, Correctable {
 
     protected Integer nextInvoiceItemNumber;
 	private String invoiceHeaderText;
@@ -981,7 +983,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public void setNextInvoiceItemNumber(Integer nextInvoiceItemNumber) {
         this.nextInvoiceItemNumber = nextInvoiceItemNumber;
     }
-   
+    
+    
+    
     
     /**
      * 
@@ -1065,5 +1069,119 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader); 
         
         // set up customer name
+    }
+    
+    /**
+     * This method returns true if line number is discount line number based on sequence number
+     * @param sequenceNumber
+     * @return
+     */
+    public boolean isDiscountLineBasedOnSequenceNumber(Integer sequenceNumber){
+        if( ObjectUtils.isNull(sequenceNumber)){
+            return false;
+        }
+        
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
+            Integer discLineNum = customerInvoiceDetail.getInvoiceItemDiscountLineNumber();
+            
+            //check if sequence number is referenced as a discount line for another customer invoice detail (i.e. the parent line)
+            if( discLineNum != null && sequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
+                return true;
+            }
+        }
+        return false;
+    }  
+    
+    /**
+     * This method returns parent customer invoice detail based on child discount sequence number
+     * 
+     * @param sequenceNumber
+     * @return
+     */
+    public CustomerInvoiceDetail getParentLineBasedOnDiscountSequenceNumber(Integer discountSequenceNumber){
+        
+        if( ObjectUtils.isNull(discountSequenceNumber)){
+            return null;
+        }
+        
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
+            Integer discLineNum = customerInvoiceDetail.getInvoiceItemDiscountLineNumber();
+            if( discLineNum != null && discountSequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
+                return customerInvoiceDetail;
+            }
+        }
+        return null;
+    }        
+    
+    
+    /**
+     * This method is called on CustomerInvoiceDocumentAction.execute() to set isDiscount to true if it truly is a discount line
+     */
+    public void setLinesToDiscountBasedOnParentLine(){
+        
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
+            
+            //get sequence number and check if theres a corresponding parent line for that discount line
+            if( isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber() ) ){
+                customerInvoiceDetail.setDiscountLine( true );
+            }
+        }
+    }
+    
+    /**
+     * This method returns true if line number is discount line number based on index
+     * @param sequenceNumber
+     * @return
+     */
+    public boolean getDiscountLineBasedOnIndex(int index){
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)getSourceAccountingLines().get(index);
+        Integer discLineNum = customerInvoiceDetail.getInvoiceItemDiscountLineNumber();
+        return (discLineNum != null && index == customerInvoiceDetail.getInvoiceItemDiscountLineNumber()); 
+    }    
+    
+    /**
+     * This method returns the a copy of the parent discount line with the matching discount line number
+     * 
+     * @param invoiceItemDiscountLineNumber
+     * @return
+     */
+    public CustomerInvoiceDetail getCopyOfParentCustomerInvoiceDetail( Integer invoiceItemDiscountLineNumber ){
+        
+        CustomerInvoiceDetail customerInvoiceDetail = null;
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
+            if(invoiceItemDiscountLineNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
+                return (CustomerInvoiceDetail)ObjectUtils.deepCopy(customerInvoiceDetail);
+            }
+        }
+        return null;
+    }
+        
+
+    /**
+     * This method removes the corresponding discount line based on the index of the parent line index.
+     * This assumes that the discount line is ALWAYS after the index of the parent line.
+     * 
+     * @param deleteIndex
+     */
+    public void removeDiscountLineBasedOnParentLineIndex(int parentLineIndex) {
+        //get parent line line
+        CustomerInvoiceDetail parentLine = (CustomerInvoiceDetail)getSourceAccountingLines().get(parentLineIndex);
+        
+        //get index for discount line
+        int discountLineIndex = -9999; //this should ALWAYS get set
+        for( int i = 0; i < getSourceAccountingLines().size(); i++ ){
+            if( parentLine.getInvoiceItemDiscountLineNumber().equals(((CustomerInvoiceDetail)getSourceAccountingLines().get(i)).getSequenceNumber())){
+                discountLineIndex = i;
+            }
+        }
+        //remove discount line
+        getSourceAccountingLines().remove(discountLineIndex);
     }
 }

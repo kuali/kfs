@@ -185,7 +185,7 @@
                 <shortLabel>Unit Price</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern><floatingPoint allowNegative="true" /></validationPattern>
                 <required>true</required>
 
                 <control>

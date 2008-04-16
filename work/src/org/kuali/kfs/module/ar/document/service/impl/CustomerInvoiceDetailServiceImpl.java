@@ -129,10 +129,11 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
 
         CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(customerInvoiceDetail);
-        discountCustomerInvoiceDetail.setAmount(customerInvoiceDetail.getAmount().negated());
+        discountCustomerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
+        discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
         discountCustomerInvoiceDetail.setInvoiceItemUnitOfMeasureCode( ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT );
-        discountCustomerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
-        discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.CUSTOMER_INVOICE_DETAIL_DISCOUNT_DESCRIPTION_PREFIX + customerInvoiceDetail.getSequenceNumber());
+        
+        discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX );
         
         SystemInformation systemInformation =  systemInformationService.getByPrimaryKey(universityFiscalYear, chartOfAccountsCode, organizationCode);
         if ( ObjectUtils.isNotNull(systemInformation) ){

@@ -37,6 +37,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     private boolean receivableIndicator;
     private Integer invoiceItemDiscountLineNumber;
     
+    private boolean isDiscountLine;
+    
     private SubObjCd accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
 
@@ -288,6 +290,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     public void setAccountsReceivableObject(ObjectCode accountsReceivableObject) {
         this.accountsReceivableObject = accountsReceivableObject;
     }
+    
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -337,6 +340,24 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         updateAmountBasedOnQuantityAndUnitPrice();
         updateARObjectCode();
     }
+    
+    /**
+     * This method returns true if customer invoice detail has a corresponding discount line
+     * @return
+     */
+    public boolean isDiscountLineParent(){
+        return getInvoiceItemDiscountLineNumber() != null;
+    }
+    
+    /**
+     * This method sets the amount to negative if it isn't already negative
+     * @return
+     */
+    public void setInvoiceItemUnitPriceToNegative(){
+        if( KualiDecimal.ZERO.compareTo(invoiceItemUnitPrice) < 0 ){
+            invoiceItemUnitPrice = invoiceItemUnitPrice.negated();
+        }
+    }
 
 
     /**
@@ -350,5 +371,19 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
             //get AR object code from sub fund group code
             //setAccountsReceivableObjectCode(getAccount().getSubFundGroup().getFinAccountsReceivableObj().getFinancialObjectCode());
         }
+    }
+
+    /**
+     * This method should only be used to determine if detail is discount line in JSP. If you want to determine if
+     * invoice detail is a detail line use CustomerInvoiceDocument.isDiscountLineBasedOnSequenceNumber() instead.  
+     * 
+     * @return
+     */
+    public boolean isDiscountLine() {
+        return isDiscountLine;
+    }
+
+    public void setDiscountLine(boolean isDiscountLine) {
+        this.isDiscountLine = isDiscountLine;
     }
 }

@@ -442,6 +442,6 @@
         </attributes>
   		
         <allowsCopy>true</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
+        <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>
 </dictionaryEntry>

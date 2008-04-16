@@ -165,7 +165,7 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
     public void testIsCustomerInvoiceDetailItemUnitPriceGreaterThanZero_True() {
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setInvoiceItemUnitPrice(new KualiDecimal(1));
-        assertTrue( rule.isCustomerInvoiceDetailItemUnitPriceGreaterThanZero((customerInvoiceDetail)));    
+        assertTrue( rule.isCustomerInvoiceDetailItemUnitPriceGreaterThanZero((customerInvoiceDetail), document));    
     }
     
     /**
@@ -175,7 +175,7 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
     public void testIsCustomerInvoiceDetailItemUnitPriceGreaterThanZero_False() {
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setInvoiceItemUnitPrice(KualiDecimal.ZERO);
-        assertFalse( rule.isCustomerInvoiceDetailItemUnitPriceGreaterThanZero((customerInvoiceDetail)));       
+        assertFalse( rule.isCustomerInvoiceDetailItemUnitPriceGreaterThanZero((customerInvoiceDetail), document));       
     }
     
     /**

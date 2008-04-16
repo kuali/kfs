@@ -51,7 +51,7 @@
 	    editingMode="${KualiForm.editingMode}"
 	    editableAccounts="${KualiForm.editableAccounts}"
 	    optionalFields="invoiceItemCode,invoiceItemQuantity,invoiceItemDescription,invoiceItemServiceDate,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,taxableIndicator,invoiceItemTaxAmount"
-	    extraHiddenFields=",accountsReceivableObjectCode"
+	    extraHiddenFields=",accountsReceivableObjectCode,invoiceItemDiscountLineNumber"
 	    isOptionalFieldsInNewRow="true"
 	    sourceAccountingLinesOnly="true"
 	    forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
@@ -68,6 +68,9 @@
 		</jsp:attribute>		    
 		
 		<jsp:attribute name="customActions">
+			<c:set var="isDiscountLineParent" value="${KualiForm.document.sourceAccountingLines[accountingLineIndexVar].discountLineParent}" />
+			<c:set var="isDiscountLine" value="${KualiForm.document.sourceAccountingLines[accountingLineIndexVar].discountLine}" />
+		
 			<c:set var="recalculateMethod"
 				value="recalculateSourceLine.line${accountingLineIndexVar}"
 				scope="request" />
@@ -75,13 +78,16 @@
 				property="methodToCall.${recalculateMethod}.anchoraccounting${actionInfixVar}Anchor"
 				src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate a Source Accounting Line"
 				alt="Recalculate Source Accounting Line" styleClass="tinybutton" /><br/>
-			<c:set var="discountMethod"
-				value="discountSourceLine.line${accountingLineIndexVar}"
-				scope="request" />
-			<html:image
-				property="methodToCall.${discountMethod}.anchoraccounting${actionInfixVar}Anchor"
-				src="${ConfigProperties.externalizable.images.url}tinybutton-initiatequote.gif" title="Discount a Source Accounting Line"
-				alt="Discount a Source Accounting Line" styleClass="tinybutton" /><br/>
+				
+			<c:if test="${!isDiscountLine && !isDiscountLineParent}">
+				<c:set var="discountMethod"
+					value="discountSourceLine.line${accountingLineIndexVar}"
+					scope="request" />
+				<html:image
+					property="methodToCall.${discountMethod}.anchoraccounting${actionInfixVar}Anchor"
+					src="${ConfigProperties.externalizable.images.url}tinybutton-initiatequote.gif" title="Discount a Source Accounting Line"
+					alt="Discount a Source Accounting Line" styleClass="tinybutton" /><br/>
+			</c:if>				
 		</jsp:attribute>
 
 	</fin:accountingLines>

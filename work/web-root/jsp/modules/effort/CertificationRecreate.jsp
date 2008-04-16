@@ -47,7 +47,9 @@
 			<er:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}" />				
 		</div>
 		
-		<div class="tab-container" align=center>
+		<div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}"/></div></div>
+					
+		<div class="tab-container" align=center>			
 			<div class="h2-container"><h2>Effort Detail Lines</h2></div>
 			
 			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.rules;
 
+import java.util.Collection;
+
 import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -23,6 +25,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 
 /**
  * Contains Business Rules for the Effort Certification Report Maintenance Document.
@@ -32,17 +35,23 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
-    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument arg0) {
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean isValid = true;
-        EffortCertificationReportDefinition effortCertificationReport = (EffortCertificationReportDefinition) arg0.getNewMaintainableObject().getBusinessObject();
-        Integer beginPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode());
-        Integer endPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode());
+        EffortCertificationReportDefinition reportDefintion = (EffortCertificationReportDefinition) document.getNewMaintainableObject().getBusinessObject();
+        Integer beginPeriodCode = Integer.parseInt(reportDefintion.getEffortCertificationReportBeginPeriodCode());
+        Integer endPeriodCode = Integer.parseInt(reportDefintion.getEffortCertificationReportEndPeriodCode());
 
         if (!GlobalVariables.getErrorMap().isEmpty())
             return false;
 
         // report begin fiscal year must be less than report end fiscal year
-        if (effortCertificationReport.getEffortCertificationReportBeginFiscalYear() > effortCertificationReport.getEffortCertificationReportEndFiscalYear() || (effortCertificationReport.getEffortCertificationReportBeginFiscalYear().equals(effortCertificationReport.getEffortCertificationReportEndFiscalYear()) && Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode()))) {
+        if (reportDefintion.getEffortCertificationReportBeginFiscalYear() > reportDefintion.getEffortCertificationReportEndFiscalYear() || (reportDefintion.getEffortCertificationReportBeginFiscalYear().equals(reportDefintion.getEffortCertificationReportEndFiscalYear()) && Integer.parseInt(reportDefintion.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(reportDefintion.getEffortCertificationReportEndPeriodCode()))) {
+            putFieldError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, EffortKeyConstants.ERROR_END_FISCAL_YEAR);
+            isValid = false;
+        }
+        
+        Collection<EffortCertificationReportPosition> reportPositions = reportDefintion.getEffortCertificationReportPositions();
+        if(reportPositions == null || reportPositions.isEmpty()) {
             putFieldError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, EffortKeyConstants.ERROR_END_FISCAL_YEAR);
             isValid = false;
         }

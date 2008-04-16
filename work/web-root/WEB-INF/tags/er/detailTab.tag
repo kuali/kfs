@@ -23,9 +23,9 @@
 
 <c:set var="viewOnlyEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.VIEW_ONLY]}" />
 <c:set var="expenseEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.EXPENSE_ENTRY]}" />
-<c:set var="taberrorKey" value="${expenseEntry ? EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS : '' }" />
+<c:set var="tabErrorKey" value="${expenseEntry ? EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS : '' }" />
 
-<kul:tab tabTitle="Effort Detail" defaultOpen="${viewOnlyEntry || expenseEntry}" tabErrorKey="${taberrorKey}">	
+<kul:tab tabTitle="Effort Detail" defaultOpen="${viewOnlyEntry || expenseEntry}" tabErrorKey="${tabErrorKey}">	
 <c:choose>
 	<c:when test="${expenseEntry}">
 		<div class="tab-container" align=center>

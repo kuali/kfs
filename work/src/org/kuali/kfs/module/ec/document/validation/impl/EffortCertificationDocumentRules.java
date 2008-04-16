@@ -103,7 +103,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINE, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
+            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
             return false;
         }
 
@@ -112,8 +112,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINE, EffortKeyConstants.ERROR_LINE_EXISTS);
+        if (detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_LINE_EXISTS);
             return false;
         }
 
@@ -197,6 +197,13 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         LOG.info("processAddLineBusinessRules() start");
 
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;
+        
+        // the docuemnt must have at least one detail line
+        if(!EffortCertificationDocumentRuleUtil.hasDetailLine(effortCertificationDocument)) {
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOT_HAVE_DETAIL_LINE);
+            return false;
+        }
+        
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
             return true;
         }
@@ -349,7 +356,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        comparableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         return comparableFields;
     }

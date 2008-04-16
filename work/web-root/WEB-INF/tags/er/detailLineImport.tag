@@ -15,7 +15,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="attributes" required="true" type="java.util.Map"
 			  description="The DataDictionary entry containing attributes for the line fields."%>
@@ -37,16 +37,12 @@
 			</div>
 		</th>
 			
-		<td>			                  
-			<kul:htmlControlAttribute 
-				 attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
-				 property="document.emplid" readOnly="${readOnly}" />
-			
-			<c:if test="${!readOnly}" >	
-			<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
-                 fieldConversions="personPayrollIdentifier:document.emplid"
-                 lookupParameters="document.emplid:personPayrollIdentifier"/>
-            </c:if>
+		<td class="datacell-nowrap">
+			<kfs:employee userIdFieldName="document.emplid" 
+                userNameFieldName="document.employee.personName" 
+                fieldConversions="personPayrollIdentifier:document.emplid"
+                lookupParameters="document.emplid:personPayrollIdentifier"
+                readOnly="${readOnly}" />
 		</td>
 	</tr>
 	

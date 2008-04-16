@@ -32,8 +32,8 @@
 <%@ attribute name="highlight" required="false"
               description="boolean indicating if this field is rendered as highlighted (to indicate old/new value change)" %>
                
-<script type='text/javascript' src="dwr/interface/KfsUniversalUserService.js"></script>
-<script language="JavaScript" type="text/javascript" src="scripts/labor/objectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="dwr/interface/KfsUniversalUserService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
 
 <%-- set the border color when has errors --%>
 <c:if test="${hasErrors}">

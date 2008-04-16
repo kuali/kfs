@@ -51,15 +51,19 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String subFundGroupDescription;
     private String baseFy;
     private String reqFy;
-   
+    private String objectCodes;
         
     // Groups
-    private String financialObjectCode;
     private String accountNumber;
     private String subAccountNumber;
     private String emplid;
     
     // Body parts
+    private String financialObjectCode;
+    private String financialObjectCodeName;
+    
+    
+    private String deleteBox;
     private String personName;
     //from BudgetConstructionIntendedIncumbent
     private String iuClassificationLevel;
@@ -718,6 +722,30 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
 
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
+    }
+
+    public String getDeleteBox() {
+        return deleteBox;
+    }
+
+    public void setDeleteBox(String deleteBox) {
+        this.deleteBox = deleteBox;
+    }
+
+    public String getFinancialObjectCodeName() {
+        return financialObjectCodeName;
+    }
+
+    public void setFinancialObjectCodeName(String financialObjectCodeName) {
+        this.financialObjectCodeName = financialObjectCodeName;
+    }
+
+    public String getObjectCodes() {
+        return objectCodes;
+    }
+
+    public void setObjectCodes(String objectCodes) {
+        this.objectCodes = objectCodes;
     }
 
 }

@@ -138,12 +138,36 @@
 
             <maintainableSection title="Edit Organization Remit To Address">
                 <maintainableItems>
-                    <maintainableField name="organizationRemitToAddressName" required="true"/>
-                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true"/>
-                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false"/>
-                    <maintainableField name="organizationRemitToCityName" required="true"/>
-                    <maintainableField name="organizationRemitToStateCode" required="true"/>
-                    <maintainableField name="organizationRemitToZipCode" required="true"/>
+                    <maintainableField name="organizationRemitToAddressName" required="true">
+                   		<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToAddressNameValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true">
+                    	<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine1AddressValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false">
+                    	<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine2AddressValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="organizationRemitToCityName" required="true">
+                    	<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToCityNameValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="organizationRemitToStateCode" required="true">
+                    	<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToStateCodeValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="organizationRemitToZipCode" required="true">
+                    	<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToZipCodeValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
                 </maintainableItems>
             </maintainableSection>
 

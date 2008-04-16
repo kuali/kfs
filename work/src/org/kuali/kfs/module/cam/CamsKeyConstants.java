@@ -74,6 +74,13 @@ public class CamsKeyConstants {
         public static final String ERROR_CAMPUS_PLANT_FUND_UNKNOWN = "error.campus.plant.fund.unknown";
         public static final String ERROR_ORG_PLANT_FUND_UNKNOWN = "error.org.plant.fund.unknown";
         public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.account.notactive";
+        public static final String ERROR_OWNER_CHART_CODE_INVALID = "error.receiving.org.chart.code.invalid";
+        public static final String ERROR_OWNER_ACCT_INVALID = "error.receiving.org.acct.invalid";
+        public static final String ERROR_TRFR_FDOC_INVALID = "error.transfer.fund.financial.doc.invalid";
+        public static final String ERROR_TRFR_FDOC_REQUIRED = "error.transfer.fund.financial.doc.required";
+    }
+
+    public static class AssetLocation {
         public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
         public static final String ERROR_INVALID_CAMPUS_CODE = "error.invalid.campus.code";
         public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.code";
@@ -86,10 +93,11 @@ public class CamsKeyConstants {
         public static final String ERROR_OFFCAMPUS_CITY_REQUIRED = "error.offcampus.city.required";
         public static final String ERROR_OFFCAMPUS_STATE_REQUIRED = "error.offcampus.state.required";
         public static final String ERROR_OFFCAMPUS_ZIP_REQUIRED = "error.offcampus.zip.required";
-        public static final String ERROR_OWNER_CHART_CODE_INVALID = "error.receiving.org.chart.code.invalid";
-        public static final String ERROR_OWNER_ACCT_INVALID = "error.receiving.org.acct.invalid";
         public static final String ERROR_CHOOSE_LOCATION_INFO = "error.location.choose.right";
-        public static final String ERROR_TRFR_FDOC_INVALID = "error.transfer.fund.financial.doc.invalid";
+        public static final String ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED = "error.location.offcampus.not.permitted";
+        public static final String ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED = "error.location.oncampus.not.permitted";
+        public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.room.number.not.permitted";
+        public static final String ERROR_ONCAMPUS_SUB_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.sub.room.number.not.permitted";
     }
 
     public static class Retirement {

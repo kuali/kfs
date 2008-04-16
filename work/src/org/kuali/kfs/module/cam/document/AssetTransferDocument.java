@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
@@ -34,7 +35,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
-import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
@@ -382,28 +382,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         super.handleRouteStatusChange();
         String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
         // if status is approved
-        if (CamsConstants.DOC_APPROVED.equals(financialDocumentStatusCode)) {
+        if (RiceConstants.DocumentStatusCodes.APPROVED.equals(financialDocumentStatusCode)) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
         }
     }
 
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        AssetGlpeSourceDetail postableDetail = (AssetGlpeSourceDetail) postable;
-        boolean isDebit = false;
-        // If source org
-        if (postableDetail.isSource()) {
-            if ((postableDetail.isCapitalization() && postableDetail.getAmount().isNegative()) || (postableDetail.isAccumulatedDepreciation() && postableDetail.getAmount().isPositive()) || (postableDetail.isOffset() && postableDetail.getAmount().isPositive())) {
-                isDebit = true;
-            }
-        }
-        // If target and amount is positive then true
-        if (!postableDetail.isSource()) {
-            if ((postableDetail.isCapitalization() && postableDetail.getAmount().isPositive()) || (postableDetail.isAccumulatedDepreciation() && postableDetail.getAmount().isNegative()) || (postableDetail.isOffset() && postableDetail.getAmount().isNegative())) {
-                isDebit = true;
-            }
-        }
-        return isDebit;
+        return ((AssetGlpeSourceDetail) postable).isDebit();
     }
 
 

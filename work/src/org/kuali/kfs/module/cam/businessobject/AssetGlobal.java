@@ -583,7 +583,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist() becomes an asset
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
-        List<PersistableBusinessObject> persistables = new ArrayList();
+        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
 
         for (AssetGlobalDetail detail : assetGlobalDetails) {
 

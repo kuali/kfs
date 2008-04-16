@@ -282,10 +282,10 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         Account srcPlantAcct = null;
 
         if (movableAsset) {
-            srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+            srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
         }
         else {
-            srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+            srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
         }
         for (AssetPayment assetPayment : assetPayments) {
             if (isPaymentEligibleForGLPosting(assetPayment)) {

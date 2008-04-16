@@ -116,8 +116,6 @@ public class CamsConstants {
         public static final String OFF_CAMPUS = "O";
     }
 
-    public static final String DOC_APPROVED = "A";
-    public static final String DOC_INITIATED = "?";
     public static final String RETIREMENT_REASON_CODE_M = "M";
     public static final String GL_BALANCE_TYPE_CDE_AC = "AC";
 

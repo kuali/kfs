@@ -277,5 +277,21 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
         return offset;
     }
 
+    public boolean isDebit() {
+        boolean isDebit = false;
+        // If source org
+        if (this.isSource()) {
+            if ((this.isCapitalization() && this.getAmount().isNegative()) || (this.isAccumulatedDepreciation() && this.getAmount().isPositive()) || (this.isOffset() && this.getAmount().isPositive())) {
+                isDebit = true;
+            }
+        }
+        // If target and amount is positive then true
+        if (!this.isSource()) {
+            if ((this.isCapitalization() && this.getAmount().isPositive()) || (this.isAccumulatedDepreciation() && this.getAmount().isNegative()) || (this.isOffset() && this.getAmount().isNegative())) {
+                isDebit = true;
+            }
+        }
+        return isDebit;
+    }
 
 }

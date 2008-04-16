@@ -76,6 +76,7 @@
                 <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
+                <required>true</required>
                 <control>
                     <text size="4" />
                 </control>

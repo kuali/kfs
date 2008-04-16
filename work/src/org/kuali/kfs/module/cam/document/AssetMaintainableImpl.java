@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Section;
@@ -131,5 +132,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         if (copyAsset == null) {
             copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         }
+    }
+    
+    @Override
+    public List<MaintenanceLock> generateMaintenanceLocks() {
+        // TODO Auto-generated method stub
+        return super.generateMaintenanceLocks();
     }
 }

@@ -15,9 +15,16 @@
  */
 package org.kuali.module.cams.service;
 
+import java.util.Map;
+
 import org.kuali.module.cams.bo.Asset;
 
 public interface AssetLocationService {
+
+    public static enum LocationField {
+        CAMPUS_CODE, BUILDING_CODE, ROOM_NUMBER, SUB_ROOM_NUMBER, CONTACT_NAME, STREET_ADDRESS, CITY_NAME, STATE_CODE, ZIP_CODE, COUNTRY_CODE, LOCATION_TAB_KEY;
+    }
+
     /**
      * The method will set Off Campus Location from the assetLocations collection
      */
@@ -27,4 +34,6 @@ public interface AssetLocationService {
      * Update user input into reference of Asset Location
      */
     public void updateOffCampusLocation(Asset newAsset);
+
+    boolean validateLocation(Object currObject, Asset asset, Map<LocationField, String> fieldMap);
 }

@@ -25,6 +25,10 @@ import org.kuali.module.budget.dao.ImportRequestDao;
 
 import com.lowagie.text.DocumentException;
 
+/**
+ * Describes services related to budget construction request import
+ * 
+ */
 public interface BudgetRequestImportService {
     
     /**
@@ -78,5 +82,19 @@ public interface BudgetRequestImportService {
      * @param dao
      */
     public void setImportRequestDao(ImportRequestDao dao);
+    
+    /**
+     * returns the permission service
+     * 
+     * @return
+     */
+    public PermissionService getPermissionService();
+
+    /**
+     * Sets permissionService
+     * 
+     * @param permissionService
+     */
+    public void setPermissionService(PermissionService permissionService);
     
 }

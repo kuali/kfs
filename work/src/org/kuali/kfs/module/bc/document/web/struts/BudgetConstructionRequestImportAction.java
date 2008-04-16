@@ -61,7 +61,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         BudgetConstructionRequestImportForm budgetConstructionImportForm = (BudgetConstructionRequestImportForm) form;
         BudgetRequestImportService budgetRequestImportService = SpringContext.getBean(BudgetRequestImportService.class);
         
-        boolean isValid = validateImportRequest(budgetConstructionImportForm);
+        boolean isValid = validateFormData(budgetConstructionImportForm);
         
         String basePath;
         String lookupUrl;
@@ -77,8 +77,9 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         String personUniversalIdentifier = user.getPersonUniversalIdentifier();
         List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), personUniversalIdentifier, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
         
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
         if (!parsingErrors.isEmpty()) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             budgetRequestImportService.generatePdf(parsingErrors, baos);
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
             return null;
@@ -93,7 +94,13 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         }
         
         List<String> updateErrorMessages = budgetRequestImportService.loadBudget(user, budgetConstructionImportForm.getFileType());
-        //TODO: write error messages to pdf
+        messageList.addAll(updateErrorMessages);
+        
+        if ( !messageList.isEmpty() ) {
+            budgetRequestImportService.generatePdf(messageList, baos);
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
+            return null;
+        }
         
         basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
@@ -126,7 +133,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      * @param form
      * @return
      */
-    private boolean validateImportRequest(BudgetConstructionRequestImportForm form) {
+    private boolean validateFormData(BudgetConstructionRequestImportForm form) {
         boolean isValid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         

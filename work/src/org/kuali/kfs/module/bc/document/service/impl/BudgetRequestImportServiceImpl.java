@@ -50,12 +50,17 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
-
+/**
+ * Contains services relevent to the budget construction import request process
+ * This class...
+ */
+@Transactional
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
     private BusinessObjectService businessObjectService;
     private ImportRequestDao importRequestDao;
@@ -359,6 +364,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
         }
         
+        deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
+        
         return errorMessages;
     }
 
@@ -579,7 +586,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 return errorList;
             }
         }
-
+        
         return errorList;
     }
     
@@ -673,5 +680,16 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         //searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, 
         
         return new ArrayList<BudgetConstructionMonthly> (getBusinessObjectService().findMatching(BudgetConstructionMonthly.class, searchCriteria));
+    }
+    
+    /**
+     * Clears BudgetConstructionRequestMove
+     * 
+     * @param personUniversalIdentifier
+     */
+    private void deleteBudgetConstructionMoveRecords(String personUniversalIdentifier) {
+        HashMap<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, fieldValues);
     }
 }

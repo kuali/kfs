@@ -68,7 +68,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     }
 
     private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
-    private static final KualiDecimal KUALI_DECIMAL_ZERO = new KualiDecimal(0);
     private static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
     private AssetService assetService;
     private UniversityDateService universityDateService;
@@ -87,7 +86,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws IllegalAccessException, InvocationTargetException {
         LOG.debug("Starting - adjustAmounts() ");
         PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
         for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
@@ -292,14 +291,14 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
                     KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-                    if (accountChargeAmount != null && !accountChargeAmount.equals(KUALI_DECIMAL_ZERO)) {
+                    if (accountChargeAmount != null && !accountChargeAmount.equals(KualiDecimal.ZERO)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
                     }
                     KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
-                    if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KUALI_DECIMAL_ZERO)) {
+                    if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KualiDecimal.ZERO)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
                     }
-                    if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KUALI_DECIMAL_ZERO)) {
+                    if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KualiDecimal.ZERO)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
 
                     }
@@ -327,14 +326,14 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         for (AssetPayment assetPayment : assetPayments) {
             if (isPaymentEligibleForGLPosting(assetPayment)) {
                 KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-                if (accountChargeAmount != null && !accountChargeAmount.equals(KUALI_DECIMAL_ZERO)) {
+                if (accountChargeAmount != null && !accountChargeAmount.equals(KualiDecimal.ZERO)) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
                 }
                 KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
-                if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KUALI_DECIMAL_ZERO)) {
+                if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KualiDecimal.ZERO)) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.ACCUM_DEPRECIATION));
                 }
-                if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KUALI_DECIMAL_ZERO)) {
+                if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KualiDecimal.ZERO)) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));
                 }
             }

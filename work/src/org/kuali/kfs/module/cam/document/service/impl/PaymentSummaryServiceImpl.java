@@ -23,10 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -40,8 +38,6 @@ import org.kuali.module.financial.service.UniversityDateService;
  */
 public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
-    // Total no of months in a financial year
-    private static final int TOTAL_MONTHS = 12;
 
     private static Map<Integer, Method> DEPR_AMT_FIELDS = new HashMap<Integer, Method>();
     /**

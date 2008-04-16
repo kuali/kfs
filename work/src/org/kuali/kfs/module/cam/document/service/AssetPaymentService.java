@@ -15,7 +15,6 @@
  */
 package org.kuali.module.cams.service;
 
-import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetPayment;
 
 public interface AssetPaymentService {

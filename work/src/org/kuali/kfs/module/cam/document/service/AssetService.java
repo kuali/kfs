@@ -15,7 +15,6 @@
  */
 package org.kuali.module.cams.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cams.bo.Asset;
 
 

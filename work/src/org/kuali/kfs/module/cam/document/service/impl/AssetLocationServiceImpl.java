@@ -15,14 +15,13 @@
  */
 package org.kuali.module.cams.service.impl;
 
-import java.beans.PropertyDescriptor;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -74,26 +73,19 @@ public class AssetLocationServiceImpl implements AssetLocationService {
      * @see org.kuali.module.cams.service.AssetLocationService#validateLocation(java.lang.Object, org.kuali.module.cams.bo.Asset,
      *      java.util.Map)
      */
-    public boolean validateLocation(Object currObject, Asset asset, Map<LocationField, String> fieldMap) {
-        Map<LocationField, PropertyDescriptor> propertyDescriptorMap = new HashMap<LocationField, PropertyDescriptor>();
-        prepareFieldDescriptorMap(currObject, fieldMap, propertyDescriptorMap);
-        String campusCode = readPropertyValue(currObject, propertyDescriptorMap, LocationField.CAMPUS_CODE);
-        String buildingCode = readPropertyValue(currObject, propertyDescriptorMap, LocationField.BUILDING_CODE);
-        String roomNumber = readPropertyValue(currObject, propertyDescriptorMap, LocationField.ROOM_NUMBER);
-        String subRoomNumber = readPropertyValue(currObject, propertyDescriptorMap, LocationField.SUB_ROOM_NUMBER);
-        String streetAddress = readPropertyValue(currObject, propertyDescriptorMap, LocationField.STREET_ADDRESS);
-        String cityName = readPropertyValue(currObject, propertyDescriptorMap, LocationField.CITY_NAME);
-        String stateCode = readPropertyValue(currObject, propertyDescriptorMap, LocationField.STATE_CODE);
-        String zipCode = readPropertyValue(currObject, propertyDescriptorMap, LocationField.ZIP_CODE);
+    public boolean validateLocation(BusinessObject businessObject, Asset asset, Map<LocationField, String> fieldMap) {
+        String campusCode = readPropertyValue(businessObject, fieldMap, LocationField.CAMPUS_CODE);
+        String buildingCode = readPropertyValue(businessObject, fieldMap, LocationField.BUILDING_CODE);
+        String roomNumber = readPropertyValue(businessObject, fieldMap, LocationField.ROOM_NUMBER);
+        String subRoomNumber = readPropertyValue(businessObject, fieldMap, LocationField.SUB_ROOM_NUMBER);
+        String streetAddress = readPropertyValue(businessObject, fieldMap, LocationField.STREET_ADDRESS);
+        String cityName = readPropertyValue(businessObject, fieldMap, LocationField.CITY_NAME);
+        String stateCode = readPropertyValue(businessObject, fieldMap, LocationField.STATE_CODE);
+        String zipCode = readPropertyValue(businessObject, fieldMap, LocationField.ZIP_CODE);
         boolean onCampus = StringUtils.isNotBlank(buildingCode) || StringUtils.isNotBlank(roomNumber) || StringUtils.isNotBlank(subRoomNumber);
         boolean offCampus = StringUtils.isNotBlank(streetAddress) || StringUtils.isNotBlank(cityName) || StringUtils.isNotBlank(stateCode) || StringUtils.isNotBlank(zipCode);
 
         boolean valid = true;
-        if (StringUtils.isBlank(campusCode)) {
-            // campus code is always mandatory
-            putError(fieldMap, LocationField.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_ONCAMPUS_CAMPUS_CODE_REQUIRED);
-            valid &= false;
-        }
         if (getAssetService().isCapitalAsset(asset)) {
             valid &= validateCapitalAssetLocation(asset, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, streetAddress, cityName, stateCode, zipCode, onCampus, offCampus);
         }
@@ -207,10 +199,10 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return valid;
     }
 
-    private String readPropertyValue(Object currObject, Map<LocationField, PropertyDescriptor> propertyDescriptorMap, LocationField field) {
+    private String readPropertyValue(BusinessObject currObject, Map<LocationField, String> fieldMap, LocationField field) {
         String stringValue = null;
         try {
-            stringValue = (String) propertyDescriptorMap.get(field).getReadMethod().invoke(currObject);
+            stringValue = (String) ObjectUtils.getNestedValue(currObject, fieldMap.get(field));
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -218,22 +210,9 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return stringValue;
     }
 
-    private void prepareFieldDescriptorMap(Object currObject, Map<LocationField, String> fieldMap, Map<LocationField, PropertyDescriptor> propertyDescriptorMap) {
-        try {
-            for (LocationField property : fieldMap.keySet()) {
-                PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(currObject, fieldMap.get(property));
-                if (propertyDescriptor != null) {
-                    propertyDescriptorMap.put(property, propertyDescriptor);
-                }
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private AssetService getAssetService() {
-        return assetService;
+        return this.assetService;
     }
 
     public void setAssetService(AssetService assetService) {

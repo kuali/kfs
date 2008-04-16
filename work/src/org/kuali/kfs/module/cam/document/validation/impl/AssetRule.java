@@ -23,11 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -46,7 +45,7 @@ import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.cams.service.AssetLocationService.LocationField;
 
 /**
  * AssetRule for Asset edit.
@@ -68,32 +67,33 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         initializeAttributes(document);
 
         boolean valid = false;
-        
+
         if (newAsset.getCapitalAssetNumber() == null) {
             // TODO KULCAP-214 ... fabrication request rules go here
             valid = true;
-        } else {
+        }
+        else {
             setAssetComponentNumbers(newAsset);
-    
+
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
-    
+
             AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
             assetDispService.setAssetDispositionHistory(oldAsset);
             assetDispService.setAssetDispositionHistory(newAsset);
-    
+
             RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
             retirementInfoService.setRetirementInfo(oldAsset);
             retirementInfoService.setRetirementInfo(newAsset);
-    
+
             EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
             equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
             equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
-    
+
             valid = processAssetValidation(document);
             valid &= validateWarrantyInformation(newAsset);
-    
+
             valid &= super.processCustomSaveDocumentBusinessRules(document);
             if (valid) {
                 AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
@@ -101,7 +101,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 assetDetailInfoService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
             }
         }
-        
+
         return valid;
     }
 
@@ -135,7 +135,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
             valid &= validateInventoryStatusCode();
         }
-        
+
         // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVendorName();
@@ -257,7 +257,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
 
-
     /**
      * Validate Asset Location fields
      * 
@@ -265,14 +264,20 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     private boolean validateLocation() {
-        boolean valid = true;
+        Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
+        fieldMap.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.Asset.CAMPUS_CODE);
+        fieldMap.put(LocationField.BUILDING_CODE, CamsPropertyConstants.Asset.BUILDING_CODE);
+        fieldMap.put(LocationField.ROOM_NUMBER, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
+        fieldMap.put(LocationField.SUB_ROOM_NUMBER, CamsPropertyConstants.Asset.BUILDING_SUB_ROOM_NUMBER);
+        fieldMap.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STREET_ADDRESS);
+        fieldMap.put(LocationField.CITY_NAME, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CITY_NAME);
+        fieldMap.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STATE_CODE);
+        fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_ZIP_CODE);
+        fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_VERSION_NUM);
 
-        if (assetService.isCapitalAsset(newAsset)) {
-            valid &= validateCapitalAssetLocation(newAsset);
-        }
-        else {
-            valid &= validateNonCapitalAssetLocation(newAsset);
-        }
+        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
+        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(newAsset, newAsset, fieldMap);
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
 
         if (valid && isOffCampusLocationChanged()) {
             AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);

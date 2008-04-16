@@ -76,6 +76,7 @@ public class CamsPropertyConstants {
         public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
         public static final String RETIREMENT_INFO_MERGED_TARGET = "retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber";
         public static final String ASSET_LOCATIONS = "assetLocations";
+        public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
     }
 
     public static class AssetLocation {
@@ -85,6 +86,7 @@ public class CamsPropertyConstants {
         public static final String ASSET_LOCATION_STATE_CODE = "offCampusLocation.assetLocationStateCode";
         public static final String ASSET_LOCATION_ZIP_CODE = "offCampusLocation.assetLocationZipCode";
         public static final String ASSET_LOCATION_COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
+        public static final String ASSET_LOCATION_VERSION_NUM = "offCampusLocation.versionNumber";
     }
 
     public static class AssetHeader {

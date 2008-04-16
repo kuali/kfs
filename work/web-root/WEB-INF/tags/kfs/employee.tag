@@ -57,7 +57,7 @@
 </c:if>
 
 <div id="${userNameFieldName}.div">
-    <html:hidden write="true" property="${userNameFieldName}"/>&nbsp;        
+    <html:hidden write="true" property="${userNameFieldName}"/>       
 </div>
 	
 <c:if test="${renderOtherFields}">

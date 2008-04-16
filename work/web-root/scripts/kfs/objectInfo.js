@@ -321,7 +321,7 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
     var containerDiv = document.getElementById(userNameFieldName + divSuffix);
 
     if (userId == "") {
-        DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+        DWRUtil.setValue( containerDiv.id, "" );
     } else {
         var dwrReply = {
             callback:function(data) {

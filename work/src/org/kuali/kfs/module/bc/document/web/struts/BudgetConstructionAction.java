@@ -584,7 +584,27 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward deleteExpenditureLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete Expenditure Line");
+        BudgetConstructionDocument tDoc = tForm.getBudgetConstructionDocument();
+
+        boolean rulePassed = false;
+        int deleteIndex = this.getLineToDelete(request);
+
+        // check business rule if there is a persisted request amount, otherwise the line can just be removed
+        PendingBudgetConstructionGeneralLedger expLine = tDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(deleteIndex);
+        if (expLine.getPersistedAccountLineAnnualBalanceAmount() == null) {
+            rulePassed = true;
+        }
+        else {
+            // check deletion rules and delete if passed
+            String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES + "[" + deleteIndex + "]";
+            // rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DeletePendingBudgetGeneralLedgerLineEvent(errorPath, tDoc, expLine, false));
+        }
+
+        if (rulePassed) {
+            deletePBGLLine(false, tForm, deleteIndex);
+        }
+
+//        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete Expenditure Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

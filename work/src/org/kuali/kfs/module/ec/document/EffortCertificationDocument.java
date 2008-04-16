@@ -172,18 +172,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the employee.
      */
     public UniversalUser getEmployee() {
-        if (employee == null) {
-            try {
-                setEmployee(SpringContext.getBean(KfsUniversalUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid()));
-            }
-            catch (UserNotFoundException e) {
-                LOG.debug("Cannot find the employee." + e);
-                
-                // intentionally swallow the exception
-                setEmployee(null);
-            }
-        }
-        return employee;
+        return SpringContext.getBean(KfsUniversalUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
     }
 
     /**

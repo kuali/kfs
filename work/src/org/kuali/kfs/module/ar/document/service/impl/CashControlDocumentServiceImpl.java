@@ -46,11 +46,9 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.financial.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@Transactional
 public class CashControlDocumentServiceImpl implements CashControlDocumentService {
 
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;

@@ -325,4 +325,23 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             getPurchasingItemCapitalAssets().add(asset);
         }
     }
+    
+    /**
+     * Override the method in PurApItemBase so that if the item is
+     * not eligible to be displayed in the account summary tab,
+     * which is if the item is inactive, we'll return null and
+     * the item won't be added to the list of account summary.
+     * 
+     * @see org.kuali.module.purap.bo.PurApItemBase#getSummaryItem()
+     */
+    @Override
+    public PurApSummaryItem getSummaryItem() {
+        if (!this.itemActiveIndicator) {
+            return null;
+        }
+        else {
+            return super.getSummaryItem();
+        }
+    }
+
 }

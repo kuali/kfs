@@ -100,4 +100,24 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     public void setExtendedPrice(KualiDecimal extendedPrice) {
         this.extendedPrice = extendedPrice;
     }
+    
+    /**
+     * Override the method in PurApItemBase so that if the item is
+     * not eligible to be displayed in the account summary tab,
+     * which is if the item's extended price is null or zero, 
+     * we'll return null and the item won't be added
+     * to the list of account summary.
+     * 
+     * @see org.kuali.module.purap.bo.PurApItemBase#getSummaryItem()
+     */
+    @Override
+    public PurApSummaryItem getSummaryItem() {
+        if (extendedPrice == null || extendedPrice.intValue() == 0) {
+            return null;
+        }
+        else {
+            return super.getSummaryItem();
+        }
+    }
+
 }

@@ -321,10 +321,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 for (PurApAccountingLine purApAccountingLine : itemAccounts) {
                     if (purApAccountingLine.accountStringsAreEqual(summaryAccount.getAccount())) {
                         PurApSummaryItem summaryItem = item.getSummaryItem();
-                        summaryItem.setEstimatedEncumberanceAmount(purApAccountingLine.getAmount());
-                        summaryAccount.getItems().add(summaryItem);
-                        break;
+                        //If the summaryItem is null, it means the item is not eligible to
+                        //be displayed in the Account Summary tab. If it's not null then
+                        //we'll set the estimatedEncumberanceAmount and add the item to the
+                        //summaryAccount list to be displayed in the Account Summary tab.
+                        if (summaryItem != null) {
+                            summaryItem.setEstimatedEncumberanceAmount(purApAccountingLine.getAmount());
+                            summaryAccount.getItems().add(summaryItem);
+                            break;
+                        }
                     }
+
                 }
             }
             returnList.add(summaryAccount);

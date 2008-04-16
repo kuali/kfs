@@ -357,6 +357,4 @@ public class EffortCertificationDocumentRuleUtil {
             detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
         }
     }
-
-    // public static boolean
 }

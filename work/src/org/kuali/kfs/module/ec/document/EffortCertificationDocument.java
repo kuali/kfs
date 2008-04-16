@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -33,6 +34,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.KfsUniversalUserService;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
@@ -63,9 +65,9 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
     private Options options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
-    
+
     public Set routingSet;
- 
+
     /**
      * Default constructor.
      */
@@ -170,10 +172,18 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the employee.
      */
     public UniversalUser getEmployee() {
-        Map<String, Object> searchCriteria = new HashMap<String, Object>();
-        searchCriteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, getEmplid());
-
-        return new ArrayList<UniversalUser>(SpringContext.getBean(UniversalUserService.class).findUniversalUsers(searchCriteria)).get(0);
+        if (employee == null) {
+            try {
+                setEmployee(SpringContext.getBean(KfsUniversalUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid()));
+            }
+            catch (UserNotFoundException e) {
+                LOG.debug("Cannot find the employee." + e);
+                
+                // intentionally swallow the exception
+                setEmployee(null);
+            }
+        }
+        return employee;
     }
 
     /**
@@ -259,7 +269,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
         super.handleRouteStatusChange();
         SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
     }
-    
+
     /**
      * Gets the totalEffortPercent attribute.
      * 
@@ -678,26 +688,28 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
     public void setRoutingSet(Set routingSet) {
         this.routingSet = routingSet;
     }
-    public void populateRoutingSet(){
+
+    public void populateRoutingSet() {
         routingSet = new HashSet();
-        List <EffortCertificationDetail> detailLinesForRouting = getEffortCertificationDetailLines();
-        for (EffortCertificationDetail detailLine:detailLinesForRouting){
+        List<EffortCertificationDetail> detailLinesForRouting = getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine : detailLinesForRouting) {
             routingSet.add(new RoutingAccount(detailLine.getChartOfAccountsCode(), detailLine.getAccountNumber()));
             routingSet.add(new OrgReviewRoutingData(detailLine.getChartOfAccountsCode(), detailLine.getAccount().getOrganizationCode()));
         }
     }
-    
+
     @Override
     public void populateDocumentForRouting() {
         populateRoutingSet();
-        if (ObjectUtils.isNotNull(getTotalPayrollAmount())){
-            documentHeader.setFinancialDocumentTotalAmount(getTotalPayrollAmount()) ;
-        }else{
+        if (ObjectUtils.isNotNull(getTotalPayrollAmount())) {
+            documentHeader.setFinancialDocumentTotalAmount(getTotalPayrollAmount());
+        }
+        else {
             documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
         }
         super.populateDocumentForRouting();
     }
-    
+
 
     /**
      * Finds the list of unique object codes contained in this document
@@ -740,5 +752,3 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
         return;
     }
 }
-
-

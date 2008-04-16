@@ -38,6 +38,9 @@
 	<field name="subFundGroupDescription" class="java.lang.String"/>
 	<field name="baseFy" class="java.lang.String"/>
 	<field name="reqFy" class="java.lang.String"/>
+	<field name="objectCodes" class="java.lang.String"/>
+	<field name="financialObjectCodeName" class="java.lang.String"/>
+	<field name="deleteBox" class="java.lang.String"/>
 	<field name="personName" class="java.lang.String"/>
 	<field name="iuClassificationLevel" class="java.lang.String"/>
 	<field name="financialSubObjectCode" class="java.lang.String"/>
@@ -148,11 +151,11 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalAccountname}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="739"
+						x="715"
 						y="6"
-						width="26"
+						width="50"
 						height="12"
 						key="textField-37"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -326,7 +329,58 @@
 		<group  name="FinancialObjectCodeGroup" >
 			<groupExpression><![CDATA[$F{financialObjectCode}]]></groupExpression>
 			<groupHeader>
-			<band height="0"  isSplitAllowed="true" >
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="9"
+						y="0"
+						width="135"
+						height="12"
+						key="textField-219"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{body.ObjectCode}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="0"
+						width="42"
+						height="12"
+						key="textField-220"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{financialObjectCode}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="186"
+						y="0"
+						width="153"
+						height="12"
+						key="textField-221"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font fontName="Courier New" pdfFontName="Courier" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{financialObjectCodeName}]]></textFieldExpression>
+				</textField>
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -365,11 +419,11 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalObjectname}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="739"
+						x="715"
 						y="3"
-						width="26"
+						width="50"
 						height="12"
 						key="textField-146"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -956,7 +1010,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="655"
-						y="181"
+						y="180"
 						width="60"
 						height="0"
 						key="line-5"/>
@@ -965,7 +1019,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="716"
-						y="181"
+						y="180"
 						width="63"
 						height="0"
 						key="line-6"/>
@@ -982,9 +1036,9 @@
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="315"
+						x="293"
 						y="16"
-						width="52"
+						width="74"
 						height="12"
 						key="textField-13"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1111,7 +1165,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="126"
-						y="181"
+						y="180"
 						width="36"
 						height="1"
 						key="line-62"/>
@@ -1163,7 +1217,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="163"
-						y="181"
+						y="180"
 						width="29"
 						height="1"
 						key="line-64"/>
@@ -1380,7 +1434,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="548"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-75"/>
@@ -1406,7 +1460,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="502"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-76"/>
@@ -1432,7 +1486,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="456"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-77"/>
@@ -1458,7 +1512,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="423"
-						y="181"
+						y="180"
 						width="31"
 						height="1"
 						key="line-78"/>
@@ -1484,7 +1538,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="377"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-79"/>
@@ -1510,7 +1564,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="331"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-80"/>
@@ -1536,7 +1590,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="239"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-81"/>
@@ -1562,7 +1616,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="193"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-82"/>
@@ -1588,7 +1642,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="285"
-						y="181"
+						y="180"
 						width="45"
 						height="1"
 						key="line-83"/>
@@ -1683,7 +1737,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="594"
-						y="181"
+						y="180"
 						width="60"
 						height="0"
 						key="line-86"/>
@@ -1705,6 +1759,40 @@
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Grd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="9"
+						y="114"
+						width="103"
+						height="12"
+						key="textField-222"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Objects}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="114"
+						width="314"
+						height="12"
+						key="textField-223"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{objectCodes}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>
@@ -1765,7 +1853,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{amountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="716"
 						y="0"
@@ -2139,6 +2227,36 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{positionGradeDefault}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="9"
+						height="12"
+						key="textField-217"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{deleteBox}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="779"
+						y="0"
+						width="14"
+						height="12"
+						key="textField-218"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{percentSymbol}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
@@ -2162,7 +2280,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgLevelSummary}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgAccountFundingDetail}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2180,6 +2298,23 @@
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="579"
+						y="35"
+						width="213"
+						height="12"
+						key="textField-224"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.MarkedDelete}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageFooter>
@@ -2200,7 +2335,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgLevelSummary}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgAccountFundingDetail}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2218,6 +2353,23 @@
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="579"
+						y="40"
+						width="213"
+						height="12"
+						key="textField-225"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.MarkedDelete}]]></textFieldExpression>
 				</textField>
 			</band>
 		</lastPageFooter>

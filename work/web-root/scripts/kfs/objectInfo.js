@@ -315,3 +315,25 @@ function loadDocumentTypeInfo(documentTypeCodeFieldName, documentTypeNameFieldNa
 		DocumentTypeService.getDocumentTypeByCode( documentTypeCode, dwrReply );
     }
 }
+
+function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
+    var userId = DWRUtil.getValue( emplIdFieldName );
+    var containerDiv = document.getElementById(userNameFieldName + divSuffix);
+
+    if (userId == "") {
+        DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+    } else {
+        var dwrReply = {
+            callback:function(data) {
+            if ( data != null && typeof data == 'object' ) {
+                DWRUtil.setValue(containerDiv.id, data.personName, {escapeHtml:true} );
+            } else {
+                DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
+            } },
+            errorHandler:function( errorMessage ) { 
+                DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
+            }
+        };
+        KfsUniversalUserService.getUniversalUserByPersonPayrollIdentifier( userId, dwrReply );
+    }
+}

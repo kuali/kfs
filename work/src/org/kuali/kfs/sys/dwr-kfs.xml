@@ -37,5 +37,10 @@
 		</create>
 						
 	    <convert match="org.kuali.core.util.KualiDecimal" converter="kualinumber" />
+	    
+	    <create creator="spring" javascript="KfsUniversalUserService">
+	    	<param name="beanName" value="kfsUniversalUserService" />
+	    	<include method="getUniversalUserByPersonPayrollIdentifier" />
+	    </create>
 	</allow>
 </dwr>

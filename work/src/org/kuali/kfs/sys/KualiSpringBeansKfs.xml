@@ -378,4 +378,10 @@
     </bean>
     
     <bean id="reportGenerationService" class="org.kuali.kfs.service.impl.ReportGenerationServiceImpl" />
+    
+    <bean id="kfsUniversalUserService" class="org.kuali.kfs.service.impl.KfsUniversalUserServiceImpl">
+    	<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>	
+	</bean>
 </beans>

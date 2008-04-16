@@ -85,14 +85,14 @@
                    forceRequired="true"
                    />
                <td>
-                     <ld:employee userIdFieldName="emplid" 
+                     <kfs:employee userIdFieldName="emplid" 
                                  userNameFieldName="user.personName" 
                                  fieldConversions="personPayrollIdentifier:emplid"
                                  lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
                                  highlight="${addHighlighting}" readOnly="${disabled}" >
-                     </ld:employee>
+                     </kfs:employee>
                </td>
              </tr>
             

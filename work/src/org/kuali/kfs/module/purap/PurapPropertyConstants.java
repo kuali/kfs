@@ -122,4 +122,8 @@ public class PurapPropertyConstants {
     // Restricted Material
     public static final String WORKGROUP_NAME = "restrictedMaterialWorkgroupName";
     public static final String RESTRICTED_MATERIAL_CODE = "restrictedMaterialCode";
+    
+    //Assign Contract Manager
+    public static final String REQUISITION_IDENTIFIER = "requisitionIdentifier";
+    public static final String VENDOR_NAME = "vendorName";
 }

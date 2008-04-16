@@ -18,7 +18,6 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
@@ -38,11 +37,13 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private Integer requisitionIdentifier;
     private Integer contractManagerCode;
-
+    private String deliveryCampusCode;
+    private String vendorName;
+    
     private RequisitionDocument requisition;
     private ContractManager contractManager;
     private AssignContractManagerDocument assignContractManagerDocument;
-
+    
     private String createDate;
     
     /**
@@ -63,6 +64,8 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.assignContractManagerDocument = acmDocument;
         this.requisition = requisitionDocument;
         this.requisitionIdentifier = requisitionDocument.getPurapDocumentIdentifier();
+        this.deliveryCampusCode = requisitionDocument.getDeliveryCampusCode();
+        this.vendorName = requisitionDocument.getVendorName();
     }
 
     public String getDocumentNumber() {
@@ -170,6 +173,22 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         return (PurchasingItemBase)this.getRequisition().getItem(0);
     }
 
+    public String getDeliveryCampusCode() {
+        return deliveryCampusCode;
+    }
+
+    public void setDeliveryCampusCode(String deliveryCampusCode) {
+        this.deliveryCampusCode = deliveryCampusCode;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -181,4 +200,5 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         }
         return m;
     }
+    
 }

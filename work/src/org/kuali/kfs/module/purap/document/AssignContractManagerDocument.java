@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -30,6 +29,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -46,7 +46,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
-    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList();
+    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList<AssignContractManagerDetail>();
 
     // Not persisted (only for labels in tag)
     private String requisitionNumber;
@@ -104,6 +104,8 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
             assignContractManagerDetails.add(new AssignContractManagerDetail(this, req));
         }
 
+        String[] fieldNames = {PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapPropertyConstants.VENDOR_NAME, PurapPropertyConstants.REQUISITION_IDENTIFIER};
+        DynamicCollectionComparator.sort(assignContractManagerDetails, fieldNames);
         LOG.debug("populateDocumentWithRequisitions() Leaving method.");   
     }
 

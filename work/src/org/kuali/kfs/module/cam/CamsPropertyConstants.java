@@ -80,13 +80,13 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetLocation {
-        public static final String ASSET_LOCATION_CONTACT_NAME = "offCampusLocation.assetLocationContactName";
-        public static final String ASSET_LOCATION_STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
-        public static final String ASSET_LOCATION_CITY_NAME = "offCampusLocation.assetLocationCityName";
-        public static final String ASSET_LOCATION_STATE_CODE = "offCampusLocation.assetLocationStateCode";
-        public static final String ASSET_LOCATION_ZIP_CODE = "offCampusLocation.assetLocationZipCode";
-        public static final String ASSET_LOCATION_COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
-        public static final String ASSET_LOCATION_VERSION_NUM = "offCampusLocation.versionNumber";
+        public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
+        public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
+        public static final String CITY_NAME = "offCampusLocation.assetLocationCityName";
+        public static final String STATE_CODE = "offCampusLocation.assetLocationStateCode";
+        public static final String ZIP_CODE = "offCampusLocation.assetLocationZipCode";
+        public static final String COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
+        public static final String VERSION_NUM = "offCampusLocation.versionNumber";
     }
 
     public static class AssetHeader {

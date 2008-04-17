@@ -337,9 +337,20 @@
 	<property name="universalUserService">
 		<ref bean="universalUserService" />
 	</property>	
+    </bean>
     
-	</bean>
-	
+    <bean id="budgetConstructionMonthSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthSummaryReportServiceImpl">
+	<property name="budgetConstructionMonthSummaryReportDao">
+		<ref bean="budgetConstructionMonthSummaryReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    </bean>
+ 	
 	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountSummaryReportDaoJdbc">
 	</bean>
 	

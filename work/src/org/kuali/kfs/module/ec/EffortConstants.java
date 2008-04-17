@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.authorization.AuthorizationConstants.TransactionalEditMode;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
 
 /**
@@ -112,5 +113,15 @@ public class EffortConstants extends JstlConstants {
         public static final String EXPENSE_ENTRY = TransactionalEditMode.EXPENSE_ENTRY;
 
         public static final String PROJECT_ENTRY = "projectEntry";
+    }
+    
+    public static final List<String> DETAIL_LINES_CONSOLIDATION_FILEDS = getDetailLinesConsolidationFields();
+    private static final List<String> getDetailLinesConsolidationFields() {
+        List<String> comparableFields = new ArrayList<String>();
+        comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+
+        return comparableFields;
     }
 }

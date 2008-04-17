@@ -104,8 +104,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
             return false;
         }
-
-        if (detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
+        
+        List<String> comparableFields = EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS;
+        if (detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, comparableFields)) {
             reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_LINE_EXISTS);
             return false;
         }
@@ -314,21 +315,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         return hasValidFormat && hasValidReference;
     }
-
-    /**
-     * get the comparable fields of a detail line
-     * 
-     * @return the comparable fields of a detail line
-     */
-    private List<String> getComparableFields() {
-        List<String> comparableFields = new ArrayList<String>();
-        comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-
-        return comparableFields;
-    }
-
+    
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
      * 

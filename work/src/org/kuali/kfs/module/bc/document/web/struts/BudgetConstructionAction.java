@@ -53,6 +53,7 @@ import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.event.AddPendingBudgetGeneralLedgerLineEvent;
+import org.kuali.module.budget.rule.event.DeletePendingBudgetGeneralLedgerLineEvent;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
 
@@ -558,7 +559,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument tDoc = tForm.getBudgetConstructionDocument();
 
-        boolean rulePassed = false;
+        boolean rulePassed = true;
         int deleteIndex = this.getLineToDelete(request);
 
         // check business rule if there is a persisted request amount, otherwise the line can just be removed
@@ -569,7 +570,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         else {
             // check deletion rules and delete if passed
             String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_REVENUE_LINES + "[" + deleteIndex + "]";
-            // rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DeletePendingBudgetGeneralLedgerLineEvent(errorPath, tDoc, revLine, true));
+            rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DeletePendingBudgetGeneralLedgerLineEvent(errorPath, tDoc, revLine, true));
         }
 
         if (rulePassed) {
@@ -586,7 +587,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument tDoc = tForm.getBudgetConstructionDocument();
 
-        boolean rulePassed = false;
+        boolean rulePassed = true;
         int deleteIndex = this.getLineToDelete(request);
 
         // check business rule if there is a persisted request amount, otherwise the line can just be removed
@@ -597,7 +598,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         else {
             // check deletion rules and delete if passed
             String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES + "[" + deleteIndex + "]";
-            // rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DeletePendingBudgetGeneralLedgerLineEvent(errorPath, tDoc, expLine, false));
+            rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DeletePendingBudgetGeneralLedgerLineEvent(errorPath, tDoc, expLine, false));
         }
 
         if (rulePassed) {

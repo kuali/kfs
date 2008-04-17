@@ -86,5 +86,12 @@ public interface CashControlDocumentService {
      * @param cashControlDocument
      */
     public void saveGLPEs(CashControlDocument cashControlDocument);
+    
+    /**
+     * This method gets the lockbox number for the current CashControl document
+     * 
+     * @return the lockbox number
+     */
+    public String getLockboxNumber(CashControlDocument cashControlDocument); 
 
 }

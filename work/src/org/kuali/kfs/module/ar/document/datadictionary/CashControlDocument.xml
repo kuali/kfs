@@ -61,4 +61,24 @@
     <property name="summary" value="customerPaymentMediumCode" />
     <property name="description" value="customerPaymentMediumCode description..." />
   </bean>
+  
+  <!-- Exported Workflow Properties -->
+
+
+  <bean id="CashControlDocument-workflowProperties" parent="CashControlDocument-workflowProperties-parentBean" />
+
+  <bean id="CashControlDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="lockboxNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 </beans>

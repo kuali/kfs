@@ -27,7 +27,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
@@ -59,6 +58,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private SystemInformationService systemInformationService;
     private DocumentTypeService documentTypeService;
     private ChartService chartService;
+    private UniversityDateService universityDateService;
 
     /**
      * @see org.kuali.module.ar.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
@@ -129,7 +129,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         AccountingLine accountingLine = null;
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cashControlDocument.getGeneralLedgerPostingHelper();
 
         // get accounts receivable document header to get processing chart of accounts and organization
@@ -146,7 +146,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         }
 
         // get current year options
-        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        Options options = optionsService.getCurrentYearOptions();
 
         // build an accounting line that will be used to create the glpe
         accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
@@ -169,7 +169,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         AccountingLine accountingLine = null;
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cashControlDocument.getGeneralLedgerPostingHelper();
 
         // get the accounts receivable document header to get the processing chart of accounts code and organization
@@ -222,7 +222,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
 
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cashControlDocument.getGeneralLedgerPostingHelper();
         AccountingLine accountingLine = null;
 
@@ -257,6 +257,20 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
 
         return success;
+    }
+    
+    /**
+     * @see org.kuali.module.ar.service.CashControlDocumentService#getLockboxNumber(org.kuali.module.ar.document.CashControlDocument)
+     */
+    public String getLockboxNumber(CashControlDocument cashControlDocument) {
+        
+        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
+        String chartOfAccountsCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, chartOfAccountsCode, processingOrgCode);
+
+        return systemInformation.getLockboxNumber();
+        
     }
 
     /**
@@ -349,6 +363,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         return success;
     }
+    
+
 
     /**
      * This method gets the system information servcie
@@ -477,4 +493,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+
 }

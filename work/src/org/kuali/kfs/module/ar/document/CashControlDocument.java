@@ -22,6 +22,7 @@ import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.PaymentMedium;
 import org.kuali.module.ar.service.CashControlDocumentService;
+import org.kuali.module.ar.service.impl.CashControlDocumentServiceImpl;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.service.UniversityDateService;
 
@@ -427,6 +428,12 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
             generalLedgerPendingEntries.add(new GeneralLedgerPendingEntry());
         }
         return generalLedgerPendingEntries.get(index);
+    }
+    
+    public String getLockboxNumber()
+    {
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        return cashControlDocumentService.getLockboxNumber(this);
     }
 
 }

@@ -188,8 +188,9 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         orgAccountObjectDetailReportEntry.setConsHdr("");
 
         // For group
-        orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber());
+        orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber() + accountBalance.getAccountNumber());
         orgAccountObjectDetailReportEntry.setFinancialObjectCode(accountBalance.getFinancialObjectCode());
+        orgAccountObjectDetailReportEntry.setFinancialSubObjectCode(accountBalance.getFinancialSubObjectCode());
         //orgAccountObjectDetailReportEntry.setFinancialObjectLevelCode(accountBalance.getFinancialObjectLevelCode());
         orgAccountObjectDetailReportEntry.setIncomeExpenseCode(accountBalance.getIncomeExpenseCode());
         //orgAccountObjectDetailReportEntry.setFinancialConsolidationSortCode(accountBalance.getFinancialConsolidationSortCode());
@@ -372,8 +373,8 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         
-        for (BudgetConstructionOrgAccountObjectDetailReportTotal subFundTotal : accountObjectDetailAccountTotalList) {
-            if (isSameAccountObjectDetailEntryForAccountTotal(accountBalance, subFundTotal.getBudgetConstructionAccountBalance())) {
+        for (BudgetConstructionOrgAccountObjectDetailReportTotal subFundTotal : accountObjectDetailSubFundTotalList) {
+            if (isSameAccountObjectDetailEntryForSubFundTotal(accountBalance, subFundTotal.getBudgetConstructionAccountBalance())) {
                 
                 orgObjectSummaryReportEntry.setSubFundRevenueFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setSubFundRevenueAccountLineAnnualBalanceAmount(subFundTotal.getSubFundRevenueAccountLineAnnualBalanceAmount());
@@ -828,7 +829,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     
     
     private boolean isSameAccountObjectDetailEntryForObject(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (isSameAccountObjectDetailEntryForLevel(firstBcab, secondBcab) && firstBcab.getFinancialObjectCode().equals(secondBcab.getFinancialObjectCode())) {
+        if (isSameAccountObjectDetailEntryForLevel(firstBcab, secondBcab) && firstBcab.getFinancialObjectCode().equals(secondBcab.getFinancialObjectCode()) && firstBcab.getFinancialSubObjectCode().equals(secondBcab.getFinancialSubObjectCode())) {
             return true;
         }
         else
@@ -855,7 +856,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     }
     
     private boolean isSameAccountObjectDetailEntryForAccountTotal(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (firstBcab.getOrganizationChartOfAccountsCode().equals(secondBcab.getOrganizationChartOfAccountsCode()) && firstBcab.getOrganizationCode().equals(secondBcab.getOrganizationCode()) && firstBcab.getSubAccountNumber().equals(secondBcab.getSubAccountNumber())) {
+        if (firstBcab.getChartOfAccountsCode().equals(secondBcab.getChartOfAccountsCode()) && firstBcab.getAccountNumber().equals(secondBcab.getAccountNumber()) && firstBcab.getSubAccountNumber().equals(secondBcab.getSubAccountNumber())) {
             return true;
         }
 

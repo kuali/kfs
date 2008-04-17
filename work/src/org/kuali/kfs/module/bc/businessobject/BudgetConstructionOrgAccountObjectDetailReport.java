@@ -67,6 +67,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private String incomeExpenseCode;
     private String financialLevelSortCode;
     private String financialObjectCode;
+    private String financialSubObjectCode;
    
     
     // Body parts
@@ -1142,6 +1143,14 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     public void setFinancialLevelSortCode(String financialLevelSortCode) {
         this.financialLevelSortCode = financialLevelSortCode;
+    }
+
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
     }
 
 }

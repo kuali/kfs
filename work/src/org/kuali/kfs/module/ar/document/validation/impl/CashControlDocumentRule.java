@@ -37,12 +37,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.OrganizationOptions;
+import org.kuali.module.ar.bo.PaymentMedium;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.AddCashControlDetailRule;
 import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
 import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
-import org.kuali.module.ar.service.PaymentMediumService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
@@ -169,9 +169,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
 
-        PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("customerPaymentMediumCode", paymentMediumCode);
 
-        if (null == service.getByPrimaryKey(paymentMediumCode)) {
+        PaymentMedium paymentMedium = (PaymentMedium) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentMedium.class, criteria);
+
+        if (paymentMedium == null) {
             GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;
         }

@@ -408,11 +408,11 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     public boolean isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         
-        KualiDecimal amount = customerInvoiceDetail.getAmount();
+        KualiDecimal unitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
         boolean isDiscountLine = customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber() );
 
      // amount == 0 or amount < 0
-        if (ObjectUtils.isNull(amount) || KualiDecimal.ZERO.compareTo(amount) == 0 || ( KualiDecimal.ZERO.compareTo(amount) > 0 && !isDiscountLine  ) ) { 
+        if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.compareTo(unitPrice) == 0 || ( KualiDecimal.ZERO.compareTo(unitPrice) > 0 && !isDiscountLine  ) ) { 
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
@@ -427,10 +427,9 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     public boolean isCustomerInvoiceDetailItemQuantityGreaterThanZero(CustomerInvoiceDetail customerInvoiceDetail) {
 
-        BigDecimal amount = customerInvoiceDetail.getInvoiceItemQuantity();
+        BigDecimal quantity = customerInvoiceDetail.getInvoiceItemQuantity();
 
-        //amount == 0 or amount < 0
-        if (ObjectUtils.isNull(amount) || BigDecimal.ZERO.compareTo(amount) == 0 || BigDecimal.ZERO.compareTo(amount) > 0) { 
+        if (ObjectUtils.isNull(quantity) || BigDecimal.ZERO.compareTo(quantity) == 0 || BigDecimal.ZERO.compareTo(quantity) > 0) { 
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }

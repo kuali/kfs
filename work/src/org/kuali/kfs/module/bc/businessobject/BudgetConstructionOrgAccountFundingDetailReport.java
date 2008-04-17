@@ -52,7 +52,8 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String baseFy;
     private String reqFy;
     private String objectCodes;
-        
+    private String numberAndNameForAccountSubAccount;
+    
     // Groups
     private String accountNumber;
     private String subAccountNumber;
@@ -747,5 +748,14 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     public void setObjectCodes(String objectCodes) {
         this.objectCodes = objectCodes;
     }
+
+    public String getNumberAndNameForAccountSubAccount() {
+        return numberAndNameForAccountSubAccount;
+    }
+
+    public void setNumberAndNameForAccountSubAccount(String numberAndNameForAccountSubAccount) {
+        this.numberAndNameForAccountSubAccount = numberAndNameForAccountSubAccount;
+    }
+
 
 }

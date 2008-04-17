@@ -139,6 +139,14 @@ public class CamsConstants {
         public static final String AUCTION = "A";
         public static final String MERGED = "M";
     }
+    
+    public static class RetirementLabel {
+        public static final String BUYER_DESCRIPTION="Buyer Description";
+        public static final String SALE_PRICE="Sale Price";
+        public static final String RETIREMENT_INSTITUTION_NAME="Retirement Institution Name";
+        public static final String PAID_CASE_NUMBER="Police Case Number";
+        public static final String MERGED_TARGET_CAPITAL_ASSET_NUMBER="Merged Target Capital Asset Number";
+    }
 
     public static class Asset {
         public static final String SECTION_ID_FABRICATION_INFORMATION = "fabricationInformation";

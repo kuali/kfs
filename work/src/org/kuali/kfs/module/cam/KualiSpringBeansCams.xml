@@ -296,5 +296,5 @@
     <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.CamsGeneralLedgerPendingEntryGenerationProcess">
     	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
     </bean>
-    
+    <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl" />
 </beans>

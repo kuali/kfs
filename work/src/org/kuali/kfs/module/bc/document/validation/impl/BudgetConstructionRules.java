@@ -51,12 +51,13 @@ import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.AddPendingBudgetGeneralLedgerLineRule;
+import org.kuali.module.budget.rule.DeletePendingBudgetGeneralLedgerLineRule;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 
-public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger> {
+public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRules.class);
 
     // some services used here - other service refs are from parent classes
@@ -217,7 +218,55 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         return isValid;
     }
 
+    /**
+     * Runs rules for deleting an existing revenue or expenditure line.
+     * 
+     * @param budgetConstructionDocument
+     * @param pendingBudgetConstructionGeneralLedger
+     * @param isRevenue
+     * @return
+     */
+    public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue){
+        LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() start");
 
+        ErrorMap errors = GlobalVariables.getErrorMap();
+        boolean isValid = true;
+        Class docClass = budgetConstructionDocument.getClass();
+
+        // TODO move this to a method and replace with a call
+        // get the system parameters we will use here
+        fringeBenefitDesignatorCodesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
+
+        // no delete allowed if base exists, the delete button shouldn't even exist in this case, but checking anyway
+        if (pendingBudgetConstructionGeneralLedger.getFinancialBeginningBalanceLineAmount().isZero()){
+            isValid &= true;
+        } else {
+            isValid &= false;
+            String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_WITH_BASE, pkeyVal);
+        }
+
+        if (!isRevenue){
+            // no lines using fringe benefit target object codes allowed to be manually deleted by user
+            // the lines are created by benefits calculation process
+            // again the delete button shouldn't even exist
+            isValid &= isNotFringeBenefitObject(fringeBenefitDesignatorCodesParamValues, pendingBudgetConstructionGeneralLedger, errors, false);
+            
+            // no deletion if salary detail line and detail recs exist
+            if (pendingBudgetConstructionGeneralLedger.getLaborObject() != null){
+                if (pendingBudgetConstructionGeneralLedger.getLaborObject().isDetailPositionRequiredIndicator()){
+                    if (pendingBudgetConstructionGeneralLedger.isPendingBudgetConstructionAppointmentFundingExists()){
+                        isValid &= false;
+                        String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_SALARY_DETAIL, pkeyVal);
+                    }
+                }
+            }
+        }
+        
+        LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() end");
+        return isValid;
+    }
     /**
      * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero and runs business rules on the line.
      * 

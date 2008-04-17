@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiSubFundGroupAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>SubFund Group Routing</label>
       <description>SubFund Group Both Accounting Lines Routing</description>
       <type>RuleXmlAttribute</type>
@@ -15,7 +15,7 @@
           <validation required="true" />
           <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(null)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account/subFundGroupCode') = wf:ruledata('subFundGroupCode') or wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/account/subFundGroupCode') = wf:ruledata('subFundGroupCode') or wf:xstreamsafe('//kfs_targetAccountingLineClass/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>

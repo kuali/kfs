@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiOverrideCodeSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Override Code Source Line</label>
       <description>Override Code Source Accounting Line</description>
       <type>RuleXmlAttribute</type>
@@ -14,7 +14,7 @@
           </display>
           <validation required="true" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/overrideCode') = wf:ruledata('overrideCode')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/overrideCode') = wf:ruledata('overrideCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>

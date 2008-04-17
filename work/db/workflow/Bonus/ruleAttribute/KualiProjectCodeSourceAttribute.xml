@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiProjectCodeSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Project Code Source Routing</label>
       <description>Project Code Source Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>
@@ -15,7 +15,7 @@
           <validation required="true" />
           <quickfinder appliesTo="projectCode" draw="true" service="workflow-org.kuali.module.chart.bo.ProjectCode-Lookupable(workflow-code:projectCode)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/projectCode') = wf:ruledata('projectCode')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/projectCode') = wf:ruledata('projectCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>

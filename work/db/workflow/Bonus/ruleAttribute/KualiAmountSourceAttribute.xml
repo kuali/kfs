@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiAmountSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Amount Source Line Routing</label>
       <description>Total Dollar Amount Source Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>
@@ -15,7 +15,7 @@
           <validation required="false" />
           <fieldEvaluation>
             <xpathexpression>string-length(wf:ruledata('maxDollarAmount')) = 0 or
-                                sum(wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value')) &lt;= wf:ruledata('maxDollarAmount')</xpathexpression>
+                                sum(wf:xstreamsafe('//kfs_sourceAccountingLineClass/amount/value')) &lt;= wf:ruledata('maxDollarAmount')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
         <fieldDef name="minDollarAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
@@ -25,7 +25,7 @@
           <validation required="false" />
           <fieldEvaluation>
             <xpathexpression>string-length(wf:ruledata('minDollarAmount')) = 0 or 
-                                sum(wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value')) &gt;= wf:ruledata('minDollarAmount')</xpathexpression>
+                                sum(wf:xstreamsafe('//kfs_sourceAccountingLineClass/amount/value')) &gt;= wf:ruledata('minDollarAmount')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
         <fieldDef name="totalDollarAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="REPORT">
@@ -39,11 +39,11 @@
           </fieldEvaluation>
         </fieldDef>
         <xmlDocumentContent>
-          <org.kuali.core.bo.SourceAccountingLine>
+          <kfs_sourceAccountingLineClass>
             <amount>
               <value>%totaldollarAmount%</value>
             </amount>
-          </org.kuali.core.bo.SourceAccountingLine>
+          </kfs_sourceAccountingLineClass>
         </xmlDocumentContent>
       </routingConfig>
     </ruleAttribute>

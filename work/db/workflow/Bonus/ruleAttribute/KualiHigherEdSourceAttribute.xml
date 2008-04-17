@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiHigherEdSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Higher Education Source Line</label>
       <description>Higher Education Function Code Source Accounting Line</description>
       <type>RuleXmlAttribute</type>
@@ -15,7 +15,7 @@
           <validation required="true" />
           <quickfinder appliesTo="financialHigherEdFunctionCd" draw="true" service="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable(null)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account/financialHigherEdFunctionCd') = wf:ruledata('financialHigherEdFunctionCd')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/account/financialHigherEdFunctionCd') = wf:ruledata('financialHigherEdFunctionCd')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>

@@ -33,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
     
     private BusinessObjectService businessObjectService;

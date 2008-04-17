@@ -15,20 +15,25 @@
  */
 package org.kuali.module.ar.document.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
@@ -114,10 +119,16 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
         String chartCode = chartUser.getChartOfAccountsCode();
         String orgCode = chartUser.getUserOrganizationCode();
-        OrganizationOptionsService service = SpringContext.getBean(OrganizationOptionsService.class);
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", chartCode);
+        criteria.put("organizationCode", orgCode);
+        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        
         KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
 
-        if (null == service.getByPrimaryKey(chartCode, orgCode)) {
+        //if organization doesn't exist
+        if (ObjectUtils.isNull(organizationOptions)) {
             throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
 
         }

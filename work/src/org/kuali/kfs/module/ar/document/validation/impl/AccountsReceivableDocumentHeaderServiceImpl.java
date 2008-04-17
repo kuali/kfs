@@ -15,27 +15,35 @@
  */
 package org.kuali.module.ar.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsReceivableDocumentHeaderService {
-    
-    private OrganizationOptionsService organizationOptionsService;
+
+    private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService#getNewAccountsReceivableDocumentHeader(java.lang.String, java.lang.String)
+     * @see org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService#getNewAccountsReceivableDocumentHeader(java.lang.String,
+     *      java.lang.String)
      */
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String chartOfAccountsCode, String organizationCode) {
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.put("organizationCode", organizationCode);
+        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
         
-        OrganizationOptions organizationOptions = organizationOptionsService.getByPrimaryKey(chartOfAccountsCode, organizationCode);
-        if( organizationOptions != null ){
+        if (organizationOptions != null) {
             accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(organizationOptions.getProcessingChartOfAccountCode());
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(organizationOptions.getProcessingOrganizationCode());
         }
@@ -51,12 +59,12 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
         return getNewAccountsReceivableDocumentHeader(currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
 
-    public OrganizationOptionsService getOrganizationOptionsService() {
-        return organizationOptionsService;
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
-    public void setOrganizationOptionsService(OrganizationOptionsService organizationOptionsService) {
-        this.organizationOptionsService = organizationOptionsService;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

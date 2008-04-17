@@ -66,28 +66,13 @@
 	</bean>
 
 	<!--  AR DAOs  -->
-	<bean id="organizationAccountingDefaultDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationAccountingDefaultDaoOjb" />
-	<bean id="organizationOptionsDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationOptionsDaoOjb" />
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerDaoOjb" />
-	<bean id="customerInvoiceItemCodeDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerInvoiceItemCodeDaoOjb" />
 	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.SystemInformationDaoOjb" />
 	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.LockboxDaoOjb" />
 	<bean id="customerPaymentMediumDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.PaymentMediumDaoOjb"/>
 	
 	<!--  AR Services  -->
 	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
-
-	<bean id="organizationAccountingDefaultService" class="org.kuali.module.ar.service.impl.OrganizationAccountingDefaultServiceImpl">
-		<property name="organizationAccountingDefaultDao">
-			<ref bean="organizationAccountingDefaultDao" />
-		</property>
-	</bean>
-	
-	<bean id="organizationOptionsService" class="org.kuali.module.ar.service.impl.OrganizationOptionsServiceImpl">
-		<property name="organizationOptionsDao">
-			<ref bean="organizationOptionsDao" />
-		</property>
-	</bean>
 	
 	<bean id="systemInformationService" class="org.kuali.module.ar.service.impl.SystemInformationServiceImpl">
 		<property name="systemInformationDao">
@@ -102,40 +87,29 @@
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDetailServiceImpl">
-		<property name="organizationAccountingDefaultService">
-			<ref bean="organizationAccountingDefaultService" />
-		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>		
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>			
-		<property name="customerInvoiceItemCodeService">
-			<ref bean="customerInvoiceItemCodeService" />
-		</property>
-		<property name="systemInformationService">
-			<ref bean="systemInformationService" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>		
 	</bean>	
 	
 	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.module.ar.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
-		<property name="organizationOptionsService">
-			<ref bean="organizationOptionsService" />
-		</property>					
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
 	</bean>	
 	
+	<!-- Used for DWR call to get Customer Name -->
 	<bean id="customerService" class="org.kuali.module.ar.service.impl.CustomerServiceImpl">
 		<property name="customerDao">
 			<ref bean="customerDao" />
 		</property>
 	</bean>	
-	
-	<bean id="customerInvoiceItemCodeService" class="org.kuali.module.ar.service.impl.CustomerInvoiceItemCodeServiceImpl">
-		<property name="customerInvoiceItemCodeDao">
-			<ref bean="customerInvoiceItemCodeDao" />
-		</property>
-	</bean>		
 	
     <bean id="paymentMediumService" class="org.kuali.module.ar.service.impl.PaymentMediumServiceImpl">
 		<property name="customerPaymentMediumDao">

@@ -15,9 +15,12 @@
  */
 package org.kuali.module.ar.lookup.valuefinder;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.ar.service.OrganizationAccountingDefaultService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -30,11 +33,14 @@ public class OrganizationAccountingDefaultValueFinderBase {
      * Constructs a OrganizationAccountingDefaultValueFinderBase.  Sets the OrganizationAccountingDefault BO based on current
      * year, current users chart of account code, and current users organization code
      */
-    public OrganizationAccountingDefaultValueFinderBase(){
-        OrganizationAccountingDefaultService service = (SpringContext.getBean(OrganizationAccountingDefaultService.class));
-        
+    public OrganizationAccountingDefaultValueFinderBase(){        
         Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
-        organizationAccountingDefault = service.getByPrimaryKey(currentUniversityFiscalYear, chartUser.getChartOfAccountsCode(), chartUser.getOrganizationCode());
+
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", currentUniversityFiscalYear);
+        criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
+        criteria.put("organizationCode",  chartUser.getOrganizationCode());
+        organizationAccountingDefault = (OrganizationAccountingDefault)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);                
     }
 }

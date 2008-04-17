@@ -15,16 +15,20 @@
  */
 package org.kuali.module.ar.rules;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -32,12 +36,12 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.AddCashControlDetailRule;
 import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
 import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
-import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.ar.service.PaymentMediumService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
@@ -245,9 +249,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         ChartUser user = ValueFinderUtil.getCurrentChartUser();
         String chartCode = user.getChartOfAccountsCode();
         String orgCode = user.getUserOrganizationCode();
-        OrganizationOptionsService service = SpringContext.getBean(OrganizationOptionsService.class);
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", chartCode);
+        criteria.put("organizationCode", orgCode);
+        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
-        if (null == service.getByPrimaryKey(chartCode, orgCode)) {
+        if (ObjectUtils.isNull( organizationOptions )) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
             isValid = false;
         }

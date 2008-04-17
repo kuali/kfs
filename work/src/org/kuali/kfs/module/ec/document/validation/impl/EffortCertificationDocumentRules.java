@@ -112,7 +112,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if(detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
+        if (detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
             reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_LINE_EXISTS);
             return false;
         }
@@ -294,28 +294,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * check if the required attributes have values
-     * 
-     * @param detailLine the given detail line
-     * @return true if the the required attributes have values; otherwise, false
-     */
-    private boolean checkRequiredAttributes(EffortCertificationDetail detailLine) {
-        boolean isValid = true;
-
-        if (StringUtils.isBlank(detailLine.getAccountNumber())) {
-            reportError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_MISSING);
-            isValid = false;
-        }
-
-        if (StringUtils.isBlank(detailLine.getChartOfAccountsCode())) {
-            reportError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_MISSING);
-            isValid = false;
-        }
-
-        return true;
-    }
-
-    /**
      * check if the attributes in the detail line are valid for the defintions in data dictionary and have valid references
      * 
      * @param detailLine the given effort certification detail line
@@ -354,10 +332,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        
+
         return comparableFields;
     }
-    
+
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
      * 

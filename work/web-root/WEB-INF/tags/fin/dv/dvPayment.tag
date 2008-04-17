@@ -60,7 +60,6 @@
                   <br><br>
                 </c:if>
                 <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeEmployeeCode}"/> &nbsp; <html:hidden write="true" property="document.dvPayeeDetail.disbVchrPayeeEmployeeCode" />  <br><br>
-                <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.dvPayeeRevolvingFundCode}"/> &nbsp; <html:hidden write="true" property="document.dvPayeeDetail.dvPayeeRevolvingFundCode" /> <br>
               </td>  
               <th width="20%"  class="bord-l-b"><div align="right">Other Considerations: </div></th>
               <td width="30%"  class="datacell">

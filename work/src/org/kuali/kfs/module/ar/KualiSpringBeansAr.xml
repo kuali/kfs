@@ -98,6 +98,15 @@
 		</property>		
 	</bean>	
 	
+	<bean id="invoicePaidAppliedService" class="org.kuali.module.ar.service.impl.InvoicePaidAppliedServiceImpl">
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>			
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+	</bean>		
+	
 	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.module.ar.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

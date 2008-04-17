@@ -3,10 +3,12 @@ package org.kuali.module.ar.document;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.document.Copyable;
@@ -23,8 +25,10 @@ import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
+import org.kuali.module.ar.bo.InvoicePaidApplied;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
@@ -34,6 +38,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -1056,6 +1061,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
+            
+            //save invoice paid applied lines
+            //TODO maybe this should be done somewhere else? should there be a list of discount lines??
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidAppliedForDiscounts(getSourceAccountingLines());
         } 
     }
     
@@ -1099,7 +1108,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             Integer discLineNum = customerInvoiceDetail.getInvoiceItemDiscountLineNumber();
             
             //check if sequence number is referenced as a discount line for another customer invoice detail (i.e. the parent line)
-            if( discLineNum != null && sequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
+            if( ObjectUtils.isNotNull(discLineNum) && sequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
                 return true;
             }
         }
@@ -1122,7 +1131,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
             Integer discLineNum = customerInvoiceDetail.getInvoiceItemDiscountLineNumber();
-            if( discLineNum != null && discountSequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
+            if( ObjectUtils.isNotNull(discLineNum) && discountSequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
                 return customerInvoiceDetail;
             }
         }

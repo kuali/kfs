@@ -41,7 +41,7 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        Map editModeMap = super.getEditMode(document, user);
+        Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){

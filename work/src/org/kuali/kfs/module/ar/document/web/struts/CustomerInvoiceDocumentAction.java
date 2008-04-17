@@ -46,8 +46,8 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     /**
      * Called when customer invoice document is initiated.
      * 
-     * Makes a call to parent's createDocument method, but also defaults values for customer invoice document.
-     * Line which inserts Customer Invoice Detail (i.e. insertSourceLine) has its values defaulted by 
+     * Makes a call to parent's createDocument method, but also defaults values for customer invoice document. Line which inserts
+     * Customer Invoice Detail (i.e. insertSourceLine) has its values defaulted by
      * CustomerInvoiceDocumentForm.createNewSourceAccountingLine()
      * 
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
@@ -85,13 +85,13 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         CustomerInvoiceDetail newCustomerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
-        
+
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(newCustomerInvoiceDetail.getInvoiceItemCode());
-        if( loadedCustomerInvoiceDetail == null ){
-            loadedCustomerInvoiceDetail = (CustomerInvoiceDetail)customerInvoiceDocumentForm.getNewSourceLine();
+        if (loadedCustomerInvoiceDetail == null) {
+            loadedCustomerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
         }
-        
+
         customerInvoiceDocumentForm.setNewSourceLine(loadedCustomerInvoiceDetail);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -121,9 +121,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
         if (rulePassed) {
-            
-            //if line is supposed to be a discount line, make sure you set the amount to negative
-            if( customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber() )){
+
+            // if line is supposed to be a discount line, make sure you set the amount to negative
+            if (customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber(customerInvoiceDetail.getSequenceNumber())) {
                 customerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
             }
             customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
@@ -131,8 +131,8 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    
+
+
     /**
      * This method is used for inserting a discount line based on a selected source line.
      * 
@@ -151,18 +151,18 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         int index = getSelectedLine(request);
         CustomerInvoiceDetail parentCustomerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocument.getSourceAccountingLine(index);
 
-        //document.sourceAccountingLine[0].invoiceItemUnitPrice
+        // document.sourceAccountingLine[0].invoiceItemUnitPrice
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + index + "]";
 
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DiscountCustomerInvoiceDetailEvent(errorPath, customerInvoiceDocumentForm.getDocument(), parentCustomerInvoiceDetail));
         if (rulePassed) {
-            
+
             CustomerInvoiceDetail discountCustomerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getDiscountCustomerInvoiceDetailForCurrentYear(parentCustomerInvoiceDetail);
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(discountCustomerInvoiceDetail);
             insertAccountingLine(true, customerInvoiceDocumentForm, discountCustomerInvoiceDetail);
-            
-            //also set parent customer invoice detail line to have discount line seq number
+
+            // also set parent customer invoice detail line to have discount line seq number
             parentCustomerInvoiceDetail.setInvoiceItemDiscountLineNumber(discountCustomerInvoiceDetail.getSequenceNumber());
         }
 
@@ -182,10 +182,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
-        
-        //make sure amount is up to date before rules
+
+        // make sure amount is up to date before rules
         customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
-        
+
         boolean rulePassed = true;
         // check any business rules
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
@@ -204,29 +204,32 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    
+
+
     /**
      * Overriding execute to mark customer invoice detail lines as discounts if a parent line exists
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        
-        CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm)form).getCustomerInvoiceDocument();
-        
-        //set all invoice detail discount boolean to true if it the line has a parent line
-        customerInvoiceDocument.setLinesToDiscountBasedOnParentLine();
-        
-        return forward;
+        try {
+            ActionForward forward = super.execute(mapping, form, request, response);
+            return forward;
+        }
+        finally {
+            // set all invoice detail discount boolean to true if it the line has a parent line even if an exception is thrown.
+            CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
+            customerInvoiceDocument.setLinesToDiscountBasedOnParentLine();
+        }
+
     }
-    
-    
+
+
     /**
-     * Overrides method to delete accounting line.  If line to be deleted has a corresponding discount line, the corresponding discount
-     * line is also deleted.  If the line to be delete is a discount line, set the reference for the parent to null
+     * Overrides method to delete accounting line. If line to be deleted has a corresponding discount line, the corresponding
+     * discount line is also deleted. If the line to be delete is a discount line, set the reference for the parent to null
      * 
      * @param isSource
      * @param financialDocumentForm
@@ -234,24 +237,25 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      */
     @Override
     protected void deleteAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, int deleteIndex) {
-        
-        CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm)financialDocumentForm).getCustomerInvoiceDocument();
-        
-        //if line to delete is a discount parent discountLine, remove discount line too
-        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)customerInvoiceDocument.getSourceAccountingLine(deleteIndex);
-        if( customerInvoiceDetail.isDiscountLineParent() ){
-            customerInvoiceDocument.removeDiscountLineBasedOnParentLineIndex(deleteIndex);
-        } else if( customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber()) ) {
 
-            //if line to delete is a discount line, set discount line reference for parent to null
-            CustomerInvoiceDetail parentCustomerInvoiceDetail = customerInvoiceDocument.getParentLineBasedOnDiscountSequenceNumber( customerInvoiceDetail.getSequenceNumber() );
-            if( ObjectUtils.isNotNull( parentCustomerInvoiceDetail  ) ){
+        CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) financialDocumentForm).getCustomerInvoiceDocument();
+
+        // if line to delete is a discount parent discountLine, remove discount line too
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocument.getSourceAccountingLine(deleteIndex);
+        if (customerInvoiceDetail.isDiscountLineParent()) {
+            customerInvoiceDocument.removeDiscountLineBasedOnParentLineIndex(deleteIndex);
+        }
+        else if (customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber(customerInvoiceDetail.getSequenceNumber())) {
+
+            // if line to delete is a discount line, set discount line reference for parent to null
+            CustomerInvoiceDetail parentCustomerInvoiceDetail = customerInvoiceDocument.getParentLineBasedOnDiscountSequenceNumber(customerInvoiceDetail.getSequenceNumber());
+            if (ObjectUtils.isNotNull(parentCustomerInvoiceDetail)) {
                 parentCustomerInvoiceDetail.setInvoiceItemDiscountLineNumber(null);
             }
         }
-        
-        //delete line like normal
+
+        // delete line like normal
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
-        
-    }    
+
+    }
 }

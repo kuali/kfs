@@ -20,7 +20,8 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
-<%@ attribute name="readOnly" required="true" description="Controlls if values should be read only" %>
+<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
+<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 
 <%-- hidden attribute for document number since it isn't displayed--%>
 <html:hidden property="document.accountsReceivableDocumentHeader.documentNumber" />

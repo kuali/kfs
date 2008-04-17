@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -24,7 +25,6 @@ import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
@@ -894,9 +894,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         }
         setWriteoffIndicator(true);
         
-        OrganizationOptionsService orgOptionsService = SpringContext.getBean(OrganizationOptionsService.class);
-        OrganizationOptions orgOption = orgOptionsService.getByPrimaryKey(billByChartOfAccountCode, billedByOrganizationCode);
-        setPrintInvoiceIndicator(orgOption.getPrintInvoiceIndicator());
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", billByChartOfAccountCode);
+        criteria.put("organizationCode", billedByOrganizationCode);
+        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        
+        setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
         setOpenInvoiceIndicator(true);
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -934,10 +938,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 	 * This method sets the invoice terms text from whatever is currently set in organization options
 	 */
 	public void setInvoiceTermsText(ChartUser currentUser){
-        OrganizationOptionsService organizationOptionsService = SpringContext.getBean(OrganizationOptionsService.class);
-        OrganizationOptions orgOptions = organizationOptionsService.getByPrimaryKey(currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
-        if( orgOptions != null ){
-            setInvoiceTermsText(orgOptions.getOrganizationPaymentTermsText());
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
+        criteria.put("organizationCode", currentUser.getOrganizationCode());
+        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        if( organizationOptions != null ){
+            setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
         }
 	}
 
@@ -985,7 +991,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
     
     
-    
+    /**
+     * This method returns true if this document is a reversal for another document
+     * @return
+     */
+    public boolean isInvoiceReversal(){
+        return ObjectUtils.isNotNull(documentHeader.getFinancialDocumentInErrorNumber());
+    }
     
     /**
      * 
@@ -993,7 +1005,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        return ((CustomerInvoiceDetail)postable).isReceivableIndicator();
+        return ((CustomerInvoiceDetail)postable).isDebit();
     }
     
     /**

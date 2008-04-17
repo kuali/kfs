@@ -15,33 +15,26 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
-
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CustomerInvoiceDocument"
 	htmlFormAction="arCustomerInvoiceDocument" renderMultipart="true"
 	showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
-
 	<kul:hiddenDocumentFields />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-    <ar:customerInvoiceOrganization documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"  readOnly="${readOnly}"/>	
+    <ar:customerInvoiceOrganization documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"  editingMode="${KualiForm.editingMode}"/>	
 	
     <ar:customerInvoiceGeneral
-        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />
+        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}" />
         
     <ar:customerInvoiceAddress
-        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />        
+        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}" />        
      
 	<c:if test="${!empty KualiForm.editingMode['showReceivableFAU']}">
      <ar:customerInvoiceReceivableAccountingLine
-      	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}"
+      	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}"
       	receivableValuesMap="${KualiForm.document.valuesMap}"  />
     </c:if>
      

@@ -34,7 +34,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     private String accountsReceivableSubObjectCode;
     private KualiDecimal invoiceItemTaxAmount;
     private boolean taxableIndicator;
-    private boolean receivableIndicator;
+    private boolean isDebit;
     private Integer invoiceItemDiscountLineNumber;
     
     private boolean isDiscountLine;
@@ -324,13 +324,13 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     }
 
 
-    public boolean isReceivableIndicator() {
-        return receivableIndicator;
+    public boolean isDebit() {
+        return isDebit;
     }
 
 
-    public void setReceivableIndicator(boolean receivableIndicator) {
-        this.receivableIndicator = receivableIndicator;
+    public void setDebit(boolean isDebit) {
+        this.isDebit = isDebit;
     }
     
     /**

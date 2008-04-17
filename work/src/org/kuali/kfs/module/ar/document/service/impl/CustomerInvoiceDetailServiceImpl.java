@@ -16,32 +16,29 @@
 package org.kuali.module.ar.service.impl;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
 import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.ar.service.CustomerInvoiceItemCodeService;
-import org.kuali.module.ar.service.OrganizationAccountingDefaultService;
-import org.kuali.module.ar.service.SystemInformationService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailService {
 
-    private OrganizationAccountingDefaultService organizationAccountingDefaultService;
     private DateTimeService dateTimeService;
     private UniversityDateService universityDateService;
-    private CustomerInvoiceItemCodeService customerInvoiceItemCodeService;
-    private SystemInformationService systemInformationService;
+    private BusinessObjectService businessObjectService;
   
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
@@ -49,8 +46,13 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefault(Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
+        
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", universityFiscalYear);
+        criteria.put("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.put("organizationCode", organizationCode);
 
-        OrganizationAccountingDefault organizationAccountingDefault = organizationAccountingDefaultService.getByPrimaryKey(universityFiscalYear, chartOfAccountsCode, organizationCode);
+        OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
             customerInvoiceDetail.setChartOfAccountsCode(organizationAccountingDefault.getDefaultInvoiceChartOfAccountsCode());
             customerInvoiceDetail.setAccountNumber(organizationAccountingDefault.getDefaultInvoiceAccountNumber());
@@ -82,7 +84,12 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCode(java.lang.String, java.lang.String, java.lang.String)
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String chartOfAccountsCode, String organizationCode) {
-        CustomerInvoiceItemCode customerInvoiceItemCode = customerInvoiceItemCodeService.getByPrimaryKey(invoiceItemCode, chartOfAccountsCode, organizationCode);
+        
+        Map<String, String> criteria = new HashMap<String,String>();
+        criteria.put("invoiceItemCode", invoiceItemCode);
+        criteria.put("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.put("organizationCode", organizationCode);
+        CustomerInvoiceItemCode customerInvoiceItemCode = (CustomerInvoiceItemCode)businessObjectService.findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
         
         CustomerInvoiceDetail customerInvoiceDetail = null;
         if (ObjectUtils.isNotNull(customerInvoiceItemCode)) {
@@ -135,7 +142,12 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         
         discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX );
         
-        SystemInformation systemInformation =  systemInformationService.getByPrimaryKey(universityFiscalYear, chartOfAccountsCode, organizationCode);
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", universityFiscalYear);
+        criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
+        criteria.put("processingOrganizationCode", organizationCode);      
+        
+        SystemInformation systemInformation =  (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
         if ( ObjectUtils.isNotNull(systemInformation) ){
             discountCustomerInvoiceDetail.setFinancialObjectCode(systemInformation.getDiscountObjectCode());
         }
@@ -150,14 +162,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         return getDiscountCustomerInvoiceDetail(customerInvoiceDetail, currentUniversityFiscalYear, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
-    }    
-
-    public OrganizationAccountingDefaultService getOrganizationAccountingDefaultService() {
-        return organizationAccountingDefaultService;
-    }
-
-    public void setOrganizationAccountingDefaultService(OrganizationAccountingDefaultService organizationAccountingDefaultService) {
-        this.organizationAccountingDefaultService = organizationAccountingDefaultService;
     }
 
     public DateTimeService getDateTimeService() {
@@ -176,22 +180,11 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         this.universityDateService = universityDateService;
     }
 
-    public CustomerInvoiceItemCodeService getCustomerInvoiceItemCodeService() {
-        return customerInvoiceItemCodeService;
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
-    public void setCustomerInvoiceItemCodeService(CustomerInvoiceItemCodeService customerInvoiceItemCodeService) {
-        this.customerInvoiceItemCodeService = customerInvoiceItemCodeService;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
-
-    public SystemInformationService getSystemInformationService() {
-        return systemInformationService;
-    }
-
-    public void setSystemInformationService(SystemInformationService systemInformationService) {
-        this.systemInformationService = systemInformationService;
-    }
-
-
-
 }

@@ -19,10 +19,13 @@ import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.DateUtils;
@@ -41,7 +44,6 @@ import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
-import org.kuali.module.ar.service.CustomerInvoiceItemCodeService;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument>,DiscountCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
@@ -269,7 +271,12 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     private boolean isCustomerInvoiceItemCodeValid(CustomerInvoiceDocument doc, CustomerInvoiceDetail customerInvoiceDetail) {
 
-        CustomerInvoiceItemCode customerInvoiceItemCode = SpringContext.getBean(CustomerInvoiceItemCodeService.class).getByPrimaryKey(customerInvoiceDetail.getInvoiceItemCode(), doc.getBillByChartOfAccountCode(), doc.getBilledByOrganizationCode());
+        Map<String, String> criteria = new HashMap<String,String>();
+        criteria.put("invoiceItemCode", customerInvoiceDetail.getInvoiceItemCode());
+        criteria.put("chartOfAccountsCode", doc.getBillByChartOfAccountCode());
+        criteria.put("organizationCode", doc.getBilledByOrganizationCode());
+        CustomerInvoiceItemCode customerInvoiceItemCode = (CustomerInvoiceItemCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
+        
         if (ObjectUtils.isNotNull(customerInvoiceDetail)) {
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
             return false;

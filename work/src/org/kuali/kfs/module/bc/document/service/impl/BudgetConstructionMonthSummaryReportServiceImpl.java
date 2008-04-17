@@ -15,8 +15,6 @@
  */
 package org.kuali.module.budget.service.impl;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,6 +31,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgMonthSummaryReportTotal;
 import org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.budget.util.BudgetConstructionReportHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -191,21 +190,21 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * @param BudgetConstructionMonthSummary bcas
      */
     public void buildReportsBody(BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary) {
-       
+        
         orgMonthSummaryReportEntry.setFinancialObjectCodeName("TEMP NAME");
-        orgMonthSummaryReportEntry.setAccountLineAnnualBalanceAmount(new Integer(monthSummary.getAccountLineAnnualBalanceAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth1LineAmount(new Integer(monthSummary.getFinancialDocumentMonth10LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth2LineAmount(new Integer(monthSummary.getFinancialDocumentMonth2LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth3LineAmount(new Integer(monthSummary.getFinancialDocumentMonth3LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth4LineAmount(new Integer(monthSummary.getFinancialDocumentMonth4LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth5LineAmount(new Integer(monthSummary.getFinancialDocumentMonth5LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth6LineAmount(new Integer(monthSummary.getFinancialDocumentMonth6LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth7LineAmount(new Integer(monthSummary.getFinancialDocumentMonth7LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth8LineAmount(new Integer(monthSummary.getFinancialDocumentMonth8LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth9LineAmount(new Integer(monthSummary.getFinancialDocumentMonth9LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth10LineAmount(new Integer(monthSummary.getFinancialDocumentMonth10LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth11LineAmount(new Integer(monthSummary.getFinancialDocumentMonth11LineAmount().intValue()));
-        orgMonthSummaryReportEntry.setFinancialDocumentMonth12LineAmount(new Integer(monthSummary.getFinancialDocumentMonth12LineAmount().intValue()));
+        orgMonthSummaryReportEntry.setAccountLineAnnualBalanceAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getAccountLineAnnualBalanceAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth1LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth1LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth2LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth2LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth3LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth3LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth4LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth4LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth5LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth5LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth6LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth6LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth7LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth7LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth8LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth8LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth9LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth9LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth10LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth10LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth11LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth11LineAmount()));
+        orgMonthSummaryReportEntry.setFinancialDocumentMonth12LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth12LineAmount()));
 
         
         
@@ -219,6 +218,20 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      */     
     public void buildReportsTotal(BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalLevelList, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalConsList, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalTypeList, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalIncexpList) {
 
+        Integer differenceAccountLineAnnualBalanceAmount = new Integer(0);
+        Integer differenceMonth1LineAmount = new Integer(0);
+        Integer differenceMonth2LineAmount = new Integer(0);
+        Integer differenceMonth3LineAmount = new Integer(0);
+        Integer differenceMonth4LineAmount = new Integer(0);
+        Integer differenceMonth5LineAmount = new Integer(0);
+        Integer differenceMonth6LineAmount = new Integer(0);
+        Integer differenceMonth7LineAmount = new Integer(0);
+        Integer differenceMonth8LineAmount = new Integer(0);
+        Integer differenceMonth9LineAmount = new Integer(0);
+        Integer differenceMonth10LineAmount = new Integer(0);
+        Integer differenceMonth11LineAmount = new Integer(0);
+        Integer differenceMonth12LineAmount = new Integer(0);
+        
         for (BudgetConstructionOrgMonthSummaryReportTotal levelTotal : monthSummaryTotalLevelList) {
             if (isSameMonthSummaryEntryForLevel(monthSummary, levelTotal.getBudgetConstructionMonthSummary())) {
                 orgMonthSummaryReportEntry.setLevelAccountLineAnnualBalanceAmount(levelTotal.getLevelAccountLineAnnualBalanceAmount());
@@ -305,7 +318,33 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                 orgMonthSummaryReportEntry.setExpMonth11LineAmount(incexpTotal.getExpMonth11LineAmount());
                 orgMonthSummaryReportEntry.setExpMonth12LineAmount(incexpTotal.getExpMonth12LineAmount());
                 
+                differenceAccountLineAnnualBalanceAmount = incexpTotal.getRevAccountLineAnnualBalanceAmount() - incexpTotal.getExpAccountLineAnnualBalanceAmount();
+                differenceMonth1LineAmount = incexpTotal.getRevMonth1LineAmount() - incexpTotal.getExpMonth1LineAmount();
+                differenceMonth2LineAmount = incexpTotal.getRevMonth2LineAmount() - incexpTotal.getExpMonth2LineAmount();
+                differenceMonth3LineAmount = incexpTotal.getRevMonth3LineAmount() - incexpTotal.getExpMonth3LineAmount();
+                differenceMonth4LineAmount = incexpTotal.getRevMonth4LineAmount() - incexpTotal.getExpMonth4LineAmount();
+                differenceMonth5LineAmount = incexpTotal.getRevMonth5LineAmount() - incexpTotal.getExpMonth5LineAmount();
+                differenceMonth6LineAmount = incexpTotal.getRevMonth6LineAmount() - incexpTotal.getExpMonth6LineAmount();
+                differenceMonth7LineAmount = incexpTotal.getRevMonth7LineAmount() - incexpTotal.getExpMonth7LineAmount();
+                differenceMonth8LineAmount = incexpTotal.getRevMonth8LineAmount() - incexpTotal.getExpMonth8LineAmount();
+                differenceMonth9LineAmount = incexpTotal.getRevMonth9LineAmount() - incexpTotal.getExpMonth9LineAmount();
+                differenceMonth10LineAmount = incexpTotal.getRevMonth10LineAmount() - incexpTotal.getExpMonth10LineAmount();
+                differenceMonth11LineAmount = incexpTotal.getRevMonth11LineAmount() - incexpTotal.getExpMonth11LineAmount();
+                differenceMonth12LineAmount = incexpTotal.getRevMonth12LineAmount() - incexpTotal.getExpMonth12LineAmount();
                 
+                orgMonthSummaryReportEntry.setDifferenceAccountLineAnnualBalanceAmount(differenceAccountLineAnnualBalanceAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth1LineAmount(differenceMonth1LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth2LineAmount(differenceMonth2LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth3LineAmount(differenceMonth3LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth4LineAmount(differenceMonth4LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth5LineAmount(differenceMonth5LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth6LineAmount(differenceMonth6LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth7LineAmount(differenceMonth7LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth8LineAmount(differenceMonth8LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth9LineAmount(differenceMonth9LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth10LineAmount(differenceMonth10LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth11LineAmount(differenceMonth11LineAmount);
+                orgMonthSummaryReportEntry.setDifferenceMonth12LineAmount(differenceMonth12LineAmount);
             }
         }
 
@@ -332,19 +371,19 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
                 if (isSameMonthSummaryEntryForLevel(simpleBclsEntry, bcmsListEntry)) {
-                    levelAccountLineAnnualBalanceAmount += bcmsListEntry.getAccountLineAnnualBalanceAmount().intValue();
-                    levelMonth1LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth1LineAmount().intValue());
-                    levelMonth2LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth2LineAmount().intValue());
-                    levelMonth3LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth3LineAmount().intValue());
-                    levelMonth4LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth4LineAmount().intValue());
-                    levelMonth5LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth5LineAmount().intValue());
-                    levelMonth6LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth6LineAmount().intValue());
-                    levelMonth7LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth7LineAmount().intValue());
-                    levelMonth8LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth8LineAmount().intValue());
-                    levelMonth9LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth9LineAmount().intValue());
-                    levelMonth10LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth10LineAmount().intValue());
-                    levelMonth11LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth11LineAmount().intValue());
-                    levelMonth12LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth12LineAmount().intValue());     
+                    levelAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
+                    levelMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
+                    levelMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
+                    levelMonth3LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth3LineAmount());
+                    levelMonth4LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth4LineAmount());
+                    levelMonth5LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth5LineAmount());
+                    levelMonth6LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth6LineAmount());
+                    levelMonth7LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth7LineAmount());
+                    levelMonth8LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth8LineAmount());
+                    levelMonth9LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth9LineAmount());
+                    levelMonth10LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth10LineAmount());
+                    levelMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
+                    levelMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());     
                 }
             }
             bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
@@ -361,6 +400,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setLevelMonth10LineAmount(levelMonth1LineAmount);
             bcMonthTotal.setLevelMonth11LineAmount(levelMonth1LineAmount);
             bcMonthTotal.setLevelMonth12LineAmount(levelMonth1LineAmount);
+            returnList.add(bcMonthTotal);
             
             levelAccountLineAnnualBalanceAmount = new Integer(0);
             levelMonth1LineAmount = new Integer(0);
@@ -403,19 +443,19 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
                 if (isSameMonthSummaryEntryForCons(simpleBclsEntry, bcmsListEntry)) {
-                    consAccountLineAnnualBalanceAmount += bcmsListEntry.getAccountLineAnnualBalanceAmount().intValue();
-                    consMonth1LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth1LineAmount().intValue());
-                    consMonth2LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth2LineAmount().intValue());
-                    consMonth3LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth3LineAmount().intValue());
-                    consMonth4LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth4LineAmount().intValue());
-                    consMonth5LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth5LineAmount().intValue());
-                    consMonth6LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth6LineAmount().intValue());
-                    consMonth7LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth7LineAmount().intValue());
-                    consMonth8LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth8LineAmount().intValue());
-                    consMonth9LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth9LineAmount().intValue());
-                    consMonth10LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth10LineAmount().intValue());
-                    consMonth11LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth11LineAmount().intValue());
-                    consMonth12LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth12LineAmount().intValue());   
+                    consAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
+                    consMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
+                    consMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
+                    consMonth3LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth3LineAmount());
+                    consMonth4LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth4LineAmount());
+                    consMonth5LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth5LineAmount());
+                    consMonth6LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth6LineAmount());
+                    consMonth7LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth7LineAmount());
+                    consMonth8LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth8LineAmount());
+                    consMonth9LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth9LineAmount());
+                    consMonth10LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth10LineAmount());
+                    consMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
+                    consMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());   
 
                 }
             }
@@ -433,6 +473,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setConsMonth10LineAmount(consMonth1LineAmount);
             bcMonthTotal.setConsMonth11LineAmount(consMonth1LineAmount);
             bcMonthTotal.setConsMonth12LineAmount(consMonth1LineAmount);
+            returnList.add(bcMonthTotal);
             
             consAccountLineAnnualBalanceAmount = new Integer(0);
             consMonth1LineAmount = new Integer(0);
@@ -476,19 +517,19 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
                 if (isSameMonthSummaryEntryForType(simpleBclsEntry, bcmsListEntry)) {
-                    typeAccountLineAnnualBalanceAmount += bcmsListEntry.getAccountLineAnnualBalanceAmount().intValue();
-                    typeMonth1LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth1LineAmount().intValue());
-                    typeMonth2LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth2LineAmount().intValue());
-                    typeMonth3LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth3LineAmount().intValue());
-                    typeMonth4LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth4LineAmount().intValue());
-                    typeMonth5LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth5LineAmount().intValue());
-                    typeMonth6LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth6LineAmount().intValue());
-                    typeMonth7LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth7LineAmount().intValue());
-                    typeMonth8LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth8LineAmount().intValue());
-                    typeMonth9LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth9LineAmount().intValue());
-                    typeMonth10LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth10LineAmount().intValue());
-                    typeMonth11LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth11LineAmount().intValue());
-                    typeMonth12LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth12LineAmount().intValue());   
+                    typeAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
+                    typeMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
+                    typeMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
+                    typeMonth3LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth3LineAmount());
+                    typeMonth4LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth4LineAmount());
+                    typeMonth5LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth5LineAmount());
+                    typeMonth6LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth6LineAmount());
+                    typeMonth7LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth7LineAmount());
+                    typeMonth8LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth8LineAmount());
+                    typeMonth9LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth9LineAmount());
+                    typeMonth10LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth10LineAmount());
+                    typeMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
+                    typeMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());   
                 }
             }
             
@@ -507,6 +548,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setTypeMonth10LineAmount(typeMonth1LineAmount);
             bcMonthTotal.setTypeMonth11LineAmount(typeMonth1LineAmount);
             bcMonthTotal.setTypeMonth12LineAmount(typeMonth1LineAmount);
+            returnList.add(bcMonthTotal);
             
             typeAccountLineAnnualBalanceAmount = new Integer(0);
             typeMonth1LineAmount = new Integer(0);
@@ -566,33 +608,33 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
                 if (isSameMonthSummaryEntryForIncexp(simpleBclsEntry, bcmsListEntry)) {
                     if (bcmsListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)){
-                        revAccountLineAnnualBalanceAmount += bcmsListEntry.getAccountLineAnnualBalanceAmount().intValue();
-                        revMonth1LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth1LineAmount().intValue());
-                        revMonth2LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth2LineAmount().intValue());
-                        revMonth3LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth3LineAmount().intValue());
-                        revMonth4LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth4LineAmount().intValue());
-                        revMonth5LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth5LineAmount().intValue());
-                        revMonth6LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth6LineAmount().intValue());
-                        revMonth7LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth7LineAmount().intValue());
-                        revMonth8LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth8LineAmount().intValue());
-                        revMonth9LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth9LineAmount().intValue());
-                        revMonth10LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth10LineAmount().intValue());
-                        revMonth11LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth11LineAmount().intValue());
-                        revMonth12LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth12LineAmount().intValue());
+                        revAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
+                        revMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
+                        revMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
+                        revMonth3LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth3LineAmount());
+                        revMonth4LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth4LineAmount());
+                        revMonth5LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth5LineAmount());
+                        revMonth6LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth6LineAmount());
+                        revMonth7LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth7LineAmount());
+                        revMonth8LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth8LineAmount());
+                        revMonth9LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth9LineAmount());
+                        revMonth10LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth10LineAmount());
+                        revMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
+                        revMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());
                     } else {
-                        expAccountLineAnnualBalanceAmount += bcmsListEntry.getAccountLineAnnualBalanceAmount().intValue();
-                        expMonth1LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth1LineAmount().intValue());
-                        expMonth2LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth2LineAmount().intValue());
-                        expMonth3LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth3LineAmount().intValue());
-                        expMonth4LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth4LineAmount().intValue());
-                        expMonth5LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth5LineAmount().intValue());
-                        expMonth6LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth6LineAmount().intValue());
-                        expMonth7LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth7LineAmount().intValue());
-                        expMonth8LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth8LineAmount().intValue());
-                        expMonth9LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth9LineAmount().intValue());
-                        expMonth10LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth10LineAmount().intValue());
-                        expMonth11LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth11LineAmount().intValue());
-                        expMonth12LineAmount += new Integer(bcmsListEntry.getFinancialDocumentMonth12LineAmount().intValue());
+                        expAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
+                        expMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
+                        expMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
+                        expMonth3LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth3LineAmount());
+                        expMonth4LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth4LineAmount());
+                        expMonth5LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth5LineAmount());
+                        expMonth6LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth6LineAmount());
+                        expMonth7LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth7LineAmount());
+                        expMonth8LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth8LineAmount());
+                        expMonth9LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth9LineAmount());
+                        expMonth10LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth10LineAmount());
+                        expMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
+                        expMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());
                     }
 
                 }
@@ -601,32 +643,33 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
             bcMonthTotal.setRevAccountLineAnnualBalanceAmount(revAccountLineAnnualBalanceAmount);
             bcMonthTotal.setRevMonth1LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth2LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth3LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth4LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth5LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth6LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth7LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth8LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth9LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth10LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth11LineAmount(revMonth1LineAmount);
-            bcMonthTotal.setRevMonth12LineAmount(revMonth1LineAmount);
+            bcMonthTotal.setRevMonth2LineAmount(revMonth2LineAmount);
+            bcMonthTotal.setRevMonth3LineAmount(revMonth3LineAmount);
+            bcMonthTotal.setRevMonth4LineAmount(revMonth4LineAmount);
+            bcMonthTotal.setRevMonth5LineAmount(revMonth5LineAmount);
+            bcMonthTotal.setRevMonth6LineAmount(revMonth6LineAmount);
+            bcMonthTotal.setRevMonth7LineAmount(revMonth7LineAmount);
+            bcMonthTotal.setRevMonth8LineAmount(revMonth8LineAmount);
+            bcMonthTotal.setRevMonth9LineAmount(revMonth9LineAmount);
+            bcMonthTotal.setRevMonth10LineAmount(revMonth10LineAmount);
+            bcMonthTotal.setRevMonth11LineAmount(revMonth11LineAmount);
+            bcMonthTotal.setRevMonth12LineAmount(revMonth12LineAmount);
             
             bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
             bcMonthTotal.setExpAccountLineAnnualBalanceAmount(expAccountLineAnnualBalanceAmount);
             bcMonthTotal.setExpMonth1LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth2LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth3LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth4LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth5LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth6LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth7LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth8LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth9LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth10LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth11LineAmount(expMonth1LineAmount);
-            bcMonthTotal.setExpMonth12LineAmount(expMonth1LineAmount);
+            bcMonthTotal.setExpMonth2LineAmount(expMonth2LineAmount);
+            bcMonthTotal.setExpMonth3LineAmount(expMonth3LineAmount);
+            bcMonthTotal.setExpMonth4LineAmount(expMonth4LineAmount);
+            bcMonthTotal.setExpMonth5LineAmount(expMonth5LineAmount);
+            bcMonthTotal.setExpMonth6LineAmount(expMonth6LineAmount);
+            bcMonthTotal.setExpMonth7LineAmount(expMonth7LineAmount);
+            bcMonthTotal.setExpMonth8LineAmount(expMonth8LineAmount);
+            bcMonthTotal.setExpMonth9LineAmount(expMonth9LineAmount);
+            bcMonthTotal.setExpMonth10LineAmount(expMonth10LineAmount);
+            bcMonthTotal.setExpMonth11LineAmount(expMonth11LineAmount);
+            bcMonthTotal.setExpMonth12LineAmount(expMonth12LineAmount);
+            returnList.add(bcMonthTotal);
             
             revAccountLineAnnualBalanceAmount = new Integer(0);
             revMonth1LineAmount = new Integer(0);

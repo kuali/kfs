@@ -24,10 +24,8 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
-import org.kuali.workflow.KualiWorkflowUtils;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
@@ -54,9 +52,8 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
             // diallowed actions for enroute
             documentActionFlags.setCanDisapprove(false);
         }
-
         documentActionFlags.setHasAmountTotal(true);
-        
+
         // disallowed actions for all status(s)
         documentActionFlags.setCanCancel(false);
         documentActionFlags.setCanSave(false);
@@ -75,7 +72,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         Map<String, String> editModeMap = new HashMap<String, String>();
         String editMode = EffortCertificationEditMode.VIEW_ONLY;
 
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();  
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(document, universalUser)) {
                 editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.TRUE.toString());
@@ -85,7 +82,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
             String routeLevel = workflowDocument.getCurrentRouteNodeNames();
 
             Map<String, String> editModes = this.getEditModeSetup();
-            Map<String,Boolean> editableIndicators = this.getEditableIndicator();
+            Map<String, Boolean> editableIndicators = this.getEditableIndicator();
             if (editModes.containsKey(routeLevel) && editableIndicators.get(routeLevel)) {
                 editMode = editModes.get(routeLevel);
                 editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.FALSE.toString());
@@ -108,7 +105,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
 
         return editModes;
     }
-    
+
     // setup the editable indicator map where its key is route level name and its value the editable indicator.
     private Map<String, Boolean> getEditableIndicator() {
         Map<String, Boolean> editableIndicators = new HashMap<String, Boolean>();

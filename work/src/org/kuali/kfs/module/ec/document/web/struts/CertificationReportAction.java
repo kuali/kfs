@@ -25,11 +25,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -41,7 +38,6 @@ import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
 import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.effort.web.struts.form.CertificationReportForm;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class handles Actions for EffortCertification document approval.

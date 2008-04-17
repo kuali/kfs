@@ -15,32 +15,18 @@
  */
 package org.kuali.module.effort.web.struts.form;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceKeyConstants;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
-import org.kuali.module.effort.util.PayrollAmountHolder;
 
 /**
  * To define an action form for effrot certification recreate process

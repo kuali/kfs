@@ -71,29 +71,31 @@ public class CertificationReportForm extends EffortCertificationForm {
     }
 
     /**
-     * Gets the reportPeriodBeginDate attribute. 
+     * Gets the reportPeriodBeginDate attribute.
+     * 
      * @return Returns the reportPeriodBeginDate.
      */
     public Date getReportPeriodBeginDate() {
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         AccountingPeriod beginPeriod = effortCertificationDocument.getEffortCertificationReportDefinition().getReportBeginPeriod();
-        
+
         return getUniversityFiscalPeriodBeginDate(beginPeriod);
     }
 
     /**
-     * Gets the reportPeriodEndDate attribute. 
+     * Gets the reportPeriodEndDate attribute.
+     * 
      * @return Returns the reportPeriodEndDate.
      */
     public Date getReportPeriodEndDate() {
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         AccountingPeriod endPeriod = effortCertificationDocument.getEffortCertificationReportDefinition().getReportEndPeriod();
-        
+
         return endPeriod.getUniversityFiscalPeriodEndDate();
     }
-    
+
     /**
      * Gets the universityFiscalPeriodBeginDate attribute. The begin date is the first date of the period month.
      * 

@@ -33,6 +33,7 @@ public class EffortConstants extends JstlConstants {
      */
     public class ExtractProcess {
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
+        
         // the following constants used as the key of the statistics entries for the working progress report
         public static final String NUM_BALANCES_READ = "numOfBalancesRead";
         public static final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
@@ -90,6 +91,7 @@ public class EffortConstants extends JstlConstants {
         List<String> balanceTypeList = new ArrayList<String>();
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
+        
         return balanceTypeList;
     }
 
@@ -117,11 +119,11 @@ public class EffortConstants extends JstlConstants {
     
     public static final List<String> DETAIL_LINES_CONSOLIDATION_FILEDS = getDetailLinesConsolidationFields();
     private static final List<String> getDetailLinesConsolidationFields() {
-        List<String> comparableFields = new ArrayList<String>();
-        comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        List<String> consolidationFields = new ArrayList<String>();
+        consolidationFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        consolidationFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        consolidationFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
 
-        return comparableFields;
+        return consolidationFields;
     }
 }

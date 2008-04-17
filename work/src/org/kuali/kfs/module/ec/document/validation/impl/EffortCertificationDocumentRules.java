@@ -61,7 +61,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
-    private AccountingLineRuleHelperService AccountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
+    private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
 
     /**
      * Constructs a EffortCertificationDocumentRules.java.
@@ -333,11 +333,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         // if the formats of the fields are correct, check if there exist the references of a set of specified fields
         boolean hasValidReference = true;
         if (hasValidFormat) {
-            hasValidReference &= AccountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
-            hasValidReference &= AccountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
 
             if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber())) {
-                hasValidReference &= AccountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
+                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
             }
         }
 

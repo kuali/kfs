@@ -20,7 +20,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +29,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.RicePropertyConstants;
@@ -39,7 +37,6 @@ import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -49,7 +46,6 @@ import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.util.KeyLabelPair;
@@ -506,22 +502,6 @@ public class KualiWorkflowUtils extends WorkflowUtils {
             String errorMsg = "Error executing XPath expression - '" + xpathXpression + "'";
             LOG.error(errorMsg, xe);
             throw new RuntimeException(errorMsg, xe);
-        }
-    }
-
-
-    /**
-     * get the route level name of the given workflow document
-     * 
-     * @param workflowDocument the given workflow document
-     * @return the route level name
-     */
-    public static String getRoutingLevelName(KualiWorkflowDocument workflowDocument) {
-        try {
-            return workflowDocument.getDocRouteLevelName();
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Fail to determine the document routing level:" + we);
         }
     }
 }

@@ -367,46 +367,47 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 <%-- show the totals --%>
 <c:choose>
   <c:when test="${!empty totalsOverride}">
-    <c:forEach var="totalLineLabel" items="${totalsOverride.keySet}">
+    <c:forEach var="entry" items="${totalsOverride}">
       <tr>
-        <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
-        <%-- show totals override --%>
-        <td class="total-line" style="border-left: 0px;"><strong>${totalLineLabel}: ${totalsOverride[totalLineLabel]}</strong></td>
+        <td class="total-line" colspan="${columnCountUntilAmount-2}">&nbsp;</td>
+        <td class="total-line" colspan="2" style="border-left: 0px;"><strong>${entry.key}:</strong></td>
+        <td class="total-line" style="border-left: 0px;"><strong>${entry.value}</strong></td>
+	    <td class="total-line" style="border-left: 0px;">&nbsp;</td>
       </tr>
     </c:forEach>
   </c:when>
   <c:otherwise>
-<tr>
-    <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
-    <c:choose>
-        <c:when test="${debitCreditAmount}" >
-            <%-- from JournalVoucherForm --%>
-            <td class="total-line" style="border-left: 0px;"><strong>Debit Total: ${KualiForm.currencyFormattedDebitTotal}</strong></td>
-            <td class="total-line" style="border-left: 0px;"><strong>Credit Total: ${KualiForm.currencyFormattedCreditTotal}</strong></td>
-        </c:when>
-        <c:when test="${hideTotalLine}" >
-            <c:if test="${isSource}">
-              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
-              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
-            </c:if>
-            <c:if test="${!isSource}">
-              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
-              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
-            </c:if>
-        </c:when>
-        <c:otherwise>
-            <c:choose>
-                <c:when test="${useCurrencyFormattedTotal}" >
-                    <%-- from JournalVoucherForm --%>
-                    <td class="total-line" style="border-left: 0px;"><strong>Total: ${KualiForm.currencyFormattedTotal}</strong></td>
-                </c:when>
-                <c:otherwise>
-                <td class="total-line" style="border-left: 0px;"><strong>Total: ${KualiForm[totalName]}</strong></td>
-                </c:otherwise>
-            </c:choose>
-        </c:otherwise>
-    </c:choose>
-    <td class="total-line" style="border-left: 0px;">&nbsp;</td>
-</tr>
+	<tr>
+	    <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
+	    <c:choose>
+	        <c:when test="${debitCreditAmount}" >
+	            <%-- from JournalVoucherForm --%>
+	            <td class="total-line" style="border-left: 0px;"><strong>Debit Total: ${KualiForm.currencyFormattedDebitTotal}</strong></td>
+	            <td class="total-line" style="border-left: 0px;"><strong>Credit Total: ${KualiForm.currencyFormattedCreditTotal}</strong></td>
+	        </c:when>
+	        <c:when test="${hideTotalLine}" >
+	            <c:if test="${isSource}">
+	              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+	              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+	            </c:if>
+	            <c:if test="${!isSource}">
+	              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+	              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+	            </c:if>
+	        </c:when>
+	        <c:otherwise>
+	            <c:choose>
+	                <c:when test="${useCurrencyFormattedTotal}" >
+	                    <%-- from JournalVoucherForm --%>
+	                    <td class="total-line" style="border-left: 0px;"><strong>Total: ${KualiForm.currencyFormattedTotal}</strong></td>
+	                </c:when>
+	                <c:otherwise>
+	                	<td class="total-line" style="border-left: 0px;"><strong>Total: ${KualiForm[totalName]}</strong></td>
+	                </c:otherwise>
+	            </c:choose>
+	        </c:otherwise>
+	    </c:choose>
+	    <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+	</tr>
   </c:otherwise>
 </c:choose>

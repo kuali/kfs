@@ -21,14 +21,15 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgLevelSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgMonthSummaryReport;
 
 /**
- * This interface defines the methods for BudgetConstructionLevelSummaryReports
+ * defines the methods for BudgetConstructionMonthSummaryReports
  */
 public interface BudgetConstructionMonthSummaryReportService {
 
     /**
-     * updates account summary table.
+     * updates month summary table.
      * 
      * @param personUserIdentifier
+     * @param consolidateToObjectCodeLevel
      * @return
      */
     public void updateMonthSummaryReport(String personUserIdentifier, boolean consolidateToObjectCodeLevel);
@@ -38,9 +39,10 @@ public interface BudgetConstructionMonthSummaryReportService {
      * builds BudgetConstructionLevelSummaryReports
      * 
      * @param universityFiscalYear
-     * @param accountSummaryList
+     * @param personUserIdentifier
+     *  @param consolidateToObjectCodeLevel
      * @return Collection
      */
-    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel);
     
 }

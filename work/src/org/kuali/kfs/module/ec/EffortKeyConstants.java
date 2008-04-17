@@ -59,6 +59,7 @@ public class EffortKeyConstants {
     public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.undefinedUnversityDate";
     public static final String ERROR_ZERO_PAYROLL_AMOUNT = "error.effort.zeroPayrollAmount";
     public static final String ERROR_NOT_HAVE_DETAIL_LINE = "error.effort.notHaveDetailLine";
+    public static final String ERROR_NOT_HAVE_POSITION_GROUP = "error.effort.notHavePositionGroup";
     
     public static final String MESSAGE_CREATE_DOCUMENT_EXPLANATION = "message.effort.create.explanation";
     public static final String MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION = "message.effort.create.SETDocument.explanation";

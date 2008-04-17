@@ -62,7 +62,7 @@
 	</bean>
 	
 	<!-- Section 1: Batch Job Definitions --> 
-	<bean id="effortCertificationExtractJob" parent="scheduledJobDescriptor">
+	<bean id="effortCertificationExtractJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="effortCertificationExtractStep"/>
@@ -76,7 +76,7 @@
 		</property>
 	</bean> 
 	
-	<bean id="effortCertificationCreateJob" parent="scheduledJobDescriptor">
+	<bean id="effortCertificationCreateJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="effortCertificationCreateStep"/>

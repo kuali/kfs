@@ -32,6 +32,9 @@
         <ref bean="CashControlDocument-customerPaymentMediumCode" />
       </list>
     </property>
+    <property name="workflowProperties" >
+      <ref bean="CashControlDocument-workflowProperties" />
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

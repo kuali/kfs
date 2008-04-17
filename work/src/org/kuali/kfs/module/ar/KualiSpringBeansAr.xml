@@ -181,4 +181,10 @@
 		</property>
 	</bean>
 	
+	<bean id="workflow-org.kuali.module.ar.bo.SystemInformation-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.module.ar.bo.SystemInformation</value>
+		</property>
+	</bean>
+	
 </beans>

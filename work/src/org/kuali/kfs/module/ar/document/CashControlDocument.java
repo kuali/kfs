@@ -36,6 +36,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
     private String universityFiscalPeriodCode;
     private String customerPaymentMediumCode;
     private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
+    private String lockboxNumber;
 
     private PaymentMedium customerPaymentMedium;
     private AccountingPeriod universityFiscalPeriod;
@@ -430,10 +431,17 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         return generalLedgerPendingEntries.get(index);
     }
     
-    public String getLockboxNumber()
-    {
-        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-        return cashControlDocumentService.getLockboxNumber(this);
+    public String getLockboxNumber() {
+        return lockboxNumber;
     }
 
+    /**
+     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        this.lockboxNumber = cashControlDocumentService.getLockboxNumber(this);
+    }
+    
 }

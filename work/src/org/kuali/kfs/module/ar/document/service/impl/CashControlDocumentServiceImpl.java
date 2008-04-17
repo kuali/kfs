@@ -268,8 +268,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         String chartOfAccountsCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, chartOfAccountsCode, processingOrgCode);
-
-        return systemInformation.getLockboxNumber();
+        
+        return (systemInformation == null) ? null : systemInformation.getLockboxNumber();
         
     }
 

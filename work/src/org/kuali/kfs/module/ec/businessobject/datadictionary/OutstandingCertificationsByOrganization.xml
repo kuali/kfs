@@ -98,7 +98,7 @@
   <bean id="OutstandingCertificationsByOrganization-nextApprovers-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextApprovers" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Next Approvers" />
+    <property name="label" value="Outstanding Approvers" />
     <property name="shortLabel" value="Next Approvers" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >

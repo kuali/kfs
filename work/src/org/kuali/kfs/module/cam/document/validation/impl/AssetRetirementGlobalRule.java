@@ -43,7 +43,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
-    private static PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
 
     /**
      * Constructs a AssetLocationGlobalRule
@@ -202,20 +201,20 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (assetRetirementService.isAssetRetiredBySoldOrAuction(assetRetirementGlobal)) {
             if (StringUtils.isBlank(sharedRetirementInfo.getBuyerDescription())) {
-                putFieldError(CamsPropertyConstants.AssetRetirementGlobalDetail.BUYER_DESCRIPTION, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.BUYER_DESCRIPTION, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "," + CamsPropertyConstants.AssetRetirementGlobalDetail.BUYER_DESCRIPTION, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.BUYER_DESCRIPTION, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
             }
             if (sharedRetirementInfo.getSalePrice() == null) {
-                putFieldError(CamsPropertyConstants.AssetRetirementGlobalDetail.SALE_PRICE, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.SALE_PRICE, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "," + CamsPropertyConstants.AssetRetirementGlobalDetail.SALE_PRICE, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.SALE_PRICE, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
             }
         }
         else if (assetRetirementService.isAssetRetiredByExternalTransferOrGift(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getRetirementInstitutionName())) {
-            putFieldError(CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_INSTITUTION_NAME, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.RETIREMENT_INSTITUTION_NAME, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "," + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_INSTITUTION_NAME, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.RETIREMENT_INSTITUTION_NAME, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
             valid = false;
         }
         else if (assetRetirementService.isAssetRetiredByTheft(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getPaidCaseNumber())) {
-            putFieldError(CamsPropertyConstants.AssetRetirementGlobalDetail.PAID_CASE_NUMBER, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.PAID_CASE_NUMBER, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "," + CamsPropertyConstants.AssetRetirementGlobalDetail.PAID_CASE_NUMBER, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.PAID_CASE_NUMBER, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
             valid = false;
         }
         return valid;

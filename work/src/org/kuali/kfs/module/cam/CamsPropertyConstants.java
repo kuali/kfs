@@ -77,17 +77,17 @@ public class CamsPropertyConstants {
         public static final String RETIREMENT_INFO_MERGED_TARGET = "retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber";
         public static final String ASSET_LOCATIONS = "assetLocations";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
+        public static class AssetLocation {
+            public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
+            public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
+            public static final String CITY_NAME = "offCampusLocation.assetLocationCityName";
+            public static final String STATE_CODE = "offCampusLocation.assetLocationStateCode";
+            public static final String ZIP_CODE = "offCampusLocation.assetLocationZipCode";
+            public static final String COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
+            public static final String VERSION_NUM = "offCampusLocation.versionNumber";
+        }
     }
 
-    public static class AssetLocation {
-        public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
-        public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
-        public static final String CITY_NAME = "offCampusLocation.assetLocationCityName";
-        public static final String STATE_CODE = "offCampusLocation.assetLocationStateCode";
-        public static final String ZIP_CODE = "offCampusLocation.assetLocationZipCode";
-        public static final String COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
-        public static final String VERSION_NUM = "offCampusLocation.versionNumber";
-    }
 
     public static class AssetHeader {
         public static final String DOCUMENT_NUMBER = "documentNumber";
@@ -194,22 +194,22 @@ public class CamsPropertyConstants {
 
     public static class AssetRetirementGlobalDetail {
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
-        public static final String RETIREMENT_CHART_OF_ACCOUNTS_CODE = "sharedRetirementInfo.retirementChartOfAccountsCode";
-        public static final String RETIREMENT_ACCOUNT_NUMBER = "sharedRetirementInfo.retirementAccountNumber";
-        public static final String RETIREMENT_CONTACT_NAME = "sharedRetirementInfo.retirementContactName";
-        public static final String RETIREMENT_INSTITUTION_NAME = "sharedRetirementInfo.retirementInstitutionName";
-        public static final String RETIREMENT_STREET_ADDRESS = "sharedRetirementInfo.retirementStreetAddress";
-        public static final String RETIREMENT_CITY_NAME = "sharedRetirementInfo.retirementCityName";
-        public static final String RETIREMENT_STATE_CODE = "sharedRetirementInfo.retirementStateCode";
-        public static final String RETIREMENT_ZIP_CODE = "sharedRetirementInfo.retirementZipCode";
-        public static final String RETIREMENT_COUNTRY_CODE = "sharedRetirementInfo.retirementCountryCode";
-        public static final String RETIREMENT_PHONE_NUMBER = "sharedRetirementInfo.retirementPhoneNumber";
-        public static final String ESTIMATED_SELLING_PRICE = "sharedRetirementInfo.estimatedSellingPrice";
-        public static final String SALE_PRICE = "sharedRetirementInfo.salePrice";
-        public static final String CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER = "sharedRetirementInfo.cashReceiptFinancialDocumentNumber";
-        public static final String HANDLING_FEE_AMOUNT = "sharedRetirementInfo.handlingFeeAmount";
-        public static final String PREVENTIVE_MAINTENANCE_AMOUNT = "sharedRetirementInfo.preventiveMaintenanceAmount";
-        public static final String BUYER_DESCRIPTION = "sharedRetirementInfo.buyerDescription";
-        public static final String PAID_CASE_NUMBER = "sharedRetirementInfo.paidCaseNumber";
+        public static final String RETIREMENT_CHART_OF_ACCOUNTS_CODE = "retirementChartOfAccountsCode";
+        public static final String RETIREMENT_ACCOUNT_NUMBER = "retirementAccountNumber";
+        public static final String RETIREMENT_CONTACT_NAME = "retirementContactName";
+        public static final String RETIREMENT_INSTITUTION_NAME = "retirementInstitutionName";
+        public static final String RETIREMENT_STREET_ADDRESS = "retirementStreetAddress";
+        public static final String RETIREMENT_CITY_NAME = "retirementCityName";
+        public static final String RETIREMENT_STATE_CODE = "retirementStateCode";
+        public static final String RETIREMENT_ZIP_CODE = "retirementZipCode";
+        public static final String RETIREMENT_COUNTRY_CODE = "retirementCountryCode";
+        public static final String RETIREMENT_PHONE_NUMBER = "retirementPhoneNumber";
+        public static final String ESTIMATED_SELLING_PRICE = "estimatedSellingPrice";
+        public static final String SALE_PRICE = "salePrice";
+        public static final String CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER = "cashReceiptFinancialDocumentNumber";
+        public static final String HANDLING_FEE_AMOUNT = "handlingFeeAmount";
+        public static final String PREVENTIVE_MAINTENANCE_AMOUNT = "preventiveMaintenanceAmount";
+        public static final String BUYER_DESCRIPTION = "buyerDescription";
+        public static final String PAID_CASE_NUMBER = "paidCaseNumber";
     }
 }

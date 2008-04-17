@@ -61,6 +61,8 @@
         <ref bean="AssetRetirementGlobalDetail-asset.depreciationDate" />
         <ref bean="AssetRetirementGlobalDetail-asset.totalCostAmount" />
         <ref bean="AssetRetirementGlobalDetail-asset.federalContribution" />
+        <ref bean="AssetRetirementGlobalDetail-asset.accumulatedDepreciation" />
+        <ref bean="AssetRetirementGlobalDetail-asset.bookValue" />
         <ref bean="AssetRetirementGlobalDetail-assetRetirementGlobal.retirementDate" />
         <ref bean="AssetRetirementGlobalDetail-versionNumber" />
       </list>
@@ -479,6 +481,16 @@
 
   <bean id="AssetRetirementGlobalDetail-asset.federalContribution-parentBean" abstract="true" parent="Asset-federalContribution">
     <property name="name" value="asset.federalContribution" />
+  </bean>
+  <bean id="AssetRetirementGlobalDetail-asset.accumulatedDepreciation" parent="AssetRetirementGlobalDetail-asset.accumulatedDepreciation-parentBean" />
+
+  <bean id="AssetRetirementGlobalDetail-asset.accumulatedDepreciation-parentBean" abstract="true" parent="Asset-accumulatedDepreciation">
+    <property name="name" value="asset.accumulatedDepreciation" />
+  </bean>
+  <bean id="AssetRetirementGlobalDetail-asset.bookValue" parent="AssetRetirementGlobalDetail-asset.bookValue-parentBean" />
+
+  <bean id="AssetRetirementGlobalDetail-asset.bookValue-parentBean" abstract="true" parent="Asset-bookValue">
+    <property name="name" value="asset.bookValue" />
   </bean>
   <bean id="AssetRetirementGlobalDetail-assetRetirementGlobal.retirementDate" parent="AssetRetirementGlobalDetail-assetRetirementGlobal.retirementDate-parentBean" />
 

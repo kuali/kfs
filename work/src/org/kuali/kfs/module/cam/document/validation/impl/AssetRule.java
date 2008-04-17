@@ -269,13 +269,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         fieldMap.put(LocationField.BUILDING_CODE, CamsPropertyConstants.Asset.BUILDING_CODE);
         fieldMap.put(LocationField.ROOM_NUMBER, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
         fieldMap.put(LocationField.SUB_ROOM_NUMBER, CamsPropertyConstants.Asset.BUILDING_SUB_ROOM_NUMBER);
-        fieldMap.put(LocationField.CONTACT_NAME, CamsPropertyConstants.AssetLocation.CONTACT_NAME);
-        fieldMap.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.AssetLocation.STREET_ADDRESS);
-        fieldMap.put(LocationField.CITY_NAME, CamsPropertyConstants.AssetLocation.CITY_NAME);
-        fieldMap.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetLocation.STATE_CODE);
-        fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetLocation.ZIP_CODE);
-        fieldMap.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.AssetLocation.COUNTRY_CODE);
-        fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetLocation.VERSION_NUM);
+        fieldMap.put(LocationField.CONTACT_NAME, CamsPropertyConstants.Asset.AssetLocation.CONTACT_NAME);
+        fieldMap.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.Asset.AssetLocation.STREET_ADDRESS);
+        fieldMap.put(LocationField.CITY_NAME, CamsPropertyConstants.Asset.AssetLocation.CITY_NAME);
+        fieldMap.put(LocationField.STATE_CODE, CamsPropertyConstants.Asset.AssetLocation.STATE_CODE);
+        fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.Asset.AssetLocation.ZIP_CODE);
+        fieldMap.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.Asset.AssetLocation.COUNTRY_CODE);
+        fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.Asset.AssetLocation.VERSION_NUM);
 
         GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
         boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(newAsset, newAsset, fieldMap);

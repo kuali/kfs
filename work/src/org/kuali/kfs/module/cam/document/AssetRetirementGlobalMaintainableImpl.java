@@ -244,6 +244,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     private void setAssetNonPersistentFields(Asset asset) {
         if (asset != null) {
             asset.setFederalContribution(paymentSummaryService.calculateFederalContribution(asset));
+            asset.setAccumulatedDepreciation(paymentSummaryService.calculatePrimaryAccumulatedDepreciation(asset));
+            asset.setBookValue(paymentSummaryService.calculatePrimaryBookValue(asset));
         }
     }
 

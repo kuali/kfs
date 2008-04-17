@@ -133,7 +133,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @param asset Asset
      * @return Accumulated Primary Depreciation Amount
      */
-    private KualiDecimal calculatePrimaryAccumulatedDepreciation(Asset asset) {
+    public KualiDecimal calculatePrimaryAccumulatedDepreciation(Asset asset) {
         List<AssetPayment> assetPayments = asset.getAssetPayments();
         KualiDecimal amount = new KualiDecimal(0);
         if (assetPayments != null) {
@@ -168,7 +168,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @param asset Asset
      * @return Book Value Amount
      */
-    private KualiDecimal calculatePrimaryBookValue(Asset asset) {
+    public KualiDecimal calculatePrimaryBookValue(Asset asset) {
         KualiDecimal baseAmount = calculatePrimaryBaseAmount(asset);
         KualiDecimal accumDeprAmount = calculatePrimaryAccumulatedDepreciation(asset);
         KualiDecimal salvageAmount = asset.getSalvageAmount();

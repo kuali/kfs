@@ -43,4 +43,8 @@ public interface PaymentSummaryService {
      * @return Federal Contribution Amount
      */
     KualiDecimal calculateFederalContribution(Asset asset);
+    
+    KualiDecimal calculatePrimaryAccumulatedDepreciation(Asset asset);
+    
+    KualiDecimal calculatePrimaryBookValue(Asset asset);
 }

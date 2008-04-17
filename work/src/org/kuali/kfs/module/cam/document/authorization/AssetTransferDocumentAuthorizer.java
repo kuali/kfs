@@ -61,7 +61,6 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
     
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
-        // TODO Auto-generated method stub
         return super.getEditMode(d, u);
     }
 }

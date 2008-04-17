@@ -15,6 +15,7 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -23,13 +24,27 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.dao.AssetPaymentDao;
 import org.kuali.module.cams.service.AssetPaymentService;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     private AssetPaymentDao assetPaymentDao;
-    ParameterService parameterService;
+    private ParameterService parameterService;
+    private UniversityDateService universityDateService;
+    private BusinessObjectService businessObjectService;
+
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
 
     public ParameterService getParameterService() {
@@ -49,6 +64,16 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     public void setAssetPaymentDao(AssetPaymentDao assetPaymentDao) {
         this.assetPaymentDao = assetPaymentDao;
+    }
+
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
 
@@ -74,9 +99,13 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentFinancialObjectActive(org.kuali.module.cams.bo.AssetPayment)
      */
     public boolean isPaymentFinancialObjectActive(AssetPayment assetPayment) {
-        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-        if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-            return assetPayment.getFinancialObject().isActive();
+        ObjectCode financialObjectCode = new ObjectCode();
+        financialObjectCode.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
+        financialObjectCode.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
+        financialObjectCode.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
+        financialObjectCode = (ObjectCode) getBusinessObjectService().retrieve(financialObjectCode);
+        if (ObjectUtils.isNotNull(financialObjectCode)) {
+            return financialObjectCode.isActive();
         }
         return false;
     }

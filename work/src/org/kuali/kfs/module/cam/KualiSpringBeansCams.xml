@@ -226,75 +226,58 @@
 	</bean>
     
     <bean id="paymentSummaryService" class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
-    	<property name="universityDateService">
-    		<ref bean="universityDateService" />
-    	</property>
-    	<property name="parameterService">
-    		<ref bean="parameterService" />
-    	</property>
+    	<property name="universityDateService" ref="universityDateService"/>
+    	<property name="parameterService" ref="parameterService"/>
     </bean>
     
     <bean id="assetComponentDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetComponentDaoOjb"/>
     
     <bean id="assetComponentService" class="org.kuali.module.cams.service.impl.AssetComponentServiceImpl">
-    	<property name="assetComponentDao">
-    		<ref bean="assetComponentDao" />
-    	</property>
+    	<property name="assetComponentDao" ref="assetComponentDao"/>
     </bean>    
     
     <bean id="assetDispositionService" class="org.kuali.module.cams.service.impl.AssetDispositionServiceImpl" />
     
     <bean id="retirementInfoService" class="org.kuali.module.cams.service.impl.RetirementInfoServiceImpl" >
-    	<property name="parameterService">
-    		<ref bean="parameterService" />
-    	</property>
-    	<property name="assetService">
-    		<ref bean="assetService" />
-    	</property>
+    	<property name="parameterService" ref="parameterService"/>
+    	<property name="assetService" ref="assetService"/>
     </bean>
+    
     <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl">
-    	<property name="assetHeaderService">
-    		<ref bean="assetHeaderService" />
-    	</property>
+    	<property name="assetHeaderService" ref="assetHeaderService"/>
     </bean>    
+    
     <bean id="assetDetailInformationService" class="org.kuali.module.cams.service.impl.AssetDetailInformationServiceImpl" />
+    
     <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" >
-    	<property name="assetService">
-    		<ref bean="assetService" />
-    	</property>
+    	<property name="assetService" ref="assetService" />
     </bean>
-    <bean id="assetHeaderService" class="org.kuali.module.cams.service.impl.AssetHeaderServiceImpl" />
+    
+    <bean id="assetHeaderService" class="org.kuali.module.cams.service.impl.AssetHeaderServiceImpl" />    
     
     <bean id="assetPaymentDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetPaymentDaoOjb"/>
-    <bean id="assetPaymentService" class="org.kuali.module.cams.service.impl.AssetPaymentServiceImpl">
-    	<property name="assetPaymentDao">
-    		<ref bean="assetPaymentDao" />
-    	</property>
-    	<property name="parameterService">
-    		<ref bean="parameterService" />
-    	</property>
+    
+    <bean id="assetPaymentService" class="org.kuali.module.cams.service.impl.AssetPaymentServiceImpl">    
+    	<property name="assetPaymentDao" ref="assetPaymentDao" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="universityDateService" ref="universityDateService" />
+    	<property name="businessObjectService" ref="businessObjectService" />    	
     </bean>
+     
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
-    	<property name="parameterService">
-    		<ref bean="parameterService" />
-    	</property>
+    	<property name="parameterService" ref="parameterService" />
     </bean>
+    
     <bean id="assetTransferService" class="org.kuali.module.cams.service.impl.AssetTransferServiceImpl" >
-    	<property name="assetService">
-    		<ref bean="assetService" />
-    	</property>
-    	<property name="universityDateService">
-    		<ref bean="universityDateService" />
-    	</property>
-    	<property name="businessObjectService">
-    		<ref bean="businessObjectService" />
-    	</property>
-    	<property name="assetPaymentService">
-    		<ref bean="assetPaymentService" />
-    	</property>
+    	<property name="assetService" ref="assetService" />
+    	<property name="universityDateService" ref="universityDateService" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="assetPaymentService" ref="assetPaymentService" />
     </bean>
+    
     <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.CamsGeneralLedgerPendingEntryGenerationProcess">
     	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
     </bean>
+    
     <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl" />
 </beans>

@@ -182,6 +182,9 @@ public class BCConstants extends JstlConstants {
         public final static String BLANK_SUB_OBJECT_CODE = "---";
         public final static String BLANK = "";
         public final static String DELETE_MARK = "*"; 
+        public final static String REVENUE = "REVENUE";
+        public final static String EXPENDITURE = "EXPENDITURE";
+        public final static String CONSOLIIDATED = "Consolidated";
         // selection screen
         public final static String SUB_FUND_SELECTION_TITLE = "Sub-Fund List Selection";
         public final static String OBJECT_CODE_SELECTION_TITLE = "Salary Object List Selection";

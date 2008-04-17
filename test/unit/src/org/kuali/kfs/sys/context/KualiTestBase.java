@@ -118,6 +118,10 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             }
             finally {
                 tearDown();
+                if ( springContextInitialized ) {
+                    LOG.info( "clearing method cache" );
+                    clearMethodCache();
+                }
             }
         }
         catch (Throwable t) {
@@ -133,9 +137,6 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             if (contextConfiguration != null) {
                 endTestTransaction();
             }
-            if ( springContextInitialized ) {
-                clearMethodCache();
-            }
             GlobalVariables.setUserSession(null);
             GlobalVariables.setErrorMap(new ErrorMap());
             LOG.info("Leaving test '" + testName + "'");
@@ -144,6 +145,8 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
 
     protected void clearMethodCache() {
         GeneralCacheAdministrator cache = (GeneralCacheAdministrator)SpringContext.getBean("methodResultsCacheAdministrator");
+        cache.flushAll();
+        cache = (GeneralCacheAdministrator)SpringContext.getBean("methodResultsCacheNoCopyAdministrator");
         cache.flushAll();
     }
     

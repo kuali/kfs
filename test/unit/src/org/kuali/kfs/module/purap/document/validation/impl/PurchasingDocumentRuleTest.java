@@ -565,13 +565,11 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
         assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
         GlobalVariables.getErrorMap().clear();
-        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentFixture poFixture = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS;
         rules.processItemValidation(poFixture.createPurchaseOrderDocument());
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
         assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
-        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
     }
     
     /**
@@ -585,11 +583,9 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_ACTIVE_COMMODITY_CODE;
         assertTrue(rules.processItemValidation(fixture.createRequisitionDocument()));
         GlobalVariables.getErrorMap().clear();
-        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE;
         assertTrue(rules.processItemValidation(poFixture.createPurchaseOrderDocument()));
-        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
     }
     
     /**
@@ -604,12 +600,10 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         rules.processItemValidation(fixture.createRequisitionDocument());
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE));
         GlobalVariables.getErrorMap().clear();
-        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_INACTIVE_COMMODITY_CODE;
         rules.processItemValidation(poFixture.createPurchaseOrderDocument());
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE));
-        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
     }
     
     /**
@@ -624,12 +618,9 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         rules.processItemValidation(fixture.createRequisitionDocument());
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));
         GlobalVariables.getErrorMap().clear();
-        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_NON_EXISTENCE_COMMODITY_CODE;
         rules.processItemValidation(poFixture.createPurchaseOrderDocument());
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));
-        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
-        
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));        
     }
 }

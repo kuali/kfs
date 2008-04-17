@@ -160,7 +160,6 @@ public class NegativeAPOTest extends KualiTestBase {
              String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
-         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
      }
      
      public void testInvalidAPOHasCommodityCodeWithRestrictedMaterial() throws Exception {
@@ -172,7 +171,6 @@ public class NegativeAPOTest extends KualiTestBase {
              String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
-         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
      }
      
      public void testInvalidAPOMissingCommodityCode() throws Exception {
@@ -187,7 +185,6 @@ public class NegativeAPOTest extends KualiTestBase {
              String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_MISSING_COMMODITY_CODE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
-         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "N");
      }
      
 }

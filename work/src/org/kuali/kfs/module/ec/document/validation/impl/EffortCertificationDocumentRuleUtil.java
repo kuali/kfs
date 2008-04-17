@@ -42,13 +42,14 @@ import org.kuali.module.financial.service.UniversityDateService;
  * the specified requirements.
  */
 public class EffortCertificationDocumentRuleUtil {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRuleUtil.class);
 
     /**
      * reset the attribute with the blank value to the default values
      * 
      * @param detailLine the given detail line
      */
-    public static void applyDefaultValues(EffortCertificationDetail detailLine) {
+    public static void applyDefaultValues(EffortCertificationDetail detailLine) {        
         if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
@@ -180,8 +181,7 @@ public class EffortCertificationDocumentRuleUtil {
             if(detailLine != line && ObjectUtil.equals(line, detailLine, comparableFields)) {
                 return true;
             }
-        }
-
+        }        
         return false;
     }
 

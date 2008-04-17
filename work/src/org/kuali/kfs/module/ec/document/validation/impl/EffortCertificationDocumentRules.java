@@ -17,15 +17,19 @@ package org.kuali.module.effort.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -36,6 +40,7 @@ import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -112,7 +117,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
+        if(detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
             reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_LINE_EXISTS);
             return false;
         }
@@ -177,10 +182,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             valid &= this.processUpdateDetailLineRules(effortCertificationDocument, detailLine);
         }
 
-        valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument); 
-        
-        // TODO: enable it after document types are corrected
-        //valid &= this.processGenerateSalaryExpenseTransferDocumentRules(effortCertificationDocument);
+        valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument);
+        valid &= this.processGenerateSalaryExpenseTransferDocumentRules(effortCertificationDocument);
 
         if (valid) {
             effortCertificationDocumentService.addRouteLooping(effortCertificationDocument);
@@ -197,13 +200,13 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         LOG.info("processAddLineBusinessRules() start");
 
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;
-        
+
         // the docuemnt must have at least one detail line
-        if(!EffortCertificationDocumentRuleUtil.hasDetailLine(effortCertificationDocument)) {
+        if (!EffortCertificationDocumentRuleUtil.hasDetailLine(effortCertificationDocument)) {
             reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOT_HAVE_DETAIL_LINE);
             return false;
         }
-        
+
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
             return true;
         }
@@ -356,10 +359,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-
+        
         return comparableFields;
     }
-
+    
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
      * 

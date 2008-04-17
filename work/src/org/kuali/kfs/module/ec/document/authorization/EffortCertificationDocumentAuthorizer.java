@@ -56,7 +56,6 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         }
 
         documentActionFlags.setHasAmountTotal(true);
-        documentActionFlags.setCanAdHocRoute(true);
         
         // disallowed actions for all status(s)
         documentActionFlags.setCanCancel(false);

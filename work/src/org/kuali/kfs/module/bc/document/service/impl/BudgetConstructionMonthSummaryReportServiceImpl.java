@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.BCConstants;
@@ -32,6 +33,7 @@ import org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.util.BudgetConstructionReportHelper;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,6 +45,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     KualiConfigurationService kualiConfigurationService;
+    BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)
@@ -65,7 +68,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * @see org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
         Collection<BudgetConstructionOrgMonthSummaryReport> reportSet = new ArrayList();
 
         BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry;
@@ -99,8 +102,8 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
 
         for (BudgetConstructionMonthSummary monthSummaryEntry : monthSummaryList) {
             orgMonthSummaryReportEntry = new BudgetConstructionOrgMonthSummaryReport();
-            buildReportsHeader(universityFiscalYear, orgMonthSummaryReportEntry, monthSummaryEntry);
-            buildReportsBody(orgMonthSummaryReportEntry, monthSummaryEntry);
+            buildReportsHeader(universityFiscalYear, orgMonthSummaryReportEntry, monthSummaryEntry, consolidateToObjectCodeLevel);
+            buildReportsBody(universityFiscalYear, orgMonthSummaryReportEntry, monthSummaryEntry);
             buildReportsTotal(orgMonthSummaryReportEntry, monthSummaryEntry, monthSummaryTotalLevelList, monthSummaryTotalConsList, monthSummaryTotalTypeList, monthSummaryTotalIncexpList);
             reportSet.add(orgMonthSummaryReportEntry);
         }
@@ -113,7 +116,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * 
      * @param BudgetConstructionMonthSummary bcas
      */
-    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary) {
+    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary, boolean consolidateToObjectCodeLevel) {
         String orgChartDesc = monthSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = monthSummary.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = monthSummary.getOrganization().getOrganizationName();
@@ -166,15 +169,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             orgMonthSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
         }
 
-        Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgMonthSummaryReportEntry.setHeader1("Object Level Name");
-        orgMonthSummaryReportEntry.setHeader2("FTE");
-        orgMonthSummaryReportEntry.setHeader3("Amount");
-        orgMonthSummaryReportEntry.setHeader4("Amount");
-        orgMonthSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgMonthSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgMonthSummaryReportEntry.setConsHdr("");
-
+        if (consolidateToObjectCodeLevel){
+            orgMonthSummaryReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
+        }
         // For page break for objectMonthCode
         //orgMonthSummaryReportEntry.setFinancialObjectLevelCode(monthSummary.getFinancialObjectLevelCode());
         orgMonthSummaryReportEntry.setIncomeExpenseCode(monthSummary.getIncomeExpenseCode());
@@ -189,9 +186,19 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * 
      * @param BudgetConstructionMonthSummary bcas
      */
-    public void buildReportsBody(BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary) {
+    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary) {
         
-        orgMonthSummaryReportEntry.setFinancialObjectCodeName("TEMP NAME");
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, monthSummary.getChartOfAccountsCode());
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, monthSummary.getFinancialObjectCode());
+        ObjectCode objectCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
+        if ( objectCode != null){
+            orgMonthSummaryReportEntry.setFinancialObjectCodeName(objectCode.getFinancialObjectCodeName());
+        } else {
+            orgMonthSummaryReportEntry.setFinancialObjectCodeName("NULL");
+        }
+
         orgMonthSummaryReportEntry.setAccountLineAnnualBalanceAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getAccountLineAnnualBalanceAmount()));
         orgMonthSummaryReportEntry.setFinancialDocumentMonth1LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth1LineAmount()));
         orgMonthSummaryReportEntry.setFinancialDocumentMonth2LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth2LineAmount()));
@@ -234,6 +241,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         
         for (BudgetConstructionOrgMonthSummaryReportTotal levelTotal : monthSummaryTotalLevelList) {
             if (isSameMonthSummaryEntryForLevel(monthSummary, levelTotal.getBudgetConstructionMonthSummary())) {
+                orgMonthSummaryReportEntry.setLevelTotalDescription(monthSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
                 orgMonthSummaryReportEntry.setLevelAccountLineAnnualBalanceAmount(levelTotal.getLevelAccountLineAnnualBalanceAmount());
                 orgMonthSummaryReportEntry.setLevelMonth1LineAmount(levelTotal.getLevelMonth1LineAmount());
                 orgMonthSummaryReportEntry.setLevelMonth2LineAmount(levelTotal.getLevelMonth2LineAmount());
@@ -250,9 +258,10 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                 
             }
         }
-
+        
         for (BudgetConstructionOrgMonthSummaryReportTotal consTotal : monthSummaryTotalConsList) {
             if (isSameMonthSummaryEntryForCons(monthSummary, consTotal.getBudgetConstructionMonthSummary())) {
+                orgMonthSummaryReportEntry.setConsTotalDescription(monthSummary.getFinancialConsolidationObject().getFinConsolidationObjectName());
                 orgMonthSummaryReportEntry.setConsAccountLineAnnualBalanceAmount(consTotal.getConsAccountLineAnnualBalanceAmount());
                 orgMonthSummaryReportEntry.setConsMonth1LineAmount(consTotal.getConsMonth1LineAmount());
                 orgMonthSummaryReportEntry.setConsMonth2LineAmount(consTotal.getConsMonth2LineAmount());
@@ -271,6 +280,13 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
 
         for (BudgetConstructionOrgMonthSummaryReportTotal typeTotal : monthSummaryTotalTypeList) {
             if (isSameMonthSummaryEntryForType(monthSummary, typeTotal.getBudgetConstructionMonthSummary())) {
+                //get Type desc
+                if (monthSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)){
+                    orgMonthSummaryReportEntry.setTypeTotalDescription(BCConstants.Report.REVENUE);
+                    
+                } else {
+                    orgMonthSummaryReportEntry.setTypeTotalDescription(BCConstants.Report.EXPENDITURE);
+                }
                 orgMonthSummaryReportEntry.setTypeAccountLineAnnualBalanceAmount(typeTotal.getTypeAccountLineAnnualBalanceAmount());
                 orgMonthSummaryReportEntry.setTypeMonth1LineAmount(typeTotal.getTypeMonth1LineAmount());
                 orgMonthSummaryReportEntry.setTypeMonth2LineAmount(typeTotal.getTypeMonth2LineAmount());
@@ -347,7 +363,6 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                 orgMonthSummaryReportEntry.setDifferenceMonth12LineAmount(differenceMonth12LineAmount);
             }
         }
-
     }
 
 
@@ -822,5 +837,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

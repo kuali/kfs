@@ -23,6 +23,7 @@
         <ref bean="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.chartOfAccountsCode" />
         <ref bean="OutstandingCertificationsByOrganization-universityFiscalYear" />
         <ref bean="OutstandingCertificationsByOrganization-effortCertificationReportNumber" />
+        <ref bean="OutstandingCertificationsByOrganization-nextApprovers" />
         <ref bean="OutstandingCertificationsByOrganization-versionNumber" />
       </list>
     </property>
@@ -91,6 +92,24 @@
     </property>
     <property name="summary" value="Certification Organizations" />
     <property name="description" value="Certification Organizations" />
+  </bean>
+  
+  <bean id="OutstandingCertificationsByOrganization-nextApprovers" parent="OutstandingCertificationsByOrganization-nextApprovers-parentBean" />
+  <bean id="OutstandingCertificationsByOrganization-nextApprovers-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nextApprovers" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Next Approvers" />
+    <property name="shortLabel" value="Next Approvers" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Next Approvers" />
+    <property name="description" value="Next Approvers" />
   </bean>
   <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode" parent="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" />
 
@@ -175,6 +194,8 @@
               p:attributeName="emplid" />
         <bean parent="FieldDefinition"
               p:attributeName="employee.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="nextApprovers" />
       </list>
     </property>
   </bean>

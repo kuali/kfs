@@ -18,13 +18,20 @@ package org.kuali.module.effort.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Business object for the outstanding documents by organization report
  */
 public class OutstandingCertificationsByOrganization extends EffortCertificationDocument {
-
+    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OutstandingCertificationsByOrganization.class);
+    
     /**
      * gets a string representation of the document's chart and organization.
      * 
@@ -49,4 +56,20 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
         return certificationOrganizations;
     }
 
+    public String getNextApprovers() {
+        String nextApprovers = "";
+        
+        try {
+            List<String> approvers = SpringContext.getBean(KualiWorkflowInfo.class).getApprovalRequestedUsers(getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+            for (String approver : approvers) {
+                if (StringUtils.isBlank(nextApprovers)) nextApprovers = approver;
+                else nextApprovers += ", " + approver;
+            }
+        }
+        catch (WorkflowException e) {
+           LOG.error("Problem getting next approver", e);
+        }
+        
+        return nextApprovers;
+    }
 }

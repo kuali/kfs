@@ -64,13 +64,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
 
     /**
-     * Constructs a EffortCertificationDocumentRules.java.
-     */
-    public EffortCertificationDocumentRules() {
-        super();
-    }
-
-    /**
      * This rule will generate salary expense transfer document. After the document is generated, it is hard to rollback. Thus, the
      * rule should be the very last one to be invoked.
      * 

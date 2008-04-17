@@ -36,7 +36,7 @@ public enum BudgetConstructionReportMode {
     ACCOUNT_OBJECT_DETAIL_REPORT("AccountObjectDetailReport", PBGL, SUBFUND, "BudgetOrgAccountObjectDetail", true),
     ACCOUNT_SUMMARY_REPORT("AccountSummaryReport", PBGL, SUBFUND, "BudgetOrgAccountSummary", true), 
     LEVEL_SUMMARY_REPORT("LevelSummaryReport", PBGL, SUBFUND, "BudgetOrgLevelSummary", true),
-    MONTH_SUMMARY_REPORT("MonthSummaryReport", MONTH, SUBFUND, "BudgetOrgMonthlySummary", true),
+    MONTH_SUMMARY_REPORT("MonthSummaryReport", MONTH, SUBFUND, "BudgetOrgMonthSummary", true),
     OBJECT_SUMMARY_REPORT("ObjectSummaryReport", PBGL, SUBFUND, "BudgetOrgObjectSummary", true),    
     POSITION_DETAIL_REPORT("PositionDetailReport", BCAF, OBJECT_CODE, "BudgetOrgPositionDetailSummary", false), 
     REASON_STATISTICS_REPORT("ReasonStatisticsReport", BCAF, REASON, "BudgetOrgReasonStatistics", false),

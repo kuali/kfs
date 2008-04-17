@@ -93,11 +93,14 @@ public class CamsKeyConstants {
         public static final String ERROR_OFFCAMPUS_CITY_REQUIRED = "error.offcampus.city.required";
         public static final String ERROR_OFFCAMPUS_STATE_REQUIRED = "error.offcampus.state.required";
         public static final String ERROR_OFFCAMPUS_ZIP_REQUIRED = "error.offcampus.zip.required";
+        public static final String ERROR_OFFCAMPUS_CONTACT_REQUIRED = "error.offcampus.contactName.required";
+        public static final String ERROR_OFFCAMPUS_COUNTRY_REQUIRED = "error.offcampus.country.required";
         public static final String ERROR_CHOOSE_LOCATION_INFO = "error.location.choose.right";
         public static final String ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED = "error.location.offcampus.not.permitted";
         public static final String ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED = "error.location.oncampus.not.permitted";
         public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.room.number.not.permitted";
         public static final String ERROR_ONCAMPUS_SUB_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.sub.room.number.not.permitted";
+        public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";
     }
 
     public static class Retirement {

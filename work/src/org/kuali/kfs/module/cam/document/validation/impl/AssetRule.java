@@ -269,10 +269,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         fieldMap.put(LocationField.BUILDING_CODE, CamsPropertyConstants.Asset.BUILDING_CODE);
         fieldMap.put(LocationField.ROOM_NUMBER, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
         fieldMap.put(LocationField.SUB_ROOM_NUMBER, CamsPropertyConstants.Asset.BUILDING_SUB_ROOM_NUMBER);
+        fieldMap.put(LocationField.CONTACT_NAME, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CONTACT_NAME);
         fieldMap.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STREET_ADDRESS);
         fieldMap.put(LocationField.CITY_NAME, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CITY_NAME);
         fieldMap.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STATE_CODE);
         fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_ZIP_CODE);
+        fieldMap.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_COUNTRY_CODE);
         fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetLocation.ASSET_LOCATION_VERSION_NUM);
 
         GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");

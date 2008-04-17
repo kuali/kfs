@@ -25,6 +25,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetType;
@@ -78,62 +79,69 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         String buildingCode = readPropertyValue(businessObject, fieldMap, LocationField.BUILDING_CODE);
         String roomNumber = readPropertyValue(businessObject, fieldMap, LocationField.ROOM_NUMBER);
         String subRoomNumber = readPropertyValue(businessObject, fieldMap, LocationField.SUB_ROOM_NUMBER);
+        String contactName = readPropertyValue(businessObject, fieldMap, LocationField.CONTACT_NAME);
         String streetAddress = readPropertyValue(businessObject, fieldMap, LocationField.STREET_ADDRESS);
         String cityName = readPropertyValue(businessObject, fieldMap, LocationField.CITY_NAME);
         String stateCode = readPropertyValue(businessObject, fieldMap, LocationField.STATE_CODE);
         String zipCode = readPropertyValue(businessObject, fieldMap, LocationField.ZIP_CODE);
+        String countryCode = readPropertyValue(businessObject, fieldMap, LocationField.COUNTRY_CODE);
         boolean onCampus = StringUtils.isNotBlank(buildingCode) || StringUtils.isNotBlank(roomNumber) || StringUtils.isNotBlank(subRoomNumber);
         boolean offCampus = StringUtils.isNotBlank(streetAddress) || StringUtils.isNotBlank(cityName) || StringUtils.isNotBlank(stateCode) || StringUtils.isNotBlank(zipCode);
 
         boolean valid = true;
-        if (getAssetService().isCapitalAsset(asset)) {
-            valid &= validateCapitalAssetLocation(asset, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, streetAddress, cityName, stateCode, zipCode, onCampus, offCampus);
+        if (onCampus && offCampus) {
+            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);
+            valid &= false;
         }
         else {
-            valid &= validateNonCapitalAssetLocation(fieldMap, streetAddress, cityName, stateCode, zipCode, onCampus, offCampus);
+            if (getAssetService().isCapitalAsset(asset)) {
+                valid &= validateCapitalAssetLocation(asset, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus);
+            }
+            else {
+                valid &= validateNonCapitalAssetLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus);
+            }
         }
         return valid;
     }
 
 
-    private boolean validateCapitalAssetLocation(Asset asset, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String streetAddress, String cityName, String stateCode, String zipCode, boolean onCampus, boolean offCampus) {
+    private boolean validateCapitalAssetLocation(Asset asset, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
+        asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         AssetType assetType = asset.getCapitalAssetType();
         boolean valid = true;
-        if (onCampus && offCampus) {
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);
+        if (ObjectUtils.isNull(assetType)) {
+            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);
             valid &= false;
         }
-        else if (assetType.isRequiredBuildingIndicator() && offCampus) {
-            // off campus information not allowed
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
-            valid &= false;
-        }
-        else if (!assetType.isMovingIndicator() && !assetType.isRequiredBuildingIndicator() && onCampus) {
-            // land information cannot have on-campus
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
-            valid &= false;
-        }
-        else if (onCampus) {
-            valid = validateOnCampusLocation(fieldMap, assetType, campusCode, buildingCode, roomNumber, subRoomNumber, asset);
-        }
-        else if (offCampus) {
-            valid = validateOffCampusLocation(fieldMap, streetAddress, cityName, stateCode, zipCode);
-        }
-        else if (assetType.isMovingIndicator() || assetType.isRequiredBuildingIndicator()) {
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
-            valid &= false;
+        else {
+            if (assetType.isRequiredBuildingIndicator() && offCampus) {
+                // off campus information not allowed
+                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
+                valid &= false;
+            }
+            else if (!assetType.isMovingIndicator() && !assetType.isRequiredBuildingIndicator() && onCampus) {
+                // land information cannot have on-campus
+                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
+                valid &= false;
+            }
+            else if (onCampus) {
+                valid = validateOnCampusLocation(fieldMap, assetType, campusCode, buildingCode, roomNumber, subRoomNumber, asset);
+            }
+            else if (offCampus) {
+                valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
+            }
+            else if (assetType.isMovingIndicator() || assetType.isRequiredBuildingIndicator()) {
+                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
+                valid &= false;
+            }
         }
         return valid;
     }
 
-    private boolean validateNonCapitalAssetLocation(Map<LocationField, String> fieldMap, String streetAddress, String cityName, String stateCode, String zipCode, boolean onCampus, boolean offCampus) {
+    private boolean validateNonCapitalAssetLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
         boolean valid = true;
-        if (onCampus && offCampus) {
-            putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);
-            valid &= false;
-        }
-        else if (offCampus) {
-            valid = validateOffCampusLocation(fieldMap, streetAddress, cityName, stateCode, zipCode);
+        if (offCampus) {
+            valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
         }
         return valid;
     }
@@ -175,10 +183,14 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return valid;
     }
 
-    private boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String streetAddress, String cityName, String stateCode, String zipCode) {
+    private boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode) {
         boolean valid = true;
-        // when off campus, make sure required fields are populated
-        // TODO - Check if contact name is a mandatory information
+
+        // If contact name field is defined
+        if (fieldMap.get(LocationField.CONTACT_NAME) != null && StringUtils.isBlank(contactName)) {
+            putError(fieldMap, LocationField.CONTACT_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CONTACT_REQUIRED);
+            valid &= false;
+        }
 
         if (StringUtils.isBlank(streetAddress)) {
             putError(fieldMap, LocationField.STREET_ADDRESS, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ADDRESS_REQUIRED);
@@ -196,13 +208,21 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ZIP_REQUIRED);
             valid &= false;
         }
+        // If contact name field is defined
+        if (fieldMap.get(LocationField.COUNTRY_CODE) != null && StringUtils.isBlank(countryCode)) {
+            putError(fieldMap, LocationField.COUNTRY_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_COUNTRY_REQUIRED);
+            valid &= false;
+        }
         return valid;
     }
 
     private String readPropertyValue(BusinessObject currObject, Map<LocationField, String> fieldMap, LocationField field) {
         String stringValue = null;
         try {
-            stringValue = (String) ObjectUtils.getNestedValue(currObject, fieldMap.get(field));
+            String propertyName = fieldMap.get(field);
+            if (propertyName != null) {
+                stringValue = (String) ObjectUtils.getNestedValue(currObject, propertyName);
+            }
         }
         catch (Exception e) {
             throw new RuntimeException(e);

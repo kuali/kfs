@@ -68,7 +68,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     }
 
     private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
-    private static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
+    private static final KualiDecimal KUALI_DECIMAL_ZERO = new KualiDecimal(0);
     private AssetService assetService;
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
@@ -96,7 +96,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 Method writeMethod = propertyDescriptor.getWriteMethod();
                 if (writeMethod != null && amount != null) {
                     // Reset periodic depreciation expenses
-                    if (Pattern.matches(SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
+                    if (Pattern.matches(CamsConstants.SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
                         Object[] nullVal = new Object[] { null };
                         writeMethod.invoke(offsetPayment, nullVal);
                     }
@@ -206,7 +206,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 AssetPayment newPayment;
                 try {
                     if (maxSequenceNo == null) {
-                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
+                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
                     // create new payment info
                     newPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
@@ -248,7 +248,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 AssetPayment offsetPayment;
                 try {
                     if (maxSequenceNo == null) {
-                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
+                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
                     offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
                     offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);

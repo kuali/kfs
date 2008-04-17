@@ -112,11 +112,12 @@
     <property name="name" value="expenditureFinancialDocumentPostedDate" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Expenditure Financial Document Posted Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="shortLabel" value="Posted Date" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
@@ -149,7 +150,7 @@
     <property name="name" value="expenditureFinancialSystemOriginationCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Expenditure Financial System Origination Code" />
-    <property name="shortLabel" value="Org. CD" />
+    <property name="shortLabel" value="Orgination Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -244,7 +245,7 @@
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />

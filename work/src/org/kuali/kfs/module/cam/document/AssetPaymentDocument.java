@@ -16,23 +16,25 @@
 package org.kuali.module.cams.document;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
+import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
@@ -86,16 +88,48 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
      */
     @Override    
     public void addSourceAccountingLine(SourceAccountingLine line) {
+        Calendar calendar = new GregorianCalendar();
+        java.sql.Date systemDate = new java.sql.Date(calendar.getTime().getTime());
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail)line;
         assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
         assetPaymentDetail.setAccountChargeAmount(line.getAmount());
-
+        assetPaymentDetail.setPaymentApplicationDate(systemDate);
+                    
         line = (SourceAccountingLine)assetPaymentDetail;
+        
         this.sourceAccountingLines.add(line);
         this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
     }
     
+    
+    
+    @Override
+    public void handleRouteStatusChange() {       
+       LOG.info("****AssetPaymentDocument.handleRouteStatusChange()");
+        super.handleRouteStatusChange();
+
+        //Update asset payment table with the approved asset detail records.
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            LOG.info("****AssetPaymentDocument.handleRouteStatusChange() - inside the  IF!!!");
+            SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
+        }
+        LOG.info("***AssetPaymentDocument.handleRouteStatusChange().Document Status:"+getDocumentHeader().getWorkflowDocument().stateIsProcessed());
+    }
+
+    
+    /**
+     * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        // This is an empty method in order to prevent kuali from generating a gl pending entry record.     
+    }
+    
+        
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
@@ -193,11 +227,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.building = building;
     }
 
-    public List<AssetPaymentDetail> getAssetPaymentDetailLines() {
+    public List<AssetPaymentDetail> getAssetPaymentDetail() {
         return assetPaymentDetail;
     }
 
-    public void setAssetPaymentDetailLines(List<AssetPaymentDetail> assetPaymentDetail) {
+    public void setAssetPaymentDetail(List<AssetPaymentDetail> assetPaymentDetail) {
         this.assetPaymentDetail = assetPaymentDetail;
     }
 
@@ -209,3 +243,5 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.asset = asset;
     }
 }
+
+

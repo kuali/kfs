@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
@@ -52,17 +53,18 @@
 		  </table>   
         </div>
 	  </kul:tab>
-        
+	        
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
+		isOptionalFieldsInNewRow="false"		
 		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode"
-		extraSourceRowFields="paymentApplicationDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"
-		extraHiddenFields=",transferPaymentIndicator,financialDocumentLineNumber,accountChargeAmount">
-      
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">asdfasdf</table>
-	</fin:accountingLines>				
-	<!-- cams:viewAssetDetails 	defaultTabHide="true" /-->
+		extraSourceRowFields="expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"
+		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber,accountChargeAmount"
+		sourceTotalsOverride="${KualiForm.assetPaymentTotals}" >
+		
+	</fin:accountingLines>			
+	<cams:viewAssetDetails 	defaultTabHide="true" />
 	<cams:assetPaymentHeader defaultTabHide="true" />
 	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />

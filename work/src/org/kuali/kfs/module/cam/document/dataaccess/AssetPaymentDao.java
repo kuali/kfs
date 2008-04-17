@@ -22,8 +22,8 @@ public interface AssetPaymentDao {
     /**
      * This method gets the maximum of asset payment sequence number column from database and sets the value
      * 
-     * @param assetPayment Asset payment
+     * @param capitalAssetNumber
      * @return max payment number
      */
-    Integer getMaxSquenceNumber(AssetPayment assetPayment);
+    Integer getMaxSquenceNumber(Long capitalAssetNumber);
 }

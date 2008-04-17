@@ -113,6 +113,27 @@
 	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.manufacturerName}" property="document.asset.manufacturerName" readOnly="${!fullEntryMode}"/>  
 	        </td>
 	      </tr>
+
+
+	      <tr>
+	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.conditionCode}"/></div></th>
+	        <td align=left valign=middle class="grid">
+	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.conditionCode}" property="document.asset.conditionCode" readOnly="${!fullEntryMode}"/>  
+	        </td>
+	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.manufacturerModelNumber}"/></div></th>
+	        <td align=left valign=middle class="grid">
+	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.manufacturerModelNumber}" property="document.asset.manufacturerModelNumber" readOnly="${!fullEntryMode}"/>  
+	        </td>
+	      </tr>
+
+	      <tr>
+	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.totalCostAmount}"/></div></th>
+	        <td align=left valign=middle class="grid">
+	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.totalCostAmount}" property="document.asset.totalCostAmount" readOnly="${!fullEntryMode}"/>  
+	        </td>
+			<th align=right valign=middle class="grid"><div align="right">&nbsp;</div></th>
+	        <th align=right valign=middle class="grid"><div align="right">&nbsp;</div></th>
+	      </tr>
 	      
 	      <tr>
 	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}"/></div></th>
@@ -120,6 +141,7 @@
 	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.capitalAssetDescription}" property="document.asset.capitalAssetDescription" readOnly="${!fullEntryMode}"/>          
 	        </td>
 	      </tr>
+	      
 	     </table>
      </div>
 </kul:tab>

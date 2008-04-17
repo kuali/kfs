@@ -16,6 +16,7 @@
 package org.kuali.module.cams.service;
 
 import org.kuali.module.cams.bo.AssetPayment;
+import org.kuali.module.cams.document.AssetPaymentDocument;
 
 public interface AssetPaymentService {
 
@@ -25,7 +26,7 @@ public interface AssetPaymentService {
      * @param assetPayment Asset Payment
      * @return Maximum sequence value of asset payment within an asset
      */
-    Integer getMaxSequenceNumber(AssetPayment assetPayment);
+    Integer getMaxSequenceNumber(Long capitalAssetNumber);
 
     /**
      * Checks if asset payment is federally funder or not
@@ -42,4 +43,14 @@ public interface AssetPaymentService {
      * @return True if object is active
      */
     boolean isPaymentFinancialObjectActive(AssetPayment assetPayment);
+
+
+    /**
+     * 
+     * Stores the approved asset payment detail records in the asset payment table, and updates the total cost of the asset 
+     * in the asset table
+     * 
+     * @param assetPaymentDetail
+     */    
+    public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument);
 }

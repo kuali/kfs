@@ -59,8 +59,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
      */
     public AssetPaymentDetail() {
         super();
-        LOG.info("*******AssetPaymentDetail - Constructor");
-        
     }
 
 

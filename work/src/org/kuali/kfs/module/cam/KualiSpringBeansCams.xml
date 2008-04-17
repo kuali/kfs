@@ -261,7 +261,8 @@
     	<property name="assetPaymentDao" ref="assetPaymentDao" />
     	<property name="parameterService" ref="parameterService" />
     	<property name="universityDateService" ref="universityDateService" />
-    	<property name="businessObjectService" ref="businessObjectService" />    	
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="objectCodeService" 	   ref="objectCodeService" />
     </bean>
      
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >

@@ -78,6 +78,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     private KualiDecimal percentChange;
     private KualiInteger persistedAccountLineAnnualBalanceAmount;
+    private boolean pendingBudgetConstructionAppointmentFundingExists;
 
     /**
      * Default constructor.
@@ -567,6 +568,31 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
         this.positionObjectBenefit = positionObjectBenefit;
     }
 
+
+    /**
+     * Gets the pendingBudgetConstructionAppointmentFundingExists attribute. 
+     * @return Returns the pendingBudgetConstructionAppointmentFundingExists.
+     */
+    public boolean isPendingBudgetConstructionAppointmentFundingExists() {
+        pendingBudgetConstructionAppointmentFundingExists = false;
+        
+        if (this.laborObject != null){
+            if (this.getLaborObject().isDetailPositionRequiredIndicator()){
+                Map fieldValues = new HashMap();
+                fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
+                fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+                fieldValues.put("accountNumber", getAccountNumber());
+                fieldValues.put("subAccountNumber", getSubAccountNumber());
+                fieldValues.put("financialObjectCode", getFinancialObjectCode());
+                fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+                int recCount = SpringContext.getBean(BusinessObjectService.class).countMatching(PendingBudgetConstructionAppointmentFunding.class ,fieldValues);
+                if (recCount != 0){
+                    pendingBudgetConstructionAppointmentFundingExists = true;
+                }
+            }
+        }
+        return pendingBudgetConstructionAppointmentFundingExists;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

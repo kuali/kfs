@@ -440,9 +440,11 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
      */
     @Override
     public void populateDocumentForRouting() {
-        super.populateDocumentForRouting();
+
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         this.lockboxNumber = cashControlDocumentService.getLockboxNumber(this);
+        super.populateDocumentForRouting();
+
     }
     
 }

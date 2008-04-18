@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
+import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
@@ -194,22 +194,20 @@ public interface LaborModuleService {
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber);
 
     /**
-     * Given the accounting line, taken from a Budget Adjustment document, returns a list of any fringe benefit lines.
-     * 
-     * @param fiscalYear the fiscal year of the Budget Ajustment document
-     * @param line the accounting line to find fringe beneifts for
-     * @param sourceAccountingLineClass the class of the source accounting line for the document
-     * @param targetAccountingLineClass the class of the target accounting line for the document
-     * @return a List of fring benefit accounting lines to add the document
+     * Returns the fringe benefit information associated with a given fiscal year, chart, and object code
+     * @param fiscalYear the fiscal year to find LaborFringeBenefitInformation records for
+     * @param chartOfAccountsCode the chart of accounts code to find LaborFringeBenefitInformation records for
+     * @param objectCode the object code to find LaborFringeBenefitInformation records for
+     * @return a List of fringe benefit information records
      */
-    public List<BudgetAdjustmentAccountingLine> getFringeBenefitLinesForBudjetAdjustmentLine(Integer fiscalYear, BudgetAdjustmentAccountingLine line, Class sourceAccountingLineClass, Class targetAccountingLineClass);
-
+    public abstract List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
+        
     /**
      * Determines whether the given set of accounting lines have object codes that receieve fringe benefits
-     * 
      * @param fiscalYear the fiscal year of the document
-     * @param accountingLines the accounting lines to check for fringe benefit receiving object codes
+     * @param chartOfAccountsCode chart of accounts code to check
+     * @param financialObjectCode financialObjectCode to check
      * @return true if the lines include lines with labor object codes, false otherwise
      */
-    public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, List<AccountingLine> accountingLines);
+    public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode);
 }

@@ -32,16 +32,15 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
@@ -53,6 +52,7 @@ import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
+import org.kuali.module.labor.bo.FringeBenefitInformation;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -284,75 +284,23 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getFringeBenefitLinesForBudjetAdjustmentLine(org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public List<BudgetAdjustmentAccountingLine> getFringeBenefitLinesForBudjetAdjustmentLine(Integer fiscalYear, BudgetAdjustmentAccountingLine line, Class sourceLineClass, Class targetLineClass) {
-        List<BudgetAdjustmentAccountingLine> fringeLines = new ArrayList<BudgetAdjustmentAccountingLine>();
-        
-        try {
-            Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, line);
-            if (objectBenefits != null) {
-                for (Iterator iterator = objectBenefits.iterator(); iterator.hasNext();) {
-                    PositionObjectBenefit objectBenefit = (PositionObjectBenefit) iterator.next();
-                    BenefitsCalculation benefitsCalculation = objectBenefit.getBenefitsCalculation();
-
-                    // now create and set properties for the benefit line
-                    BudgetAdjustmentAccountingLine benefitLine = null;
-                    if ( line.isSourceAccountingLine() ) {
-                        benefitLine = (BudgetAdjustmentAccountingLine)sourceLineClass.newInstance();
-                    } else {
-                        benefitLine = (BudgetAdjustmentAccountingLine)targetLineClass.newInstance();
-                    }
-                    benefitLine.copyFrom(line);
-                    benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
-                    benefitLine.refreshNonUpdateableReferences();
-
-                    KualiDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
-                    benefitLine.setCurrentBudgetAdjustmentAmount(benefitCurrentAmount);
-
-                    KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
-                    benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
-
-                    // clear monthly lines per KULEDOCS-1606
-                    benefitLine.clearFinancialDocumentMonthLineAmounts();
-                    
-                    // set flag on line so we know it was a generated benefit line and can clear it out later if needed
-                    benefitLine.setFringeBenefitIndicator(true);
-
-                    fringeLines.add(benefitLine);
-                }
-            }
+    public List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
+        List<LaborFringeBenefitInformation> fringeBenefitInformationRecords = new ArrayList<LaborFringeBenefitInformation>();
+        Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
+        for (Iterator iterator = objectBenefits.iterator(); iterator.hasNext();) {
+            fringeBenefitInformationRecords.add(new FringeBenefitInformation((PositionObjectBenefit)iterator.next()));
         }
-        catch (InstantiationException ie) {
-            // it's doubtful this catch block or the catch block below are ever accessible, as accounting lines should already have been generated
-            // for the document.  But we can still make it somebody else's problem
-            throw new RuntimeException(ie);
-        }
-        catch (IllegalAccessException iae) {
-            // with some luck we'll pass the buck now sez some other dev "This sucks!" Get your Runtime on!
-            // but really...we'll never make it this far.  I promise.
-            throw new RuntimeException(iae);
-        }
-        
-        return fringeLines;
+        return fringeBenefitInformationRecords;
     }
     
     /**
      * @see org.kuali.module.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer, java.util.List)
      */
-    public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, List<AccountingLine> accountingLines) {
-        boolean hasLaborObjectCodes = false;
-        
-        for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
-            AccountingLine line = (AccountingLine) iter.next();
-            Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, line);
-            if (objectBenefits != null && !objectBenefits.isEmpty()) {
-                hasLaborObjectCodes = true;
-                break;
-            }
-        }
-        
-        return hasLaborObjectCodes;
+    public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);        
+        return (objectBenefits != null && !objectBenefits.isEmpty());
     }
 
     /**
@@ -363,12 +311,12 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @param line The account line the benefits are being retrieved for.
      * @return List of LaborObjectBenefit objects or null if one does not exist for parameters
      */
-    private Collection retrieveLaborObjectBenefits(Integer fiscalYear, AccountingLine line) {
+    private Collection retrieveLaborObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         Map searchCriteria = new HashMap();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, line.getChartOfAccountsCode());
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, line.getFinancialObjectCode());
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
 
         return getBusinessObjectService().findMatching(PositionObjectBenefit.class, searchCriteria);
     }

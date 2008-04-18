@@ -34,7 +34,7 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
      */
     public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords() {
         Criteria criteria = new Criteria();
-        criteria.addNotNull("requestUpdateErrorCode");
+        criteria.addIsNull("requestUpdateErrorCode");
         
         List<BudgetConstructionRequestMove> records = new ArrayList<BudgetConstructionRequestMove>(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionRequestMove.class, criteria)));
         

@@ -34,6 +34,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
     private String otherFieldDelimiter;
     private String otherTextFieldDelimiter;
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
+    private Integer universityFiscalYear;
     
     public BudgetConstructionRequestImportForm() {
         super();
@@ -168,6 +169,23 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      */
     public void setBudgetConstructionRequestImport(BudgetConstructionRequestImport budgetConstructionRequestImport) {
         this.budgetConstructionRequestImport = budgetConstructionRequestImport;
+    }
+    
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
     }
 
 }

@@ -15,13 +15,13 @@
  */
 package org.kuali.module.budget.service.impl;
 
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +46,9 @@ import org.kuali.module.budget.service.BudgetRequestImportService;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.util.ImportRequestFileParsingHelper;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -86,11 +85,12 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @see org.kuali.module.budget.service.BudgetRequestImportService#processImportFile(java.io.InputStream, java.lang.String, java.lang.String, java.lang.String)
      */
-    public List processImportFile(InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType) throws IOException {
+    public List processImportFile(InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException {
         List fileErrorList = new ArrayList();
         List<BudgetConstructionRequestMove> processedRequestList = new ArrayList<BudgetConstructionRequestMove>();
         
         //TODO: how to handle rollback?
+        //throw exception to force rollback, or try cleaning out table at bad parsing line
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, new HashMap());
 
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
@@ -125,15 +125,13 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             if (StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode())) {
                 budgetConstructionRequestMove.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             }
-            //since ObjectCode is not mapped, need to manually set object code and object type
-            if (budgetConstructionRequestMove.getObjectType() == null || StringUtils.isEmpty(budgetConstructionRequestMove.getFinancialObjectTypeCode()) ) {
-                if ( getObjectCode(budgetConstructionRequestMove) != null ) {
-                    budgetConstructionRequestMove.setFinancialObjectCode(getObjectCode(budgetConstructionRequestMove).getCode());
-                    budgetConstructionRequestMove.setObjectType(getObjectCode(budgetConstructionRequestMove).getFinancialObjectType());
-                    budgetConstructionRequestMove.setFinancialObjectTypeCode(getObjectCode(budgetConstructionRequestMove).getFinancialObjectType().getCode());
+            //TODO:is this correct?
+            //since ObjectCode is not mapped, need to manually set object type
+            if ( StringUtils.isEmpty(budgetConstructionRequestMove.getFinancialObjectTypeCode()) ) {
+                if ( getObjectCode(budgetConstructionRequestMove, budgetYear) != null ) {
+                    String objectTypeCode = getObjectCode(budgetConstructionRequestMove, budgetYear).getFinancialObjectTypeCode();
+                    budgetConstructionRequestMove.setFinancialObjectTypeCode(objectTypeCode);
                 }
-                
-                
             }
             try {
                 budgetConstructionRequestMove.setPersonUniversalIdentifier(personUniversalIdentifier);
@@ -174,7 +172,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @see org.kuali.module.budget.service.BudgetRequestImportService#validateData()
      */
-    public List<String> validateData() {
+    public List<String> validateData(Integer budgetYear) {
         List<BudgetConstructionRequestMove> dataToValidateList = new ArrayList<BudgetConstructionRequestMove>(businessObjectService.findAll(BudgetConstructionRequestMove.class));
         boolean fileDataValid = true;
         List<String> errorMessages = new ArrayList<String>();
@@ -183,7 +181,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             record.refresh();
             boolean lineDataValid = true;
             String errorMessage = record.getErrorLinePrefixForLogFile();
-            if (importRequestDao.getHeaderRecord(record) != null) {
+            if (importRequestDao.getHeaderRecord(record) == null) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getErrorCode());
                 errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getMessage();
                 lineDataValid = false;
@@ -215,7 +213,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             
             //null object type
             if (lineDataValid) {
-                if (record.getObjectType() == null) {
+                if ( StringUtils.isBlank(record.getFinancialObjectTypeCode()) ) {
                     record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE.getErrorCode());
                     errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE.getMessage();
                     lineDataValid = false;
@@ -240,16 +238,16 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             //inactive object code
             //TODO: need to map object code
             if (lineDataValid) {
-                if (getObjectCode(record) != null && !getObjectCode(record).isActive()) {
-                    record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_TYPE_INACTIVE_ERROR_CODE.getErrorCode());
-                    errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_TYPE_INACTIVE_ERROR_CODE.getMessage();
+                if (getObjectCode(record, budgetYear) != null && !getObjectCode(record, budgetYear).isActive()) {
+                    record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_CODE_INACTIVE_ERROR_CODE.getErrorCode());
+                    errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_CODE_INACTIVE_ERROR_CODE.getMessage();
                     lineDataValid = false;
                 }
             }
             
             //TODO: is this correc? compensation object codes COMP
             if (lineDataValid) {
-                LaborObject laborObjectCode = getLaborObject(record);
+                LaborObject laborObjectCode = getLaborObject(record, budgetYear);
                 if (laborObjectCode != null && (laborObjectCode.isDetailPositionRequiredIndicator() || laborObjectCode.getFinancialObjectFringeOrSalaryCode().equals("F")) ) {
                     record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE.getErrorCode());
                     errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE.getMessage();
@@ -259,7 +257,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             
             //TODO: is this correct? no wage accounts CMPA
             if (lineDataValid) {
-                LaborObject laborObject = getLaborObject(record);
+                LaborObject laborObject = getLaborObject(record, budgetYear);
                 if (!record.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator() && laborObject != null ) {
                     record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE.getErrorCode());
                     errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE.getMessage();
@@ -269,7 +267,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             
             //invalid sub-object code NOSO
             if (lineDataValid) {
-                if (!record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && getSubObjectCode(record) != null) {
+                if (!record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && getSubObjectCode(record, budgetYear) != null) {
                     record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE.getErrorCode());
                     errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE.getMessage();
                     lineDataValid = false;
@@ -277,16 +275,17 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
             //inactive sub-object code
             if (lineDataValid) {
-                if (record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && getSubObjectCode(record) != null && !getSubObjectCode(record).isFinancialSubObjectActiveIndicator()) {
+                if (!record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && getSubObjectCode(record, budgetYear) != null && !getSubObjectCode(record, budgetYear).isFinancialSubObjectActiveIndicator()) {
                     record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE.getErrorCode());
                     errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE.getMessage();
                     lineDataValid = false;
                 }
             }
             
-            errorMessages.add(errorMessage);
-            
-            if (!lineDataValid) fileDataValid = false;
+            if (!lineDataValid) {
+                fileDataValid = false;
+                errorMessages.add(errorMessage);
+            }
             
             businessObjectService.save(record);
         }
@@ -298,7 +297,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @see org.kuali.module.budget.service.BudgetRequestImportService#loadBudget()
      */
-    public List<String> loadBudget(UniversalUser user, String fileType) throws Exception {
+    public List<String> loadBudget(UniversalUser user, String fileType, Integer budgetYear) throws Exception {
         List<BudgetConstructionRequestMove> recordsToLoad = importRequestDao.findAllNonErrorCodeRecords();
         List<String> errorMessages = new ArrayList<String>();
         HashMap<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
@@ -314,11 +313,14 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 recordToLoad.setHasLock(temp.getHasLock());
                 recordToLoad.setRequestUpdateErrorCode(temp.getRequestUpdateErrorCode());
             } else {
+                if (header != null && header.getOrganizationLevelCode() != 0 ) System.out.println("!!! header.getOrganizationLevelCode() != 0");
                 if (recordToLoad.getAccount().getAccountFiscalOfficerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier()) ||
                         recordToLoad.getAccount().getAccountManagerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier())) {
                     
                 } else if (header != null && header.getOrganizationLevelCode() != 0 &&
-                        permissionService.isOrgReviewApprover(user.getPersonUserIdentifier(), header.getChartOfAccountsCode(), header.getOrganizationLevelOrganization().getOrganizationCode())) {
+                        permissionService.isOrgReviewApprover(user.getPersonUserIdentifier(), 
+                                header.getOrganizationLevelChartOfAccountsCode(), 
+                                header.getOrganizationLevelCode().toString())) {
                         recordToLoad.setHasAccess(true);
                 } else {
                     recordToLoad.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT.getErrorCode());
@@ -326,7 +328,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 }
                 
                 if (recordToLoad.getHasAccess() && header.getBudgetLockUserIdentifier() == null) {
-                    List<BudgetConstructionFundingLock> locks = findBudgetLocks(recordToLoad);
+                    List<BudgetConstructionFundingLock> locks = findBudgetLocks(recordToLoad, budgetYear);
                     if (locks.isEmpty()) {
                         header.setBudgetLockUserIdentifier(user.getPersonUserIdentifier());
                         businessObjectService.save(header);
@@ -364,7 +366,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
         }
         
-        deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
+        //deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
         
         return errorMessages;
     }
@@ -590,27 +592,11 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return errorList;
     }
     
-    //TODO: is this correct?
-    //should i use SpringContext.getBean(LaborModuleService.class) to find the labor object code? if so, what method?
-    private boolean isLaborObjectCode(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Map searchCriteria = new HashMap();
-
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
-        
-        Collection laborObjectBenefits = getBusinessObjectService().findMatching(PositionObjectBenefit.class, searchCriteria);
-        
-        if (laborObjectBenefits != null && !laborObjectBenefits.isEmpty()) return true;
-        
-        return false;
-    }
-    
     //TODO: is this the correct way to find the labor object for a BudgetConstructionRequestMove object?
-    private LaborObject getLaborObject(BudgetConstructionRequestMove record) {
+    private LaborObject getLaborObject(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, record.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, record.getFinancialObjectCode());
         
@@ -622,24 +608,24 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
     
     //TODO: is this the correct way to find the object code?
-    private ObjectCode getObjectCode(BudgetConstructionRequestMove record) {
+    private ObjectCode getObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, record.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, record.getFinancialObjectCode());
         
-        List<ObjectCode> objectList = new ArrayList<ObjectCode> (getBusinessObjectService().findMatching(ObjectCode.class, searchCriteria));
+        List<ObjectCode> objectList = new ArrayList<ObjectCode> (businessObjectService.findMatching(ObjectCode.class, searchCriteria));
         
         if (objectList.size() == 1) return objectList.get(0);
         
         return null;
     }
     
-    private SubObjCd getSubObjectCode(BudgetConstructionRequestMove record) {
+    private SubObjCd getSubObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, record.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, record.getFinancialObjectCode());
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, record.getAccountNumber());
@@ -652,10 +638,10 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return null;
     }
     
-    private List<BudgetConstructionFundingLock> findBudgetLocks(BudgetConstructionRequestMove record) {
+    private List<BudgetConstructionFundingLock> findBudgetLocks(BudgetConstructionRequestMove record,Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, record.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, record.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, record.getSubAccountNumber());

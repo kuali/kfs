@@ -43,7 +43,7 @@ public interface BudgetRequestImportService {
      * @return list of errors encountered during file processing
      * @throws IOException
      */
-    public List processImportFile (InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType) throws IOException;
+    public List processImportFile (InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException;
     
     /**
      * Generates the log file
@@ -60,14 +60,14 @@ public interface BudgetRequestImportService {
      * @return true if no data validation errors were found. false otherwise
      * 
      */
-    public List<String> validateData();
+    public List<String> validateData(Integer budgetYear);
     
     /**
      * Loads all budget request records that do not have error codes
      * 
      * @return
      */
-    public List<String> loadBudget(UniversalUser user, String fileType) throws Exception;
+    public List<String> loadBudget(UniversalUser user, String fileType, Integer budgetYear) throws Exception;
     
     /**
      * Gets ImportRequestDao

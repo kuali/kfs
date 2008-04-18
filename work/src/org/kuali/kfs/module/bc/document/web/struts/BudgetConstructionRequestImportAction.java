@@ -60,7 +60,9 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
     public ActionForward importFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionRequestImportForm budgetConstructionImportForm = (BudgetConstructionRequestImportForm) form;
         BudgetRequestImportService budgetRequestImportService = SpringContext.getBean(BudgetRequestImportService.class);
-        
+        //Integer budgetYear = budgetConstructionImportForm.getUniversityFiscalYear();
+        //System.out.println("budget year = " + budgetYear);
+        Integer budgetYear = new Integer(2008);
         boolean isValid = validateFormData(budgetConstructionImportForm);
         
         String basePath;
@@ -75,7 +77,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String personUniversalIdentifier = user.getPersonUniversalIdentifier();
-        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), personUniversalIdentifier, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
+        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), personUniversalIdentifier, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType(), budgetYear);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         
@@ -85,7 +87,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             return null;
         }
         
-        List<String> dataValidationErrorList = budgetRequestImportService.validateData();
+        List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear);
         List<String> messageList = new ArrayList<String>();
         
         if (!dataValidationErrorList.isEmpty()) {
@@ -93,7 +95,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             messageList.addAll(dataValidationErrorList);
         }
         
-        List<String> updateErrorMessages = budgetRequestImportService.loadBudget(user, budgetConstructionImportForm.getFileType());
+        List<String> updateErrorMessages = budgetRequestImportService.loadBudget(user, budgetConstructionImportForm.getFileType(), budgetYear);
         messageList.addAll(updateErrorMessages);
         
         if ( !messageList.isEmpty() ) {

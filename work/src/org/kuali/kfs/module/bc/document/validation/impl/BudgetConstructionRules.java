@@ -22,8 +22,10 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
@@ -32,10 +34,12 @@ import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypeUtils;
 import org.kuali.kfs.KFSConstants;
@@ -48,10 +52,15 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.bo.SalarySettingExpansion;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.module.budget.rule.DeletePendingBudgetGeneralLedgerLineRule;
+import org.kuali.module.budget.service.BudgetDocumentService;
+import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
@@ -72,7 +81,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
     private List fringeBenefitDesignatorCodesParamValues;
     private List salarySettingFundGroupsParamValues;
     private List salarySettingSubFundGroupsParamValues;
-    
+
     // this field is highlighted for any errors found on an existing line
     private static final String TARGET_ERROR_PROPERTY_NAME = KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
 
@@ -83,14 +92,13 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * Runs business rules prior to saving Budget Document proper. This is different than saving typical KFS documents
-     * in that the document is not saved to the user's inbox.  Saved Budget Documents must meet the same state
-     * requirements as the typical KFS routed document, so required field checks must be done.  Budget Documents
-     * can be opened by a user in edit mode multiple times and while in edit mode documents can be pushed down
-     * the review hierarchy, monthly budgets and appointment funding updated, benefits calculated, etc.  Each of
-     * these operations require the document's data be in a consistent state with respect to business rules
-     * before the operation be performed.
-     *  
+     * Runs business rules prior to saving Budget Document proper. This is different than saving typical KFS documents in that the
+     * document is not saved to the user's inbox. Saved Budget Documents must meet the same state requirements as the typical KFS
+     * routed document, so required field checks must be done. Budget Documents can be opened by a user in edit mode multiple times
+     * and while in edit mode documents can be pushed down the review hierarchy, monthly budgets and appointment funding updated,
+     * benefits calculated, etc. Each of these operations require the document's data be in a consistent state with respect to
+     * business rules before the operation be performed.
+     * 
      * @see org.kuali.core.rules.DocumentRuleBase#processSaveDocument(org.kuali.core.document.Document)
      */
     @Override
@@ -106,7 +114,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             // TODO may need to add doc or bcdoc to error path?
             isValid &= processSaveBudgetDocumentRules((BudgetConstructionDocument) document);
         }
-        
+
         // no custom save rules since we are overriding and doing what we want here already
 
         LOG.debug("processSaveDocument(Document) - end");
@@ -114,10 +122,10 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * Iterates through existing revenue and expenditure lines to do validation, ri checks on object/sub-object code
-     * and request amount referential integrity checks against appointment funding and monthly detail amounts. Checks
-     * are performed when the request amount has been updated, since initial add action, the last save event or
-     * since opening the document, whatever is latest.
+     * Iterates through existing revenue and expenditure lines to do validation, ri checks on object/sub-object code and request
+     * amount referential integrity checks against appointment funding and monthly detail amounts. Checks are performed when the
+     * request amount has been updated, since initial add action, the last save event or since opening the document, whatever is
+     * latest.
      * 
      * @see org.kuali.module.budget.rule.SaveBudgetDocumentRule#processSaveBudgetDocumentRules(D)
      */
@@ -138,18 +146,18 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         fringeBenefitDesignatorCodesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
         salarySettingFundGroupsParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
         salarySettingSubFundGroupsParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
-        
+
         // TODO move this to a method and replace with call
         // refresh only the doc refs we need
         List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
-//        budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
+        // budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
         errors.addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
-        
+
         // iterate and validate revenue lines
         isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, true);
-        
+
         // iterate and validate expenditure lines
         isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, false);
 
@@ -169,7 +177,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
     public boolean processAddPendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processAddPendingBudgetGeneralLedgerLineRules() start");
 
-//        List refreshFields;
+        // List refreshFields;
         ErrorMap errors = GlobalVariables.getErrorMap();
         boolean isValid = true;
 
@@ -199,7 +207,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             // refresh only the doc refs we need
             List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
-//            budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
+            // budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
             isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, pendingBudgetConstructionGeneralLedger, errors, isRevenue, true);
 
@@ -226,7 +234,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
      * @param isRevenue
      * @return
      */
-    public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue){
+    public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() start");
 
         ErrorMap errors = GlobalVariables.getErrorMap();
@@ -238,47 +246,51 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         fringeBenefitDesignatorCodesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
 
         // no delete allowed if base exists, the delete button shouldn't even exist in this case, but checking anyway
-        if (pendingBudgetConstructionGeneralLedger.getFinancialBeginningBalanceLineAmount().isZero()){
+        if (pendingBudgetConstructionGeneralLedger.getFinancialBeginningBalanceLineAmount().isZero()) {
             isValid &= true;
-        } else {
+        }
+        else {
             isValid &= false;
             String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_WITH_BASE, pkeyVal);
         }
 
-        if (!isRevenue){
+        if (!isRevenue) {
             // no lines using fringe benefit target object codes allowed to be manually deleted by user
             // the lines are created by benefits calculation process
             // again the delete button shouldn't even exist
             isValid &= isNotFringeBenefitObject(fringeBenefitDesignatorCodesParamValues, pendingBudgetConstructionGeneralLedger, errors, false);
-            
-            // no deletion if salary detail line and detail recs exist
-            if (pendingBudgetConstructionGeneralLedger.getLaborObject() != null){
-                if (pendingBudgetConstructionGeneralLedger.getLaborObject().isDetailPositionRequiredIndicator()){
-                    if (pendingBudgetConstructionGeneralLedger.isPendingBudgetConstructionAppointmentFundingExists()){
-                        isValid &= false;
-                        String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_SALARY_DETAIL, pkeyVal);
+
+            // no deletion if salary setting option is turned on 
+            // and the line is a salary detail line and detail recs exist
+            if (!SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled()){
+                if (pendingBudgetConstructionGeneralLedger.getLaborObject() != null) {
+                    if (pendingBudgetConstructionGeneralLedger.getLaborObject().isDetailPositionRequiredIndicator()) {
+                        if (pendingBudgetConstructionGeneralLedger.isPendingBudgetConstructionAppointmentFundingExists()) {
+                            isValid &= false;
+                            String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
+                            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_SALARY_DETAIL, pkeyVal);
+                        }
                     }
                 }
             }
         }
-        
+
         LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() end");
         return isValid;
     }
+
     /**
      * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero and runs business rules on the line.
+     * TODO In addition to using the non-zero request test add a previous request var to the PBGL BO and as a hidden in the JSP and
+     * test for differences as an indicator it was touched. update method comments when done here.
      * 
-     * TODO In addition to using the non-zero request test add a previous request var to the PBGL BO and as a hidden in the JSP
-     * and test for differences as an indicator it was touched.  update method comments when done here.
-
      * @param budgetConstructionDocument
      * @param errors
      * @param isRevenue
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors,  boolean isRevenue){
+    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isRevenue) {
 
         boolean isValid = true;
         boolean isReqAmountValid;
@@ -286,15 +298,16 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         int currentErrorCount;
         List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerLines;
         String linesErrorPath;
-        
-        if (isRevenue){
+
+        if (isRevenue) {
             pendingBudgetConstructionGeneralLedgerLines = budgetConstructionDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines();
             linesErrorPath = BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_REVENUE_LINES;
-        } else {
-            pendingBudgetConstructionGeneralLedgerLines = budgetConstructionDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines();    
+        }
+        else {
+            pendingBudgetConstructionGeneralLedgerLines = budgetConstructionDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
             linesErrorPath = BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES;
         }
-        
+
         // iterate revenue or expenditure lines
         Integer index = 0;
         for (Iterator iter = pendingBudgetConstructionGeneralLedgerLines.iterator(); iter.hasNext(); index++) {
@@ -309,8 +322,10 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             // TODO may not need this since required/format check is done as part of form populate??
             validatePrimitiveFromDescriptor(element, TARGET_ERROR_PROPERTY_NAME, "", true);
 
-            // TODO can validateDocumentAttribute be used on non primative instead of local validatePrimitiveFromDescriptor?? - remove when tested
-            //getDictionaryValidationService().validateDocumentAttribute(budgetConstructionDocument, TARGET_ERROR_PROPERTY_NAME, "");
+            // TODO can validateDocumentAttribute be used on non primative instead of local validatePrimitiveFromDescriptor?? -
+            // remove when tested
+            // getDictionaryValidationService().validateDocumentAttribute(budgetConstructionDocument, TARGET_ERROR_PROPERTY_NAME,
+            // "");
 
             // check to see if any errors were reported
             currentErrorCount = errors.getErrorCount();
@@ -318,10 +333,85 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             isValid &= isReqAmountValid;
 
             // only do checks if request amount is non-zero and not equal to currently persisted amount
-            if (isReqAmountValid && element.getAccountLineAnnualBalanceAmount().isNonZero()){
-                if (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())){
+            if (isReqAmountValid && element.getAccountLineAnnualBalanceAmount().isNonZero()) {
+                if (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
                     isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, element, errors, isRevenue, false);
                 }
+            }
+
+            // do RI type checks for request amount against monthly and salary setting detail if persisted amount changes
+            if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
+
+                // check monthly for all rows
+                if (element.getBudgetConstructionMonthly() != null && !element.getBudgetConstructionMonthly().isEmpty()) {
+
+                    BudgetConstructionMonthly budgetConstructionMonthly = element.getBudgetConstructionMonthly().get(0);
+                    if (budgetConstructionMonthly != null) {
+                        KualiInteger monthSum = KualiInteger.ZERO; 
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth2LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth3LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth4LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth5LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth6LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth7LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth8LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth9LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth10LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth11LineAmount());
+                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth12LineAmount());
+                        
+                        if (!monthSum.equals(element.getAccountLineAnnualBalanceAmount())){
+                            isValid &= false;
+                            String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
+                            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL, pkeyVal, monthSum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
+                        }
+                    }
+                }
+
+                // check salary setting detail sum if expenditure line is a ss detail line
+                // and salary setting option is turned on
+                if (!SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled()){
+                    if (element.getLaborObject() != null) {
+                        if (element.getLaborObject().isDetailPositionRequiredIndicator()) {
+                            
+                            // sum the detail lines and compare against the accounting line request amount
+                            KualiInteger salarySum = KualiInteger.ZERO;
+                            
+                            // if salary setting detail exists, sum it otherwise default to zero
+                            if (element.isPendingBudgetConstructionAppointmentFundingExists()) {
+
+//                                Map fieldValues = new HashMap();
+//                                fieldValues.put("universityFiscalYear", element.getUniversityFiscalYear());
+//                                fieldValues.put("chartOfAccountsCode", element.getChartOfAccountsCode());
+//                                fieldValues.put("accountNumber", element.getAccountNumber());
+//                                fieldValues.put("subAccountNumber", element.getSubAccountNumber());
+//                                fieldValues.put("financialObjectCode", element.getFinancialObjectCode());
+//                                fieldValues.put("financialSubObjectCode", element.getFinancialSubObjectCode());
+//                                fieldValues.put("financialBalanceTypeCode", element.getFinancialBalanceTypeCode());
+//                                fieldValues.put("financialObjectTypeCode", element.getFinancialObjectTypeCode());
+//
+//                                // TODO maybe get a list of bcaf lines using findMatching instead, less overhead?
+//                                // or maybe call some dao ojb reportquery or jdbc sql code that returns just the summed amount
+//                                SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
+//                                for (Iterator salIter = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().iterator(); salIter.hasNext();){
+//                                    PendingBudgetConstructionAppointmentFunding salElement = (PendingBudgetConstructionAppointmentFunding) salIter.next();
+//                                    
+//                                    salarySum = salarySum.add(salElement.getAppointmentRequestedAmount());
+//                                }
+                                salarySum = SpringContext.getBean(BudgetDocumentService.class).getPendingBudgetConstructionAppointmentFundingRequestSum(element);
+
+                            }
+
+                            if (!salarySum.equals(element.getAccountLineAnnualBalanceAmount())){
+                                isValid &= false;
+                                String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
+                                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_SALARY_SUM_REQUEST_NOT_EQUAL, pkeyVal, salarySum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
+                            }
+                        }
+                    }
+                }
+
             }
 
             errors.removeFromErrorPath(linesErrorPath + "[" + index + "]");
@@ -337,7 +427,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
      * @param pendingBudgetConstructionGeneralLedger
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLine(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, ErrorMap errors,  boolean isRevenue, boolean isAdd) {
+    private boolean checkPendingBudgetConstructionGeneralLedgerLine(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, ErrorMap errors, boolean isRevenue, boolean isAdd) {
         LOG.debug("checkPendingBudgetConstructionGeneralLedgerLine() start");
 
         boolean isValid = true;
@@ -358,7 +448,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
             // revenue specific checks
             if (isRevenue) {
-                
+
                 // no revenue lines in CnG accounts or SDCI
                 isValid &= isNotSalarySettingOnly(salarySettingFundGroupsParamValues, salarySettingSubFundGroupsParamValues, budgetConstructionDocument, pendingBudgetConstructionGeneralLedger, errors, isRevenue, isAdd);
 
@@ -383,10 +473,6 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
                 isValid &= isNotFringeBenefitObject(fringeBenefitDesignatorCodesParamValues, pendingBudgetConstructionGeneralLedger, errors, isAdd);
             }
 
-            if (!isAdd){
-                // TODO add checks against any monthly and salary detail sums
-            }
-            
         }
 
         if (!isValid) {
@@ -401,8 +487,8 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         if (pendingBudgetConstructionGeneralLedger == null) {
             throw new IllegalStateException(getKualiConfigurationService().getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
         }
-// TODO needed for hack code only
-//        ErrorMap errors = GlobalVariables.getErrorMap();
+        // TODO needed for hack code only
+        // ErrorMap errors = GlobalVariables.getErrorMap();
 
         // grab the service instance that will be needed by all the validate methods
         DataDictionary dd = dataDictionaryService.getDataDictionary();
@@ -412,60 +498,72 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
         // object code is required
         ObjectCode objectCode = pendingBudgetConstructionGeneralLedger.getFinancialObject();
-        
-        // this code calls a local version (not AccountingLineRuleHelper) of isValidObjectCode to add the bad value to the error message
-        if (isAdd){
-          valid &= isValidObjectCode(objectCode, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode(), dd, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
-        } else {
-          valid &= isValidObjectCode(objectCode, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode(), dd, TARGET_ERROR_PROPERTY_NAME);
+
+        // this code calls a local version (not AccountingLineRuleHelper) of isValidObjectCode to add the bad value to the error
+        // message
+        if (isAdd) {
+            valid &= isValidObjectCode(objectCode, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode(), dd, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
+        }
+        else {
+            valid &= isValidObjectCode(objectCode, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode(), dd, TARGET_ERROR_PROPERTY_NAME);
         }
 
-// TODO figure out which way to go to handle better error message
-//        // this code is a hack to add the bad value to the error message
-//        if (isAdd){
-//            if (!accountingLineRuleHelper.isValidObjectCode(objectCode, dd)){
-//                valid = false;
-//                errors.replaceError("financialObjectCode", "error.existence", "error.existence", "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-//                errors.replaceError("financialObjectCode", "error.inactive", "error.inactive", "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-//            }
-//        } else {
-//            if (!accountingLineRuleHelper.isValidObjectCode(objectCode, dd, TARGET_ERROR_PROPERTY_NAME)){
-//                valid = false;
-//                errors.replaceError(TARGET_ERROR_PROPERTY_NAME, "error.existence", "error.existence", "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-//                errors.replaceError(TARGET_ERROR_PROPERTY_NAME, "error.inactive", "error.inactive", "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
-//            }
-//        }
+        // TODO figure out which way to go to handle better error message
+        // // this code is a hack to add the bad value to the error message
+        // if (isAdd){
+        // if (!accountingLineRuleHelper.isValidObjectCode(objectCode, dd)){
+        // valid = false;
+        // errors.replaceError("financialObjectCode", "error.existence", "error.existence",
+        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+        // errors.replaceError("financialObjectCode", "error.inactive", "error.inactive",
+        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+        // }
+        // } else {
+        // if (!accountingLineRuleHelper.isValidObjectCode(objectCode, dd, TARGET_ERROR_PROPERTY_NAME)){
+        // valid = false;
+        // errors.replaceError(TARGET_ERROR_PROPERTY_NAME, "error.existence", "error.existence",
+        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+        // errors.replaceError(TARGET_ERROR_PROPERTY_NAME, "error.inactive", "error.inactive",
+        // "Object:"+pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+        // }
+        // }
 
         // sub object is not required
         if (StringUtils.isNotBlank(pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode()) && !pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode())) {
             SubObjCd subObjectCode = pendingBudgetConstructionGeneralLedger.getFinancialSubObject();
-            
-            // this code calls a local version (not AccountingLineRuleHelper) of isValidSubObjectCode to add the bad value to the error message
-            if (isAdd){
+
+            // this code calls a local version (not AccountingLineRuleHelper) of isValidSubObjectCode to add the bad value to the
+            // error message
+            if (isAdd) {
                 valid &= isValidSubObjectCode(subObjectCode, pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode(), dd, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
-            } else {
+            }
+            else {
                 valid &= isValidSubObjectCode(subObjectCode, pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode(), dd, TARGET_ERROR_PROPERTY_NAME);
             }
 
-// TODO figure out which way to go to handle better error message
-//            // this code is a hack to add the bad value to the error message
-//            if (!accountingLineRuleHelper.isValidSubObjectCode(subObjectCode, dd)){
-//                valid = false;
-//                if (isAdd){
-//                    errors.replaceError("financialSubObjectCode", "error.existence", "error.existence", "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-//                    errors.replaceError("financialSubObjectCode", "error.inactive", "error.inactive", "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-//                } else {
-//                    if (errors.fieldHasMessage(errors.getKeyPath((String) "financialSubObjectCode", true), "error.existence")){
-//                        errors.remove(errors.getKeyPath((String) "financialSubObjectCode", true));
-//                        errors.putError(TARGET_ERROR_PROPERTY_NAME, "error.existence", "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-//                        
-//                    }
-//                    if (errors.fieldHasMessage(errors.getKeyPath((String) "financialSubObjectCode", true), "error.inactive")){
-//                        errors.remove(errors.getKeyPath((String) "financialSubObjectCode", true));
-//                        errors.putError(TARGET_ERROR_PROPERTY_NAME, "error.inactive", "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
-//                    }
-//                }
-//            }
+            // TODO figure out which way to go to handle better error message
+            // // this code is a hack to add the bad value to the error message
+            // if (!accountingLineRuleHelper.isValidSubObjectCode(subObjectCode, dd)){
+            // valid = false;
+            // if (isAdd){
+            // errors.replaceError("financialSubObjectCode", "error.existence", "error.existence",
+            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
+            // errors.replaceError("financialSubObjectCode", "error.inactive", "error.inactive",
+            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
+            // } else {
+            // if (errors.fieldHasMessage(errors.getKeyPath((String) "financialSubObjectCode", true), "error.existence")){
+            // errors.remove(errors.getKeyPath((String) "financialSubObjectCode", true));
+            // errors.putError(TARGET_ERROR_PROPERTY_NAME, "error.existence",
+            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
+            //                        
+            // }
+            // if (errors.fieldHasMessage(errors.getKeyPath((String) "financialSubObjectCode", true), "error.inactive")){
+            // errors.remove(errors.getKeyPath((String) "financialSubObjectCode", true));
+            // errors.putError(TARGET_ERROR_PROPERTY_NAME, "error.inactive",
+            // "SubObject:"+pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode());
+            // }
+            // }
+            // }
         }
 
         return valid;
@@ -537,11 +635,12 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         if (paramValues != null) {
             if (!paramValues.contains(accountingLine.getFinancialObject().getFinancialObjectTypeCode())) {
                 isAllowed = false;
-                
+
                 String targetErrorProperty;
-                if (isAdd){
+                if (isAdd) {
                     targetErrorProperty = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-                } else {
+                }
+                else {
                     targetErrorProperty = TARGET_ERROR_PROPERTY_NAME;
                 }
 
@@ -566,7 +665,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         if (paramValues != null) {
             if (!paramValues.contains(accountingLine.getFinancialObject().getFinancialBudgetAggregationCd())) {
                 isAllowed = false;
-                
+
                 this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_BUDGET_AGGREGATION, isAdd, accountingLine.getFinancialObjectCode(), accountingLine.getFinancialObject().getFinancialBudgetAggregationCd());
             }
         }
@@ -662,7 +761,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
         return isAllowed;
     }
-    
+
     /**
      * runs rule checks that don't allow a budget
      * 
@@ -672,70 +771,72 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
      * @param isAdd
      * @return
      */
-    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isAdd){
+    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isAdd) {
         boolean isAllowed = true;
         SimpleDateFormat tdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
         // is account closed?
-        if (budgetConstructionDocument.getAccount().isAccountClosedIndicator()){
+        if (budgetConstructionDocument.getAccount().isAccountClosedIndicator()) {
             isAllowed = false;
             this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_CLOSED, isAdd, "account: " + budgetConstructionDocument.getAccountNumber());
         }
 
         // is account expiration no budget allowed, currently < 1/1/(byfy-2)?
         Calendar expDate = BudgetConstructionRuleUtil.getNoBudgetAllowedExpireDate(budgetConstructionDocument.getUniversityFiscalYear());
-        if (budgetConstructionDocument.getAccount().isExpired(expDate)){
+        if (budgetConstructionDocument.getAccount().isExpired(expDate)) {
             isAllowed = false;
             this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_NO_BUDGET_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), tdf.format(budgetConstructionDocument.getAccount().getAccountExpirationDate()));
-            
+
         }
 
         // is account a cash control account
-        if (budgetConstructionDocument.getAccount().getBudgetRecordingLevelCode().equalsIgnoreCase(BCConstants.BUDGET_RECORDING_LEVEL_N)){
+        if (budgetConstructionDocument.getAccount().getBudgetRecordingLevelCode().equalsIgnoreCase(BCConstants.BUDGET_RECORDING_LEVEL_N)) {
             isAllowed = false;
             this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_BUDGET_RECORDING_LEVEL_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), BCConstants.BUDGET_RECORDING_LEVEL_N);
         }
 
         // grab the service instance that will be needed by all the validate methods
         DataDictionary dd = dataDictionaryService.getDataDictionary();
-        
+
         if (StringUtils.isNotBlank(budgetConstructionDocument.getSubAccountNumber()) && !budgetConstructionDocument.getSubAccountNumber().equalsIgnoreCase(KFSConstants.getDashSubAccountNumber())) {
             SubAccount subAccount = budgetConstructionDocument.getSubAccount();
-            
+
             // is subacct inactive or not exist?
-            // this code calls a local version (not AccountingLineRuleHelper) of isValidSubAccount to add the bad value to the error message
-            if (isAdd){
+            // this code calls a local version (not AccountingLineRuleHelper) of isValidSubAccount to add the bad value to the error
+            // message
+            if (isAdd) {
                 isAllowed &= this.isValidSubAccount(subAccount, budgetConstructionDocument.getSubAccountNumber(), dd, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
-            } else {
+            }
+            else {
                 isAllowed &= this.isValidSubAccount(subAccount, budgetConstructionDocument.getSubAccountNumber(), dd, TARGET_ERROR_PROPERTY_NAME);
             }
 
             // is subacct type cost share?
             // TODO this expects a a21_sub_account, kuldev doesn't have one to one instances
             budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
-            if (budgetConstructionDocument.getSubAccount().getA21SubAccount() != null){
-                if (budgetConstructionDocument.getSubAccount().getA21SubAccount().getSubAccountTypeCode().equalsIgnoreCase(BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)){
+            if (budgetConstructionDocument.getSubAccount().getA21SubAccount() != null) {
+                if (budgetConstructionDocument.getSubAccount().getA21SubAccount().getSubAccountTypeCode().equalsIgnoreCase(BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)) {
                     isAllowed = false;
                     this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE);
                 }
             }
         }
-        
+
         return isAllowed;
     }
-    
+
     public boolean isValidSubAccount(SubAccount subAccount, String value, DataDictionary dataDictionary, String errorPropertyName) {
         String label = dataDictionary.getBusinessObjectEntry(SubAccount.class.getName()).getAttributeDefinition(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME).getShortLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(subAccount)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label+":"+value);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
         // check to make sure it is active
         if (!subAccount.isSubAccountActiveIndicator()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label+":"+value);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label + ":" + value);
             return false;
         }
 
@@ -743,9 +844,9 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * Runs existence and active tests on the SubObjectCode reference
-     * This method is differenct than the one in AccountingLineRuleHelper in that it adds the bad value to the errormessage
-     * This method signature should probably be added to AccountingLineRuleHelper
+     * Runs existence and active tests on the SubObjectCode reference This method is differenct than the one in
+     * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
+     * AccountingLineRuleHelper
      * 
      * @param subObjectCode
      * @param value
@@ -758,22 +859,22 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
         // make sure it exists
         if (ObjectUtils.isNull(subObjectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label+":"+value);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
         // check active flag
         if (!subObjectCode.isFinancialSubObjectActiveIndicator()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label+":"+value);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
             return false;
         }
         return true;
     }
 
     /**
-     * Runs existence and active tests on the ObjectCode reference
-     * This method is differenct than the one in AccountingLineRuleHelper in that it adds the bad value to the errormessage
-     * This method signature should probably be added to AccountingLineRuleHelper
+     * Runs existence and active tests on the ObjectCode reference This method is differenct than the one in
+     * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
+     * AccountingLineRuleHelper
      * 
      * @param objectCode
      * @param value
@@ -786,13 +887,13 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
         // make sure it exists
         if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label+":"+value);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
         // check active status
         if (!objectCode.isFinancialObjectActiveCode()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label+":"+value);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
             return false;
         }
 
@@ -800,22 +901,23 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * puts error to errormap for propertyName if isAdd, otherwise the property name
-     * is replaced with value of TARGET_ERROR_PROPERTY_NAME
+     * puts error to errormap for propertyName if isAdd, otherwise the property name is replaced with value of
+     * TARGET_ERROR_PROPERTY_NAME
      * 
      * @param propertyName
      * @param errorKey
      * @param isAdd
      * @param errorParameters
      */
-    private void putError(ErrorMap errors, String propertyName, String errorKey, boolean isAdd, String... errorParameters){
-        
-        if (isAdd){
+    private void putError(ErrorMap errors, String propertyName, String errorKey, boolean isAdd, String... errorParameters) {
+
+        if (isAdd) {
             errors.putError(propertyName, errorKey, errorParameters);
-        } else {
+        }
+        else {
             errors.putError(TARGET_ERROR_PROPERTY_NAME, errorKey, errorParameters);
         }
-        
+
     }
 
     private List getParameterValues(Class componentClass, String parameterName) {

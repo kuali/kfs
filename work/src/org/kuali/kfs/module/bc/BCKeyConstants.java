@@ -34,7 +34,8 @@ public class BCKeyConstants {
     public static final String ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED = "error.budget.subAccountTypeNotAllowed";
     public static final String ERROR_NO_DELETE_ALLOWED_WITH_BASE = "error.budget.noDeleteAllowedWithBase";
     public static final String ERROR_NO_DELETE_ALLOWED_SALARY_DETAIL = "error.budget.noDeleteAllowedSalaryDetail";
-    
+    public static final String ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL = "error.budget.monthlySumRequestNotEqual";
+    public static final String ERROR_SALARY_SUM_REQUEST_NOT_EQUAL = "error.budget.salarySumRequestNotEqual";
     
     public static final String ERROR_REPORT_GETTING_CHART_DESCRIPTION = "error.budget.report.gettingChartDescription";
     public static final String ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION = "error.budget.report.gettingAccountDescription";

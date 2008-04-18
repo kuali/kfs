@@ -18,8 +18,10 @@ package org.kuali.module.effort.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AdHocRoutePerson;
@@ -47,7 +49,6 @@ import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.module.integration.service.LaborModuleService;
-import org.kuali.workflow.KualiWorkflowUtils;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -142,18 +143,22 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     @Logged
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
-        String documentDescription = effortCertificationDocument.getEmplid();
-        String explanation = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION);
-
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = this.buildSourceAccountingLines(effortCertificationDocument);
         List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = this.buildTargetAccountingLines(effortCertificationDocument);
 
         if (sourceAccoutingLines.isEmpty() || targetAccoutingLines.isEmpty()) {
             return true;
         }
+        
+        String description = effortCertificationDocument.getEmplid();
+        String explanation = MessageBuilder.buildMessageWithPlaceHolder(EffortKeyConstants.MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION, effortCertificationDocument.getDocumentNumber()).toString();
+        
+        String annotation = KFSConstants.EMPTY_STRING;
+        List<String> adHocRecipients = new ArrayList<String>();
+        adHocRecipients.addAll(this.getFiscalOfficersIfAmountChanged(effortCertificationDocument));
 
-        try {
-            laborModuleService.createSalaryExpenseTransferDocument(documentDescription, explanation, sourceAccoutingLines, targetAccoutingLines);
+        try {      
+            laborModuleService.createAndBlankApproveSalaryExpenseTransferDocument(description, explanation, annotation, adHocRecipients, sourceAccoutingLines, targetAccoutingLines);
         }
         catch (WorkflowException we) {
             LOG.error(we);
@@ -182,7 +187,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
-            if(StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
+            if (StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
                 String actionRequestOfOfficer = this.getActionRequest(routeLevelName, RouteLevelNames.ACCOUNT_REVIEW);
                 adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
             }
@@ -262,6 +267,29 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
         return targetAccountingLines;
     }
+    
+    /**
+     * get all fiscal officers of the detail line accounts where the salary amounts are changed
+     * 
+     * @param effortCertificationDocument the given document that contains the detail lines
+     * @return all fiscal officers of the detail line accounts where the salary amounts are changed
+     */
+    private Set<String> getFiscalOfficersIfAmountChanged(EffortCertificationDocument effortCertificationDocument) {
+        Set<String> fiscalOfficers = new HashSet<String>();
+
+        List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            if (this.getDifference(detailLine).isNonZero()) {
+                Account account = detailLine.getAccount();
+                String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
+                
+                if (StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
+                    fiscalOfficers.add(accountFiscalOfficerPersonUserId);
+                }
+            }
+        }
+        return fiscalOfficers;
+    }    
 
     /**
      * add a new accounting line into the given accounting line list. The accounting line is generated from the given detail line

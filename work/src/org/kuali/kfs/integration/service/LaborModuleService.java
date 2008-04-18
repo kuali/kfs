@@ -23,7 +23,6 @@ import java.util.Set;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
@@ -52,15 +51,16 @@ public interface LaborModuleService {
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
 
     /**
-     * determine whether the given employee was paid based on a set of specified pay type within the given report periods. Here, a pay type can
-     * be determined by earn code and pay group.
+     * determine whether the given employee was paid based on a set of specified pay type within the given report periods. Here, a
+     * pay type can be determined by earn code and pay group.
      * 
      * @param emplid the given employee id
      * @param payPeriods the given pay periods
      * @param balanceTypes the specified balance type codes
      * @param earnCodePayGroupMap the combination of earn codes and pay groups, where pay group is the key and earn code set is the
      *        value
-     * @return true if the given employee was paid based on a set of specified pay type within the given report periods; otherwise, false
+     * @return true if the given employee was paid based on a set of specified pay type within the given report periods; otherwise,
+     *         false
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
 
@@ -84,7 +84,7 @@ public interface LaborModuleService {
      * @return the fringe benefit amount for the given labor object and salary amount
      */
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
-    
+
     /**
      * calculate the fringe benefit amount for the given object code and salary amount
      * 
@@ -92,29 +92,31 @@ public interface LaborModuleService {
      * @param chartCode the chart for object code record
      * @param objectCode the object code
      * @param salaryAmount amount to calculate benefits for
-     * @return the fringe benefit amount 
+     * @return the fringe benefit amount
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount);
-    
+
     /**
      * create and approve a salary expense transfer document generated from the given accounting lines
      * 
      * @param documentDescription the description about the generated document
      * @param explanation the explanation for the document
+     * @param annotation the annotation as acknowledgement
+     * @param adHocRecipients the given ad-hoc recipients who will be acknowledged about the document
      * @param sourceAccoutingLines the given source accounting lines used to populate document
      * @param targetAccoutingLines the given target accounting lines used to populate document
      * @throws WorkflowException occurs if the document is failed to be routed for approval
      */
-    public void createSalaryExpenseTransferDocument(String documentDescription, String explanation, List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines) throws WorkflowException;
+    public void createAndBlankApproveSalaryExpenseTransferDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines) throws WorkflowException;
 
     /**
      * get the document numbers of the pending salary expense transfer documents for the given employee
-     *  
+     * 
      * @param emplid the given employee id
      * @return the document numbers of the pending salary expense transfer documents for the given employee
      */
     public int countPendingSalaryExpenseTransfer(String emplid);
-    
+
     /**
      * Gets the laborLedgerObjectClass attribute.
      * 
@@ -149,7 +151,7 @@ public interface LaborModuleService {
      * @return Returns the laborLedgerPositionObjectBenefitClass.
      */
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass();
-    
+
     /**
      * Gets the laborLedgerBenefitsCalculationClass attribute.
      * 
@@ -172,17 +174,17 @@ public interface LaborModuleService {
     public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferTargetAccountingLineClass();
 
     /**
-     * Gets the laborLedgerBalanceForEffortCertificationClass attribute. The class is typically used by effort balance lookup 
+     * Gets the laborLedgerBalanceForEffortCertificationClass attribute. The class is typically used by effort balance lookup
      * 
      * @return Returns the laborLedgerBalanceForEffortCertificationClass.
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass();
-    
+
     /**
      * Create the backup group which has all the entries from all the groups where all the flags are set Y.
      */
     public void createLaborBackupGroup();
-    
+
     /**
      * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.
      * 
@@ -190,9 +192,10 @@ public interface LaborModuleService {
      * @return
      */
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber);
-    
+
     /**
      * Given the accounting line, taken from a Budget Adjustment document, returns a list of any fringe benefit lines.
+     * 
      * @param fiscalYear the fiscal year of the Budget Ajustment document
      * @param line the accounting line to find fringe beneifts for
      * @param sourceAccountingLineClass the class of the source accounting line for the document
@@ -200,9 +203,10 @@ public interface LaborModuleService {
      * @return a List of fring benefit accounting lines to add the document
      */
     public List<BudgetAdjustmentAccountingLine> getFringeBenefitLinesForBudjetAdjustmentLine(Integer fiscalYear, BudgetAdjustmentAccountingLine line, Class sourceAccountingLineClass, Class targetAccountingLineClass);
-        
+
     /**
      * Determines whether the given set of accounting lines have object codes that receieve fringe benefits
+     * 
      * @param fiscalYear the fiscal year of the document
      * @param accountingLines the accounting lines to check for fringe benefit receiving object codes
      * @return true if the lines include lines with labor object codes, false otherwise

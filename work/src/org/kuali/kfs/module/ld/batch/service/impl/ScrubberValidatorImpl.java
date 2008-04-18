@@ -35,6 +35,7 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.gl.batch.ScrubberStep;
@@ -45,6 +46,7 @@ import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborKeyConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.batch.LaborScrubberStep;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -211,7 +213,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (account == null) {
             if (suspenseAccountLogicInd) {
-                return useSuspenseAccount(laborWorkingEntry);
+                return useSuspenseAccount(laborWorkingEntry, LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED);
             }
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND, laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber(), Message.TYPE_FATAL);
         }
@@ -234,7 +236,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         if (subfundWageExclusionInd && !account.getSubFundGroup().isSubFundGroupWagesIndicator() && !nonWageSubfundBypassOriginationCodes.contains(orginationCode)) {
             if (suspenseAccountLogicInd) {
-                return useSuspenseAccount(laborWorkingEntry);
+                return useSuspenseAccount(laborWorkingEntry, LaborKeyConstants.MESSAGE_WAGES_MOVED_TO);
             }
 
             return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_SUN_FUND_NOT_ACCEPT_WAGES, Message.TYPE_FATAL);
@@ -267,7 +269,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
         boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isAccountClosedIndicator();
         boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
-        
+
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
             // special checks for origination codes that have override ability
             boolean isOverrideOriginCode = continuationAccountBypassOriginationCodes.contains(laborOriginEntry.getFinancialSystemOriginationCode());
@@ -332,7 +334,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // We failed to find a valid continuation account.
         boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (suspenseAccountLogicInd) {
-            return useSuspenseAccount(laborWorkingEntry);
+            return useSuspenseAccount(laborWorkingEntry, LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED);
         }
         else {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED, Message.TYPE_FATAL);
@@ -351,7 +353,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborOriginEntry.getFinancialObjectCode());
 
         LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
-        boolean isFringeTransaction = laborObject != null && org.apache.commons.lang.StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());
+        boolean isFringeTransaction = laborObject != null && StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());
 
         // alternative account handling for non fringe accounts
         if (isFringeTransaction && !account.isAccountsFringesBnftIndicator()) {
@@ -367,7 +369,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             // no alt acct, use suspense acct if active
             boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
             if (suspenseAccountLogicInd) {
-                return useSuspenseAccount(laborWorkingEntry);
+                return useSuspenseAccount(laborWorkingEntry, LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED);
             }
 
             return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_NON_FRINGE_ACCOUNT_ALTERNATIVE_NOT_FOUND, Message.TYPE_FATAL);
@@ -421,7 +423,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * This method changes account to suspenseAccount
      */
-    private Message useSuspenseAccount(LaborOriginEntry workingEntry) {
+    private Message useSuspenseAccount(LaborOriginEntry workingEntry, String messageKey) {
         String suspenseAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
         String suspenseCOAcode = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
@@ -434,7 +436,122 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         workingEntry.setAccountNumber(suspenseAccountNumber);
         workingEntry.setChartOfAccountsCode(suspenseCOAcode);
 
-        return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber);
+        return MessageBuilder.buildMessageWithPlaceHolder(messageKey, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber);
+    }
+
+    /**
+     * This method changes account to suspenseAccount
+     */
+    private boolean applySuspenseAccount(LaborOriginEntry workingEntry) {
+        boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+
+        if (suspenseAccountLogicInd) {
+            String suspenseAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
+            String suspenseCOAcode = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
+            Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
+
+            if (account != null) {
+                workingEntry.setAccount(account);
+                workingEntry.setAccountNumber(suspenseAccountNumber);
+                workingEntry.setChartOfAccountsCode(suspenseCOAcode);
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    private Message applyContinuationAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityDate) {    
+        Account account = laborWorkingEntry.getAccount();        
+        if(account == null) return null;
+        
+        boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
+        long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
+        boolean isAccountExpiredOrClosed = this.isExpiredOrClosedAccount(account, universityDate);
+        
+        if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
+            List<String> bypassBalanceTypeCodes = balanceTypService.getContinuationAccountBypassBalanceTypeCodes(universityDate.getUniversityFiscalYear());
+            List<String> bypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES);
+            List<String> bypassDocumentTypeCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES);
+            
+            String originationCode = laborOriginEntry.getFinancialSystemOriginationCode();
+            boolean isBypassOriginCode = bypassOriginationCodes.contains(originationCode);
+            if (isBypassOriginCode && account.isAccountClosedIndicator()) {
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT, laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber(), Message.TYPE_FATAL);
+            }
+
+            String balanceType = laborOriginEntry.getFinancialBalanceTypeCode();
+            String documentType = laborOriginEntry.getFinancialDocumentTypeCode().trim();
+            boolean canBypass = isBypassOriginCode || bypassBalanceTypeCodes.contains(balanceType) || bypassDocumentTypeCodes.contains(documentType);
+            if (canBypass && !account.isAccountClosedIndicator()) {
+                return null;
+            }
+
+            return continuationAccountLogic(account, laborOriginEntry, laborWorkingEntry, Calendar.getInstance());
+        }
+
+        return null;
+    }
+
+    private void applySubFundWageExclusion(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
+        String orginationCode = laborOriginEntry.getFinancialSystemOriginationCode();
+        SubFundGroup subFundGroup = laborOriginEntry.getAccount().getSubFundGroup();
+
+        List<String> nonWageSubfundBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS);
+        boolean subfundWageExclusionInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
+
+        if (subfundWageExclusionInd) {
+            if (this.alternateWagesAccountNeeded(laborOriginEntry)) {
+                // applyAlernateAccount(laborWorkingEntry);
+            }
+            
+            this.applyAccountFringeExclusion(laborOriginEntry, laborWorkingEntry);
+        }
+        
+        // applyContinuationAccount(laborWorkingEntry);
+    }
+
+    private void applyAccountFringeExclusion(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
+        boolean accountFringeExclusionInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
+
+        if (accountFringeExclusionInd) {
+            if (this.alternateFringeAccountNeeded(laborOriginEntry)) {
+                // applyAlernateAccount(laborWorkingEntry);
+            }
+        }
+    }
+
+    private boolean alternateFringeAccountNeeded(LaborOriginEntry laborOriginEntry) {
+        Account account = laborOriginEntry.getAccount();
+        String orginationCode = laborOriginEntry.getFinancialSystemOriginationCode();
+        List<String> bypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS);
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, laborOriginEntry.getUniversityFiscalYear());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, laborOriginEntry.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborOriginEntry.getFinancialObjectCode());
+        fieldValues.put(LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE);
+
+        LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
+
+        return !account.isAccountsFringesBnftIndicator() && !bypassOriginationCodes.contains(orginationCode) && laborObject != null;
+    }
+
+    private boolean alternateWagesAccountNeeded(LaborOriginEntry laborOriginEntry) {
+        String orginationCode = laborOriginEntry.getFinancialSystemOriginationCode();
+        SubFundGroup subFundGroup = laborOriginEntry.getAccount().getSubFundGroup();
+        List<String> nonWageSubfundBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS);
+
+        return !subFundGroup.isSubFundGroupWagesIndicator() && !nonWageSubfundBypassOriginationCodes.contains(orginationCode);
+    }
+    
+    private boolean isExpiredOrClosedAccount(Account account, UniversityDate universityDate) {
+        Calendar today = Calendar.getInstance();
+        today.setTime(universityDate.getUniversityDate());
+        
+        long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
+        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isAccountClosedIndicator();
+        return false;
     }
 
     /**

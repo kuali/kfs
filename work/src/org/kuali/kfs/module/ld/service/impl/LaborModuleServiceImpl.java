@@ -36,11 +36,8 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -98,11 +95,20 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#createSalaryExpenseTransferDocument(java.lang.String, java.lang.String,
-     *      java.util.List, java.util.List)
+     * @see org.kuali.module.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
      */
-    public void createSalaryExpenseTransferDocument(String documentDescription, String explanation, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
+    public void createAndBlankApproveSalaryExpenseTransferDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
         LOG.info("createSalaryExpenseTransferDocument() start");
+        
+        if(sourceAccountingLines == null || sourceAccountingLines.isEmpty()) {
+            LOG.info("Cannot create a salary expense document when the given source accounting line is empty.");
+            return;
+        }
+        
+        if(targetAccountingLines == null || targetAccountingLines.isEmpty()) {
+            LOG.info("Cannot create a salary expense document when the given target accounting line is empty.");
+            return;
+        }
 
         SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) getDocumentService().getNewDocument(SalaryExpenseTransferDocument.class);
 
@@ -114,6 +120,10 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         DocumentHeader documentHeader = document.getDocumentHeader();
         documentHeader.setFinancialDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
+        
+        if(adHocRecipients != null && adHocRecipients.isEmpty()) {
+            getDocumentService().acknowledgeDocument(document, annotation, adHocRecipients);
+        }
 
         getDocumentService().blanketApproveDocument(document, KFSConstants.EMPTY_STRING, null);
     }

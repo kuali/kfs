@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.module.cams.rules;
 
-import static org.kuali.module.cams.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
-
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -28,13 +31,17 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocationGlobal;
 import org.kuali.module.cams.bo.AssetLocationGlobalDetail;
-import org.kuali.module.cams.bo.AssetWarranty;
+import org.kuali.module.cams.bo.Pretag;
+import org.kuali.module.cams.bo.PretagDetail;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -115,24 +122,75 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         if (bo instanceof AssetLocationGlobalDetail) {
+            
+            //Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
             AssetLocationGlobalDetail assetLocationGlobalDetail = (AssetLocationGlobalDetail) bo;
 
             // process rules
+            //success &= validateAssetLocationGlobalDetails(assetLocationGlobalDetail);
             success &= validateCapitalAssetNumber(assetLocationGlobalDetail);
-            //success &= checkAssetLocationGlobalDetails(assetLocationGlobalDetail);
+            success &= validateCampusCode(assetLocationGlobalDetail);
+            success &= validateBuildingCode(assetLocationGlobalDetail);
+            success &= validateBuildingRoomNumber(assetLocationGlobalDetail);
+            success &= hasDuplicateTagNumber(assetLocationGlobalDetail);
         }
         
         LOG.info("LEO processCustomAddCollectionLineBusinessRules() END");
         return success;
     }
-
+    
     /**
-     * 
-     * Validate the Capital Asset Number.
+     * Validate {@link AssetLocationGlobalDetail} details.
      * 
      * @param assetLocationGlobalDetail
-     * @param newAsset
-     * @return false if the capital asset number is not valid.
+     * @return true if the AssetLocationGlobalDetail object contains a valid Asset
+     */
+    protected boolean validateAssetLocationGlobalDetails(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        LOG.info("LEO checkAssetLocationGlobalDetails() START");
+        
+        boolean success = true;
+        
+        if (ObjectUtils.isNull(assetLocationGlobalDetail.getCapitalAssetNumber())) {
+            GlobalVariables.getErrorMap().putError("capitalAssetNumber", KFSKeyConstants.ERROR_REQUIRED, "Capital Asset Number");
+            success &= false;
+        }
+
+        /*
+        if (ObjectUtils.isNull(assetLocationGlobalDetail.getCampusCode())) {
+            GlobalVariables.getErrorMap().putError("campusCode", KFSKeyConstants.ERROR_REQUIRED, "Campus Code");
+            success &= false;
+        }
+        
+        if (ObjectUtils.isNull(assetLocationGlobalDetail.getBuildingCode())) {
+            GlobalVariables.getErrorMap().putError("buildingCode", KFSKeyConstants.ERROR_REQUIRED, "Building Code");
+            success &= false;
+        }
+        
+        if (ObjectUtils.isNull(assetLocationGlobalDetail.getBuildingRoomNumber())) {
+            GlobalVariables.getErrorMap().putError("buildingRoomNumber", KFSKeyConstants.ERROR_REQUIRED, "Building Room Number");
+            success &= false;
+        }
+        
+        if (ObjectUtils.isNull(assetLocationGlobalDetail.getBuildingSubRoomNumber())) {
+            GlobalVariables.getErrorMap().putError("buildingSubRoomNumber", KFSKeyConstants.ERROR_REQUIRED, "Building Sub Room Number");
+            success &= false;
+        }
+        
+        if (ObjectUtils.isNull(assetLocationGlobalDetail.getCampusTagNumber())) {
+            GlobalVariables.getErrorMap().putError("campusTagNumber", KFSKeyConstants.ERROR_REQUIRED, "Campus Tag Number");
+            success &= false;
+        }
+        */
+        
+        LOG.info("LEO checkAssetLocationGlobalDetails() END");
+        return success;
+    }     
+    
+    /**
+     * Validate the Capital {@link Asset} number.
+     * 
+     * @param assetLocationGlobalDetail
+     * @return boolean
      */
     protected boolean validateCapitalAssetNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
         LOG.info("LEO checkCapitalAssetNumber() START");
@@ -140,110 +198,212 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         LOG.info("LEO checkCapitalAssetNumber() ASSET LOC GLOBAL '" + assetLocationGlobalDetail.getCapitalAssetNumber() +"'");
         
-        
-        // place PK into Map
-        HashMap map = new HashMap();
-        map.put("capitalAssetNumber", assetLocationGlobalDetail.getCapitalAssetNumber());  
-        LOG.info("LEO checkCapitalAssetNumber() MAP");
-        
-        // retrieve Asset object by PK
-        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
-        //Asset asset = (Asset) getBoService().findByPrimaryKey(Asset.class, map);
-        //LOG.info("LEO checkCapitalAssetNumber() ASSET '" + asset.getCapitalAssetNumber() +"'");
-        
-        if (ObjectUtils.isNull(asset) || ObjectUtils.isNull(asset.getCapitalAssetNumber())) {
-            LOG.info("LEO checkCapitalAssetNumber() IN...");
-            GlobalVariables.getErrorMap().putError("capitalAssetNumber", CamsKeyConstants.ERROR_INVALID_CAPITAL_ASSET_NUMBER);
-            //putFieldError("capitalAssetNumber", CamsKeyConstants.ERROR_INVALID_CAPITAL_ASSET_NUMBER);
-            success &= false;
+        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber())) {
+            HashMap map = new HashMap();
+            map.put("capitalAssetNumber", assetLocationGlobalDetail.getCapitalAssetNumber());  
+            LOG.info("LEO checkCapitalAssetNumber() MAP");
+            
+            Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
+            if (ObjectUtils.isNull(asset)) {
+                LOG.info("LEO checkCapitalAssetNumber() IN...");
+                GlobalVariables.getErrorMap().putError("capitalAssetNumber", CamsKeyConstants.Retirement.ERROR_BLANK_CAPITAL_ASSET_NUMBER);
+                success &= false;
+            }
         }
         
         LOG.info("LEO checkCapitalAssetNumber() END");
         return success;
-    }    
-
+    }
 
     /**
-     * Validate {@link Building} code....IN PROGRESS....
+     * Validate {@link Campus} code.
      * 
-     * @param asset Asset
-     * @return validation success
+     * @param assetLocationGlobalDetail
+     * @return boolean
      */
-    private boolean validateBuildingCode(Asset asset) {
-        boolean success = false;
+    protected boolean validateCampusCode(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        LOG.info("LEO validateCampusCode() START");
         
-        Building building = asset.getBuilding();
+        boolean success = true;
+        LOG.info("LEO validateCampusCode() CAMPUS CODE '" + assetLocationGlobalDetail.getCampusCode() +"'");
         
-        if (ObjectUtils.isNull(building)) {
-            if (StringUtils.isEmpty(building.getBuildingCode())) {
-                // LEO - CHANGE THE MSG
-                GlobalVariables.getErrorMap().putError("buildingCode", CamsKeyConstants.ERROR_INVALID_CAPITAL_ASSET_NUMBER);
-                return success;
+        if (StringUtils.isNotBlank(assetLocationGlobalDetail.getCampusCode())) {
+            HashMap map = new HashMap();
+            map.put("campusCode", assetLocationGlobalDetail.getCampusCode());  
+            LOG.info("LEO validateCampusCode() MAP");
+            
+            Campus campus = (Campus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Campus.class, map);
+            if (ObjectUtils.isNull(campus)) {
+                LOG.info("LEO validateCampusCode() IN...");
+                GlobalVariables.getErrorMap().putError("campusCode", CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, new String[] { assetLocationGlobalDetail.getCampusCode() });
+                //GlobalVariables.getErrorMap().putError("campusCode", CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE);
+                success &= false;
             }
         }
+        
+        LOG.info("LEO validateCampusCode() END");
         return success;
     }
     
     /**
-     * Check {@link AssetLocationGlobalDetail} details.
+     * Validate {@link Building} code.
      * 
      * @param assetLocationGlobalDetail
-     * @return true if the AssetLocationGlobalDetail object contains a valid Asset
+     * @return boolean
      */
-    public boolean checkAssetLocationGlobalDetails(AssetLocationGlobalDetail assetLocationGlobalDetail) {
-        LOG.info("LEO checkAssetLocationGlobalDetails() START");
+    protected boolean validateBuildingCode(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        LOG.info("LEO validateBuildingCode() START");
         
         boolean success = true;
+        LOG.info("LEO validateBuildingCode() CAMPUS CODE '" + assetLocationGlobalDetail.getCampusCode() +"'");
+        LOG.info("LEO validateBuildingCode() BUILDING CODE '" + assetLocationGlobalDetail.getBuildingCode() +"'");
         
-        if (!checkEmptyValue(assetLocationGlobalDetail.getCapitalAssetNumber())) {
-            GlobalVariables.getErrorMap().putError("capitalAssetNumber", KFSKeyConstants.ERROR_REQUIRED, "Capital Asset Number");
-            success &= false;
-        }
+        if (StringUtils.isNotBlank(assetLocationGlobalDetail.getCampusCode()) && StringUtils.isNotBlank(assetLocationGlobalDetail.getBuildingCode())) {
+            HashMap map = new HashMap();
+            map.put("campusCode", assetLocationGlobalDetail.getCampusCode());
+            map.put("buildingCode", assetLocationGlobalDetail.getBuildingCode());
+            LOG.info("LEO validateBuildingCode() MAP");
         
-        if (!checkEmptyValue(assetLocationGlobalDetail.getCampusCode())) {
-            GlobalVariables.getErrorMap().putError("campusCode", KFSKeyConstants.ERROR_REQUIRED, "Campus Code");
-            success &= false;
-        }
-        
-        if (!checkEmptyValue(assetLocationGlobalDetail.getBuildingCode())) {
-            GlobalVariables.getErrorMap().putError("buildingCode", KFSKeyConstants.ERROR_REQUIRED, "Building Code");
-            success &= false;
-        }
-        
-        if (!checkEmptyValue(assetLocationGlobalDetail.getBuildingRoomNumber())) {
-            GlobalVariables.getErrorMap().putError("buildingRoomNumber", KFSKeyConstants.ERROR_REQUIRED, "Building Room Number");
-            success &= false;
-        }
-        
-        if (!checkEmptyValue(assetLocationGlobalDetail.getBuildingSubRoomNumber())) {
-            GlobalVariables.getErrorMap().putError("buildingSubRoomNumber", KFSKeyConstants.ERROR_REQUIRED, "Building Sub Room Number");
-            success &= false;
-        }
-        
-        if (!checkEmptyValue(assetLocationGlobalDetail.getCampusTagNumber())) {
-            GlobalVariables.getErrorMap().putError("campusTagNumber", KFSKeyConstants.ERROR_REQUIRED, "Campus Tag Number");
-            success &= false;
-        }
-        
-        /* get error count
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
-        getDictionaryValidationService().validateBusinessObject(assetLocationGlobalDetail);
-        
-        // check for blank
-        if (StringUtils.isNotBlank(assetLocationGlobalDetail.getCampusCode()) &&  StringUtils.isNotBlank(assetLocationGlobalDetail.getBuildingCode()) && StringUtils.isNotBlank(assetLocationGlobalDetail.getBuildingRoomNumber()) && StringUtils.isNotBlank(assetLocationGlobalDetail.getBuildingSubRoomNumber()) && StringUtils.isNotBlank(assetLocationGlobalDetail.getCampusTagNumber()) ) {
-            assetLocationGlobalDetail.refreshReferenceObject("asset");
-            
-            if (assetLocationGlobalDetail.getCapitalAssetNumber() == null) {
-                //GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { assetLocationGlobalDetail.getChartOfAccountsCode(), assetLocationGlobalDetail.getAccountNumber() });
-                GlobalVariables.getErrorMap().putError("capitalAssetNumber", "one", "two");
+            Building building = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, map);
+            if (ObjectUtils.isNull(building)) {
+                LOG.info("LEO validateBuildingCode() IN...");
+                GlobalVariables.getErrorMap().putError("buildingCode", CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, new String[] { assetLocationGlobalDetail.getCampusCode(), assetLocationGlobalDetail.getBuildingCode() });
+                success &= false;
             }
         }
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
-        */
         
-        LOG.info("LEO checkAssetLocationGlobalDetails() END");
+        LOG.info("LEO validateBuildingCode() END");
+        return success;
+    }
+    
+    /**
+     * Validate {@link Building} code.
+     * 
+     * @param assetLocationGlobalDetail
+     * @return boolean
+     */
+    protected boolean validateBuildingRoomNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        LOG.info("LEO validateBuildingRoom() START");
         
+        boolean success = true;
+        LOG.info("LEO validateBuildingRoom() BUILDING ROOM '" + assetLocationGlobalDetail.getBuildingRoomNumber() +"'");
+        
+        if (StringUtils.isNotBlank(assetLocationGlobalDetail.getBuildingRoomNumber())) {
+            HashMap map = new HashMap();
+            map.put("buildingRoomNumber", assetLocationGlobalDetail.getBuildingRoomNumber());
+            LOG.info("LEO validateBuildingRoom() MAP");
+            
+            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, map);
+            if (ObjectUtils.isNull(room)) {
+                GlobalVariables.getErrorMap().putError("buildingRoomNumber", CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, new String[] { assetLocationGlobalDetail.getCampusCode(), assetLocationGlobalDetail.getBuildingCode(), assetLocationGlobalDetail.getBuildingRoomNumber() });
+                success &= false;
+            }
+        }
+        
+        LOG.info("LEO validateBuildingRoom() END");
+        return success;
+    }
+    
+    //TODO: Check for duplicate tag number
+    protected boolean hasDuplicateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+    //protected boolean checkDuplicateTagNumber(Pretag pretag, String tagNumber) {
+        LOG.info("LEO hasDuplicateTagNumber - START");
+        
+        boolean success = true;
+        LOG.info("LEO hasDuplicateTagNumber() TAG NUMBER '" + assetLocationGlobalDetail.getCampusTagNumber() +"'");
+        
+        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber())) {
+            HashMap map = new HashMap();
+            map.put("campusTagNumber", assetLocationGlobalDetail.getCampusTagNumber());  
+            LOG.info("LEO hasDuplicateTagNumber() MAP");
+
+            //Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
+            Collection<AssetLocationGlobalDetail> tagNumbers = SpringContext.getBean(BusinessObjectService.class).findMatching(Asset.class, map);
+            LOG.info("LEO hasDuplicateTagNumber() TAG NUMBER SIZE '" + tagNumbers.size() + "'");
+            
+            //Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+            //Pretag pretag = (Pretag) document.getNewMaintainableObject().getBusinessObject();
+            
+            for (AssetLocationGlobalDetail dtl : tagNumbers) {
+                if (dtl.getCampusTagNumber().equals(tagNumbers)) {
+                    LOG.info("LEO hasDuplicateTagNumber() DTL TAG NUMBER '" + dtl.getCampusTagNumber() + "'");
+                    putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
+                    GlobalVariables.getErrorMap().putError(CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { assetLocationGlobalDetail.getCampusTagNumber() });
+                    success &= false;
+                }
+            }
+        }
+
         return success;
     }    
+    
+    
+    /*
+    //TODO: Check for duplicate tag number
+    protected boolean hasDuplicateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        LOG.info("LEO hasDuplicateTagNumber() START");
+        
+        boolean success = true;
+        boolean duplicateFound = false;
+        LOG.info("LEO hasDuplicateTagNumber() DUP TAG '" + assetLocationGlobalDetail.getCampusTagNumber() +"'");
+        
+        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber())) {
+            HashMap map = new HashMap();
+            map.put("campusTagNumber", assetLocationGlobalDetail.getCampusTagNumber());  
+            LOG.info("LEO hasDuplicateTagNumber() MAP");
+            
+            Collection<AssetLocationGlobalDetail> tagNumbers = SpringContext.getBean(BusinessObjectService.class).findMatching(Asset.class, map);
+            LOG.info("LEO hasDuplicateTagNumber() TAG NUMBERS '" + tagNumbers.size() + "'");
+            int matchDetailCount = countActive(tagNumbers);
+            LOG.info("LEO hasDuplicateTagNumber() MATCH DETAIL COUNT '" + matchDetailCount + "'");
+            
+            //int matchDetailCount = getMatchDetailCount(map);
+            
+            if ((getBoService().countMatching(Asset.class, map) != 0) || (matchDetailCount > 0)) {
+                //GlobalVariables.getErrorMap().putError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { assetLocationGlobalDetail.getCampusTagNumber() });
+                putFieldError("campusTagNumber", CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { assetLocationGlobalDetail.getCampusTagNumber() });
+                success &= false;
+            }
+           
+        }
+        
+        LOG.info("LEO validateBuildingRoom() END");
+        return success;
+    }
+    */
+
+    /**
+     * Returns any number of matched campus tag numbers
+     * 
+     * @param map
+     * @return assetLocationGlobalDetail with matching campus tag number
+     */
+
+    public int getMatchDetailCount(Map map) {
+        Collection<AssetLocationGlobalDetail> assetLocationGlobalDetail = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetLocationGlobalDetail.class, map);
+        return countActive(assetLocationGlobalDetail);
+    }
+    
+    /**
+     * Returns total count {@link AssetLocationGlobalDetail} of active detail lines
+     * 
+     * @param collection
+     * @return active assetLocationGlobalDetail count
+     */
+    public int countActive(Collection<AssetLocationGlobalDetail> assetLocationGlobalDetail) {
+        LOG.info("LEO countActive() START");
+        int activeCount = 0;
+        
+        
+        for (AssetLocationGlobalDetail dtl : assetLocationGlobalDetail) {
+            LOG.info("LEO countActive() IN LOOP... CAMPUS TAG NBR '" + dtl.getCampusTagNumber() + "'");
+            //if (dtl.isActive()) {
+            //    activeCount++;
+            //}
+        }
+
+        LOG.info("LEO countActive() END");
+        return activeCount;
+    }
     
 }

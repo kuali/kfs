@@ -362,7 +362,7 @@
 		<inverse-foreignkey field-ref="financialSubObjectCode" />
 	</collection-descriptor>
 -->
-	<collection-descriptor name="budgetConstructionMonthly" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionMonthly" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<collection-descriptor name="budgetConstructionMonthly" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionMonthly" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="true">
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -411,7 +411,7 @@
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
     
-<!-- most objects do not exist in labor object so we handle this manually returning null when needed
+<!-- labor module may not be loaded and most objects do not exist in labor object so we handle this manually returning null when needed
     <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />

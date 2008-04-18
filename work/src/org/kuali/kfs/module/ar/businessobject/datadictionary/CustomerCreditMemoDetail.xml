@@ -33,7 +33,7 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-accountNumber" parent="CustomerCreditMemoDetail-accountNumber-parentBean" />
-  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  <bean id="CustomerCreditMemoDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
   
   <bean id="CustomerCreditMemoDetail-subAccountNumber" parent="CustomerCreditMemoDetail-subAccountNumber-parentBean" />

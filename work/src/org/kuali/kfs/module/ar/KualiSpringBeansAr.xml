@@ -123,9 +123,24 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="receivableAccountingLineService">
+			<ref bean="receivableAccountingLineService" />
+		</property>	
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>				
+	</bean>	
+	
+    <bean id="receivableAccountingLineService" class="org.kuali.module.ar.service.impl.ReceivableAccountingLineServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>	
 	</bean>	
 	
 	<bean id="cashControlDocumentService" class="org.kuali.module.ar.service.impl.CashControlDocumentServiceImpl">

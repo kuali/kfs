@@ -28,6 +28,7 @@ import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.InvoicePaidApplied;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -885,107 +886,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         m.put("documentNumber", this.documentNumber);
 	    return m;
     }
-	
-	/**
-	 * This method sets the default values for an customer invoice on load
-	 */
-	public void setupDefaultValues(){
-	    ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-	    
-        if(currentUser != null) {
-            setDefaultBillByChartOfAccountsCode(currentUser);
-            setDefaultBilledByOrganizationCode(currentUser);
-            setInvoiceTermsText(currentUser);
-        }
-        setWriteoffIndicator(true);
-        
-        
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", billByChartOfAccountCode);
-        criteria.put("organizationCode", billedByOrganizationCode);
-        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-        
-        setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
-        setOpenInvoiceIndicator(true);
-        
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        setDefaultInvoiceDueDate(dateTimeService);
-        
-        
-        //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
-        //can't find this one
-        
-        setReceivableAccountingInfo();
-	}
-	
-    /**
-     * This method defaults the certain values based on the user and the current date after a invoice has been copied.
-     */
-    public void setupDefaultValuesAfterCopy(){
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        
-        if(currentUser != null) {
-            setDefaultBillByChartOfAccountsCode(currentUser);
-            setDefaultBilledByOrganizationCode(currentUser);
-            setInvoiceTermsText(currentUser);
-        }
-        
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        setDefaultInvoiceDueDate(dateTimeService);
-    }	
-	
-	private void setReceivableAccountingInfo() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /**
-	 * This method sets the invoice terms text from whatever is currently set in organization options
-	 */
-	public void setInvoiceTermsText(ChartUser currentUser){
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
-        criteria.put("organizationCode", currentUser.getOrganizationCode());
-        OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-        if( organizationOptions != null ){
-            setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
-        }
-	}
-
-    /**
-     * This method sets due date equal to todays date +30 days by default
-     * @param dateTimeService
-     */
-    public void setDefaultInvoiceDueDate(DateTimeService dateTimeService){
-        //Invoice due date = current date + 30 days
-        Calendar cal = dateTimeService.getCurrentCalendar();
-        cal.add(Calendar.DATE, 30);
-        Date sqlDueDate = null;
-        try {
-           sqlDueDate =  dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
-        } catch (ParseException e) {
-            //TODO: throw an error here, but don't die
-        }
-        if(sqlDueDate != null) {
-            this.setInvoiceDueDate(sqlDueDate);
-        }
-    }	
-	
-	/**
-	 * Sets documents default chart of accounts code based on current user
-	 * @param currentUser
-	 */
-	public void setDefaultBillByChartOfAccountsCode(ChartUser currentUser){
-	    this.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
-	}
-	
-	/**
-	 * Sets documents default organization code based on current user
-	 * @param currentUser
-	 */
-	public void setDefaultBilledByOrganizationCode(ChartUser currentUser){
-	    this.setBilledByOrganizationCode(currentUser.getOrganizationCode());
-	}
 
     public Integer getNextInvoiceItemNumber() {
         return nextInvoiceItemNumber;
@@ -1075,21 +975,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
-        
-        //setup values after copy
-        setupDefaultValuesAfterCopy();
-        
-        //save customer number since it will get overwritten when we retreive the accounts receivable document header from service
-        String customerNumber = getAccountsReceivableDocumentHeader().getCustomerNumber();
-        
-        // set up the default values for the AR DOC Header
-        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(this.getDocumentNumber());
-        accountsReceivableDocumentHeader.setCustomerNumber(customerNumber);
-        setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader); 
-        
-        // set up customer name
+        SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
     }
     
     /**
@@ -1170,7 +1056,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         CustomerInvoiceDetail parentLine = (CustomerInvoiceDetail)getSourceAccountingLines().get(parentLineIndex);
         
         //get index for discount line
-        int discountLineIndex = -9999; //this should ALWAYS get set
+        int discountLineIndex = -1; //this should ALWAYS get set
         for( int i = 0; i < getSourceAccountingLines().size(); i++ ){
             if( parentLine.getInvoiceItemDiscountLineNumber().equals(((CustomerInvoiceDetail)getSourceAccountingLines().get(i)).getSequenceNumber())){
                 discountLineIndex = i;

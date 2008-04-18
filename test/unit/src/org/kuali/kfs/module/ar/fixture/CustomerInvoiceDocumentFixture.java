@@ -19,8 +19,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.fixtures.CreditMemoItemFixture;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.test.DocumentTestUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -107,7 +106,7 @@ public enum CustomerInvoiceDocumentFixture {
         }
         
         //probably should change this to use values set in fixture
-        customerInvoiceDocument.setupDefaultValues();
+        SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
         
         customerInvoiceDocument.setPaymentChartOfAccountsCode(paymentChartOfAccountsCode);
         customerInvoiceDocument.setPaymentAccountNumber(paymentAccountNumber);

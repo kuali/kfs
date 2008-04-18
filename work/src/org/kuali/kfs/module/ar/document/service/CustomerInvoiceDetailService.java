@@ -16,6 +16,7 @@
 package org.kuali.module.ar.service;
 
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 /**
  * This class provides services related to the customer invoice document
@@ -83,7 +84,7 @@ public interface CustomerInvoiceDetailService {
      * This method is used to recalculate a customer invoice detail based on updated values
      * @param customerInvoiceDetail
      */
-    public void recalculateCustomerInvoiceDetail( CustomerInvoiceDetail customerInvoiceDetail );
+    public void recalculateCustomerInvoiceDetail( CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail );
     
     /**
      * This method is used to update 

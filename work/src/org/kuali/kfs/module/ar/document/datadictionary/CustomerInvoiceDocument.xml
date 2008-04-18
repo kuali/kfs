@@ -13,6 +13,7 @@
     <property name="documentTypeName" value="CustomerInvoiceDocument" />
     <property name="documentClass" value="org.kuali.module.ar.document.CustomerInvoiceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerInvoiceDocumentRule" />
+    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.CustomerInvoiceDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer" />
     <property name="documentTypeCode" value="INV" />
     <property name="allowsCopy" value="true" />

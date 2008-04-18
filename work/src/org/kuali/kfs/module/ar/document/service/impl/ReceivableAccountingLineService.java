@@ -15,22 +15,10 @@
  */
 package org.kuali.module.ar.service;
 
-import java.util.List;
-
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
-public interface CustomerInvoiceDocumentService {
+public interface ReceivableAccountingLineService {
     
-    /**
-     * This method sets up default values for customer invoice document on initiation.
-     * @param document
-     */
-    public void setupDefaultValuesForNewCustomerInvoiceDocument( CustomerInvoiceDocument document );
-    
-    
-    /**
-     * This method sets up default values for customer invoice document when copied.
-     * @param customerInvoiceDocument
-     */
-    public void setupDefaultValuesForCopiedCustomerInvoiceDocument( CustomerInvoiceDocument customerInvoiceDocument );
+    public void setReceivableAccountingLineForCustomerInvoiceDocument( CustomerInvoiceDocument customerInvoiceDocument );
+
 }

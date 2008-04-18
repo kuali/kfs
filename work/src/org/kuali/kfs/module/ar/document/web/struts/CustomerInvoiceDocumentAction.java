@@ -42,12 +42,35 @@ import org.kuali.module.ar.rule.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.module.ar.rule.event.RecalculateCustomerInvoiceDetaiEvent;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
+    
+    /**
+     * Overriding to make it easier to distinguish discount lines and lines that are associated to discounts
+     * 
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
+        customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+        try {
+            // proceed as usual
+            customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+            ActionForward result = super.execute(mapping, form, request, response);
+            return result;
+        }
+        finally {
+            //update it again for display purposes
+            customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+        }
+    }    
+    
     /**
      * Called when customer invoice document is initiated.
      * 
@@ -60,17 +83,11 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
+        
+        // set up the default values for customer invoice document
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
-
-        // set up the default values for customer invoice document
-        customerInvoiceDocument.setupDefaultValues();
-
-        // set up the default values for the AR DOC Header
-        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
-        customerInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
     }
 
     /**
@@ -86,31 +103,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         form.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
 
     }
-
-
-    /**
-     * Overriding to populate references for discounts and parent line details
-     * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
-        customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
-        
-        try {
-            // proceed as usual
-            customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
-            ActionForward result = super.execute(mapping, form, request, response);
-            return result;
-        }
-        finally {
-            //update it again for display purposes
-            customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
-        }
-
-    }
-
 
     /**
      * This method is the action for refreshing the added source line (or customer invoice detail) based off a provided invoice item
@@ -166,7 +158,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         if (rulePassed) {
 
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDetail);
+            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
             customerInvoiceDetailService.updateAccountsForCorrespondingDiscount(customerInvoiceDetail);
         }
 
@@ -222,6 +214,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
 
         // make sure amount is up to date before rules
@@ -236,7 +229,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             // add accountingLine
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(customerInvoiceDetail);
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDetail);            
+            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);            
             customerInvoiceDetail.updateARObjectCode();
             insertAccountingLine(true, customerInvoiceDocumentForm, customerInvoiceDetail);
 
@@ -278,6 +271,5 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         // delete line like normal
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
-
     }
 }

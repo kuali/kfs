@@ -20,6 +20,7 @@ import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,12 +33,15 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
@@ -67,6 +71,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         customerInvoiceDocument = (CustomerInvoiceDocument) doc;
         GlobalVariables.getErrorMap().addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
         success &= defaultExistenceChecks(customerInvoiceDocument);
+        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
+        
         GlobalVariables.getErrorMap().removeFromErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
         return success;
     }
@@ -95,6 +101,30 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         return success;
 
+    }
+    
+    /**
+     * This method returns true if all customer invoice details are valid. The accounting line validation is done through
+     * events and not in this method
+     * @param document
+     * @return
+     */
+    private boolean validateCustomerInvoiceDetails( CustomerInvoiceDocument document ){
+        
+        boolean success = true;
+        
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for( int i = 0; i < document.getSourceAccountingLines().size(); i++ ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)document.getSourceAccountingLines().get(i);
+            
+            String propertyName = KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + i + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+            success &= processRecalculateCustomerInvoiceDetailRules( customerInvoiceDocument, customerInvoiceDetail );
+            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+        }
+        
+        return success;
+        
     }
 
     /**
@@ -132,6 +162,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         return success;
     }
+    
 
     /**
      * This method returns true if payment account number is provided and is valid.

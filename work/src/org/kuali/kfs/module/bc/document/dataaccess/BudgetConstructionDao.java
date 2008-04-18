@@ -18,9 +18,12 @@ package org.kuali.module.budget.dao;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 
 
 /**
@@ -126,5 +129,7 @@ public interface BudgetConstructionDao {
      * @return
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
+    
+    public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
 
 }

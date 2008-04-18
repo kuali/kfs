@@ -17,7 +17,9 @@ package org.kuali.module.budget.service;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -57,6 +59,14 @@ public interface BudgetDocumentService {
      * @throws ValidationException
      */
     public Document saveDocumentNoWorkflow(Document document) throws ValidationException;
+    
+    /**
+     * Gets the salary detail lines request sum for a budget document expenditure accounting line
+     *  
+     * @param salaryDetailLine
+     * @return
+     */
+    public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
 
     /**
      * Sets the budgetConstructionDao attribute value.

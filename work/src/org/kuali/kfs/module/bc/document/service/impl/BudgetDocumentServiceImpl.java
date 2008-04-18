@@ -28,8 +28,10 @@ import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.rule.event.SaveEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.rice.config.ConfigurationException;
@@ -165,6 +167,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
 
     }
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#getPendingBudgetConstructionAppointmentFundingRequestSum(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
+     */
+    public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
+        return budgetConstructionDao.getPendingBudgetConstructionAppointmentFundingRequestSum(salaryDetailLine);
+    }
+
 
     /**
      * Sets the budgetConstructionDao attribute value.

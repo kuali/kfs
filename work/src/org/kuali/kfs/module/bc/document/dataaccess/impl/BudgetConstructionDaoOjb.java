@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +28,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.BCConstants.OrgSelControlOption;
@@ -34,6 +36,8 @@ import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
 
 /**
@@ -247,6 +251,35 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
             return Collections.EMPTY_LIST;
         }
         return orgs;
+    }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getPendingBudgetConstructionAppointmentFundingRequestSum(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
+     */
+    public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
+        KualiInteger salarySum = KualiInteger.ZERO;
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("universityFiscalYear", salaryDetailLine.getUniversityFiscalYear());
+        criteria.addEqualTo("chartOfAccountsCode", salaryDetailLine.getChartOfAccountsCode());
+        criteria.addEqualTo("accountNumber", salaryDetailLine.getAccountNumber());
+        criteria.addEqualTo("subAccountNumber", salaryDetailLine.getSubAccountNumber());
+        criteria.addEqualTo("financialObjectCode", salaryDetailLine.getFinancialObjectCode());
+        criteria.addEqualTo("financialSubObjectCode", salaryDetailLine.getFinancialSubObjectCode());
+        String[] columns = new String[] { "financialObjectCode", "financialSubObjectCode", "sum(appointmentRequestedAmount)" };
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(PendingBudgetConstructionAppointmentFunding.class, columns, criteria, true);
+        q.addGroupBy(new String[] { "financialObjectCode", "financialSubObjectCode" });
+        PersistenceBroker pb = getPersistenceBroker(true);
+
+        Iterator<Object[]> iter = pb.getReportQueryIteratorByQuery(q);
+
+        if (iter.hasNext()) {
+            Object[] objs = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
+            if (objs[2] != null) {
+                salarySum = new KualiInteger((BigDecimal) objs[2]);
+            }
+        }
+        return salarySum;
     }
 
 }

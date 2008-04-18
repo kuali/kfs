@@ -554,6 +554,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     }
 
+    /**
+     * Deletes an existing PendingBudgetConstructionGeneralLedger revenue line if rules passed.
+     * Any associated monthly budget (BudgetConstructionMonthly) is also deleted.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteRevenueLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
@@ -577,11 +588,20 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             deletePBGLLine(true, tForm, deleteIndex);
         }
 
-//        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete Revenue Line");
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Deletes an existing PendingBudgetConstructionGeneralLedger expenditure line if rules passed
+     * Any associated monthly budget (BudgetConstructionMonthly) is also deleted.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteExpenditureLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
@@ -610,6 +630,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Deletes an existing PendingBudgetConstructionGeneralLedger revenue or expenditure line
+     * along with any associated monthly budget (BudgetConstructionMonthly)
+     * 
+     * @param isRevenue
+     * @param budgetConstructionForm
+     * @param deleteIndex
+     */
     protected void deletePBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, int deleteIndex) {
 
         if (isRevenue) {

@@ -79,8 +79,6 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
             List<BudgetAdjustmentAccountingLine> benefitLines = generateBenefitLines(fiscalYear, line, budgetDocument);
             
             for (BudgetAdjustmentAccountingLine benefitLine: benefitLines) {
-                line.setFringeBenefitIndicator(true);
-                
                 if (benefitLine.isSourceAccountingLine()) {
                     budgetDocument.addSourceAccountingLine((SourceAccountingLine) benefitLine);
                 }

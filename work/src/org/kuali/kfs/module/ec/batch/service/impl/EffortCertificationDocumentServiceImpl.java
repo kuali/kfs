@@ -336,9 +336,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         accountingLine.setAmount(this.getDifference(detailLine).abs());
 
-        accountingLine.setFinancialSubObjectCode(KFSConstants.EMPTY_STRING);
+        accountingLine.setFinancialSubObjectCode(null);
         accountingLine.setProjectCode(null);
-        accountingLine.setOrganizationReferenceId(KFSConstants.EMPTY_STRING);
+        accountingLine.setOrganizationReferenceId(null);
 
         accountingLine.setEmplid(effortCertificationDocument.getEmplid());
         accountingLine.setPositionNumber(detailLine.getPositionNumber());

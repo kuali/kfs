@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
@@ -29,7 +30,6 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDetailBuildService;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -59,7 +59,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
 
         detailLine.setEffortCertificationPayrollAmount(payrollAmount);
         detailLine.setEffortCertificationOriginalPayrollAmount(payrollAmount);
-        
+
         detailLine.setEffortCertificationCalculatedOverallPercent(0);
         detailLine.setEffortCertificationUpdatedOverallPercent(0);
 
@@ -80,7 +80,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         List<String> costShareSubAccountTypeCodes = parameters.get(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
 
         A21SubAccount A21SubAccount = this.getA21SubAccount(ledgerBalance);
-        String subAccountTypeCode = A21SubAccount == null ? null : A21SubAccount.getSubAccountTypeCode();
+        String subAccountTypeCode = ObjectUtils.isNull(A21SubAccount) ? null : A21SubAccount.getSubAccountTypeCode();
 
         if (subAccountTypeCode == null || expenseSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -101,7 +101,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
             detailLine.setCostShareSourceSubAccountNumber(null);
         }
     }
-    
+
     /**
      * get the A21 sub account associated with the given ledger balance
      * 

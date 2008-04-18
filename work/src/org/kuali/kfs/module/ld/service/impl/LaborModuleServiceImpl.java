@@ -122,7 +122,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         documentHeader.setFinancialDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
 
-        getDocumentService().blanketApproveDocument(document, KFSConstants.EMPTY_STRING, adHocRecipients);
+        getDocumentService().blanketApproveDocument(document, annotation, adHocRecipients);
     }
 
     /**

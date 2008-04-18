@@ -393,13 +393,11 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
 
-        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)document;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)accountingLine;
         KualiDecimal amount = customerInvoiceDetail.getAmount();
-        boolean isDiscountLine = customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber() );
 
         // if amount is = 0 or ( amount < 0 and is NOT a discount line )
-        if (KualiDecimal.ZERO.compareTo(amount) == 0 || ( KualiDecimal.ZERO.compareTo(amount) > 0 && !isDiscountLine ) ) { 
+        if (KualiDecimal.ZERO.compareTo(amount) == 0 || ( KualiDecimal.ZERO.compareTo(amount) > 0 && !customerInvoiceDetail.isDiscountLine() ) ) { 
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
@@ -416,10 +414,9 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     public boolean isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         
         KualiDecimal unitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
-        boolean isDiscountLine = customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber() );
 
      // amount == 0 or amount < 0
-        if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.compareTo(unitPrice) == 0 || ( KualiDecimal.ZERO.compareTo(unitPrice) > 0 && !isDiscountLine  ) ) { 
+        if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.compareTo(unitPrice) == 0 || ( KualiDecimal.ZERO.compareTo(unitPrice) > 0 && !customerInvoiceDetail.isDiscountLine()  ) ) { 
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
@@ -451,11 +448,10 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         boolean success = true;
         
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)financialDocument;
-        boolean isDiscountLine = customerInvoiceDocument.isDiscountLineBasedOnSequenceNumber( customerInvoiceDetail.getSequenceNumber() );
         
         success &= isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(customerInvoiceDetail, customerInvoiceDocument);
         success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
-        if( success && isDiscountLine ){
+        if( success && customerInvoiceDetail.isDiscountLine() ){
             success &= isDiscountCustomerInvoiceGreaterThanParentAmount(customerInvoiceDetail, customerInvoiceDocument);
         }
         
@@ -473,7 +469,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         boolean success = true;
         
-        CustomerInvoiceDetail parentCustomerInvoiceDetail = customerInvoiceDocument.getCopyOfParentCustomerInvoiceDetail(discountCustomerInvoiceDetail.getSequenceNumber());
+        CustomerInvoiceDetail parentCustomerInvoiceDetail = discountCustomerInvoiceDetail.getParentDiscountCustomerInvoiceDetail();
+        
         //update parent amount just in case it has also been updated 
         parentCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
         

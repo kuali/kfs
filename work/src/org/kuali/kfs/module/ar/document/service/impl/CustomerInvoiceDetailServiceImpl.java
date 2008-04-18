@@ -19,11 +19,11 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
@@ -163,6 +163,34 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         return getDiscountCustomerInvoiceDetail(customerInvoiceDetail, currentUniversityFiscalYear, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
+    
+    
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#recalculateCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     */
+    public void recalculateCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+        //if line is supposed to be a discount line, make sure you set the amount to negative
+        if (customerInvoiceDetail.isDiscountLine()) {
+            customerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
+        }
+        customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#updateAccountsForCorrespondingDiscount(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     */
+    public void updateAccountsForCorrespondingDiscount(CustomerInvoiceDetail parent) {
+        
+        CustomerInvoiceDetail discount = parent.getDiscountCustomerInvoiceDetail();
+        if( ObjectUtils.isNotNull(discount)){
+            if( StringUtils.isNotEmpty( parent.getAccountNumber() ) ){
+                discount.setAccountNumber( parent.getAccountNumber() );
+            }
+            if( StringUtils.isNotEmpty( parent.getSubAccountNumber() ) ){
+                discount.setSubAccountNumber( parent.getSubAccountNumber() );
+            }            
+        }
+    }    
 
     public DateTimeService getDateTimeService() {
         return dateTimeService;
@@ -187,4 +215,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+
 }

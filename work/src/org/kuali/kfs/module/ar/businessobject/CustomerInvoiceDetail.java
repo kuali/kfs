@@ -37,10 +37,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     private boolean isDebit;
     private Integer invoiceItemDiscountLineNumber;
     
-    private boolean isDiscountLine;
-    
     private SubObjCd accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
+    
+    private CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
+    private CustomerInvoiceDetail discountCustomerInvoiceDetail;
 
     /**
      * Default constructor.
@@ -334,20 +335,22 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     }
     
     /**
-     * This method updates values for customer invoice detail
-     */
-    public void update(){
-        updateAmountBasedOnQuantityAndUnitPrice();
-        updateARObjectCode();
-    }
-    
-    /**
      * This method returns true if customer invoice detail has a corresponding discount line
      * @return
      */
     public boolean isDiscountLineParent(){
-        return getInvoiceItemDiscountLineNumber() != null;
+        return ObjectUtils.isNotNull(getInvoiceItemDiscountLineNumber() );
     }
+    
+    /**
+     * This method should only be used to determine if detail is discount line in JSP. If you want to determine if
+     * invoice detail is a detail line use CustomerInvoiceDocument.isDiscountLineBasedOnSequenceNumber() instead.  
+     * 
+     * @return
+     */
+    public boolean isDiscountLine() {
+        return ObjectUtils.isNotNull(parentDiscountCustomerInvoiceDetail);
+    }    
     
     /**
      * This method sets the amount to negative if it isn't already negative
@@ -373,17 +376,23 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         }
     }
 
-    /**
-     * This method should only be used to determine if detail is discount line in JSP. If you want to determine if
-     * invoice detail is a detail line use CustomerInvoiceDocument.isDiscountLineBasedOnSequenceNumber() instead.  
-     * 
-     * @return
-     */
-    public boolean isDiscountLine() {
-        return isDiscountLine;
+
+    public CustomerInvoiceDetail getParentDiscountCustomerInvoiceDetail() {
+        return parentDiscountCustomerInvoiceDetail;
     }
 
-    public void setDiscountLine(boolean isDiscountLine) {
-        this.isDiscountLine = isDiscountLine;
+
+    public void setParentDiscountCustomerInvoiceDetail(CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail) {
+        this.parentDiscountCustomerInvoiceDetail = parentDiscountCustomerInvoiceDetail;
+    }
+
+
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail() {
+        return discountCustomerInvoiceDetail;
+    }
+
+
+    public void setDiscountCustomerInvoiceDetail(CustomerInvoiceDetail discountCustomerInvoiceDetail) {
+        this.discountCustomerInvoiceDetail = discountCustomerInvoiceDetail;
     }
 }

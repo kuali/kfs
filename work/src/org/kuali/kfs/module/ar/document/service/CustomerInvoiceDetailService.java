@@ -77,4 +77,17 @@ public interface CustomerInvoiceDetailService {
      * @return
      */
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear( CustomerInvoiceDetail customerInvoiceDetail );
+    
+    
+    /**
+     * This method is used to recalculate a customer invoice detail based on updated values
+     * @param customerInvoiceDetail
+     */
+    public void recalculateCustomerInvoiceDetail( CustomerInvoiceDetail customerInvoiceDetail );
+    
+    /**
+     * This method is used to update 
+     * @param parentDiscountCustomerInvoiceDetail
+     */
+    public void updateAccountsForCorrespondingDiscount( CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail );
 }

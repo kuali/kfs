@@ -17,6 +17,8 @@ package org.kuali.module.ar.web.struts.form;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -46,7 +48,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public CustomerInvoiceDocument getCustomerInvoiceDocument( ) {
         return (CustomerInvoiceDocument)getDocument();
     }
-    
+
     /**
      * Reused to create new source accounting line (i.e customer invoice detail line) with defaulted values.
      * 

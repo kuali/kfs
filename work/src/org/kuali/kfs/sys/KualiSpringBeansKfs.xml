@@ -320,7 +320,11 @@
         </property>
     </bean>
 
-    <bean id="kualiInquirable" class="org.kuali.kfs.inquiry.KfsInquirableImpl" singleton="false" />
+    <bean id="kualiInquirable" class="org.kuali.kfs.inquiry.KfsInquirableImpl" singleton="false" >
+    	<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
     
     <bean id="kfsGenericGeneralLedgerPostingHelper" class="org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl">
     	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />

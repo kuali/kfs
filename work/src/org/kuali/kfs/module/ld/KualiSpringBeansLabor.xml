@@ -511,6 +511,9 @@
 		<property name="lookupableHelperService">
 			<ref bean="laborPendingEntryLookupableHelperService" />
 		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 	</bean>
 
 	<bean id="laborPendingEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl" singleton="false">

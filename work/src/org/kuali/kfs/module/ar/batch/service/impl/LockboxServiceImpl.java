@@ -61,31 +61,6 @@ public class LockboxServiceImpl implements LockboxService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
     DocumentService docService = KNSServiceLocator.getDocumentService();
 
-
-    public List<Lockbox> getLockboxes(Integer fiscalYear, String chartCode, String orgCode) {
-
-        OrganizationService oService = SpringContext.getBean(OrganizationService.class);
-        List<Org> orgs = oService.getActiveFinancialOrgs();
-
-
-        List<Lockbox> lockboxes = new ArrayList<Lockbox>();
-        SystemInformationService service = SpringContext.getBean(SystemInformationService.class);
-        SystemInformation sysInfo = service.getByPrimaryKey(fiscalYear, chartCode, orgCode);
-
-        String lockboxNum = sysInfo.getLockboxNumber();
-        String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
-
-
-        Iterator<Lockbox> it = lockboxDao.getByLockboxNumber(lockboxNum);
-        while(it.hasNext()) {
-            Lockbox lockbox = (Lockbox)it.next();
-            lockbox.setProxyInitiator(initiator);
-            lockboxes.add(lockbox);
-        }
-        // TODO Auto-generated method stub
-        return lockboxes;
-    }
-
     public boolean processLockbox() throws WorkflowException {
 
         Iterator<Lockbox> itr = lockboxDao.getAllLockboxes();
@@ -97,7 +72,6 @@ public class LockboxServiceImpl implements LockboxService {
             SystemInformationService service = SpringContext.getBean(SystemInformationService.class);
             SystemInformation sysInfo = service.getByLockboxNumber(lockbox.getLockboxNumber());
             String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
-            LOG.info(initiator +" initiator");
             GlobalVariables.clear();
             try {
                 GlobalVariables.setUserSession(new UserSession(initiator));
@@ -112,12 +86,15 @@ public class LockboxServiceImpl implements LockboxService {
 
 
             if (lockbox.compareTo(ctrlLockbox) != 0) {
+                // If we made it in here, then we have hit a different batchSequenceNumber and processedInvoiceDate.
+                // When this is the case, we create a new cashcontroldocument and start tacking subsequent lockboxes on 
+                // to the current cashcontroldocument as cashcontroldetails.
                 LOG.info("New Lockbox batch");
 
                 cashControlDocument = (CashControlDocument)KNSServiceLocator.getDocumentService().getNewDocument("CashControlDocument");
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
-                // cashControlDocument.setCashControlTotalAmount(lockbox.getInvoicePaidOrAppliedAmount());
                 cashControlDocument.getDocumentHeader().setFinancialDocumentDescription("Created by Lockbox " + lockbox.getLockboxNumber());
+
                 AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
                 AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
                 accountsReceivableDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
@@ -127,7 +104,7 @@ public class LockboxServiceImpl implements LockboxService {
 
                 cashControlDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
             } 
-
+            // set our control lockbox as the current lockbox and create details.
             ctrlLockbox = lockbox;
 
             CashControlDetail detail = new CashControlDetail();
@@ -142,6 +119,16 @@ public class LockboxServiceImpl implements LockboxService {
             
             String invoiceNumber = lockbox.getFinancialDocumentReferenceInvoiceNumber();
            
+            
+            //This is just a temporary work around due to the invoice numbers being in FIS format still.
+            try {
+                Integer.parseInt(invoiceNumber);
+            } catch (Exception e) {
+                detail.setCustomerPaymentDescription("Lockbox: Remittance for INVALID invoice number " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                docService.saveDocument(cashControlDocument);
+                continue;
+            }
+            
             if (!docService.documentExists(invoiceNumber)) {
                 detail.setCustomerPaymentDescription("Lockbox: Remittance for INVALID invoice number " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
                 docService.saveDocument(cashControlDocument);
@@ -159,8 +146,7 @@ public class LockboxServiceImpl implements LockboxService {
 
                 if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
                     //TODO approve app doc created for this lockbox
-                    //   payAppDoc.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().approve();
-                    //TODO create GLPEs ????
+                   
                     customerInvoiceDocument.setOpenInvoiceIndicator(false);
                 }
                 docService.saveDocument(cashControlDocument);
@@ -170,98 +156,6 @@ public class LockboxServiceImpl implements LockboxService {
         return true;
 
     }
-
-//  public boolean processLockboxes() throws Exception {
-//  LOG.info("Started processLockboxes()");
-//  OrganizationService oService = SpringContext.getBean(OrganizationService.class);
-//  List<Org> orgs = oService.getActiveFinancialOrgs();
-//  Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-//  SystemInformationService service = SpringContext.getBean(SystemInformationService.class);
-//  LOG.info(orgs.size()+" orgs size");
-//  for (Iterator<Org> itr = orgs.iterator(); itr.hasNext();) {
-//  Org org = (Org)itr.next(); 
-//  String chartCode = org.getChartOfAccountsCode();
-//  LOG.info(chartCode+" chartcode");
-//  String orgCode = org.getOrganizationCode();
-//  LOG.info(orgCode +" orgCode");
-//  SystemInformation sysInfo = service.getByPrimaryKey(fiscalYear, chartCode, orgCode);
-//  if (sysInfo == null)
-//  continue;
-//  String lockboxNum = sysInfo.getLockboxNumber();
-//  LOG.info(lockboxNum +" lockbox number");
-//  String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
-//  LOG.info(initiator +" initiator");
-//  GlobalVariables.clear();
-//  try {
-//  GlobalVariables.setUserSession(new UserSession(initiator));
-//  }
-//  catch (WorkflowException wfex) {
-//  LOG.warn(String.format("\nworkflow exception on fetching session %s", wfex.getMessage()));
-//  }
-//  catch (UserNotFoundException nfex) {
-//  LOG.warn(String.format("\nuser not found on fetching session %s", nfex.getMessage()));
-//  }
-
-//  Iterator<Lockbox> it = lockboxDao.getByLockboxNumber(lockboxNum);
-
-//  Lockbox ctrlLockbox = new Lockbox();
-//  CashControlDocument cashControlDocument = new CashControlDocument();
-//  while (it.hasNext()) {
-//  Lockbox lockbox = (Lockbox)it.next();
-
-//  if (lockbox.compareTo(ctrlLockbox) != 0) {
-
-//  cashControlDocument = (CashControlDocument)KNSServiceLocator.getDocumentService().getNewDocument("CashControlDocument");
-//  cashControlDocument.setCustomerPaymentMedium(lockbox.getCustomerPaymentMedium());
-//  cashControlDocument.setCashControlTotalAmount(lockbox.getInvoicePaidOrAppliedAmount());
-
-//  AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-//  AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-//  accountsReceivableDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
-//  accountsReceivableDocumentHeader.setCustomerNumber(lockbox.getCustomerNumber());
-//  accountsReceivableDocumentHeader.setFinancialDocumentExplanationText("Created by Lockbox " + lockbox.getInvoiceSequenceNumber());
-//  cashControlDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-
-//  } 
-
-//  ctrlLockbox = lockbox;
-
-//  CashControlDetail detail = new CashControlDetail();
-//  detail.setCustomerNumber(lockbox.getCustomerNumber());
-//  detail.setFinancialDocumentLineAmount(lockbox.getInvoicePaidOrAppliedAmount());
-//  detail.setCustomerPaymentDate(lockbox.getProcessedInvoiceDate());
-
-//  CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-//  PaymentApplicationDocument payAppDoc = cashControlDocumentService.createAndSavePaymentApplicationDocument("Created by Lockbox", cashControlDocument, detail);
-
-//  DocumentService docService = KNSServiceLocator.getDocumentService();
-//  CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(lockbox.getFinancialDocumentReferenceInvoiceNumber());
-
-//  if (customerInvoiceDocument == null) {
-//  detail.setCustomerPaymentDescription("Lockbox: Remittance for INVALID invoice number" +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-//  // break?
-//  } else {
-//  if (!customerInvoiceDocument.isOpenInvoiceIndicator()) {
-//  detail.setCustomerPaymentDescription("Lockbox: Remittance for CLOSED invoice number" +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-//  } else {
-//  detail.setCustomerPaymentDescription("Lockbox: Remittance for invoice number" +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-//  }
-
-
-//  if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
-//  //TODO approve app doc created for this lockbox
-//  //   payAppDoc.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().approve();
-//  //TODO create GLPEs ????
-//  customerInvoiceDocument.setOpenInvoiceIndicator(false);
-//  }
-
-
-//  }
-//  }
-//  }
-//  return true;
-//  }
-
 
     public LockboxDao getLockboxDao() {
         return lockboxDao;

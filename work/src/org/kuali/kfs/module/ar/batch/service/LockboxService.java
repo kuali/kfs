@@ -19,7 +19,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface LockboxService {
 
-   // public boolean processLockboxes() throws Exception;
     public boolean processLockbox() throws WorkflowException;
     
 }

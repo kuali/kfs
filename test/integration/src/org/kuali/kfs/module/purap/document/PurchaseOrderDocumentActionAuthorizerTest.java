@@ -15,9 +15,9 @@
  */
 package org.kuali.module.purap.document;
 
+import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
 import static org.kuali.test.fixtures.UserNameFixture.PARKE;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
-import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +31,9 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
 import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture;
+import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 /**
@@ -167,8 +166,12 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     public final void testClose() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
-        PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_CLOSE.createPurchaseOrderDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        //We create and save this req to obtain a number from the AP document link identifier sequencer in the database
+        RequisitionDocument dummyReqDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        documentService.saveDocument(dummyReqDocument);
+        PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_CLOSE.createPurchaseOrderDocument();
+        poDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(dummyReqDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
         poDocument.prepareForSave();       
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
         WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");    
@@ -176,6 +179,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
         preq.setPurchaseOrderIdentifier(poDocument.getPurapDocumentIdentifier());
         preq.setProcessingCampusCode("BL");
+        preq.setAccountsPayablePurchasingDocumentLinkIdentifier(poDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
         preq.prepareForSave();       
         AccountingDocumentTestUtils.saveDocument(preq, documentService);
         PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);

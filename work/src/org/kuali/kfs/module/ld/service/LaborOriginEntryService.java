@@ -261,5 +261,9 @@ public interface LaborOriginEntryService {
      * @return a Collection of labor origin entry groups to backup
      */
     public Collection getLaborBackupGroups(Date backupDate);
-
+    
+    /**
+     * Create the backup group which has all the entries from all the groups where all the flags are set Y.
+     */
+    public void createLaborBackupGroup();
 }

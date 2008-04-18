@@ -30,9 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.impl.OriginEntryServiceImpl;
@@ -285,7 +287,6 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         }
     }
 
-
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getMatchingEntriesByList(java.util.Map)
      */
@@ -477,9 +478,10 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group) {
         return laborOriginEntryDao.getEntryCollectionByGroup(group);
     }
-    
+
     /**
      * Returns all labor origin entry groups created on the given date to back them up
+     * 
      * @param backupDate the date to find labor origin entry groups created on
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getLaborBackupGroups(java.sql.Date)
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborBackupGroups(java.sql.Date)
@@ -488,6 +490,41 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         LOG.debug("getBackupGroups() started");
 
         return laborOriginEntryDao.getLaborBackupGroups(backupDate);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#createLaborBackupGroup()
+     */
+    public void createLaborBackupGroup() {
+        LOG.debug("createBackupGroup() started");
+
+        // Get the groups that need to be added
+        Date today = dateTimeService.getCurrentSqlDate();
+        Collection<OriginEntryGroup> originEntryGroups = laborOriginEntryDao.getLaborGroupsToBackup(today);
+
+        // Create the new group
+        OriginEntryGroup backupGroup = originEntryGroupService.createGroup(today, OriginEntrySource.LABOR_BACKUP, true, true, true);
+
+        for (OriginEntryGroup group : originEntryGroups) {
+
+            // Get only LaborOriginEntryGroup
+            if (group.getSourceCode().startsWith("L")) { // TODO: the hard-coded constant is a problem
+                Iterator<LaborOriginEntry> laborOriginEntries = laborOriginEntryDao.getLaborEntriesByGroup(group, 0);
+
+                while (laborOriginEntries != null && laborOriginEntries.hasNext()) {
+                    LaborOriginEntry entry = laborOriginEntries.next();
+
+                    entry.setEntryId(null);
+                    entry.setObjectId(new Guid().toString());
+                    entry.setGroup(backupGroup);
+                    laborOriginEntryDao.saveOriginEntry(entry);
+                }
+
+                group.setProcess(false);
+                group.setScrub(false);
+                originEntryGroupService.save(group);
+            }
+        }
     }
 
     /**

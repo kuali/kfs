@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
@@ -181,29 +180,26 @@ public interface LaborModuleService {
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass();
 
     /**
-     * Create the backup group which has all the entries from all the groups where all the flags are set Y.
-     */
-    public void createLaborBackupGroup();
-
-    /**
      * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.
      * 
-     * @param account
-     * @return
+     * @param account the given account
+     * @return true if there is a pending entry for the given account; otherwise, return false
      */
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber);
 
     /**
      * Returns the fringe benefit information associated with a given fiscal year, chart, and object code
+     * 
      * @param fiscalYear the fiscal year to find LaborFringeBenefitInformation records for
      * @param chartOfAccountsCode the chart of accounts code to find LaborFringeBenefitInformation records for
      * @param objectCode the object code to find LaborFringeBenefitInformation records for
      * @return a List of fringe benefit information records
      */
     public abstract List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
-        
+
     /**
      * Determines whether the given set of accounting lines have object codes that receieve fringe benefits
+     * 
      * @param fiscalYear the fiscal year of the document
      * @param chartOfAccountsCode chart of accounts code to check
      * @param financialObjectCode financialObjectCode to check

@@ -15,31 +15,23 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
@@ -55,13 +47,11 @@ import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.FringeBenefitInformation;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerBalanceForEffortCertification;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.bo.PositionObjectGroup;
-import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
@@ -173,42 +163,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#createLaborBackupGroup()
-     */
-    public void createLaborBackupGroup() {
-        LOG.debug("createBackupGroup() started");
-
-        // Get the groups that need to be added
-        Date today = getDateTimeService().getCurrentSqlDate();
-        Collection groups = getLaborOriginEntryDao().getLaborGroupsToBackup(today);
-
-        // Create the new group
-        OriginEntryGroup backupGroup = getOriginEntryGroupService().createGroup(today, OriginEntrySource.LABOR_BACKUP, true, true, true);
-
-        for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup group = iter.next();
-            // Get only LaborOriginEntryGroup
-            if (group.getSourceCode().startsWith("L")) {
-                Iterator entry_iter = getLaborOriginEntryDao().getLaborEntriesByGroup(group, 0);
-
-                while (entry_iter.hasNext()) {
-                    LaborOriginEntry entry = (LaborOriginEntry) entry_iter.next();
-
-                    entry.setEntryId(null);
-                    entry.setObjectId(new Guid().toString());
-                    entry.setGroup(backupGroup);
-                    getLaborOriginEntryDao().saveOriginEntry(entry);
-                }
-
-
-                group.setProcess(false);
-                group.setScrub(false);
-                getOriginEntryGroupService().save(group);
-            }
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass() {
@@ -286,9 +240,10 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         List<LaborFringeBenefitInformation> fringeBenefitInformationRecords = new ArrayList<LaborFringeBenefitInformation>();
-        Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
-        for (Iterator iterator = objectBenefits.iterator(); iterator.hasNext();) {
-            fringeBenefitInformationRecords.add(new FringeBenefitInformation((PositionObjectBenefit) iterator.next()));
+
+        Collection<PositionObjectBenefit> objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
+        for (PositionObjectBenefit positionObjectBenefit : objectBenefits) {
+            fringeBenefitInformationRecords.add(new FringeBenefitInformation(positionObjectBenefit));
         }
         return fringeBenefitInformationRecords;
     }
@@ -298,7 +253,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      java.util.List)
      */
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);
+        Collection<PositionObjectBenefit> objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);
         return (objectBenefits != null && !objectBenefits.isEmpty());
     }
 
@@ -310,8 +265,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @param line The account line the benefits are being retrieved for.
      * @return List of LaborObjectBenefit objects or null if one does not exist for parameters
      */
-    private Collection retrieveLaborObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
-        Map searchCriteria = new HashMap();
+    private Collection<PositionObjectBenefit> retrieveLaborObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
@@ -357,15 +312,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * Gets the documentAuthorizationService attribute.
-     * 
-     * @return Returns the documentAuthorizationService.
-     */
-    public DocumentAuthorizationService getDocumentAuthorizationService() {
-        return SpringContext.getBean(DocumentAuthorizationService.class);
-    }
-
-    /**
      * Gets the documentTypeService attribute.
      * 
      * @return Returns the documentTypeService.
@@ -390,33 +336,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
-    }
-
-    /**
-     * Gets the dateTimeService
-     * 
-     * @return an implementation of the DateTimeService
-     */
-    public DateTimeService getDateTimeService() {
-        return SpringContext.getBean(DateTimeService.class);
-    }
-
-    /**
-     * Gets the originEntryGroupService
-     * 
-     * @return an implementation of the OriginEntryGroupService
-     */
-    public OriginEntryGroupService getOriginEntryGroupService() {
-        return SpringContext.getBean(OriginEntryGroupService.class);
-    }
-
-    /**
-     * Gets the laborOriginEntryDao
-     * 
-     * @return an implementation of the LaborOriginEntryDao
-     */
-    public LaborOriginEntryDao getLaborOriginEntryDao() {
-        return SpringContext.getBean(LaborOriginEntryDao.class);
     }
 
     /**

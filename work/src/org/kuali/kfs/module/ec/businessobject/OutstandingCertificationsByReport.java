@@ -15,11 +15,16 @@
  */
 package org.kuali.module.effort.bo;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -31,12 +36,12 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     private String chartOfAccountsCode;
     private String organizationCode;
     private Integer outstandingCertificationCount;
-    
+
     private Options options;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Chart chart;
     private Org organization;
-    
+
     /**
      * Return the chartOfAccountsCode
      * 
@@ -54,7 +59,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-    
+
     /**
      * Gets effortCertificationReportNumber
      * 
@@ -63,7 +68,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public String getEffortCertificationReportNumber() {
         return effortCertificationReportNumber;
     }
-    
+
     /**
      * Sets effortCertificationReportNumber
      * 
@@ -72,7 +77,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
         this.effortCertificationReportNumber = effortCertificationReportNumber;
     }
-    
+
     /**
      * Gets organizationCode
      * 
@@ -81,7 +86,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public String getOrganizationCode() {
         return organizationCode;
     }
-    
+
     /**
      * Sets organizationCode
      * 
@@ -90,7 +95,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
     }
-    
+
     /**
      * Gets outstandingCertificationCount
      * 
@@ -99,7 +104,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public Integer getOutstandingCertificationCount() {
         return outstandingCertificationCount;
     }
-    
+
     /**
      * Sets outstandingCertificationCount
      * 
@@ -108,7 +113,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public void setOutstandingCertificationCount(Integer outstandingCertificationCount) {
         this.outstandingCertificationCount = outstandingCertificationCount;
     }
-    
+
     /**
      * Gets universityFiscalYear
      * 
@@ -117,7 +122,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
-    
+
     /**
      * Sets universityFiscalYear
      * 
@@ -144,7 +149,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public void setOptions(Options options) {
         this.options = options;
     }
-    
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -152,10 +157,10 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
         m.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, this.effortCertificationReportNumber);
         m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
         m.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode);
-        
+
         return m;
     }
-    
+
     /**
      * Gets the effort certification report definition
      * 
@@ -164,7 +169,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
         return effortCertificationReportDefinition;
     }
-    
+
     /**
      * Sets effort certification report definition
      * 
@@ -173,7 +178,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public void setEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         this.effortCertificationReportDefinition = effortCertificationReportDefinition;
     }
-    
+
     /**
      * Gets the organization
      * 
@@ -182,7 +187,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     public Org getOrganization() {
         return organization;
     }
-    
+
     /**
      * Sets organization
      * 
@@ -198,9 +203,12 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
      * @return
      */
     public Chart getChart() {
-        return chart;
+        Map objectKeys = new HashMap();
+        objectKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
+
+        return (Chart) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Chart.class, objectKeys);
     }
-    
+
     /**
      * Sets the chart
      * 

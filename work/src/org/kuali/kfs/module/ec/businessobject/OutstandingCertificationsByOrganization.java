@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -29,9 +32,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Business object for the outstanding documents by organization report
  */
 public class OutstandingCertificationsByOrganization extends EffortCertificationDocument {
-    
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OutstandingCertificationsByOrganization.class);
-    
+
     /**
      * gets a string representation of the document's chart and organization.
      * 
@@ -56,20 +59,37 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
         return certificationOrganizations;
     }
 
+    /**
+     * Queries workflow to get users who have an approval request for this effort certification.
+     * 
+     * @return String - names of users (seperated by comma) who have an approval request
+     */
     public String getNextApprovers() {
         String nextApprovers = "";
-        
+
         try {
-            List<String> approvers = SpringContext.getBean(KualiWorkflowInfo.class).getApprovalRequestedUsers(getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-            for (String approver : approvers) {
-                if (StringUtils.isBlank(nextApprovers)) nextApprovers = approver;
-                else nextApprovers += ", " + approver;
+            List<String> approverUUIDs = SpringContext.getBean(KualiWorkflowInfo.class).getApprovalRequestedUsers(Long.valueOf(getDocumentHeader().getDocumentNumber()));
+            for (String approverUUID : approverUUIDs) {
+                UniversalUser approveUser = null;
+                try {
+                    approveUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(approverUUID);
+                }
+                catch (UserNotFoundException e) {
+                    LOG.error("User information not found for UUID: " + approverUUID, e);
+                }
+
+                if (StringUtils.isBlank(nextApprovers)) {
+                    nextApprovers = approveUser.getPersonName();
+                }
+                else {
+                    nextApprovers += ", " + approveUser.getPersonName();
+                }
             }
         }
         catch (WorkflowException e) {
-           LOG.error("Problem getting next approver", e);
+            LOG.error("Problem getting next approver", e);
         }
-        
+
         return nextApprovers;
     }
 }

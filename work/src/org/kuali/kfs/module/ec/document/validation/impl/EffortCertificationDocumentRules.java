@@ -15,7 +15,6 @@
  */
 package org.kuali.module.effort.rules;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,7 +40,6 @@ import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.AddDetailLineRule;
-import org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule;
 import org.kuali.module.effort.rule.LoadDetailLineRule;
 import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
@@ -52,7 +50,7 @@ import org.kuali.module.integration.service.LaborModuleService;
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
  */
-public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements GenerateSalaryExpenseTransferDocumentRule<EffortCertificationDocument>, AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, LoadDetailLineRule<EffortCertificationDocument> {
+public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, LoadDetailLineRule<EffortCertificationDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
 
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
@@ -62,24 +60,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
     private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
-
-    /**
-     * This rule will generate salary expense transfer document. After the document is generated, it is hard to rollback. Thus, the
-     * rule should be the very last one to be invoked.
-     * 
-     * @see org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule#processGenerateSalaryExpenseTransferDocumentRules(org.kuali.module.effort.document.EffortCertificationDocument)
-     */
-    public boolean processGenerateSalaryExpenseTransferDocumentRules(EffortCertificationDocument effortCertificationDocument) {
-        LOG.info("processGenerateSalaryExpenseTransferDocument() start");
-
-        boolean valid = effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
-        if (!valid) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_SALARY_EXPENSE_TRANSFER_DOCUMENT_NOT_GENERATED);
-            return false;
-        }
-
-        return valid;
-    }
 
     /**
      * @see org.kuali.module.effort.rule.AddDetailLineRule#processAddDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument,
@@ -104,7 +84,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
             return false;
         }
-        
+
         List<String> comparableFields = EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS;
         if (detailLine.isNewLineIndicator() && EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, comparableFields)) {
             reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_LINE_EXISTS);
@@ -172,7 +152,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument);
-        valid &= this.processGenerateSalaryExpenseTransferDocumentRules(effortCertificationDocument);
 
         if (valid) {
             effortCertificationDocumentService.addRouteLooping(effortCertificationDocument);
@@ -315,7 +294,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         return hasValidFormat && hasValidReference;
     }
-    
+
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
      * 

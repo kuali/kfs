@@ -24,12 +24,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.UserSession;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -72,12 +75,20 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument)
      */
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
-        if (!effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
-            LOG.debug("The given document has not beeen approved.");
-            return;
-        }
+        KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
 
-        // add logic here if any
+        try {
+            if (workflowDocument.stateIsFinal()) {
+                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+                this.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+            }
+        }
+        catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -149,15 +160,15 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         if (sourceAccoutingLines.isEmpty() || targetAccoutingLines.isEmpty()) {
             return true;
         }
-        
+
         String description = effortCertificationDocument.getEmplid();
         String explanation = MessageBuilder.buildMessageWithPlaceHolder(EffortKeyConstants.MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION, effortCertificationDocument.getDocumentNumber()).toString();
-        
+
         String annotation = KFSConstants.EMPTY_STRING;
         List<String> adHocRecipients = new ArrayList<String>();
         adHocRecipients.addAll(this.getFiscalOfficersIfAmountChanged(effortCertificationDocument));
 
-        try {      
+        try {
             laborModuleService.createAndBlankApproveSalaryExpenseTransferDocument(description, explanation, annotation, adHocRecipients, sourceAccoutingLines, targetAccoutingLines);
         }
         catch (WorkflowException we) {
@@ -267,7 +278,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
         return targetAccountingLines;
     }
-    
+
     /**
      * get all fiscal officers of the detail line accounts where the salary amounts are changed
      * 
@@ -282,14 +293,14 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             if (this.getDifference(detailLine).isNonZero()) {
                 Account account = detailLine.getAccount();
                 String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
-                
+
                 if (StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
                     fiscalOfficers.add(accountFiscalOfficerPersonUserId);
                 }
             }
         }
         return fiscalOfficers;
-    }    
+    }
 
     /**
      * add a new accounting line into the given accounting line list. The accounting line is generated from the given detail line
@@ -326,7 +337,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setAmount(this.getDifference(detailLine).abs());
 
         accountingLine.setFinancialSubObjectCode(KFSConstants.EMPTY_STRING);
-        accountingLine.setProjectCode(KFSConstants.EMPTY_STRING);
+        accountingLine.setProjectCode(null);
         accountingLine.setOrganizationReferenceId(KFSConstants.EMPTY_STRING);
 
         accountingLine.setEmplid(effortCertificationDocument.getEmplid());

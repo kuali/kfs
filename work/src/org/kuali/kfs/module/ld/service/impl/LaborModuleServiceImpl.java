@@ -28,13 +28,13 @@ import java.util.Set;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -95,17 +95,18 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
+     * @see org.kuali.module.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String,
+     *      java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
      */
     public void createAndBlankApproveSalaryExpenseTransferDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
         LOG.info("createSalaryExpenseTransferDocument() start");
-        
-        if(sourceAccountingLines == null || sourceAccountingLines.isEmpty()) {
+
+        if (sourceAccountingLines == null || sourceAccountingLines.isEmpty()) {
             LOG.info("Cannot create a salary expense document when the given source accounting line is empty.");
             return;
         }
-        
-        if(targetAccountingLines == null || targetAccountingLines.isEmpty()) {
+
+        if (targetAccountingLines == null || targetAccountingLines.isEmpty()) {
             LOG.info("Cannot create a salary expense document when the given target accounting line is empty.");
             return;
         }
@@ -120,12 +121,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         DocumentHeader documentHeader = document.getDocumentHeader();
         documentHeader.setFinancialDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
-        
-        if(adHocRecipients != null && adHocRecipients.isEmpty()) {
-            getDocumentService().acknowledgeDocument(document, annotation, adHocRecipients);
-        }
 
-        getDocumentService().blanketApproveDocument(document, KFSConstants.EMPTY_STRING, null);
+        getDocumentService().blanketApproveDocument(document, KFSConstants.EMPTY_STRING, adHocRecipients);
     }
 
     /**
@@ -238,7 +235,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
         return PositionObjectBenefit.class;
     }
-    
+
     /**
      * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBenefitsCalculationClass()
      */
@@ -284,28 +281,30 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.module.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer,
+     *      java.lang.String, java.lang.String)
      */
     public List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         List<LaborFringeBenefitInformation> fringeBenefitInformationRecords = new ArrayList<LaborFringeBenefitInformation>();
         Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
         for (Iterator iterator = objectBenefits.iterator(); iterator.hasNext();) {
-            fringeBenefitInformationRecords.add(new FringeBenefitInformation((PositionObjectBenefit)iterator.next()));
+            fringeBenefitInformationRecords.add(new FringeBenefitInformation((PositionObjectBenefit) iterator.next()));
         }
         return fringeBenefitInformationRecords;
     }
-    
+
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer, java.util.List)
+     * @see org.kuali.module.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer,
+     *      java.util.List)
      */
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);        
+        Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);
         return (objectBenefits != null && !objectBenefits.isEmpty());
     }
 
     /**
-     * Calls business object service to retrieve LaborObjectBenefit objects for the given fiscal year, and chart, 
-     * object code from accounting line.
+     * Calls business object service to retrieve LaborObjectBenefit objects for the given fiscal year, and chart, object code from
+     * accounting line.
      * 
      * @param fiscalYear The fiscal year to be used as search criteria for looking up the labor object benefits.
      * @param line The account line the benefits are being retrieved for.
@@ -358,6 +357,15 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
+     * Gets the documentAuthorizationService attribute.
+     * 
+     * @return Returns the documentAuthorizationService.
+     */
+    public DocumentAuthorizationService getDocumentAuthorizationService() {
+        return SpringContext.getBean(DocumentAuthorizationService.class);
+    }
+
+    /**
      * Gets the documentTypeService attribute.
      * 
      * @return Returns the documentTypeService.
@@ -383,37 +391,37 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
-    
+
     /**
-     * Gets the dateTimeService 
-     *
+     * Gets the dateTimeService
+     * 
      * @return an implementation of the DateTimeService
      */
     public DateTimeService getDateTimeService() {
         return SpringContext.getBean(DateTimeService.class);
     }
-    
+
     /**
-     * Gets the originEntryGroupService 
-     *
+     * Gets the originEntryGroupService
+     * 
      * @return an implementation of the OriginEntryGroupService
      */
     public OriginEntryGroupService getOriginEntryGroupService() {
         return SpringContext.getBean(OriginEntryGroupService.class);
     }
-    
+
     /**
-     * Gets the laborOriginEntryDao 
-     *
+     * Gets the laborOriginEntryDao
+     * 
      * @return an implementation of the LaborOriginEntryDao
      */
     public LaborOriginEntryDao getLaborOriginEntryDao() {
         return SpringContext.getBean(LaborOriginEntryDao.class);
     }
-    
+
     /**
-     * Gets the laborLedgerPendingEntryService 
-     *
+     * Gets the laborLedgerPendingEntryService
+     * 
      * @return an implementation of the LaborLedgerPendingEntryService
      */
     public LaborLedgerPendingEntryService getLaborLedgerPendingEntryService() {

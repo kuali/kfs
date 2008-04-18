@@ -31,6 +31,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
@@ -256,7 +257,11 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
         LOG.debug("handleRouteStatusChange() start...");
 
         super.handleRouteStatusChange();
-        SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
+        
+        KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.stateIsApproved()) {
+            SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
+        }
     }
 
     /**

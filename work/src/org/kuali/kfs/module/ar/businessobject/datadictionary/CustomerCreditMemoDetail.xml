@@ -1,0 +1,78 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       
+  <bean id="CustomerCreditMemoDetail" parent="CustomerCreditMemoDetail-parentBean" />
+  <bean id="CustomerCreditMemoDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerCreditMemoDetail" />
+    <property name="attributes" >
+      <list>
+      	<ref bean="CustomerCreditMemoDetail-financialDocumentLineNumber" />
+      	<ref bean="CustomerCreditMemoDetail-accountNumber" />
+        <ref bean="CustomerCreditMemoDetail-subAccountNumber" />
+      	<ref bean="CustomerCreditMemoDetail-chartOfAccountsCode" />
+        <ref bean="CustomerCreditMemoDetail-financialObjectCode" />
+        <ref bean="CustomerCreditMemoDetail-financialSubObjectCode" />
+        <ref bean="CustomerCreditMemoDetail-projectCode" />
+        <ref bean="CustomerCreditMemoDetail-financialDocumentLineAmount" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-financialDocumentLineNumber" parent="CustomerInvoiceDetail-financialDocumentLineNumber-parentBean" />
+  <bean id="CustomerCreditMemoDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Item Line Number" />
+    <property name="shortLabel" value="Line Number" />
+    <property name="maxLength" value="3" />
+    <property name="summary" value="financialDocumentLineNumber" />
+    <property name="description" value="financialDocumentLineNumber description..." />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-accountNumber" parent="CustomerCreditMemoDetail-accountNumber-parentBean" />
+  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-subAccountNumber" parent="CustomerCreditMemoDetail-subAccountNumber-parentBean" />
+  <bean id="CustomerCreditMemoDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-chartOfAccountsCode" parent="CustomerCreditMemoDetail-chartOfAccountsCode-parentBean" />
+  <bean id="CustomerCreditMemoDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-financialObjectCode" parent="CustomerCreditMemoDetail-financialObjectCode-parentBean" />
+  <bean id="CustomerCreditMemoDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-financialSubObjectCode" parent="CustomerCreditMemoDetail-financialSubObjectCode-parentBean" />
+  <bean id="CustomerCreditMemoDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+    <property name="required" value="false" />
+    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-projectCode" parent="CustomerCreditMemoDetail-projectCode-parentBean" />
+  <bean id="CustomerCreditMemoDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode" />
+    <property name="required" value="false" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The title of the project." />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-financialDocumentLineAmount" parent="CustomerCreditMemoDetail-financialDocumentLineAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-financialDocumentLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="financialDocumentLineAmount" />
+    <property name="required" value="false" />
+    <property name="description" value="The line amount." />
+  </bean> 
+
+</beans>

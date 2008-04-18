@@ -15,34 +15,26 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
-
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CustomerCreditMemoDocument"
 	htmlFormAction="arCustomerCreditMemoDocument" renderMultipart="true"
 	showTabButtons="true">
 
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
-
 	<kul:hiddenDocumentFields />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-    <ar:accountsReceivableDocumentHeader/>	
-	
-    <ar:customerCreditMemo
-        documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" readOnly="${readOnly}" />
+	<ar:customerCreditMemoGeneral
+       documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" />
         
-	<ar:customerCreditMemoDetails
-        documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}"
-        customerCreditMemoDetailAttributes="${DataDictionary.CustomerCreditMemoDetail.attributes}"
-        readOnly="${readOnly}" />        
-		            
-	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
-
+    <!-- Check if receivable accounting line should be displayed -->
+    <ar:customerCreditMemoReceivableAccountingLine
+      documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" />
+      
+    <ar:customerCreditMemoDetails
+      documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" />
+      		
+    <kul:notes />
 	<kul:adHocRecipients />
 
 	<kul:routeLog />

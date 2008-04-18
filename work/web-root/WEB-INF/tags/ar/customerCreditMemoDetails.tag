@@ -18,38 +18,63 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for customer credit memo document fields." %>
               
-<%@ attribute name="customerCreditMemoDetailAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for customer credit memo detail fields." %>
+<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />           
               
-<%@ attribute name="readOnly" required="true" description="If document is in read only mode" %>         
-              
-<kul:tab tabTitle="Credit Memo Details" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DETAIL_ERRORS}">
+<kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DETAIL_ERRORS}">
     <div class="tab-container" align=center>		
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Details">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Items">
             <tr>
-                <td colspan="11" class="subhead">Credit Memo Details</td>
+                <td colspan="11" class="subhead">Invoice Items</td>
             </tr>
 			<tr>
-			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceItemQuantity}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemCode}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitOfMeasureCode}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitPrice}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.amount}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemServiceDate}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.accountsReceivableObjectCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.accountsReceivableSubObjectCode}" />	
-				<c:if test="${not readOnly}">			
-			    	<kul:htmlAttributeHeaderCell literalLabel="Actions" />
-			    </c:if>
-			</tr>     
-			<c:if test="${not readOnly}">
-				<ar:customerInvoiceDetail propertyName="newCustomerInvoiceDetail" customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}" readOnly="${readOnly}" rowHeading="add" cssClass="datacell" actionMethod="addCustomerInvoiceDetail"  actionAlt="Add Customer Invoice Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />				
-			</c:if>     
-			<logic:iterate id="customerInvoiceDetail" name="KualiForm" property="document.customerInvoiceDetails" indexId="ctr">
-				<ar:customerInvoiceDetail propertyName="document.customerInvoiceDetail[${ctr}]" customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}" readOnly="${readOnly}" rowHeading="${ctr+1}" cssClass="datacell" actionMethod="deleteCustomerInvoiceDetail.line${ctr}" actionAlt="Delete Customer Invoice Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
-	        </logic:iterate>  
-    	    </table>
+			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemCode}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitOfMeasureCode}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitPrice}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.amount}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell literalLabel="Total Amount" />
+				<kul:htmlAttributeHeaderCell literalLabel="Open Invoice Amount" />				
+			    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
+			</tr>
+			<%--
+			<logic:iterate
+				id="customerCreditMemoDetail"
+				name="KualiForm"
+				property="document.customerCreditMemoDetails"
+				indexId="ctr">
+						<ar:customerCreditMemoDetail
+							invPropertyName="document.invoice.sourceAccountingLines[${ctr}]"
+							crmPropertyName="document.customerCreditMemoDetails[${ctr}]" 
+			        		customerCreditMemoDetailAttributes="${DataDictionary.CustomerCreditMemoDetail.attributes}"
+			        		cssClass="datacell" />
+			</logic:iterate> --%>
+			
+			<tr>
+				<td class="total-line" colspan="6">
+					<strong>Credit Memo Total:</strong>
+				</td>
+				<td class="total-line"></td>
+				<td class="total-line"></td>
+				<td class="total-line"></td>
+				<td />
+				<td><div align="center" valign="middle" >
+					<html:image property=""
+	    						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+	    						title="Recalculate Credit Memo Line Amounts"
+	    						alt="Recalculate Credit Memo Line Amounts"
+	                            styleClass="tinybutton" />
+	                &nbsp;
+					<html:image property=""
+	    						src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+	    						title="Refresh Credit Memo Line"
+	    						alt="Refresh Credit Memo Line"
+	                            styleClass="tinybutton" />
+	            </div>     
+				</td>
+			</tr> 
+    	</table>
     </div>
 </kul:tab>

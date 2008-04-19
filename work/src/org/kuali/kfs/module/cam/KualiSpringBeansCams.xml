@@ -194,6 +194,7 @@
 
 <!-- *********  End of pre-asset tagging batch beans ********** -->
     <bean id="assetLookupableHelperService" class="org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+    	<property name="assetService" ref="assetService"/>    
     </bean>
 
     <bean id="assetLookupable" class="org.kuali.module.cams.lookup.AssetLookupableImpl" singleton="false">

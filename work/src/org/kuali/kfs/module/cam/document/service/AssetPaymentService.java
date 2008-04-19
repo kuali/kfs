@@ -53,4 +53,20 @@ public interface AssetPaymentService {
      * @param assetPaymentDetail
      */    
     public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument);
+    
+    
+    
+    /**
+     * 
+     * Checks whether an asset is eligible for payments. Such criteria is based on the rule that assets with pending
+     * Retirement or transfer documents should not be processed with a payment
+     * 
+     * @param capitalAssetNumber
+     * @return boolean
+     */
+    public boolean isAssetEligibleForPayment(Long capitalAssetNumber);
+    
+    
+    
+    
 }

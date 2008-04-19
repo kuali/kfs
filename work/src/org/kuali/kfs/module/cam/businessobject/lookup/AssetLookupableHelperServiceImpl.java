@@ -24,12 +24,14 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.service.AssetService;
 
 /**
  * This class overrids the base getActionUrls method
  */
 public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
+    AssetService assetService;
+    
     /**
      * Custom action urls for Asset.
      * 
@@ -73,17 +75,25 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         String anchor = CamsConstants.AssetActions.PAYMENT;
 
         /** TODO ADD SYSTEM PARAMETER TO STORE THE VALID STATUSES ( ‘A’, ‘C’, ‘S’, ‘U’) * */
-        List activeAssetStatusCodes = new ArrayList();
-        activeAssetStatusCodes.add("A");
-        activeAssetStatusCodes.add("C");
-        activeAssetStatusCodes.add("S");
-        activeAssetStatusCodes.add("U");
+//        List activeAssetStatusCodes = new ArrayList();
+//        activeAssetStatusCodes.add("A");
+//        activeAssetStatusCodes.add("C");
+//        activeAssetStatusCodes.add("S");
+//        activeAssetStatusCodes.add("U");
+//        if (activeAssetStatusCodes.contains(asset.getInventoryStatusCode()))
 
-        // Only active assets will have the payment option available.
-        if (activeAssetStatusCodes.contains(asset.getInventoryStatusCode()))
+        if (!getAssetService().isAssetRetired(asset))
             anchor = "<a href=\"../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.PAYMENT + "</a>";
 
         return anchor;
+    }
+
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
     }
 
 }

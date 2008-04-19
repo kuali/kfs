@@ -64,7 +64,6 @@
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}" >
 		
 	</fin:accountingLines>			
-	<cams:viewAssetDetails 	defaultTabHide="true" />
 	<cams:assetPaymentHeader defaultTabHide="true" />
 	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />

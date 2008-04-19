@@ -45,6 +45,5 @@ public class AssetPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Asset
             }
         }
         return maxSequenceNumber;
-    }
-
+    }   
 }

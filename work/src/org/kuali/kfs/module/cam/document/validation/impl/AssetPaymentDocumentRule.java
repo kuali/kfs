@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.rules;
 
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -36,17 +38,23 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction;
+import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
+import org.kuali.module.cams.document.AssetTransferDocument;
+import org.kuali.module.cams.service.AssetPaymentService;
+import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.PositionData;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.cams.bo.AssetPayment;
+import org.kuali.module.cams.service.AssetPaymentService;
 
 public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentRule.class);
-
+    
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         LOG.info("*** AssetPaymentRule - processCustomSaveDocumentBusinessRules(Document document)");
@@ -64,6 +72,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         //boolean valid = super.processCustomRouteDocumentBusinessRules(document);
         
         boolean valid = this.isSourceAccountingLinesRequiredNumberForRoutingMet((AccountingDocument)document);
+        valid&=validateAssetEligibilityForPayment(((AssetPaymentDocument)document).getAsset().getCapitalAssetNumber());
         return valid;        
     }
 
@@ -137,5 +146,20 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         boolean valid =super.processCustomApproveDocumentBusinessRules(approveEvent);
         return valid;
     }
-
+    
+/**
+ * 
+ * Checks the asset has pending transfer and/or retirement documents 
+ * @param capitalAssetNumber
+ * @return boolean 
+ */    
+    private boolean validateAssetEligibilityForPayment(Long capitalAssetNumber) {
+        boolean isValid = true;
+        if (!SpringContext.getBean(AssetPaymentService.class).isAssetEligibleForPayment(capitalAssetNumber)) {
+            //This error will appear at the bottom of the page in other error section.
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING);
+            isValid = false;
+        }
+        return isValid;
+    }
 }

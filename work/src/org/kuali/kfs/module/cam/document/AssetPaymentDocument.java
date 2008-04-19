@@ -18,6 +18,7 @@ package org.kuali.module.cams.document;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,6 +26,7 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -38,7 +40,7 @@ import org.kuali.module.chart.bo.Chart;
 
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
-    
+
     private Long   capitalAssetNumber;
     private String representativeUniversalIdentifier;
     private String organizationOwnerChartOfAccountsCode;
@@ -54,26 +56,23 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private Building        building;
     private List<AssetPaymentDetail> assetPaymentDetail;
     private Asset asset;
-    
+
     public AssetPaymentDocument() {
         super();
-        //LOG.info("*******AssetPaymentDocument - Constructor");
         assetPaymentDetail = new ArrayList<AssetPaymentDetail>();        
         asset          = new Asset();
     }
-    
+
     /**
      * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
      * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
      */
-
-    
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable)  {  
         return false;
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
@@ -96,30 +95,50 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
         assetPaymentDetail.setAccountChargeAmount(line.getAmount());
         assetPaymentDetail.setPaymentApplicationDate(systemDate);
-                    
+
         line = (SourceAccountingLine)assetPaymentDetail;
-        
+
         this.sourceAccountingLines.add(line);
         this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
     }
-    
-    
-    
+
+
+
+    /**
+     * 
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
     @Override
     public void handleRouteStatusChange() {       
-       LOG.info("****AssetPaymentDocument.handleRouteStatusChange()");
         super.handleRouteStatusChange();
 
         //Update asset payment table with the approved asset detail records.
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            LOG.info("****AssetPaymentDocument.handleRouteStatusChange() - inside the  IF!!!");
             SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
         }
-        LOG.info("***AssetPaymentDocument.handleRouteStatusChange().Document Status:"+getDocumentHeader().getWorkflowDocument().stateIsProcessed());
     }
 
-    
+    /**
+     * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceTotal()
+     */
+    @Override    
+    public KualiDecimal getSourceTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        AssetPaymentDetail assetPaymentDetail = null;
+        Iterator<AssetPaymentDetail> iter = this.getAssetPaymentDetail().iterator();
+        while (iter.hasNext()) {
+            assetPaymentDetail = iter.next();
+
+            KualiDecimal amount = assetPaymentDetail.getAccountChargeAmount();
+            if (amount != null) {
+                total = total.add(amount);
+            }
+        }
+        return total;
+    }
+
     /**
      * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
@@ -128,13 +147,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void prepareForSave(KualiDocumentEvent event) {
         // This is an empty method in order to prevent kuali from generating a gl pending entry record.     
     }
-    
-        
+
+
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
 
-    
+
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
     }
@@ -243,5 +262,3 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.asset = asset;
     }
 }
-
-

@@ -16,6 +16,9 @@
 package org.kuali.module.vendor.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Utility class with helper methods for Vendor processing 
@@ -126,5 +129,22 @@ public class VendorUtils {
         }
 
         return true;
+    }
+    
+    /**
+     * Composes the text for the note related to parent change to be added to the old parent vendor.
+     * 
+     * @param messageKey
+     * @param parameters
+     * @return
+     */
+    public static String buildMessageText(String messageKey, String... parameters) {
+        String result = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageKey);
+        if (ObjectUtils.isNotNull(parameters)) {
+            for (int i = 0; i < parameters.length; i++) {
+                result = StringUtils.replace(result, "{" + i + "}", parameters[i]);
+            }
+        }
+        return result;
     }
 }

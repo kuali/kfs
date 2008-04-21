@@ -194,7 +194,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                 // find the parent object in the details collection and add that§
                 for (BusinessObject tmpObject : processedSearchResults) {
                     VendorDetail tmpVendor = (VendorDetail) tmpObject;
-                    if (tmpVendor.getVendorHeaderGeneratedIdentifier().equals(vendor.getVendorHeaderGeneratedIdentifier()) && tmpVendor.getVendorDetailAssignedIdentifier() == 0) {
+                    if (tmpVendor.getVendorHeaderGeneratedIdentifier().equals(vendor.getVendorHeaderGeneratedIdentifier()) && tmpVendor.isVendorParentIndicator()) {
                         vendor.setVendorName(tmpVendor.getVendorName() + " > " + vendor.getVendorName());
                         break;
                     }

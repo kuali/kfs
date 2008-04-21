@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
@@ -40,15 +40,18 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.module.vendor.util.VendorUtils;
 
 public class VendorMaintainableImpl extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
@@ -125,7 +128,51 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         return documentTitle;
     }
 
+    @Override
+    public void handleRouteStatusChange(DocumentHeader header) {
+        super.handleRouteStatusChange(header);
 
+        VendorDetail vendorDetail = (VendorDetail) getBusinessObject();
+
+        KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+        // This code is only executed when the final approval occurs
+        if (workflowDoc.stateIsProcessed()) {
+            if (vendorDetail.isVendorParentIndicator()) {
+                VendorDetail previousParent = SpringContext.getBean(VendorService.class).getParentVendor(vendorDetail.getVendorHeaderGeneratedIdentifier());
+                //We'll only need to do the following if the previousParent is not the same as the current vendorDetail, because the
+                //following lines are for vendor parent indicator changes.
+                if (previousParent.getVendorHeaderGeneratedIdentifier().intValue() != vendorDetail.getVendorHeaderGeneratedIdentifier().intValue() || previousParent.getVendorDetailAssignedIdentifier().intValue() != vendorDetail.getVendorDetailAssignedIdentifier().intValue()) {
+                    previousParent.setVendorParentIndicator(false);
+                    addNoteForParentIndicatorChange(vendorDetail, previousParent, header.getDocumentNumber());
+                    SpringContext.getBean(BusinessObjectService.class).save(previousParent);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Add a note to the previous parent vendor to denote that parent vendor indicator change had occurred.
+     * 
+     * @param newVendorDetail  The current vendor
+     * @param oldVendorDetail  The parent vendor of the current vendor prior to this change.
+     * @param documentNumber   The document number of the document where we're attempting the parent vendor indicator change.
+     */
+    private void addNoteForParentIndicatorChange(VendorDetail newVendorDetail, VendorDetail oldVendorDetail, String documentNumber) {
+        String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, documentNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");   
+        Note newBONote = new Note();
+        newBONote.setNoteText(noteText);
+        try {
+            NoteService noteService = SpringContext.getBean(NoteService.class);
+            newBONote = noteService.createNote(newBONote, oldVendorDetail);
+            noteService.save(newBONote);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
+        }
+        oldVendorDetail.getBoNotes().add(newBONote);
+        
+    }
+    
     /**
      * Refreshes the vendorDetail. Currently we need this mainly for refreshing the soldToVendor object after returning from the
      * lookup for a sold to vendor.

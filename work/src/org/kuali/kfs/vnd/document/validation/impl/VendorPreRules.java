@@ -24,7 +24,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
@@ -37,6 +36,7 @@ import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorTaxChange;
 import org.kuali.module.vendor.bo.VendorType;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.module.vendor.util.VendorUtils;
 
 /**
  * Business Prerules applicable to VendorDetail documents. These PreRules checks for the VendorDetail that needs to occur while
@@ -237,13 +237,14 @@ public class VendorPreRules extends MaintenancePreRulesBase {
             VendorDetail oldParentVendor = SpringContext.getBean(VendorService.class).getParentVendor(oldVendorDetail.getVendorHeaderGeneratedIdentifier());
             String oldParentVendorName = oldParentVendor.getVendorName();
             String oldParentVendorNumber = oldParentVendor.getVendorNumber();
-            proceed = askOrAnalyzeYesNoQuestion(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID, buildMessageText(VendorKeyConstants.CONFIRM_VENDOR_CHANGE_TO_PARENT, oldVendorDetail.getVendorName() + "  (" + oldVendorDetail.getVendorNumber() + ")", oldParentVendorName + " (" + oldParentVendorNumber + ")"));
+            proceed = askOrAnalyzeYesNoQuestion(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID, VendorUtils.buildMessageText(VendorKeyConstants.CONFIRM_VENDOR_CHANGE_TO_PARENT, oldVendorDetail.getVendorName() + "  (" + oldVendorDetail.getVendorNumber() + ")", oldParentVendorName + " (" + oldParentVendorNumber + ")"));
             if (proceed) {
-                oldParentVendor.setVendorParentIndicator(false);
+                //Can I do this in the handleRouteStatusChange ?
+                //oldParentVendor.setVendorParentIndicator(false);
                 newVendorDetail.setVendorParentIndicator(true);
                 // Add note.
                 Note parentChangeNote = new Note();
-                String noteText = buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, document.getDocumentNumber(), newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");
+                String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, document.getDocumentNumber(), newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");
                 parentChangeNote.setNoteText(noteText);
                 parentChangeNote.setNoteTypeCode("BO");
                 oldParentVendor.addNote(parentChangeNote);
@@ -258,20 +259,4 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         }
     }
 
-    /**
-     * Composes the text for the note related to parent change to be added to the old parent vendor.
-     * 
-     * @param messageKey
-     * @param parameters
-     * @return
-     */
-    private String buildMessageText(String messageKey, String... parameters) {
-        String result = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageKey);
-        if (ObjectUtils.isNotNull(parameters)) {
-            for (int i = 0; i < parameters.length; i++) {
-                result = StringUtils.replace(result, "{" + i + "}", parameters[i]);
-            }
-        }
-        return result;
-    }
 }

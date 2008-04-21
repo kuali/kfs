@@ -21,7 +21,11 @@
     </property>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-financialDocumentLineNumber" parent="CustomerCreditMemoDetail-financialDocumentLineNumber-parentBean" />
+	<bean id="CustomerCreditMemoDetail-financialDocumentLineNumber" parent="CustomerCreditMemoDetail-financialDocumentLineNumber-parentBean" >
+      <property name="control" >
+      	<bean parent="TextControlDefinition" p:size="10" />
+    	</property>
+  	</bean>
   <bean id="CustomerCreditMemoDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentLineNumber" />
     <property name="forceUppercase" value="true" />

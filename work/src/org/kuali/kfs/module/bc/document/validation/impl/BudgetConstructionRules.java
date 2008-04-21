@@ -381,24 +381,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
                             // if salary setting detail exists, sum it otherwise default to zero
                             if (element.isPendingBudgetConstructionAppointmentFundingExists()) {
 
-//                                Map fieldValues = new HashMap();
-//                                fieldValues.put("universityFiscalYear", element.getUniversityFiscalYear());
-//                                fieldValues.put("chartOfAccountsCode", element.getChartOfAccountsCode());
-//                                fieldValues.put("accountNumber", element.getAccountNumber());
-//                                fieldValues.put("subAccountNumber", element.getSubAccountNumber());
-//                                fieldValues.put("financialObjectCode", element.getFinancialObjectCode());
-//                                fieldValues.put("financialSubObjectCode", element.getFinancialSubObjectCode());
-//                                fieldValues.put("financialBalanceTypeCode", element.getFinancialBalanceTypeCode());
-//                                fieldValues.put("financialObjectTypeCode", element.getFinancialObjectTypeCode());
-//
-//                                // TODO maybe get a list of bcaf lines using findMatching instead, less overhead?
-//                                // or maybe call some dao ojb reportquery or jdbc sql code that returns just the summed amount
-//                                SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
-//                                for (Iterator salIter = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding().iterator(); salIter.hasNext();){
-//                                    PendingBudgetConstructionAppointmentFunding salElement = (PendingBudgetConstructionAppointmentFunding) salIter.next();
-//                                    
-//                                    salarySum = salarySum.add(salElement.getAppointmentRequestedAmount());
-//                                }
+                                // run reportquery to get the salary request sum
                                 salarySum = SpringContext.getBean(BudgetDocumentService.class).getPendingBudgetConstructionAppointmentFundingRequestSum(element);
 
                             }

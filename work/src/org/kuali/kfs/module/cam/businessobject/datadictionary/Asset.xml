@@ -1898,6 +1898,10 @@
               <bean parent="FieldDefinition"
                     p:attributeName="assetWarranty.warrantyPurchaseOrderNumber" />
               <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyBeginningDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetWarranty.warrantyEndingDate" />
+              <bean parent="FieldDefinition"
                     p:attributeName="assetWarranty.warrantyText" />
             </list>
           </property>

@@ -15,11 +15,24 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.Collection;
+
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.budget.bo.BudgetConstructionOrgPositionFundingDetailReport;
+import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
+
 
 /**
  * defines the methods for BudgetConstructionAccountFundingDetailReports
  */
 public interface BudgetConstructionPositionFundingDetailReportService {
 
-       
+    public void updatePositionFundingDetailReport(String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
+    
+    
+    
+    public Collection<BudgetConstructionOrgPositionFundingDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+ 
+    
+    
 }

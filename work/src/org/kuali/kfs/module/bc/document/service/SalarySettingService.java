@@ -28,6 +28,6 @@ public interface SalarySettingService {
      * 
      * @return
      */
-    public boolean getSalarySettingDisabled();
+    public boolean isSalarySettingDisabled();
 
 }

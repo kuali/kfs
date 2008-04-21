@@ -263,7 +263,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
             // no deletion if salary setting option is turned on 
             // and the line is a salary detail line and detail recs exist
-            if (!SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled()){
+            if (!SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled()){
                 if (pendingBudgetConstructionGeneralLedger.getLaborObject() != null) {
                     if (pendingBudgetConstructionGeneralLedger.getLaborObject().isDetailPositionRequiredIndicator()) {
                         if (pendingBudgetConstructionGeneralLedger.isPendingBudgetConstructionAppointmentFundingExists()) {
@@ -371,7 +371,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
                 // check salary setting detail sum if expenditure line is a ss detail line
                 // and salary setting option is turned on
-                if (!SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled()){
+                if (!SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled()){
                     if (element.getLaborObject() != null) {
                         if (element.getLaborObject().isDetailPositionRequiredIndicator()) {
                             

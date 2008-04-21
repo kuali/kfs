@@ -118,7 +118,7 @@ public class BudgetConstructionSelectionForm extends KualiForm {
      * @return Returns the salarySettingDisabled.
      */
     public boolean isSalarySettingDisabled() {
-        return SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled();
+        return SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled();
     }
 
 }

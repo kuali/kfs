@@ -30,7 +30,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     /**
      * @see org.kuali.module.budget.service.SalarySettingService#getDisabled()
      */
-    public boolean getSalarySettingDisabled() {
+    public boolean isSalarySettingDisabled() {
         // TODO for now just return false, implement application parameter if decision is made implement this functionality
         return false;
 

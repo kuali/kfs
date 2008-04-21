@@ -34,7 +34,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     /**
      * @see org.kuali.module.budget.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
      */
-    public boolean getBenefitsCalculationDisabled() {
+    public boolean isBenefitsCalculationDisabled() {
         // TODO for now just return false, implement application parameter if decision is made implement this functionality
         return false;
 
@@ -51,7 +51,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         /**
          * do nothing if benefits calculation is disabled
          */
-        if (getBenefitsCalculationDisabled())
+        if (isBenefitsCalculationDisabled())
             return;
         /**
          * get the financial object type expenditure/expense
@@ -71,7 +71,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         /**
          * do nothing if benefits calculation is disabled
          */
-        if (getBenefitsCalculationDisabled())
+        if (isBenefitsCalculationDisabled())
             return;
         /**
          * get the financial object type expenditure/expense
@@ -91,7 +91,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         /**
          *  do nothing if benefits calculation is disabled
          */
-        if (getBenefitsCalculationDisabled())
+        if (isBenefitsCalculationDisabled())
             return;
         /**
          * get the financial object type expenditure/expense

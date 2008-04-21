@@ -420,7 +420,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @return Returns the benefitsCalculationDisabled.
      */
     public boolean isBenefitsCalculationDisabled() {
-        return SpringContext.getBean(BenefitsCalculationService.class).getBenefitsCalculationDisabled();
+        return SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled();
     }
 
     /**
@@ -429,7 +429,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @return Returns the salarySettingDisabled.
      */
     public boolean isSalarySettingDisabled() {
-        return SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled();
+        return SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled();
     }
 
     /**

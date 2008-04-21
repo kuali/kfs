@@ -30,7 +30,7 @@ public interface BenefitsCalculationService {
      * 
      * @return
      */
-    public boolean getBenefitsCalculationDisabled();
+    public boolean isBenefitsCalculationDisabled();
     
     /**
      * 

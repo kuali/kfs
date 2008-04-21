@@ -35,7 +35,7 @@ public class BatchStepRunner {
         }
         try {
             Log4jConfigurer.configureLogging(false);
-            SpringContext.initializeApplicationContext();
+            SpringContext.initializeBatchApplicationContext();
             String[] stepNames;
             if (args[0].indexOf(",") > 0) {
                 stepNames = StringUtils.split(args[0], ",");

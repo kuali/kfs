@@ -207,6 +207,10 @@ public class SpringContext {
         initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY }), true, true);
     }
 
+    protected static void initializeBatchApplicationContext() {
+        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY }), true, false);
+    }
+
     protected static void initializeTestApplicationContext() {
         initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_TEST_FILES_KEY }), false, false);
     }

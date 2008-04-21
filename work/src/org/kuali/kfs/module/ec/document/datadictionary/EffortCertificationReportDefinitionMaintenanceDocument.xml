@@ -167,6 +167,13 @@
                     p:name="versionNumber" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportPositionObjectGroupCode" />
+          		<bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" />
+          		<bean parent="MaintainableFieldDefinition" p:name="effortCertificationReportNumber" />
+          	</list>
+          </property>
         </bean>
       </list>
     </property>

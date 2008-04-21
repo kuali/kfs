@@ -136,6 +136,12 @@
                     p:name="versionNumber" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.personUserIdentifier" />
+          		<bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" />
+          	</list>
+          </property>
         </bean>
       </list>
     </property>

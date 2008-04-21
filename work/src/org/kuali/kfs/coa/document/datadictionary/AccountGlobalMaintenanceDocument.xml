@@ -199,6 +199,12 @@
                     p:name="newCollectionRecord" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
+          		<bean parent="MaintainableFieldDefinition" p:name="accountNumber" />
+          	</list>
+          </property>
         </bean>
       </list>
     </property>

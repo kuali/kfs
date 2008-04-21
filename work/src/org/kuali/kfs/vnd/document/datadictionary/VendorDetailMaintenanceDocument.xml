@@ -523,6 +523,11 @@
                     p:defaultValue="true" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode" />
+          	</list>
+          </property>
         </bean>
       </list>
     </property>

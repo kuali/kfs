@@ -116,6 +116,12 @@
             </list>
           </property>
           <property name="includeMultipleLookupLine" value="false" />
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.personUserIdentifier" />
+          		<bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" />
+          	</list>
+          </property>
         </bean>
       </list>
     </property>
@@ -161,6 +167,12 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
+          </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
+          		<bean parent="MaintainableFieldDefinition" p:name="accountNumber" />
+          	</list>
           </property>
         </bean>
       </list>

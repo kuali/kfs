@@ -360,7 +360,7 @@
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">
-                            <html:image property="methodToCall.performReport.(((PositionDetailReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Position Funding" alt="Position Funding" styleClass="tinybutton" />
+                            <html:image property="methodToCall.performReport.(((PositionFundingDetailReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Position Funding" alt="Position Funding" styleClass="tinybutton" />
                         </div>
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">

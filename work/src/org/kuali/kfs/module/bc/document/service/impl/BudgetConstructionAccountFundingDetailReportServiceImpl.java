@@ -54,8 +54,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
-    UniversalUserService universalUserService;
-
+    
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
      */
@@ -547,10 +546,6 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
     public void setBudgetConstructionAccountFundingDetailReportDao(BudgetConstructionAccountFundingDetailReportDao budgetConstructionAccountFundingDetailReportDao) {
         this.budgetConstructionAccountFundingDetailReportDao = budgetConstructionAccountFundingDetailReportDao;
-    }
-
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

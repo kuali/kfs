@@ -147,8 +147,6 @@
         <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
-        <ref bean="Asset-retirementInfo.retirementState.postalStateCode" />
-        <ref bean="Asset-retirementInfo.retirementCountry.postalCountryName" />
       </list>
     </property>
     <property name="relationships" >
@@ -1472,16 +1470,6 @@
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
   </bean>
-  <bean id="Asset-retirementInfo.retirementState.postalStateCode" parent="Asset-retirementInfo.retirementState.postalStateCode-parentBean" />
-
-  <bean id="Asset-retirementInfo.retirementState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
-    <property name="name" value="retirementInfo.retirementState.postalStateCode" />
-  </bean>
-  <bean id="Asset-retirementInfo.retirementCountry.postalCountryName" parent="Asset-retirementInfo.retirementCountry.postalCountryName-parentBean" />
-
-  <bean id="Asset-retirementInfo.retirementCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-    <property name="name" value="retirementInfo.retirementCountry.postalCountryName" />
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -1833,11 +1821,11 @@
               <bean parent="FieldDefinition"
                     p:attributeName="retirementInfo.retirementCityName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementState.postalStateCode" />
+                    p:attributeName="retirementInfo.retirementStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="retirementInfo.retirementZipCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementCountry.postalCountryName" />
+                    p:attributeName="retirementInfo.retirementCountryCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="retirementInfo.retirementPhoneNumber" /> 
             </list>

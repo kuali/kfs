@@ -227,12 +227,8 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.Country"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="postalCountryCode"
-            p:labelAttribute="postalCountryName" />
+      <bean parent="TextControlDefinition"
+            p:size="4" />
     </property>
     <property name="summary" value="retirementCountryCode" />
     <property name="description" value="retirementCountryCode description..." />
@@ -285,12 +281,8 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.State"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="postalStateCode"
-            p:labelAttribute="postalStateName" />
+      <bean parent="TextControlDefinition"
+            p:size="4" />
     </property>
     <property name="summary" value="retirementStateCode" />
     <property name="description" value="retirementStateCode description..." />

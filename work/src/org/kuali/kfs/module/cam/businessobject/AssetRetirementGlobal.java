@@ -35,6 +35,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private AssetStatus inventoryStatus;
     private DocumentHeader documentHeader;
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
+    private AssetHeader assetHeader;
     // non-persistent relation
     private AssetRetirementGlobalDetail sharedRetirementInfo;
 
@@ -263,6 +264,16 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     public void setAssetRetirementGlobalDetails(List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails) {
         this.assetRetirementGlobalDetails = assetRetirementGlobalDetails;
+    }
+
+
+    public AssetHeader getAssetHeader() {
+        return assetHeader;
+    }
+
+
+    public void setAssetHeader(AssetHeader assetHeader) {
+        this.assetHeader = assetHeader;
     }
 
 

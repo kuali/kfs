@@ -479,7 +479,7 @@
   </bean>
   <bean id="VendorDetail-vendorParentIndicator" parent="VendorDetail-vendorParentIndicator-parentBean" />
 
-  <bean id="VendorDetail-vendorParentIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+  <bean id="VendorDetail-vendorParentIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-yesNoWithoutBlankIndicator">
     <property name="name" value="vendorParentIndicator" />
     <property name="label" value="Vendor Parent Indicator" />
     <property name="shortLabel" value="Parent?" />

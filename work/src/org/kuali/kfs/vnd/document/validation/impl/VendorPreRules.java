@@ -19,20 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Note;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorTaxChange;
 import org.kuali.module.vendor.bo.VendorType;
+import org.kuali.module.vendor.service.VendorService;
 
 /**
  * Business Prerules applicable to VendorDetail documents. These PreRules checks for the VendorDetail that needs to occur while
@@ -73,6 +77,9 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         setVendorNamesAndIndicator(document);
         setVendorRestriction(document);
         setVendorTaxChange(document);
+        if (StringUtils.isBlank(question) || (question.equals(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID))) {
+            detectAndConfirmChangeToParent(document);
+        }
         displayReview(document);
         return true;
     }
@@ -211,5 +218,60 @@ public class VendorPreRules extends MaintenancePreRulesBase {
             }
         }
     }
+    
+   /**
+     * This method displays a review if indicated by the vendor type and the associated text from that type This method screens the
+     * current document for changes from division vendor to parent vendor. If the document does contain such a change, the question
+     * framework is invoked to obtain the user's confirmation for the change. If confirmation is obtained, a note is added to the
+     * old parent vendor. Indicators are set appropriately.
+     * 
+     * @param document The vendor-change-containing MaintenanceDocument under examination
+     */
+    private void detectAndConfirmChangeToParent(MaintenanceDocument document) {
+        boolean proceed = true;
+        VendorDetail oldVendorDetail = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
+        boolean oldVendorIsParent = oldVendorDetail.isVendorParentIndicator();
+        boolean newVendorIsParent = newVendorDetail.isVendorParentIndicator();
+        if (!oldVendorIsParent && newVendorIsParent) {
+            // A change to division is being tried. Obtain confirmation.
+            VendorDetail oldParentVendor = SpringContext.getBean(VendorService.class).getParentVendor(oldVendorDetail.getVendorHeaderGeneratedIdentifier());
+            String oldParentVendorName = oldParentVendor.getVendorName();
+            String oldParentVendorNumber = oldParentVendor.getVendorNumber();
+            proceed = askOrAnalyzeYesNoQuestion(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID, buildMessageText(VendorKeyConstants.CONFIRM_VENDOR_CHANGE_TO_PARENT, oldVendorDetail.getVendorName() + "  (" + oldVendorDetail.getVendorNumber() + ")", oldParentVendorName + " (" + oldParentVendorNumber + ")"));
+            if (proceed) {
+                oldParentVendor.setVendorParentIndicator(false);
+                newVendorDetail.setVendorParentIndicator(true);
+                // Add note.
+                Note parentChangeNote = new Note();
+                String noteText = buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, document.getDocumentNumber(), newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");
+                parentChangeNote.setNoteText(noteText);
+                parentChangeNote.setNoteTypeCode("BO");
+                oldParentVendor.addNote(parentChangeNote);
+                SpringContext.getBean(BusinessObjectService.class).save(oldParentVendor);
+            }
+            else {
+                newVendorDetail.setVendorParentIndicator(false);
+            }
+        }
+        if (!proceed) {
+            abortRulesCheck();
+        }
+    }
 
+    /**
+     * Composes the text for the note related to parent change to be added to the old parent vendor.
+     * 
+     * @param messageKey
+     * @param parameters
+     * @return
+     */
+    private String buildMessageText(String messageKey, String... parameters) {
+        String result = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageKey);
+        if (ObjectUtils.isNotNull(parameters)) {
+            for (int i = 0; i < parameters.length; i++) {
+                result = StringUtils.replace(result, "{" + i + "}", parameters[i]);
+            }
+        }
+        return result;
+    }
 }

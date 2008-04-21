@@ -81,6 +81,9 @@
               p:name="vendorNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="vendorParentIndicator"
+              p:defaultValue="true" />              
+        <bean parent="MaintainableFieldDefinition"
               p:name="vendorName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorLastName" />
@@ -180,9 +183,6 @@
               p:name="versionNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorHeader.versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorParentIndicator"
-              p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorFirstLastNameIndicator" />
       </list>

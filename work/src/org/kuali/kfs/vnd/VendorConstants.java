@@ -32,6 +32,7 @@ public class VendorConstants {
         public static final String PURCHASE_ORDER = "PO";
     }
 
+    public static final String CHANGE_TO_PARENT_QUESTION_ID = "confirmVendorChangeToParent";
     public static final String ACKNOWLEDGE_NEW_VENDOR_INFO_TEXT = "document.vendor.question.acknolwege.text";
     public static final String ACKNOWLEDGE_NEW_VENDOR_INFO = "NewVendorAcknowledgeQuestion";
 

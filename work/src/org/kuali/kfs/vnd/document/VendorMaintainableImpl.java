@@ -347,7 +347,8 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * Overrides the section implementation to turn off the include add line property unless the user
      * is in the vendor contract workgroup.
      * 
-     * Also, unless this is a vendor parent, don't show the vendor diversity add line. 
+     * Also, don't show the vendor diversity add line if the vendor is not a parent, or if the vendor is a parent
+     * but the vendor was previously (in the old maintainable) not a parent.
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getSections(org.kuali.core.maintenance.Maintainable)
      */
@@ -356,46 +357,52 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         List<Section> sections = super.getSections(oldMaintainable);
         UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getUniversalUser();
         String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
-        boolean isVendorParent = ((VendorDetail)getBusinessObject()).isVendorParentIndicator();
+        boolean isVendorParent = ((VendorDetail) getBusinessObject()).isVendorParentIndicator();
         boolean isInVendorContractGroup = currentUser.isMember(vendorContractWorkgroup);
-        if ( !isVendorParent || !isInVendorContractGroup ) {
+        
+        //Because it is possible for the user to change the vendor parent indicator on the screen, we'll need to find out
+        //whether the old vendor was a parent as well.
+        boolean isOldVendorParent = true;
+        if (oldMaintainable != null) {
+            isOldVendorParent = ((VendorDetail)oldMaintainable.getBusinessObject()).isVendorParentIndicator();
+        }
+        if (!isVendorParent || (isVendorParent && !isOldVendorParent) || !isInVendorContractGroup) {
             for (Section section : sections) {
-                if ( !isVendorParent ) {
-                    if ( section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES) ) {
+                if (!isVendorParent || (isVendorParent && !isOldVendorParent)) {
+                    if (section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES)) {
                         Iterator<Row> rows = section.getRows().iterator();
-                        while ( rows.hasNext() ) {
+                        while (rows.hasNext()) {
                             Row row = rows.next();
-                            if ( row.getFields().size() > 0 ) {
-                                Field field = row.getFields().get(0);                                 
-                                if ( StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES ) ) {
+                            if (row.getFields().size() > 0) {
+                                Field field = row.getFields().get(0);
+                                if (StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES)) {
                                     rows.remove();
-        }
-            }
-        }
+                                }
+                            }
+                        }
                     }
                 }
-        // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract
-        // organization
-                if ( !isInVendorContractGroup ) {
-                    if ( section.getContainedCollectionNames().contains( VendorPropertyConstants.VENDOR_CONTRACT )
-                            || section.getContainedCollectionNames().contains( VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION ) ) {
+                // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract
+                // organization
+                if (!isInVendorContractGroup) {
+                    if (section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_CONTRACT) || section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION)) {
                         Iterator<Row> rows = section.getRows().iterator();
-                        while ( rows.hasNext() ) {
+                        while (rows.hasNext()) {
                             Row row = rows.next();
-                            if ( row.getFields().size() > 0 ) {
-                                Field field = row.getFields().get(0); 
-                                if ( StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT ) ) {
+                            if (row.getFields().size() > 0) {
+                                Field field = row.getFields().get(0);
+                                if (StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT)) {
                                     rows.remove();
                                     continue;
-        }
-                                 if ( StringUtils.equals( field.getFieldType(), "container" ) && field.getContainerName().startsWith(VendorPropertyConstants.VENDOR_CONTRACT+"[") ) {
+                                }
+                                if (StringUtils.equals(field.getFieldType(), "container") && field.getContainerName().startsWith(VendorPropertyConstants.VENDOR_CONTRACT + "[")) {
                                     Iterator<Row> cRows = field.getContainerRows().iterator();
-                                    while ( cRows.hasNext() ) {
+                                    while (cRows.hasNext()) {
                                         Field cField = cRows.next().getFields().get(0);
-                                        if ( StringUtils.equals(cField.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION ) ) {
+                                        if (StringUtils.equals(cField.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION)) {
                                             cRows.remove();
                                             continue;
-    }
+                                        }
                                     }
                                 }
                             }

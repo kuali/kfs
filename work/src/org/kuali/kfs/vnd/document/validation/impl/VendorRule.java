@@ -246,6 +246,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                         }
                     }
 
+                    //if this is a change for vendor parent indicator field from No to Yes, we'll let it pass.
+                    if (changed && !oldVendor.isVendorParentIndicator() && newVendor.isVendorParentIndicator()) {
+                        changed = false;    
+                    }
+                    
                     // if anything has changed, complain
                     if (changed) {
                         String humanReadableFieldName = ddService.getAttributeLabel(document.getNewMaintainableObject().getBoClass(), fieldName);

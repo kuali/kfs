@@ -89,8 +89,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List fileErrorList = new ArrayList();
         List<BudgetConstructionRequestMove> processedRequestList = new ArrayList<BudgetConstructionRequestMove>();
         
-        //TODO: how to handle rollback?
-        //throw exception to force rollback, or try cleaning out table at bad parsing line
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, new HashMap());
 
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
@@ -107,6 +105,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             //check if there were errors parsing the line
             if (budgetConstructionRequestMove == null) {
                 fileErrorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + currentLine + ".");
+                //clean out table since file processing has stopped
+                businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, new HashMap());
                 return fileErrorList;
             }
             
@@ -114,6 +114,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             
             if ( lineValidationErrors.size() != 0) {
                 fileErrorList.addAll(lineValidationErrors);
+                //clean out table since file processing has stopped
+                businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, new HashMap());
                 return fileErrorList;
             }
             
@@ -125,8 +127,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             if (StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode())) {
                 budgetConstructionRequestMove.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             }
-            //TODO:is this correct?
-            //since ObjectCode is not mapped, need to manually set object type
             if ( StringUtils.isEmpty(budgetConstructionRequestMove.getFinancialObjectTypeCode()) ) {
                 if ( getObjectCode(budgetConstructionRequestMove, budgetYear) != null ) {
                     String objectTypeCode = getObjectCode(budgetConstructionRequestMove, budgetYear).getFinancialObjectTypeCode();
@@ -181,7 +181,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             record.refresh();
             boolean lineDataValid = true;
             String errorMessage = record.getErrorLinePrefixForLogFile();
-            if (importRequestDao.getHeaderRecord(record) == null) {
+            if (importRequestDao.getHeaderRecord(record, budgetYear) == null) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getErrorCode());
                 errorMessage += BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getMessage();
                 lineDataValid = false;
@@ -236,7 +236,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
             
             //inactive object code
-            //TODO: need to map object code
             if (lineDataValid) {
                 if (getObjectCode(record, budgetYear) != null && !getObjectCode(record, budgetYear).isActive()) {
                     record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_OBJECT_CODE_INACTIVE_ERROR_CODE.getErrorCode());
@@ -245,7 +244,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 }
             }
             
-            //TODO: is this correc? compensation object codes COMP
+            //compensation object codes COMP
             if (lineDataValid) {
                 LaborObject laborObjectCode = getLaborObject(record, budgetYear);
                 if (laborObjectCode != null && (laborObjectCode.isDetailPositionRequiredIndicator() || laborObjectCode.getFinancialObjectFringeOrSalaryCode().equals("F")) ) {
@@ -255,7 +254,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 }
             }
             
-            //TODO: is this correct? no wage accounts CMPA
+            //no wage accounts CMPA
             if (lineDataValid) {
                 LaborObject laborObject = getLaborObject(record, budgetYear);
                 if (!record.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator() && laborObject != null ) {
@@ -303,8 +302,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         HashMap<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
         
         for(BudgetConstructionRequestMove recordToLoad : recordsToLoad) {
-            //TODO: should this be mapped?
-            BudgetConstructionHeader header = importRequestDao.getHeaderRecord(recordToLoad);
+            //TODO: this should this be mapped
+            BudgetConstructionHeader header = importRequestDao.getHeaderRecord(recordToLoad, budgetYear);
             
             if (recordMap.containsKey(recordToLoad.getSubAccountingString())) {
                 BudgetConstructionRequestMove temp = recordMap.get(recordToLoad.getSubAccountingString());
@@ -313,7 +312,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 recordToLoad.setHasLock(temp.getHasLock());
                 recordToLoad.setRequestUpdateErrorCode(temp.getRequestUpdateErrorCode());
             } else {
-                if (header != null && header.getOrganizationLevelCode() != 0 ) System.out.println("!!! header.getOrganizationLevelCode() != 0");
                 if (recordToLoad.getAccount().getAccountFiscalOfficerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier()) ||
                         recordToLoad.getAccount().getAccountManagerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier())) {
                     
@@ -345,7 +343,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             if (recordToLoad.getHasAccess() && 
                     recordToLoad.getHasLock() &&
                     StringUtils.isBlank(recordToLoad.getRequestUpdateErrorCode())) {
-                String updateBudgetAmountErrorMessage = updateBudgetAmounts(fileType, recordToLoad, header);
+                String updateBudgetAmountErrorMessage = updateBudgetAmounts(fileType, recordToLoad, header, budgetYear);
                 if ( !StringUtils.isEmpty(updateBudgetAmountErrorMessage) ) errorMessages.add(recordToLoad.getErrorLinePrefixForLogFile() + updateBudgetAmountErrorMessage);
             }
             
@@ -354,7 +352,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         
         for (String key : recordMap.keySet()) {
             BudgetConstructionRequestMove record = recordMap.get(key);
-            BudgetConstructionHeader header = importRequestDao.getHeaderRecord(record);
+            BudgetConstructionHeader header = importRequestDao.getHeaderRecord(record, budgetYear);
             
             if (record.getHasAccess() && record.getHasLock() && StringUtils.isBlank(record.getRequestUpdateErrorCode())) {
                 udpateBenefits(fileType, record, header);
@@ -412,7 +410,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * @param importLine
      * @return error message
      */
-    private String updateBudgetAmounts(String fileType, BudgetConstructionRequestMove importLine, BudgetConstructionHeader header) {
+    private String updateBudgetAmounts(String fileType, BudgetConstructionRequestMove importLine, BudgetConstructionHeader header, Integer budgetYear) {
         String errorMessage = "";
         
         if (fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.ANNUAL.toString())) {
@@ -431,15 +429,13 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             pendingEntry.setAccountLineAnnualBalanceAmount(importLine.getAccountLineAnnualBalanceAmount());
             //TODO: does this need to be set. should I use header value?
             pendingEntry.setDocumentNumber(header.getDocumentNumber());
-            //TODO: should this be set. Should I use header value?
-            pendingEntry.setUniversityFiscalYear(header.getUniversityFiscalYear());
+            pendingEntry.setUniversityFiscalYear(budgetYear);
             pendingEntry.setChartOfAccountsCode(importLine.getChartOfAccountsCode());
             pendingEntry.setAccountNumber(importLine.getAccountNumber());
             pendingEntry.setSubAccountNumber(importLine.getSubAccountNumber());
             pendingEntry.setFinancialObjectCode(importLine.getFinancialObjectCode());
             pendingEntry.setFinancialSubObjectCode(importLine.getFinancialSubObjectCode());
-            //TODO: does this need to be set? where should the value come from
-            //pendingEntry.setFinancialBalanceTypeCode();
+            pendingEntry.setFinancialBalanceTypeCode("BB");
             pendingEntry.setFinancialObjectTypeCode(importLine.getFinancialObjectTypeCode());
                 
             businessObjectService.save(pendingEntry);
@@ -449,15 +445,13 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             BudgetConstructionMonthly monthlyEntry = new BudgetConstructionMonthly();
             //TODO: does this need to be set. should I use header value?
             monthlyEntry.setDocumentNumber(header.getDocumentNumber());
-            //TODO: does this need to be set. should I use header value?
-            monthlyEntry.setUniversityFiscalYear(header.getUniversityFiscalYear());
+            monthlyEntry.setUniversityFiscalYear(budgetYear);
             monthlyEntry.setChartOfAccountsCode(importLine.getChartOfAccountsCode());
             monthlyEntry.setAccountNumber(importLine.getAccountNumber());
             monthlyEntry.setSubAccountNumber(importLine.getSubAccountNumber());
             monthlyEntry.setFinancialObjectCode(importLine.getFinancialObjectCode());
             monthlyEntry.setFinancialSubObjectCode(importLine.getFinancialSubObjectCode());
-            //TODO: does this need to be set? where should the value come from
-            //monthlyEntry.setFinancialBalanceTypeCode();
+            monthlyEntry.setFinancialBalanceTypeCode("BB");
             monthlyEntry.setFinancialObjectTypeCode(importLine.getFinancialObjectTypeCode());
             monthlyEntry.setFinancialDocumentMonth1LineAmount(importLine.getFinancialDocumentMonth1LineAmount());
             monthlyEntry.setFinancialDocumentMonth2LineAmount(importLine.getFinancialDocumentMonth2LineAmount());
@@ -592,7 +586,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return errorList;
     }
     
-    //TODO: is this the correct way to find the labor object for a BudgetConstructionRequestMove object?
     private LaborObject getLaborObject(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
@@ -607,7 +600,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return null;
     }
     
-    //TODO: is this the correct way to find the object code?
     private ObjectCode getObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
@@ -662,8 +654,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, record.getFinancialObjectCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, record.getFinancialSubObjectCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, record.getFinancialObjectTypeCode());
-        //TODO: what should I use for this value
-        //searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, 
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "BB"); 
         
         return new ArrayList<BudgetConstructionMonthly> (getBusinessObjectService().findMatching(BudgetConstructionMonthly.class, searchCriteria));
     }

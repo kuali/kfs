@@ -54,7 +54,16 @@ public class ImportRequestFileParsingHelperparseLineTest extends KualiTestBase {
         assertNotNull(" line = " + ImportRequestFilelLineFixture.CORRECTLY_FORMATTED_LINE_COMMA_FIELD_SEPARATOR_QUOTE_TEXT_DELIMITER_MONTHLY.getLineToParse() + " This line is expected to be correctly formatted", actual);
         assertTrue("expected correctly formatted line", isEqual(expected, actual, false));
     }
+    
+    public void testParseLine_correctlyFormattedAnnualLine_periodFieldSeparatorNoTextDelimiter() {
 
+        BudgetConstructionRequestMove actual = ImportRequestFileParsingHelper.parseLine(ImportRequestFilelLineFixture.CORRECTLY_FORMATTED_LINE_PERIOD_FIELD_SEPARATOR_NO_TEXT_DELIMITER_ANNUAL.getLineToParse(), ImportRequestFilelLineFixture.CORRECTLY_FORMATTED_LINE_PERIOD_FIELD_SEPARATOR_NO_TEXT_DELIMITER_ANNUAL.getFieldSeparator(), ImportRequestFilelLineFixture.CORRECTLY_FORMATTED_LINE_PERIOD_FIELD_SEPARATOR_NO_TEXT_DELIMITER_ANNUAL.getTextFieldDelimiter(), true);
+        BudgetConstructionRequestMove expected = ImportRequestFilelLineFixture.CORRECTLY_FORMATTED_LINE_PERIOD_FIELD_SEPARATOR_NO_TEXT_DELIMITER_ANNUAL.createExpectedBudgetConstructionMoveObject(true, "BA", "6044900", "", "1468", "", "550000");
+
+        assertNotNull(" line = " + ImportRequestFilelLineFixture.CORRECTLY_FORMATTED_LINE_PERIOD_FIELD_SEPARATOR_NO_TEXT_DELIMITER_ANNUAL.getLineToParse() + " This line is expected to be correctly formatted", actual);
+        assertTrue("expected correctly formatted line", isEqual(expected, actual, true));
+    }
+    
     private boolean isEqual(BudgetConstructionRequestMove expected, BudgetConstructionRequestMove actual, boolean isAnnual) {
         if (!actual.getChartOfAccountsCode().equals(expected.getChartOfAccountsCode()))
             return false;

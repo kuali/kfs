@@ -16,12 +16,12 @@
 package org.kuali.module.budget.dao.ojb;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 import org.kuali.module.budget.dao.ImportRequestDao;
@@ -42,12 +42,12 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
     }
 
     
-    public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record) {
+    public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record, Integer budgetYear) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", record.getChartOfAccountsCode());
         criteria.addEqualTo("accountNumber", record.getAccountNumber());
         criteria.addEqualTo("subAccountNumber", record.getSubAccountNumber());
-        
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         BudgetConstructionHeader header = (BudgetConstructionHeader)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionHeader.class, criteria));
         
         return header;

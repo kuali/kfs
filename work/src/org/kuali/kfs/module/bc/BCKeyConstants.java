@@ -65,5 +65,6 @@ public class BCKeyConstants {
     public static final String ERROR_FIELD_SEPARATOR_REQUIRED = "error.budget.requestImport.missingFieldSeparator";
     public static final String ERROR_TEXT_DELIMITER_REQUIRED = "error.budget.requestImport.missingTextFieldDelimiter";
     public static final String ERROR_DISTINCT_DELIMITERS_REQUIRED = "error.budget.requestImport.nonDistinctDelimiters";
+    public static final String ERROR_BUDGET_YEAR_REQUIRED = "error.budget.requestImport.missingBudgetYear";
 }
 

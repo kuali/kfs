@@ -60,19 +60,15 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
     public ActionForward importFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionRequestImportForm budgetConstructionImportForm = (BudgetConstructionRequestImportForm) form;
         BudgetRequestImportService budgetRequestImportService = SpringContext.getBean(BudgetRequestImportService.class);
-        //Integer budgetYear = budgetConstructionImportForm.getUniversityFiscalYear();
-        //System.out.println("budget year = " + budgetYear);
-        Integer budgetYear = new Integer(2008);
+        Integer budgetYear = budgetConstructionImportForm.getUniversityFiscalYear();
+        
         boolean isValid = validateFormData(budgetConstructionImportForm);
         
         String basePath;
         String lookupUrl;
         
         if (!isValid) {
-            basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-            lookupUrl = basePath + "/" + "budgetBudgetConstructionRequestImport.do";
-            
-            return new ActionForward(lookupUrl, true);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
@@ -104,10 +100,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             return null;
         }
         
-        basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
-               
-        return new ActionForward(lookupUrl, true);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
       
     }
     
@@ -147,7 +140,10 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
-        
+        if (form.getUniversityFiscalYear() ==  null) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_YEAR_REQUIRED);
+            isValid = false;
+        }
         //file type validation
         if ( StringUtils.isBlank(form.getFileType()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);

@@ -49,10 +49,10 @@ public class ImportRequestFileParsingHelper {
         if (!isLineCorrectlyFormatted(lineToParse, fieldSeperator, textDelimiter, isAnnual)) return null;
         
         if (textDelimiter.equalsIgnoreCase(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter())) {
-            attributes.addAll(Arrays.asList(lineToParse.split(fieldSeperator)));
+            attributes.addAll(Arrays.asList(lineToParse.split(isFieldSeparatorSpecialCharacter(fieldSeperator) ? "\\" + fieldSeperator : fieldSeperator)));
         } else if ( getEscapedFieldSeparatorCount(lineToParse, fieldSeperator, textDelimiter, isAnnual) == 0) {
             lineToParse = StringUtils.remove(lineToParse, textDelimiter);
-            attributes.addAll(Arrays.asList(lineToParse.split(fieldSeperator)));
+            attributes.addAll(Arrays.asList(lineToParse.split(isFieldSeparatorSpecialCharacter(fieldSeperator) ? "\\" + fieldSeperator : fieldSeperator)));
         } else {
             int firstIndexOfTextDelimiter = 0;
             int nextIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, firstIndexOfTextDelimiter + 1);
@@ -65,7 +65,7 @@ public class ImportRequestFileParsingHelper {
             }
             
             String remainingNonStringValuesToParse = lineToParse.substring(lineToParse.lastIndexOf(textDelimiter + 1));
-            attributes.addAll(Arrays.asList(remainingNonStringValuesToParse.split(fieldSeperator)));
+            attributes.addAll(Arrays.asList(remainingNonStringValuesToParse.split(isFieldSeparatorSpecialCharacter(fieldSeperator) ? "\\" + fieldSeperator : fieldSeperator)));
         }
         
         budgetConstructionRequestMove.setChartOfAccountsCode(attributes.get(0));
@@ -82,18 +82,6 @@ public class ImportRequestFileParsingHelper {
             }
         } else {
             try {
-                int monthlyLineAmount1 = Integer.parseInt(attributes.get(5));
-                int monthlyLineAmount2 = Integer.parseInt(attributes.get(6));
-                int monthlyLineAmount3 = Integer.parseInt(attributes.get(7));
-                int monthlyLineAmount4 = Integer.parseInt(attributes.get(8));
-                int monthlyLineAmount5 = Integer.parseInt(attributes.get(9));
-                int monthlyLineAmount6 = Integer.parseInt(attributes.get(10));
-                int monthlyLineAmount7 = Integer.parseInt(attributes.get(11));
-                int monthlyLineAmount8 = Integer.parseInt(attributes.get(12));
-                int monthlyLineAmount9 = Integer.parseInt(attributes.get(13));
-                int monthlyLineAmount10 = Integer.parseInt(attributes.get(14));
-                int monthlyLineAmount11 = Integer.parseInt(attributes.get(15));
-                int monthlyLineAmount112 = Integer.parseInt(attributes.get(16));
                 
                 budgetConstructionRequestMove.setFinancialDocumentMonth1LineAmount(new KualiInteger(Integer.parseInt(attributes.get(5))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth2LineAmount(new KualiInteger(Integer.parseInt(attributes.get(6))));
@@ -186,4 +174,20 @@ public class ImportRequestFileParsingHelper {
         return escapedSeparatorsCount;
     }    
     
+    /**
+     * Determines if the field delimiter is a regular expression special character
+     * 
+     * @param delimiter
+     * @return true if special character
+     */
+    private static boolean isFieldSeparatorSpecialCharacter(String delimiter) {
+        if (delimiter.equals(".")) return true;
+        if (delimiter.equals("[")) return true;
+        if (delimiter.equals("\\")) return true;
+        if (delimiter.equals("*")) return true;
+        if (delimiter.equals("^")) return true;
+        if (delimiter.equals("$")) return true;
+        
+        return false;
+    }
 }

@@ -57,7 +57,11 @@ public enum ImportRequestFilelLineFixture {
             RequestImportTextFieldDelimiter.QUOTE.getDelimiter()),
     INCORRECTLY_FORMATTED_LINE_COMMA_FIELD_SEPARATOR_QUOTE_TEXT_DELIMITER_MONTHLY("\"BA\",\"6044900\",\"\",\"2000\",\"\",\"0\",0,0,0,0,0,0,0,0,0,0,0", 
             RequestImportFieldSeparator.COMMA.getSeparator(), 
-            RequestImportTextFieldDelimiter.QUOTE.getDelimiter());
+            RequestImportTextFieldDelimiter.QUOTE.getDelimiter()),
+    
+    CORRECTLY_FORMATTED_LINE_PERIOD_FIELD_SEPARATOR_NO_TEXT_DELIMITER_ANNUAL("BA.6044900..1468..550000", 
+            ".", 
+            RequestImportTextFieldDelimiter.NOTHING.getDelimiter());   
 
     private String lineToParse;
     private String fieldSeparator;

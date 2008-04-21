@@ -30,7 +30,7 @@ public interface ImportRequestDao {
      * 
      * @return header record or null if record does not exist.
      */
-    public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record);
+    public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record, Integer budgetYear);
     
     /**
      * find all BudgetConstructionRequestMove records with null error codes

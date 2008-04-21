@@ -1723,6 +1723,9 @@
                   </list>
                 </property>
               </bean>
+              <!-- TODO KFSMI-645: adding the following field makes above collection disappear -->
+              <!-- bean parent="FieldDefinition"
+                    p:attributeName="paymentTotalCost" / -->
             </list>
           </property>
         </bean>

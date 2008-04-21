@@ -552,9 +552,6 @@
 	<field-descriptor name="restrictedItemsIndicator" column="ITM_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="restrictedMaterialCode" column="RSTRC_MTRL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="restrictedMaterial" class-ref="org.kuali.module.purap.bo.RestrictedMaterial" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="restrictedMaterialCode" />
-    </reference-descriptor>
     <collection-descriptor name="commodityContractManagers"  element-class-ref="org.kuali.module.vendor.bo.CommodityContractManager" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="purchasingCommodityCode" />
     </collection-descriptor>

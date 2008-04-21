@@ -15,13 +15,14 @@
  */
 package org.kuali.module.vendor.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.module.purap.bo.RestrictedMaterial;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.integration.bo.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.module.integration.service.PurchasingAccountsPayableModuleService;
 
 /**
  * CommodityCode Code Business Object
@@ -35,7 +36,7 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     private String restrictedMaterialCode;
     private boolean active;
     
-    private RestrictedMaterial restrictedMaterial;
+    private PurchasingAccountsPayableRestrictedMaterial restrictedMaterial;
     
     private List<CommodityContractManager> commodityContractManagers;
     
@@ -83,12 +84,11 @@ public class CommodityCode extends PersistableBusinessObjectBase {
         this.restrictedMaterialCode = restrictedMaterialCode;
     }
 
-    public RestrictedMaterial getRestrictedMaterial() {
+    public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterial() {
+        if (restrictedMaterial == null || !restrictedMaterial.getRestrictedMaterialCode().equals(this.restrictedMaterialCode)) {
+            restrictedMaterial = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getRestrictedMaterialByCode(this.restrictedMaterialCode);
+        }
         return restrictedMaterial;
-    }
-
-    public void setRestrictedMaterial(RestrictedMaterial restrictedMaterial) {
-        this.restrictedMaterial = restrictedMaterial;
     }
 
     public boolean isSalesTaxIndicator() {

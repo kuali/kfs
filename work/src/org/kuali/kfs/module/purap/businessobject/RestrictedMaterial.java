@@ -19,11 +19,12 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.integration.bo.PurchasingAccountsPayableRestrictedMaterial;
 
 /**
  * Restricted Material Business Object.
  */
-public class RestrictedMaterial extends PersistableBusinessObjectBase {
+public class RestrictedMaterial extends PersistableBusinessObjectBase implements PurchasingAccountsPayableRestrictedMaterial {
 
     private String restrictedMaterialCode;
     private String restrictedMaterialDescription;

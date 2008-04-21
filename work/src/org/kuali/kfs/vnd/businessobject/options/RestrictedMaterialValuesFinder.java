@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.RestrictedMaterial;
+import org.kuali.module.integration.bo.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.module.integration.service.PurchasingAccountsPayableModuleService;
 
 public class RestrictedMaterialValuesFinder extends KeyValuesBase {
 
@@ -31,11 +31,10 @@ public class RestrictedMaterialValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection restrictedMaterials = boService.findAll(RestrictedMaterial.class);
+        List<PurchasingAccountsPayableRestrictedMaterial> restrictedMaterials = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getAllRestrictedMaterials();
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
-        for (RestrictedMaterial restrictedMaterial : (List<RestrictedMaterial>)restrictedMaterials) {
+        for (PurchasingAccountsPayableRestrictedMaterial restrictedMaterial : restrictedMaterials) {
             labels.add(new KeyLabelPair(restrictedMaterial.getRestrictedMaterialCode(), restrictedMaterial.getRestrictedMaterialDescription()));
         }
 

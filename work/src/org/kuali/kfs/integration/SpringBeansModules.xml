@@ -4,4 +4,6 @@
 	<bean id="contractsAndGrantsModuleService" class="org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" />
 				
 	<bean id="laborModuleService" class="org.kuali.module.labor.service.impl.LaborModuleServiceImpl" />
+	
+	<bean id="purchasingAccountsPayableModuleService" class="org.kuali.module.purap.service.impl.PurchasingAccountsPayableModuleServiceImpl" />
 </beans>

@@ -364,6 +364,7 @@
 
   <bean id="SystemInformation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="System Information Lookup" />
+    <property name="lookupableID" value="systemInformationLookupable" />
     <property name="instructions" value="Look up System Information" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

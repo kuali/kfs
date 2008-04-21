@@ -1014,6 +1014,8 @@ public class KFSPropertyConstants {
     public static final String SCRUB = "scrub";
     public static final String SELECTED_ACCOUNTING_PERIOD = "selectedAccountingPeriod";
     public static final String SELECTED_BALANCE_TYPE = "selectedBalanceType";
+    public static final String SELECTED_ORGANIZATION_CHART_OF_ACCOUNTS_CODE = "selectedOrganizationChartOfAccountsCode";
+    public static final String SELECTED_ORGANIZATION_CODE = "selectedOrganizationCode";
     public static final String SEQUENCE_ID = "sequenceId";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
     public static final String SORT_NUMBER = "sortNumber";

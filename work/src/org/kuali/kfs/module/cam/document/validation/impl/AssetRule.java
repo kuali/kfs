@@ -38,7 +38,7 @@ import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;
-import org.kuali.module.cams.service.AssetDetailInformationService;
+import org.kuali.module.cams.service.AssetDateService;
 import org.kuali.module.cams.service.AssetDispositionService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetService;
@@ -46,6 +46,7 @@ import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * AssetRule for Asset edit.
@@ -96,9 +97,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
             valid &= super.processCustomSaveDocumentBusinessRules(document);
             if (valid) {
-                AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
-                assetDetailInfoService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
-                assetDetailInfoService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
+                AssetDateService assetDateService = SpringContext.getBean(AssetDateService.class);
+                assetDateService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
+                assetDateService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
             }
         }
 
@@ -151,7 +152,25 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateLocation();
         }
 
+        // validate In-service Date
+        if (assetService.isInServiceDateChanged(oldAsset, newAsset)) {
+            valid &= validateInServiceDate();
+        }
         return valid;
+    }
+
+
+    /**
+     * 
+     * Check if the new In-service Date is a valid University Date
+     * @return
+     */
+    private boolean validateInServiceDate() {
+        if (SpringContext.getBean(UniversityDateService.class).getFiscalYear(newAsset.getCapitalAssetInServiceDate()) == null) {
+            putFieldError(CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsKeyConstants.ERROR_INVALID_IN_SERVICE_DATE);
+            return false;
+        }
+        return true;
     }
 
 

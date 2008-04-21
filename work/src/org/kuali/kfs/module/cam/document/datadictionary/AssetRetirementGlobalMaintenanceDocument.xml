@@ -254,10 +254,12 @@
                     p:template="totalCostAmount" />
               <bean parent="MaintainableFieldDefinition"
               		p:name="asset.accumulatedDepreciation"
-              		p:readOnly="true" />
+              		p:readOnly="true" 
+              		p:template="accumulatedDepreciation"/>
               <bean parent="MaintainableFieldDefinition"
               		p:name="asset.bookValue"
-              		p:readOnly="true" />
+              		p:readOnly="true" 
+              		p:template="bookValue" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.federalContribution"
                     p:readOnly="true"

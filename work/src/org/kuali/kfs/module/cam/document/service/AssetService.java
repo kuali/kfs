@@ -52,4 +52,30 @@ public interface AssetService {
      * @return
      */
     boolean isOffCampusLocationEntered(Asset asset);
+
+    /**
+     * Test if financialObjectSubTypeCode is changed.
+     * 
+     * @param oldAsset
+     * @param newAsset
+     * @return
+     */
+    boolean isFinancialObjectSubTypeCodeChanged(Asset oldAsset, Asset newAsset);
+
+    /**
+     * Test if assetTypeCode is changed.
+     * 
+     * @param oldAsset
+     * @param newAsset
+     * @return
+     */
+    boolean isAssetTypeCodeChanged(Asset oldAsset, Asset newAsset);
+    
+    /** 
+     * Test if Depreciable Life Limit is "0"
+     * This method...
+     * @param asset
+     * @return
+     */
+    boolean isAssetDepreciableLifeLimitZero(Asset asset);
 }

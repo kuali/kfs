@@ -138,6 +138,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetInServiceDate" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectSubTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="depreciationDate"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
@@ -486,6 +488,9 @@
               p:readOnly="true" />
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Sale" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="retirementInfo.buyerDescription"
+              p:readOnly="true" />      
         <bean parent="MaintainableFieldDefinition"
               p:name="salePrice"
               p:readOnly="true" />

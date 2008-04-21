@@ -165,4 +165,11 @@ public class CamsConstants {
     }
 
     public static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
+    
+    // TODO: replaced by System parameter
+    public static class DepreciationConvention {
+        public static final String CREATE_DATE="C";
+        public static final String HALF_YEAR="H";
+        public static final String FULL_YEAR="F";
+    }
 }

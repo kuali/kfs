@@ -27,6 +27,7 @@
         <ref bean="Asset-capitalAssetNumber" />
         <ref bean="Asset-cashReceiptFinancialDocumentNumber" />
         <ref bean="Asset-createDate" />
+        <ref bean="Asset-financialObjectSubTypeCode" />
         <ref bean="Asset-depreciationDate" />
         <ref bean="Asset-capitalAssetInServiceDate" />
         <ref bean="Asset-estimatedFabricationCompletionDate" />
@@ -116,6 +117,7 @@
         <ref bean="Asset-retirementInfo.retirementZipCode" />
         <ref bean="Asset-retirementInfo.retirementCountryCode" />
         <ref bean="Asset-retirementInfo.retirementPhoneNumber" />
+        <ref bean="Asset-retirementInfo.buyerDescription" />
         <ref bean="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerAddress" />
         <ref bean="Asset-loanOrReturnInfo.borrowerCityName" />
@@ -145,6 +147,8 @@
         <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+        <ref bean="Asset-retirementInfo.retirementState.postalStateCode" />
+        <ref bean="Asset-retirementInfo.retirementCountry.postalCountryName" />
       </list>
     </property>
     <property name="relationships" >
@@ -734,6 +738,15 @@
     <property name="summary" value="retirementPeriodCode" />
     <property name="description" value="retirementPeriodCode description..." />
   </bean>
+  <bean id="Asset-financialObjectSubTypeCode" parent="Asset-financialObjectSubTypeCode-parentBean" />
+  
+  <bean id="Asset-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjSubTyp-code">
+    <property name="name" value="financialObjectSubTypeCode" />
+    <property name="label" value="Financial Object Subtype Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="summary" value="financialObjectSubTypeCode" />
+    <property name="description" value="financialObjectSubTypeCode description..." />
+  </bean>
   <bean id="Asset-retirementReasonCode" parent="Asset-retirementReasonCode-parentBean" />
 
   <bean id="Asset-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -1256,6 +1269,13 @@
     <property name="label" value="Phone" />
     <property name="shortLabel" value="Phone" />
   </bean>
+  <bean id="Asset-retirementInfo.buyerDescription" parent="Asset-retirementInfo.buyerDescription-parentBean" />
+
+  <bean id="Asset-retirementInfo.buyerDescription-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-buyerDescription">
+    <property name="name" value="retirementInfo.buyerDescription" />
+    <property name="label" value="Buyer" />
+    <property name="shortLabel" value="Buyer" />
+  </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" parent="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" />
 
   <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerUniversalUser.personName">
@@ -1452,6 +1472,16 @@
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
   </bean>
+  <bean id="Asset-retirementInfo.retirementState.postalStateCode" parent="Asset-retirementInfo.retirementState.postalStateCode-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+    <property name="name" value="retirementInfo.retirementState.postalStateCode" />
+  </bean>
+  <bean id="Asset-retirementInfo.retirementCountry.postalCountryName" parent="Asset-retirementInfo.retirementCountry.postalCountryName-parentBean" />
+
+  <bean id="Asset-retirementInfo.retirementCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
+    <property name="name" value="retirementInfo.retirementCountry.postalCountryName" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -1591,7 +1621,7 @@
                     p:attributeName="estimatedFabricationLifetimeLimitNumber" />
             </list>
           </property>
-        </bean>
+        </bean> 
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Land Information" />
           <property name="numberOfColumns" value="1" />
@@ -1768,7 +1798,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.documentNumber" />
+                    p:attributeName="retirementInfo.documentNumber" /> 
               <bean parent="FieldDefinition"
                     p:attributeName="retirementReasonCode" />
               <bean parent="FieldDefinition"
@@ -1800,13 +1830,13 @@
               <bean parent="FieldDefinition"
                     p:attributeName="retirementInfo.retirementCityName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementStateCode" />
+                    p:attributeName="retirementInfo.retirementState.postalStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="retirementInfo.retirementZipCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementCountryCode" />
+                    p:attributeName="retirementInfo.retirementCountry.postalCountryName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="retirementInfo.retirementPhoneNumber" />
+                    p:attributeName="retirementInfo.retirementPhoneNumber" /> 
             </list>
           </property>
         </bean>
@@ -1992,7 +2022,7 @@
               </bean>
             </list>
           </property>
-        </bean>
+        </bean> 
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.module.cams.web.inquirable.AssetInquirableImpl" />

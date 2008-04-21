@@ -27,6 +27,7 @@ public class CamsKeyConstants {
     public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.number";
     public static final String ERROR_PRE_TAG_DETAIL_EXCESS = "error.pre.tag.detail.excess";
     public static final String ERROR_NO_DETAIL_LINE = "error.invalid.no.detail.line";
+    public static final String ERROR_INVALID_IN_SERVICE_DATE = "error.invalid.in.service.date";
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";

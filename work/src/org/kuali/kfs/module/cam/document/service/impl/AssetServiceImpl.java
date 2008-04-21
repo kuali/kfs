@@ -52,7 +52,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     public boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset) {
-        return ObjectUtils.isNull(oldAsset.getCapitalAssetInServiceDate()) ? ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) : oldAsset.getCapitalAssetInServiceDate().equals(newAsset.getCapitalAssetInServiceDate());
+        return !(ObjectUtils.isNull(oldAsset.getCapitalAssetInServiceDate()) ? ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) : oldAsset.getCapitalAssetInServiceDate().equals(newAsset.getCapitalAssetInServiceDate()));
     }
 
     /**
@@ -81,4 +81,21 @@ public class AssetServiceImpl implements AssetService {
         return StringUtils.isNotBlank(offCampus.getAssetLocationContactName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStreetAddress()) || StringUtils.isNotBlank(offCampus.getAssetLocationCityName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStateCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationZipCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationCountryCode());
     }
 
+    /**
+     * @see org.kuali.module.cams.service.AssetService#isFinancialObjectSubTypeCodeChanged(org.kuali.module.cams.bo.Asset, org.kuali.module.cams.bo.Asset)
+     */
+    public boolean isFinancialObjectSubTypeCodeChanged(Asset oldAsset, Asset newAsset) {
+        return !StringUtils.equalsIgnoreCase(oldAsset.getFinancialObjectSubTypeCode(), newAsset.getFinancialObjectSubTypeCode());
+    }
+
+    /**
+     * @see org.kuali.module.cams.service.AssetService#isAssetTypeCodeChanged(org.kuali.module.cams.bo.Asset, org.kuali.module.cams.bo.Asset)
+     */
+    public boolean isAssetTypeCodeChanged(Asset oldAsset, Asset newAsset) {
+        return !StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode());
+    }
+    
+    public boolean isAssetDepreciableLifeLimitZero(Asset asset) {
+        return asset.getCapitalAssetType().getDepreciableLifeLimit().intValue() == 0;
+    }
 }

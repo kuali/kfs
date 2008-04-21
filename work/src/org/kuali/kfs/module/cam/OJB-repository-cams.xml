@@ -234,6 +234,9 @@
 	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialObjectSubTypeCode" />
 	</reference-descriptor>	
+	<reference-descriptor name="assetDepreciationConvention" class-ref="org.kuali.module.cams.bo.AssetDepreciationConvention" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialObjectSubTypeCode" />
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_DOC_T">

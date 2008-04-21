@@ -248,7 +248,10 @@
     	<property name="assetHeaderService" ref="assetHeaderService"/>
     </bean>    
     
-    <bean id="assetDetailInformationService" class="org.kuali.module.cams.service.impl.AssetDetailInformationServiceImpl" />
+    <bean id="assetDateService" class="org.kuali.module.cams.service.impl.AssetDateServiceImpl">
+    	<property name="assetService" ref="assetService"></property>
+    	<property name="universityDateService" ref="universityDateService"/>
+    </bean>
     
     <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" >
     	<property name="assetService" ref="assetService" />

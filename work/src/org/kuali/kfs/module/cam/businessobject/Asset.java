@@ -116,6 +116,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
     private List<AssetRetirementGlobal> retirementGlobals;
     private ObjSubTyp financialObjectSubType;
+    private AssetDepreciationConvention assetDepreciationConvention;
     
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
@@ -1905,6 +1906,19 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
+    }
+
+    public AssetDepreciationConvention getAssetDepreciationConvention() {
+        return assetDepreciationConvention;
+    }
+
+    /**
+     * 
+     * @param assetDepreciationConvention
+     * @deprecated
+     */
+    public void setAssetDepreciationConvention(AssetDepreciationConvention assetDepreciationConvention) {
+        this.assetDepreciationConvention = assetDepreciationConvention;
     }
 
 }

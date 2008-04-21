@@ -239,16 +239,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
             String oldParentVendorNumber = oldParentVendor.getVendorNumber();
             proceed = askOrAnalyzeYesNoQuestion(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID, VendorUtils.buildMessageText(VendorKeyConstants.CONFIRM_VENDOR_CHANGE_TO_PARENT, oldVendorDetail.getVendorName() + "  (" + oldVendorDetail.getVendorNumber() + ")", oldParentVendorName + " (" + oldParentVendorNumber + ")"));
             if (proceed) {
-                //Can I do this in the handleRouteStatusChange ?
-                //oldParentVendor.setVendorParentIndicator(false);
                 newVendorDetail.setVendorParentIndicator(true);
-                // Add note.
-                Note parentChangeNote = new Note();
-                String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, document.getDocumentNumber(), newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");
-                parentChangeNote.setNoteText(noteText);
-                parentChangeNote.setNoteTypeCode("BO");
-                oldParentVendor.addNote(parentChangeNote);
-                SpringContext.getBean(BusinessObjectService.class).save(oldParentVendor);
             }
             else {
                 newVendorDetail.setVendorParentIndicator(false);

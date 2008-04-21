@@ -207,6 +207,7 @@
 
   <bean id="EffortCertificationDetailBuild-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Effort Certification Extract Build Lookup" />
+    <property name="lookupableID" value="effortCertificationDetailBuildLookupable" />
     <property name="instructions" value="Look up an Effort Certification Extract Build" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

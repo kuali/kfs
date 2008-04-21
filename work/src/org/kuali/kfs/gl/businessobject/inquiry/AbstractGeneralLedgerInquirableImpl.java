@@ -46,6 +46,8 @@ import org.kuali.module.gl.web.Constant;
 public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLInquirableImpl.class);
     
+    private BusinessObject businessObject; 
+    
     /**
      * @see org.kuali.kfs.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String, boolean)
      */
@@ -62,6 +64,7 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
+        this.setBusinessObject(businessObject);
         BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
@@ -393,5 +396,21 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
 //        }
 
         return inquiryBusinessObjectClass;
+    }
+
+    /**
+     * Gets the businessObject attribute. 
+     * @return Returns the businessObject.
+     */
+    public BusinessObject getBusinessObject() {
+        return businessObject;
+    }
+
+    /**
+     * Sets the businessObject attribute value.
+     * @param businessObject The businessObject to set.
+     */
+    public void setBusinessObject(BusinessObject businessObject) {
+        this.businessObject = businessObject;
     }
 }

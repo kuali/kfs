@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -28,8 +29,9 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.web.Constant;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
+import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl;
 import org.kuali.module.integration.service.LaborModuleService;
 
@@ -43,6 +45,23 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
      */
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
+        BusinessObject businessObject = this.getBusinessObject();
+        EffortCertificationDocument document = null;
+
+        if (businessObject instanceof EffortCertificationDetailBuild) {
+            EffortCertificationDetailBuild effortCertificationDetail = (EffortCertificationDetailBuild) businessObject;
+            document = effortCertificationDetail.getEffortCertificationDocumentBuild();
+        }
+        else if (businessObject instanceof EffortCertificationDetail) {
+            EffortCertificationDetail effortCertificationDetail = (EffortCertificationDetail) businessObject;
+            document = effortCertificationDetail.getEffortCertificationDocument();
+        }
+
+        if (document != null) {
+            parameter.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, ObjectUtils.toString(document.getUniversityFiscalYear()));
+            parameter.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, document.getEffortCertificationReportNumber());
+            parameter.put(KFSPropertyConstants.EMPLID, document.getEmplid());
+        }
     }
 
     /**
@@ -121,16 +140,16 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
 
         return userDefinedAttributeMap;
     }
-    
+
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#isExclusiveField(java.lang.Object, java.lang.Object)
      */
     @Override
     protected boolean isExclusiveField(Object keyName, Object keyValue) {
-        if(super.isExclusiveField(keyName, keyValue)) {
+        if (super.isExclusiveField(keyName, keyValue)) {
             return true;
         }
-        
+
         if (keyName != null && keyValue != null) {
             if (keyName.equals(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER) && keyValue.equals(EffortConstants.DASH_ACCOUNT_NUMBER)) {
                 return true;
@@ -139,6 +158,6 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
                 return true;
             }
         }
-        return false;        
+        return false;
     }
 }

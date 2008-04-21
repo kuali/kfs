@@ -35,6 +35,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
@@ -276,14 +277,13 @@ public class EffortCertificationDocumentRuleUtil {
      * @param limitOfLinePayrollAmountChange the specified upper bound limit
      * @return true if the change on the payroll amount of the given detail line exceeds the specified limit; otherwise, false
      */
-    public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {
-        if(detailLine.isNewLineIndicator()) {
-            return false;
-        }
-        
+    public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {        
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
-        KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
-        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
+        
+        Integer effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
+        KualiDecimal calculatedPayrollAmount = PayrollAmountHolder.recalculatePayrollAmount(originalTotalAmount, effortPercent);
+        
+        KualiDecimal difference = calculatedPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
 
         return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * HUNDRED_DOLLAR_AMOUNT.intValue();
     }

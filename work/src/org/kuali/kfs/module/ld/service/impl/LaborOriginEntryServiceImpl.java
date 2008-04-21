@@ -528,6 +528,13 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getGroupCount(java.lang.Integer)
+     */
+    public Integer getGroupCount(Integer groupId) {
+        return laborOriginEntryDao.getGroupCount(groupId);
+    }
+
+    /**
      * Sets the dateTimeService attribute value.
      * 
      * @param dateTimeService The dateTimeService to set.

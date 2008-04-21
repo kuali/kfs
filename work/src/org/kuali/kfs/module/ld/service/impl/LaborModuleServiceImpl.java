@@ -57,6 +57,7 @@ import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -276,6 +277,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborOriginEntryGroupCount(java.lang.Integer)
+     */
+    public Integer getLaborOriginEntryGroupCount(Integer groupId) {
+        return getLaborOriginEntryService().getGroupCount(groupId);
+    }
+
+    /**
      * Gets the laborBenefitsCalculationService attribute.
      * 
      * @return Returns the laborBenefitsCalculationService.
@@ -345,5 +353,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public LaborLedgerPendingEntryService getLaborLedgerPendingEntryService() {
         return SpringContext.getBean(LaborLedgerPendingEntryService.class);
+    }
+    
+    /**
+     * Returns an instance of the LaborOriginEntryService, for use by services in the module
+     * @return an instance of an implementation of the LaborOriginEntryService
+     */
+    public LaborOriginEntryService getLaborOriginEntryService() {
+        return SpringContext.getBean(LaborOriginEntryService.class);
     }
 }

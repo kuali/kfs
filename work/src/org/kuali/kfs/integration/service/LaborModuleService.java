@@ -206,4 +206,11 @@ public interface LaborModuleService {
      * @return true if the lines include lines with labor object codes, false otherwise
      */
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode);
+    
+    /**
+     * Counts the number of entries in a group
+     * @param the id of an origin entry group
+     * @return the count of the entries in that group
+     */
+    public Integer getLaborOriginEntryGroupCount(Integer groupId);
 }

@@ -266,4 +266,11 @@ public interface LaborOriginEntryService {
      * Create the backup group which has all the entries from all the groups where all the flags are set Y.
      */
     public void createLaborBackupGroup();
+    
+    /**
+     * Counts the number of entries in a group
+     * @param the id of an origin entry group
+     * @return the count of the entries in that group
+     */
+    public Integer getGroupCount(Integer groupId);
 }

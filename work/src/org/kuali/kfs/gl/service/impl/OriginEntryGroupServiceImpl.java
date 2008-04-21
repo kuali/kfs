@@ -33,7 +33,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.labor.dao.LaborOriginEntryDao;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -277,7 +277,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         for (OriginEntryGroup group : c) {
 
             if (group.getSourceCode().startsWith("L") && !groupException.contains(group.getSourceCode())) {
-                group.setRows(SpringContext.getBean(LaborOriginEntryDao.class).getGroupCount(group.getId()));
+                group.setRows(SpringContext.getBean(LaborModuleService.class).getLaborOriginEntryGroupCount(group.getId()));
             }
             else {
                 group.setRows(originEntryDao.getGroupCount(group.getId()));

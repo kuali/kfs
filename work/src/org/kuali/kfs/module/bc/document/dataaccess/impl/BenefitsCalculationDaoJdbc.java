@@ -353,8 +353,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // re-set general ledger amount for existing fringe benefits object codes 
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
         // insert general ledger lines for new fringe benefits object codes.
-        stringsToInsert.set(2,stringsToInsert.get(0));
-        stringsToInsert.set(3,stringsToInsert.get(1));
+        stringsToInsert.add(2,stringsToInsert.get(0));
+        stringsToInsert.add(3,stringsToInsert.get(1));
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
     }

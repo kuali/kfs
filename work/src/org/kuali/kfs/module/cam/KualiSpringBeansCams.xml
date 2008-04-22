@@ -272,7 +272,6 @@
      
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
     	<property name="parameterService" ref="parameterService" />    	
-    	<property name="businessObjectService" ref="businessObjectService" />    	
     </bean>
 
     <bean id="assetTransferDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetTransferDaoOjb"/>
@@ -292,6 +291,5 @@
 	<bean id="assetRetirementDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetRetirementDaoOjb"/>
 	    
     <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl">
-    	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 </beans>

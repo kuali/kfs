@@ -16,6 +16,8 @@
 package org.kuali.module.purap.fixtures;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.vendor.bo.VendorCommodityCode;
+import org.kuali.module.vendor.fixtures.VendorCommodityCodeFixture;
 
 public enum PurchaseOrderDocumentWithCommodityCodeFixture {
 
@@ -28,14 +30,24 @@ public enum PurchaseOrderDocumentWithCommodityCodeFixture {
     PO_NON_EXISTENCE_COMMODITY_CODE(
             new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_ITEM_NON_EXISTENCE_COMMODITY_CODE} // purchaseOrderItemMultiFixtures
     ),     
+    PO_VALID_ACTIVE_COMMODITY_CODE_WITH_VENDOR_COMMODITY_CODE(
+            new PurchaseOrderItemFixture[] { PurchaseOrderItemFixture.PO_ITEM_BASIC_ACTIVE_COMMODITY_CODE } , // purchaseOrderItemMultiFixtures
+            VendorCommodityCodeFixture.DEFAULT_VENDOR_COMMODITY_CODE_ACTIVE),
     ;
     
     private PurchaseOrderItemFixture[] purchaseOrderItemFixtures;
-    
+    private VendorCommodityCodeFixture vendorCommodityCodeFixture;
     
     private PurchaseOrderDocumentWithCommodityCodeFixture(
             PurchaseOrderItemFixture[] purchaseOrderItemFixtures) {
         this.purchaseOrderItemFixtures = purchaseOrderItemFixtures;
+    }
+
+    private PurchaseOrderDocumentWithCommodityCodeFixture(
+            PurchaseOrderItemFixture[] purchaseOrderItemFixtures,
+            VendorCommodityCodeFixture vendorCommodityCodeFixture) {
+        this.purchaseOrderItemFixtures = purchaseOrderItemFixtures;
+        this.vendorCommodityCodeFixture = vendorCommodityCodeFixture;
     }
     
     public PurchaseOrderDocument createPurchaseOrderDocument() {
@@ -46,6 +58,10 @@ public enum PurchaseOrderDocumentWithCommodityCodeFixture {
             purchaseOrderItemFixture.addTo(doc);
         }
         
+        if (vendorCommodityCodeFixture != null) {
+            VendorCommodityCode vcc = vendorCommodityCodeFixture.createVendorCommodityCode();
+            doc.getVendorDetail().getVendorCommodities().add(vcc);    
+        }
         return doc;
     }
 }

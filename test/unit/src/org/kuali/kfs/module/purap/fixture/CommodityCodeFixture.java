@@ -27,6 +27,14 @@ public enum CommodityCodeFixture {
             null,     //restrictedMaterialCode
             true      //active
             ),
+    COMMODITY_CODE_BASIC_ACTIVE_2 ( 
+                    "311311",  //purchasingCommodityCode
+                    "Sugarcane Mills", //commodityDescription
+                    false,    //salesTaxIndicator
+                    false,    //restrictedItemsIndicator
+                    null,     //restrictedMaterialCode
+                    true      //active
+                    ),            
     COMMODITY_CODE_BASIC_INACTIVE ( 
             "516110",  //purchasingCommodityCode
             "Internet Publishing and Broadcasting", //commodityDescription

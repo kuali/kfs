@@ -18,8 +18,11 @@ package org.kuali.module.purap.fixtures;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.fixtures.PurapTestConstants.PO;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 
 /**
  * Fixture class for Purchase Order Document.
@@ -380,6 +383,16 @@ public enum PurchaseOrderDocumentFixture {
             purchaseOrderItemFixture.addTo(doc);
         }
 
+        //If vendor header and vendor detail id are not null, fetch the vendor from
+        //vendor service and set it to this PO.
+        Integer vendorHeaderGeneratedId = doc.getVendorHeaderGeneratedIdentifier();
+        Integer vendorDetailAssignedId = doc.getVendorDetailAssignedIdentifier();
+        
+        if (vendorHeaderGeneratedId != null && vendorDetailAssignedId != null) {
+            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderGeneratedId, vendorDetailAssignedId);   
+            doc.setVendorDetail(vendorDetail);
+        }
+        
         return doc;
     }
 }

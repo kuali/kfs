@@ -833,32 +833,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     /**
-     * Check whether each of the items contain commodity code, if so then loop
-     * through the vendor commodity codes on the vendor to find out whether the
-     * commodity code on the item has existed on the vendor. While doing that,
-     * also check whether there exists a default commodity code on the vendor, 
-     * although we only need to check this until we find a vendor commodity code
-     * with default indicator set to true. If we didn't find any matching
-     * commodity code in the existing vendor commodity codes, then add the new
-     * commodity code to a List of commodity code, create a new vendor commodity
-     * code and set all of its attributes appropriately, including setting the 
-     * default indicator to true if we had not found any existing default commodity
-     * code on the vendor, then add the newly created vendor commodity code to
-     * the vendor (which is a deep copy of the original vendor on the PO).
-     * After we're done with all of the items, if the List that contains the
-     * commodity code that were being added to the vendor is not empty, then
-     * for each entry on that list, we should create an empty VendorCommodityCode
-     * to be added to the old vendor (the original vendor that is on the PO document).
-     * The reason we're combining all of these processing here is so that we don't
-     * need to loop through items and vendor commodity codes too many times. 
-     * 
-     * @param po  The PurchaseOrderDocument containing the vendor that we want to update.
-     * 
-     * @return VendorDetail the vendorDetail object which is a deep copy of the original
-     *         vendorDetail on the PurchaseOrderDocument, whose commodity codes have
-     *         already been updated based on our findings on the items' commodity codes.
+     * @see org.kuali.module.purap.service.PurchaseOrderService#updateVendorWithMissingCommodityCodesIfNecessary(org.kuali.module.purap.document.PurchaseOrderDocument)
      */
-    private VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po) {
+    public VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po) {
         List<CommodityCode> result = new ArrayList<CommodityCode>();
         boolean foundDefault = false;
         VendorDetail vendor = (VendorDetail)ObjectUtils.deepCopy(po.getVendorDetail());

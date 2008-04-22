@@ -17,24 +17,19 @@ package org.kuali.module.purap.service;
 
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
-import java.io.ByteArrayOutputStream;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
+import org.kuali.module.purap.fixtures.PurchaseOrderDocumentWithCommodityCodeFixture;
 import org.kuali.module.vendor.bo.ContractManager;
+import org.kuali.module.vendor.bo.VendorCommodityCode;
 import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.test.ConfigureContext;
 
@@ -209,4 +204,30 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
         assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
     }    
+    
+    /**
+     * Tests that the PurchaseOrderService would attempt to update vendor with missing commodity codes.
+     * 
+     */
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=false)
+    public void testUpdateVendorCommodityCode() {
+        PurchaseOrderDocument po = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE_WITH_VENDOR_COMMODITY_CODE.createPurchaseOrderDocument();
+        
+        VendorDetail updatedVendor = poService.updateVendorWithMissingCommodityCodesIfNecessary(po);
+        
+        assertFalse(updatedVendor == null);
+
+        if (updatedVendor != null) {
+            boolean foundMatching = false;
+            for (VendorCommodityCode vcc : updatedVendor.getVendorCommodities()) {
+                if (vcc.getPurchasingCommodityCode().equals(((PurchaseOrderItem) po.getItem(0)).getPurchasingCommodityCode())) {
+                    foundMatching = true;
+                    break;
+                }
+            }
+
+            assertTrue(foundMatching);
+        }
+    }
+    
 }

@@ -32,9 +32,9 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.lookup.keyvalues.CampusValuesFinder;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.RestrictedMaterial;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -187,13 +187,13 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
             String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY) + " must exists in the database. ";
             errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
         }
-        if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
-            if (!doesCommodityCodeExist()) {
-                // Commodity Code must exists in the database
-                String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, PURCHASING_COMMODITY_CODE_FIELD_PROPERTY) + " must exists in the database. ";
-                errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
-            }
-        }
+//        if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
+//            if (!doesCommodityCodeExist()) {
+//                // Commodity Code must exists in the database
+//                String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, PURCHASING_COMMODITY_CODE_FIELD_PROPERTY) + " must exists in the database. ";
+//                errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
+//            }
+//        }
         if (StringUtils.isNotBlank(getRestrictedMaterialCode())) {
             if (!doesRestrictedMaterialCodeExist()) {
                 // Restricted Material Code must exists in the database
@@ -216,17 +216,17 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         }
     }
     
-    private boolean doesCommodityCodeExist() {
-        Map fieldValues = new HashMap<String, String>();
-        fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, getPurchasingCommodityCode());
-        int count = SpringContext.getBean(BusinessObjectService.class).countMatching(COMMODITY_CODE_FIELD_CLASS, fieldValues);
-        if (count > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }            
-    }
+//    private boolean doesCommodityCodeExist() {
+//        Map fieldValues = new HashMap<String, String>();
+//        fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, getPurchasingCommodityCode());
+//        int count = SpringContext.getBean(BusinessObjectService.class).countMatching(COMMODITY_CODE_FIELD_CLASS, fieldValues);
+//        if (count > 0) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }            
+//    }
     
     private boolean doesRestrictedMaterialCodeExist() {
         Map fieldValues = new HashMap<String, String>();
@@ -283,7 +283,14 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         for (Iterator iter = commodityCodeValues.iterator(); iter.hasNext();) {
             CommodityCode commodityCode = (CommodityCode) iter.next();
 
-            if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) && (StringUtils.equals(commodityCode.getRestrictedMaterialCode(), getRestrictedMaterialCode())) ) {
+            if (StringUtils.contains(getPurchasingCommodityCode(), KFSConstants.WILDCARD_CHARACTER)) {
+                int wildCardIndex = getPurchasingCommodityCode().indexOf(KFSConstants.WILDCARD_CHARACTER);
+                //This means this rule contains wild card for commodity code.
+                if (StringUtils.contains(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode().substring(0, wildCardIndex))) {
+                    return true;
+                }
+            }
+            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) && (StringUtils.equals(commodityCode.getRestrictedMaterialCode(), getRestrictedMaterialCode())) ) {
                 return true;
             }
         }

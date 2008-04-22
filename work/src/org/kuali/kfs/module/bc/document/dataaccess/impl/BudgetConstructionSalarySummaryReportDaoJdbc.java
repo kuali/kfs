@@ -431,17 +431,17 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         //  the option exists to report only those people with a salary increase reason code, or to report everyone
         if (listSalariesWithReasonCodes)
         {
-            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdReason.get(0).getSQL(), idForSession, personUserIdentifier);
+            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdReason.get(0).getSQL(vacantEmplid), idForSession, personUserIdentifier);
         }
         else
         {
-            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdNoReason.get(0).getSQL(), idForSession, personUserIdentifier);
+            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdNoReason.get(0).getSQL(vacantEmplid), idForSession, personUserIdentifier);
         }
         // populate the holding table with the rows to be reported
         // name records for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(vacantEmplid), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
         // salary data for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(vacantEmplid), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
         
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);

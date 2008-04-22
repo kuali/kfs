@@ -63,9 +63,9 @@ public interface AssetPaymentService {
      * 
      * @param capitalAssetNumber
      * @return boolean
-     */
+     *
     public boolean isAssetEligibleForPayment(Long capitalAssetNumber);
-    
+    */
     
     
     

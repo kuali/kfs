@@ -30,13 +30,16 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.dao.AssetPaymentDao;
+import org.kuali.module.cams.dao.AssetRetirementDao;
+import org.kuali.module.cams.dao.AssetTransferDao;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -44,6 +47,9 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.cams.service.AssetTransferService;
+import org.kuali.module.cams.service.AssetRetirementService;
 
 @Transactional
 public class AssetPaymentServiceImpl implements AssetPaymentService {
@@ -54,12 +60,16 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private ParameterService parameterService;
     private UniversityDateService universityDateService;    
     private ObjectCodeService objectCodeService;
-
+    private AssetRetirementService assetRetirementService;
+    private AssetService assetService;
+    private AssetTransferDao assetTransferDao;
+    private AssetRetirementDao assetRetirementDao;
+    
     /**
      * @see org.kuali.module.cams.service.AssetPaymentService#getMaxSequenceNumber(org.kuali.module.cams.bo.AssetPayment)
      */
     public Integer getMaxSequenceNumber(Long capitalAssetNumber) {
-        return this.assetPaymentDao.getMaxSquenceNumber(capitalAssetNumber);
+        return this.getAssetPaymentDao().getMaxSquenceNumber(capitalAssetNumber);
     }
 
     /**
@@ -68,7 +78,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     public boolean isPaymentFederalContribution(AssetPayment assetPayment) {
         assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
         if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-            return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+            return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         }
         return false;
     }
@@ -153,17 +163,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
 
             KualiDecimal baseAmount = new KualiDecimal(0);
-
-            /*TODO use a system parameter for this codes
-                    4. Depreciation Base Expense Amount
-                    The depreciation base amount is set by summing account amounts where fin_obj_sub_typ_cd is not:  
-                        “CO” Moveable Equipment Federally Owned
-                        “UO” Movable Fabrication Federally Owned
-             */                    
-            String federallyCodes="CO;UO";
-
+            
+            //If the object sub type is not in the list of federally owned object sub types, then...   
             ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(),assetPaymentDetail.getChartOfAccountsCode(),assetPaymentDetail.getFinancialObjectCode());
-            if (federallyCodes.indexOf(objectCode.getFinancialObjectSubTypeCode()) != -1) {
+
+            //Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a federally owned one                    
+            if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
                 baseAmount = assetPaymentDetail.getAccountChargeAmount();
             }
             assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
@@ -199,52 +204,28 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         this.getBusinessObjectService().save(assetPayments);
     }
 
-    
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetPaymentService#isAssetEligibleForPayment(java.lang.Long)
+     *
     public boolean isAssetEligibleForPayment(Long capitalAssetNumber) {
-        return ( (hasAssetPendingTransferDocuments(capitalAssetNumber) || hasAssetPendingRetirementDocuments(capitalAssetNumber)) ? false : true);         
-    }
-
-    /**
-     * 
-     * This method searches for pending transfer documents assigned to a given asset
-     * 
-     * @param capitalAssetNumber
-     * @return boolean
-     */
-    private boolean hasAssetPendingTransferDocuments(Long capitalAssetNumber) {
-        List<String> notPendingDocStatuses = new ArrayList<String>();
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
-
-        Map<String,Object> positiveFieldValue= new HashMap<String,Object>();        
-        positiveFieldValue.put(CamsPropertyConstants.AssetTransferDocument.ASSET_HEADER+"."+CamsPropertyConstants.AssetHeader.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-        
-        Map<String,Object> negativeFieldValue= new HashMap<String,Object>();
-        negativeFieldValue.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-        
-        return ( this.getBusinessObjectService().countMatching(AssetTransferDocument.class, positiveFieldValue,negativeFieldValue) > 0);
-    }
+        return ( (this.getAssetService().isAssetOnPendingTransferDocuments(capitalAssetNumber) || this.getAssetService().isAssetOnPendingRetirementDocuments(capitalAssetNumber)) ? false : true);         
+    }*/
 
 
     /**
      * 
-     * This method searches for pending retirement documents assigned to a given asset
-     * 
-     * @param capitalAssetNumber
+     * This method checks that a given object sub type exists in a list of federally owned object sub types 
+     * @param objectSubType
      * @return boolean
+     * 
      */
-    private boolean hasAssetPendingRetirementDocuments(Long capitalAssetNumber) {
-        List<String> notPendingDocStatuses = new ArrayList<String>();
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
-
-        Map<String,Object> positiveFieldValue= new HashMap<String,Object>();        
-        positiveFieldValue.put(CamsPropertyConstants.AssetTransferDocument.ASSET_HEADER+"."+CamsPropertyConstants.AssetHeader.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-        
-        Map<String,Object> negativeFieldValue= new HashMap<String,Object>();
-        negativeFieldValue.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);        
-
-        return ( this.getBusinessObjectService().countMatching(AssetRetirementGlobal.class, positiveFieldValue, negativeFieldValue) > 0 );                
+    private boolean isFederallyOwnedObjectSubType(String objectSubType) {
+        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
+        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
+            federallyOwnedObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
+        }                
+        return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -288,5 +269,37 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public AssetRetirementService getAssetRetirementService() {
+        return assetRetirementService;
+    }
+
+    public void setAssetRetirementService(AssetRetirementService assetRetirementService) {
+        this.assetRetirementService = assetRetirementService;
+    }
+
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
+    }
+
+    public AssetTransferDao getAssetTransferDao() {
+        return assetTransferDao;
+    }
+
+    public void setAssetTransferDao(AssetTransferDao assetTransferDao) {
+        this.assetTransferDao = assetTransferDao;
+    }
+
+    public AssetRetirementDao getAssetRetirementDao() {
+        return assetRetirementDao;
+    }
+
+    public void setAssetRetirementDao(AssetRetirementDao assetRetirementDao) {
+        this.assetRetirementDao = assetRetirementDao;
     }
 }

@@ -1106,9 +1106,6 @@
         <orderby name="capitalAssetNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />		
 	</collection-descriptor>
-    <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-		<foreignkey field-ref="documentNumber" />
-    </reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" table="CM_AST_RETIRE_DTL_T">

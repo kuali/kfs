@@ -149,7 +149,7 @@
   <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="expenditureFinancialSystemOriginationCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Expenditure Financial System Origination Code" />
+    <property name="label" value="Origination Code" />
     <property name="shortLabel" value="Orgination Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >

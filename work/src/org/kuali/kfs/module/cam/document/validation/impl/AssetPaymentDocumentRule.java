@@ -17,10 +17,14 @@ package org.kuali.module.cams.rules;
 
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
@@ -29,8 +33,11 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -41,6 +48,8 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
+import org.kuali.module.cams.dao.AssetRetirementDao;
+import org.kuali.module.cams.dao.AssetTransferDao;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -54,13 +63,13 @@ import org.kuali.module.cams.service.AssetPaymentService;
 
 public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentRule.class);
-    
-    @Override
+
+    /*@Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         LOG.info("*** AssetPaymentRule - processCustomSaveDocumentBusinessRules(Document document)");
         boolean valid = super.processCustomSaveDocumentBusinessRules(document);
         return valid;
-    }
+    }*/
 
     /*
      * This method was overrided because the asset payment only uses source and not target lines.
@@ -68,9 +77,9 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        LOG.info("*** AssetPaymentRule - processCustomRouteDocumentBusinessRules(Document document)");
+        //LOG.info("*** AssetPaymentRule - processCustomRouteDocumentBusinessRules(Document document)");
         //boolean valid = super.processCustomRouteDocumentBusinessRules(document);
-        
+
         boolean valid = this.isSourceAccountingLinesRequiredNumberForRoutingMet((AccountingDocument)document);
         valid&=validateAssetEligibilityForPayment(((AssetPaymentDocument)document).getAsset().getCapitalAssetNumber());
         return valid;        
@@ -83,83 +92,123 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        LOG.info("*** AssetPaymentRule - processCustomAddAccountingLineBusinessRules.");
-
+        //LOG.info("*** AssetPaymentRule - processCustomAddAccountingLineBusinessRules.");
+        boolean result=true;
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail)accountingLine;
-        Map<String,Object> keyToFind= new HashMap<String,Object>();
 
-        //Document type existence check.
-        String expenditureFinancialDocumentTypeCode= assetPaymentDetail.getExpenditureFinancialDocumentTypeCode();
-        
-        //Validating the fiscal year and fiscal month (period)
-        boolean isValid=true;
-        
         //Validating the fiscal year and month because, the object code validation needs to have this a valid fiscal year
-        if (isValid) {            
-            keyToFind= new HashMap<String,Object>();          
-            keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR             , assetPaymentDetail.getFinancialDocumentPostingYear());
-            keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
-            if (SpringContext.getBean(BusinessObjectService.class).countMatching(UniversityDate.class,keyToFind) == 0){
-                String labelFiscalYear  = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
-                String labelFiscalMonth = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
+        result &= this.validateFiscalPeriod(assetPaymentDetail.getFinancialDocumentPostingYear(),assetPaymentDetail.getFinancialDocumentPostingPeriodCode());        
 
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalYear);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalMonth);
-                isValid = false;                
-            }
-        }
-
-        /*if (isValid) {
-            isValid=super.processCustomAddAccountingLineBusinessRules(financialDocument, accountingLine);
-        }*/
-
-        if (isValid) {
-            if (!StringUtils.isBlank(expenditureFinancialDocumentTypeCode)) {
-                keyToFind= new HashMap<String,Object>();            
-                keyToFind.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
-
-                if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {            
-                    String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                    isValid = false;
-                }
-            }
-        }
+        //Validating document type code
+        result &= this.validateDocumentType(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());        
 
         //Validating posting date which must exists in the university date table
-        if (isValid) {            
-            keyToFind= new HashMap<String,Object>();          
-            keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
-            if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class,keyToFind) == null){
-                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                isValid = false;                
-            }
-        }
+        result &= this.validatePostedDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
 
-        return isValid;
+        return result;
     }
-    
-    @Override    
+
+    /*@Override    
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         LOG.info("*** AssetPaymentRule - processCustomApproveAccountingLineBusinessRules.");                
         boolean valid =super.processCustomApproveDocumentBusinessRules(approveEvent);
         return valid;
-    }
-    
-/**
- * 
- * Checks the asset has pending transfer and/or retirement documents 
- * @param capitalAssetNumber
- * @return boolean 
- */    
+    }*/
+
+    /**
+     * 
+     * Checks the asset has pending transfer and/or retirement documents 
+     * @param capitalAssetNumber
+     * @return boolean 
+     */    
     private boolean validateAssetEligibilityForPayment(Long capitalAssetNumber) {
         boolean isValid = true;
-        if (!SpringContext.getBean(AssetPaymentService.class).isAssetEligibleForPayment(capitalAssetNumber)) {
-            //This error will appear at the bottom of the page in other error section.
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING);
+        Iterator<String> pendingTransferDocuments   = SpringContext.getBean(AssetTransferDao.class).getAssetPendingTransferDocuments(capitalAssetNumber);
+        Iterator<String> pendingRetirementDocuments = SpringContext.getBean(AssetRetirementDao.class).getAssetPendingRetirementDocuments(capitalAssetNumber);
+        
+        List<String> pendingDocuments = new ArrayList<String>();
+        while (pendingTransferDocuments.hasNext()) {
+            pendingDocuments.add(pendingTransferDocuments.next());
+        }
+        
+        while (pendingRetirementDocuments.hasNext()) {
+            pendingDocuments.add(pendingTransferDocuments.next());
+        }
+        
+        if (!pendingDocuments.isEmpty()) {
+            //This error will appear at the bottom of the page in the other error section.
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING,"Document number(s):"+pendingDocuments.toString());
             isValid = false;
         }
         return isValid;
+    }
+
+
+    /**
+     * 
+     * Validates the document type really exists
+     * 
+     * @param expenditureFinancialDocumentTypeCode
+     * @return boolean
+     */
+    private boolean validateDocumentType(String expenditureFinancialDocumentTypeCode) {
+        boolean result=true;
+        if (!StringUtils.isBlank(expenditureFinancialDocumentTypeCode)) {
+            Map<String,Object> keyToFind= new HashMap<String,Object>();            
+            keyToFind.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
+
+            if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {            
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                result = false;
+            }
+        }        
+        return result;
+    }
+
+
+    /**
+     * 
+     * Validates the existance of a valid fiscal year and fiscal month in the university date table
+     * 
+     * @param fiscalYear
+     * @param fiscalMonth
+     * @return boolean
+     */
+    private boolean validateFiscalPeriod(Integer fiscalYear, String fiscalMonth) {
+        boolean result = true;
+
+        Map<String,Object> keyToFind= new HashMap<String,Object>();          
+        keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR             , fiscalYear);
+        keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, fiscalMonth);
+        if (SpringContext.getBean(BusinessObjectService.class).countMatching(UniversityDate.class,keyToFind) == 0){
+            String labelFiscalYear  = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
+            String labelFiscalMonth = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
+
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalYear);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalMonth);
+            result = false;                
+        }
+        return result;        
+    }
+
+
+    /**
+     * 
+     * This method validates the given posted date exists in the university date table
+     * 
+     * @param postedDate
+     * @return boolean
+     */
+    private boolean validatePostedDate(Date postedDate) {
+        boolean result=true;
+        Map<String,Object> keyToFind= new HashMap<String,Object>();          
+        keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, postedDate);
+        if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class,keyToFind) == null){
+            String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
+            result=false;                
+        }
+        return result;
     }
 }

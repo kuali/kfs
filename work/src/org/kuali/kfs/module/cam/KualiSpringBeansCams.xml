@@ -267,11 +267,15 @@
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="objectCodeService" 	   ref="objectCodeService" />
+    	<property name="assetService" ref="assetService" />    	
     </bean>
      
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
-    	<property name="parameterService" ref="parameterService" />
+    	<property name="parameterService" ref="parameterService" />    	
+    	<property name="businessObjectService" ref="businessObjectService" />    	
     </bean>
+
+    <bean id="assetTransferDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetTransferDaoOjb"/>
     
     <bean id="assetTransferService" class="org.kuali.module.cams.service.impl.AssetTransferServiceImpl" >
     	<property name="assetService" ref="assetService" />
@@ -279,10 +283,15 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
     </bean>
+
     
     <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.CamsGeneralLedgerPendingEntryGenerationProcess">
     	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
     </bean>
     
-    <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl" />
+	<bean id="assetRetirementDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetRetirementDaoOjb"/>
+	    
+    <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 </beans>

@@ -34,6 +34,7 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetService;
 
 /**
@@ -55,7 +56,12 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         if (document.isNew()) {
+            if (newAsset.getCapitalAssetNumber() == null) {
+                newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+                oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+            }
             // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
             // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
             hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);

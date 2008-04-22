@@ -36,7 +36,6 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetWarranty;
-import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.AssetDateService;
 import org.kuali.module.cams.service.AssetDispositionService;
@@ -57,6 +56,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     private Asset newAsset;
     private Asset oldAsset;
+    private boolean isFabrication;
+
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
 
@@ -68,16 +69,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         initializeAttributes(document);
         boolean valid = false;
         if (document.isNew()) {
-            // TODO KULCAP-214 ... fabrication request rules go here
-            // validate asset location
-            // validate asset fabrication
-            valid = true;
-            if (valid) {
-                if (newAsset.getCapitalAssetNumber() == null) {
-                    newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-                    oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
-                }
-            }
+            this.isFabrication = true;
+            valid &= validateLocation();
+            valid &= validateFabricationDetails();
         }
         else {
             setAssetComponentNumbers(newAsset);
@@ -108,9 +102,23 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 assetDateService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
             }
         }
+        return valid;
+    }
 
-        if (valid) {
 
+    private boolean validateFabricationDetails() {
+        boolean valid = true;
+        if (newAsset.getFabricationEstimatedTotalAmount() == null) {
+            putFieldError(CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_TOTAL_AMOUNT, CamsKeyConstants.ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_REQUIRED);
+            valid &= false;
+        }
+        if (newAsset.getEstimatedFabricationCompletionDate() == null) {
+            putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED);
+            valid &= false;
+        }
+        if (newAsset.getEstimatedFabricationLifetimeLimitNumber() == null) {
+            putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED);
+            valid &= false;
         }
         return valid;
     }
@@ -245,7 +253,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         if (!assetService.isTagNumberCheckExclude(newAsset)) {
 
-            Map fieldValues = new HashMap();
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber());
 
             Collection<Asset> results = getBoService().findMatching(Asset.class, fieldValues);
@@ -309,13 +317,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(newAsset, newAsset, fieldMap);
         GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
 
-        if (valid && isOffCampusLocationChanged()) {
+        if (valid && (this.isFabrication || isOffCampusLocationChanged())) {
             AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
             assetlocationService.updateOffCampusLocation(newAsset);
         }
         return valid;
     }
-
 
     /**
      * Validate warranty information if user enters value

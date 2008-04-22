@@ -48,9 +48,9 @@ public class CamsKeyConstants {
 
     public static class Payment {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
-    }    
-    
-    
+    }
+
+
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
     public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
     public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";
@@ -58,6 +58,9 @@ public class CamsKeyConstants {
     public static final String ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE = "error.asset.description.restrict.change";
     public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
     public static final String ERROR_ASSET_RETIRED_NOEDIT = "error.asset.retired.noedit";
+    public static final String ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_REQUIRED = "error.asset.fabrication.totalAmount.required";
+    public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED = "error.asset.fabrication.completionDate.required";
+    public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED = "error.asset.fabrication.lifeLimit.required";
 
     public static class Transfer {
         public static final String ERROR_ASSET_DOCS_PENDING = "error.asset.pending.docs";

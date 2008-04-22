@@ -78,6 +78,7 @@ public class CamsPropertyConstants {
         public static final String ASSET_LOCATIONS = "assetLocations";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public final static String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
+        public static final String ESTIMATED_FABRICATION_LIFE_LIMIT = "estimatedFabricationLifetimeLimitNumber";
 
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";

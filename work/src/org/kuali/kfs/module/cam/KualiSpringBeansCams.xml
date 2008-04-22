@@ -265,15 +265,15 @@
     	<property name="assetPaymentDao" ref="assetPaymentDao" />
     	<property name="parameterService" ref="parameterService" />
     	<property name="universityDateService" ref="universityDateService" />
-    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="businessObjectService" ref="businessObjectService" />    	
     	<property name="objectCodeService" 	   ref="objectCodeService" />
     	<property name="assetService" ref="assetService" />    	
     </bean>
      
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
-    	<property name="parameterService" ref="parameterService" />    	
+    	<property name="parameterService" ref="parameterService" />
     </bean>
-
+    
     <bean id="assetTransferDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetTransferDaoOjb"/>
     
     <bean id="assetTransferService" class="org.kuali.module.cams.service.impl.AssetTransferServiceImpl" >
@@ -282,9 +282,8 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
     </bean>
-
     
-    <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.CamsGeneralLedgerPendingEntryGenerationProcess">
+    <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.impl.CamsGeneralLedgerPendingEntryGenerationProcessImpl">
     	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
     </bean>
     

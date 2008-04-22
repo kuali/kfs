@@ -18,16 +18,16 @@ package org.kuali.module.cams.maintenance;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetDispositionService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetService;
@@ -39,7 +39,6 @@ import org.kuali.module.cams.service.RetirementInfoService;
  * This class implements custom data preparation for displaying asset edit screen.
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private Asset newAsset;
     private Asset copyAsset;
@@ -70,7 +69,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(copyAsset);
         retirementInfoService.setRetirementInfo(newAsset);
-        
+
         retirementInfoService.setMergeHistory(copyAsset);
         retirementInfoService.setMergeHistory(newAsset);
 
@@ -93,15 +92,18 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         List<Section> sections = super.getCoreSections(oldMaintainable);
 
         Asset asset = (Asset) getBusinessObject();
-        if ((asset).getCapitalAssetNumber() == null) {
+        if (RiceConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
             // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
             // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
             for (Section section : sections) {
-                if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(section.getSectionId())) {
+                String sectionId = section.getSectionId();
+                if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(sectionId) || CamsConstants.Asset.SECTION_ID_MERGE_HISTORY.equals(sectionId)) {
                     section.setHidden(true);
                 }
 
             }
+            asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
+            asset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         }
         else {
             // asset edit. Hide sections that are only applicable to fabrication request
@@ -133,10 +135,15 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         }
     }
-    
+
+
     @Override
-    public List<MaintenanceLock> generateMaintenanceLocks() {
-        // TODO Auto-generated method stub
-        return super.generateMaintenanceLocks();
+    public void saveBusinessObject() {
+        Asset asset = ((Asset) businessObject);
+        if (asset.getCapitalAssetNumber() == null) {
+            asset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+        }
+        super.saveBusinessObject();
     }
+
 }

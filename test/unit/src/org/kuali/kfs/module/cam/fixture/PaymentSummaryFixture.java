@@ -21,8 +21,6 @@ import java.util.Properties;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.util.TestDataLoader;
 import org.kuali.test.util.TestDataPreparator;
 
 public enum PaymentSummaryFixture {

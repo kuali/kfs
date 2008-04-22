@@ -83,9 +83,11 @@
               p:name="capitalAssetNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationOwnerChartOfAccountsCode" />
+              p:name="organizationOwnerChartOfAccountsCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationOwnerAccountNumber" />
+              p:name="organizationOwnerAccountNumber"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationOwnerAccount.organizationCode"
               p:readOnly="true" />
@@ -93,10 +95,10 @@
               p:name="agencyNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
-              p:readOnly="true" />
+              p:readOnly="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="inventoryStatusCode"
-              p:required="true" />
+              p:required="true" p:defaultValue="U" />
         <bean parent="MaintainableFieldDefinition"
               p:name="conditionCode"
               p:required="true" />
@@ -110,7 +112,7 @@
               p:name="vendorName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerName"
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerModelNumber" />
         <bean parent="MaintainableFieldDefinition"

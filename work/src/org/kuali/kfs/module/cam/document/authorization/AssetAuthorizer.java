@@ -16,14 +16,10 @@
 package org.kuali.module.cams.document.authorization;
 
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.VENDOR_NAME;
 
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
@@ -58,16 +54,17 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
-        Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-
-        if (asset.getCapitalAssetNumber() == null) {
+        Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        if (document.isNew()) {
             // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
             // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
             hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);
             hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
+            newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
         }
         else {
-            // Asset edit: workgroup authorization
+            // Asset edit: work group authorization
             if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
                 hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_VIEWABLE_FIELDS));
             }
@@ -75,16 +72,18 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
                 // If departmental user
                 hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
             }
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
         }
 
-        hidePaymentSequence(auths, asset);
-        if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(asset.getRetirementReasonCode())) {
+        hidePaymentSequence(auths, newAsset);
+        if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(newAsset.getRetirementReasonCode())) {
             // hide merge target capital asset number
             auths.addHiddenAuthField(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
 
         }
 
-        setFieldsReadOnlyAccessMode(auths, asset, user);
+        setFieldsReadOnlyAccessMode(auths, newAsset, user);
+        // read-only acquisition code
         return auths;
     }
 

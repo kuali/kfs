@@ -68,7 +68,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     }
 
     private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
-    private static final KualiDecimal KUALI_DECIMAL_ZERO = new KualiDecimal(0);
     private AssetService assetService;
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
@@ -140,7 +139,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
         postable.setDocumentNumber(document.getDocumentNumber());
         if (AmountCategory.CAPITALIZATION.equals(amountCategory)) {
-            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost ");
+            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost");
             postable.setAmount(assetPayment.getAccountChargeAmount());
             postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
             postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
@@ -193,7 +192,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * Creates new payment records for new organization account
      * 
      * @param document Current document
-     * @param persistableObjects Saveable objects list
+     * @param persistableObjects Saved objects list
      * @param originalPayments Original payments for the asset
      * @param maxSequence Payment sequence number
      * @return Incremented sequence number

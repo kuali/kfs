@@ -84,7 +84,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private String landParcelNumber;
     private Date depreciationDate;
     private String financialObjectSubTypeCode;
-    
+
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -117,7 +117,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRetirementGlobal> retirementGlobals;
     private ObjSubTyp financialObjectSubType;
     private AssetDepreciationConvention assetDepreciationConvention;
-    
+
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
 
@@ -1876,7 +1876,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialObjectSubTypeCode attribute. 
+     * Gets the financialObjectSubTypeCode attribute.
+     * 
      * @return Returns the financialObjectSubTypeCode.
      */
     public String getFinancialObjectSubTypeCode() {
@@ -1885,6 +1886,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectSubTypeCode attribute value.
+     * 
      * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
      */
     public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
@@ -1892,7 +1894,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialObjectSubType attribute. 
+     * Gets the financialObjectSubType attribute.
+     * 
      * @return Returns the financialObjectSubType.
      */
     public ObjSubTyp getFinancialObjectSubType() {
@@ -1901,6 +1904,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectSubType attribute value.
+     * 
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
@@ -1913,12 +1917,10 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @param assetDepreciationConvention
      * @deprecated
      */
     public void setAssetDepreciationConvention(AssetDepreciationConvention assetDepreciationConvention) {
         this.assetDepreciationConvention = assetDepreciationConvention;
     }
-
 }

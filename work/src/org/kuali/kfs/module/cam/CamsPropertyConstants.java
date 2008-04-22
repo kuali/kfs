@@ -77,6 +77,8 @@ public class CamsPropertyConstants {
         public static final String RETIREMENT_INFO_MERGED_TARGET = "retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber";
         public static final String ASSET_LOCATIONS = "assetLocations";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
+        public final static String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
+
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
             public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
@@ -86,6 +88,7 @@ public class CamsPropertyConstants {
             public static final String COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
             public static final String VERSION_NUM = "offCampusLocation.versionNumber";
         }
+
     }
 
 
@@ -136,14 +139,14 @@ public class CamsPropertyConstants {
         public static final String PERIOD_11_DEPRECIATION_AMOUNT = "period11Depreciation1Amount";
         public static final String PERIOD_12_DEPRECIATION_AMOUNT = "period12Depreciation1Amount";
     }
-    
+
     public static class AssetPaymentDetail {
-        public static final String DOCUMENT_TYPE_CODE="expenditureFinancialDocumentTypeCode";
-        public static final String DOCUMENT_POSTING_DATE="expenditureFinancialDocumentPostedDate";
-        public static final String DOCUMENT_POSTING_FISCAL_MONTH="financialDocumentPostingPeriodCode";
-        public static final String DOCUMENT_POSTING_FISCAL_YEAR="financialDocumentPostingYear";        
+        public static final String DOCUMENT_TYPE_CODE = "expenditureFinancialDocumentTypeCode";
+        public static final String DOCUMENT_POSTING_DATE = "expenditureFinancialDocumentPostedDate";
+        public static final String DOCUMENT_POSTING_FISCAL_MONTH = "financialDocumentPostingPeriodCode";
+        public static final String DOCUMENT_POSTING_FISCAL_YEAR = "financialDocumentPostingYear";
     }
-    
+
     public static class AssetType {
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }
@@ -178,8 +181,8 @@ public class CamsPropertyConstants {
         public static final String OFF_CAMPUS_CITY = "offCampusCityName";
         public static final String OFF_CAMPUS_ZIP = "offCampusZipCode";
         public static final String LOCATION_TAB = "locationTabKey";
-        public static final String TRANSFER_FUND_FINANCIAL_DOC="transferOfFundsFinancialDocument";
-        public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM="transferOfFundsFinancialDocumentNumber";
+        public static final String TRANSFER_FUND_FINANCIAL_DOC = "transferOfFundsFinancialDocument";
+        public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM = "transferOfFundsFinancialDocumentNumber";
     }
 
     public static class AssetComponent {

@@ -35,8 +35,8 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.bo.AssetWarranty;
+import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.AssetDateService;
 import org.kuali.module.cams.service.AssetDispositionService;
@@ -66,12 +66,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);
-
         boolean valid = false;
-
-        if (newAsset.getCapitalAssetNumber() == null) {
+        if (document.isNew()) {
             // TODO KULCAP-214 ... fabrication request rules go here
+            // validate asset location
+            // validate asset fabrication
             valid = true;
+            if (valid) {
+                if (newAsset.getCapitalAssetNumber() == null) {
+                    newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+                    oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+                }
+            }
         }
         else {
             setAssetComponentNumbers(newAsset);
@@ -103,6 +109,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        if (valid) {
+
+        }
         return valid;
     }
 
@@ -161,8 +170,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * 
      * Check if the new In-service Date is a valid University Date
+     * 
      * @return
      */
     private boolean validateInServiceDate() {

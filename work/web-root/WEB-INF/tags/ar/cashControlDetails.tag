@@ -25,6 +25,8 @@
 
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
+<%@ attribute name="editDetails" required="true"
+	description="If document details are in edit mode"%>
 
 <kul:tab tabTitle="Cash Control Details" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DETAILS_ERRORS}">
@@ -50,11 +52,11 @@
 					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount}" />
-				<c:if test="${not readOnly and not KualiForm.hasGeneratedGLPEs}">
+				<c:if test="${editDetails}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" />
 				</c:if>
 			</tr>
-			<c:if test="${not readOnly and not KualiForm.hasGeneratedGLPEs}">
+			<c:if test="${editDetails}">
 				<ar:cashControlDetail propertyName="newCashControlDetail"
 					cashControlDetailAttributes="${cashControlDetailAttributes}"
 					addLine="true" readOnly="${readOnly}" rowHeading="add"
@@ -67,7 +69,7 @@
 				<ar:cashControlDetail
 					propertyName="document.cashControlDetail[${ctr}]"
 					cashControlDetailAttributes="${cashControlDetailAttributes}"
-					addLine="false" readOnly="${readOnly}" rowHeading="${ctr+1}"
+					addLine="false" readOnly="${!editDetails}" rowHeading="${ctr+1}"
 					cssClass="datacell"
 					actionMethod="deleteCashControlDetail.line${ctr}"
 					actionAlt="Delete Cash Control Detail"

@@ -61,11 +61,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
+        
+        ccDocument.refreshReferenceObject("customerPaymentMedium");
+        ccDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
         isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkRefDocNumber(ccDocument);
         isValid &= validateCashControlDetails(ccDocument);
-       // isValid &= checkCashControlDocumentHasDetails(ccDocument);
 
         return true;
 
@@ -98,14 +100,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         CashControlDocument cashControlDocument = (CashControlDocument) approveEvent.getDocument();
+        
+        cashControlDocument.refreshReferenceObject("customerPaymentMedium");
+        cashControlDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
         isValid &= checkAllAppDocsApproved(cashControlDocument);
         isValid &= checkGLPEsCreated(cashControlDocument);
-        isValid &= checkUserOrgOptions(cashControlDocument);
-        isValid &= checkPaymentMedium(cashControlDocument);
-        isValid &= checkRefDocNumber(cashControlDocument);
-        isValid &= validateCashControlDetails(cashControlDocument);
-        isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
 
         return isValid;
 

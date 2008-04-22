@@ -17,6 +17,14 @@
 
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="editDetails"
+	value="${!empty KualiForm.editingMode['editDetails']}" />
+<c:set var="showGenerateButton"
+	value="${!empty KualiForm.editingMode['showGenerateButton']}" />
+<c:set var="editPaymentMedium"
+	value="${!empty KualiForm.editingMode['editPaymentMedium']}" />
+<c:set var="editRefDocNbr"
+	value="${!empty KualiForm.editingMode['editRefDocNbr']}" />
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CashControlDocument"
@@ -32,12 +40,17 @@
 	<kul:hiddenDocumentFields isTransactionalDocument="false" />
 	
     <ar:cashControl
-        documentAttributes="${DataDictionary.CashControlDocument.attributes}" />
+        documentAttributes="${DataDictionary.CashControlDocument.attributes}"
+        readOnly="${readOnly}"
+        showGenerateButton = "${showGenerateButton}"
+        editPaymentMedium= "${editPaymentMedium}"
+        editRefDocNbr= "${editRefDocNbr}" />
         
     <ar:cashControlDetails
         documentAttributes="${DataDictionary.CashControlDocument.attributes}"
         cashControlDetailAttributes="${DataDictionary.CashControlDetail.attributes}"
-        readOnly="${readOnly}" />  
+        readOnly="${readOnly}"
+        editDetails = "${editDetails}"/>  
         
     <gl:generalLedgerPendingEntries />
                 

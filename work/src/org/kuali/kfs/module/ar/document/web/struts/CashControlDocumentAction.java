@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.exceptions.UnknownDocumentIdException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
@@ -91,10 +92,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocument ccDoc = ccForm.getCashControlDocument();
 
         if (ccDoc != null) {
-            ccForm.setHasGeneratedGLPEs(!ccDoc.getGeneralLedgerPendingEntries().isEmpty());
             ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
-            KualiWorkflowDocument workflowDocument = ccDoc.getDocumentHeader().getWorkflowDocument();
-            ccForm.setDocumentSubmitted(workflowDocument != null && !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved());
         }
 
         if (ccForm.hasDocumentId()) {
@@ -207,6 +205,14 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
         String paymentMediumCode = cashControlDocument.getCustomerPaymentMediumCode();
 
+        // refreshh reference objects
+        cashControlDocument.refreshReferenceObject("customerPaymentMedium");
+        cashControlDocument.refreshReferenceObject("generalLedgerPendingEntries");
+
+        // payment medium might have been changed meanwhile so we save first the document
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(cashControlDocument);
+
         // generate the GLPEs
         GeneralLedgerPendingEntryService generalLedgerPendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         boolean success = generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(cashControlDocument);
@@ -220,8 +226,6 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         // save the GLPEs in the database
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         cashControlDocumentService.saveGLPEs(cashControlDocument);
-
-        cashControlDocForm.setHasGeneratedGLPEs(true);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 

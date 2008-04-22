@@ -16,12 +16,18 @@
 package org.kuali.module.ar;
 
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.authorization.AuthorizationConstants.EditMode;
 
 public class ArAuthorizationConstants extends AuthorizationConstants {
-    
+
     public static class CustomerInvoiceDocumentEditMode extends EditMode {
         public static final String SHOW_RECEIVABLE_FAU = "showReceivableFAU";
+    }
+
+    public static class CashControlDocumentEditMode extends EditMode {
+        public static final String EDIT_DETAILS = "editDetails";
+        public static final String EDIT_PAYMENT_MEDIUM = "editPaymentMedium";
+        public static final String EDIT_REF_DOC_NBR = "editRefDocNbr";
+        public static final String SHOW_GENERATE_BUTTON = "showGenerateButton";
     }
 
 }

@@ -18,6 +18,14 @@
 <%@ attribute name="documentAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="readOnly" required="true"
+	description="If document is in read only mode"%>
+<%@ attribute name="showGenerateButton" required="true"
+	description="If document generate button is in view mode"%>
+<%@ attribute name="editPaymentMedium" required="true"
+	description="If document edit medium is in edit mode"%>
+<%@ attribute name="editRefDocNbr" required="true"
+	description="If document reference document number is in edit mode"%>
 
 <c:set var="arDocHeaderAttributes"
 	value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
@@ -32,9 +40,6 @@
 	property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
 <html:hidden
 	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
-<html:hidden property="hasGeneratedGLPEs" />
-<html:hidden property="cashPaymentMediumSelected" />
-<html:hidden property="documentSubmitted" />
 
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
@@ -66,16 +71,14 @@
 
 				<td class="datacell-nowrap">
 					<c:choose>
-						<c:when
-							test="${not (KualiForm.hasGeneratedGLPEs or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected))}">
+						<c:when test="${editPaymentMedium}">
 							<kul:htmlControlAttribute
 								attributeEntry="${documentAttributes.customerPaymentMediumCode}"
 								property="document.customerPaymentMediumCode"
-								readOnly="${KualiForm.hasGeneratedGLPEs or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}"
-								readOnlyAlternateDisplay="${document.customerPaymentMedium.customerPaymentMediumDescription}"
 								onchange="submitForm()" />
 						</c:when>
 						<c:otherwise>
+							<html:hidden property="document.customerPaymentMediumCode" />
 					 ${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}
 					 </c:otherwise>
 					</c:choose>
@@ -93,20 +96,19 @@
 						<kul:htmlControlAttribute
 							attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
 							property="document.referenceFinancialDocumentNumber"
-							readOnly="${KualiForm.documentSubmitted}" />
+							readOnly="${not editRefDocNbr}" />
 					</td>
 				</tr>
 			</c:if>
 
-			<c:if
-				test="${not KualiForm.hasGeneratedGLPEs and KualiForm.documentSubmitted and not KualiForm.cashPaymentMediumSelected}">
+			<c:if test="${showGenerateButton}">
 				<tr>
 					<kul:htmlAttributeHeaderCell
 						literalLabel="Generate General Ledger Pending Entries:"
 						horizontal="true" />
 					<td class="datacell-nowrap">
 						<html:image property="methodToCall.generateGLPEs"
-							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+							src="${ConfigProperties.externalizable.images.url}tinybutton-generate.gif"
 							alt="Generate General Ledger Pending Entries"
 							title="Generate General Ledger Pending Entries"
 							styleClass="tinybutton" />

@@ -100,7 +100,7 @@
 			styleClass="right" readOnly="${not addLine and readOnly}" />
 	</td>
 
-	<c:if test="${not readOnly and not KualiForm.hasGeneratedGLPEs}">
+	<c:if test="${not readOnly}">
 		<td class="${cssClass}" rowspan="2">
 			<div align="center">
 				<html:image property="methodToCall.${actionMethod}"

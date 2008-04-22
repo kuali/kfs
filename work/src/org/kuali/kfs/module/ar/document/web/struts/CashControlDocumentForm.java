@@ -33,9 +33,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     private CashControlDetail newCashControlDetail;
     private String processingChartOfAccCodeAndOrgCode;
-
-    private boolean documentSubmitted;
-    private boolean hasGeneratedGLPEs;
+    
     private boolean cashPaymentMediumSelected;
 
     /**
@@ -45,9 +43,6 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
         super();
         setDocument(new CashControlDocument());
-        hasGeneratedGLPEs = false;
-        cashPaymentMediumSelected = false;
-        documentSubmitted = false;
 
     }
 
@@ -139,24 +134,6 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * This method gets the value for hasGeneratedGLPEs
-     * 
-     * @return true if GLPEs have been generated, false otherwise
-     */
-    public boolean isHasGeneratedGLPEs() {
-        return hasGeneratedGLPEs;
-    }
-
-    /**
-     * This method sets hasGeneratedGLPEs value
-     * 
-     * @param hasGeneratedGLPEs
-     */
-    public void setHasGeneratedGLPEs(boolean hasGeneratedGLPEs) {
-        this.hasGeneratedGLPEs = hasGeneratedGLPEs;
-    }
-
-    /**
      * This method returns if payment medium is selected
      * 
      * @return true if payment medium selected, false otherwise
@@ -172,24 +149,6 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
      */
     public void setCashPaymentMediumSelected(boolean cashPaymentMediumSelected) {
         this.cashPaymentMediumSelected = cashPaymentMediumSelected;
-    }
-
-    /**
-     * This method returns if document is submitted
-     * 
-     * @return true if document is submitted, false otherwise
-     */
-    public boolean isDocumentSubmitted() {
-        return documentSubmitted;
-    }
-
-    /**
-     * This method sets if document is submitted
-     * 
-     * @param documentSubmitted
-     */
-    public void setDocumentSubmitted(boolean documentSubmitted) {
-        this.documentSubmitted = documentSubmitted;
     }
 
 }

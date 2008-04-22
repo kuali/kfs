@@ -29,6 +29,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.OrganizationOptions;
@@ -132,6 +133,38 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
             throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
 
         }
+    }
+    
+    @Override
+    public Map getEditMode(Document d, UniversalUser u) {
+        Map editMode = super.getEditMode(d, u);
+        CashControlDocument cashControlDocument = (CashControlDocument) d;
+        KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
+
+        String editDetailsKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS;
+        String editPaymentMediumKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM;
+        String editRefDocNbrKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR;
+        String editGenerateBtnKey = ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON;
+
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            editMode.put(editPaymentMediumKey, "TRUE");
+            editMode.put(editDetailsKey, "TRUE");
+            editMode.put(editRefDocNbrKey, "TRUE");
+        }
+
+        // if the document is in routing, then we have some special rules
+        if (workflowDocument.stateIsEnroute()) {
+
+            // the person who has the approval request in their Action List
+            // should be able to modify the document
+            if (workflowDocument.isApprovalRequested() && !ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
+                editMode.put(editPaymentMediumKey, "TRUE");
+                editMode.put(editGenerateBtnKey, "TRUE");
+                editMode.put(editRefDocNbrKey, "TRUE");
+            }
+        }
+
+        return editMode;
     }
 
 }

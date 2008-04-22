@@ -383,9 +383,15 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
         KualiDecimal originalTotalAmount = document.getTotalOriginalPayrollAmount();
         double limitOfLinePayrollAmountChange = Double.parseDouble(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.LIMIT_OF_LINE_PAYROLL_AMOUNT_CHANGE)));
         List<EffortCertificationDetail> details = document.getEffortCertificationDetailLines();
+        
+        int countOfOverChangedLine = 0;
         for (EffortCertificationDetail detailLine : details) {
-            assertTrue(EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, limitOfLinePayrollAmountChange));
+            if(EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, limitOfLinePayrollAmountChange)) {
+                countOfOverChangedLine++;
+            }
         }
+        
+        assertEquals("All line amounts are overchanged.", details.size(), countOfOverChangedLine);
     }
 
     /**
@@ -398,9 +404,15 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
         KualiDecimal originalTotalAmount = document.getTotalOriginalPayrollAmount();
         double limitOfLinePayrollAmountChange = Double.parseDouble(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.LIMIT_OF_LINE_PAYROLL_AMOUNT_CHANGE)));
         List<EffortCertificationDetail> details = document.getEffortCertificationDetailLines();
+        
+        int countOfOverChangedLine = 0;
         for (EffortCertificationDetail detailLine : details) {
-            assertFalse(EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, limitOfLinePayrollAmountChange));
+            if(EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, limitOfLinePayrollAmountChange)) {
+                countOfOverChangedLine++;
+            }
         }
+        
+        assertEquals("There is no line whose amount is overchanged.", 0, countOfOverChangedLine);
     }
 
     /**

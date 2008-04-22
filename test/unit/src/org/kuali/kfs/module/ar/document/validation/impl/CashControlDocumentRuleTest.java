@@ -19,9 +19,9 @@ import static org.kuali.test.fixtures.UserNameFixture.BUTT;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.document.DocumentBase;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
@@ -29,7 +29,7 @@ import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.ar.service.CashControlDocumentService;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
@@ -112,15 +112,31 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      * This method tests that checkAllAppDocsApproved returns true when all application document are approved
      */
     public void testCheckAllAppDocsApproved_True() throws WorkflowException {
-        // TODO add implementation
+
+        CashControlDetail detail1 = new CashControlDetail();
+        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
+
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
+        // get the first application document from the details as it is the only one we have added
+        PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) document.getCashControlDetail(0).getReferenceFinancialDocument();
+        // mock a fully approved payment application document
+        applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+
     }
 
     /**
      * This method tests that checkAllAppDocsApproved rule returns false when at least one application document is in other state
      * than approved
      */
-    public void testCheckAllAppDocsApproved_False() {
-        // TODO add implementation
+    public void testCheckAllAppDocsApproved_False() throws WorkflowException {
+
+        CashControlDetail detail1 = new CashControlDetail();
+        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
+
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
+
     }
 
     /**

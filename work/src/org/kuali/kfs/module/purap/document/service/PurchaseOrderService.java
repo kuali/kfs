@@ -268,4 +268,12 @@ public interface PurchaseOrderService {
      * @param po The PurchaseOrderDocument containing the vendor that we want to update.
      */
     public void updateVendorCommodityCode(PurchaseOrderDocument po);
+    
+    /**
+     * Checks the item list for newly added unordered items.
+     * 
+     * @param po
+     * @return
+     */
+    public boolean hasNewUnorderedItem(PurchaseOrderDocument po);
 }

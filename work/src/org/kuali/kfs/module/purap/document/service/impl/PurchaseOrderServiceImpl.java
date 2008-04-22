@@ -19,12 +19,15 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RicePropertyConstants;
+import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.DocumentBase;
@@ -50,6 +53,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
@@ -58,14 +62,17 @@ import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
 import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
+import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PrintService;
@@ -740,6 +747,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             attemptSetupOfInitialOpenOfDocument(po);
         }
         
+        // if unordered items have been added to the PO then send an FYI to all fiscal officers
+        if( hasNewUnorderedItem(po) ){
+            sendFyiForNewUnorderedItems(po);
+        }
+        
         //check thresholds to see if receiving is required for purchase order
         setReceivingRequiredIndicatorForPurchaseOrder(po);
         
@@ -1164,4 +1176,92 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         //TODO: Add threshold check and set receiving required indicator if necessary
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#hasNewUnorderedItem(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public boolean hasNewUnorderedItem(PurchaseOrderDocument po){
+        
+        boolean itemAdded = false;
+        
+        for(PurchaseOrderItem poItem: (List<PurchaseOrderItem>)po.getItems()){
+            //only check, active, above the line, unordered items
+            if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
+                
+                //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
+                if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemIdentifier(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
+                    itemAdded = true;
+                    break;    
+                }                
+            }
+        }
+        
+        return itemAdded;
+    }
+    
+    /**
+     * Sends an FYI to fiscal officers for new unordered items.
+     * 
+     * @param po
+     */
+    private void sendFyiForNewUnorderedItems(PurchaseOrderDocument po){
+
+        List<AdHocRoutePerson> fyiList = createFyiFiscalOfficerListForNewUnorderedItems(po);
+        String annotation = "Notification of New Unordered Items for Purchase Order" + po.getPurapDocumentIdentifier() + "(document id " + po.getDocumentNumber() + ")";
+        String responsibilityNote = "Purchase Order Amendment Routed By User";
+        
+        for(AdHocRoutePerson adHocPerson: fyiList){
+            try{
+                po.appSpecificRouteDocumentToUser(
+                        po.getDocumentHeader().getWorkflowDocument(),
+                        adHocPerson.getId(),
+                        annotation,
+                        responsibilityNote);
+            }catch (WorkflowException e) {
+                throw new RuntimeException("Error routing fyi for document with id " + po.getDocumentNumber(), e);
+            }
+
+        }
+    }
+    
+    /**
+     * Creates a list of fiscal officers for new unordered items added to a purchase order.
+     * 
+     * @param po
+     * @return
+     */
+    private List<AdHocRoutePerson> createFyiFiscalOfficerListForNewUnorderedItems(PurchaseOrderDocument po){
+
+        List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
+        Map fiscalOfficers = new HashMap();
+        AdHocRoutePerson adHocRoutePerson = null;
+        
+        for(PurchaseOrderItem poItem: (List<PurchaseOrderItem>)po.getItems()){
+            //only check, active, above the line, unordered items
+            if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
+                
+                //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
+                if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemIdentifier(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
+
+                    // loop through accounts and pull off fiscal officer
+                    for(PurApAccountingLine account : poItem.getBaselineSourceAccountingLines()){
+
+                        //check for dupes of fiscal officer
+                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier()) == false ){
+                        
+                            //add fiscal officer to list
+                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier(), account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            
+                            //create AdHocRoutePerson object and add to list
+                            adHocRoutePerson = new AdHocRoutePerson();
+                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            adHocRoutePerson.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
+                            adHocRoutePersons.add(adHocRoutePerson);
+                        }
+                    }
+                }                
+            }
+        }
+
+        return adHocRoutePersons;
+    }
 }

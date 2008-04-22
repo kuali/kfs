@@ -398,7 +398,10 @@
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="purapService">
             <ref bean="purapService" />
-        </property>	   
+        </property>
+        <property name="noteService">
+            <ref bean="noteService" />
+        </property>        
 	</bean>
 
 	<bean id="receivingDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ReceivingDaoOjb" />

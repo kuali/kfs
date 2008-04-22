@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.dao;
 
+import org.kuali.module.purap.bo.PurchaseOrderItem;
+
 
 /**
  * Purchase Order DAO Interface.
@@ -44,4 +46,13 @@ public interface PurchaseOrderDao {
      * @return - the document numbers of the purchase order found or null if none found
      */
     public String getOldestPurchaseOrderDocumentNumber(Integer id);
+    
+    /**
+     * Determines if the purchase order item exists on the current purchase order.
+     * 
+     * @param poItemIdentifier
+     * @param docNumber
+     * @return
+     */
+    public boolean itemExistsOnPurchaseOrder(Integer poItemIdentifier, String docNumber);
 }

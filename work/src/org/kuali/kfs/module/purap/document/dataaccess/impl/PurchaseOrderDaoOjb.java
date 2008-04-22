@@ -23,6 +23,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
@@ -104,4 +105,25 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }
 
+    /**
+     * @see org.kuali.module.purap.dao.PurchaseOrderDao#itemExistsOnPurchaseOrder(java.lang.Integer, java.lang.String)
+     */
+    public boolean itemExistsOnPurchaseOrder(Integer poItemIdentifier, String docNumber){
+        boolean existsInPo = false;
+                
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, docNumber);
+        criteria.addEqualTo(PurapPropertyConstants.ITEM_IDENTIFIER, poItemIdentifier);
+
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderItem.class, criteria);
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+        rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        
+        if (iter.hasNext()) {
+            existsInPo = true;
+        }
+        
+        return existsInPo;
+    }
 }

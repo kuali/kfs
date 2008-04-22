@@ -15,24 +15,31 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Note;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.dao.ReceivingDao;
+import org.kuali.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
@@ -53,6 +60,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     private WorkflowDocumentService workflowDocumentService;
     private KualiConfigurationService configurationService;    
     private PurapService purapService;
+    private NoteService noteService;
     
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -77,7 +85,11 @@ public class ReceivingServiceImpl implements ReceivingService {
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-    
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
     /**
      * 
      * @see org.kuali.module.purap.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.module.purap.document.ReceivingLineDocument)
@@ -279,11 +291,13 @@ public class ReceivingServiceImpl implements ReceivingService {
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
         //delete unentered items
         purapService.deleteUnenteredItems(receivingDocument);
-        
+                
         //this should get newest po
         PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
         
         updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
+        
+        spawnPoAmendmentForUnorderedItems(receivingDocument, poDoc);
         
         //TODO: custom doc specific service hook here for correction to do it's receiving doc update
 
@@ -315,5 +329,126 @@ public class ReceivingServiceImpl implements ReceivingService {
                 }
             }
         }
+    }	
+    
+    /**
+     * Spawns PO amendments for new unordered items on a receiving document.
+     * 
+     * @param receivingDocument
+     * @param po
+     */
+    private void spawnPoAmendmentForUnorderedItems(ReceivingDocument receivingDocument, PurchaseOrderDocument po){
+
+        //if receiving line document
+        if (receivingDocument instanceof ReceivingLineDocument) {
+            ReceivingLineDocument rlDoc = (ReceivingLineDocument)receivingDocument;
+            
+            //if a new item has been added spawn a purchase order amendment
+            if( hasNewUnorderedItem((ReceivingLineDocument)receivingDocument) ){
+                //create a PO amendment
+                PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
+
+                //add new lines to amendement
+                addUnorderedItemsToAmendment(amendmentPo, rlDoc);
+                
+                //route amendment
+                try{                    
+                    documentService.routeDocument(amendmentPo, null, null);
+                }
+                catch (WorkflowException e) {
+                    String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
+                    throw new RuntimeException(errorMsg, e);
+                }
+                
+                //add note to receiving line document
+                try{
+                    String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items";
+                    
+                    Note noteObj = documentService.createNoteFromDocument(receivingDocument, note);
+                    documentService.addNoteToDocument(receivingDocument, noteObj);
+                    noteService.save(noteObj);
+                }catch (Exception e){
+                    String errorMsg = "Note Service Exception caught: " + e.getLocalizedMessage();
+                    throw new RuntimeException(errorMsg, e);                    
+                }
+            }           
+        }
+
     }
+    
+    /**
+     * Checks the item list for newly added items.
+     * 
+     * @param rlDoc
+     * @return
+     */
+    private boolean hasNewUnorderedItem(ReceivingLineDocument rlDoc){
+        
+        boolean itemAdded = false;
+        
+        for(ReceivingLineItem rlItem: (List<ReceivingLineItem>)rlDoc.getItems()){
+            if( PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(rlItem.getItemTypeCode()) &&
+                !StringUtils.isEmpty(rlItem.getItemReasonAddedCode()) ){
+                itemAdded = true;
+                break;
+            }
+        }
+        
+        return itemAdded;
+    }
+    
+    /**
+     * Adds an unordered item to a po amendment document.
+     * 
+     * @param amendment
+     * @param rlDoc
+     */
+    private void addUnorderedItemsToAmendment(PurchaseOrderAmendmentDocument amendment, ReceivingLineDocument rlDoc){
+
+        PurchaseOrderItem poi = null;
+        
+        for(ReceivingLineItem rlItem: (List<ReceivingLineItem>)rlDoc.getItems()){
+            if( PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(rlItem.getItemTypeCode()) &&
+                !StringUtils.isEmpty(rlItem.getItemReasonAddedCode()) ){
+                
+                poi = createPoItemFromReceivingLine(rlItem);
+                poi.setDocumentNumber( amendment.getDocumentNumber() );
+                poi.refreshNonUpdateableReferences();
+                amendment.addItem(poi);
+            }
+        }
+
+    }
+    
+    /**
+     * Creates a PO item from a receiving line item.
+     * 
+     * @param rlItem
+     * @return
+     */
+    private PurchaseOrderItem createPoItemFromReceivingLine(ReceivingLineItem rlItem){
+        
+        PurchaseOrderItem poi = new PurchaseOrderItem();
+                             
+        poi.setItemActiveIndicator(true);
+        poi.setItemTypeCode(rlItem.getItemTypeCode());                
+        poi.setItemLineNumber(rlItem.getItemLineNumber());        
+        poi.setItemCatalogNumber( rlItem.getItemCatalogNumber() );
+        poi.setItemDescription( rlItem.getItemDescription() );
+
+        if( rlItem.getItemReturnedTotalQuantity() == null){
+            poi.setItemQuantity( rlItem.getItemReceivedTotalQuantity());
+        }else{
+            poi.setItemQuantity( rlItem.getItemReceivedTotalQuantity().subtract(rlItem.getItemReturnedTotalQuantity()) );
+        }
+        
+        poi.setItemUnitOfMeasureCode( rlItem.getItemUnitOfMeasureCode() );
+        poi.setItemUnitPrice(new BigDecimal(0));
+        
+        poi.setItemDamagedTotalQuantity( rlItem.getItemDamagedTotalQuantity() );
+        poi.setItemReceivedTotalQuantity( rlItem.getItemReceivedTotalQuantity() );
+        
+        return poi;
+    }
+    
 }

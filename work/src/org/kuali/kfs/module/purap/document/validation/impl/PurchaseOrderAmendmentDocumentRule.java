@@ -15,8 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +27,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
@@ -40,13 +35,12 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
-import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.bo.CommodityCode;
 
 /**
@@ -137,5 +131,27 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         }
         
         return valid;
+    }
+    
+    /**
+     * Overrides to disable account validation for PO amendments when there are new unordered items
+     * added to the PO.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#requiresAccountValidationOnAllEnteredItems(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
+    public boolean requiresAccountValidationOnAllEnteredItems(PurchasingAccountsPayableDocument document) {
+                
+        boolean requiresAccountValidation = false;
+        
+        //if a new unordered item has been added to the purchase order, this is due to Receiving Line document,
+        // and items should not have account validation performed.
+        if( SpringContext.getBean(PurchaseOrderService.class).hasNewUnorderedItem((PurchaseOrderDocument)document)){
+            requiresAccountValidation = false;
+        }else{
+            requiresAccountValidation = super.requiresAccountValidationOnAllEnteredItems(document);
+        }
+        
+        return requiresAccountValidation;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service;
-
-import org.kuali.module.vendor.bo.CommodityCode;
+package org.kuali.module.vendor.dao;
 
 /**
- * This interface defines methods that a Commodity Code Service must provide
+ * Commodity Code DAO Interface.
  */
-public interface CommodityCodeService {
-    /**
-     * Retrieves a commodity code object by its primary key - the purchasing commodity code.
-     * 
-     * @param  purchasingCommodityCode
-     * @return CommodityCode the commodity code object which has the purchasingCommodityCode
-     *         in the input parameter to match its the primary key.
-     */
-    public CommodityCode getByPrimaryId(String purchasingCommodityCode);
-
+public interface CommodityCodeDao {
+    
     /**
      * Checks whether the commodity code in wildcard form exists.
      * For example, if the wildCardCommodityCode in the input parameter is

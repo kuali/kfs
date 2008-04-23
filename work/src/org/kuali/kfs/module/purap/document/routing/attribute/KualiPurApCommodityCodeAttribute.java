@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.RestrictedMaterial;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.module.vendor.service.CommodityCodeService;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -187,13 +188,13 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
             String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY) + " must exists in the database. ";
             errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
         }
-//        if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
-//            if (!doesCommodityCodeExist()) {
-//                // Commodity Code must exists in the database
-//                String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, PURCHASING_COMMODITY_CODE_FIELD_PROPERTY) + " must exists in the database. ";
-//                errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
-//            }
-//        }
+        if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
+            if (!doesCommodityCodeExist()) {
+                // Commodity Code must exists in the database
+                String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, PURCHASING_COMMODITY_CODE_FIELD_PROPERTY) + " must exists in the database. ";
+                errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
+            }
+        }
         if (StringUtils.isNotBlank(getRestrictedMaterialCode())) {
             if (!doesRestrictedMaterialCodeExist()) {
                 // Restricted Material Code must exists in the database
@@ -216,17 +217,9 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         }
     }
     
-//    private boolean doesCommodityCodeExist() {
-//        Map fieldValues = new HashMap<String, String>();
-//        fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, getPurchasingCommodityCode());
-//        int count = SpringContext.getBean(BusinessObjectService.class).countMatching(COMMODITY_CODE_FIELD_CLASS, fieldValues);
-//        if (count > 0) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }            
-//    }
+    private boolean doesCommodityCodeExist() {
+        return SpringContext.getBean(CommodityCodeService.class).wildCardCommodityCodeExists(getPurchasingCommodityCode());
+    }
     
     private boolean doesRestrictedMaterialCodeExist() {
         Map fieldValues = new HashMap<String, String>();

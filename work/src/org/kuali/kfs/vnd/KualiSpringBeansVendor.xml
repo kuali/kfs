@@ -259,9 +259,14 @@
         </property>
     </bean>
    
+   <bean id="commodityCodeDao" parent="platformAwareDao" class="org.kuali.module.vendor.dao.ojb.CommodityCodeDaoOjb" />
+   
     <bean id="commodityCodeService" class="org.kuali.module.vendor.service.impl.CommodityCodeServiceImpl">
          <property name="businessObjectService">
             <ref bean="businessObjectService" />
+        </property> 
+        <property name="commodityCodeDao">
+            <ref bean="commodityCodeDao" />
         </property> 
     </bean>
 </beans>

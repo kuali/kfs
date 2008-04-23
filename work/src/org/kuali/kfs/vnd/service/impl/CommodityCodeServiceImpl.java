@@ -17,19 +17,22 @@ package org.kuali.module.vendor.service.impl;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.module.vendor.dao.CommodityCodeDao;
 import org.kuali.module.vendor.service.CommodityCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the CommodityCodeService. 
- * This is the default, Kuali delivered implementation. It's currently used for dwr.
+ * This is the default, Kuali delivered implementation. It's currently used for dwr and
+ * for searching for wild card commodity code which is used by commodity code routing
+ * rules.
  */
 @Transactional
 public class CommodityCodeServiceImpl implements CommodityCodeService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommodityCodeServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    
+    private CommodityCodeDao commodityCodeDao;
     /**
      * @see org.kuali.module.purap.service.CommodityCodeService#getByPrimaryId(java.lang.String)
      */
@@ -42,6 +45,14 @@ public class CommodityCodeServiceImpl implements CommodityCodeService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public void setCommodityCodeDao(CommodityCodeDao commodityCodeDao) {
+        this.commodityCodeDao = commodityCodeDao;    
+    }
+    
+    public boolean wildCardCommodityCodeExists(String wildCardCommodityCode) {
+        return commodityCodeDao.wildCardCommodityCodeExists(wildCardCommodityCode);
     }
 
 }

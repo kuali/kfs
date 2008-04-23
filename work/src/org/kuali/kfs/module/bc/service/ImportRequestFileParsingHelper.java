@@ -190,9 +190,9 @@ public class ImportRequestFileParsingHelper {
         return false;
     }
     
-    private static ImportRequestLine createImportRequestLine(boolean isAnnual, int lineNumber) {
-        ImportRequestLine line = isAnnual ? new ImportRequestAnnualLine(lineNumber) : new ImportRequestMonthlyLine(lineNumber);
-        
-        return line;
-    }
+//    private static ImportRequestLine createImportRequestLine(boolean isAnnual, int lineNumber) {
+//        ImportRequestLine line = isAnnual ? new ImportRequestAnnualLine(lineNumber) : new ImportRequestMonthlyLine(lineNumber);
+//        
+//        return line;
+//    }
 }

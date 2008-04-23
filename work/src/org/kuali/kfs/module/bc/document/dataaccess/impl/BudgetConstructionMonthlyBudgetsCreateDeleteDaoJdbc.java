@@ -28,7 +28,11 @@ import org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjec
 import org.kuali.module.budget.dao.ojb.GenesisDaoOjb;
 import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.BCConstants;
+
 import org.kuali.core.dbplatform.RawSQL;
+
+import org.kuali.core.service.PersistenceService;
+
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.KFSConstants;
 
@@ -45,6 +49,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     private static ArrayList<SQLForStep> deleteAllSql         = new ArrayList<SQLForStep>(2);
     private static ArrayList<SQLForStep> spreadRevenueSql     = new ArrayList<SQLForStep>(2);
     private static ArrayList<SQLForStep> spreadExpenditureSql = new ArrayList<SQLForStep>(3);
+    
+    private PersistenceService persistenceService;
     
     @RawSQL
     public BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc()
@@ -207,6 +213,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         //run the delete-all SQL with the revenue object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllSql.get(0).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
         LOG.warn(String.format("\n%s\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     /**
@@ -223,6 +233,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // run the delete-all SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllSql.get(1).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
         LOG.warn(String.format("\n%s\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     /**
@@ -246,6 +260,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // run the create-monthly-budgets-from-GL SQL with the revenue object classes
         returnCount = getSimpleJdbcTemplate().update(spreadRevenueSql.get(1).getSQL(inSqlString),documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber );
         LOG.warn(String.format("\n%s\n RevenueSpread rows inserted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     
@@ -268,6 +286,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // run the create-monthly-budgets-from-GL SQL with the expenditure object classes
         returnCount = getSimpleJdbcTemplate().update(spreadExpenditureSql.get(1).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);
         LOG.warn(String.format("\n%s\n ExpenditureSpread rows inserted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
 
         // tell the caller whether there were any benefits-eligible object classes with non-zero amounts
         return(budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(spreadExpenditureSql.get(2).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
@@ -282,6 +304,11 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
 
         Long numberOfBenefitsEligibleRows = getSimpleJdbcTemplate().queryForLong(BenefitsObjectsCheckSQL,documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
         return (numberOfBenefitsEligibleRows != 0);
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
     
   

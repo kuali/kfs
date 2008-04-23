@@ -17,6 +17,7 @@ package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
+import org.kuali.core.service.PersistenceService;
 
 import org.kuali.module.budget.dao.BudgetConstructionSalaryStatisticsReportDao;
 import org.kuali.module.budget.BCConstants;
@@ -31,6 +32,8 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSalaryStatisticsReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsSalaryStatisticsTable = new ArrayList<SQLForStep>(12);
+    
+    private PersistenceService persistenceService;
 
     @RawSQL
     public BudgetConstructionSalaryStatisticsReportDaoJdbc() {
@@ -252,6 +255,10 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
 
     public void cleanReportsSalaryStatisticsTable(String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     private void cleanWorkTables(String idForSession)
@@ -300,6 +307,15 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         
         // clean out the working tables used in this session
         cleanWorkTables(idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 
 }

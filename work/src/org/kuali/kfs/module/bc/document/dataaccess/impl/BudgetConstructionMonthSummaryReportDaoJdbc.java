@@ -17,6 +17,8 @@ package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
+import org.kuali.core.service.PersistenceService;
+
 import org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao;
 
 import org.kuali.kfs.KFSConstants;
@@ -31,6 +33,8 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthSummaryReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsMonthSummaryTable = new ArrayList<SQLForStep>(9);
+    
+    private PersistenceService persistenceService;
     
     @RawSQL
     public BudgetConstructionMonthSummaryReportDaoJdbc() {
@@ -286,6 +290,10 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
     
     public void cleanReportsMonthSummaryTable(String personUserIdentifier) {
         clearTempTableByUnvlId("ld_bcn_mnth_summ_t", "PERSON_UNVL_ID", personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     /**
@@ -320,7 +328,7 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
      * @param personUserIdentifier--the user requesting the report
      * @param idForSession--the ID for the user's session
      */
-    public void detailedMonthSummaryTableReport(String personUserIdentifier, String idForSession)  {
+    private void detailedMonthSummaryTableReport(String personUserIdentifier, String idForSession)  {
        
        // set up the strings to be inserted into the SQL (revenue and expenditure object types 
         ArrayList<String> revenueInsertions     = new ArrayList<String>(2);
@@ -336,7 +344,6 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(6).getSQL(revenueInsertions), idForSession, personUserIdentifier);
         // sum expenditure from the monthly budgets to the sub-object code level
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(7).getSQL(expenditureInsertions), idForSession, personUserIdentifier);
-        
     }
 
     /**
@@ -365,6 +372,15 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         // clear out the user's work table rows for this session
         this.clearTempTableBySesId("LD_BCN_BUILD_MNTHSUMM01_MT","SESID",idForSession);
         this.clearTempTableBySesId("LD_BCN_BUILD_MNTHSUMM02_MT","SESID",idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 
 }

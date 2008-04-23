@@ -17,6 +17,7 @@ package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
+import org.kuali.core.service.PersistenceService;
 
 import org.kuali.kfs.KFSConstants;
 
@@ -35,6 +36,8 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     private static ArrayList<SQLForStep> updateReportsAccountObjectDetailTable  = new ArrayList<SQLForStep>(4);
     private static ArrayList<SQLForStep> insertDetailForReport                  = new ArrayList<SQLForStep>(1);
     private static ArrayList<SQLForStep> insertSummaryForReport                 = new ArrayList<SQLForStep>(1);
+    
+    private PersistenceService persistenceService;
     
     @RawSQL
     public BudgetConstructionAccountObjectDetailReportDaoJdbc() {
@@ -295,6 +298,10 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         
         // clean out the temporary holding table for the reporting rows
         cleanReportsAccountObjectTemporaryTable(sessionId);    
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     /**
@@ -317,9 +324,15 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         
         // clean out the temporary holding table for the reporting rows
         cleanReportsAccountObjectTemporaryTable(sessionId);    
-               
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
-
-
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
+    }
     
 }

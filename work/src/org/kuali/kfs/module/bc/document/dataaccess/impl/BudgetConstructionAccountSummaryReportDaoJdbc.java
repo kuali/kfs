@@ -16,6 +16,9 @@
 package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.core.service.PersistenceService;
+
+
 import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
 
 import org.kuali.module.budget.BCConstants.Report;
@@ -34,6 +37,8 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     private static ArrayList<SQLForStep> updateReportsAccountSummaryTableWithConsolidation = new ArrayList<SQLForStep>(1);
     
     private static ArrayList<SQLForStep> updateSubFundSummaryReport = new ArrayList<SQLForStep>(1);
+    
+    private PersistenceService persistenceService;
     
     @RawSQL
     public BudgetConstructionAccountSummaryReportDaoJdbc() {
@@ -393,6 +398,10 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
      */
     public void cleanReportsAccountSummaryTable(String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     /**
@@ -413,6 +422,10 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
 
@@ -434,6 +447,10 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTableWithConsolidation.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     /**
@@ -454,5 +471,14 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateSubFundSummaryReport.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 }

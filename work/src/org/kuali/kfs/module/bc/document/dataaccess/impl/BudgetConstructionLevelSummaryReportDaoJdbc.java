@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
+import org.kuali.core.service.PersistenceService;
+
 import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
 import org.kuali.module.budget.dao.BudgetConstructionLevelSummaryReportDao;
 
@@ -32,8 +34,10 @@ import org.kuali.module.budget.BCConstants;
 public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionLevelSummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionLevelSummaryReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsLevelSummaryTable = new ArrayList<SQLForStep>(9);
+    private static ArrayList<SQLForStep> updateReportsLevelSummaryTable = new ArrayList<SQLForStep>(7);
     ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
+    
+    private PersistenceService persistenceService;
 
 
     @RawSQL
@@ -276,19 +280,14 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
 
         updateReportsLevelSummaryTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-
-        /* cleanup mt tables */
-        sqlText.append("DELETE LD_BCN_BUILD_LEVLSUMM02_MT WHERE sesid = ? ");
-        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText));
-        sqlText.delete(0, sqlText.length());
-
-        sqlText.append("DELETE LD_BCN_BUILD_LEVLSUMM03_MT WHERE sesid = ? ");
-        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText));
-        sqlText.delete(0, sqlText.length());
     }
 
     public void cleanReportsLevelSummaryTable(String personUserIdentifier) {
         clearTempTableByUnvlId("ld_bcn_levl_summ_t", "PERSON_UNVL_ID", personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     public void updateReportsLevelSummaryTable(String personUserIdentifier) {
@@ -297,6 +296,8 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         String idForSession = guid.toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>(10);
+        
+        cleanReportsLevelSummaryTable(personUserIdentifier);
         
         // insert revenue by object level from pending budget construction general ledger into the report-by-level table
         stringsToInsert.add(this.getRevenueINList());
@@ -318,9 +319,18 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(5).getSQL(stringsToInsert), idForSession, personUserIdentifier);
         // update all the CSF FTE fields in the report-by-level table
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(6).getSQL(), personUserIdentifier, idForSession, personUserIdentifier, idForSession, personUserIdentifier, personUserIdentifier, idForSession);
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(7).getSQL(), idForSession);
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(8).getSQL(), idForSession);
+        clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM02_MT", "SESID", idForSession);
+        clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM03_MT", "SESID", idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
 
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 
 }

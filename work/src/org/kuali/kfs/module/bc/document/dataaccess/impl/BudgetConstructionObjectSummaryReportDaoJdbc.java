@@ -21,7 +21,7 @@ import java.lang.StringBuilder;
 
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
-
+import org.kuali.core.service.PersistenceService;
 
 import org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao;
 import org.kuali.module.budget.BCConstants;
@@ -29,6 +29,8 @@ import org.kuali.module.budget.BCConstants;
 public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionObjectSummaryReportDao {
     
     private static ArrayList<SQLForStep>  objectSummarySql = new ArrayList<SQLForStep>(5);
+    
+    private PersistenceService persistenceService;
     
     public BudgetConstructionObjectSummaryReportDaoJdbc()
     {
@@ -64,7 +66,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("        ca_object_code_t,\n");
        sqlBuilder.append("        ca_obj_level_t,\n");
        sqlBuilder.append("        ca_obj_consoldtn_t\n");
-       sqlBuilder.append("  WHERE (ld_bcn_subfund_pick_t.person_unvl_id = ?\n)"); 
+       sqlBuilder.append("  WHERE (ld_bcn_subfund_pick_t.person_unvl_id = ?)\n"); 
        sqlBuilder.append("    AND (ld_bcn_subfund_pick_t.report_flag > 0)\n");
        sqlBuilder.append("    AND (ld_bcn_subfund_pick_t.sub_fund_grp_cd = ld_bcn_ctrl_list_t.sel_sub_fund_grp)\n"); 
        sqlBuilder.append("    AND (ld_bcn_subfund_pick_t.person_unvl_id = ld_bcn_ctrl_list_t.person_unvl_id)\n");
@@ -383,6 +385,10 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
      */
     public void cleanGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
         this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T","PERSON_UNVL_ID",personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     /**
@@ -421,7 +427,16 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
         // clean out this session's rows from the holding tables used
         this.clearTempTableBySesId("LD_BCN_BUILD_OBJTSUMM01_MT","SESID",idForSession);
         this.clearTempTableBySesId("LD_BCN_BUILD_OBJTSUMM02_MT","SESID",idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
         
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 
 }

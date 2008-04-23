@@ -369,40 +369,76 @@
     </bean>
  	
 	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountSummaryReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 	
 	<bean id="budgetConstructionLevelSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionLevelSummaryReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionAccountFundingDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountFundingDetailReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 	
 
 	<bean id="budgetConstructionPositionFundingDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionPositionFundingDetailReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountObjectDetailReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionList2PLGReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionList2PLGReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionMonthSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthSummaryReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionObjectSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionObjectSummaryReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionReasonStatisticsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionReasonStatisticsReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionSalaryStatisticsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSalaryStatisticsReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionSalarySummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSalarySummaryReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionSynchronizationProblemsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSynchronizationProblemsReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
@@ -445,6 +481,9 @@
     </bean>
     
     <bean id="benefitsCalculationDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BenefitsCalculationDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
     </bean>
     
     <bean id="budgetConstructionHumanResourcesPayrollInterfaceDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc">
@@ -479,6 +518,9 @@
     </bean>
     
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
     </bean>
     
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl">
@@ -501,6 +543,5 @@
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.ImportRequestDaoOjb">
     </bean>
-    
     
 </beans>

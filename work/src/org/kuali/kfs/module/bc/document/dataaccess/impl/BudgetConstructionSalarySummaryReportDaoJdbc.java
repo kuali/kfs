@@ -18,6 +18,7 @@ package org.kuali.module.budget.dao.jdbc;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.service.PersistenceService;
 
 import org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao;
 import org.kuali.module.budget.BCConstants;
@@ -38,6 +39,8 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdReason   = new ArrayList<SQLForStep>(1);
     private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdNoReason = new ArrayList<SQLForStep>(1);
     private static ArrayList<SQLForStep> updateReportsSalarySummaryCommon              = new ArrayList<SQLForStep>(2);
+    
+    private PersistenceService persistenceService;
 
     @RawSQL
     public BudgetConstructionSalarySummaryReportDaoJdbc() {
@@ -357,7 +360,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
      */
-    public void updateSalarySummaryReports(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
+    public void salarySummaryReports(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -408,6 +411,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         clearThresholdWorkTables(idForSession);
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
 
@@ -415,7 +422,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
      */
-    public void updateReasonSummaryReports(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
+    public void reasonSummaryReports(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
         
         // get the session ID
         Guid guid = new Guid();
@@ -445,7 +452,17 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
+
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
+
+}
 
 

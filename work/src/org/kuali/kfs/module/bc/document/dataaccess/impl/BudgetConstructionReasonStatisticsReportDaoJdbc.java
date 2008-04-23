@@ -18,6 +18,7 @@ package org.kuali.module.budget.dao.jdbc;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.service.PersistenceService;
 
 import org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao;
 import org.kuali.module.budget.BCConstants;
@@ -35,6 +36,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     private static ArrayList<SQLForStep> updateReportsReasonStatisticsTable    = new ArrayList<SQLForStep>(10);
     private static ArrayList<SQLForStep> reportReasonStatisticsWithThreshold   = new ArrayList<SQLForStep>(3);
     private static ArrayList<SQLForStep> reportReasonStatisticsWithNoThreshold = new ArrayList<SQLForStep>(2);
+    
+    private PersistenceService persistenceService;
 
     @RawSQL
     public BudgetConstructionReasonStatisticsReportDaoJdbc() {
@@ -354,6 +357,10 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         clearTempTableBySesId("LD_BCN_BUILD_EXSALTOT04_MT", "SESID", idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_EXSALTOT05_MT", "SESID", idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_EXSALTOT06_MT", "SESID", idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     /**
@@ -434,6 +441,10 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         
         fetchIndividualDetailForContinuingPeople(personUserIdentifier, idForSession);
         sumTheDetailRowsToProduceTheReportData (idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     /**
@@ -458,6 +469,10 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         // new people have no percent increase, and so would not match any threshold, but should be included under this report option
         getSimpleJdbcTemplate().update(reportReasonStatisticsWithNoThreshold.get(1).getSQL(), idForSession, personUserIdentifier, idForSession);
         sumTheDetailRowsToProduceTheReportData (idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     
     /**
@@ -465,8 +480,13 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * sum base and request amounts and FTE by organization to produce the data used by the report
      * @param idForSession--the session of the user doing the report
      */
-    public void sumTheDetailRowsToProduceTheReportData (String idForSession) {
+    private void sumTheDetailRowsToProduceTheReportData (String idForSession) {
         getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(9).getSQL(), idForSession, idForSession);
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 
 }

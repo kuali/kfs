@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import org.kuali.core.util.Guid;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.core.service.PersistenceService;
 
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.KFSConstants;
@@ -43,6 +44,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
 
     private static ArrayList<SQLForStep> sqlAnnualSteps  = new ArrayList<SQLForStep>(6);
     private static ArrayList<SQLForStep> sqlMonthlySteps = new ArrayList<SQLForStep>(3);
+    
+    private PersistenceService persistenceService;
     
     
     /**
@@ -357,6 +360,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         stringsToInsert.add(3,stringsToInsert.get(1));
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
 
     /**
@@ -377,5 +384,14 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         // add any rounding errors to the first month
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 }

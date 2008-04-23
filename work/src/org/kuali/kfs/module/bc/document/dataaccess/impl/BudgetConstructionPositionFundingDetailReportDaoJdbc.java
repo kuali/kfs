@@ -18,6 +18,8 @@ package org.kuali.module.budget.dao.jdbc;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.service.PersistenceService;
+
 import org.kuali.module.budget.dao.BudgetConstructionPositionFundingDetailReportDao;
 
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionPositionFundingDetailReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsPositionFundingDetailTable = new ArrayList<SQLForStep>(5);
+    
+    private PersistenceService persistenceService;
     
     @RawSQL
     public BudgetConstructionPositionFundingDetailReportDaoJdbc() {
@@ -137,6 +141,10 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     
     public void cleanReportsPositionFundingDetailTable(String personUserIdentifier) {
         clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
     /**
      * 
@@ -217,7 +225,15 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         {
             updateReportsPositionFundingDetailTableBelowThreshold(personUserIdentifier, thresholdPercent);
         }
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
     }
-
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
+    }
 
 }

@@ -16,6 +16,8 @@
 package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.core.service.PersistenceService;
+
 import org.kuali.module.budget.dao.BudgetConstructionList2PLGReportDao;
 
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
@@ -30,6 +32,8 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionList2PLGReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsList2PLGTable = new ArrayList<SQLForStep>(1);
+    
+    private PersistenceService persistenceService;
 
     @RawSQL
     public BudgetConstructionList2PLGReportDaoJdbc() {
@@ -79,6 +83,15 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
         stringToInsert.add(BudgetConstructionConstants.OBJECT_CODE_2PLG);
         // fill the table
         getSimpleJdbcTemplate().update(updateReportsList2PLGTable.get(0).getSQL(stringToInsert), personUserIdentifier, personUserIdentifier);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
+    }
+    
+    public void setPersistenceService(PersistenceService persistenceService)
+    {
+        this.persistenceService = persistenceService;
     }
 
 }

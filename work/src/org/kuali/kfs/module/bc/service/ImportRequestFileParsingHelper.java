@@ -45,6 +45,8 @@ public class ImportRequestFileParsingHelper {
         
         int expectedNumberOfSeparators = isAnnual ? 5 : 16;
         
+        lineToParse = lineToParse.trim();
+        
         //check if line is in correct format
         if (!isLineCorrectlyFormatted(lineToParse, fieldSeperator, textDelimiter, isAnnual)) return null;
         
@@ -73,16 +75,12 @@ public class ImportRequestFileParsingHelper {
         budgetConstructionRequestMove.setSubAccountNumber(attributes.get(2));
         budgetConstructionRequestMove.setFinancialObjectCode(attributes.get(3));
         budgetConstructionRequestMove.setFinancialSubObjectCode(attributes.get(4));
-        if (isAnnual) {
-            try {
+        
+        try {
+            if (isAnnual) {
                 budgetConstructionRequestMove.setAccountLineAnnualBalanceAmount(new KualiInteger(Integer.parseInt(attributes.get(5))));
-            }
-            catch (NumberFormatException e) {
-                return null;
-            }
-        } else {
-            try {
                 
+            } else {
                 budgetConstructionRequestMove.setFinancialDocumentMonth1LineAmount(new KualiInteger(Integer.parseInt(attributes.get(5))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth2LineAmount(new KualiInteger(Integer.parseInt(attributes.get(6))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth3LineAmount(new KualiInteger(Integer.parseInt(attributes.get(7))));
@@ -95,10 +93,11 @@ public class ImportRequestFileParsingHelper {
                 budgetConstructionRequestMove.setFinancialDocumentMonth10LineAmount(new KualiInteger(Integer.parseInt(attributes.get(14))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth11LineAmount(new KualiInteger(Integer.parseInt(attributes.get(15))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth12LineAmount(new KualiInteger(Integer.parseInt(attributes.get(16))));
+                
             }
-            catch (NumberFormatException e) {
-                return null;
-            }
+        }
+        catch (NumberFormatException e) {
+            return null;
         }
 
         return budgetConstructionRequestMove;
@@ -189,5 +188,11 @@ public class ImportRequestFileParsingHelper {
         if (delimiter.equals("$")) return true;
         
         return false;
+    }
+    
+    private static ImportRequestLine createImportRequestLine(boolean isAnnual, int lineNumber) {
+        ImportRequestLine line = isAnnual ? new ImportRequestAnnualLine(lineNumber) : new ImportRequestMonthlyLine(lineNumber);
+        
+        return line;
     }
 }

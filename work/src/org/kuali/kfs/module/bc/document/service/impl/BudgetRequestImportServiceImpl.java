@@ -300,9 +300,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List<BudgetConstructionRequestMove> recordsToLoad = importRequestDao.findAllNonErrorCodeRecords();
         List<String> errorMessages = new ArrayList<String>();
         HashMap<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
-        
         for(BudgetConstructionRequestMove recordToLoad : recordsToLoad) {
-            //TODO: this should this be mapped
             BudgetConstructionHeader header = importRequestDao.getHeaderRecord(recordToLoad, budgetYear);
             
             if (recordMap.containsKey(recordToLoad.getSubAccountingString())) {
@@ -316,9 +314,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                         recordToLoad.getAccount().getAccountManagerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier())) {
                     
                 } else if (header != null && header.getOrganizationLevelCode() != 0 &&
-                        permissionService.isOrgReviewApprover(user.getPersonUserIdentifier(), 
+                        permissionService.isOrgReviewApprover(user.getPersonUserIdentifier().toLowerCase(), 
                                 header.getOrganizationLevelChartOfAccountsCode(), 
-                                header.getOrganizationLevelCode().toString())) {
+                                header.getOrganizationLevelOrganizationCode())) {
                         recordToLoad.setHasAccess(true);
                 } else {
                     recordToLoad.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT.getErrorCode());
@@ -353,7 +351,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         for (String key : recordMap.keySet()) {
             BudgetConstructionRequestMove record = recordMap.get(key);
             BudgetConstructionHeader header = importRequestDao.getHeaderRecord(record, budgetYear);
-            
             if (record.getHasAccess() && record.getHasLock() && StringUtils.isBlank(record.getRequestUpdateErrorCode())) {
                 udpateBenefits(fileType, record, header);
             }
@@ -364,8 +361,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
         }
         
-        //deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
-        
+        deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
         return errorMessages;
     }
 
@@ -437,8 +433,15 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             pendingEntry.setFinancialSubObjectCode(importLine.getFinancialSubObjectCode());
             pendingEntry.setFinancialBalanceTypeCode("BB");
             pendingEntry.setFinancialObjectTypeCode(importLine.getFinancialObjectTypeCode());
-                
-            businessObjectService.save(pendingEntry);
+            
+            PendingBudgetConstructionGeneralLedger alreadyExistingPendingEntry = (PendingBudgetConstructionGeneralLedger) businessObjectService.retrieve(pendingEntry);
+            if ( alreadyExistingPendingEntry != null ) {
+                alreadyExistingPendingEntry.setAccountLineAnnualBalanceAmount(pendingEntry.getAccountLineAnnualBalanceAmount());
+                businessObjectService.save(alreadyExistingPendingEntry);
+            } else {
+                businessObjectService.save(pendingEntry);
+            }
+            
             businessObjectService.save(importLine);
             
         } else if ( fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString()) ) {
@@ -466,7 +469,25 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             monthlyEntry.setFinancialDocumentMonth11LineAmount(importLine.getFinancialDocumentMonth11LineAmount());
             monthlyEntry.setFinancialDocumentMonth12LineAmount(importLine.getFinancialDocumentMonth12LineAmount());
             
-            businessObjectService.save(monthlyEntry);
+            BudgetConstructionMonthly alreadyExistingMonthlyEntry = (BudgetConstructionMonthly) businessObjectService.retrieve(monthlyEntry);
+            if ( alreadyExistingMonthlyEntry != null ) {
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth1LineAmount(monthlyEntry.getFinancialDocumentMonth1LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth2LineAmount(monthlyEntry.getFinancialDocumentMonth2LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth3LineAmount(monthlyEntry.getFinancialDocumentMonth3LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth4LineAmount(monthlyEntry.getFinancialDocumentMonth4LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth5LineAmount(monthlyEntry.getFinancialDocumentMonth5LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth6LineAmount(monthlyEntry.getFinancialDocumentMonth6LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth7LineAmount(monthlyEntry.getFinancialDocumentMonth7LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth8LineAmount(monthlyEntry.getFinancialDocumentMonth8LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth9LineAmount(monthlyEntry.getFinancialDocumentMonth9LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth10LineAmount(monthlyEntry.getFinancialDocumentMonth10LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth11LineAmount(monthlyEntry.getFinancialDocumentMonth11LineAmount());
+                alreadyExistingMonthlyEntry.setFinancialDocumentMonth12LineAmount(monthlyEntry.getFinancialDocumentMonth12LineAmount());
+                
+                businessObjectService.save(alreadyExistingMonthlyEntry);
+            } else {
+                businessObjectService.save(monthlyEntry);
+            }
         }
         
         return errorMessage;

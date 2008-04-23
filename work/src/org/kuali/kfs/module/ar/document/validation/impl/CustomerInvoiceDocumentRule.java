@@ -45,6 +45,7 @@ import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument>,DiscountCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
@@ -545,12 +546,10 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         //make a copy to not mess up the existing reference
         CustomerInvoiceDetail parentCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(discountCustomerInvoiceDetail.getParentDiscountCustomerInvoiceDetail());
         
-        //update parent amount just in case it has also been updated 
-        parentCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
-        
-        //set item unit price to negative if it isn't already
-        discountCustomerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
-        discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+        //update amounts
+        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, parentCustomerInvoiceDetail);
+        service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, discountCustomerInvoiceDetail);
 
         //return true if abs(discount line amount) IS NOT greater than parent line  
         if( discountCustomerInvoiceDetail.getAmount().abs().isGreaterThan(parentCustomerInvoiceDetail.getAmount().abs())){
@@ -575,11 +574,10 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         //make a copy to not mess up the existing reference
         CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(parentCustomerInvoiceDetail.getDiscountCustomerInvoiceDetail());
         
-        parentCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
-        
-        //update child discount amount just in case it has also been updated 
-        discountCustomerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
-        discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+        //update amounts
+        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, parentCustomerInvoiceDetail);
+        service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, discountCustomerInvoiceDetail);
         
         //return true if parent line amount is less THAN abs(discount line amount)  
         if( parentCustomerInvoiceDetail.getAmount().abs().isLessThan(discountCustomerInvoiceDetail.getAmount().abs())){

@@ -173,9 +173,11 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#recalculateCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
      */
     public void recalculateCustomerInvoiceDetail(CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail) {
-        //if line is supposed to be a discount line and the document is not a reversal (because the reversal will already set it to positive),
-        //make sure you set the amount to negative
+
+        //make sure amounts are negative when they are supposed to be
         if (!document.isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) {
+            customerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
+        } else if (document.isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()){
             customerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
         }
         customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();

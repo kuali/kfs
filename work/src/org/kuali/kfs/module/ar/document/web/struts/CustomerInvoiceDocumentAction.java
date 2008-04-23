@@ -15,32 +15,27 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.Timer;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.module.ar.rule.event.RecalculateCustomerInvoiceDetaiEvent;
-import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
@@ -49,11 +44,12 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
-    
+
     /**
      * Overriding to make it easier to distinguish discount lines and lines that are associated to discounts
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -66,11 +62,11 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             return result;
         }
         finally {
-            //update it again for display purposes
+            // update it again for display purposes
             customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
         }
-    }    
-    
+    }
+
     /**
      * Called when customer invoice document is initiated.
      * 
@@ -83,7 +79,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-        
+
         // set up the default values for customer invoice document
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
@@ -102,6 +98,65 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm form = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         form.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
 
+    }
+
+    /**
+     * Method that will take the current document, copy it, replace all references to doc header id with a new one, clear pending
+     * entries, clear notes, and reset version numbers
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
+        
+        // perform discount check
+        ActionForward forward = performInvoiceWithDiscountsCheck(mapping, form, request, response, customerInvoiceDocument);
+        if (forward != null) {
+            return forward;
+        }
+
+        return super.copy(mapping, form, request, response);
+    }
+
+
+    /**
+     * This method checks if the user wants to copy a document that contains a discount line.  If yes, this method returns null. If no,
+     * this method returns the "basic" forward. 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param customerInvoiceDocument
+     * @return
+     * @throws Exception
+     */
+    private ActionForward performInvoiceWithDiscountsCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CustomerInvoiceDocument customerInvoiceDocument) throws Exception {
+        ActionForward forward = null;
+
+        if( customerInvoiceDocument.hasAtLeastOneDiscount() ){
+            
+            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            if (question == null) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, ArConstants.COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION, 
+                        "This document contains a discount line.  Are you sure you want to copy this document?", KFSConstants.CONFIRMATION_QUESTION,
+                        KFSConstants.ROUTE_METHOD, "");
+            }
+    
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if (ArConstants.COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION.equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+
+        return forward;
     }
 
     /**
@@ -218,7 +273,8 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
 
         // make sure amount is up to date before rules
-        customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
 
         boolean rulePassed = true;
         // check any business rules
@@ -229,7 +285,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             // add accountingLine
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(customerInvoiceDetail);
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);            
+            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
             customerInvoiceDetail.updateARObjectCode();
             insertAccountingLine(true, customerInvoiceDocumentForm, customerInvoiceDetail);
 
@@ -272,4 +328,5 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         // delete line like normal
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
     }
+
 }

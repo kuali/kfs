@@ -357,7 +357,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
      * @return
      */
     public void setInvoiceItemUnitPriceToNegative(){
-        if( KualiDecimal.ZERO.compareTo(invoiceItemUnitPrice) < 0 ){
+        if( invoiceItemUnitPrice.isPositive() ){
             invoiceItemUnitPrice = invoiceItemUnitPrice.negated();
         }
     }

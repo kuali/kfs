@@ -21,7 +21,11 @@ import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
@@ -49,6 +53,24 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
         }
 
         return editModeMap;
+    }    
+    
+    /**
+     * Overrides document action flags to ensure error correction invoices cannot be copied or corrected.
+     * 
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        
+        TransactionalDocumentActionFlags flags = (TransactionalDocumentActionFlags)super.getDocumentActionFlags(document, user);
+        
+        if(ObjectUtils.isNotNull(document.getDocumentHeader().getFinancialDocumentInErrorNumber())){
+            flags.setCanCopy(false);
+            flags.setCanErrorCorrect(false);
+        }
+        
+        return flags;
     }    
 
 }

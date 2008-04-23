@@ -991,6 +991,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
     
     
+    /**
+     * This method...
+     */
     public void negateCustomerInvoiceDetailUnitPrices(){
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
@@ -998,6 +1001,22 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negated());
         }
         
+    }
+    
+    /**
+     * This method returns true if invoice document has at least one discount line
+     * @return
+     */
+    public boolean hasAtLeastOneDiscount(){
+        
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
+            if (customerInvoiceDetail.isDiscountLineParent()){
+                return true;
+            }
+        }        
+        return false;
     }
     
     /**

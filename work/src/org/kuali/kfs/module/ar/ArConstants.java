@@ -82,6 +82,8 @@ public class ArConstants {
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
+    
+    public static final String COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION = "ConfirmationForCopyingInvoiceWithDiscounts";
 
 
     public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";

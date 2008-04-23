@@ -56,7 +56,7 @@
 				scope="request" />
 			<html:image
 				property="methodToCall.${refreshMethod}"
-				src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif" title="Refresh New Source Line"
+				src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh New Source Line"
 				alt="Refresh New Source Line" styleClass="tinybutton" />
 		</jsp:attribute>		    
 		
@@ -78,7 +78,7 @@
 					scope="request" />
 				<html:image
 					property="methodToCall.${discountMethod}.anchoraccounting${actionInfixVar}Anchor"
-					src="${ConfigProperties.externalizable.images.url}tinybutton-initiatequote.gif" title="Discount a Source Accounting Line"
+					src="${ConfigProperties.externalizable.images.url}tinybutton-discount.gif" title="Discount a Source Accounting Line"
 					alt="Discount a Source Accounting Line" styleClass="tinybutton" /><br/>
 			</c:if>				
 		</jsp:attribute>

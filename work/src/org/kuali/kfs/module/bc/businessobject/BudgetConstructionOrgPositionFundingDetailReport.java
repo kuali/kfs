@@ -38,38 +38,34 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
 
     // Header parts
     private String fiscalYear;
-    private String orgChartOfAccountsCode;
-    private String orgChartOfAccountDescription;
+    
     private String chartOfAccountsCode;
     private String chartOfAccountDescription;
     private String organizationCode;
     private String organizationName;
     private String consHdr;
-    private String fundGroupCode;
-    private String fundGroupName;
-    private String subFundGroupCode;
-    private String subFundGroupDescription;
-    private String baseFy;
     private String reqFy;
     private String objectCodes;
     private String numberAndNameForAccountSubAccount;
     
+    
     // Groups
-    private String accountNumber;
-    private String subAccountNumber;
     private String emplid;
+    private Integer personSortCode;
     
     // Body parts
-    private String financialObjectCode;
-    private String financialObjectCodeName;
     
+    private String accountNumber;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    private BigDecimal appointmentRequestedPayRate;
     
     private String deleteBox;
     private String personName;
-    //from BudgetConstructionIntendedIncumbent
-    private String iuClassificationLevel;
+    
     //from PendingBudgetConstructionAppointmentFunding
-    private String financialSubObjectCode;
+    
     //from BudgetConstructionAdministrativePost
     private String administrativePost;
     //from BudgetConstructionPosition
@@ -79,6 +75,7 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
     private String positionGradeDefault;
     private BigDecimal positionStandardHoursDefault;
     //from BudgetConstructionCalculatedSalaryFoundationTracker
+    private String csfFundingStatusCode;
     private BigDecimal csfTimePercent;
     private Integer csfAmount;
     private String csfFullTimeEmploymentQuantity;
@@ -100,44 +97,26 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
     private String positionFte;
 
     // Total parts
+   
+    private Integer totalPersonPositionCsfAmount;
+    private Integer totalPersonAppointmentRequestedAmount;
+    private String totalPersonPositionCsfFteQuantity;
+    private String totalPersonAppointmentRequestedFteQuantity;
+    private Integer totalPersonAmountChange;
+    private BigDecimal totalPersonPercentChange;
     
-    private String totalObjectname;
-    
-    private Integer totalObjectPositionCsfAmount;
-    private Integer totalObjectAppointmentRequestedAmount;
-    private String totalObjectPositionCsfFteQuantity;
-    private String totalObjectAppointmentRequestedFteQuantity;
-    private Integer totalObjectAmountChange;
-    private BigDecimal totalObjectPercentChange;
-    
-    private String totalAccountname;
-    private String totalSubAccountname;
-    
-    private Integer totalAccountPositionCsfAmount;
-    private Integer totalAccountAppointmentRequestedAmount;
-    private String totalAccountPositionCsfFteQuantity;
-    private String totalAccountAppointmentRequestedFteQuantity;
-    private Integer totalAccountAmountChange;
-    private BigDecimal totalAccountPercentChange;
+   
+    private Integer totalOrgPositionCsfAmount;
+    private Integer totalOrgAppointmentRequestedAmount;
+    private String totalOrgPositionCsfFteQuantity;
+    private String totalOrgAppointmentRequestedFteQuantity;
+    private Integer totalOrgAmountChange;
+    private BigDecimal totalOrgPercentChange;
         
+ 
     
-    /**
-     * Gets the baseFy
-     * 
-     * @return Returns the baseFy.
-     */
-    public String getBaseFy() {
-        return baseFy;
-    }
-
-    /**
-     * Sets the baseFy
-     * 
-     * @param baseFy The baseFy to set.
-     */
-    public void setBaseFy(String baseFy) {
-        this.baseFy = baseFy;
-    }
+    
+    
 
     /**
      * Gets the consHdr
@@ -173,24 +152,6 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
      */
     public void setFiscalYear(String fiscalYear) {
         this.fiscalYear = fiscalYear;
-    }
-
-    /**
-     * Gets the fundGroupCode
-     * 
-     * @return Returns the fundGroupCode.
-     */
-    public String getFundGroupCode() {
-        return fundGroupCode;
-    }
-
-    /**
-     * Sets the fundGroupCode
-     * 
-     * @param fundGroupCode The fundGroupCode to set.
-     */
-    public void setFundGroupCode(String fundGroupCode) {
-        this.fundGroupCode = fundGroupCode;
     }
 
     /**
@@ -248,60 +209,6 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
     }
 
     /**
-     * Gets the subFundGroupCode
-     * 
-     * @return Returns the subFundGroupCode.
-     */
-    public String getSubFundGroupCode() {
-        return subFundGroupCode;
-    }
-
-    /**
-     * Sets the subFundGroupCode
-     * 
-     * @param subFundGroupCode The subFundGroupCode to set.
-     */
-    public void setSubFundGroupCode(String subFundGroupCode) {
-        this.subFundGroupCode = subFundGroupCode;
-    }
-
-    /**
-     * Gets the subFundGroupDescription
-     * 
-     * @return Returns the subFundGroupDescription.
-     */
-    public String getSubFundGroupDescription() {
-        return subFundGroupDescription;
-    }
-
-    /**
-     * Sets the subFundGroupDescription
-     * 
-     * @param subFundGroupDescription The subFundGroupDescription to set.
-     */
-    public void setSubFundGroupDescription(String subFundGroupDescription) {
-        this.subFundGroupDescription = subFundGroupDescription;
-    }
-
-    /**
-     * Gets the fundGroupName
-     * 
-     * @return Returns the fundGroupName.
-     */
-    public String getFundGroupName() {
-        return fundGroupName;
-    }
-
-    /**
-     * Sets the fundGroupName
-     * 
-     * @param fundGroupName The fundGroupName to set.
-     */
-    public void setFundGroupName(String fundGroupName) {
-        this.fundGroupName = fundGroupName;
-    }
-
-    /**
      * Gets the chartOfAccountDescription
      * 
      * @return Returns the chartOfAccountDescription.
@@ -337,41 +244,6 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-    /**
-     * Gets the orgChartOfAccountDescription
-     * 
-     * @return Returns the orgChartOfAccountDescription.
-     */
-    public String getOrgChartOfAccountDescription() {
-        return orgChartOfAccountDescription;
-    }
-
-    /**
-     * Sets the orgChartOfAccountDescription
-     * 
-     * @param orgChartOfAccountDescription The orgChartOfAccountDescription to set.
-     */
-    public void setOrgChartOfAccountDescription(String orgChartOfAccountDescription) {
-        this.orgChartOfAccountDescription = orgChartOfAccountDescription;
-    }
-
-    /**
-     * Gets the orgChartOfAccountsCode
-     * 
-     * @return Returns the orgChartOfAccountsCode.
-     */
-    public String getOrgChartOfAccountsCode() {
-        return orgChartOfAccountsCode;
-    }
-
-    /**
-     * Sets the orgChartOfAccountsCode
-     * 
-     * @param orgChartOfAccountsCode The orgChartOfAccountsCode to set.
-     */
-    public void setOrgChartOfAccountsCode(String orgChartOfAccountsCode) {
-        this.orgChartOfAccountsCode = orgChartOfAccountsCode;
-    }
 
     public String getAppointmentRequestedCsfFteQuantity() {
         return appointmentRequestedCsfFteQuantity;
@@ -501,14 +373,6 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
         this.financialSubObjectCode = financialSubObjectCode;
     }
 
-    public String getIuClassificationLevel() {
-        return iuClassificationLevel;
-    }
-
-    public void setIuClassificationLevel(String iuClassificationLevel) {
-        this.iuClassificationLevel = iuClassificationLevel;
-    }
-
     public String getNormalWorkMonthsAndiuPayMonths() {
         return normalWorkMonthsAndiuPayMonths;
     }
@@ -549,124 +413,117 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
         this.positionStandardHoursDefault = positionStandardHoursDefault;
     }
 
-    public Integer getTotalAccountAmountChange() {
-        return totalAccountAmountChange;
+    
+    public BigDecimal getAppointmentRequestedPayRate() {
+        return appointmentRequestedPayRate;
     }
 
-    public void setTotalAccountAmountChange(Integer totalAccountAmountChange) {
-        this.totalAccountAmountChange = totalAccountAmountChange;
+    public void setAppointmentRequestedPayRate(BigDecimal appointmentRequestedPayRate) {
+        this.appointmentRequestedPayRate = appointmentRequestedPayRate;
     }
 
-    public Integer getTotalAccountAppointmentRequestedAmount() {
-        return totalAccountAppointmentRequestedAmount;
+    public Integer getTotalOrgAmountChange() {
+        return totalOrgAmountChange;
     }
 
-    public void setTotalAccountAppointmentRequestedAmount(Integer totalAccountAppointmentRequestedAmount) {
-        this.totalAccountAppointmentRequestedAmount = totalAccountAppointmentRequestedAmount;
+    public void setTotalOrgAmountChange(Integer totalOrgAmountChange) {
+        this.totalOrgAmountChange = totalOrgAmountChange;
     }
 
-    public String getTotalAccountAppointmentRequestedFteQuantity() {
-        return totalAccountAppointmentRequestedFteQuantity;
+    public Integer getTotalOrgAppointmentRequestedAmount() {
+        return totalOrgAppointmentRequestedAmount;
     }
 
-    public void setTotalAccountAppointmentRequestedFteQuantity(String totalAccountAppointmentRequestedFteQuantity) {
-        this.totalAccountAppointmentRequestedFteQuantity = totalAccountAppointmentRequestedFteQuantity;
+    public void setTotalOrgAppointmentRequestedAmount(Integer totalOrgAppointmentRequestedAmount) {
+        this.totalOrgAppointmentRequestedAmount = totalOrgAppointmentRequestedAmount;
     }
 
-    public String getTotalAccountname() {
-        return totalAccountname;
+    public String getTotalOrgAppointmentRequestedFteQuantity() {
+        return totalOrgAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalAccountname(String totalAccountname) {
-        this.totalAccountname = totalAccountname;
+    public void setTotalOrgAppointmentRequestedFteQuantity(String totalOrgAppointmentRequestedFteQuantity) {
+        this.totalOrgAppointmentRequestedFteQuantity = totalOrgAppointmentRequestedFteQuantity;
     }
 
-    public BigDecimal getTotalAccountPercentChange() {
-        return totalAccountPercentChange;
+    public BigDecimal getTotalOrgPercentChange() {
+        return totalOrgPercentChange;
     }
 
-    public void setTotalAccountPercentChange(BigDecimal totalAccountPercentChange) {
-        this.totalAccountPercentChange = totalAccountPercentChange;
+    public void setTotalOrgPercentChange(BigDecimal totalOrgPercentChange) {
+        this.totalOrgPercentChange = totalOrgPercentChange;
     }
 
-    public Integer getTotalAccountPositionCsfAmount() {
-        return totalAccountPositionCsfAmount;
+    public Integer getTotalOrgPositionCsfAmount() {
+        return totalOrgPositionCsfAmount;
     }
 
-    public void setTotalAccountPositionCsfAmount(Integer totalAccountPositionCsfAmount) {
-        this.totalAccountPositionCsfAmount = totalAccountPositionCsfAmount;
+    public void setTotalOrgPositionCsfAmount(Integer totalOrgPositionCsfAmount) {
+        this.totalOrgPositionCsfAmount = totalOrgPositionCsfAmount;
     }
 
-    public String getTotalAccountPositionCsfFteQuantity() {
-        return totalAccountPositionCsfFteQuantity;
+    public String getTotalOrgPositionCsfFteQuantity() {
+        return totalOrgPositionCsfFteQuantity;
     }
 
-    public void setTotalAccountPositionCsfFteQuantity(String totalAccountPositionCsfFteQuantity) {
-        this.totalAccountPositionCsfFteQuantity = totalAccountPositionCsfFteQuantity;
+    public void setTotalOrgPositionCsfFteQuantity(String totalOrgPositionCsfFteQuantity) {
+        this.totalOrgPositionCsfFteQuantity = totalOrgPositionCsfFteQuantity;
     }
 
-    public Integer getTotalObjectAmountChange() {
-        return totalObjectAmountChange;
+    public Integer getTotalPersonAmountChange() {
+        return totalPersonAmountChange;
     }
 
-    public void setTotalObjectAmountChange(Integer totalObjectAmountChange) {
-        this.totalObjectAmountChange = totalObjectAmountChange;
+    public void setTotalPersonAmountChange(Integer totalPersonAmountChange) {
+        this.totalPersonAmountChange = totalPersonAmountChange;
     }
 
-    public Integer getTotalObjectAppointmentRequestedAmount() {
-        return totalObjectAppointmentRequestedAmount;
+    public Integer getTotalPersonAppointmentRequestedAmount() {
+        return totalPersonAppointmentRequestedAmount;
     }
 
-    public void setTotalObjectAppointmentRequestedAmount(Integer totalObjectAppointmentRequestedAmount) {
-        this.totalObjectAppointmentRequestedAmount = totalObjectAppointmentRequestedAmount;
+    public void setTotalPersonAppointmentRequestedAmount(Integer totalPersonAppointmentRequestedAmount) {
+        this.totalPersonAppointmentRequestedAmount = totalPersonAppointmentRequestedAmount;
     }
 
-    public String getTotalObjectAppointmentRequestedFteQuantity() {
-        return totalObjectAppointmentRequestedFteQuantity;
+    public String getTotalPersonAppointmentRequestedFteQuantity() {
+        return totalPersonAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalObjectAppointmentRequestedFteQuantity(String totalObjectAppointmentRequestedFteQuantity) {
-        this.totalObjectAppointmentRequestedFteQuantity = totalObjectAppointmentRequestedFteQuantity;
+    public void setTotalPersonAppointmentRequestedFteQuantity(String totalPersonAppointmentRequestedFteQuantity) {
+        this.totalPersonAppointmentRequestedFteQuantity = totalPersonAppointmentRequestedFteQuantity;
     }
 
-    public String getTotalObjectname() {
-        return totalObjectname;
+    public String getCsfFundingStatusCode() {
+        return csfFundingStatusCode;
     }
 
-    public void setTotalObjectname(String totalObjectname) {
-        this.totalObjectname = totalObjectname;
+    public void setCsfFundingStatusCode(String csfFundingStatusCode) {
+        this.csfFundingStatusCode = csfFundingStatusCode;
     }
 
-    public BigDecimal getTotalObjectPercentChange() {
-        return totalObjectPercentChange;
+    public BigDecimal getTotalPersonPercentChange() {
+        return totalPersonPercentChange;
     }
 
-    public void setTotalObjectPercentChange(BigDecimal totalObjectPercentChange) {
-        this.totalObjectPercentChange = totalObjectPercentChange;
+    public void setTotalPersonPercentChange(BigDecimal totalPersonPercentChange) {
+        this.totalPersonPercentChange = totalPersonPercentChange;
     }
 
-    public Integer getTotalObjectPositionCsfAmount() {
-        return totalObjectPositionCsfAmount;
+    public Integer getTotalPersonPositionCsfAmount() {
+        return totalPersonPositionCsfAmount;
     }
 
-    public void setTotalObjectPositionCsfAmount(Integer totalObjectPositionCsfAmount) {
-        this.totalObjectPositionCsfAmount = totalObjectPositionCsfAmount;
+    public void setTotalPersonPositionCsfAmount(Integer totalPersonPositionCsfAmount) {
+        this.totalPersonPositionCsfAmount = totalPersonPositionCsfAmount;
     }
 
-    public String getTotalObjectPositionCsfFteQuantity() {
-        return totalObjectPositionCsfFteQuantity;
+    public String getTotalPersonPositionCsfFteQuantity() {
+        return totalPersonPositionCsfFteQuantity;
     }
 
-    public void setTotalObjectPositionCsfFteQuantity(String totalObjectPositionCsfFteQuantity) {
-        this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
-    }
-
-    public String getTotalSubAccountname() {
-        return totalSubAccountname;
-    }
-
-    public void setTotalSubAccountname(String totalSubAccountname) {
-        this.totalSubAccountname = totalSubAccountname;
+    public void setTotalPersonPositionCsfFteQuantity(String totalPersonPositionCsfFteQuantity) {
+        this.totalPersonPositionCsfFteQuantity = totalPersonPositionCsfFteQuantity;
     }
 
     public String getPersonName() {
@@ -733,14 +590,6 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
         this.deleteBox = deleteBox;
     }
 
-    public String getFinancialObjectCodeName() {
-        return financialObjectCodeName;
-    }
-
-    public void setFinancialObjectCodeName(String financialObjectCodeName) {
-        this.financialObjectCodeName = financialObjectCodeName;
-    }
-
     public String getObjectCodes() {
         return objectCodes;
     }
@@ -755,6 +604,14 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
 
     public void setNumberAndNameForAccountSubAccount(String numberAndNameForAccountSubAccount) {
         this.numberAndNameForAccountSubAccount = numberAndNameForAccountSubAccount;
+    }
+
+    public Integer getPersonSortCode() {
+        return personSortCode;
+    }
+
+    public void setPersonSortCode(Integer personSortCode) {
+        this.personSortCode = personSortCode;
     }
 
 

@@ -46,7 +46,7 @@ public class BudgetConstructionReportHelper {
     public static BigDecimal calculateChange (BigDecimal numerator, BigDecimal denominator){
         BigDecimal result = BigDecimal.ZERO;
         if (!denominator.equals(BigDecimal.ZERO)){
-            result = numerator.divide(denominator).multiply(new BigDecimal(100)).setScale(1, 1);
+            result = numerator.divide(denominator, 3).multiply(new BigDecimal(100));
         }
         return result;
     }

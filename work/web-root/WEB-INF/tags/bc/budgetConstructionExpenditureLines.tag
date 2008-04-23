@@ -250,7 +250,7 @@
              <td class="datacell" nowrap>
                  <div align="center">
                    <html:image property="methodToCall.performBalanceInquiryForExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Expenditure Line ${status.index}" alt="Balance Inquiry For Expenditure Line ${status.index}" styleClass="tinybutton" />
-                   <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
+                   <c:if test="${lineIsEditable && (empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0)}">
                      <br>
                      <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>

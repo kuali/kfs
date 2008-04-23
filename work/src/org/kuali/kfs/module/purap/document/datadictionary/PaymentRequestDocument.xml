@@ -204,7 +204,7 @@
 
   <bean id="PaymentRequestDocument-accountsPayableApprovalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="accountsPayableApprovalDate" />
-    <property name="label" value="Approval Date" />
+    <property name="label" value="AP Processed Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="PaymentRequestDocument-holdIndicator" parent="PaymentRequestDocument-holdIndicator-parentBean" />

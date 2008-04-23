@@ -57,19 +57,12 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
 
         // Lock the merge target capital asset if it exists
-
         if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             MaintenanceLock maintenanceLock = new MaintenanceLock();
             StringBuffer lockRep = new StringBuffer();
 
-            lockRep.append(Asset.class.getName());
-            lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockRep.append("documentNumber");
-            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockRep.append(assetRetirementGlobal.getDocumentNumber());
-            lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-            lockRep.append("capitalAssetNumber");
-            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+            lockRep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockRep.append(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
 
             maintenanceLock.setDocumentNumber(assetRetirementGlobal.getDocumentNumber());
@@ -83,10 +76,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             MaintenanceLock maintenanceLock = new MaintenanceLock();
             StringBuffer lockRep = new StringBuffer();
 
-            lockRep.append(Asset.class.getName());
-            lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockRep.append("capitalAssetNumber");
-            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+            lockRep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockRep.append(detail.getCapitalAssetNumber());
 
             maintenanceLock.setDocumentNumber(detail.getDocumentNumber());

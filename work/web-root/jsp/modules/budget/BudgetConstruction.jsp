@@ -41,6 +41,7 @@
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
 	<html-el:hidden name="KualiForm" property="pickListMode" />
+	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.benefitsCalcNeeded" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <%--

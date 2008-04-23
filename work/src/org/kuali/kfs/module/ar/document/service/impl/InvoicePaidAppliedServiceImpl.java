@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.InvoicePaidApplied;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.financial.service.UniversityDateService;
 
@@ -32,20 +33,23 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     /**
      * @see org.kuali.module.ar.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
      */
-    public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails) {
+    public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails, CustomerInvoiceDocument document) {
         
         List<InvoicePaidApplied> invoicePaidAppliedAmounts = new ArrayList<InvoicePaidApplied>();
         
         InvoicePaidApplied invoicePaidApplied;
         CustomerInvoiceDetail discount;
+        
+        String referenceDocumentNumber = document.isInvoiceReversal() ? document.getDocumentHeader().getFinancialDocumentInErrorNumber() : document.getDocumentNumber();
+        
         for( CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails ){
             if ( customerInvoiceDetail.isDiscountLineParent() ){
-                discount = getDiscountLineBasedOnSequenceNumberFromParent( customerInvoiceDetails, customerInvoiceDetail.getInvoiceItemDiscountLineNumber() );
+                discount = customerInvoiceDetail.getDiscountCustomerInvoiceDetail();
                 
                 invoicePaidApplied = new InvoicePaidApplied();
                 invoicePaidApplied.setDocumentNumber(customerInvoiceDetail.getDocumentNumber());
                 invoicePaidApplied.setPaidAppliedItemNumber(invoicePaidAppliedAmounts.size());
-                invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
+                invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(referenceDocumentNumber);
                 invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
                 invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
                 invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
@@ -57,22 +61,6 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
         
         businessObjectService.save(invoicePaidAppliedAmounts);
 
-    }
-    
-    /**
-     * This method returns a customer discount line based on the discount line sequence number reference from the parent
-     * @param customerInvoiceDetails
-     * @param discountSequenceNumber
-     * @return
-     */
-    protected CustomerInvoiceDetail getDiscountLineBasedOnSequenceNumberFromParent(List<CustomerInvoiceDetail> customerInvoiceDetails, Integer discountSequenceNumber){
-        
-        for( CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails  ){
-            if( discountSequenceNumber.equals( customerInvoiceDetail.getSequenceNumber() ) ){
-                return customerInvoiceDetail;
-            }
-        }
-        return null;
     }
 
     public BusinessObjectService getBusinessObjectService() {

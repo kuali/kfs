@@ -77,7 +77,7 @@ public interface CustomerInvoiceDetailService {
      * @param organizationCode
      * @return
      */
-    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear( CustomerInvoiceDetail customerInvoiceDetail );
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear( CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument );
     
     
     /**

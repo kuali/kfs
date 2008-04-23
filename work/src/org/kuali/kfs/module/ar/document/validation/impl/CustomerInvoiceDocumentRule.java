@@ -20,7 +20,6 @@ import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,14 +33,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
@@ -93,7 +90,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) accountingLine;
 
         // success &= isCustomerInvoiceItemCodeValid(customerInvoiceDetail);
-        success &= isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(customerInvoiceDetail, customerInvoiceDocument);
+        success &= isCustomerInvoiceDetailUnitPriceValid(customerInvoiceDetail, customerInvoiceDocument);
         success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
         success &= isValidUnitOfMeasure(customerInvoiceDetail);
 
@@ -115,7 +112,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         
         CustomerInvoiceDetail customerInvoiceDetail;
         for( int i = 0; i < document.getSourceAccountingLines().size(); i++ ){
-            customerInvoiceDetail = (CustomerInvoiceDetail)document.getSourceAccountingLines().get(i);
+            customerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy((CustomerInvoiceDetail)document.getSourceAccountingLines().get(i));
             
             String propertyName = KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
@@ -424,13 +421,34 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
 
+        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)document;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)accountingLine;
         KualiDecimal amount = customerInvoiceDetail.getAmount();
 
-        // if amount is = 0 or ( amount < 0 and is NOT a discount line )
-        if (KualiDecimal.ZERO.compareTo(amount) == 0 || ( KualiDecimal.ZERO.compareTo(amount) > 0 && !customerInvoiceDetail.isDiscountLine() ) ) { 
+        // if amount is = 0
+        if (KualiDecimal.ZERO.equals(amount) ) { 
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
+        } else {
+            //else if amount is greater than or less than zero
+            
+            if ( customerInvoiceDocument.isInvoiceReversal() ){
+                if( customerInvoiceDetail.isDiscountLine() && amount.isNegative() ){
+                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                } else if ( !customerInvoiceDetail.isDiscountLine() && amount.isPositive() ){
+                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                }
+            } else {
+                if( customerInvoiceDetail.isDiscountLine() && amount.isPositive() ){
+                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                } else if ( !customerInvoiceDetail.isDiscountLine() && amount.isNegative() ){
+                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                }                
+            }
         }
 
         return true;
@@ -442,15 +460,34 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @param customerInvoiceDetail
      * @return
      */
-    public boolean isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
+    public boolean isCustomerInvoiceDetailUnitPriceValid(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         
         KualiDecimal unitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
 
-     // amount == 0 or amount < 0
-        if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.compareTo(unitPrice) == 0 || ( KualiDecimal.ZERO.compareTo(unitPrice) > 0 && !customerInvoiceDetail.isDiscountLine()  ) ) { 
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+     // if amount is = 0
+        if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.equals(unitPrice) ) { 
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
-        }
+        } else {
+            //else if unit price is greater than or less than zero
+            
+            if ( customerInvoiceDocument.isInvoiceReversal() ){
+                //if invoice is reversal, discount should be positive, non-discounts should be negative
+                if( customerInvoiceDetail.isDiscountLine() && unitPrice.isNegative() ){
+                    GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                } else if ( !customerInvoiceDetail.isDiscountLine() && unitPrice.isPositive() ){
+                    GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                }
+            } else {
+                if ( !customerInvoiceDetail.isDiscountLine() && unitPrice.isNegative() ){
+                    GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;
+                }                
+            }
+        }        
+
         return true;
     }
 
@@ -480,17 +517,22 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)financialDocument;
         
-        success &= isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(customerInvoiceDetail, customerInvoiceDocument);
+        success &= isCustomerInvoiceDetailUnitPriceValid(customerInvoiceDetail, customerInvoiceDocument);
         success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
-        if( success && customerInvoiceDetail.isDiscountLine() ){
-            success &= isDiscountCustomerInvoiceGreaterThanParentAmount(customerInvoiceDetail, customerInvoiceDocument);
+        
+        if( success ){
+            if( customerInvoiceDetail.isDiscountLine() ){
+                success &= isDiscountCustomerInvoiceGreaterThanParentAmount(customerInvoiceDetail, customerInvoiceDocument);
+            } else if ( customerInvoiceDetail.isDiscountLineParent() ){
+                success &= isParentCustomerInvoiceDetailLessThanDiscountAmount(customerInvoiceDetail, customerInvoiceDocument);
+            }
         }
         
         return success;
     }
 
     /**
-     * This method returns true if the abs(amount) for the discount customer invoice detail line isn't greater than the amoutn of its parent line
+     * This method returns true if the abs(amount) for the discount customer invoice detail line is greater than the abs(amount) of its parent line
      * 
      * @param customerInvoiceDetail
      * @param customerInvoiceDocument
@@ -500,7 +542,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         boolean success = true;
         
-        CustomerInvoiceDetail parentCustomerInvoiceDetail = discountCustomerInvoiceDetail.getParentDiscountCustomerInvoiceDetail();
+        //make a copy to not mess up the existing reference
+        CustomerInvoiceDetail parentCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(discountCustomerInvoiceDetail.getParentDiscountCustomerInvoiceDetail());
         
         //update parent amount just in case it has also been updated 
         parentCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
@@ -510,14 +553,42 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
 
         //return true if abs(discount line amount) IS NOT greater than parent line  
-        if( discountCustomerInvoiceDetail.getAmount().abs().isGreaterThan(parentCustomerInvoiceDetail.getAmount())){
+        if( discountCustomerInvoiceDetail.getAmount().abs().isGreaterThan(parentCustomerInvoiceDetail.getAmount().abs())){
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_DISCOUNT_AMOUNT_GREATER_THAN_PARENT_AMOUNT);
             success = false;
         }
         
         return success;
-
     }
+    
+    /**
+     * This method returns true if the abs(amount) for the discount customer invoice detail line is greater than the amount of its parent line
+     * 
+     * @param customerInvoiceDetail
+     * @param customerInvoiceDocument
+     * @return
+     */
+    private boolean isParentCustomerInvoiceDetailLessThanDiscountAmount(CustomerInvoiceDetail parentCustomerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
+
+        boolean success = true;
+        
+        //make a copy to not mess up the existing reference
+        CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(parentCustomerInvoiceDetail.getDiscountCustomerInvoiceDetail());
+        
+        parentCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+        
+        //update child discount amount just in case it has also been updated 
+        discountCustomerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
+        discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+        
+        //return true if parent line amount is less THAN abs(discount line amount)  
+        if( parentCustomerInvoiceDetail.getAmount().abs().isLessThan(discountCustomerInvoiceDetail.getAmount().abs())){
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_DISCOUNT_AMOUNT_GREATER_THAN_PARENT_AMOUNT);
+            success = false;
+        }
+        
+        return success;
+    }    
 
     /**
      * @see org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule#processDiscountCustomerInvoiceDetailRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.ar.bo.CustomerInvoiceDetail)

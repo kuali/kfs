@@ -18,6 +18,7 @@ package org.kuali.module.ar.service;
 import java.util.List;
 
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 public interface InvoicePaidAppliedService {
     
@@ -26,6 +27,6 @@ public interface InvoicePaidAppliedService {
      * This method persists the corresponding invoice paid applied rows for discounts when an invoice is created
      * @param customerInvoiceDetails
      */
-    public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails);
+    public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails, CustomerInvoiceDocument document);
 
 }

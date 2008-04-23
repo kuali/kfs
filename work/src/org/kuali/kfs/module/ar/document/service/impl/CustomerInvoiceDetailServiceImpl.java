@@ -24,10 +24,12 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
+import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
@@ -159,10 +161,11 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetailForCurrentYear(org.kuali.module.ar.bo.CustomerInvoiceDetail)
      */
-    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear(CustomerInvoiceDetail customerInvoiceDetail) {
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        return getDiscountCustomerInvoiceDetail(customerInvoiceDetail, currentUniversityFiscalYear, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
+        String processingChartOfAccountsCode =  customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        String processingOrganizationCode =  customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        return getDiscountCustomerInvoiceDetail(customerInvoiceDetail, currentUniversityFiscalYear, processingChartOfAccountsCode, processingOrganizationCode);
     }
     
     

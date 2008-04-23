@@ -962,9 +962,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
             
+            //setup discount line references
+            updateDiscountAndParentLineReferences();
+            
             //save invoice paid applied lines
             //TODO maybe this should be done somewhere else? should there be a list of discount lines??
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidAppliedForDiscounts(getSourceAccountingLines());
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidAppliedForDiscounts(getSourceAccountingLines(), this);
         } 
     }
     
@@ -976,6 +979,25 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public void toCopy() throws WorkflowException {
         super.toCopy();
         SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
+    }
+    
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException {
+        super.toErrorCorrection();
+        negateCustomerInvoiceDetailUnitPrices();
+    }
+    
+    
+    public void negateCustomerInvoiceDetailUnitPrices(){
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
+            customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negated());
+        }
+        
     }
     
     /**

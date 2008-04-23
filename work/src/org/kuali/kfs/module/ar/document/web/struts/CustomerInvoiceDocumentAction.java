@@ -191,7 +191,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DiscountCustomerInvoiceDetailEvent(errorPath, customerInvoiceDocumentForm.getDocument(), parentCustomerInvoiceDetail));
         if (rulePassed) {
 
-            CustomerInvoiceDetail discountCustomerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getDiscountCustomerInvoiceDetailForCurrentYear(parentCustomerInvoiceDetail);
+            CustomerInvoiceDetail discountCustomerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getDiscountCustomerInvoiceDetailForCurrentYear(parentCustomerInvoiceDetail, customerInvoiceDocument);
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(discountCustomerInvoiceDetail);
             insertAccountingLine(true, customerInvoiceDocumentForm, discountCustomerInvoiceDetail);
 

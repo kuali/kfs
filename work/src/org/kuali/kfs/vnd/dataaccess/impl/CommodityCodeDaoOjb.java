@@ -29,6 +29,9 @@ import org.kuali.module.vendor.dao.CommodityCodeDao;
 public class CommodityCodeDaoOjb extends PlatformAwareDaoBaseOjb implements CommodityCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommodityCodeDaoOjb.class);
 
+    /**
+     * @see org.kuali.module.vendor.dao.CommodityCodeDao#wildCardCommodityCodeExists(java.lang.String)
+     */
     public boolean wildCardCommodityCodeExists(String wildCardCommodityCode) {
         String commodityCodeString = StringUtils.replace(wildCardCommodityCode, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         Criteria criteria = new Criteria();

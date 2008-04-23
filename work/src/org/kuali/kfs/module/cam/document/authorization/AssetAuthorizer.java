@@ -72,12 +72,14 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         else {
             // Asset edit: work group authorization
             if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-                hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_VIEWABLE_FIELDS));
+                makeReadOnlyFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_EDITABLE_FIELDS));
             }
             else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
                 // If departmental user
                 hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
+                makeReadOnlyFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_EDITABLE_FIELDS));
             }
+            // acquisition type code is read-only during edit
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
         }
 
@@ -85,10 +87,9 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(newAsset.getRetirementReasonCode())) {
             // hide merge target capital asset number
             auths.addHiddenAuthField(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
-
         }
 
-        setFieldsReadOnlyAccessMode(auths, newAsset, user);
+        setConditionalReadOnlyFields(auths, newAsset, user);
         // read-only acquisition code
         return auths;
     }
@@ -99,7 +100,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
      * @param auths
      * @param asset
      */
-    private void setFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
+    private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
 
         if (ObjectUtils.isNotNull(asset.getCampusTagNumber()) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
             // Set the Tag Number as view only if the asset is tagged and the user is none of CAMS Administration group nor
@@ -124,17 +125,24 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
     }
 
 
-    private void hideFields(MaintenanceDocumentAuthorizations auths, List<String> readOnlyFields) {
-        for (String field : readOnlyFields) {
+    private void hideFields(MaintenanceDocumentAuthorizations auths, List<String> hiddenFields) {
+        for (String field : hiddenFields) {
             auths.addHiddenAuthField(field);
         }
     }
 
-    private void hideFields(MaintenanceDocumentAuthorizations auths, String[] readOnlyFields) {
+    private void makeReadOnlyFields(MaintenanceDocumentAuthorizations auths, List<String> readOnlyFields) {
         for (String field : readOnlyFields) {
+            auths.addReadonlyAuthField(field);
+        }
+    }
+
+    private void hideFields(MaintenanceDocumentAuthorizations auths, String[] hiddenFields) {
+        for (String field : hiddenFields) {
             auths.addHiddenAuthField(field);
         }
     }
+
 
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

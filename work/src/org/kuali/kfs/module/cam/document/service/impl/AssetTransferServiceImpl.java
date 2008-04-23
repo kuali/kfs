@@ -15,9 +15,6 @@
  */
 package org.kuali.module.cams.service.impl;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,9 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
@@ -63,7 +58,7 @@ import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
-    public static enum AmountCategory {
+    private static enum AmountCategory {
         EXPENSE, CAPITALIZATION, ACCUM_DEPRECIATION, OFFSET_AMOUNT;
     }
 
@@ -72,44 +67,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
     private AssetPaymentService assetPaymentService;
-
-
-    /**
-     * This method uses reflection and performs below steps on all Amount fields
-     * <li>If it is a depreciation field, then reset the value to null, so that they don't get copied to offset payments </li>
-     * <li>If it is an amount field, then reverse the amount by multiplying with -1 </li>
-     * 
-     * @param offsetPayment Offset payment
-     * @param reverseAmount true if amounts needs to be multiplied with -1
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     */
-    private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws IllegalAccessException, InvocationTargetException {
-        LOG.debug("Starting - adjustAmounts() ");
-        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            Method readMethod = propertyDescriptor.getReadMethod();
-            if (readMethod != null && propertyDescriptor.getPropertyType() != null && propertyDescriptor.getPropertyType().isAssignableFrom(KualiDecimal.class)) {
-                KualiDecimal amount = (KualiDecimal) readMethod.invoke(offsetPayment);
-                Method writeMethod = propertyDescriptor.getWriteMethod();
-                if (writeMethod != null && amount != null) {
-                    // Reset periodic depreciation expenses
-                    if (Pattern.matches(CamsConstants.SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
-                        Object[] nullVal = new Object[] { null };
-                        writeMethod.invoke(offsetPayment, nullVal);
-                    }
-                    else if (reverseAmount) {
-                        // reverse the amounts
-                        writeMethod.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
-                    }
-                }
-
-            }
-        }
-        LOG.debug("Finished - adjustAmounts()");
-
-    }
 
 
     /**
@@ -122,6 +79,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @return GL Postable source detail
      */
     private AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource, AmountCategory amountCategory) {
+        LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + amountCategory.name() + ")");
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
         postable.setSource(isSource);
         postable.setAccount(plantAccount);
@@ -165,6 +123,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setProjectCode(assetPayment.getProjectCode());
         postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+        LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + amountCategory.name() + ")");
         return postable;
     }
 
@@ -218,7 +177,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
                     newPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     newPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-                    adjustAmounts(newPayment, false);
+                    getAssetPaymentService().adjustPaymentAmounts(newPayment, false, true);
                     // add new payment
                     persistableObjects.add(newPayment);
                 }
@@ -235,7 +194,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * Creates offset payment copying the details from original payments and reversing the amounts
      * 
      * @param document Current Document
-     * @param persistableObjects List of saveable objects
+     * @param persistableObjects List of update objects
      * @param originalPayments Original list of payments
      * @return Incremented sequence number
      */
@@ -249,16 +208,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     if (maxSequenceNo == null) {
                         maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
-                    offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
-                    offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
-                    offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
-                    offsetPayment.setDocumentNumber(document.getDocumentNumber());
-                    offsetPayment.setFinancialDocumentTypeCode(AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
-                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
-                    offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-                    offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-                    adjustAmounts(offsetPayment, true);
                     // add offset payment
+                    offsetPayment = getAssetPaymentService().createOffsetPayment(assetPayment, document.getDocumentNumber(), AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
+                    offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     persistableObjects.add(offsetPayment);
                 }
                 catch (Exception e) {

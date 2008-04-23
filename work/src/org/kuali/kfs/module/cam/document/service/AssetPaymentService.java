@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.service;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 
@@ -46,27 +48,45 @@ public interface AssetPaymentService {
 
 
     /**
-     * 
-     * Stores the approved asset payment detail records in the asset payment table, and updates the total cost of the asset 
-     * in the asset table
+     * Stores the approved asset payment detail records in the asset payment table, and updates the total cost of the asset in the
+     * asset table
      * 
      * @param assetPaymentDetail
-     */    
+     */
     public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument);
-    
-    
-    
+
+
     /**
+     * This method will create an offset payment for a given payment
      * 
-     * Checks whether an asset is eligible for payments. Such criteria is based on the rule that assets with pending
-     * Retirement or transfer documents should not be processed with a payment
+     * @param assetPayment Payment for which offset to be created
+     * @param documentNumber Document number creating the offset
+     * @param documentTypeCode Document type code
+     * @return Offset payment record
+     */
+    public AssetPayment createOffsetPayment(AssetPayment assetPayment, String documentNumber, String documentTypeCode);
+
+    /**
+     * This method uses reflection and performs below steps on all Amount fields
+     * <li>If it is a depreciation field, then reset the value to null, so that they don't get copied to offset payments </li>
+     * <li>If it is an amount field, then reverse the amount by multiplying with -1 </li>
+     * 
+     * @param offsetPayment Offset payment
+     * @param reverseAmount true if amounts needs to be multiplied with -1
+     * @param nullPeriodDepreciation true if depreciation period amount needs to be null
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    public void adjustPaymentAmounts(AssetPayment assetPayment, boolean reverseAmount, boolean nullPeriodDepreciation) throws IllegalAccessException, InvocationTargetException;
+
+    /**
+     * Checks whether an asset is eligible for payments. Such criteria is based on the rule that assets with pending Retirement or
+     * transfer documents should not be processed with a payment
      * 
      * @param capitalAssetNumber
-     * @return boolean
-     *
-    public boolean isAssetEligibleForPayment(Long capitalAssetNumber);
-    */
-    
-    
-    
+     * @return boolean public boolean isAssetEligibleForPayment(Long capitalAssetNumber);
+     */
+
+
 }

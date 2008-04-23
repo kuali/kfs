@@ -18,16 +18,9 @@ package org.kuali.module.cams.fixture;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.apache.commons.beanutils.Converter;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
-
-import edu.iu.uis.eden.web.ConverterUtils;
 
 public enum AssetTransferFixture {
     ACTIVE_ASSET(1), RETIRED_ASSET(2), PAYMENT1(1), PAYMENT2(2), ASSET_TRANSFER(1);
@@ -53,7 +46,7 @@ public enum AssetTransferFixture {
         String propertyKey = "asset.testData" + testDataPos;
         String deliminator = properties.getProperty("deliminator");
         String fieldNames = properties.getProperty("asset.fieldNames");
-        Asset asset = buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator);
+        Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator);
         return asset;
     }
 
@@ -61,7 +54,7 @@ public enum AssetTransferFixture {
         String propertyKey = "assetTransfer.testData" + testDataPos;
         String deliminator = properties.getProperty("deliminator");
         String fieldNames = properties.getProperty("assetTransfer.fieldNames");
-        AssetTransferDocument assetTransferDocument = buildTestDataObject(AssetTransferDocument.class, properties, propertyKey, fieldNames, deliminator);
+        AssetTransferDocument assetTransferDocument = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetTransferDocument.class, properties, propertyKey, fieldNames, deliminator);
         return assetTransferDocument;
     }
 
@@ -70,32 +63,7 @@ public enum AssetTransferFixture {
         String propertyKey = "assetPayment.testData" + testDataPos;
         String deliminator = properties.getProperty("deliminator");
         String fieldNames = properties.getProperty("assetPayment.fieldNames");
-        AssetPayment assetPayment = buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
+        AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
         return assetPayment;
-    }
-
-    private <T> T buildTestDataObject(Class<? extends T> clazz, Properties properties, String propertyKey, String fieldNames, String delimiter) {
-        T object;
-        try {
-            object = clazz.newInstance();
-            String[] fields = fieldNames.split(delimiter, -1);
-            String[] values = properties.getProperty(propertyKey).split(delimiter, -1);
-            int pos = -1;
-            for (String field : fields) {
-                pos++;
-                BeanUtilsBean instance = BeanUtilsBean.getInstance();
-                ConvertUtilsBean convertUtils = instance.getConvertUtils();
-                convertUtils.register(new Converter() {
-                    public Object convert(Class type, Object value) {
-                        return new KualiDecimal((String) value);
-                    }
-                }, KualiDecimal.class);
-                BeanUtils.setProperty(object, field, values[pos]);
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return object;
     }
 }

@@ -15,9 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for customer credit memo document fields." %>
-              
+<c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />           
               
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DETAIL_ERRORS}">
@@ -48,10 +46,9 @@
 						<ar:customerCreditMemoDetail
 							invPropertyName="document.invoice.sourceAccountingLines[${ctr}]"
 							crmPropertyName="document.customerCreditMemoDetails[${ctr}]" 
-			        		customerCreditMemoDetailAttributes="${DataDictionary.CustomerCreditMemoDetail.attributes}"
 			        		cssClass="datacell" />
-			</logic:iterate> --%>
-			
+			</logic:iterate>
+			--%>
 			<tr>
 				<td class="total-line" colspan="6">
 					<strong>Credit Memo Total:</strong>

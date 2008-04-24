@@ -18,13 +18,10 @@
 	description="Name of form property containing the customer invoice source accounting line."%>
 <%@ attribute name="crmPropertyName" required="true"
 	description="Name of form property containing the customer credit memo detail."%>
-
-<%@ attribute name="customerCreditMemoDetailAttributes" required="true"
-	type="java.util.Map"
-	description="The DataDictionary entry containing attributes for customer invoice detail fields."%>
 <%@ attribute name="cssClass" required="true"%>
 
-<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" /> 
+<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
+<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" /> 
 
 <tr>
 	<!--  Line Number -->
@@ -152,4 +149,4 @@
 
 <ar:customerCreditMemoDetailAccountingInfo
 	invPropertyName="${invPropertyName}"
-	cssClass="datacell" />
+	cssClass="${cssClass}" />

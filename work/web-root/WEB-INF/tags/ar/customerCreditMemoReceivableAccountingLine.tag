@@ -14,10 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-
-<%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes." %> 
-           
+ 
+<c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />          
 <c:set var="customerInvoiceAttributes" value="${DataDictionary.CustomerInvoiceDocument.attributes}" />    
                       
 <kul:tab tabTitle="Receivable" defaultOpen="false" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE}">

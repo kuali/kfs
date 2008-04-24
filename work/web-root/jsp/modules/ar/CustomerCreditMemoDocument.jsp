@@ -19,27 +19,32 @@
 	documentTypeName="CustomerCreditMemoDocument"
 	htmlFormAction="arCustomerCreditMemoDocument" renderMultipart="true"
 	showTabButtons="true">
+	
+	<!--  value should be replaced with variable -->
+	<c:set var="displayInitTab" value="false" scope="request" />
 
 	<kul:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<!--  Display 1st screen -->
+	<c:if test="${displayInitTab}" >
+		<ar:customerCreditMemoInit />
+		<kul:panelFooter />
+	</c:if>
+
+	<!--  Display 2nd screen -->
+	<c:if test="${not displayInitTab}" >
+		<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-	<ar:customerCreditMemoGeneral
-       documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" />
-        
-    <!-- Check if receivable accounting line should be displayed -->
-    <ar:customerCreditMemoReceivableAccountingLine
-      documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" />
+		<ar:customerCreditMemoGeneral />
+    	<!-- Check if receivable accounting line should be displayed -->
+    	<ar:customerCreditMemoReceivableAccountingLine />
       
-    <ar:customerCreditMemoDetails
-      documentAttributes="${DataDictionary.CustomerCreditMemoDocument.attributes}" />
-      		
-    <kul:notes />
-	<kul:adHocRecipients />
-
-	<kul:routeLog />
-
-	<kul:panelFooter />
+      	<ar:customerCreditMemoDetails />
+    	<kul:notes />
+		<kul:adHocRecipients />
+		<kul:routeLog />
+		<kul:panelFooter />
+	</c:if>
 
 	<kul:documentControls transactionalDocument="true" />
 

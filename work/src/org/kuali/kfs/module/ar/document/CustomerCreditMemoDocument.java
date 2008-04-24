@@ -1,69 +1,115 @@
 package org.kuali.module.ar.document;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.NonAppliedHolding;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CustomerCreditMemoDocument extends AccountingDocumentBase {
-
-	private String documentNumber;
+    
+    private String documentNumber;
+    private Integer financialDocumentPostingYear;
+    private String financialDocumentReferenceInvoiceNumber;
+    
+    private DocumentHeader documentHeader;
 
     private CustomerInvoiceDocument invoice;
-    private List<CustomerCreditMemoDetail> customerCreditMemoDetails;
+    private List<CustomerCreditMemoDetail> creditMemoDetails;
 
-   
-	/**
-	 * Default constructor.
-	 */
-	public CustomerCreditMemoDocument() {
-	    super();
-        customerCreditMemoDetails = new ArrayList<CustomerCreditMemoDetail>();
-	}
-	
-	@Override
-	public void handleRouteStatusChange() {
-	    // TODO Auto-generated method stub
-	    super.handleRouteStatusChange();
-	}
+    /**
+     * Gets the creditMemoDetails attribute. 
+     * @return Returns the creditMemoDetails.
+     */
+    public List<CustomerCreditMemoDetail> getCreditMemoDetails() {
+        return creditMemoDetails;
+    }
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
 
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    /**
+     * Sets the creditMemoDetails attribute value.
+     * @param creditMemoDetails The creditMemoDetails to set.
+     */
+    public void setCreditMemoDetails(List<CustomerCreditMemoDetail> creditMemoDetails) {
+        this.creditMemoDetails = creditMemoDetails;
+    }
+
+
+    /**
+     * Gets the documentHeader attribute. 
+     * @return Returns the documentHeader.
+     */
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+
+    /**
+     * Sets the documentHeader attribute value.
+     * @param documentHeader The documentHeader to set.
+     */
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
+
+    /**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+
+    /**
+     * Gets the financialDocumentPostingYear attribute. 
+     * @return Returns the financialDocumentPostingYear.
+     */
+    public Integer getFinancialDocumentPostingYear() {
+        return financialDocumentPostingYear;
+    }
+
+
+    /**
+     * Sets the financialDocumentPostingYear attribute value.
+     * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
+     */
+    public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
+        this.financialDocumentPostingYear = financialDocumentPostingYear;
+    }
+
+
+    /**
+     * Gets the financialDocumentReferenceInvoiceNumber attribute. 
+     * @return Returns the financialDocumentReferenceInvoiceNumber.
+     */
+    public String getFinancialDocumentReferenceInvoiceNumber() {
+        return financialDocumentReferenceInvoiceNumber;
+    }
+
+
+    /**
+     * Sets the financialDocumentReferenceInvoiceNumber attribute value.
+     * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
+     */
+    public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
+        this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
+    }
     
     /**
      * Gets the invoice attribute. 
@@ -72,6 +118,7 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     public CustomerInvoiceDocument getInvoice() {
         return invoice;
     }
+
 
     /**
      * Sets the invoice attribute value.
@@ -82,25 +129,6 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     }
     
     /**
-     * Gets the customerCreditMemoDetails attribute. 
-     * @return Returns the customerCreditMemoDetails.
-     */
-    public List<CustomerCreditMemoDetail> getCustomerCreditMemoDetails() {
-        return customerCreditMemoDetails;
-    }
-
-    /**
-     * Sets the customerCreditMemoDetails attribute value.
-     * @param customerCreditMemoDetails The customerCreditMemoDetails to set.
-     */
-    public void setCustomerCreditMemoDetails(List<CustomerCreditMemoDetail> customerCreditMemoDetails) {
-        this.customerCreditMemoDetails = customerCreditMemoDetails;
-    }
-
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -109,14 +137,10 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         return m;
     }
 
-    /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
-     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
-     */
+
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // TODO Auto-generated method stub
         return false;
     }
-
 }

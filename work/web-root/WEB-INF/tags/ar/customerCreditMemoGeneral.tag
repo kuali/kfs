@@ -17,9 +17,9 @@
 
 <script type='text/javascript' src="dwr/interface/CustomerService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/ar/customerObjectInfo.js"></script>
-
-<%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes." %>
+ 
+<c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />             
+<c:set var="customerAttributes" value="${DataDictionary.Customer.attributes}" />
               
 <kul:tab tabTitle="General" defaultOpen="false" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS}">
     <div class="tab-container" align=center>
@@ -27,40 +27,65 @@
         	<h2>General</h2>
         </div>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="General Section">
+
         	<tr>
-        		<kul:htmlAttributeHeaderCell align="right" literalLabel="Invoice Ref. Number:" scope="row" />
-        		<!--  it is going to be a parameter from the first screen -->
-        		<td align=left valign=middle class="datacell" style="width: 50%;">12345678</td>
+        		<th align=right valign=middle class="bord-l-b">
+        			<div align="right">
+        				<kul:htmlAttributeLabel attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" />
+        			</div>
+        		</th>
+        		<td>
+        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}"
+        			                      	  property="document.financialDocumentReferenceInvoiceNumber"
+        			                          readOnly="true" />	
+        		</td>
         	</tr>
+        
         	<tr>
-        		<kul:htmlAttributeHeaderCell align="right" literalLabel="Customer Id:" scope="row" />
-        		<td align=left valign=middle class="datacell" style="width: 50%;">
-        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.customerSpecialProcessingCode}"
-        			                      	  property="document.invoice.customerSpecialProcessingCode"
+        		<th align=right valign=middle class="bord-l-b">
+        			<div align="right">
+        				<kul:htmlAttributeLabel attributeEntry="${customerAttributes.customerNumber}" />
+        			</div>
+        		</th>
+        		<td>
+        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.accountsReceivableDocumentHeader.customerNumber}"
+        			                      	  property="document.invoice.accountsReceivableDocumentHeader.customerNumber"
         			                          readOnly="true" />
         		</td>
         	</tr>
+        	
         	<tr>
-        		<kul:htmlAttributeHeaderCell align="right" literalLabel="Customer Name:" scope="row" />
-        		<td align=left valign=middle class="datacell" style="width: 50%;">
+        		<th align=right valign=middle class="bord-l-b">
+        			<div align="right">
+        				<kul:htmlAttributeLabel attributeEntry="${customerAttributes.customerName}" />
+        			</div>
+            	</th>
+        		<td>
         			<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.customerSpecialProcessing.customerSpecialProcessingDescription}"
-        			                          property="document.invoice.customerSpecialProcessing.customerSpecialProcessingDescription"
-        			                          readOnly="true" />
+        			                      	property="document.invoice.customerSpecialProcessing.customerSpecialProcessingDescription"
+        			                      	readOnly="true" />
         		</td>
         	</tr>
-            <tr>
-            	<kul:htmlAttributeHeaderCell align="right" literalLabel="Invoice Date:" scope="row" />
-            	<td align=left valign=middle class="datacell" style="width: 50%;">
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.billingDate}"
-            		                          property="document.invoice.billingDate"
-            		                          readOnly="true" />
-            	</td>
-            </tr>
+        	
+			<tr>
+				<th align=right valign=middle class="bord-l-b">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${DataDictionary.CustomerInvoiceDocument.attributes.billingDateForDisplay}" />
+					</div>
+				</th>
+				<td>
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.billingDate}"
+				                          	property="document.invoice.billingDateForDisplay"
+				                          	readOnly="true" />
+				</td>
+			</tr>
+			
             <tr>
         		<kul:htmlAttributeHeaderCell align="right" literalLabel="Invoice Outstanding Days:" scope="row" />
         		<!--  service should be called here -->
-        		<td align=left valign=middle class="datacell" style="width: 50%;">5</td>
+        		<td align=left valign=middle class="datacell" style="width: 50%;"></td>
         	</tr>
+        	
 		</table>
 	</div>
 </kul:tab>

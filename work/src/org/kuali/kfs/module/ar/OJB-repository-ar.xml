@@ -850,7 +850,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.CreditMemoDocument" table="AR_CRDT_MEMO_DOC_T">
+<class-descriptor class="org.kuali.module.ar.document.CustomerCreditMemoDocument" table="AR_CRDT_MEMO_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -859,13 +859,16 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <collection-descriptor name="creditMemoDetails" proxy="true" element-class-ref="org.kuali.module.ar.bo.CreditMemoDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="invoice" class-ref="org.kuali.module.ar.document.CustomerInvoiceDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialDocumentReferenceInvoiceNumber" />
+    </reference-descriptor>
+    <collection-descriptor name="creditMemoDetails" proxy="true" element-class-ref="org.kuali.module.ar.bo.CustomerCreditMemoDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="referenceInvoiceItemNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.CreditMemoDetail" table="AR_CRDT_MEMO_DTL_T">
+<class-descriptor class="org.kuali.module.ar.bo.CustomerCreditMemoDetail" table="AR_CRDT_MEMO_DTL_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="referenceInvoiceItemNumber" column="REF_INV_ITM_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

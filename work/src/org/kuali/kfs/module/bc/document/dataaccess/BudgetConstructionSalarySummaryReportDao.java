@@ -27,7 +27,7 @@ public interface BudgetConstructionSalarySummaryReportDao {
      * @param personUserIdentifier--the user requesting the report
      * @param listSalariesWithReasonCodes--true if only salaries associated with a reason for increase are to be listed, false if all salaries are to be listed
      */
-    public void reasonSummaryReports(String personUserIdentifier, boolean listSalariesWithReasonCodes);
+    public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String personUserIdentifier, boolean listSalariesWithReasonCodes);
     
     /**
      * 
@@ -37,6 +37,6 @@ public interface BudgetConstructionSalarySummaryReportDao {
      * @param reportGreaterThanOrEqualToThreshold--true if salaries increased at or above the threshold percentage are listed, false if salaries increased at or below the threshold percentage are listed
      * @param threshold--the threshold percentage (a fraction times 100)
      */
-    public void salarySummaryReports(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold);
+    public void updateSalaryAndReasonSummaryReportsWithThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold);
 
 }

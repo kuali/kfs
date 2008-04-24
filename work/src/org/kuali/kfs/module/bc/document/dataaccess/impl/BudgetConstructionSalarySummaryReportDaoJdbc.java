@@ -360,7 +360,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
      */
-    public void salarySummaryReports(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
+    public void updateSalaryAndReasonSummaryReportsWithThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -422,7 +422,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
      */
-    public void reasonSummaryReports(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
+    public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
         
         // get the session ID
         Guid guid = new Guid();

@@ -34,6 +34,7 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.InvoicePaidAppliedService;
 
 public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
@@ -65,9 +66,13 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
         
         TransactionalDocumentActionFlags flags = (TransactionalDocumentActionFlags)super.getDocumentActionFlags(document, user);
         
-        if(ObjectUtils.isNotNull(document.getDocumentHeader().getFinancialDocumentInErrorNumber())){
+        //Error correction invoices cannot be copied or error corrected
+        if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
             flags.setCanCopy(false);
             flags.setCanErrorCorrect(false);
+        } else {
+            //a normal invoice can only be error corrected if no amounts have been applied (excluding discounts)
+            flags.setCanErrorCorrect(!SpringContext.getBean(InvoicePaidAppliedService.class).doesInvoiceHaveAppliedAmounts((CustomerInvoiceDocument)document));
         }
         
         return flags;

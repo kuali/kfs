@@ -16,6 +16,8 @@
 package org.kuali.module.ar.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
@@ -62,6 +64,24 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
         businessObjectService.save(invoicePaidAppliedAmounts);
 
     }
+    
+    /**
+     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#doesInvoiceHaveAppliedAmounts(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     */
+    public boolean doesInvoiceHaveAppliedAmounts(CustomerInvoiceDocument document) {
+
+        HashMap criteria = new HashMap();
+        criteria.put("financialDocumentReferenceInvoiceNumber", document.getDocumentNumber());
+        
+        Collection<InvoicePaidApplied> results = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+        for( InvoicePaidApplied invoicePaidApplied : results ){
+            //don't include discount (the doc num and the ref num are the same document number)
+            if( !invoicePaidApplied.getDocumentNumber().equals(document.getDocumentNumber())){
+                return true;
+            }
+        }
+        return false;
+    }    
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -78,5 +98,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+
+
 
 }

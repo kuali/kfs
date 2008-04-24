@@ -28,5 +28,15 @@ public interface InvoicePaidAppliedService {
      * @param customerInvoiceDetails
      */
     public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails, CustomerInvoiceDocument document);
+    
+    
+    /**
+     * This method returns true if invoice has applied amounts (i.e. from application, credit memo, etc), not including
+     * discounts
+     * 
+     * @param document
+     * @return
+     */
+    public boolean doesInvoiceHaveAppliedAmounts(CustomerInvoiceDocument document);
 
 }

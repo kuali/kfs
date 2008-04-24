@@ -255,5 +255,7 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_VENDOR_DATE = "message.duplicate.receivngLine.vendorDate";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_PACKING_SLIP_NUMBER = "message.duplicate.receivingLine.packingSlipNumber";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_BILL_OF_LADING_NUMBER = "message.duplicate.receivingLine.billOfLadingNumber";
+    public static final String MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT = "message.receiving.lineitem.return";
+    public static final String MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT = "message.receiving.lineitem.damage";
     
 }

@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.service.DataDictionaryService;
@@ -44,6 +43,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSKeyConstants.CashManagement;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.Deposit;
@@ -186,7 +186,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         // verify user's ability to add a deposit
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
-        if (!editModes.containsKey(AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
+        if (!editModes.containsKey(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
             throw buildAuthorizationException("add a deposit", cmDoc);
         }
     }

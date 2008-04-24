@@ -26,13 +26,13 @@ import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -78,16 +78,16 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
         ChartUser chartUser = (ChartUser) user.getModuleUser(ChartUser.MODULE_ID);
 
-        String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsCanceled() || (document.getDocumentHeader().getFinancialDocumentInErrorNumber() != null)) {
-            editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
         }
         else if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (workflowDocument.userIsInitiator(user)) {
-                editMode = AuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
+                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
             }
         }
         else if (workflowDocument.stateIsEnroute()) {
@@ -96,7 +96,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
             if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
                 // The routing level should be linear for Kuali, i.e., assert currentRouteLevels.size() == 1,
                 // but in case it becomes parallel, don't allow an account review while an org review is underway.
-                editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+                editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
             }
             else if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
                 List lineList = new ArrayList();
@@ -104,7 +104,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
                 lineList.addAll(targetAccountingLines);
 
                 if (workflowDocument.isApprovalRequested() && userOwnsAnyAccountingLine(chartUser, lineList)) {
-                    editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
+                    editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
                 }
             }
         }

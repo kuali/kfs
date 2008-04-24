@@ -19,13 +19,13 @@ package org.kuali.module.gl.document;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 
 public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentAuthorizer.class);
@@ -59,20 +59,20 @@ public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {
     public Map getEditMode(Document document, UniversalUser user) {
         LOG.debug("getEditMode() started");
 
-        String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsCanceled() || (document.getDocumentHeader().getFinancialDocumentInErrorNumber() != null)) {
-            editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
         }
         else if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (workflowDocument.userIsInitiator(user)) {
-                editMode = AuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
+                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
             }
         }
         else if (workflowDocument.stateIsEnroute()) {
-            editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+            editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
         }
 
         Map editModeMap = new HashMap();

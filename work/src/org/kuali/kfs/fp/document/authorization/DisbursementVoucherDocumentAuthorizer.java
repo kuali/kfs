@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -29,6 +28,7 @@ import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.ParameterService;
@@ -87,24 +87,24 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      */
     private void setDVWorkgroupEditModes(Map editModeMap, Document document, UniversalUser user) {
         if (isUserInTaxGroup(user)) {
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
         if (isUserInFRNGroup(user)) {
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY, "TRUE");
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
         if (isUserInTravelGroup(user)) {
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY, "TRUE");
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
         if (isUserInWireGroup(user)) {
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY, "TRUE");
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
         if (isUserInDvAdminGroup(user)) {
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY, "TRUE");
-            editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
     }
 

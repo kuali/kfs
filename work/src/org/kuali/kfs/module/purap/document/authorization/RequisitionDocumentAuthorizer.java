@@ -27,6 +27,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
@@ -69,7 +70,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
 
         if (workflowDocument.stateIsEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-            String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+            String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
             /**
              * CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
@@ -98,7 +99,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                 if (userOwnsAnyAccountingLine((ChartUser) user.getModuleUser(ChartUser.MODULE_ID), lineList)) {
                     // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
                     editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-                    editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
+                    editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
                 }
             }
 

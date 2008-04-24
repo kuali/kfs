@@ -34,7 +34,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.ValidationException;
@@ -52,6 +51,7 @@ import org.kuali.core.web.struts.form.BlankFormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
@@ -74,7 +74,6 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
-import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorConstants.AddressTypes;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -200,7 +199,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
         }
 
-        String newStipulation = request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION);
+        String newStipulation = request.getParameter(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION);
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
         }

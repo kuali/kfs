@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -33,6 +32,7 @@ import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
@@ -58,7 +58,7 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
     public Map getEditMode(Document document, UniversalUser user) {
         // default is UNVIEWABLE for this doctype
         Map editModeMap = new HashMap();
-        editModeMap.put(AuthorizationConstants.CashManagementEditMode.UNVIEWABLE, "TRUE");
+        editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.UNVIEWABLE, "TRUE");
 
         // update editMode if possible
         try {
@@ -70,18 +70,18 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
                 KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
                 if (workflowDocument.stateIsInitiated()) {
-                    editModeMap.put(AuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
+                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
                 }
                 else if (workflowDocument.stateIsSaved()) {
-                    editModeMap.put(AuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
+                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
 
-                    editModeMap.put(AuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS, "TRUE");
+                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS, "TRUE");
                     if (!cmDoc.hasFinalDeposit()) {
-                        editModeMap.put(AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS, "TRUE");
+                        editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS, "TRUE");
                     }
                 }
                 else {
-                    editModeMap.put(AuthorizationConstants.CashManagementEditMode.VIEW_ONLY, "TRUE");
+                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.VIEW_ONLY, "TRUE");
                 }
             }
         }

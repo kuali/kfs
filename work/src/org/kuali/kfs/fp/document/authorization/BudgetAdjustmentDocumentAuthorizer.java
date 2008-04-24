@@ -25,6 +25,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.InactiveDocumentTypeAuthorizationException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
@@ -58,7 +59,7 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
 
         Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
         if (SpringContext.getBean(FiscalYearFunctionControlService.class).isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) document).getPostingYear())) {
-            editModeMap.put(AuthorizationConstants.BudgetAdjustmentEditMode.BASE_AMT_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.BudgetAdjustmentEditMode.BASE_AMT_ENTRY, "TRUE");
         }
 
         return editModeMap;

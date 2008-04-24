@@ -24,11 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -36,6 +34,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -143,7 +142,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private boolean checkNegativeAccounts(PaymentRequestDocument paymentRequestDocument) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
         List<SourceAccountingLine> sourceLines = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
@@ -177,7 +176,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) apDocument;
         // Give warnings for the following. The boolean results of the calls are not to be used here.
         boolean totalsMatch = validateTotals(paymentRequestDocument);
@@ -214,7 +213,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processInvoiceValidation(PaymentRequestDocument preqDocument) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         if (ObjectUtils.isNull(preqDocument.getPurchaseOrderIdentifier())) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
@@ -244,7 +243,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processVendorValidation(PaymentRequestDocument preqDocument) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         if (StringUtils.equals(preqDocument.getVendorCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
             if (StringUtils.isBlank(preqDocument.getVendorStateCode())) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US, PREQDocumentsStrings.VENDOR_STATE);
@@ -269,7 +268,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processPurchaseOrderIDValidation(PaymentRequestDocument document) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         Integer POID = document.getPurchaseOrderIdentifier();
 
@@ -305,7 +304,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) document.getItems()) {
             // Quantity-based items
             if (poi.getItemType().isItemTypeAboveTheLineIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
@@ -340,7 +339,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processPaymentRequestDateValidationForContinue(PaymentRequestDocument document) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         // invoice date validation
         java.sql.Date invoiceDate = document.getInvoiceDate();
         if (ObjectUtils.isNotNull(invoiceDate) && SpringContext.getBean(PaymentRequestService.class).isInvoiceDateAfterToday(invoiceDate)) {
@@ -360,7 +359,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean validatePaymentRequestDates(PaymentRequestDocument document) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         // Pay date in the past validation.
         valid &= validatePayDateNotPast(document);
         GlobalVariables.getErrorMap().clearErrorPath();
@@ -790,7 +789,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         // Pay date in the past validation.
         valid &= validatePayDateNotPast(paymentRequestDocument);
         GlobalVariables.getErrorMap().clearErrorPath();

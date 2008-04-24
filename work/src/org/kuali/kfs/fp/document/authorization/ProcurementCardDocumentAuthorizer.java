@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -28,6 +27,7 @@ import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -77,7 +77,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
         // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction
         // document, d) it is not an ADHOC request (important so that ADHOC don't get full entry).
         if (workflowDocument.isApprovalRequested() && activeNodes.contains(RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT) && (document.getDocumentHeader().getFinancialDocumentInErrorNumber() == null) && !document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
-            editModeMap.put(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY, "TRUE");
+            editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY, "TRUE");
         }
         else {
             editModeMap = super.getEditMode(document, user, sourceLines, targetLines);

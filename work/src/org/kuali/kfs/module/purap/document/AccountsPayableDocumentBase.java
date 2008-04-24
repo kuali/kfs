@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
@@ -30,21 +29,17 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.AccountsPayableItem;
-import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
-import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Accounts Payable Document Base
@@ -168,7 +163,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             this.setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
             this.setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
             if (ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
-                this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+                this.getPurchaseOrderDocument().refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
             }
         }
         super.populateDocumentForRouting();
@@ -508,7 +503,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         if ((ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
             this.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
             if (ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
-                this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+                this.getPurchaseOrderDocument().refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
             }
         }
     }

@@ -18,7 +18,6 @@ package org.kuali.module.purap.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
@@ -28,6 +27,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -43,8 +43,8 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.vendor.VendorConstants.VendorTypes;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.VendorConstants.VendorTypes;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.VendorService;
@@ -288,7 +288,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     private boolean validateFaxNumberIfTransmissionTypeIsFax(PurchasingDocument purDocument) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         if (ObjectUtils.isNotNull(purDocument.getVendorHeaderGeneratedIdentifier()) && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
             if (ObjectUtils.isNull(purDocument.getVendorFaxNumber()) || !SpringContext.getBean(PhoneNumberService.class).isValidPhoneNumber(purDocument.getVendorFaxNumber())) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);

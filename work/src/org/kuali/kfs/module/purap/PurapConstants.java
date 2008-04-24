@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -632,7 +631,7 @@ public class PurapConstants extends JstlConstants {
 
     private static final Map<String, Class> uncopyableFieldsForPurchaseOrder() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
-        returnMap.put(RicePropertyConstants.DOCUMENT_NUMBER, null);
+        returnMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, null);
         returnMap.put(PurapPropertyConstants.ITEM_IDENTIFIER, PurchaseOrderItem.class);
         returnMap.put(PurapPropertyConstants.ACCOUNT_IDENTIFIER, PurchaseOrderAccount.class);
         returnMap.put(PurapPropertyConstants.PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER, PurchaseOrderVendorQuote.class);

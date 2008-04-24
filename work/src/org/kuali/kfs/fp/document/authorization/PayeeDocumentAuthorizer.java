@@ -17,11 +17,11 @@ package org.kuali.module.financial.document.authorization;
 
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -40,7 +40,7 @@ public class PayeeDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
         Map editMode = super.getEditMode(document, user);
 
         if (user.isMember(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
-            editMode.put(AuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
+            editMode.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
         }
 
         return editMode;

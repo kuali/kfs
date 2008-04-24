@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
@@ -43,13 +43,13 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
+        String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && (document.getDocumentHeader().getFinancialDocumentInErrorNumber() == null)) {
             if (workflowDocument.userIsInitiator(user)) {
-                editMode = AuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
+                editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
             }
         }
 

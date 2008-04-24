@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
@@ -51,7 +50,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
@@ -951,7 +950,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 PurchaseOrderDocument doc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(documentNumber);
                 if (ObjectUtils.isNotNull(doc)) {
                     KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
-                    doc.refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+                    doc.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
                     doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
                 }
                 return doc;

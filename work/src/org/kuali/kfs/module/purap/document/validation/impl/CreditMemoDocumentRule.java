@@ -18,7 +18,6 @@ package org.kuali.module.purap.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.DataDictionaryService;
@@ -185,7 +184,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     protected boolean validateInitTabReferenceNumbers(CreditMemoDocument cmDocument) {
         boolean valid = true;
         // GlobalVariables.getErrorMap().clearErrorPath();
-        // GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        // GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants..DOCUMENT);
 
         if (!(ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) ^ StringUtils.isNotEmpty(cmDocument.getVendorNumber()) ^ ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier())) || (ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) && StringUtils.isNotEmpty(cmDocument.getVendorNumber()) && ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier()))) {
             GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRED_FIELDS);
@@ -414,7 +413,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     protected boolean checkPurchaseOrderForInvoicedItems(CreditMemoDocument cmDocument) {
         boolean hasInvoicedItems = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         PurchaseOrderDocument poDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
         List<PurchaseOrderItem> invoicedItems = SpringContext.getBean(CreditMemoService.class).getPOInvoicedItems(poDocument);

@@ -17,11 +17,7 @@ package org.kuali.workflow;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,12 +27,10 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.WorkflowUtils;
-import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -46,9 +40,6 @@ import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.lookupable.Field;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.util.KeyLabelPair;
 
 /**
  * This class contains static utility methods used by the Kuali Workflow Attribute Classes.
@@ -104,7 +95,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String CHART_ORG_WORKGROUP_DOC_TYPE = "ChartOrgWorkgroup";
     public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = "CreditMemoDocument";
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = "PaymentRequestDocument";
-    public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + RicePropertyConstants.DOCUMENT_HEADER + XPATH_ELEMENT_SEPARATOR + RicePropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT + "/value");
+    public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + KFSPropertyConstants.DOCUMENT_HEADER + XPATH_ELEMENT_SEPARATOR + KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT + "/value");
     public static final String ACCOUNT_GLOBAL_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail");
     public static final String ORG_REVERSION_GLOBALS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization");
 
@@ -254,214 +245,6 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         catch (IllegalAccessException e) {
             throw new RuntimeException("getTargetAccountingLineClassName method of KualiWorkflowUtils caught IllegalAccessException while try to create instance of class: " + documentClass);
         }
-    }
-
-    /**
-     * This method returns a label from the data dictionary service
-     * 
-     * @param businessObjectClass - class where the label should come from
-     * @param attributeName - name of the attribute you need the label for
-     * @return the label from the data dictionary for the given Class and attributeName or null if not found
-     */
-    public static final String getBusinessObjectAttributeLabel(Class businessObjectClass, String attributeName) {
-        return SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectClass, attributeName);
-    }
-
-    /**
-     * This method will do a simple XPath.evaluate, while wrapping your xpathExpression with the xstreamSafe function. It assumes a
-     * String result, and will return such. If an XPathExpressionException is thrown, this will be re-thrown within a
-     * RuntimeException.
-     * 
-     * @param xpath A correctly initialized XPath instance.
-     * @param xpathExpression Your XPath Expression that needs to be wrapped in an xstreamSafe wrapper and run.
-     * @param item The document contents you will be searching within.
-     * @return The string value of the xpath.evaluate().
-     */
-    public static final String xstreamSafeEval(XPath xpath, String xpathExpression, Object item) {
-        String xstreamSafeXPath = xstreamSafeXPath(xpathExpression);
-        String evalResult = "";
-        try {
-            evalResult = xpath.evaluate(xstreamSafeXPath, item);
-        }
-        catch (XPathExpressionException e) {
-            throw new RuntimeException("XPathExpressionException occurred on xpath: " + xstreamSafeXPath, e);
-        }
-        return evalResult;
-    }
-
-    /**
-     * This method wraps the passed-in XPath expression in XStream Safe wrappers, so that XStream generated reference links will be
-     * handled correctly.
-     * 
-     * @param xpathExpression The XPath Expression you wish to use.
-     * @return Your XPath Expression wrapped in the XStreamSafe wrapper.
-     */
-    public static final String xstreamSafeXPath(String xpathExpression) {
-        return new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
-    }
-
-
-    /**
-     * This is for use by xml WorkflowAttribute implementations. It overrides the label and help url of the test fields on the
-     * edu.iu.uis.eden.lookupable.Rows obtained from the workflow parent class with the appropriate values from the data dictionary.
-     * 
-     * @param workflowRows A list of edu.iu.uis.eden.lookupable.Row objects provided by the workflow superclass, based on the XML
-     *        attribute definition.
-     * @param businessObjectClass The BusinessObject Class extracted from the meta data specified in the XML attribute definition,
-     *        which is used in querying the data dictionary for the field definition.
-     */
-    public static List setKualiFieldValues(List workflowRows, String businessObjectClassName) {
-        Iterator workflowRowsItr = workflowRows.iterator();
-        while (workflowRowsItr.hasNext()) {
-            edu.iu.uis.eden.lookupable.Row row = (edu.iu.uis.eden.lookupable.Row) workflowRowsItr.next();
-            Iterator fieldItr = row.getFields().iterator();
-            while (fieldItr.hasNext()) {
-                edu.iu.uis.eden.lookupable.Field field = row.getField(0);
-                if (edu.iu.uis.eden.lookupable.Field.TEXT.equals(field.getFieldType())) {
-                    try {
-                        org.kuali.core.web.ui.Field kualiField = FieldUtils.getPropertyField(Class.forName(businessObjectClassName), field.getPropertyName(), false);
-                        field.setFieldLabel(kualiField.getFieldLabel());
-                        field.setFieldHelpUrl(KualiWorkflowUtils.getHelpUrl(kualiField));
-                    }
-                    catch (ClassNotFoundException cnfe) {
-                        throw new RuntimeException("Unable to load BusinessObject class: " + businessObjectClassName, cnfe);
-                    }
-                }
-            }
-        }
-        return workflowRows;
-    }
-
-    /**
-     * This method builds a workflow-lookup-screen Row of type TEXT, with no quickfinder/lookup.
-     * 
-     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
-     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
-     *        Account.accountNumber.
-     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
-     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
-     *        everything links up correctly.
-     * @return A populated and ready-to-use workflow lookupable.Row.
-     */
-    public static edu.iu.uis.eden.lookupable.Row buildTextRow(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
-        if (propertyClass == null) {
-            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
-        }
-        if (StringUtils.isBlank(boPropertyName)) {
-            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
-        }
-        if (StringUtils.isBlank(workflowPropertyKey)) {
-            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
-        }
-        List chartFields = new ArrayList();
-        org.kuali.core.web.ui.Field field;
-        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
-        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, false, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey));
-        return new Row(chartFields);
-    }
-
-    /**
-     * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
-     * 
-     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
-     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
-     *        Account.accountNumber.
-     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
-     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
-     *        everything links up correctly.
-     * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
-     */
-    public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
-        return buildTextRowWithLookup(propertyClass, boPropertyName, workflowPropertyKey, null);
-    }
-
-    /**
-     * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
-     * 
-     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
-     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
-     *        Account.accountNumber.
-     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
-     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
-     *        everything links up correctly.
-     * @param fieldConversionsByBoPropertyName A list of extra field conversions where the key is the business object property name
-     *        and the value is the workflow property key
-     * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
-     */
-    public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map fieldConversionsByBoPropertyName) {
-        if (propertyClass == null) {
-            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
-        }
-        if (StringUtils.isBlank(boPropertyName)) {
-            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
-        }
-        if (StringUtils.isBlank(workflowPropertyKey)) {
-            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
-        }
-        org.kuali.core.web.ui.Field field;
-        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
-
-        // build the quickFinder/lookupableName info
-        String lookupableClassNameImpl = WorkflowLookupableImpl.getLookupableImplName(propertyClass);
-        StringBuffer fieldConversions = new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX);
-        fieldConversions.append(boPropertyName + ":" + workflowPropertyKey);
-        if (fieldConversionsByBoPropertyName != null) {
-            for (Object entry : fieldConversionsByBoPropertyName.entrySet()) {
-                Map.Entry entryObject = (Map.Entry) entry;
-                fieldConversions.append(",").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(entryObject.getKey() + ":" + entryObject.getValue());
-            }
-        }
-        String lookupableName = WorkflowLookupableImpl.getLookupableName(lookupableClassNameImpl, fieldConversions.toString());
-
-        List chartFields = new ArrayList();
-        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, true, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), lookupableClassNameImpl, workflowPropertyKey));
-        chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
-        return new Row(chartFields);
-    }
-
-    /**
-     * This method builds a workflow-lookup-screen Row of type DROPDOWN.
-     * 
-     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
-     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
-     *        Account.accountNumber.
-     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
-     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
-     *        everything links up correctly.
-     * @param optionMap The map of value, text pairs that will be used to constuct the dropdown list.
-     * @return A populated and ready-to-use workflow lookupable.Row.
-     */
-    public static edu.iu.uis.eden.lookupable.Row buildDropdownRow(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map<String, String> optionMap, boolean addBlankRow) {
-        if (propertyClass == null) {
-            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
-        }
-        if (StringUtils.isBlank(boPropertyName)) {
-            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
-        }
-        if (StringUtils.isBlank(workflowPropertyKey)) {
-            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
-        }
-        if (optionMap == null) {
-            throw new IllegalArgumentException("Method parameter 'optionMap' was passed a NULL value.");
-        }
-        List chartFields = new ArrayList();
-        org.kuali.core.web.ui.Field field;
-        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
-        // Fields in KEW/Rice are different from fields in KFS and there is no common ancestor.
-        Field workflowField = new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.DROPDOWN, false, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey);
-        ArrayList optionList = new ArrayList<String>();
-        if (addBlankRow) {
-            optionList.add(new KeyLabelPair(null, " "));
-        }
-        Iterator<String> options = optionMap.keySet().iterator();
-        while (options.hasNext()) {
-            String key = options.next();
-            optionList.add(new KeyLabelPair(key, optionMap.get(key)));
-        }
-
-        workflowField.setFieldValidValues(optionList);
-        chartFields.add(workflowField);
-        return new Row(chartFields);
     }
 
     /**

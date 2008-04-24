@@ -39,7 +39,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
@@ -55,6 +54,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
@@ -404,7 +404,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
             Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getUniversalUser());
 
-            if (editingMode.get(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null) {
+            if (editingMode.get(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null) {
                 // They have saved the document and they are retreiving it to be completed
                 correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
                 correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
@@ -1348,7 +1348,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
             Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getUniversalUser());
-            if (editingMode.containsKey(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
                 // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
                 updateDocumentSummary(document, null, true);
             }
@@ -1680,7 +1680,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      *         being called if true, this is ususally not a good condition
      */
     protected boolean restoreSystemAndEditMethod(CorrectionForm correctionForm) {
-        boolean readOnly = correctionForm.getEditingMode().get(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null;
+        boolean readOnly = correctionForm.getEditingMode().get(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null;
         if (!"selectSystemEditMethod".equals(correctionForm.getMethodToCall()) && !readOnly) {
             if (!StringUtils.equals(correctionForm.getPreviousEditMethod(), correctionForm.getEditMethod()) || !StringUtils.equals(correctionForm.getPreviousChooseSystem(), correctionForm.getChooseSystem())) {
                 correctionForm.setChooseSystem(correctionForm.getPreviousChooseSystem());

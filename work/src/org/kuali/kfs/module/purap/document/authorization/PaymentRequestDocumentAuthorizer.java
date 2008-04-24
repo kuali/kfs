@@ -30,6 +30,7 @@ import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.ParameterService;
@@ -104,7 +105,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                     // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
                     if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
                         editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
-                        editModeMap.put(AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
+                        editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
                     }
                 }
             }

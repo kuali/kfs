@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rules.DocumentRuleBase;
@@ -40,7 +39,7 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
         ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument)document;
         
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
         valid &= canCreateReceivingLineDocument(receivingLineDocument);
@@ -54,7 +53,7 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
         ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument)document;
         
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= hasRequiredFieldsForContinue(receivingLineDocument);
         valid &= canCreateReceivingLineDocument(receivingLineDocument);

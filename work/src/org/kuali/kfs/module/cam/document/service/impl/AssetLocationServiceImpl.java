@@ -150,7 +150,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     /**
      * Convenience method to append the path prefix
      */
-    public TypedArrayList putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
+    private TypedArrayList putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
         return GlobalVariables.getErrorMap().putError(fieldMap.get(field), errorKey, errorParameters);
     }
 

@@ -72,6 +72,8 @@ public class CamsKeyConstants {
         public static final String ERROR_OWNER_ACCT_INVALID = "error.receiving.org.acct.invalid";
         public static final String ERROR_TRFR_FDOC_INVALID = "error.transfer.fund.financial.doc.invalid";
         public static final String ERROR_TRFR_FDOC_REQUIRED = "error.transfer.fund.financial.doc.required";
+        public static final String WARN_TRFR_AST_LOAN_ACTIVE = "warn.asset.loan.active";
+        public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
     }
 
     public static class AssetLocation {

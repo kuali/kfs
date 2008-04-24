@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -31,6 +30,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.document.AssetTransferDocument;
 
 public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
+    private boolean loanNoteAdded;
 
     public AssetTransferForm() {
         super();
@@ -76,6 +76,14 @@ public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
                 }
             }
         }
+    }
+
+    public boolean isLoanNoteAdded() {
+        return loanNoteAdded;
+    }
+
+    public void setLoanNoteAdded(boolean loanNoteAdded) {
+        this.loanNoteAdded = loanNoteAdded;
     }
 
 }

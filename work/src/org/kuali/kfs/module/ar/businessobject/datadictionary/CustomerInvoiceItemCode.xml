@@ -362,10 +362,12 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Invoice Item Code Detail" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Invoice Item Code" />
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
@@ -377,27 +379,29 @@
               <bean parent="FieldDefinition"
                     p:attributeName="relatedStockNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceFinancialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceProjectCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="itemDefaultPrice" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemDefaultQuantity" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultUnitOfMeasureCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceSubAccountNumber" />
+                    p:attributeName="active" />                    
+              <bean parent="InquirySubSectionHeaderDefinition"              
+                    p:attributeName="Item Code Default Account" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceSubAccountNumber" />                    
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceFinancialObjectCode" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="defaultInvoiceFinancialSubObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+                    p:attributeName="defaultInvoiceProjectCode" />
             </list>
           </property>
         </bean>

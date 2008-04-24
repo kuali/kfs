@@ -50,7 +50,7 @@
         <value>invoiceItemCode</value>
       </list>
     </property>
-    <property name="label" value="Invoice Item Code Maintenance Document" />
+    <property name="label" value="Customer Invoice Item Code" />
     <property name="shortLabel" value="InvoiceItemCodeMaintDoc" />
     <property name="summary" value="Invoice Item Code maintenance document" />
     <property name="description" value="Document used to create or update Invoice Item Codes" />
@@ -78,8 +78,8 @@
   <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes" parent="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes-parentBean" />
 
   <bean id="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Invoice Item Codes" />
-    <property name="title" value="Edit Invoice Item Codes" />
+    <property name="id" value="Edit Invoice Item Code" />
+    <property name="title" value="Edit Invoice Item Code" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"

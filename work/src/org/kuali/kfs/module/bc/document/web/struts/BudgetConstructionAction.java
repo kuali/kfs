@@ -154,6 +154,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         budgetConstructionForm.setDocument(budgetConstructionDocument);
+        
+        // init the benefits calc flags
+        budgetConstructionDocument.setBenefitsCalcNeeded(false);
+        budgetConstructionDocument.setMonthlyBenefitsCalcNeeded(false);
 
         // init the new line objects
         budgetConstructionForm.initNewLine(budgetConstructionForm.getNewRevenueLine(), true);
@@ -203,8 +207,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
                     budgetDocumentService.saveDocument((BudgetConstructionDocument) docForm.getDocument());
 
-                    // TODO need to move this to after a successful workflow update in BCDocumentService
-                    docForm.getDocument().getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
+                    if (docForm.isPickListMode()){
+                        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                    }
                 }
                 // else go to close logic below
             }
@@ -262,14 +267,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // documentService.saveDocument(document);
         // rolling own - next line
         budgetDocumentService.saveDocument(bcDocument);
-
-        // TODO need to move this to after a successful workflow update in BCDocumentService
-        bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
-
-        // this call needs to come after the call to logDocumentAction above
-        // TODO why does GlobalVariables.getMessageList() return a null list after the call to logDocumentAction??
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-
+        
         // TODO may need to move this to generic save method to handle all actions requiring save
         budgetConstructionForm.initializePersistedRequestAmounts();
 

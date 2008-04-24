@@ -145,6 +145,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         String editPaymentMediumKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM;
         String editRefDocNbrKey = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR;
         String editGenerateBtnKey = ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON;
+        String editPaymentAppDoc = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC;
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             editMode.put(editPaymentMediumKey, "TRUE");
@@ -157,10 +158,21 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
 
             // the person who has the approval request in their Action List
             // should be able to modify the document
-            if (workflowDocument.isApprovalRequested() && !ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
+            if (workflowDocument.isApprovalRequested() && !ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
+                // if glpes have not been generated yet the user can change payment mediumand generate glpes
+                if (cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
+                    editMode.put(editPaymentMediumKey, "TRUE");
+                    editMode.put(editGenerateBtnKey, "TRUE");
+                }
+                else {
+                    editMode.put(editPaymentAppDoc, "TRUE");
+                }
+            }
+            if (workflowDocument.isApprovalRequested() && ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
+                // if payment medium cash then the ref doc number can be changed
                 editMode.put(editPaymentMediumKey, "TRUE");
-                editMode.put(editGenerateBtnKey, "TRUE");
                 editMode.put(editRefDocNbrKey, "TRUE");
+                editMode.put(editPaymentAppDoc, "TRUE");
             }
         }
 

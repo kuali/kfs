@@ -25,7 +25,9 @@
 	value="${!empty KualiForm.editingMode['editPaymentMedium']}" />
 <c:set var="editRefDocNbr"
 	value="${!empty KualiForm.editingMode['editRefDocNbr']}" />
-
+<c:set var="editPaymentAppDoc"
+	value="${!empty KualiForm.editingMode['editPaymentAppDoc']}" />
+	
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CashControlDocument"
 	htmlFormAction="arCashControlDocument" renderMultipart="true"
@@ -50,7 +52,8 @@
         documentAttributes="${DataDictionary.CashControlDocument.attributes}"
         cashControlDetailAttributes="${DataDictionary.CashControlDetail.attributes}"
         readOnly="${readOnly}"
-        editDetails = "${editDetails}"/>  
+        editDetails = "${editDetails}"
+        editPaymentAppDoc = "${editPaymentAppDoc}"/>  
         
     <gl:generalLedgerPendingEntries />
                 

@@ -88,6 +88,10 @@
     <property name="name" value="financialDocumentLineAmount" />
     <property name="label" value="Line Amount" />
     <property name="shortLabel" value="Amount" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="false" />
+    </property>
     <property name="required" value="true" />
   </bean>
   <bean id="CashControlDetail-referenceFinancialDocumentNumber" parent="CashControlDetail-referenceFinancialDocumentNumber-parentBean" />

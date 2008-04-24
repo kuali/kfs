@@ -27,6 +27,8 @@
 	description="If document is in read only mode"%>
 <%@ attribute name="editDetails" required="true"
 	description="If document details are in edit mode"%>
+<%@ attribute name="editPaymentAppDoc" required="true"
+	description="If payment application document number should be a link"%>
 
 <kul:tab tabTitle="Cash Control Details" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DETAILS_ERRORS}">
@@ -60,6 +62,7 @@
 				<ar:cashControlDetail propertyName="newCashControlDetail"
 					cashControlDetailAttributes="${cashControlDetailAttributes}"
 					addLine="true" readOnly="${readOnly}" rowHeading="add"
+					editPaymentAppDoc="${editPaymentAppDoc}"
 					cssClass="infoline" actionMethod="addCashControlDetail"
 					actionAlt="Add Cash Control Detail"
 					actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
@@ -70,6 +73,7 @@
 					propertyName="document.cashControlDetail[${ctr}]"
 					cashControlDetailAttributes="${cashControlDetailAttributes}"
 					addLine="false" readOnly="${!editDetails}" rowHeading="${ctr+1}"
+					editPaymentAppDoc="${editPaymentAppDoc}"
 					cssClass="datacell"
 					actionMethod="deleteCashControlDetail.line${ctr}"
 					actionAlt="Delete Cash Control Detail"

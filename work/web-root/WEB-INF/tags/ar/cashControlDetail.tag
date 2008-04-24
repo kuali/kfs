@@ -33,6 +33,8 @@
 <%@ attribute name="actionAlt" required="true"
 	description="alt value for actionImage"%>
 <%@ attribute name="cssClass" required="true"%>
+<%@ attribute name="editPaymentAppDoc" required="true"%>
+
 
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row"
@@ -50,10 +52,24 @@
 	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute
-			attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
-			property="${propertyName}.referenceFinancialDocumentNumber"
-			readOnly="true" />
+
+		<c:choose>
+			<c:when test="${addLine or (not editPaymentAppDoc)}">
+				<kul:htmlControlAttribute
+					attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
+					property="${propertyName}.referenceFinancialDocumentNumber"
+					readOnly="true" />
+			</c:when>
+			<c:otherwise>
+				<a
+					href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.cashControlDetails[rowHeading-1].referenceFinancialDocumentNumber}&command=displayDocSearchView">
+					<kul:htmlControlAttribute
+						attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
+						property="${propertyName}.referenceFinancialDocumentNumber"
+						readOnly="true" /> </a>
+
+			</c:otherwise>
+		</c:choose>
 	</td>
 
 	<td align=left class="${cssClass}">
@@ -82,7 +98,7 @@
 		<c:choose>
 			<c:when test="${readOnly}">
 				<kul:htmlControlAttribute
-					attributeEntry="${cashControlDetailAttributes.customerPaymentDat}"
+					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
 					property="${propertyName}.customerPaymentDate"
 					readOnly="${readOnly}" />
 			</c:when>

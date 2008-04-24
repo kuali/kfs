@@ -340,8 +340,6 @@
   </bean>
 
 <!-- Business Object Inquiry Definition -->
-
-
   <bean id="OrganizationOptions-inquiryDefinition" parent="OrganizationOptions-inquiryDefinition-parentBean" />
 
   <bean id="OrganizationOptions-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -349,10 +347,12 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Organization Options Detail" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
+              <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Organization Header Information" />
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
@@ -361,32 +361,44 @@
                     p:attributeName="processingChartOfAccountCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="processingOrganizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organization800PhoneNumber" />
+              
+			  <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Organization Invoice Information" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCheckPayableToName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationFaxNumber" />
+                    p:attributeName="organizationPaymentTermsText" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationMessageText" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationPaymentTermsText" />
+                    p:attributeName="printInvoiceIndicator" />                    
+
+			  <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Organization Remit To Address" /> 
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationPhoneNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationRemitToAddressName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationRemitToCityName" />
+                    p:attributeName="organizationRemitToAddressName" />                      
               <bean parent="FieldDefinition"
                     p:attributeName="organizationRemitToLine1StreetAddress" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationRemitToLine2StreetAddress" />
               <bean parent="FieldDefinition"
+                    p:attributeName="organizationRemitToCityName" />
+              <bean parent="FieldDefinition"
                     p:attributeName="organizationRemitToStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationRemitToZipCode" />
+
+			  <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="Organization Phone" />
               <bean parent="FieldDefinition"
-                    p:attributeName="printInvoiceIndicator" />
+                    p:attributeName="organizationPhoneNumber" />                    
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationFaxNumber" />                    
+              <bean parent="FieldDefinition"
+                    p:attributeName="organization800PhoneNumber" />
+      
+			  <bean parent="InquirySubSectionHeaderDefinition"
+                    p:attributeName="PATTY, where should we put 'universityName'" />
               <bean parent="FieldDefinition"
                     p:attributeName="universityName" />
             </list>

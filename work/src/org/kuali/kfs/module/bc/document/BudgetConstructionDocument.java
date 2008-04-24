@@ -74,6 +74,12 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     private KualiInteger expenditureAccountLineAnnualBalanceAmountTotal;
     private KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal;
     private KualiDecimal expenditurePercentChangeTotal;
+    
+    // benefits calculation state flags
+    // these are set when a change is detected in the request and the line
+    // is involved in the benefits calculation - ie exists in 
+    private boolean isBenefitsCalcNeeded;
+    private boolean isMonthlyBenefitsCalcNeeded;
 
 
     public BudgetConstructionDocument() {
@@ -657,6 +663,38 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void setRevenuePercentChangeTotal(KualiDecimal revenuePercentChangeTotal) {
         this.revenuePercentChangeTotal = revenuePercentChangeTotal;
+    }
+
+    /**
+     * Gets the isBenefitsCalcNeeded attribute. 
+     * @return Returns the isBenefitsCalcNeeded.
+     */
+    public boolean isBenefitsCalcNeeded() {
+        return isBenefitsCalcNeeded;
+    }
+
+    /**
+     * Sets the isBenefitsCalcNeeded attribute value.
+     * @param isBenefitsCalcNeeded The isBenefitsCalcNeeded to set.
+     */
+    public void setBenefitsCalcNeeded(boolean isBenefitsCalcNeeded) {
+        this.isBenefitsCalcNeeded = isBenefitsCalcNeeded;
+    }
+
+    /**
+     * Gets the isMonthlyBenefitsCalcNeeded attribute. 
+     * @return Returns the isMonthlyBenefitsCalcNeeded.
+     */
+    public boolean isMonthlyBenefitsCalcNeeded() {
+        return isMonthlyBenefitsCalcNeeded;
+    }
+
+    /**
+     * Sets the isMonthlyBenefitsCalcNeeded attribute value.
+     * @param isMonthlyBenefitsCalcNeeded The isMonthlyBenefitsCalcNeeded to set.
+     */
+    public void setMonthlyBenefitsCalcNeeded(boolean isMonthlyBenefitsCalcNeeded) {
+        this.isMonthlyBenefitsCalcNeeded = isMonthlyBenefitsCalcNeeded;
     }
 
     /**

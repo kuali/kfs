@@ -76,6 +76,10 @@ public class BCConstants extends JstlConstants {
             return key;
         }
     }
+    
+    public enum AccountSalarySettingOnlyCause {
+        MISSING_PARAM, NONE, FUND, SUBFUND, FUND_AND_SUBFUND 
+    }
 
 
     // some constants used in rule checking - may eventually move these to system parameters

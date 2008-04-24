@@ -237,10 +237,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
 
         // These fields should not be set in this method; force to be null
-        this.setVendorNoteText(null);
-        this.setInstitutionContactName(null);
-        this.setInstitutionContactPhoneNumber(null);
-        this.setInstitutionContactEmailAddress(null);
         this.setOrganizationAutomaticPurchaseOrderLimit(null);
         this.setPurchaseOrderAutomaticIndicator(false);
 

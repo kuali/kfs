@@ -34,6 +34,11 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
 public class CertificationRecreateForm extends EffortCertificationForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationRecreateForm.class);
 
+    private String emplid;
+    private String personName;
+    private Integer universityFiscalYear;
+    private String effortCertificationReportNumber;
+
     /**
      * Constructs a CertificationRecreateForm.java.
      */
@@ -42,9 +47,9 @@ public class CertificationRecreateForm extends EffortCertificationForm {
     }
 
     /**
-     * Gets the inquirableFieldNames attribute.
+     * Gets the importing field values.
      * 
-     * @return Returns the inquirableFieldNames.
+     * @return Returns the importing field values.
      */
     public Map<String, String> getImportingFieldValues() {
         EffortCertificationDocument document = this.getEffortCertificationDocument();
@@ -63,7 +68,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * 
      * @return true if the importing field values are valid; otherwsie, add errors into error map and return false
      */
-    public boolean validateImporingFieldValues() {
+    public boolean validateImportingFieldValues() {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
 
         Map<String, String> fieldValues = this.getImportingFieldValues();
@@ -86,7 +91,79 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      */
     public void forceInputAsUpperCase() {
 
-        String reportNumber = this.getEffortCertificationDocument().getEffortCertificationReportNumber();
-        this.getEffortCertificationDocument().setEffortCertificationReportNumber(StringUtils.upperCase(reportNumber));
+        String reportNumber = this.getEffortCertificationReportNumber();
+        this.setEffortCertificationReportNumber(StringUtils.upperCase(reportNumber));
+    }
+
+    /**
+     * Gets the emplid attribute.
+     * 
+     * @return Returns the emplid.
+     */
+    public String getEmplid() {
+        return emplid;
+    }
+
+    /**
+     * Sets the emplid attribute value.
+     * 
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the effortCertificationReportNumber attribute.
+     * 
+     * @return Returns the effortCertificationReportNumber.
+     */
+    public String getEffortCertificationReportNumber() {
+        return effortCertificationReportNumber;
+    }
+
+    /**
+     * Sets the effortCertificationReportNumber attribute value.
+     * 
+     * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
+     */
+    public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
+        this.effortCertificationReportNumber = effortCertificationReportNumber;
+    }
+
+    /**
+     * Gets the personName attribute.
+     * 
+     * @return Returns the personName.
+     */
+    public String getPersonName() {
+        return personName;
+    }
+
+    /**
+     * Sets the personName attribute value.
+     * 
+     * @param personName The personName to set.
+     */
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 }

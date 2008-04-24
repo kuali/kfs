@@ -436,10 +436,8 @@
               p:required="true"
               p:attributeName="subAccountNumber" />
         <bean parent="FieldDefinition"
-              p:required="true"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
-              p:required="true"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialBalanceTypeCode" />

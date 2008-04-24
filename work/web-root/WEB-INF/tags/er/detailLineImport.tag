@@ -38,10 +38,10 @@
 		</th>
 			
 		<td class="datacell-nowrap">
-			<kfs:employee userIdFieldName="document.emplid" 
-                userNameFieldName="document.employee.personName" 
-                fieldConversions="personPayrollIdentifier:document.emplid"
-                lookupParameters="document.emplid:personPayrollIdentifier"
+			<kfs:employee userIdFieldName="emplid" 
+                userNameFieldName="personName" 
+                fieldConversions="personPayrollIdentifier:emplid"
+                lookupParameters="emplid:personPayrollIdentifier"
                 readOnly="${readOnly}" />
 		</td>
 	</tr>
@@ -57,12 +57,12 @@
 		<td class="datacell-nowrap">	
 			<kul:htmlControlAttribute
 				attributeEntry="${attributes.universityFiscalYear}"
-				property="document.universityFiscalYear" readOnly="${readOnly}" />
+				property="universityFiscalYear" readOnly="${readOnly}" />
 			
 			<c:if test="${!readOnly}" >	 
 			<kul:lookup boClassName="org.kuali.kfs.bo.Options"
-				fieldConversions="universityFiscalYear:document.universityFiscalYear"
-				lookupParameters="document.universityFiscalYear:universityFiscalYear"
+				fieldConversions="universityFiscalYear:universityFiscalYear"
+				lookupParameters="universityFiscalYear:universityFiscalYear"
 				fieldLabel="${attributes.universityFiscalYear.label}" />
 			</c:if>
 		</td>
@@ -79,13 +79,13 @@
 		<td class="datacell-nowrap">
 			<kul:htmlControlAttribute
 				attributeEntry="${attributes.effortCertificationReportNumber}"
-				property="document.effortCertificationReportNumber" readOnly="${readOnly}" />
+				property="effortCertificationReportNumber" readOnly="${readOnly}" />
 			
 			<c:if test="${!readOnly}" > 
 			<kul:lookup
 				boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition"
-				fieldConversions="universityFiscalYear:document.universityFiscalYear,effortCertificationReportNumber:document.effortCertificationReportNumber"
-				lookupParameters="document.universityFiscalYear:universityFiscalYear,document.effortCertificationReportNumber:effortCertificationReportNumber"
+				fieldConversions="universityFiscalYear:universityFiscalYear,effortCertificationReportNumber:effortCertificationReportNumber"
+				lookupParameters="universityFiscalYear:universityFiscalYear,effortCertificationReportNumber:effortCertificationReportNumber"
 				fieldLabel="${attributes.effortCertificationReportNumber.label}" />
 			</c:if>
 		</td>

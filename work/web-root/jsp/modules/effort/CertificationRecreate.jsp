@@ -20,7 +20,6 @@
 <c:set var="detailAttributes" value="${DataDictionary.EffortCertificationDetail.attributes}" />
 
 <c:set var="detailLines" value="${KualiForm.detailLines}"/>
-<c:set var="newDetailLine" value="${KualiForm.newDetailLine}"/>
 
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
@@ -34,7 +33,7 @@
     <kul:hiddenDocumentFields isTransactionalDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
     
-    <c:set var="hiddenFieldNames" value="effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
+    <c:set var="hiddenFieldNames" value="emplid,universityFiscalYear,effortCertificationReportNumber,effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
 	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
 		<input type="hidden" name="document.${fieldName}" id="document.${fieldName}" value="${KualiForm.document[fieldName]}"/>		  
 	</c:forTokens>
@@ -57,8 +56,7 @@
 				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent"				
 				hiddenFieldNames="universityFiscalYear,financialDocumentPostingYear,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount,costShareSourceSubAccountNumber,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
-				fieldInfo="${KualiForm.fieldInfo}"
-				relationshipMetadata ="${KualiForm.relationshipMetadata}" />
+				fieldInfo="${KualiForm.fieldInfo}"/>
 		</div>		
 	</kul:tab>
 	

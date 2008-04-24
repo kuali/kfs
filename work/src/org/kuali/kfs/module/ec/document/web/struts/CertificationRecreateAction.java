@@ -26,6 +26,9 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.LoadDetailLineEvent;
 import org.kuali.module.effort.web.struts.form.CertificationRecreateForm;
 
+/**
+ * To define Actions for Effort Recreate document.
+ */
 public class CertificationRecreateAction extends EffortCertificationAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationRecreateAction.class);
 
@@ -36,10 +39,13 @@ public class CertificationRecreateAction extends EffortCertificationAction {
         CertificationRecreateForm recreateForm = (CertificationRecreateForm) form;
         EffortCertificationDocument effortCertificationDocument = recreateForm.getEffortCertificationDocument();
         effortCertificationDocument.getEffortCertificationDetailLines().clear();
-        
-        recreateForm.forceInputAsUpperCase();
 
-        if (recreateForm.validateImporingFieldValues()) {
+        recreateForm.forceInputAsUpperCase();
+        effortCertificationDocument.setEmplid(recreateForm.getEmplid());
+        effortCertificationDocument.setUniversityFiscalYear(recreateForm.getUniversityFiscalYear());
+        effortCertificationDocument.setEffortCertificationReportNumber(recreateForm.getEffortCertificationReportNumber());
+        
+        if (recreateForm.validateImportingFieldValues()) {            
             boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));
         }
 

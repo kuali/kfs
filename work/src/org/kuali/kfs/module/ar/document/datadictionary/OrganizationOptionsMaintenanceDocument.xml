@@ -39,7 +39,7 @@
         <value>organizationCode</value>
       </list>
     </property>
-    <property name="label" value="Organization Options Maintenance Document" />
+    <property name="label" value="Organization Options" />
     <property name="shortLabel" value="OrgOptionsMaintDoc" />
     <property name="summary" value="Organization Options maintenance document" />
     <property name="description" value="Document used to create or update Organization Options

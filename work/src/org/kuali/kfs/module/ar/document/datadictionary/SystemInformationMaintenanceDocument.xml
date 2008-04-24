@@ -67,7 +67,7 @@
         <value>processingOrganizationCode</value>
       </list>
     </property>
-    <property name="label" value="System Information Maintenance Document" />
+    <property name="label" value="System Information" />
     <property name="shortLabel" value="SystemInformationMaintDoc" />
     <property name="summary" value="System Information maintenance document" />
     <property name="description" value="Document used to create or update System Information" />

@@ -21,6 +21,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -49,7 +50,7 @@ public interface BudgetDocumentService {
      * @throws WorkflowException
      * @throws ValidationException
      */
-    public Document saveDocument(Document document) throws WorkflowException, ValidationException;
+    public Document saveDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException, ValidationException;
     
     /**
      * Performs all actions needed to validate and save a Budget Construction document to the database only.
@@ -58,7 +59,7 @@ public interface BudgetDocumentService {
      * @return
      * @throws ValidationException
      */
-    public Document saveDocumentNoWorkflow(Document document) throws ValidationException;
+    public Document saveDocumentNoWorkflow(BudgetConstructionDocument budgetConstructionDocument) throws ValidationException;
     
     /**
      * Gets the salary detail lines request sum for a budget document expenditure accounting line
@@ -74,5 +75,5 @@ public interface BudgetDocumentService {
      * @param budgetConstructionDao The budgetConstructionDao to set.
      */
     public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao);
-
+    
 }

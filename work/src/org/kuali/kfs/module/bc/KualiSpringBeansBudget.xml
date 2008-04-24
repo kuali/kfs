@@ -80,6 +80,21 @@
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
 		</property>
+		<property name="benefitsCalculationService">
+			<ref bean="benefitsCalculationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="laborModuleService">
+			<ref bean="laborModuleService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="budgetParameterService">
+			<ref bean="budgetParameterService" />
+		</property>
 	</bean>
 
 	<bean id="budgetOrganizationTreeService" class="org.kuali.module.budget.service.impl.BudgetOrganizationTreeServiceImpl">
@@ -365,6 +380,12 @@
     </property>
     <property name="businessObjectService">
     	<ref bean="businessObjectService" />
+    </property>
+    </bean>
+ 	
+    <bean id="budgetParameterService" class="org.kuali.module.budget.service.impl.BudgetParameterServiceImpl">
+    <property name="parameterService">
+    	<ref bean="parameterService" />
     </property>
     </bean>
  	

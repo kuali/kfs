@@ -778,5 +778,15 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     public void setUniversityFiscalYearObject(ObjectCode universityFiscalYearObject) {
         this.universityFiscalYearObject = universityFiscalYearObject;
     }
+    
+    /**
+     * This method (a hack by any other name...) returns a string so that an organization options can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View System Information"
+     */
+    public String getSystemInformationViewer() {
+        return "View System Information";
+    }
 
 }

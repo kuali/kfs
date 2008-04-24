@@ -14,8 +14,10 @@
     <property name="lookupDefinition" >
       <ref bean="SystemInformation-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="systemInformationViewer" />
     <property name="attributes" >
       <list>
+        <ref bean="SystemInformation-systemInformationViewer" />
         <ref bean="SystemInformation-active" />
         <ref bean="SystemInformation-adjustmentObjectCode" />
         <ref bean="SystemInformation-lockboxNumber" />
@@ -46,7 +48,20 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="SystemInformation-systemInformationViewer" parent="SystemInformation-systemInformationViewer-parentBean" />
 
+  <bean id="SystemInformation-systemInformationViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="systemInformationViewer" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  
   <bean id="SystemInformation-active" parent="SystemInformation-active-parentBean" />
 
   <bean id="SystemInformation-active-parentBean" abstract="true" parent="AttributeDefinition">
@@ -384,6 +399,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="systemInformationViewer" />
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"

@@ -34,6 +34,37 @@
 
   <kul:tab tabTitle="Control Information" defaultOpen="true"
     tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
+    
+    <div class="tab-container" align="center">
+      <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>
+      	<style type='text/css'>
+      		#ctrl-info>th { text-align: right; }
+      		#ctrl-info>th, #ctrl-info>td { width: 50%; }
+      	</style>
+        <table id='ctrl-info' width="100%" cellpadding="0" cellspacing="0" class="datatable">
+          <tr>
+          	<th>Org Doc #</th>
+          	<td><input type='text' name=''></td>
+          </tr>
+          <tr>
+          	<th>Customer</th>
+          	<td>&nbsp;</td>
+          </tr>
+          <tr>
+          	<th>Control Total</th>
+          	<td>&nbsp;</td>
+          </tr>
+          <tr>
+          	<th>Balance</th>
+          	<td>&nbsp;</td>
+          </tr>
+          <tr>
+          	<th>Payment #</th>
+          	<td>&nbsp;</td>
+          </tr>
+        </table>
+      </div>
+   </div>
   </kul:tab>
   
   <script type='text/javascript'>
@@ -47,21 +78,36 @@
     }
   </script>
 
-  <kul:tab tabTitle="Invoice Paid Applied" defaultOpen="true"
+  <kul:tab tabTitle="Summary of Applied Funds" defaultOpen="true"
+    tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
+    
+    <div class="tab-container" align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+        <tr>
+       		<th>Invoice #</th>
+          	<td>A12345678</td>
+          	<th>Item #</th>
+          	<td>1</td>
+          	<th>Description</th>
+          	<td>Foo</td>
+          	<th>Applied Amount</th>
+          	<td>$1234.00</td>
+        </tr>
+      </table>
+    </div>
+  </kul:tab>
+  
+  <kul:tab tabTitle="Application Details" defaultOpen="true"
     tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 
     <div class="tab-container" align="center">
       <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
         <tr>
-          <td colspan="2" class="subhead">
-            <span class="subhead-left">BETA ZETA COMPANY (BTZ17234)</span>
-            <span class="subhead-right">
-              <c:set var="toggle" value="hide"/>
-              <html:image property="methodToCall.${toggle}Details" 
-                src="${ConfigProperties.kr.externalizable.images.url}det-${toggle}.gif"
-                onclick="toggle('beta_zeta'); return false;" alt="${toggle} transaction details" 
-                title="${toggle} transaction details" styleClass="tinybutton"/>
-            </span>
+        	<th width='50%'>Customer</th>
+          <td>
+	          <input type='text' value=''>
+              <kul:lookup boClassName="org.kuali.module.ar.bo.Customer" />
+              <input type='submit' value='Load'/>
           </td>
         </tr>
         <tr id='beta_zeta'>
@@ -71,7 +117,7 @@
                 <td style='vertical-align: top;'>
                   <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                     <tr>
-                      <td colspan='4' class='tab-subhead'>Unapplied</td>
+                      <td colspan='4' class='tab-subhead'>Unapplied Funds</td>
                     </tr>
                     <tr>
                       <th>Sequence</th>
@@ -100,8 +146,23 @@
               </tr>
               <tr>
                 <td colspan='2' class='tab-subhead'>
-                  Invoice
+                  Invoices
+                  <select>
+                  	<option>A12345678</option>
+                  	<option>B23456789</option>
+                  	<option>C34567890</option>
+                  	<option>D45678901</option>
+                  	<option>E56789012</option>
+                  	<option>F67890123</option>
+                  </select>
+                  <input type='submit' value='Go To Invoice'>
                 </td>
+              </tr>
+              <tr>
+              	<th colspan='2' class='tab-subhead'>
+              		Invoice A12345678
+              		<a href=''><- Previous Invoice</a> | <a href=''>Next Invoice -></a>
+              	</th>
               </tr>
               <tr>
                 <td colspan='2'>
@@ -163,7 +224,7 @@
             </table>
           </td>
         </tr>
-        <tr>
+        <tr style='display: none;'>
           <td colspan="2" class="subhead">
             <span class="subhead-left">VELIZ COMPANY (ALA17234)</span>
             <span class="subhead-right">
@@ -175,7 +236,7 @@
             </span>
           </td>
         </tr>
-        <tr id='veliz'>
+        <tr id='veliz' style='display: none;'>
           <td colspan='2'>
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
               <tr>
@@ -275,13 +336,7 @@
           </td>
         </tr>
       </table>
-      <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>
-           	<label style='font-weight: bold;'>Inv Applied Total:</label>
-           	<input type='text' value='115.00' style='text-align: right;'>
-      		<input type='submit' value='Apply Detail'>
-      		<input type='submit' value='Quick Apply'>
-      	</div>
-    </div>
+	</div>
   </kul:tab>
 
   <kul:tab tabTitle="Non-AR" defaultOpen="true"

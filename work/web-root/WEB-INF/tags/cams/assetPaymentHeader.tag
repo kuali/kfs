@@ -44,8 +44,9 @@
 	        </td>
 	      
 	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}"/></div></th>
+	        
 	        <td align=left valign=middle class="grid">
-	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.organizationOwnerAccount.organizationCode}" property="document.asset.organizationOwnerAccount.organizationCode" readOnly="${!fullEntryMode}"/>  
+	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}" property="document.asset.organizationOwnerAccount.organizationCode" readOnly="${!fullEntryMode}"/>  
 	        </td>
 	      </tr>
 	            

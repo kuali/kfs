@@ -67,11 +67,102 @@
         <ref bean="AssetPayment-transferPaymentCode" />
         <ref bean="AssetPayment-versionNumber" />
         <ref bean="AssetPayment-yearToDate" />
+		<ref bean="AssetPayment-asset.campusTagNumber"/>   
+		
+		<ref bean="AssetPayment-account.organizationCode"/>
+		<ref bean="AssetPayment-account.subFundGroupCode"/>
+		
+		<ref bean="AssetPayment-asset.totalCostAmount"/>
+		<ref bean="AssetPayment-asset.capitalAssetInServiceDate"/>
+		<ref bean="AssetPayment-asset.capitalAssetDescription"/>
+		<ref bean="AssetPayment-asset.campusCode"/>
+		<ref bean="AssetPayment-asset.buildingCode"/>
+		<ref bean="AssetPayment-asset.inventoryStatusCode"/>
+		<ref bean="AssetPayment-asset.capitalAssetTypeCode"/>
+		
+		<ref bean="AssetPayment-account.organization.organizationPlantAccountNumber"/>
+		<ref bean="AssetPayment-account.organization.chartOfAccountsCode"/>
+		<ref bean="AssetPayment-account.organization.campusPlantAccountNumber"/>
+		<ref bean="AssetPayment-account.organization.campusPlantChartCode"/>
       </list>
     </property>
+    </bean>
+  
+<!-- Attribute Definitions -->
+
+  <bean id="AssetPayment-asset.campusTagNumber" parent="AssetPayment-asset.campusTagNumber-parentBean" />
+  <bean id="AssetPayment-asset.campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
+    <property name="name" value="asset.campusTagNumber" />
   </bean>
 
-<!-- Attribute Definitions -->
+
+  <bean id="AssetPayment-asset.totalCostAmount" parent="AssetPayment-asset.totalCostAmount-parentBean" />
+  <bean id="AssetPayment-asset.totalCostAmount-parentBean" abstract="true" parent="Asset-totalCostAmount">
+    <property name="name" value="asset.totalCostAmount" />
+  </bean>
+
+  <bean id="AssetPayment-asset.capitalAssetInServiceDate" parent="AssetPayment-asset.capitalAssetInServiceDate-parentBean" />
+  <bean id="AssetPayment-asset.capitalAssetInServiceDate-parentBean" abstract="true" parent="Asset-capitalAssetInServiceDate">
+    <property name="name" value="asset.capitalAssetInServiceDate" />
+  </bean>
+
+  <bean id="AssetPayment-asset.capitalAssetDescription" parent="AssetPayment-asset.capitalAssetDescription-parentBean" />
+  <bean id="AssetPayment-asset.capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
+    <property name="name" value="asset.capitalAssetDescription" />
+  </bean>
+
+  <bean id="AssetPayment-asset.campusCode" parent="AssetPayment-asset.campusCode-parentBean" />
+  <bean id="AssetPayment-asset.campusCode-parentBean" abstract="true" parent="Asset-campusCode">
+    <property name="name" value="asset.campusCode" />
+  </bean>
+
+  <bean id="AssetPayment-asset.buildingCode" parent="AssetPayment-asset.buildingCode-parentBean" />
+  <bean id="AssetPayment-asset.buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
+    <property name="name" value="asset.buildingCode" />
+  </bean>
+
+  <bean id="AssetPayment-asset.inventoryStatusCode" parent="AssetPayment-asset.inventoryStatusCode-parentBean" />
+  <bean id="AssetPayment-asset.inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
+    <property name="name" value="asset.inventoryStatusCode" />
+  </bean>
+
+  <bean id="AssetPayment-asset.capitalAssetTypeCode" parent="AssetPayment-asset.capitalAssetTypeCode-parentBean" />
+  <bean id="AssetPayment-asset.capitalAssetTypeCode-parentBean" abstract="true" parent="Asset-capitalAssetTypeCode">
+    <property name="name" value="asset.capitalAssetTypeCode" />
+  </bean>
+
+  <bean id="AssetPayment-account.organizationCode" parent="AssetPayment-account.organizationCode-parentBean" />
+  <bean id="AssetPayment-account.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
+    <property name="name" value="account.organizationCode" />
+  </bean>
+
+  <bean id="AssetPayment-account.subFundGroupCode" parent="AssetPayment-account.subFundGroupCode-parentBean" />
+  <bean id="AssetPayment-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode" />
+  </bean>
+
+
+  <bean id="AssetPayment-account.organization.organizationPlantAccountNumber" parent="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" />
+  <bean id="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" abstract="true" parent="Org-organizationPlantAccountNumber">
+    <property name="name" value="account.organization.organizationPlantAccountNumber" />
+  </bean>
+
+
+  <bean id="AssetPayment-account.organization.chartOfAccountsCode" parent="AssetPayment-account.organization.chartOfAccountsCode-parentBean" />
+  <bean id="AssetPayment-account.organization.chartOfAccountsCode-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
+    <property name="name" value="account.organization.chartOfAccountsCode" />
+  </bean>
+
+  <bean id="AssetPayment-account.organization.campusPlantAccountNumber" parent="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" />
+  <bean id="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" abstract="true" parent="Org-campusPlantAccountNumber">
+    <property name="name" value="account.organization.campusPlantAccountNumber" />
+  </bean>
+
+  <bean id="AssetPayment-account.organization.campusPlantChartCode" parent="AssetPayment-account.organization.campusPlantChartCode-parentBean" />
+  <bean id="AssetPayment-account.organization.campusPlantChartCode-parentBean" abstract="true" parent="Org-campusPlantChartCode">
+    <property name="name" value="account.organization.campusPlantChartCode" />
+  </bean>
+
 
 
   <bean id="AssetPayment-accountChargeAmount" parent="AssetPayment-accountChargeAmount-parentBean" />
@@ -1124,19 +1215,37 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="accountChargeAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accumulatedPrimaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accumulatedSecondaryDepreciationAmount" />
+              p:attributeName="asset.campusTagNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="account.organizationCode" />              
+        <bean parent="FieldDefinition"
+              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="requisitionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="projectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="account.subFundGroupCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountChargeAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="asset.totalCostAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="asset.capitalAssetInServiceDate" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingDate" />
         <bean parent="FieldDefinition"
@@ -1144,186 +1253,50 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingYear" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
+              p:attributeName="asset.capitalAssetDescription"/>
         <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
+              p:attributeName="asset.campusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
+              p:attributeName="asset.buildingCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
+              p:attributeName="asset.inventoryStatusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationReferenceId" />
+              p:attributeName="asset.capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="paymentSequenceNumber" />
+              p:attributeName="account.organization.organizationPlantAccountNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="period10Depreciation1Amount" />
+              p:attributeName="account.organization.chartOfAccountsCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="period10Depreciation2Amount" />
+              p:attributeName="account.organization.campusPlantAccountNumber" />  
         <bean parent="FieldDefinition"
-              p:attributeName="period11Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period11Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period12Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period12Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period1Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period1Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period2Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period2Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period3Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period3Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period4Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period4Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period5Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period5Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period6Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period6Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period7Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period7Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period8Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period8Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period9Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period9Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="previousYearPrimaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="previousYearSecondaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="primaryDepreciationBaseAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="projectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="secondaryDepreciationBaseAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transferPaymentCode" />
+              p:attributeName="account.organization.campusPlantChartCode" /> 
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="accountChargeAmount" />
+              p:attributeName="capitalAssetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="asset.capitalAssetDescription"/>
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="accumulatedPrimaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accumulatedSecondaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
+              p:attributeName="subAccountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationReferenceId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentSequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period10Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period10Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period11Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period11Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period12Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period12Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period1Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period1Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period2Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period2Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period3Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period3Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period4Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period4Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period5Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period5Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period6Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period6Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period7Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period7Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period8Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period8Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period9Depreciation1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="period9Depreciation2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="previousYearPrimaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="previousYearSecondaryDepreciationAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="primaryDepreciationBaseAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="projectCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="requisitionNumber" />
+              p:attributeName="account.subFundGroupCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="secondaryDepreciationBaseAmount" />
+              p:attributeName="financialDocumentPostingDate" />
         <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
+              p:attributeName="accountChargeAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="transferPaymentCode" />
-      </list>
+              p:attributeName="account.organizationCode" />              
+     </list>
     </property>
   </bean>
 </beans>

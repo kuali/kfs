@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
@@ -79,17 +80,19 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         return super.refresh(mapping, form, request, response);
     }*/
 
-//    @Override
-//    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {       
-//        ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
-//        return docHandlerForward;
-//    }
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {       
+        ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
+        LOG.info("***********AssetPaymentACtion.docHandler()");        
+        return docHandlerForward;
+    }
 
 
 //    @Override
-//    public void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-//        super.loadDocument(kualiDocumentFormBase);
-//    }
+    public void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        LOG.info("***********AssetPaymentACtion.loadDocument()");
+    }
 
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -110,9 +113,12 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         assetPaymentDocument.setAgencyNumber(asset.getAgencyNumber());
         assetPaymentDocument.setBuildingCode(asset.getBuildingCode());
         assetPaymentDocument.setRepresentativeUniversalIdentifier(asset.getRepresentativeUniversalIdentifier());
-        
+
+        assetPaymentDocument.getDocumentHeader().setWorkflowDocument(GlobalVariables.getUserSession().getWorkflowDocument(assetPaymentDocument.getDocumentNumber()));
         //Adding the changes made in the document in the ActionForm.
         assetPaymentForm.setDocument(assetPaymentDocument);
+        LOG.info("***********AssetPaymentACtion.createDocument()");
+        
     }
 
     /**

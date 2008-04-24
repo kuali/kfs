@@ -48,6 +48,7 @@ public class CamsKeyConstants {
 
     public static class Payment {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
+        public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
     }
 
 

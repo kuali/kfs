@@ -114,6 +114,7 @@
         <form-bean name="PdpFormatSummaryForm" type="org.kuali.module.pdp.form.format.FormatSummaryForm" />
 
         <!-- CAMs Module Bean Definitions -->
+        <form-bean name="AssetPaymentForm" type="org.kuali.module.cams.web.struts.form.AssetPaymentForm" />  
         <form-bean name="AssetTransferForm" type="org.kuali.module.cams.web.struts.form.AssetTransferForm" />
         
         <!-- Effort Certification Bean Definitions -->
@@ -201,6 +202,12 @@
    		   <set-property property="cancellable" value="true" />
     	   <forward name="basic" path="/jsp/modules/ar/{1}.jsp" />
   		</action>
+
+		<!-- Capital Assets mappings -->
+        <action path="/cams*" name="{1}Form" 	  input="/jsp/modules/cams/{1}.jsp" 	 type="org.kuali.module.cams.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/cams/{1}.jsp" /> 
+        </action> 
         
         <action path="/financial*" name="{1}Form" input="/jsp/modules/financial/{1}.jsp" type="org.kuali.module.financial.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />

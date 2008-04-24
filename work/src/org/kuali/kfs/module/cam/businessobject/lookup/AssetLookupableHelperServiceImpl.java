@@ -74,15 +74,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         Asset asset = (Asset) bo;
         String anchor = CamsConstants.AssetActions.PAYMENT;
 
-        /** TODO ADD SYSTEM PARAMETER TO STORE THE VALID STATUSES ( ‘A’, ‘C’, ‘S’, ‘U’) * */
-//        List activeAssetStatusCodes = new ArrayList();
-//        activeAssetStatusCodes.add("A");
-//        activeAssetStatusCodes.add("C");
-//        activeAssetStatusCodes.add("S");
-//        activeAssetStatusCodes.add("U");
-//        if (activeAssetStatusCodes.contains(asset.getInventoryStatusCode()))
-
-        if (!getAssetService().isAssetRetired(asset))
+        //Only active capital assets will have the payment link.
+        if (getAssetService().isCapitalAsset(asset) && !getAssetService().isAssetRetired(asset))
             anchor = "<a href=\"../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.PAYMENT + "</a>";
 
         return anchor;

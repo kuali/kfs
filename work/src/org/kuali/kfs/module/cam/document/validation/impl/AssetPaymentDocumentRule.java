@@ -19,6 +19,7 @@ import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +58,7 @@ import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.PositionData;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -195,12 +197,16 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
 
     /**
      * 
-     * This method validates the given posted date exists in the university date table
+     * This method validates the given posted date exists in the university date table and 
+     * that the posted date is not greater than the current fiscal year
      * 
      * @param postedDate
      * @return boolean
      */
     private boolean validatePostedDate(Date postedDate) {
+        Calendar documentPostedDate = Calendar.getInstance();
+        documentPostedDate.setTime(postedDate);
+        
         boolean result=true;
         Map<String,Object> keyToFind= new HashMap<String,Object>();          
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, postedDate);
@@ -208,6 +214,13 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
             result=false;                
+        }
+
+        //Validating the posted document date is not greater than the current fiscal year.
+        Integer currentFiscalYear =SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();         
+        if (documentPostedDate.get(Calendar.YEAR) > currentFiscalYear.intValue()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
+            result=false;                                
         }
         return result;
     }

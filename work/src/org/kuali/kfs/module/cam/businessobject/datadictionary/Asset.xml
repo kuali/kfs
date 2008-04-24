@@ -176,8 +176,14 @@
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
+<!-- Attribute Definitions -->    
+  <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
 
+  <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
+    <property name="name" value="organizationOwnerAccount.organizationCode" />
+    <property name="label" value="Organization Owner Organization Code" />
+	<property name="shortLabel" value="Org Code" />    
+  </bean>
 
   <bean id="Asset-acquisitionTypeCode" parent="Asset-acquisitionTypeCode-parentBean" />
 
@@ -937,12 +943,6 @@
   <bean id="Asset-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
     <property name="name" value="organizationOwnerChartOfAccountsCode" />
     <property name="label" value="Organization Owner Chart Of Accounts Code" />
-  </bean>
-  <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
-
-  <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
-    <property name="name" value="organizationOwnerAccount.organizationCode" />
-    <property name="label" value="Organization Owner Organization Code" />
   </bean>
   <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean" />
 

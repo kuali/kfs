@@ -866,7 +866,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @see org.kuali.module.cams.dao.DepreciableAssetsDao#getAssetObjectCodes(java.lang.Integer)
      */
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
-        LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodes() -  started");
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
 
         Collection<AssetObjectCode> assetObjectCodesCollection;
@@ -875,7 +875,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         assetObjectCodesCollection = (Collection<AssetObjectCode>) businessObjectService.findMatching(AssetObjectCode.class, fields);
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:" + assetObjectCodesCollection.toString());
-        LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodes() -  ended");
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  ended");
         return assetObjectCodesCollection;
     }
 
@@ -887,7 +887,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return a List<String>
      */
     private List<String> getExpenseObjectCodes(Integer fiscalYear) {
-        LOG.debug("AssetDepreciationServiceImpl.getExpenseObjectCodes() -  started");
+        LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting expense object codes");
 
         List<String> depreExpObjCodes = new ArrayList<String>();
@@ -902,7 +902,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 depreExpObjCodes.add(objCode);
             }
         }
-        LOG.debug("AssetDepreciationServiceImpl.getExpenseObjectCodes() -  ended");
+        LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting expense object codes which are:" + depreExpObjCodes.toString());
         return depreExpObjCodes;
     }
@@ -916,7 +916,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return List<String>
      */
     private List<String> getAccumulatedDepreciationObjectCodes(Integer fiscalYear) {
-        LOG.debug("AssetDepreciationServiceImpl.getAccumulatedDepreciationObjectCodes() -  started");
+        LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting accum depreciation object codes");
 
         List<String> accumulatedDepreciationObjCodes = new ArrayList<String>();
@@ -932,7 +932,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             }
         }
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting accum depreciation object codes which are:" + accumulatedDepreciationObjCodes.toString());
-        LOG.debug("AssetDepreciationServiceImpl.getAccumulatedDepreciationObjectCodes() -  ended");
+        LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  ended");
         return accumulatedDepreciationObjCodes;
     }
 
@@ -945,7 +945,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return number of object codes found
      */
     private Object getAssetObjectCodesCount(Integer fiscalYear) {
-        LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodesCount() -  started");
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodesCount() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object code count.");
 
         Criteria criteria = new Criteria();
@@ -957,7 +957,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Object[] data = (Object[]) i.next();
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finisned getting asset object code count which is: " + data[0]);
-        LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodesCount() -  ended");
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodesCount() -  ended");
         return data[0];
     }
 

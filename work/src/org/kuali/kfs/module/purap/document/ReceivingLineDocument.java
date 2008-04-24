@@ -3,16 +3,16 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.ReceivingService;
-
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -85,6 +85,8 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
                 this.getItems().add(new ReceivingLineItem(poi, this));
             }
         }
+        
+        populateDocumentDescription(po);
     }
         
     /**
@@ -144,5 +146,17 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         }
         return null;
     }*/
+    
+    /**
+     * FIXME: Have to move this method to the base class to make it available for the correction doc also - vpc
+     */
+    private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
+        String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        if (noteTextMaxLength < description.length()) {
+            description = description.substring(0, noteTextMaxLength);
+        }
+        getDocumentHeader().setFinancialDocumentDescription(description);
+    }
 
 }

@@ -30,7 +30,6 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.rule.event.AddNoteEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;

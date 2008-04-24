@@ -35,6 +35,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -301,9 +302,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     private AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, AssetPayment assetPayment) {
         Map<String, Object> pkKeys = new HashMap<String, Object>();
-        pkKeys.put("universityFiscalYear", getUniversityDateService().getCurrentFiscalYear());
-        pkKeys.put("chartOfAccountsCode", chartOfAccountsCode);
-        pkKeys.put("financialObjectSubTypeCode", assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        pkKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityDateService().getCurrentFiscalYear());
+        pkKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        pkKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         AssetObjectCode assetObjectCode = (AssetObjectCode) getBusinessObjectService().findByPrimaryKey(AssetObjectCode.class, pkKeys);
         if (ObjectUtils.isNull(assetObjectCode)) {
             throw new ReferentialIntegrityException("Asset object code is not defined for this organizationOwnerChartOfAccountsCode=" + chartOfAccountsCode + ", financialObjectSubTypeCode=" + assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() + " for current fiscal year  " + getUniversityDateService().getCurrentFiscalYear());

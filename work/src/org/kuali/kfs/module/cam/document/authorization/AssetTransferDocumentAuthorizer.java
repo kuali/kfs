@@ -15,22 +15,15 @@
  */
 package org.kuali.module.cams.document.authorization;
 
-import java.util.Map;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
 
 public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
@@ -57,10 +50,5 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
             actionFlags.setCanSave(false);
         }
         return actionFlags;
-    }
-    
-    @Override
-    public Map getEditMode(Document d, UniversalUser u) {
-        return super.getEditMode(d, u);
     }
 }

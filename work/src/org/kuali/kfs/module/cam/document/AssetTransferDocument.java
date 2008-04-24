@@ -213,6 +213,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        LOG.debug("getGeneralLedgerPostingHelper() " + CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
         Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
@@ -381,10 +382,12 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
         String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
+        LOG.debug("Start - handleRouteStatusChange " + financialDocumentStatusCode);
         // if status is approved
         if (RiceConstants.DocumentStatusCodes.APPROVED.equals(financialDocumentStatusCode)) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
         }
+        LOG.debug("End - handleRouteStatusChange " + financialDocumentStatusCode);
     }
 
 
@@ -708,12 +711,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
         List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
-        for (GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail : this.sourceAssetGlpeSourceDetails) {
-            generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
-        }
-        for (GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail : this.targetAssetGlpeSourceDetails) {
-            generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
-        }
+        generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);
+        generalLedgerPostables.addAll(this.targetAssetGlpeSourceDetails);
         return generalLedgerPostables;
     }
 

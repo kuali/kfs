@@ -29,6 +29,7 @@ import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -48,6 +49,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     private AssetPaymentService assetPaymentService;
     private AssetService assetService;
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
@@ -62,6 +66,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean valid = true;
@@ -71,6 +78,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         return valid;
     }
 
+    /**
+     * This method applies business rules
+     * 
+     * @param document Transfer Document
+     * @return true if all rules are pass
+     */
     private boolean applyRules(Document document) {
         boolean valid = true;
         // check if selected account has plant fund accounts
@@ -88,6 +101,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     }
 
 
+    /**
+     * This method validates location information provided by the user
+     * 
+     * @param assetTransferDocument Transfer Document
+     * @return true is location information is valid for the asset type
+     */
     private boolean validateLocation(AssetTransferDocument assetTransferDocument) {
         Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
         fieldMap.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE);
@@ -106,6 +125,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     }
 
 
+    /**
+     * This method checks if reference objects exist in the database or not
+     * 
+     * @param assetTransferDocument Transfer document
+     * @return true if all objects exists in db
+     */
     private boolean checkReferencesExist(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode())) {
@@ -162,21 +187,28 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     }
 
 
+    /**
+     * This method validates the new owner organization and account provided
+     * 
+     * @param assetTransferDocument
+     * @return
+     */
     private boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
         // check if account is active
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
+        Asset asset = assetTransferDocument.getAsset();
         if (organizationOwnerAccount == null || organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator()) {
             // show error if account is not active
             putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE);
             valid &= false;
         }
-        else {
+        else if (getAssetService().isCapitalAsset(asset)) {
+            // for a capital asset, check if plant account is defined
             Org ownerOrg = organizationOwnerAccount.getOrganization();
             Account campusPlantAccount = ownerOrg.getCampusPlantAccount();
             Account organizationPlantAccount = ownerOrg.getOrganizationPlantAccount();
-
-            boolean assetMovable = getAssetService().isAssetMovable(assetTransferDocument.getAsset());
+            boolean assetMovable = getAssetService().isAssetMovable(asset);
             if (ObjectUtils.isNull(organizationPlantAccount) && assetMovable) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
                 valid &= false;

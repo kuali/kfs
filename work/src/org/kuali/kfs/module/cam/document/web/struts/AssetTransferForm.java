@@ -37,7 +37,7 @@ public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
         setDocument(new AssetTransferDocument());
         // If this is not done, when document description error is there, message comes back with read-only mode
         Map<String, String> editModeMap = new HashMap<String, String>();
-        editModeMap.put(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY, "TRUE");
+        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
         setEditingMode(editModeMap);
     }
 
@@ -52,11 +52,15 @@ public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
         // TODO - When I use below method gets an error [error getting property value for accountingPeriod Property
         // 'accountingPeriod' has no getter method] while reloading a document
         // SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
-        // TODO So this is a hack to prevent that error
         performCustomForceUpperCase(dataDictionaryService);
 
     }
 
+    /**
+     * Forces upper case on all field marked for upper case
+     * 
+     * @param dataDictionaryService Data Dictionary Service
+     */
     private void performCustomForceUpperCase(DataDictionaryService dataDictionaryService) {
         AssetTransferDocument bo = getAssetTransferDocument();
         PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetTransferDocument.class);

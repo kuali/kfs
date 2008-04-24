@@ -138,9 +138,9 @@
               p:name="financialDocumentPostingPeriodCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetInServiceDate" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="financialObjectSubTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetInServiceDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="depreciationDate"
               p:readOnly="true" />
@@ -395,6 +395,9 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetType.depreciableLifeLimit"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="depreciationDateCopy"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="baseAmount"

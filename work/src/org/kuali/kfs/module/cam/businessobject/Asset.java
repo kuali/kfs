@@ -136,6 +136,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private KualiDecimal prevYearDepreciation;
     private KualiDecimal yearToDateDepreciation;
     private KualiDecimal currentMonthDepreciation;
+    private Date depreciationDateCopy;
 
     /**
      * Default constructor.
@@ -1923,4 +1924,18 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setAssetDepreciationConvention(AssetDepreciationConvention assetDepreciationConvention) {
         this.assetDepreciationConvention = assetDepreciationConvention;
     }
+
+    public Date getDepreciationDateCopy() {
+        return depreciationDate;
+    }
+
+    /**
+     * @param depreciationDateCopy
+     * @deprecated
+     */
+    public void setDepreciationDateCopy(Date depreciationDateCopy) {
+        this.depreciationDateCopy = depreciationDateCopy;
+    }
+    
+    
 }

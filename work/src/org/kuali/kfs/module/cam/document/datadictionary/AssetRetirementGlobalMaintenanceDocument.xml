@@ -159,6 +159,11 @@
                     p:name="capitalAssetNumber" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" />
+          	</list>
+          </property>
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -170,87 +175,70 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.organizationOwnerChartOfAccountsCode"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="organizationOwnerChartOfAccountsCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.organizationOwnerAccountNumber"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="organizationOwnerAccountNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.acquisitionTypeCode"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="acquisitionTypeCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.inventoryStatusCode"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="inventoryStatusCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.conditionCode"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="conditionCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.capitalAssetDescription"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="capitalAssetDescription" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.capitalAssetTypeCode"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="capitalAssetTypeCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.vendorName"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="vendorName" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.manufacturerModelNumber"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="manufacturerModelNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.serialNumber"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="serialNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.campusTagNumber"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="campusTagNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.governmentTagNumber"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="governmentTagNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.lastInventoryDate"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="lastInventoryDate" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.createDate"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="createDate" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.capitalAssetInServiceDate"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="capitalAssetInServiceDate" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.depreciationDate"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="depreciationDate" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.totalCostAmount"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="totalCostAmount" />
               <bean parent="MaintainableFieldDefinition"
               		p:name="asset.accumulatedDepreciation"
@@ -263,7 +251,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="asset.federalContribution"
                     p:readOnly="true"
-                    p:readOnlyAfterAdd="true"
                     p:template="federalContribution" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />

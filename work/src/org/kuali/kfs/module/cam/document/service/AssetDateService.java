@@ -28,4 +28,5 @@ public interface AssetDateService {
      * In Asset Edit, DepreciationDate shall be updated whenever In-service Date changed.
      */
     void checkAndUpdateDepreciationDate(Asset copyAsset, Asset newAsset);
+    
 }

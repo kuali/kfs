@@ -29,6 +29,7 @@
         <ref bean="Asset-createDate" />
         <ref bean="Asset-financialObjectSubTypeCode" />
         <ref bean="Asset-depreciationDate" />
+        <ref bean="Asset-depreciationDateCopy" />
         <ref bean="Asset-capitalAssetInServiceDate" />
         <ref bean="Asset-estimatedFabricationCompletionDate" />
         <ref bean="Asset-estimatedFabricationLifetimeLimitNumber" />
@@ -342,6 +343,13 @@
 
   <bean id="Asset-depreciationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="depreciationDate" />
+    <property name="label" value="Depreciation Date" />
+    <property name="shortLabel" value="Depreciation Date" />
+  </bean>
+  <bean id="Asset-depreciationDateCopy" parent="Asset-depreciationDateCopy-parentBean" />
+
+  <bean id="Asset-depreciationDateCopy-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="depreciationDateCopy" />
     <property name="label" value="Depreciation Date" />
     <property name="shortLabel" value="Depreciation Date" />
   </bean>
@@ -688,9 +696,9 @@
     <property name="summary" value="retirementAccountNumber" />
     <property name="description" value="retirementAccountNumber description..." />
   </bean>
-  <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountsCode-parentBean" />
+  <bean id="Asset-retirementChartOfAccountsCode" parent="Asset-retirementChartOfAccountCode-parentBean" />
 
-  <bean id="Asset-retirementChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-retirementChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="retirementChartOfAccountsCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Cash Receipt Chart" />
@@ -1532,6 +1540,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetInServiceDate" />
               <bean parent="FieldDefinition"
+                    p:attributeName="depreciationDate" />
+              <bean parent="FieldDefinition"
                     p:attributeName="totalCostAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="federalContribution" />
@@ -1796,6 +1806,8 @@
                     p:attributeName="retirementInfo.assetRetirementGlobal.retirementDate" />
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Sale" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="retirementInfo.buyerDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="salePrice" />
               <bean parent="FieldDefinition"

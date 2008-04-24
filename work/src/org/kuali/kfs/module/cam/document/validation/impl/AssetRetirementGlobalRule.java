@@ -32,7 +32,6 @@ import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -51,6 +50,19 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     */
+    @Override
+    public void setupConvenienceObjects() {
+        AssetRetirementGlobal newRetirementGlobal = (AssetRetirementGlobal) super.getNewBo();
+        newRetirementGlobal.refreshNonUpdateableReferences();
+        for (AssetRetirementGlobalDetail detail : newRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            detail.refreshNonUpdateableReferences();
+        }
+    }
+
+    /**
      * Processes rules when saving this global.
      * 
      * @param document MaintenanceDocument type of document to be processed.
@@ -62,8 +74,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
+        setupConvenienceObjects();
         valid &= assetRetirementValidation(assetRetirementGlobal);
-
         return valid & super.processCustomSaveDocumentBusinessRules(document);
     }
 
@@ -76,13 +88,14 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean success = true;
         AssetRetirementGlobalDetail assetRetirementGlobalDetail = (AssetRetirementGlobalDetail) line;
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
 
         if (!checkEmptyValue(assetRetirementGlobalDetail.getCapitalAssetNumber())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_BLANK_CAPITAL_ASSET_NUMBER);
             success = false;
         }
         else {
-            success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail);
+            success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail, assetRetirementGlobal);
         }
 
         return success & super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
@@ -110,8 +123,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             for (AssetRetirementGlobalDetail detail : assetRetirementGlobalDetails) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "assetRetirementGlobalDetails[" + index++ + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                success &= checkRetirementDetailOneLine(detail);
 
+                success &= checkRetirementDetailOneLine(detail, assetRetirementGlobal);
                 if (success) {
                     success &= validateActiveCapitalAsset(detail);
                 }
@@ -123,6 +136,14 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    private boolean checkDuplicateAssetNumberWithTarget(AssetRetirementGlobalDetail detail, AssetRetirementGlobal assetRetirementGlobal) {
+        if (detail.getCapitalAssetNumber() != null && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() != null && detail.getCapitalAssetNumber().compareTo(assetRetirementGlobal.getMergedTargetCapitalAssetNumber()) == 0) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_DUPLICATE_CAPITAL_ASSET_NUMBER_WITH_TARGET, detail.getCapitalAssetNumber().toString());
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 
      * This method validates one asset each call.
@@ -130,7 +151,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param detail
      * @return
      */
-    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail detail) {
+    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail detail, AssetRetirementGlobal assetRetirementGlobal) {
         boolean success = true;
 
         if (StringUtils.isNotBlank(detail.getCapitalAssetNumber().toString())) {
@@ -139,22 +160,34 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
                 success = false;
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_CAPITAL_ASSET_NUMBER, detail.getCapitalAssetNumber().toString());
             }
+            else {
+                success &= checkDuplicateAssetNumberWithTarget(detail, assetRetirementGlobal);
+            }
         }
         return success;
     }
 
+
     private boolean assetRetirementValidation(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
 
-        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() == null) {
-            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.MERGED_TARGET_CAPITAL_ASSET_NUMBER, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
-            valid = false;
+        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            valid &= validateMergeTargetAsset(assetRetirementGlobal);
         }
 
         valid &= validateRequiredSharedInfoFields(assetRetirementGlobal);
 
         valid &= validateRetirementDetails(assetRetirementGlobal);
 
+        return valid;
+    }
+
+    private boolean validateMergeTargetAsset(AssetRetirementGlobal assetRetirementGlobal) {
+        boolean valid = true;
+        if (assetRetirementGlobal.getMergedTargetCapitalAssetNumber() == null || assetRetirementGlobal.getMergedTargetCapitalAsset() == null) {
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_MERGED_TARGET_ASSET_NUMBER, assetRetirementGlobal.getMergedTargetCapitalAssetNumber() == null ? "" : assetRetirementGlobal.getMergedTargetCapitalAssetNumber().toString());
+            valid = false;
+        }
         return valid;
     }
 

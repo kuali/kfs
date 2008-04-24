@@ -22,7 +22,6 @@ import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
@@ -115,9 +114,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                 if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !assetService.isAssetRetired(asset)) {
                     section.setHidden(true);
                 }
+                if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() == 0) {
+                    section.setSectionTitle(section.getSectionTitle() + CamsConstants.Asset.SECTION_TITLE_NO_PAYMENT + asset.getCapitalAssetNumber());
+                }
             }
         }
-
 
         return sections;
     }

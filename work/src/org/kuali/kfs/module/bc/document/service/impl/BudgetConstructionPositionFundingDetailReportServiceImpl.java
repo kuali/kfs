@@ -178,8 +178,10 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         
         if (positionFundingDetailEntry.getPersonName() != null) {
             orgPositionFundingDetailReportEntry.setPersonName(positionFundingDetailEntry.getPersonName());
+        } else {
+            orgPositionFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
         }
-        orgPositionFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
+        
 
 
         if (budgetConstructionAdministrativePost != null) {

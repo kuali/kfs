@@ -282,4 +282,24 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         return salarySum;
     }
 
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getDocumentPBGLFringeLines(java.lang.String, java.util.List)
+     */
+    public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects){
+        List documentPBGLfringeLines = new ArrayList();
+        
+        // TODO need to make sure we are getting the data that was updated by the jdbc benefits calc calls
+        // we probably should just add a clearcache call at the end of all JDBC public methods that update the DB
+        getPersistenceBrokerTemplate().clearCache();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("documentNumber", documentNumber);
+        criteria.addIn("financialObjectCode", fringeObjects);
+        QueryByCriteria query = QueryFactory.newQuery(PendingBudgetConstructionGeneralLedger.class, criteria);
+        query.addOrderByAscending("financialObjectCode");
+        documentPBGLfringeLines = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        return documentPBGLfringeLines;
+    }
 }

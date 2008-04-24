@@ -130,6 +130,21 @@ public interface BudgetConstructionDao {
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
     
+    /**
+     * Returns the sum of the salary detail request amounts for an accounting line
+     * 
+     * @param salaryDetailLine
+     * @return
+     */
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
+    
+    /**
+     * returns a list of fringe benefit accounting lines for a document
+     * 
+     * @param documentNumber
+     * @param fringeObjects
+     * @return
+     */
+    public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects);
 
 }

@@ -83,45 +83,49 @@ public class OrganizationSelectionTreeForm extends KualiForm {
 
         super.populate(request);
 
-        OrgSelOpMode opMode = OrgSelOpMode.valueOf(getOperatingMode());
-        switch (opMode) {
-            case SALSET:
-                setOperatingModeTitle("Budget Salary Setting Organization Selection");
-                setOperatingModePullFlagLabel("Selected");
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
-                break;
-            case REPORTS:
-                setOperatingModeTitle("BC Reports Organization Selection");
-                setOperatingModePullFlagLabel("Selected");
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
-                break;
-            case PULLUP:
-                setOperatingModeTitle("BC Pull Up Organization Selection");
-                setOperatingModePullFlagLabel("Pull Up Type");
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
-                break;
-            case PUSHDOWN:
-                setOperatingModeTitle("BC Push Down Organization Selection");
-                setOperatingModePullFlagLabel("Push Down Type");
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGMGRLEV.getKey(), OrgSelControlOption.ORGMGRLEV.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVONE.getKey(), OrgSelControlOption.LEVONE.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVZERO.getKey(), OrgSelControlOption.LEVZERO.getLabel()));
-                break;
-            default:
-                // default to ACCOUNT operating mode
-                setOperatingModeTitle("Budgeted Account List Search Organization Selection");
-                setOperatingModePullFlagLabel("Selected");
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
-                break;
+        // TODO for now an empty list means we need to initialize should probably move this to action class?
+        // especially when buttons are added to allow the user to switch modes without exiting the selection screen
+        if (getPullFlagKeyLabels().isEmpty()){
+            OrgSelOpMode opMode = OrgSelOpMode.valueOf(getOperatingMode());
+            switch (opMode) {
+                case SALSET:
+                    setOperatingModeTitle("Budget Salary Setting Organization Selection");
+                    setOperatingModePullFlagLabel("Selected");
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                    break;
+                case REPORTS:
+                    setOperatingModeTitle("BC Reports Organization Selection");
+                    setOperatingModePullFlagLabel("Selected");
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                    break;
+                case PULLUP:
+                    setOperatingModeTitle("BC Pull Up Organization Selection");
+                    setOperatingModePullFlagLabel("Pull Up Type");
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
+                    break;
+                case PUSHDOWN:
+                    setOperatingModeTitle("BC Push Down Organization Selection");
+                    setOperatingModePullFlagLabel("Push Down Type");
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGMGRLEV.getKey(), OrgSelControlOption.ORGMGRLEV.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVONE.getKey(), OrgSelControlOption.LEVONE.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.LEVZERO.getKey(), OrgSelControlOption.LEVZERO.getLabel()));
+                    break;
+                default:
+                    // default to ACCOUNT operating mode
+                    setOperatingModeTitle("Budgeted Account List Search Organization Selection");
+                    setOperatingModePullFlagLabel("Selected");
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                    break;
+            }
         }
 
     }

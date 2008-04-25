@@ -164,7 +164,10 @@
 
         <%--pullup selection header --%>
 	    <tr>
-            <th class="grid" colspan="1" rowspan="1"><br>${KualiForm.operatingModePullFlagLabel}</th>
+            
+            <th class="grid" colspan="1" rowspan="1"><br>${KualiForm.operatingModePullFlagLabel}
+              <html:hidden property="operatingModePullFlagLabel" value="${KualiForm.operatingModePullFlagLabel}" />
+            </th>
 		    <th class="grid" align="left" colspan="4"><br>Organization Selection Sub-Tree</th>
 		    <th class="grid" align="center" colspan="1"><br>Action</th>
 	    </tr>

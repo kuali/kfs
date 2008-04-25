@@ -289,40 +289,68 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Organization Accounting Defaults" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
+                    p:attributeName="universityFiscalYear" />
               <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceAccountNumber" />
+                    p:attributeName="chartOfAccountsCode" />    
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCode" />
+            </list>
+          </property>
+        </bean>
+		<bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Income Account Defaults" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
               <bean parent="FieldDefinition"
                     p:attributeName="defaultInvoiceChartOfAccountsCode" />
+			  <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceSubAccountNumber" />                                        
               <bean parent="FieldDefinition"
                     p:attributeName="defaultInvoiceFinancialObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultInvoiceFinancialSubObjectCode" />
               <bean parent="FieldDefinition"
+                    p:attributeName="defaultInvoiceProjectCode" />                    
+              <bean parent="FieldDefinition"
                     p:attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceProjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultInvoiceSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultPaymentAccountNumber" />
+            </list>
+          </property>
+        </bean>
+		<bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Receivable Account Defaults" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
               <bean parent="FieldDefinition"
                     p:attributeName="defaultPaymentChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultPaymentOrganizationReferenceIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="defaultPaymentProjectCode" />
+ 			  <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentAccountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultPaymentSubAccountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultPaymentFinancialObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="defaultPaymentFinancialSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentProjectCode" />                    
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPaymentOrganizationReferenceIdentifier" />
+            </list>
+          </property>
+        </bean>
+		<bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Writeoff Account Defaults" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
               <bean parent="FieldDefinition"
                     p:attributeName="writeoffChartOfAccountsCode" />
               <bean parent="FieldDefinition"
@@ -337,17 +365,12 @@
                     p:attributeName="writeoffProjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="writeoffOrganizationReferenceIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationLateChargeObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
             </list>
           </property>
-        </bean>
+        </bean>                        
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.module.ar.maintenance.OrganizationAccountingDefaultInquirable" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

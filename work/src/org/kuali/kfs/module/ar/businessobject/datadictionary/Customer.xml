@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="Customer-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="customerNumber" />	    
     <property name="attributes" >
       <list>
         <ref bean="Customer-customer800PhoneNumber" />
@@ -411,7 +412,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Customer" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

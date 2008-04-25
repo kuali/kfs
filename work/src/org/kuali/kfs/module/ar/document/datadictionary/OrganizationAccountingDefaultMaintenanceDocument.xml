@@ -164,8 +164,8 @@
   <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults" parent="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults-parentBean" />
 
   <bean id="OrganizationAccountingDefaultMaintenanceDocument-EditOrganizationAccountingPaymentDefaults-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Accounting Payment Defaults" />
-    <property name="title" value="Edit Organization Accounting Payment Defaults" />
+    <property name="id" value="Edit Organization Receivable Account Defaults" />
+    <property name="title" value="Edit Organization Receivable Account Defaults" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"

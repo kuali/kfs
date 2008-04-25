@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PaymentMedium-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="customerPaymentMediumCode" />
     <property name="attributes" >
       <list>
         <ref bean="PaymentMedium-customerPaymentMediumCode" />
@@ -86,7 +87,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Payment Medium" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

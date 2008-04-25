@@ -97,6 +97,8 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationReversionGlobalOrganizations" />
           <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" />
+          <property name="sourceClassName" value="org.kuali.module.chart.bo.Org" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Organization" />
           <property name="summaryFields" >
             <list>

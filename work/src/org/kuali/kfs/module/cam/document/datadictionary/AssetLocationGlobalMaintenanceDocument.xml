@@ -62,6 +62,8 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetLocationGlobalDetails" />
           <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.module.cams.bo.Asset" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Asset" />
           <property name="summaryFields" >
             <list>

@@ -136,6 +136,8 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="objectCodeGlobalDetails" />
           <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.module.chart.bo.Chart" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Year and Chart" />
           <property name="summaryFields" >
             <list>

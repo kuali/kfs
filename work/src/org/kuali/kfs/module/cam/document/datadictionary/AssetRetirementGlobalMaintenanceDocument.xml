@@ -152,6 +152,8 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetRetirementGlobalDetails" />
           <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.module.cams.bo.Asset" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Asset Retired" />
           <property name="summaryFields" >
             <list>

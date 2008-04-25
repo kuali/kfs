@@ -72,6 +72,8 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="delegateGlobals" />
           <property name="businessObjectClass" value="org.kuali.module.chart.bo.DelegateGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.module.chart.bo.Delegate" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Account Delegate" />
           <property name="summaryFields" >
             <list>
@@ -136,6 +138,8 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="accountGlobalDetails" />
           <property name="businessObjectClass" value="org.kuali.module.chart.bo.AccountGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.module.chart.bo.Account" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Account" />
           <property name="summaryFields" >
             <list>

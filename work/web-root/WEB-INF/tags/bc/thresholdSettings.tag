@@ -15,15 +15,19 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="thresholdAttribute" value="${DataDictionary.BudgetConstructionReportThresholdSettings.attributes}" />
+<c:set var="thresholdAttribute"
+	value="${DataDictionary.BudgetConstructionReportThresholdSettings.attributes}" />
 
-<table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
-    <tr>
-      <th class="grid" colspan="2" align="left">
-			<br> <bean:message key="${BCConstants.Report.THRESHOLD_SELECTION_MESSAGE_KEY}" />
-	  </th>
-    </tr>
-        
+<table align="center" cellpadding="0" cellspacing="0"
+	class="datatable-100">
+	<tr>
+		<th class="grid" colspan="2" align="left">
+			<br>
+			<bean:message
+				key="${BCConstants.Report.THRESHOLD_SELECTION_MESSAGE_KEY}" />
+		</th>
+	</tr>
+
 	<tr>
 		<th class="grid" width="50%" align="right">
 			<kul:htmlAttributeLabel
@@ -36,7 +40,7 @@
 				attributeEntry="${thresholdAttribute.useThreshold}" readOnly="false" />
 		</td>
 	</tr>
-	
+
 	<tr>
 		<th class="grid" align="right">
 			<kul:htmlAttributeLabel
@@ -46,10 +50,11 @@
 		<td class="grid" valign="center">
 			<kul:htmlControlAttribute
 				property="budgetConstructionReportThresholdSettings.thresholdPercent"
-				attributeEntry="${thresholdAttribute.thresholdPercent}" readOnly="false" />
+				attributeEntry="${thresholdAttribute.thresholdPercent}"
+				readOnly="false" />
 		</td>
 	</tr>
-	
+
 	<tr>
 		<th class="grid" align="right">
 			<kul:htmlAttributeLabel
@@ -59,7 +64,8 @@
 		<td class="grid" valign="center">
 			<kul:htmlControlAttribute
 				property="budgetConstructionReportThresholdSettings.useGreaterThanOperator"
-				attributeEntry="${thresholdAttribute.useGreaterThanOperator}" readOnly="false" />
+				attributeEntry="${thresholdAttribute.useGreaterThanOperator}"
+				readOnly="false" />
 		</td>
 	</tr>
-</table>	
+</table>

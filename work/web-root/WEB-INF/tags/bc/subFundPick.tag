@@ -15,25 +15,37 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:if test="${empty KualiForm.subFundPickList}">
+<table align="center" cellpadding="0" cellspacing="0"
+	class="datatable-100">
 	<tr>
 		<th class="grid" colspan="6" align="left">
-			<bean:message key="${BCConstants.Report.SUB_FUND_LIST_EMPTY_MESSAGE_KEY}" />
+			<br>
+			${KualiForm.operatingModeTitle}
+			<br>
+			<br>
 		</th>
 	</tr>
 
-	</table>
+	<c:if test="${empty KualiForm.subFundPickList}">
+		<tr>
+			<th class="grid" colspan="6" align="left">
+				<bean:message
+					key="${BCConstants.Report.SUB_FUND_LIST_EMPTY_MESSAGE_KEY}" />
+			</th>
+		</tr>
+</table>
 
-	<div id="globalbuttons" class="globalbuttons">
-		<html:image
-			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
-			styleClass="globalbuttons" property="methodToCall.returnToCaller"
-			title="close" alt="close" />
-	</div>
+<div id="globalbuttons" class="globalbuttons">
+	<html:image
+		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+		styleClass="globalbuttons" property="methodToCall.returnToCaller"
+		title="close" alt="close" />
+</div>
 </c:if>
 
 <c:if test="${!empty KualiForm.subFundPickList}">
-	<c:set var="subFundAttribute" value="${DataDictionary.BudgetConstructionSubFundPick.attributes}" />
+	<c:set var="subFundAttribute"
+		value="${DataDictionary.BudgetConstructionSubFundPick.attributes}" />
 
 	<tr>
 		<th class="grid">
@@ -51,13 +63,17 @@
 		</th>
 	</tr>
 
-	<logic:iterate name="KualiForm" id="subFundPick" property="subFundPickList" indexId="ctr">
-		<html-el:hidden name="KualiForm" property="subFundPickList[${ctr}].personUniversalIdentifier" />
-        <html-el:hidden name="KualiForm" property="subFundPickList[${ctr}].versionNumber" />
+	<logic:iterate name="KualiForm" id="subFundPick"
+		property="subFundPickList" indexId="ctr">
+		<html-el:hidden name="KualiForm"
+			property="subFundPickList[${ctr}].personUniversalIdentifier" />
+		<html-el:hidden name="KualiForm"
+			property="subFundPickList[${ctr}].versionNumber" />
 
 		<tr align="center">
 			<td class="grid" valign="center">
-				<html:checkbox property="subFundPickList[${ctr}].reportFlag" value="1" />
+				<html:checkbox property="subFundPickList[${ctr}].reportFlag"
+					value="1" />
 			</td>
 			<td class="grid" valign="center">
 				<kul:htmlControlAttribute

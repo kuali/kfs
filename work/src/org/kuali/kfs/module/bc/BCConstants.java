@@ -201,6 +201,7 @@ public class BCConstants extends JstlConstants {
         public final static String OBJECT_CODE_LIST_EMPTY_MESSAGE_KEY = "error.budget.report.emptyObjectCodeList";
         public final static String REASON_CODE_LIST_EMPTY_MESSAGE_KEY = "error.budget.report.emptyReasonCodeList";
         public final static String THRESHOLD_SELECTION_MESSAGE_KEY = "message.budget.thresholdSelection";
+        public final static String SELECTED_OBJECT_CODES_MESSAGE_KEY = "message.budget.selectedObjectCodes";
 
         // report file name
         public static final String REPORT_TEMPLATE_CLASSPATH = "org/kuali/module/budget/report/";

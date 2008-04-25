@@ -15,7 +15,14 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:if test="${empty KualiForm.objectCodePickList}">
+    <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
+        <tr>
+            <th class="grid" colspan="6" align="left">
+				<br> ${KualiForm.operatingModeTitle} <br> <br>
+			</th>
+        </tr>
+
+  <c:if test="${empty KualiForm.objectCodePickList}">
 	<tr>
 		<th class="grid" colspan="6" align="left">
 			<bean:message key="${BCConstants.Report.OBJECT_CODE_LIST_EMPTY_MESSAGE_KEY}" />
@@ -30,9 +37,9 @@
 			styleClass="globalbuttons" property="methodToCall.returnToCaller"
 			title="close" alt="close" />
 	</div>
-</c:if>
+  </c:if>
 
-<c:if test="${!empty KualiForm.objectCodePickList}">
+  <c:if test="${!empty KualiForm.objectCodePickList}">
 	<c:set var="objectCodeAttribute" value="${DataDictionary.BudgetConstructionObjectPick.attributes}" />
 
 	<tr>
@@ -76,6 +83,7 @@
 	</logic:iterate>
 
 	</table>
+	<table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 
 	<c:if test="${!KualiForm.budgetConstructionReportThresholdSettings.lockThreshold}">
 		<bc:thresholdSettings />
@@ -101,7 +109,7 @@
 			title="close" alt="close" />
 	</div>
 
-</c:if>
+  </c:if>
 
 
 

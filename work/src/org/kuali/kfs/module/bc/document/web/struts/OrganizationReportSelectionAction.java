@@ -99,6 +99,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
 
             Collection<BudgetConstructionPullup> selectedOrganizations = SpringContext.getBean(BudgetReportsControlListService.class).retrieveSelectedOrganziations(personUserIdentifier);
             buildHelper.addBuildRequest(organizationReportSelectionForm.getCurrentPointOfViewKeyCode(), selectedOrganizations, reportMode.reportBuildMode);
+            GlobalVariables.getUserSession().addObject(BCConstants.Report.CONTROL_BUILD_HELPER_SESSION_NAME, buildHelper);
         }
 
         // do list builds
@@ -133,8 +134,8 @@ public class OrganizationReportSelectionAction extends KualiAction {
     private void buildControlLists(String personUserIdentifier, Integer universityFiscalYear, ReportControlListBuildHelper buildHelper, ReportSelectMode reportSelectMode) {
         BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
 
-        String[] pointOfViewFields = buildHelper.getRequestedState().getPointOfView().split("[-]");
         if (buildHelper.isBuildNeeded()) {
+            String[] pointOfViewFields = buildHelper.getRequestedState().getPointOfView().split("[-]");
             budgetReportsControlListService.updateReportsControlList(personUserIdentifier, universityFiscalYear, pointOfViewFields[0], pointOfViewFields[1], buildHelper.getRequestedState().getBuildMode());
 
             if (ReportSelectMode.SUBFUND.equals(reportSelectMode)) {
@@ -145,6 +146,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
             }
 
             buildHelper.requestBuildComplete();
+            GlobalVariables.getUserSession().addObject(BCConstants.Report.CONTROL_BUILD_HELPER_SESSION_NAME, buildHelper);
         }
     }
 

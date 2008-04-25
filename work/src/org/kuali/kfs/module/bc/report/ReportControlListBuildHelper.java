@@ -47,6 +47,9 @@ public class ReportControlListBuildHelper {
         if (this.getCurrentState() == null && this.getRequestedState() != null) {
             buildNeeded = true;
         }
+        else if (this.getRequestedState() == null) {
+            buildNeeded = false;
+        }
         else if (!this.getCurrentState().equals(this.getRequestedState())) {
             buildNeeded = true;
         }

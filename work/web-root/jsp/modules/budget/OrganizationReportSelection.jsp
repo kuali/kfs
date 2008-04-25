@@ -34,23 +34,16 @@
     
     <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
     
-    <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
-        <tr>
-            <th class="grid" colspan="6" align="left">
-				<br> ${KualiForm.operatingModeTitle} <br> <br>
-			</th>
-        </tr>
+    <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.SUB_FUND_SELECTION_TITLE}" >
+       <bc:subFundPick />
+    </c:if>
        
-       <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.SUB_FUND_SELECTION_TITLE}" >
-         <bc:subFundPick />
-       </c:if>
+    <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.OBJECT_CODE_SELECTION_TITLE}" >
+      <bc:objectCodePick />
+    </c:if>
        
-       <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.OBJECT_CODE_SELECTION_TITLE}" >
-         <bc:objectCodePick />
-       </c:if>
-       
-       <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.REASON_CODE_SELECTION_TITLE}" >
-         <bc:reasonCodePick />
-       </c:if>
+    <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.REASON_CODE_SELECTION_TITLE}" >
+      <bc:reasonCodePick />
+    </c:if>
 
 </kul:page>

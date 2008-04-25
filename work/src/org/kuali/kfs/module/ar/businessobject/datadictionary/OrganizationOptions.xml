@@ -347,7 +347,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization Header Information" />
+					<property name="title" value="Organization Options" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>

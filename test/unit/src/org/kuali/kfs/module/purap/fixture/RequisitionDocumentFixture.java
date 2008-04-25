@@ -492,7 +492,21 @@ public enum RequisitionDocumentFixture {
             PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_NO_APO_BASIC_ACTIVE_COMMODITY_CODE } // requisitionItemMultiFixtures
-    ),;
+    ),
+    REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_INVALID_QUANTITY_BASED_NO_QUANTITY } // requisitionItemMultiFixtures
+    ),    
+    ;
     
     public final String requisitionOrganizationReference1Text;
     public final String requisitionOrganizationReference2Text;

@@ -63,7 +63,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
+import org.kuali.module.purap.rule.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.CommodityCode;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -73,7 +73,7 @@ import org.kuali.module.vendor.service.VendorService;
 /**
  * Business rule(s) applicable to Purchasing document.
  */
-public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ValidateCapitalAssestsForAutomaticPurchaseOrderRule<PurchasingAccountsPayableDocument> {
+public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ValidateCapitalAssetsForAutomaticPurchaseOrderRule<PurchasingAccountsPayableDocument> {
 
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add validations for Payment Info and Delivery tabs.
@@ -129,7 +129,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                valid &= validateItemQuantity(item, identifierString);                
+                valid &= validateItemQuantity(item);                
                 if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
                     commodityCodeRequired = true;   
                 }
@@ -138,7 +138,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
                 // that have no unit cost
-                valid &= validateBelowTheLineItemNoUnitCost(item, identifierString);
+                valid &= validateBelowTheLineItemNoUnitCost(item);
             }
             GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
             i++;
@@ -176,7 +176,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = true;
-
+        
         int i = 0;
         for (PurApItem item : ((PurchasingDocument) document).getItems()) {
             GlobalVariables.getErrorMap().clearErrorPath();
@@ -219,10 +219,38 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
         boolean valid = true;
-        valid &=  super.newIndividualItemValidation(purapDocument, documentType, item);
-        valid &=  validateItemCapitalAssetWithErrors(purapDocument, item, false);
-        valid &=  validateUnitOfMeasure(item);
+        valid &= super.newIndividualItemValidation(purapDocument, documentType, item);
+        
+        valid &= validateItemCapitalAssetWithErrors(purapDocument, item, false);
+        valid &= validateUnitOfMeasure(item);
+        valid &= validateItemDescription(item);
+        valid &= validateItemUnitPrice(item);      
+        
+        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            valid &= validateItemQuantity(item);
+            valid &= validateCommodityCodes(item, commodityCodeIsRequired(purapDocument));           
+        }
+        else {
+            // No accounts can be entered on below-the-line items that have no unit cost.
+            valid &= validateBelowTheLineItemNoUnitCost(item); 
+        }
+        
         return valid;
+    }
+    
+    /**
+     * Predicate to do a parameter lookup and tell us whether a commodity code is required. 
+     * Needed so that we don't have to create system parameters for each of the subclasses 
+     * of PurchaseOrderDocument.
+     * 
+     * @param purapDocument     A PurchasingAccountsPayableDocument.
+     * @return      True if a commodity code is required.
+     */
+    private boolean commodityCodeIsRequired(PurchasingAccountsPayableDocument purapDocument) {
+        Class<? extends PurchasingAccountsPayableDocument> purapDocumentClass = null;
+        purapDocumentClass = (purapDocument instanceof RequisitionDocument ? RequisitionDocument.class : PurchaseOrderDocument.class);
+        
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);     
     }
 
 
@@ -231,12 +259,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * false.
      * 
      * @param item the item to be validated
-     * @param identifierString the identifierString of the item to be validated
      * @return boolean false if the item unit price is null and the source accounting lines is not empty.
      */
-    private boolean validateBelowTheLineItemNoUnitCost(PurApItem item, String identifierString) {
+    public boolean validateBelowTheLineItemNoUnitCost(PurApItem item) {
         if (ObjectUtils.isNull(item.getItemUnitPrice()) && ObjectUtils.isNotNull(item.getSourceAccountingLines()) && !item.getSourceAccountingLines().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST, identifierString);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST, item.getItemIdentifierString());
 
             return false;
         }
@@ -266,24 +293,37 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
         return valid;
     }
+    
+    /**
+     * Checks that a description was entered for the item.
+     * 
+     * @param item
+     * @return
+     */
+    public boolean validateItemDescription(PurApItem item) {
+        boolean valid = true;
+        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (StringUtils.isEmpty(item.getItemDescription())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
+            }
+        }
+        return valid;
+    }
 
     /**
-     * Validates the unit price for all applicable item types. It also validates that the unit price and description fields were
-     * entered for all above the line items.
+     * Validates the unit price for all applicable item types. It validates that the unit price field was
+     * entered on the item, and that the price is in the right range for the item type.
      * 
      * @param purDocument the purchasing document to be validated
      * @return boolean false if there is any validation that fails.
      */
-    private boolean validateItemUnitPrice(PurApItem item) {
+    public boolean validateItemUnitPrice(PurApItem item) {
         boolean valid = true;
         if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_COST + " in " + item.getItemIdentifierString());
-            }
-            if (StringUtils.isEmpty(item.getItemDescription())) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
             }
         }    
 
@@ -309,12 +349,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param financialDocument the purchasing document to be validated
      * @param item the item to be validated
      * @return boolean false if there is any fail validation
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.module.purap.bo.PurApItem)
      */
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processAddItemBusinessRules(financialDocument, item);
         GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
+        valid &= validateItemDescription(item);
         valid &= validateItemUnitPrice(item);
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
 
@@ -327,14 +367,14 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param financialDocument the purchasing document to be validated
      * @param item the item to be validated
      * @return boolean false if there is any fail validation
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processImportItemBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processImportItemBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.module.purap.bo.PurApItem)
      */
     public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processImportItemBusinessRules(financialDocument, item);
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
+        valid &= validateItemDescription(item);
         valid &= validateItemUnitPrice(item);
-        valid &= validateUnitOfMeasureCode(item);
+        valid &= validateUnitOfMeasureCodeExists(item);
         
         valid &= validateCommodityCodes(item, financialDocument);
         
@@ -344,7 +384,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * Validates that the total cost must be greater or equal to zero
+     * Validates that the total cost must be greater or equal to zero.
      * 
      * @param purDocument the purchasing document to be validated
      * @return boolean false if the total cost is less than zero.
@@ -365,7 +405,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item the item to be validated
      * @return boolean false if the item type is quantity based and the unit of measure is empty.
      */
-    private boolean validateUnitOfMeasure(PurApItem item) {
+    public boolean validateUnitOfMeasure(PurApItem item) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         // Validations for quantity based item type
@@ -381,19 +421,20 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * Validates that if the item type is quantity based, the unit of measure code is valid.
+     * Validates that if the item type is quantity based, that the unit of measure code is valid.
+     * Looks for the UOM Code in the table. If it is not there, the code is invalid. 
+     * This checking is needed only for imported items, since items added from new line could only 
+     * choose an existing UOM from the drop-down list.
      * 
      * @param item the item to be validated
      * @return boolean false if the item type is quantity based and the unit of measure code is invalid.
      */
-    private boolean validateUnitOfMeasureCode(PurApItem item) {
+    private boolean validateUnitOfMeasureCodeExists(PurApItem item) {
         boolean valid = true;
         
-        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-            /* Look for the UOM Code in the table, if not there the code is invalid. This checking is needed only for imported items,
-             * since items added from new line could only choose existing UOM from dropdown list. */
+        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {            
             String uomCode = item.getItemUnitOfMeasureCode();
-            Map fieldValues = new HashMap();
+            Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, uomCode);
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                 String[] errorParams = { uomCode, "" + item.getItemLineNumber() };
@@ -412,16 +453,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item the item to be validated
      * @return boolean false if there's any validation that fails.
      */
-    private boolean validateItemQuantity(PurApItem item, String identifierString) {
+    public boolean validateItemQuantity(PurApItem item) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()))) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + item.getItemIdentifierString());
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, ItemFields.QUANTITY + " in " + identifierString);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, ItemFields.QUANTITY + " in " + item.getItemIdentifierString());
         }
 
         return valid;
@@ -446,6 +487,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     
+
     /**
      * Validates whether the commodity code existed on the item, and if existed, whether the
      * commodity code on the item existed in the database, and if so, whether the commodity 
@@ -467,7 +509,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
             //Find out whether the commodity code has existed in the database
-            Map fieldValues = new HashMap<String, String>();
+            Map<String,String> fieldValues = new HashMap<String, String>();
             fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
                 //This is the case where the commodity code on the item does not exist in the database.
@@ -496,10 +538,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateCommodityCodesForDistribution(String purchasingCommodityCode) {
         boolean valid = true;
         //Find out whether the commodity code has existed in the database
-        Map fieldValues = new HashMap<String, String>();
+        Map<String,String> fieldValues = new HashMap<String, String>();
         fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purchasingCommodityCode);
         
-        Collection result = SpringContext.getBean(BusinessObjectService.class).findMatching(CommodityCode.class, fieldValues);
+        Collection<CommodityCode> result = (Collection<CommodityCode>)SpringContext.getBean(BusinessObjectService.class).findMatching(CommodityCode.class, fieldValues);
         if (result != null && result.size() > 0) {
             CommodityCode commodityCode = (CommodityCode)(result.iterator().next());
             if (!commodityCode.isActive()) {
@@ -663,8 +705,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param originalAccountingLine the original accounting line
      * @param updatedAccountingLine the updated accounting line
      * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -684,8 +725,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param financialDocument the purchasing document to be validated
      * @param accountingLine the accounting line to be validated before being added
      * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -738,7 +778,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
-    public boolean processCapitalAssestsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
+    public boolean processCapitalAssetsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         List<PurApItem> itemList = purapDocument.getItems();
         for (PurApItem item : itemList) {
@@ -752,7 +792,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Wrapper to do Capital Asset validations, generating errors instead of warnings. Makes sure that 
      * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
-     * by marshalling and calling the methods marked as Capital Asset validations. This implementation assumes that 
+     * by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that 
      * all object codes are valid (real) object codes.
      * 
      * @param item                      A PurchasingItemBase object
@@ -770,7 +810,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that 
      * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
-     * by marshalling and calling the methods marked as Capital Asset validations. This implementation assumes that 
+     * by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that 
      * all object codes are valid (real) object codes.
      * 
      * @param item                      A PurchasingItemBase object
@@ -786,7 +826,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     
     /**
      * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is 
-     * internally consistent, by marshalling and calling the methods marked as Capital Asset validations.
+     * internally consistent, by marshaling and calling the methods marked as Capital Asset validations.
      * This implementation assumes that all object codes are valid (real) object codes.
      * 
      * @param item                      A PurchasingItemBase object
@@ -800,7 +840,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = true;
         String itemIdentifier = item.getItemIdentifierString();
         KualiDecimal itemQuantity = item.getItemQuantity();       
-        HashSet capitalOrExpenseSet = new HashSet(); // For the first validation on every accounting line.
+        HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
         
         String capitalAssetTransactionTypeCode = item.getCapitalAssetTransactionTypeCode();
         CapitalAssetTransactionType capitalAssetTransactionType = null;
@@ -833,7 +873,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
             }
         }
-        // These checks do not depend on Accounting Line information, but do depend on Tran Type.
+        // These checks do not depend on Accounting Line information, but do depend on transaction type.
         if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
                 purDocument.refreshReferenceObject(PurapPropertyConstants.RECURRING_PAYMENT_TYPE);
                 RecurringPaymentType recurringPaymentType = purDocument.getRecurringPaymentType(); 
@@ -856,7 +896,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param objectCode            An ObjectCode, for error display
      * @return  True if the given HashSet contains at most one of either "Capital" or "Expense"
      */
-    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet capitalOrExpenseSet, boolean warn, String itemIdentifier, ObjectCode objectCode) {
+    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, boolean warn, String itemIdentifier, ObjectCode objectCode) {
         boolean valid = true;
         // If the set contains more than one distinct string, fail.
         if ( capitalOrExpenseSet.size() > 1 ) {
@@ -880,7 +920,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to 
      * the threshold for becoming a Capital Asset, and the  object code has one of a list of levels related to capital
-     * assets, and indicating the possiblity of the item being a capital asset, rather than an actual Capital Asset level, 
+     * assets, and indicating the possibility of the item being a capital asset, rather than an actual Capital Asset level, 
      * a warning should be given that a Capital Asset level should be used. Failure of this validation gives a warning 
      * both at the Requisition stage and at the Purchase Order stage.
      *  
@@ -928,7 +968,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     
     /**
      * Capital Asset validation: If the item has no transaction type code, check whether any of the object codes 
-     * on the item's associated accounting lines are of a subtype which indicates that a transaction type code 
+     * on the item's associated accounting lines are of a sub-type which indicates that a transaction type code 
      * should be present.
      * 
      * @param objectCode        An ObjectCode
@@ -939,9 +979,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateCapitalAssetTransactionTypeIsRequired(ObjectCode objectCode, boolean warn, String itemIdentifier) {
         boolean valid = true;
         
-        // For each object code subtype in the AssetTransactionTypeRule table ...
+        // For each object code sub-type in the AssetTransactionTypeRule table ...
         for (String subTypeCode : getAssetTransactionTypeDistinctObjectCodeSubtypes()) {
-            // If the current object code subtype code is the same as the one in our object code ...
+            // If the current object code sub-type code is the same as the one in our object code ...
             if (StringUtils.equals(subTypeCode,objectCode.getFinancialObjectSubTypeCode())) {
                 // This validation fails.
                 if (warn) {
@@ -968,7 +1008,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     
     /**
      * Capital Asset validation: If the item has a transaction type, check that the transaction type is acceptable 
-     * for the object code subtypes of all the object codes on the associated accounting lines.
+     * for the object code sub-types of all the object codes on the associated accounting lines.
      * 
      * @param objectCode
      * @param capitalAssetTransactionType
@@ -978,8 +1018,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier) {
         boolean valid = true;
-        HashMap tranTypeMap = new HashMap();
-        tranTypeMap.put("capitalAssetTransactionTypeCode",capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
+        HashMap<String,String> tranTypeMap = new HashMap<String,String>();
+        tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
         List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
         
         boolean found = false;
@@ -1012,7 +1052,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     
     /**
      * Capital Asset validation: If there is a capital asset transaction type, and the transaction does not indicate 
-     * association with a service item, and if the object code subtypes of the object codes on any of the item's associated 
+     * association with a service item, and if the object code sub-types of the object codes on any of the item's associated 
      * accounting lines are in a specific set of object codes for quantity items, the item must have a quantity.
      *
      * @param capitalAssetTransactionType
@@ -1096,7 +1136,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 }
             }
             else { //If the payment type is not recurring ...
-                // There should not be a recurring tran type code.
+                // There should not be a recurring transaction type code.
                 if (StringUtils.contains(recurringTransactionTypeCodes,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
                     if (warn) {
                         String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
@@ -1116,7 +1156,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 }
             }
         }
-        else {  // If there is no tran type ...
+        else {  // If there is no transaction type ...
             if (recurringPaymentType != null) { // If there is a recurring payment type ...
                 if (warn) {
                     String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
@@ -1214,16 +1254,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * Gets the distinct object code subtypes that exist in the AssetTransactionTypeRule table.
+     * Gets the distinct object code sub-types that exist in the AssetTransactionTypeRule table.
      * 
-     * @return  A HashSet containing the distinct Object Code Subtypes
+     * @return  A HashSet containing the distinct Object Code Sub-types
      */
     private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
-        HashSet<String> objectCodeSubtypesInTable = new HashSet();
-        HashMap dummyMap = new HashMap();
+        HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
+        HashMap<String,String> dummyMap = new HashMap<String,String>();
         List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
         for ( CapitalAssetTransactionTypeRule relation : allRelations ) {
-            // Add subtype codes if not already there.
+            // Add sub-type codes if not already there.
             objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
         }
         

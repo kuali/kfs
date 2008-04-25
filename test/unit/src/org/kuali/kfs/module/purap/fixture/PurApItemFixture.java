@@ -175,6 +175,22 @@ public enum PurApItemFixture {
             new KualiDecimal(1), // extendedPrice
             new KualiDecimal(1) // itemQuantity
     ),
+    INVALID_QTY_ITEM_NULL_QUANTITY(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(100), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),    
     VALID_FREIGHT_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
             null, // capitalAssetTransactionTypeCode

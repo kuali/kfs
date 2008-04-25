@@ -127,6 +127,10 @@ public enum RequisitionItemFixture {
             new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
             CommodityCodeFixture.COMMODITY_CODE_WITH_RESTRICTED_MATERIAL  //commodityCodeFixture
     ),
+    REQ_ITEM_INVALID_QUANTITY_BASED_NO_QUANTITY(false, // itemRestrictedIndicator
+            PurApItemFixture.INVALID_QTY_ITEM_NULL_QUANTITY, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 } // requisitionAccountMultiFixtures
+    ),
     ;
 
     private boolean itemRestrictedIndicator;

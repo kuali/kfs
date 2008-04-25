@@ -54,7 +54,7 @@ public enum PurchasingCapitalAssetFixture {
     NONASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET(PurCams.NONRECURRING_NON_ASSET_NUMBER_REQUIRING_TRAN_TYPE,PurCams.ASSET_NUMBER_1),
     ;
     
-    HashSet capitalOrExpenseSet = new HashSet();
+    HashSet<String> capitalOrExpenseSet = new HashSet<String>();
     ObjectCode objectCode;
     KualiDecimal quantity;
     KualiDecimal extendedPrice;
@@ -112,22 +112,22 @@ public enum PurchasingCapitalAssetFixture {
     private PurchasingCapitalAssetFixture(CapitalAssetTransactionType capitalAssetTransactionType, Long... capitalAssetNumbers) {
         this.capitalAssetTransactionType = capitalAssetTransactionType;
         if ( capitalAssetNumbers != null ) {
-            this.assets = new ArrayList();
+            this.assets = new ArrayList<PurchasingItemCapitalAsset>();
             for( Long capitalAssetNumber : capitalAssetNumbers ) {
                 this.assets.add(new PurchasingItemCapitalAsset(capitalAssetNumber));
             }
         }
     }
 
-    public HashSet populateForCapitalAndExpenseCheck() {
+    public HashSet<String> populateForCapitalAndExpenseCheck() {
         return capitalOrExpenseSet;
     }
 
-    public HashSet getCapitalOrExpenseSet() {
+    public HashSet<String> getCapitalOrExpenseSet() {
         return capitalOrExpenseSet;
     }
 
-    public void setCapitalOrExpenseSet(HashSet capitalOrExpenseSet) {
+    public void setCapitalOrExpenseSet(HashSet<String> capitalOrExpenseSet) {
         this.capitalOrExpenseSet = capitalOrExpenseSet;
     }
 

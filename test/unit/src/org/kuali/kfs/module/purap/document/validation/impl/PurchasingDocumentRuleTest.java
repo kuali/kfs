@@ -32,12 +32,16 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.CapitalAssetTransactionType;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.bo.RequisitionAccount;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.fixtures.DeliveryRequiredDateFixture;
+import org.kuali.module.purap.fixtures.ItemFieldsFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentWithCommodityCodeFixture;
 import org.kuali.module.purap.fixtures.PurchasingCapitalAssetFixture;
@@ -57,7 +61,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new ArrayList());
+        GlobalVariables.setMessageList(new ArrayList<String>());
         rules = new PurchasingDocumentRuleBase();
     }
 
@@ -194,7 +198,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * rule will be passed.
      */
     public void testValidateAccountingLinesNotCapitalAndExpense_TwoCapital() {
-       HashSet set = PurchasingCapitalAssetFixture.TWO_CAPITAL.populateForCapitalAndExpenseCheck();
+       HashSet<String> set = PurchasingCapitalAssetFixture.TWO_CAPITAL.populateForCapitalAndExpenseCheck();
        ObjectCode objectCode = PurchasingCapitalAssetFixture.TWO_CAPITAL.getObjectCode();
        assertTrue(rules.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));
     }
@@ -204,7 +208,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * the rule will be passed.
      */
     public void testValidateAccountingLinesNotCapitalAndExpense_TwoExpense() {
-        HashSet set = PurchasingCapitalAssetFixture.TWO_EXPENSE.populateForCapitalAndExpenseCheck();
+        HashSet<String> set = PurchasingCapitalAssetFixture.TWO_EXPENSE.populateForCapitalAndExpenseCheck();
         ObjectCode objectCode = PurchasingCapitalAssetFixture.TWO_EXPENSE.getObjectCode();
         assertTrue(rules.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));       
     }
@@ -214,7 +218,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * with an object code not of a level of Capital Asset, then the rule will be failed.
      */
     public void testValidateAccountingLinesNotCapitalAndExpense_CapitalExpense() {
-        HashSet set = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.populateForCapitalAndExpenseCheck();
+        HashSet<String> set = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.populateForCapitalAndExpenseCheck();
         ObjectCode objectCode = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.getObjectCode();
         assertFalse(rules.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));
     }
@@ -453,7 +457,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     // Tests of validateCapitalAssetTransactionTypeVersusRecurrence
     
     /**
-     * Tests that, if the rule is given a recurring payment type and a nonrecurring tran type,
+     * Tests that, if the rule is given a recurring payment type and a non-recurring transaction type,
      * the rule will fail.
      */
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranType() {
@@ -464,7 +468,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /**
-     * Tests that, if the rule is given no payment type, and a nonrecurring tran type, the rule will pass.
+     * Tests that, if the rule is given no payment type, and a non-recurring transaction type, the rule will pass.
      */
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranTypeAndNoRecurringPaymentType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
@@ -551,6 +555,69 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }    
 
+    // Tests of validateItemQuantity
+    
+    public void testValidateItemQuantity_WithQuantity_QuantityBased() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertTrue(rules.validateItemQuantity(item));
+    }
+    
+    public void testValidateItemQuantity_WithoutQuantity_QuantityBased() {
+        RequisitionItem item = ItemFieldsFixture.NO_QUANTITY_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertFalse(rules.validateItemQuantity(item));
+    }
+    
+    public void testValidateItemQuantity_WithQuantity_Service() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_ABOVE_SERVICE.populateRequisitionItem();
+        assertFalse(rules.validateItemQuantity(item));
+    }
+    
+    public void testValidateItemQuantity_WithoutQuantity_Service() {
+        RequisitionItem item = ItemFieldsFixture.NO_QUANTITY_ABOVE_SERVICE.populateRequisitionItem();
+        assertTrue(rules.validateItemQuantity(item));
+    }
+    
+    // Tests of validateUnitOfMeasure
+    
+    public void testValidateUnitOfMeasure_WithUOM_QuantityBased() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertTrue(rules.validateUnitOfMeasure(item));
+    }
+    
+    public void testValidateUnitOfMeasure_WithoutUOM_QuantityBased() {
+        RequisitionItem item = ItemFieldsFixture.NO_UOM_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertFalse(rules.validateUnitOfMeasure(item));
+    }
+    
+    public void testValidateUnitOfMeasure_WithoutUOM_Service() {
+        RequisitionItem item = ItemFieldsFixture.NO_UOM_ABOVE_SERVICE.populateRequisitionItem();
+        assertTrue(rules.validateUnitOfMeasure(item));
+    }    
+    
+    // Tests of validateItemDescription
+    
+    public void testValidateItemDescription_WithDescription_Above() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertTrue(rules.validateItemDescription(item));
+    }
+    
+    public void testValidateItemDescription_WithDescription_Below() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_BELOW.populateRequisitionItem();
+        assertTrue(rules.validateItemDescription(item));
+    }
+    
+    public void testValidateItemDescription_WithoutDescription_Above() {
+        RequisitionItem item = ItemFieldsFixture.NO_DESC_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertFalse(rules.validateItemDescription(item));
+    }
+    
+    public void testValidateItemDescription_WithoutDescription_Below() {
+        RequisitionItem item = ItemFieldsFixture.NO_DESC_BELOW.populateRequisitionItem();
+        assertTrue(rules.validateItemDescription(item));
+    }   
+    
+    // Tests of validateCommodityCodes.
+    
     /**
      * Tests that, if a commodity code is not entered on the item, but the system parameter
      * requires the item to have commodity code, it will give validation error about
@@ -570,6 +637,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         rules.processItemValidation(poFixture.createPurchaseOrderDocument());
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
         assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
+    
     }
     
     /**
@@ -621,6 +689,57 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_NON_EXISTENCE_COMMODITY_CODE;
         rules.processItemValidation(poFixture.createPurchaseOrderDocument());
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));        
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));
+        
+    }
+    
+    // Tests of validateItemUnitPrice
+    
+    public void testValidateItemUnitPrice_Positive_Above() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_ABOVE_QUANTITY_BASED.populateRequisitionItem();
+        assertTrue(rules.validateItemUnitPrice(item));
+    }
+    
+    public void testValidateItemUnitPrice_Negative_Above() {
+        RequisitionItem item = ItemFieldsFixture.NEGATIVE_UNIT_PRICE_QUANTITY_BASED.populateRequisitionItem();
+        assertFalse(rules.validateItemUnitPrice(item));
+    }
+    
+    public void testValidateItemUnitPrice_Positive_Discount() {
+        RequisitionItem item = ItemFieldsFixture.POSITIVE_UNIT_PRICE_DISCOUNT.populateRequisitionItem();
+        assertFalse(rules.validateItemUnitPrice(item));
+    }
+    
+    public void testValidateItemUnitPrice_Negative_Discount() {
+        RequisitionItem item = ItemFieldsFixture.NEGATIVE_UNIT_PRICE_DISCOUNT.populateRequisitionItem();
+        assertTrue(rules.validateItemUnitPrice(item));
+    }
+    
+    public void testValidateItemUnitPrice_Positive_TradeIn() {
+        RequisitionItem item = ItemFieldsFixture.POSITIVE_UNIT_PRICE_TRADEIN.populateRequisitionItem();
+        assertFalse(rules.validateItemUnitPrice(item));
+    }
+    
+    public void testValidateItemUnitPrice_Negative_TradeIn() {
+        RequisitionItem item = ItemFieldsFixture.NEGATIVE_UNIT_PRICE_TRADEIN.populateRequisitionItem();
+        assertTrue(rules.validateItemUnitPrice(item));
+    }
+    
+    // Tests of validateBelowTheLineItemNoUnitCost
+    
+    public void testValidateBelowTheLineItemNoUnitCost_WithUnitCost() {
+        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_BELOW.populateRequisitionItem();
+        List<PurApAccountingLine> accountingLines = new ArrayList<PurApAccountingLine>();
+        accountingLines.add(new RequisitionAccount());
+        item.setSourceAccountingLines(accountingLines);
+        assertTrue(rules.validateBelowTheLineItemNoUnitCost(item));
+    }
+    
+    public void testValidateBelowTheLineItemNoUnitCost_NoUnitCost() {
+        RequisitionItem item = ItemFieldsFixture.NO_UNIT_PRICE_BELOW.populateRequisitionItem();
+        List<PurApAccountingLine> accountingLines = new ArrayList<PurApAccountingLine>();
+        accountingLines.add(new RequisitionAccount());
+        item.setSourceAccountingLines(accountingLines);
+        assertFalse(rules.validateBelowTheLineItemNoUnitCost(item));
     }
 }

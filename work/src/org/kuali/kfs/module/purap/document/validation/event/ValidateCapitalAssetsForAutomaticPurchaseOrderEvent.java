@@ -20,7 +20,7 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
+import org.kuali.module.purap.rule.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
 
 public final class ValidateCapitalAssetsForAutomaticPurchaseOrderEvent extends KualiDocumentEventBase {
 
@@ -47,13 +47,13 @@ public final class ValidateCapitalAssetsForAutomaticPurchaseOrderEvent extends K
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
-        return ValidateCapitalAssestsForAutomaticPurchaseOrderRule.class;
+        return ValidateCapitalAssetsForAutomaticPurchaseOrderRule.class;
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ValidateCapitalAssestsForAutomaticPurchaseOrderRule) rule).processCapitalAssestsForAutomaticPurchaseOrderRule((PurchasingAccountsPayableDocument)getDocument());
+        return ((ValidateCapitalAssetsForAutomaticPurchaseOrderRule<PurchasingAccountsPayableDocument>)rule).processCapitalAssetsForAutomaticPurchaseOrderRule((PurchasingAccountsPayableDocument)getDocument());
     }
 }

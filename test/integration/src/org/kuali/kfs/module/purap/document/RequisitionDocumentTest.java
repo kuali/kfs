@@ -23,6 +23,8 @@ import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.bo.AdHocRouteRecipient;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
@@ -167,6 +169,20 @@ public class RequisitionDocumentTest extends KualiTestBase {
     
     private RequisitionDocument buildSimpleDocument() throws Exception {
         return RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+    }
+    
+    public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() throws Exception {
+        requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
+        requisitionDocument.prepareForSave();
+        List<AdHocRouteRecipient> adHocRouteRecipients = null;
+        boolean failedAsExpected = false;
+        try {
+            SpringContext.getBean(DocumentService.class).routeDocument(requisitionDocument, "", adHocRouteRecipients);
+        }
+        catch (ValidationException e) {
+            failedAsExpected = true;
+        }
+        assertTrue(failedAsExpected);
     }
 
     private UserNameFixture getInitialUserName() {

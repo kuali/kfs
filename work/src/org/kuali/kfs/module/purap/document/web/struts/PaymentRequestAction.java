@@ -196,8 +196,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Hold ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringContext.getBean(PaymentRequestService.class).addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                document = SpringContext.getBean(PaymentRequestService.class).addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                return document;
             }
         };
 
@@ -218,8 +219,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Remove ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringContext.getBean(PaymentRequestService.class).removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                document = SpringContext.getBean(PaymentRequestService.class).removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                return document;
             }
         };
 
@@ -240,8 +242,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Cancel ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringContext.getBean(PaymentRequestService.class).requestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                return document;
             }
         };
 
@@ -255,9 +258,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
 
         return new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 PaymentRequestDocument preqDocument = (PaymentRequestDocument) document;
                 preqDocument.setReopenPurchaseOrderIndicator(true);
+                return preqDocument;
             }
         };
     }
@@ -276,8 +280,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Cancel ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringContext.getBean(PaymentRequestService.class).removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                return document;
             }
         };
 

@@ -173,8 +173,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         String operation = "Hold ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringContext.getBean(CreditMemoService.class).addHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                CreditMemoDocument cmDocument = SpringContext.getBean(CreditMemoService.class).addHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+                return cmDocument;
             }
         };
 
@@ -195,8 +196,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         String operation = "Remove Hold ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringContext.getBean(CreditMemoService.class).removeHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                CreditMemoDocument cmDocument = SpringContext.getBean(CreditMemoService.class).removeHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+                return cmDocument;
             }
         };
 
@@ -209,9 +211,10 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     @Override
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
         return new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 CreditMemoDocument cmDocument = (CreditMemoDocument) document;
                 cmDocument.setClosePurchaseOrderIndicator(true);
+                return cmDocument;
             }
         };
     }

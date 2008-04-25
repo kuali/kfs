@@ -783,7 +783,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
      *      java.lang.String)
      */
-    public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+    public PaymentRequestDocument addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
@@ -798,12 +798,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // must also save it on the incoming document
         document.setHoldIndicator(true);
         document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        return preqDoc;
     }
 
     /**
      * @see org.kuali.module.purap.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
      */
-    public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+    public PaymentRequestDocument removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
@@ -818,6 +819,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // must also save it on the incoming document
         document.setHoldIndicator(false);
         document.setLastActionPerformedByUniversalUserId(null);
+        return preqDoc;
     }
 
     /**

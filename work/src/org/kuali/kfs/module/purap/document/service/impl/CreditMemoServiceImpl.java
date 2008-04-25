@@ -342,7 +342,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @see org.kuali.module.purap.service.CreditMemoService#addHoldOnPaymentRequest(org.kuali.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
-    public void addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
+    public CreditMemoDocument addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(cmDocument, note);
         documentService.addNoteToDocument(cmDocument, noteObj);
@@ -357,6 +357,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(true);
         cmDocument.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        
+        return cmDoc;
     }
 
     /**
@@ -378,7 +380,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @see org.kuali.module.purap.service.CreditMemoService#removeHoldOnCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
-    public void removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
+    public CreditMemoDocument removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(cmDocument, note);
         documentService.addNoteToDocument(cmDocument, noteObj);
@@ -393,6 +395,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(false);
         cmDocument.setLastActionPerformedByUniversalUserId(null);
+        
+        return cmDoc;
     }
 
 

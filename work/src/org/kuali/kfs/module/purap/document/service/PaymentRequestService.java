@@ -96,9 +96,10 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * 
      * @param document    The payment request document to be marked as on hold.
      * @param note        The note to be added to the payment request document while being marked as on hold.
+     * @return            The PaymentRequestDocument with updated information.
      * @throws Exception
      */
-    public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
+    public PaymentRequestDocument addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
 
     /**
      * Determines if a user has permission to put the payment request on hold.
@@ -123,9 +124,10 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * 
      * @param document    The payment request document whose hold is to be removed.
      * @param note        The note to be added to the payment request document while its hold is being removed.
+     * @return            The PaymentRequestDocument with updated information.
      * @throws Exception
      */
-    public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
+    public PaymentRequestDocument removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
 
     /**
      * Obtains the payment request document given the purapDocumentIdentifier.

@@ -343,7 +343,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         // make callback
         if (ObjectUtils.isNotNull(callback)) {
-            callback.doPostQuestion(apDocument, noteText);
+            AccountsPayableDocument refreshedApDocument = callback.doPostQuestion(apDocument, noteText);
+            kualiDocumentFormBase.setDocument(refreshedApDocument);
         }
         String nextQuestion = null;
         // ask another question if more left
@@ -427,8 +428,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
 
         return new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 // base impl do nothing
+                return document;
             }
         };
     }
@@ -441,7 +443,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected PurQuestionCallback cancelCallbackMethod() {
 
         return new PurQuestionCallback() {
-            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 DocumentService documentService = SpringContext.getBean(DocumentService.class);
                 AccountsPayableDocumentSpecificService apDocumentSpecificService = document.getDocumentSpecificService();
                 // one way or another we will have to fake the user session so get the current one
@@ -480,6 +482,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 Note noteObj = documentService.createNoteFromDocument(document, noteText);
                 documentService.addNoteToDocument(document, noteObj);
                 SpringContext.getBean(NoteService.class).save(noteObj);
+                return document;
             }
         };
     }

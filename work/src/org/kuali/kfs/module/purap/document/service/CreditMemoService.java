@@ -109,9 +109,10 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * 
      * @param cmDocument - credit memo document to hold.
      * @param note - note explaining why the document is being put on hold.
+     * @return the CreditMemoDocument with updated information.
      * @throws Exception
      */
-    public void addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
+    public CreditMemoDocument addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
      * Determines if the document can be put on hold and if the user has permission to do so.
@@ -130,8 +131,9 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * 
      * @param cmDocument - credit memo document to remove hold on.
      * @param note - note explaining why the credit memo is being taken off hold.
+     * @return the CreditMemoDocument with updated information.
      */
-    public void removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
+    public CreditMemoDocument removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
      * Determines if the document can be taken off hold and if the given user has permission to do so.

@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
@@ -46,9 +45,9 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AssetPaymentForm apForm = (AssetPaymentForm) form;
         String command = ((AssetPaymentForm) form).getCommand();
-        String docID=((AssetPaymentForm) form).getDocId();
-        String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();        
-        LOG.info("***AssetPaymentAction.execute() - menthodToCall: "+apForm.getMethodToCall()+" - Command:"+command+" - DocId:"+docID+ " - Capital Asset Number:"+capitalAssetNumber);
+        String docID = ((AssetPaymentForm) form).getDocId();
+        String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();
+        LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
         return super.execute(mapping, form, request, response);
     }
 
@@ -81,14 +80,14 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     }*/
 
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {       
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
-        LOG.info("***********AssetPaymentACtion.docHandler()");        
+        LOG.info("***********AssetPaymentACtion.docHandler()");
         return docHandlerForward;
     }
 
 
-//    @Override
+    //  @Override
     public void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         LOG.info("***********AssetPaymentACtion.loadDocument()");
@@ -104,7 +103,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         Asset asset = assetPaymentDocument.getAsset();
         asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentForm, assetPaymentDocument, asset);
-        
+
         //Populating the hidden fields in the assetPayment.jsp
         assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());
         assetPaymentDocument.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
@@ -114,11 +113,10 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         assetPaymentDocument.setBuildingCode(asset.getBuildingCode());
         assetPaymentDocument.setRepresentativeUniversalIdentifier(asset.getRepresentativeUniversalIdentifier());
 
-        assetPaymentDocument.getDocumentHeader().setWorkflowDocument(GlobalVariables.getUserSession().getWorkflowDocument(assetPaymentDocument.getDocumentNumber()));
         //Adding the changes made in the document in the ActionForm.
         assetPaymentForm.setDocument(assetPaymentDocument);
         LOG.info("***********AssetPaymentACtion.createDocument()");
-        
+
     }
 
     /**
@@ -132,7 +130,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
      */
     private Asset handleRequestFromLookup(String capitalAssetNumber, AssetPaymentForm assetPaymentForm, AssetPaymentDocument assetPaymentDocument, Asset asset) {
         Asset newAsset = new Asset();
-        HashMap<String, Object> keys = new HashMap<String, Object>();        
+        HashMap<String, Object> keys = new HashMap<String, Object>();
         keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber.toString());
 
         newAsset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, keys);

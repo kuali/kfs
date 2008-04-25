@@ -58,8 +58,9 @@
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
 		isOptionalFieldsInNewRow="false"		
-		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode"
+		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode"		
 		extraSourceRowFields="expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"
+		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber,accountChargeAmount"
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}" >
 		

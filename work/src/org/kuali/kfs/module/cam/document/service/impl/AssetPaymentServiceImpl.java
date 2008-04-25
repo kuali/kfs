@@ -188,26 +188,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 }
             }
 
-            /*
-             * assetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
-             * assetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-             * assetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-             */
-
             // add new payment
             assetPayments.add(assetPayment);
         }
         // Finally, saving all the asset payment records.
         this.getBusinessObjectService().save(assetPayments);
     }
-
-    /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#isAssetEligibleForPayment(java.lang.Long) public boolean
-     *      isAssetEligibleForPayment(Long capitalAssetNumber) { return (
-     *      (this.getAssetService().isAssetOnPendingTransferDocuments(capitalAssetNumber) ||
-     *      this.getAssetService().isAssetOnPendingRetirementDocuments(capitalAssetNumber)) ? false : true); }
-     */
-
 
     /**
      * This method checks that a given object sub type exists in a list of federally owned object sub types
@@ -274,6 +260,16 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         LOG.debug("Finished - adjustAmounts()");
 
     }
+
+
+    /*
+     * public Collection<AssetPaymentDetail> getApprovedPaymentDetail(String capitalAssetNumber) { DocumentRouteHeaderValue doc =
+     * null; try { doc =
+     * KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+     * LOG.info("***** DOCUMENT - Approved Date:"+doc.getApprovedDate()); } catch(Exception e) {
+     *  } }
+     */
+
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;

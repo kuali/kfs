@@ -151,6 +151,7 @@
   <bean id="AssetPayment-account.organization.chartOfAccountsCode" parent="AssetPayment-account.organization.chartOfAccountsCode-parentBean" />
   <bean id="AssetPayment-account.organization.chartOfAccountsCode-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
     <property name="name" value="account.organization.chartOfAccountsCode" />
+    <property name="label" value="Organization Chart Code" />
   </bean>
 
   <bean id="AssetPayment-account.organization.campusPlantAccountNumber" parent="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" />
@@ -161,6 +162,7 @@
   <bean id="AssetPayment-account.organization.campusPlantChartCode" parent="AssetPayment-account.organization.campusPlantChartCode-parentBean" />
   <bean id="AssetPayment-account.organization.campusPlantChartCode-parentBean" abstract="true" parent="Org-campusPlantChartCode">
     <property name="name" value="account.organization.campusPlantChartCode" />
+    <property name="label" value="Campus Plant Chart Code" />    
   </bean>
 
 

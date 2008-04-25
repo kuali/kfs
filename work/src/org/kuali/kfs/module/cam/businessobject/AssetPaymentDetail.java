@@ -5,22 +5,10 @@ import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.cams.document.AssetPaymentDocument;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.financial.bo.SalesTax;
 
 /**
  * 
@@ -28,10 +16,10 @@ import org.kuali.module.financial.bo.SalesTax;
  */
 public class AssetPaymentDetail extends SourceAccountingLine {
     private static Logger LOG = Logger.getLogger(AssetPaymentDetail.class);
-    
+
     private Integer financialDocumentLineNumber;
     private KualiDecimal accountChargeAmount;
-    
+
     private String expenditureFinancialSystemOriginationCode;
     private Date expenditureFinancialDocumentPostedDate;
     private String financialDocumentOverrideCode;
@@ -53,7 +41,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private DocumentHeader expenditureFinancialDocument;
     private OriginationCode expenditureFinancialSystemOrigination;
 
-        
+
     /**
      * Default constructor.
      */
@@ -65,12 +53,9 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+    protected LinkedHashMap<String,String> toStringMapper() {
+        LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("documentNumber", this.getDocumentNumber());
-//        if (this.financialDocumentLineNumber != null) {
-//            m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
-//        }
         return m;
     }
 

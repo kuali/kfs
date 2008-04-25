@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
@@ -45,5 +46,29 @@ public class AssetPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Asset
             }
         }
         return maxSequenceNumber;
-    }   
+    }
+    
+    
+    /*public List<AssetPaymentDetail> getAssetPaymentDetail(String capitalAssetNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
+
+        QueryByCriteria q = QueryFactory.newQuery(AssetPaymentDetail.class, criteria);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(AssetPayment.class, criteria);
+        query.setAttributes(new String[] { "max(" + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER + ")" });
+        Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        Integer maxSequenceNumber = Integer.valueOf(0);
+
+        if (iterator.hasNext()) {
+            Object[] data = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
+            if (data[0] != null) {
+                maxSequenceNumber = ((BigDecimal) data[0]).intValue();
+            }
+        }
+        
+        
+    }*/
+    
+    
 }

@@ -46,7 +46,7 @@
 
 	<bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />
 	
-	<bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBasejDBC">
+	<bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc">
 		<property name="dataSource" ref="dataSource" />
 		<property name="dbPlatform" ref="dbPlatform" />
 	</bean>

@@ -139,6 +139,43 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         
         // TODO move this to its own method and call from the BudgetConstructionAction actions that need it, save(if flagged), calcbene(regardless of flag)
         // calc benefits if needed
+        
+//        if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()){
+//
+//            // allow benefits calculation if document's account is not salary setting only lines
+//            AccountSalarySettingOnlyCause retVal = budgetParameterService.isSalarySettingOnlyAccount(bcDoc);
+//            if (retVal == AccountSalarySettingOnlyCause.MISSING_PARAM || retVal == AccountSalarySettingOnlyCause.NONE){
+//                
+//                if (bcDoc.isBenefitsCalcNeeded()){
+//                    bcDoc.setBenefitsCalcNeeded(false);
+//
+//                    // pbgl lines are saved at this point, calc benefits
+//                    benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+//                    
+//                    // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
+//                    this.reloadBenefitsLines(bcDoc);
+//                    
+//                    // write global message on calc success
+//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
+//                }
+//                
+//                if (bcDoc.isMonthlyBenefitsCalcNeeded()){
+//                    bcDoc.setMonthlyBenefitsCalcNeeded(false);
+//
+//                    // pbgl lines are saved at this point, calc benefits
+//                    benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+//                    
+//                    // write global message on calc success
+//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
+//                }
+//
+//            }
+//        }
+        return bcDoc;
+    }
+
+    public void calculateBenefitsIfNeeded (BudgetConstructionDocument bcDoc){
+        
         if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()){
 
             // allow benefits calculation if document's account is not salary setting only lines
@@ -146,31 +183,63 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             if (retVal == AccountSalarySettingOnlyCause.MISSING_PARAM || retVal == AccountSalarySettingOnlyCause.NONE){
                 
                 if (bcDoc.isBenefitsCalcNeeded()){
-                    bcDoc.setBenefitsCalcNeeded(false);
-
-                    // pbgl lines are saved at this point, calc benefits
-                    benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-                    
-                    // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
-                    this.reloadBenefitsLines(bcDoc);
-                    
-                    // write global message on calc success
-                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
+                    this.calculateAnnualBenefits(bcDoc);
+//                    bcDoc.setBenefitsCalcNeeded(false);
+//
+//                    // pbgl lines are saved at this point, calc benefits
+//                    benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+//                    
+//                    // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
+//                    this.reloadBenefitsLines(bcDoc);
+//                    
+//                    // write global message on calc success
+//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
                 }
                 
                 if (bcDoc.isMonthlyBenefitsCalcNeeded()){
-                    bcDoc.setMonthlyBenefitsCalcNeeded(false);
-
-                    // pbgl lines are saved at this point, calc benefits
-                    benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-                    
-                    // write global message on calc success
-                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
+                    this.calculateMonthlyBenefits(bcDoc);
+//                    bcDoc.setMonthlyBenefitsCalcNeeded(false);
+//
+//                    // pbgl lines are saved at this point, calc benefits
+//                    benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+//                    
+//                    // write global message on calc success
+//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
                 }
 
             }
         }
-        return bcDoc;
+    }
+
+    public void calculateBenefits(BudgetConstructionDocument bcDoc){
+
+        this.calculateAnnualBenefits(bcDoc);
+        this.calculateMonthlyBenefits(bcDoc);
+    }
+    
+    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc){
+        
+        bcDoc.setBenefitsCalcNeeded(false);
+
+        // pbgl lines are saved at this point, calc benefits
+        benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+        
+        // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
+        this.reloadBenefitsLines(bcDoc);
+        
+        // write global message on calc success
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
+    }
+
+    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc){
+        
+        bcDoc.setMonthlyBenefitsCalcNeeded(false);
+
+        // pbgl lines are saved at this point, calc benefits
+        benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+        
+        // write global message on calc success
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
     }
 
     /**
@@ -282,6 +351,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                             docLine = (PendingBudgetConstructionGeneralLedger) docLines.previous();
                         }
                         dbRequestTotals = dbRequestTotals.add(dbLine.getAccountLineAnnualBalanceAmount());
+                        dbLine.setPersistedAccountLineAnnualBalanceAmount(dbLine.getAccountLineAnnualBalanceAmount());
                         docLines.add(dbLine);
                         if (!docDone){
                             docLine = (PendingBudgetConstructionGeneralLedger) docLines.next();

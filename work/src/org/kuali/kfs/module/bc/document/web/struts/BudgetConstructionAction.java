@@ -206,6 +206,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     // SpringContext.getBean(DocumentService.class).updateDocument(docForm.getDocument());
                     BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
                     budgetDocumentService.saveDocument((BudgetConstructionDocument) docForm.getDocument());
+                    budgetDocumentService.calculateBenefitsIfNeeded((BudgetConstructionDocument) docForm.getDocument());
+                    docForm.initializePersistedRequestAmounts();
 
 // TODO confirm save and close functionality with SME group
 //                    if (docForm.isPickListMode()){
@@ -270,6 +272,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // documentService.saveDocument(document);
         // rolling own - next line
         budgetDocumentService.saveDocument(bcDocument);
+        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
         
         // TODO may need to move this to generic save method to handle all actions requiring save
@@ -791,7 +794,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performCalculateBenfits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) tForm.getDocument();
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+        budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+        budgetDocumentService.calculateBenefits(bcDocument);
+        tForm.initializePersistedRequestAmounts();
+        
+//        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
 
         // TODO create form/hidden flag vars (annual and monthly) to maintain state of benefits calc and reset here after
         // calculation is performed

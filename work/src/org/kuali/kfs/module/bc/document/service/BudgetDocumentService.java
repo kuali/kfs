@@ -61,6 +61,14 @@ public interface BudgetDocumentService {
      */
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument budgetConstructionDocument) throws ValidationException;
     
+    public void calculateBenefitsIfNeeded (BudgetConstructionDocument bcDoc);
+
+    public void calculateBenefits(BudgetConstructionDocument bcDoc);
+
+    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
+
+    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc);
+
     /**
      * Gets the salary detail lines request sum for a budget document expenditure accounting line
      *  

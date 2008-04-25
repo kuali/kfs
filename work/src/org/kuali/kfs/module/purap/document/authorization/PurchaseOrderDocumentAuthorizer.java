@@ -137,7 +137,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         PurchaseOrderDocument po = (PurchaseOrderDocument) document;
         String statusCode = po.getStatusCode();
 
-        if ((StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) || (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR))) {
+        if ((StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) || (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR)) || StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
             flags.setCanRoute(false);
         }
         else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {

@@ -515,7 +515,7 @@
 	<field-descriptor name="financialSubObjectCode" 			column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" 						column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationReferenceId" 			column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountChargeAmount" 				column="ACCT_CHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="amount" 				column="ACCT_CHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="expenditureFinancialSystemOriginationCode"  column="EXPND_FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenditureFinancialDocumentNumber" 		column="EXPND_FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenditureFinancialDocumentTypeCode" 		column="EXPND_FDOC_TYP_CD" jdbc-type="VARCHAR"/>

@@ -45,7 +45,7 @@ public class CertificationRecreateAction extends EffortCertificationAction {
         effortCertificationDocument.setUniversityFiscalYear(recreateForm.getUniversityFiscalYear());
         effortCertificationDocument.setEffortCertificationReportNumber(recreateForm.getEffortCertificationReportNumber());
         
-        if (recreateForm.validateImportingFieldValues()) {            
+        if (recreateForm.validateImportingFieldValues(effortCertificationDocument)) {            
             boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));
         }
 

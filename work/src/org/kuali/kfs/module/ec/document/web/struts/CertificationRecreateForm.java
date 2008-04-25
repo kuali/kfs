@@ -15,12 +15,11 @@
  */
 package org.kuali.module.effort.web.struts.form;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -51,16 +50,14 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * 
      * @return Returns the importing field values.
      */
-    public Map<String, String> getImportingFieldValues() {
-        EffortCertificationDocument document = this.getEffortCertificationDocument();
-        String yearAsString = document.getUniversityFiscalYear() == null ? null : document.getUniversityFiscalYear().toString();
+    private List<String> getImportingFields() {
+        List<String> importingFields = new ArrayList<String>();
 
-        Map<String, String> importingFieldValues = new HashMap<String, String>();
-        importingFieldValues.put(KFSPropertyConstants.EMPLID, document.getEmplid());
-        importingFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, yearAsString);
-        importingFieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, document.getEffortCertificationReportNumber());
+        importingFields.add(KFSPropertyConstants.EMPLID);
+        importingFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        importingFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
 
-        return importingFieldValues;
+        return importingFields;
     }
 
     /**
@@ -68,19 +65,11 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * 
      * @return true if the importing field values are valid; otherwsie, add errors into error map and return false
      */
-    public boolean validateImportingFieldValues() {
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    public boolean validateImportingFieldValues(EffortCertificationDocument document) {
+        DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
 
-        Map<String, String> fieldValues = this.getImportingFieldValues();
-        for (String fieldName : fieldValues.keySet()) {
-            String fieldValue = fieldValues.get(fieldName);
-
-            String fieldLabel = dataDictionaryService.getAttributeLabel(EffortCertificationDocument.class, fieldName);
-            boolean isRequired = dataDictionaryService.isAttributeRequired(EffortCertificationDocument.class, fieldName);
-
-            if (isRequired && StringUtils.isBlank(fieldValue)) {
-                GlobalVariables.getErrorMap().putError(EffortConstants.DOCUMENT_PREFIX + fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel);
-            }
+        for (String fieldName : this.getImportingFields()) {
+            dictionaryValidationService.validateDocumentAttribute(document, fieldName, EffortConstants.DOCUMENT_PREFIX);
         }
 
         return GlobalVariables.getErrorMap().isEmpty();

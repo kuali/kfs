@@ -43,6 +43,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.module.budget.service.BenefitsCalculationService;
+import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
 import org.kuali.module.budget.web.struts.form.MonthlyBudgetForm;
 
 
@@ -164,6 +166,23 @@ public class MonthlyBudgetAction extends KualiAction {
         // TODO validate and store monthly changes, for now save using BOService
         SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+        
+        
+        // TODO set the calling form's bcDoc.setBenefitsCalcNeeded(true)
+        // this is proof of concept code for now. this should check for a change in any of the monthly fields and
+        // eventually store should calc benefits immediately, and replace the benefits accounting lines in session
+        // to keep the DB consistent and to keep session in sync with the DB
+        
+        // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save 
+        if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
+            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()){
+
+                BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
+                budgetConstructionForm.getBudgetConstructionDocument().setMonthlyBenefitsCalcNeeded(true);
+                
+            }
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

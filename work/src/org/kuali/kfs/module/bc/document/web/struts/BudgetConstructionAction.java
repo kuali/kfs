@@ -207,9 +207,12 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
                     budgetDocumentService.saveDocument((BudgetConstructionDocument) docForm.getDocument());
 
-                    if (docForm.isPickListMode()){
-                        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-                    }
+// TODO confirm save and close functionality with SME group
+//                    if (docForm.isPickListMode()){
+//                        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+//                    }
+                    GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
                 // else go to close logic below
             }

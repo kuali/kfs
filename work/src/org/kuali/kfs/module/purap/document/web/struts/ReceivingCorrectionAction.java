@@ -16,7 +16,12 @@
 package org.kuali.module.purap.web.struts.action;
 
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.web.struts.form.ReceivingCorrectionForm;
+import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -24,10 +29,18 @@ public class ReceivingCorrectionAction extends ReceivingBaseAction {
 
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
         super.createDocument(kualiDocumentFormBase);
-                                                
+
         ReceivingCorrectionForm rcf = (ReceivingCorrectionForm)kualiDocumentFormBase;
-        String rlDocNum = rcf.getReceivingLineDocId();        
+        ReceivingCorrectionDocument rcDoc = (ReceivingCorrectionDocument)rcf.getDocument();
         
+        //set identifier from form value
+        rcDoc.setReceivingLineDocumentNumber( rcf.getReceivingLineDocId() );
+        
+        rcDoc.initiateDocument();
+        
+        //populate and save Receiving Line Document from Purchase Order        
+        SpringContext.getBean(ReceivingService.class).populateAndSaveReceivingCorrectionDocument(rcDoc);
+
     }
 
 }

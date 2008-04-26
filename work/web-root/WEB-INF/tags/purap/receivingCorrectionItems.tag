@@ -103,15 +103,6 @@
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			<tbody style="display: none;" id="tab-${tabKey}-div">
 		</c:if>
-
-
-
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOriginalReceivedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOriginalReturnedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOriginalDamagedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCorrectedReceivedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCorrectedReturnedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCorrectedDamagedTotalQuantity}" />
 	
 		<tr>				
 			<td class="infoline" nowrap="nowrap">

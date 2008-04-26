@@ -41,6 +41,7 @@ import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.dao.ReceivingDao;
 import org.kuali.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
@@ -110,6 +111,27 @@ public class ReceivingServiceImpl implements ReceivingService {
         
     }
 
+    public void populateReceivingCorrectionFromReceivingLine(ReceivingCorrectionDocument rcDoc) {
+        
+        if(rcDoc == null){
+            rcDoc = new ReceivingCorrectionDocument();
+        }
+                             
+        //retrieve receiving line by doc id
+        ReceivingLineDocument rlDoc = null;
+        try{
+            rlDoc = (ReceivingLineDocument)documentService.getByDocumentHeaderId( rcDoc.getReceivingLineDocumentNumber() );
+        }catch(WorkflowException we){
+            String errorMsg = "Error retrieving document # " + rcDoc.getReceivingLineDocumentNumber() + " " + we.getMessage();
+            throw new RuntimeException(errorMsg, we);            
+        }
+
+        if(rlDoc != null){
+            rcDoc.populateReceivingCorrectionFromReceivingLine(rlDoc);
+        }                
+        
+    }
+
     /**
      * 
      * @see org.kuali.module.purap.service.ReceivingService#populateAndSaveReceivingLineDocument(org.kuali.module.purap.document.ReceivingLineDocument)
@@ -120,6 +142,20 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
         catch (WorkflowException we) {
             String errorMsg = "Error saving document # " + rlDoc.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
+            //LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.ReceivingService#populateAndSaveReceivingCorrectionDocument(org.kuali.module.purap.document.ReceivingCorrectionDocument)
+     */
+    public void populateAndSaveReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc) throws WorkflowException {
+        try {            
+            documentService.saveDocument(rcDoc, ContinuePurapEvent.class);
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error saving document # " + rcDoc.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             //LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }

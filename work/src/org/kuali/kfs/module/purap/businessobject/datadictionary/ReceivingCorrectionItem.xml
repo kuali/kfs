@@ -63,7 +63,7 @@
     <property name="name" value="itemCatalogNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Catalog Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Catalog #" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -81,7 +81,7 @@
     <property name="name" value="itemCorrectedDamagedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Corrected Damaged Total Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Correct Qty Damaged" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -99,7 +99,7 @@
     <property name="name" value="itemCorrectedReceivedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Corrected Received Total Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Correct Qty Received" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -117,7 +117,7 @@
     <property name="name" value="itemCorrectedReturnedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Corrected Returned Total Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Correct Qty Returned" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -154,7 +154,7 @@
     <property name="name" value="itemLineNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Line Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Line #" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -172,7 +172,7 @@
     <property name="name" value="itemOriginalDamagedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Original Damaged Total Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Prior Qty Damaged" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -190,7 +190,7 @@
     <property name="name" value="itemOriginalReceivedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Original Received Total Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Prior Qty Received" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -208,7 +208,7 @@
     <property name="name" value="itemOriginalReturnedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Original Returned Total Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="Prior Qty Returned" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -226,7 +226,7 @@
     <property name="name" value="itemReasonAddedCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Reason Added Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Reason Added" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -262,7 +262,7 @@
     <property name="name" value="itemUnitOfMeasureCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Unit Of Measure Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="UOM" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

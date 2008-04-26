@@ -3556,7 +3556,7 @@
     <reference-descriptor name="receivingLineDocument" class-ref="org.kuali.module.purap.document.ReceivingLineDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="receivingLineDocumentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 </class-descriptor>

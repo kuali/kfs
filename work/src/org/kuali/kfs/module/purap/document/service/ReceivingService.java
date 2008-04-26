@@ -18,6 +18,7 @@ package org.kuali.module.purap.service;
 import java.util.HashMap;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 
@@ -29,10 +30,16 @@ public interface ReceivingService {
      * Populates a Receiving Line Document with information from a Purchase Order.
      * 
      * @param rlDoc
-     * @param poDocId
      */
     public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc);
-    
+
+    /**
+     * Populates a Receiving Correction Document with information from a Receiving Line.
+     * 
+     * @param rcDoc
+     */
+    public void populateReceivingCorrectionFromReceivingLine(ReceivingCorrectionDocument rcDoc);
+
     /**
      * A save is done passing the continue purap event so as to call a populate within
      * prepare for save. 
@@ -41,7 +48,16 @@ public interface ReceivingService {
      * @throws WorkflowException
      */
     public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
-    
+
+    /**
+     * A save is done passing the continue purap event so as to call a populate within
+     * prepare for save. 
+     *
+     * @param rcDoc
+     * @throws WorkflowException
+     */
+    public void populateAndSaveReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc) throws WorkflowException;
+
     /**
      * Determines if a receiving line document can be created at the time the user requests it.
      * This version looks up the current purchase order by po id and also excludes the current receiving

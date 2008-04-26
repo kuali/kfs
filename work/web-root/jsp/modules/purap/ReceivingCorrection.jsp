@@ -19,6 +19,13 @@
     documentTypeName="ReceivingCorrectionDocument"
     htmlFormAction="purapReceivingCorrection" renderMultipart="true"
     showTabButtons="true">
+
+	<html:hidden property="document.purchaseOrderIdentifier" />
+	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
+	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
+	<html:hidden property="document.vendorDetailAssignedIdentifier" />
+	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
+	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
     		    
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

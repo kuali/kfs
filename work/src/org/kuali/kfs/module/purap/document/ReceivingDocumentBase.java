@@ -74,9 +74,6 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
     private Integer alternateVendorDetailAssignedIdentifier;
     private String alternateVendorName;
     
-    //Collections
-    private List<ReceivingLineItem> items;
-
     //not persisted in db
     private boolean deliveryBuildingOther;
     private String vendorNumber;
@@ -93,8 +90,7 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
     private transient PurchaseOrderDocument purchaseOrderDocument;
 
     public ReceivingDocumentBase(){
-        super();
-        items = new TypedArrayList(getItemClass());   
+        super();           
     }
         
     /**
@@ -894,29 +890,7 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
         return managedLists;
     }
 
-    public List getItems() {
-        return items;
-    }
-
-    public void setItems(List items) {
-        this.items = items;
-    }
-
-    public ReceivingLineItem getItem(int pos) {
-        return (ReceivingLineItem) items.get(pos);
-    }
-
     public abstract Class getItemClass();
-
-    public void addItem(ReceivingLineItem item) {
-        getItems().add(item);
-    }
-
-    public void deleteItem(int lineNum) {
-        if (getItems().remove(lineNum) == null) {
-            // throw error here
-        }
-    }
 
     public Integer getPurchaseOrderIdentifier() { 
         return purchaseOrderIdentifier;
@@ -951,6 +925,10 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
             }
             this.purchaseOrderDocument = purchaseOrderDocument;
         }
+    }
+
+    public void initiateDocument(){
+        //initiate code
     }
 
 }

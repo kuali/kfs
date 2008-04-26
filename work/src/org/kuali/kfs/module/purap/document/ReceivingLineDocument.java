@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -19,18 +20,16 @@ import org.kuali.module.purap.service.ReceivingService;
  */
 public class ReceivingLineDocument extends ReceivingDocumentBase {
 
+    //Collections
+    private List<ReceivingLineItem> items;
+
     /**
      * Default constructor.
      */
     public ReceivingLineDocument() {
-        super();    
+        super();
+        items = new TypedArrayList(getItemClass());
     }
-
-    public void initiateDocument(){
-        //initiate code
-    }
-
-
 
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
         
@@ -129,6 +128,28 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
 
     public Class getItemClass() {
         return ReceivingLineItem.class;
+    }
+
+    public List getItems() {
+        return items;
+    }
+
+    public void setItems(List items) {
+        this.items = items;
+    }
+
+    public ReceivingLineItem getItem(int pos) {
+        return (ReceivingLineItem) items.get(pos);
+    }
+
+    public void addItem(ReceivingLineItem item) {
+        getItems().add(item);
+    }
+
+    public void deleteItem(int lineNum) {
+        if (getItems().remove(lineNum) == null) {
+            // throw error here
+        }
     }
 
     @Override

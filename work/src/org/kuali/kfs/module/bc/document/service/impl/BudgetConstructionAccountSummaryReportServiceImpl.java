@@ -89,7 +89,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidated) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
         List<BudgetConstructionOrgAccountSummaryReportTotal> orgAccountSummaryReportTotalList;
         BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry;
@@ -109,7 +109,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         orgAccountSummaryReportTotalList = calculateTotal((List) accountSummaryList, simpleList);
         for (BudgetConstructionAccountSummary accountSummaryEntry : accountSummaryList) {
             orgAccountSummaryReportEntry = new BudgetConstructionOrgAccountSummaryReport();
-            buildReportsHeader(universityFiscalYear, orgAccountSummaryReportEntry, accountSummaryEntry);
+            buildReportsHeader(universityFiscalYear, orgAccountSummaryReportEntry, accountSummaryEntry, consolidated);
             buildReportsBody(orgAccountSummaryReportEntry, accountSummaryEntry);
             buildReportsTotal(orgAccountSummaryReportEntry, accountSummaryEntry, orgAccountSummaryReportTotalList);
             reportSet.add(orgAccountSummaryReportEntry);
@@ -123,7 +123,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
+    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, boolean consolidated) {
         String orgChartDesc = accountSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = accountSummary.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = accountSummary.getOrganization().getOrganizationName();
@@ -182,7 +182,9 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         orgAccountSummaryReportEntry.setHeader4(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_REQ_AMOUNT));
         orgAccountSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgAccountSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgAccountSummaryReportEntry.setConsHdr("");
+        if (consolidated){
+            orgAccountSummaryReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
+        } else {orgAccountSummaryReportEntry.setConsHdr("");}
     }
 
     /**

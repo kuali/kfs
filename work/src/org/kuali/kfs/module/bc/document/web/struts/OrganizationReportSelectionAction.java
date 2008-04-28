@@ -242,7 +242,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
         switch (reportMode) {
             case ACCOUNT_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).updateReportsAccountSummaryTable(personUserIdentifier, runConsolidated);
-                reportData = SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionAccountSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier, runConsolidated);
                 break;
             case SUBFUND_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).updateSubFundSummaryReport(personUserIdentifier);

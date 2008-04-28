@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.bo;
 
-import java.math.BigDecimal;
 
 /**
  * Total Part of Budget Construction Organization Month Summary Report Total Business Object.

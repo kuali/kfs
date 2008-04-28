@@ -27,10 +27,10 @@
 	<!--  Line Number -->
 	<td align=right class="${cssClass}" rowspan="3">
 		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.financialDocumentLineNumber}"
-			property="${crmPropertyName}.financialDocumentLineNumber"
+			attributeEntry="${customerCreditMemoDetailAttributes.referenceInvoiceItemNumber}"
+			property="${crmPropertyName}.referenceInvoiceItemNumber"
 			readOnly="true" />
-	<!--  Qty -->	
+	<!--  Quantity -->	
 	<td align=right class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}"
@@ -79,11 +79,19 @@
 			property="${invPropertyName}.invoiceItemTaxAmount"
 			readOnly="true" />
 			
-	<!--  Total Amount: is it a calculated field? -->
-	<td class="${cssClass}" />
+	<!--  Total Amount -->
+	<td align=right class="${cssClass}">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerCreditMemoDetailAttributes.invoiceLineTotalAmount}"
+			property="${crmPropertyName}.invoiceLineTotalAmount"
+			readOnly="true" />
 	
-	<!--  Open Invoice Amount: this is a calculated property, doesn't have a corresponding field in the detail table -->
-	<td class="${cssClass}" />
+	<!--  Open Invoice Amount -->
+	<td align=right class="${cssClass}">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerCreditMemoDetailAttributes.openInvoiceItemAmount}"
+			property="${crmPropertyName}.openInvoiceItemAmount"
+			readOnly="true" />
 
 	<!--  Actions -->
 	<td rowspan="3"><div align="center" class="middle" >
@@ -102,14 +110,13 @@
 	</td>
 </tr>
 <tr>			
-	<!--  CRM Qty: Waiting for this field to be added to the detail table -->
-	<%--
+	<!--  CRM Quantity -->
 	<td align=right class="${cssClass}">
 		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.itemQuantity}"
-			property="${crmPropertyName}.itemQuantity"
+			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
+			property="${crmPropertyName}.creditMemoItemQuantity"
 			readOnly="false" />
-	</td>--%>
+	</td>
 	<td class="${cssClass}" />
 	
 	<!--  CRM 4 empty columns -->
@@ -118,30 +125,27 @@
 	<!--  CRM Item Amount -->
 	<td align=right class="${cssClass}">
 		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.financialDocumentLineAmount}"
-			property="${crmPropertyName}.financialDocumentLineAmount"
+			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
+			property="${crmPropertyName}.creditMemoItemTotalAmount"
 			readOnly="false" />
 	</td>
 	
-	<!--  CRM Tax Amount: Waiting for this field to be added to the detail table -->
-	<%--
+	<!--  CRM Tax Amount -->
 	<td align=right class="${cssClass}">
 		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.financialDocumentLineTaxAmount}"
-			property="${crmPropertyName}.financialDocumentLineTaxAmount"
+			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTaxAmount}"
+			property="${crmPropertyName}.creditMemoItemTaxAmount"
 			readOnly="true" />
-	</td>--%>
+	</td>
 	<td class="${cssClass}" />
 	
-	<!--  CRM Total Amount: Waiting for this field to be added to the detail table -->
-	<%--
+	<!--  CRM Total Amount -->
 	<td align=right class="${cssClass}">
-		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.financialDocumentLineTotalAmount}"
-			property="${crmPropertyName}.financialDocumentLineTaxAmount"
+		<kul:htmlControlAttribute 
+			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoLineTotalAmount}"
+			property="${crmPropertyName}.creditMemoLineTotalAmount"
 			readOnly="true" />
-	</td>--%>
-	<td class="${cssClass}" />
+	</td>
 	
 	<!--  CRM 1 empty column -->
 	<td class="${cssClass}" />

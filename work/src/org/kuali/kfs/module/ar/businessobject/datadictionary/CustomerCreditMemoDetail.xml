@@ -9,77 +9,105 @@
     <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerCreditMemoDetail" />
     <property name="attributes" >
       <list>
-      	<ref bean="CustomerCreditMemoDetail-financialDocumentLineNumber" />
-      	<ref bean="CustomerCreditMemoDetail-accountNumber" />
-        <ref bean="CustomerCreditMemoDetail-subAccountNumber" />
-      	<ref bean="CustomerCreditMemoDetail-chartOfAccountsCode" />
-        <ref bean="CustomerCreditMemoDetail-financialObjectCode" />
-        <ref bean="CustomerCreditMemoDetail-financialSubObjectCode" />
-        <ref bean="CustomerCreditMemoDetail-projectCode" />
-        <ref bean="CustomerCreditMemoDetail-financialDocumentLineAmount" />
+      	<ref bean="CustomerCreditMemoDetail-referenceInvoiceItemNumber" />
+      	<ref bean="CustomerCreditMemoDetail-creditMemoItemQuantity" />
+        <ref bean="CustomerCreditMemoDetail-creditMemoItemTaxAmount" />
+      	<ref bean="CustomerCreditMemoDetail-creditMemoItemTotalAmount" />
+      	<ref bean="CustomerCreditMemoDetail-creditMemoLineTotalAmount" />
+      	<ref bean="CustomerCreditMemoDetail-invoiceLineTotalAmount" />
+      	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemAmount" />
       </list>
     </property>
   </bean>
   
-	<bean id="CustomerCreditMemoDetail-financialDocumentLineNumber" parent="CustomerCreditMemoDetail-financialDocumentLineNumber-parentBean" >
+  <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" >
       <property name="control" >
-      	<bean parent="TextControlDefinition" p:size="10" />
-    	</property>
-  	</bean>
-  <bean id="CustomerCreditMemoDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineNumber" />
-    <property name="forceUppercase" value="true" />
+       <bean parent="TextControlDefinition" p:size="10" />
+      </property>
+  </bean>
+  <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceInvoiceItemNumber" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Invoice Item Line Number" />
     <property name="shortLabel" value="Line Number" />
     <property name="maxLength" value="3" />
     <property name="control">
     	<bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="financialDocumentLineNumber" />
+    <property name="summary" value="referenceInvoiceItemNumber" />
     <property name="description" value="financialDocumentLineNumber description..." />
   </bean>
-  
-  <bean id="CustomerCreditMemoDetail-accountNumber" parent="CustomerCreditMemoDetail-accountNumber-parentBean" />
-  <bean id="CustomerCreditMemoDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+<!--  Ask Justin about this bean -->
+<!--
+  <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" />
+  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+    <property name="description" value="The invoice item number." />
   </bean>
-  
-  <bean id="CustomerCreditMemoDetail-subAccountNumber" parent="CustomerCreditMemoDetail-subAccountNumber-parentBean" />
-  <bean id="CustomerCreditMemoDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
-  </bean>
-  
-  <bean id="CustomerCreditMemoDetail-chartOfAccountsCode" parent="CustomerCreditMemoDetail-chartOfAccountsCode-parentBean" />
-  <bean id="CustomerCreditMemoDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
-  </bean>
-  
-  <bean id="CustomerCreditMemoDetail-financialObjectCode" parent="CustomerCreditMemoDetail-financialObjectCode-parentBean" />
-  <bean id="CustomerCreditMemoDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
-  </bean>
-  
-  <bean id="CustomerCreditMemoDetail-financialSubObjectCode" parent="CustomerCreditMemoDetail-financialSubObjectCode-parentBean" />
-  <bean id="CustomerCreditMemoDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
-    <property name="required" value="false" />
-    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  
-  <bean id="CustomerCreditMemoDetail-projectCode" parent="CustomerCreditMemoDetail-projectCode-parentBean" />
-  <bean id="CustomerCreditMemoDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The title of the project." />
-  </bean>
-  
-  <bean id="CustomerCreditMemoDetail-financialDocumentLineAmount" parent="CustomerCreditMemoDetail-financialDocumentLineAmount-parentBean" />
-  <bean id="CustomerCreditMemoDetail-financialDocumentLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
-    <property name="name" value="financialDocumentLineAmount" />
-    <property name="required" value="false" />
-    <property name="description" value="The line amount." />
-  </bean> 
+-->
 
-</beans>
+  <bean id="CustomerCreditMemoDetail-creditMemoItemQuantity" parent="CustomerCreditMemoDetail-creditMemoItemQuantity-parentBean" />
+
+  <bean id="CustomerCreditMemoDetail-creditMemoItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditMemoItemQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Invoice Item Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="creditMemoItemQuantity" />
+    <property name="description" value="creditMemoItemQuantity description..." />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount" parent="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="creditMemoItemTaxAmount" />
+    <property name="label" value="Tax Amount" />
+    <property name="shortLabel" value="Tax Amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The salesTax amount" />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount" parent="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="creditMemoItemTotalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total Amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The total amount" />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount" parent="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="creditMemoLineTotalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total Amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The credit memo line total amount" />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount" parent="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="invoiceLineTotalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total Amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The invoice total line amount" />
+  </bean>
+  
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="invoiceOpenItemAmount" />
+    <property name="label" value="Open Invoice Amount" />
+    <property name="shortLabel" value="Open Invoice Amount" />
+    <property name="required" value="true" />
+    <property name="description" value="The open invoice item amount" />
+  </bean>
+  
+</beans> 

@@ -21,7 +21,7 @@
 	showTabButtons="true">
 	
 	<!--  value should be replaced with variable -->
-	<c:set var="displayInitTab" value="false" scope="request" />
+	<c:set var="displayInitTab" value="true" scope="request" />
 
 	<kul:hiddenDocumentFields />
 

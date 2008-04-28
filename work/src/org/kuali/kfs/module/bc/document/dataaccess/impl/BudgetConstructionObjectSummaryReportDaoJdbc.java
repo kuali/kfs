@@ -46,7 +46,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("INC_EXP_CD, FIN_CONS_SORT_CD, FIN_LEV_SORT_CD, FIN_OBJECT_CD, ACLN_ANNL_BAL_AMT,\n");
        sqlBuilder.append("FIN_BEG_BAL_LN_AMT, FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, APPT_RQCSF_FTE_QTY,\n");
        sqlBuilder.append("APPT_RQST_FTE_QTY, POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY)\n");
-       sqlBuilder.append("(SELECT\n"); 
+       sqlBuilder.append("SELECT\n"); 
        sqlBuilder.append("?,\n");
        sqlBuilder.append("ld_bcn_ctrl_list_t.sel_org_fin_coa,\n");
        sqlBuilder.append("ld_bcn_ctrl_list_t.sel_org_cd,\n");
@@ -137,7 +137,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("ca_obj_level_t.fin_report_sort_cd,\n"); 
        sqlBuilder.append("ld_pnd_bcnstr_gl_t.fin_object_cd,\n");
        sqlBuilder.append("ca_obj_level_t.fin_cons_obj_cd,\n");
-       sqlBuilder.append("ca_object_code_t.fin_obj_level_cd)\n");
+       sqlBuilder.append("ca_object_code_t.fin_obj_level_cd\n");
        
        objectSummarySql.add(new SQLForStep(sqlBuilder,insertionPoints));
        sqlBuilder.delete(0,sqlBuilder.length());
@@ -238,7 +238,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("(SESID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD, INC_EXP_CD,\n");
       sqlBuilder.append(" FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, FIN_OBJECT_CD, POS_CSF_FNDSTAT_CD,\n");
       sqlBuilder.append(" POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY)\n");
-      sqlBuilder.append("(SELECT\n"); 
+      sqlBuilder.append("SELECT\n"); 
       sqlBuilder.append("  ?,\n");
       sqlBuilder.append("  ctrl.sel_org_fin_coa,\n");
       sqlBuilder.append("  ctrl.sel_org_cd,\n");
@@ -325,7 +325,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("    ctrl.fin_coa_cd,\n");
       sqlBuilder.append("    objl.fin_cons_obj_cd,\n");
       sqlBuilder.append("    objt.fin_obj_level_cd,\n");
-      sqlBuilder.append("    bcsf.fin_object_cd)\n");
+      sqlBuilder.append("    bcsf.fin_object_cd\n");
       
       objectSummarySql.add(new SQLForStep(sqlBuilder,insertionPoints));
       sqlBuilder.delete(0,sqlBuilder.length());

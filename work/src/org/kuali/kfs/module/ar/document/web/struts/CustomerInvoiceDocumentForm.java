@@ -17,13 +17,12 @@ package org.kuali.module.ar.web.struts.form;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.UnitOfMeasure;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
@@ -88,8 +87,8 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public Map getForcedLookupOptionalFields() {
         Map forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
 
-        String lookupField = ArConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY;
-        forcedLookupOptionalFields.put(lookupField, lookupField + ";" + CustomerInvoiceItemCode.class.getName());
+        forcedLookupOptionalFields.put(ArConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY, ArConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY + ";" + CustomerInvoiceItemCode.class.getName());
+        forcedLookupOptionalFields.put(ArConstants.CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY, ArConstants.UNIT_OF_MEASURE_PROPERTY + ";" + UnitOfMeasure.class.getName());
 
         return forcedLookupOptionalFields;
     }    

@@ -141,7 +141,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(customerInvoiceDetail);
         discountCustomerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
         discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
-        discountCustomerInvoiceDetail.setInvoiceItemUnitOfMeasureCode( ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT );
         
         discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX );
         

@@ -34,6 +34,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.module.integration.service.LaborModuleService;
 
@@ -55,16 +56,16 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer effortCertificationCalculatedOverallPercent;
     private Integer effortCertificationUpdatedOverallPercent;
     private String costShareSourceSubAccountNumber;
-    
+
     private Integer financialDocumentPostingYear;
     private Integer universityFiscalYear; // hold the same value as financialDocumentPostingYear, but serve for a special purpose
 
     private KualiDecimal originalFringeBenefitAmount;
 
     private boolean accountExpiredOverride;
-    private boolean accountExpiredOverrideNeeded;    
+    private boolean accountExpiredOverrideNeeded;
     private String overrideCode = AccountingLineOverride.CODE.NONE;
-    
+
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
     private KualiDecimal persistedPayrollAmount; // holds last saved updated payroll amount so business rule can check if it has
     // been updated at the route level
@@ -83,7 +84,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public EffortCertificationDetail() {
         super();
-        
+
         subAccountNumber = KFSConstants.getDashSubAccountNumber();
 
         effortCertificationPayrollAmount = new KualiDecimal(0);
@@ -433,7 +434,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         if (account == null && StringUtils.isNotBlank(this.getChartOfAccountsCode()) && StringUtils.isNotBlank(this.getAccountNumber())) {
             this.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         }
-        
+
         return account;
     }
 
@@ -568,9 +569,9 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return false;
     }
-    
+
     /**
-     * This is a marker method, which does nothing.  
+     * This is a marker method, which does nothing.
      */
     public void setFederalOrFederalPassThroughIndicator(boolean federalOrFederalPassThroughIndicator) {
         return;
@@ -602,9 +603,9 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public KualiDecimal getFringeBenefitAmount() {
         return SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(this.getFinancialDocumentPostingYear(), this.getChartOfAccountsCode(), this.getFinancialObjectCode(), this.getEffortCertificationPayrollAmount());
     }
-    
+
     /**
-     * This is a marker method, which does nothing.  
+     * This is a marker method, which does nothing.
      */
     public void setFringeBenefitAmount(KualiDecimal fringeBenefitAmount) {
         return;
@@ -629,7 +630,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -638,6 +640,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -683,7 +686,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the accountExpiredOverride attribute. 
+     * Gets the accountExpiredOverride attribute.
+     * 
      * @return Returns the accountExpiredOverride.
      */
     public boolean isAccountExpiredOverride() {
@@ -692,6 +696,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountExpiredOverride attribute value.
+     * 
      * @param accountExpiredOverride The accountExpiredOverride to set.
      */
     public void setAccountExpiredOverride(boolean accountExpiredOverride) {
@@ -699,7 +704,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the accountExpiredOverrideNeeded attribute. 
+     * Gets the accountExpiredOverrideNeeded attribute.
+     * 
      * @return Returns the accountExpiredOverrideNeeded.
      */
     public boolean isAccountExpiredOverrideNeeded() {
@@ -708,9 +714,112 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountExpiredOverrideNeeded attribute value.
+     * 
      * @param accountExpiredOverrideNeeded The accountExpiredOverrideNeeded to set.
      */
     public void setAccountExpiredOverrideNeeded(boolean accountExpiredOverrideNeeded) {
         this.accountExpiredOverrideNeeded = accountExpiredOverrideNeeded;
+    }
+
+    /**
+     * calculate the total effort percent of the given detail lines
+     * 
+     * @param the given detail lines
+     * @return Returns the total effort percent
+     */
+    public static Integer getTotalEffortPercent(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        Integer totalEffortPercent = 0;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalEffortPercent += detailLine.getEffortCertificationUpdatedOverallPercent();
+        }
+
+        return totalEffortPercent;
+    }
+
+    /**
+     * calculate the total original effort percent of the given detail lines
+     * 
+     * @param the given detail lines
+     * @return Returns the total original effort percent
+     */
+    public static Integer getTotalOriginalEffortPercent(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        Integer totalOriginalEffortPercent = 0;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalOriginalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();
+        }
+
+        return totalOriginalEffortPercent;
+    }
+
+    /**
+     * calculate the total payroll amount of the given detail lines
+     * 
+     * @param the given detail lines
+     * @return Returns the total original payroll amount
+     */
+    public static KualiDecimal getTotalPayrollAmount(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        KualiDecimal totalPayrollAmount = KualiDecimal.ZERO;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalPayrollAmount = totalPayrollAmount.add(detailLine.getEffortCertificationPayrollAmount());
+        }
+
+        return totalPayrollAmount;
+    }
+
+    /**
+     * calculate the total original payroll amount of the given detail lines
+     * 
+     * @param the given detail lines
+     * @return Returns the total original payroll amount
+     */
+    public static KualiDecimal getTotalOriginalPayrollAmount(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        KualiDecimal totalOriginalPayrollAmount = KualiDecimal.ZERO;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalOriginalPayrollAmount = totalOriginalPayrollAmount.add(detailLine.getEffortCertificationOriginalPayrollAmount());
+        }
+
+        return totalOriginalPayrollAmount;
+    }
+
+    /**
+     * Gets the totalFringeBenefit attribute.
+     * 
+     * @return Returns the totalFringeBenefit.
+     */
+    public static KualiDecimal getTotalFringeBenefit(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        KualiDecimal totalFringeBenefit = KualiDecimal.ZERO;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalFringeBenefit = totalFringeBenefit.add(detailLine.getFringeBenefitAmount());
+        }
+
+        return totalFringeBenefit;
+    }
+
+    /**
+     * Gets the totalOriginalFringeBenefit attribute.
+     * 
+     * @return Returns the totalOriginalFringeBenefit.
+     */
+    public static KualiDecimal getTotalOriginalFringeBenefit(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        KualiDecimal totalOriginalFringeBenefit = KualiDecimal.ZERO;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalOriginalFringeBenefit = totalOriginalFringeBenefit.add(detailLine.getOriginalFringeBenefitAmount());
+        }
+
+        return totalOriginalFringeBenefit;
+    }
+
+    public void recalculatePayrollAmount(KualiDecimal totalPayrollAmount) {
+        if (this != null) {
+            Integer effortPercent = this.getEffortCertificationUpdatedOverallPercent();
+            KualiDecimal payrollAmount = PayrollAmountHolder.recalculatePayrollAmount(totalPayrollAmount, effortPercent);
+            this.setEffortCertificationPayrollAmount(payrollAmount);
+        }
     }
 }

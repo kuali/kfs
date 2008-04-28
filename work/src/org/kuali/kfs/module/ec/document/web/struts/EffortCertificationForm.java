@@ -66,10 +66,14 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         this.setEffortCertificationDocument(new EffortCertificationDocument());
         this.setDocument(this.getEffortCertificationDocument());
-
-        newDetailLine = this.createNewDetailLine();
+        this.setNewDetailLine(this.createNewDetailLine());
     }
 
+    /**
+     * initialize a new detail line
+     * 
+     * @return the initialized detail line
+     */
     public EffortCertificationDetail createNewDetailLine() {
         EffortCertificationDetail detailLine = new EffortCertificationDetail();
         detailLine.setEffortCertificationUpdatedOverallPercent(null);
@@ -141,19 +145,43 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      * @return the relationship metadata for the detail line fields
      */
     public Map<String, BusinessObjectRelationship> getRelationshipMetadata() {
+        LOG.info("getRelationshipMetadata() start");
+
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
-        Map<String, BusinessObjectRelationship> RelationshipMetadata = new HashMap<String, BusinessObjectRelationship>();
+        Map<String, BusinessObjectRelationship> relationshipMetadata = new HashMap<String, BusinessObjectRelationship>();
         for (String attributeName : this.getInquirableFieldNames()) {
             Map<String, Class<? extends BusinessObject>> primitiveReference = LookupUtils.getPrimitiveReference(newDetailLine, attributeName);
 
             if (primitiveReference != null && !primitiveReference.isEmpty()) {
                 BusinessObjectRelationship primitiveRelationship = this.getPrimitiveBusinessObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
-                RelationshipMetadata.put(attributeName, primitiveRelationship);
+                relationshipMetadata.put(attributeName, primitiveRelationship);
             }
         }
 
-        return RelationshipMetadata;
+        return relationshipMetadata;
+    }
+
+    /**
+     * Gets the inquiryUrl attribute.
+     * 
+     * @return Returns the inquiryUrl for the detail lines in the document.
+     */
+    public List<Map<String, String>> getDetailLineFieldInquiryUrl() {
+        LOG.info("getDetailLineFieldInquiryUrl() start");
+
+        return this.getDetailLineFieldInquiryUrl(this.getDetailLines());
+    }
+
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    public List<Map<String, String>> getFieldInfo() {
+        LOG.info("getFieldInfo() start");
+
+        return this.getFieldInfo(this.getDetailLines());
     }
 
     /**
@@ -184,11 +212,13 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      * 
      * @return Returns the inquiryUrl for the detail lines in the document.
      */
-    public List<Map<String, String>> getDetailLineFieldInquiryUrl() {
+    protected List<Map<String, String>> getDetailLineFieldInquiryUrl(List<EffortCertificationDetail> detailLines) {
+        LOG.info("getDetailLineFieldInquiryUrl(List<EffortCertificationDetail>) start");
+
         Inquirable inquirable = this.getInquirable();
         List<Map<String, String>> inquiryURL = new ArrayList<Map<String, String>>();
 
-        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
+        for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.refreshNonUpdateableReferences();
             Map<String, String> inquiryURLForAttribute = new HashMap<String, String>();
 
@@ -293,17 +323,17 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
         return completeURL.concat(queryString.toString());
     }
 
-
     /**
      * Gets the fieldInfo attribute.
      * 
      * @return Returns the fieldInfo.
      */
-    public List<Map<String, String>> getFieldInfo() {
-        List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
-        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
+    protected List<Map<String, String>> getFieldInfo(List<EffortCertificationDetail> detailLines) {
+        LOG.info("getFieldInfo(List<EffortCertificationDetail>) start");
 
-        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
+        List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
+
+        for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.refreshNonUpdateableReferences();
 
             Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();

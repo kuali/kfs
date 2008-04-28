@@ -17,17 +17,13 @@
 package org.kuali.module.effort.document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -66,6 +62,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
     private Options options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
+    private List<EffortCertificationDetail> summarizedDetailLines;
 
     public Set routingSet;
 
@@ -74,6 +71,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      */
     public EffortCertificationDocument() {
         effortCertificationDetailLines = new TypedArrayList(EffortCertificationDetail.class);
+        summarizedDetailLines = new TypedArrayList(EffortCertificationDetail.class);
     }
 
     /**
@@ -240,13 +238,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return the total amount of the given effort certification document
      */
     public static KualiDecimal getDocumentTotalAmount(EffortCertificationDocument effortCertificationDocument) {
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        for (EffortCertificationDetail line : detailLines) {
-            totalAmount = totalAmount.add(line.getEffortCertificationPayrollAmount());
-        }
-        return totalAmount;
+        return EffortCertificationDetail.getTotalPayrollAmount(detailLines);
     }
 
     /**
@@ -257,7 +250,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
         LOG.debug("handleRouteStatusChange() start...");
 
         super.handleRouteStatusChange();
-        
+
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsApproved()) {
             SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
@@ -270,13 +263,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalEffortPercent.
      */
     public Integer getTotalEffortPercent() {
-        totalEffortPercent = 0;
-
-        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalEffortPercent += detailLine.getEffortCertificationUpdatedOverallPercent();
-        }
-
-        return totalEffortPercent;
+        return EffortCertificationDetail.getTotalEffortPercent(effortCertificationDetailLines);
     }
 
     /**
@@ -285,13 +272,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalOriginalEffortPercent.
      */
     public Integer getTotalOriginalEffortPercent() {
-        totalOriginalEffortPercent = 0;
-
-        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalOriginalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();
-        }
-
-        return totalOriginalEffortPercent;
+        return EffortCertificationDetail.getTotalOriginalEffortPercent(effortCertificationDetailLines);
     }
 
     /**
@@ -300,13 +281,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalPayrollAmount.
      */
     public KualiDecimal getTotalPayrollAmount() {
-        totalPayrollAmount = KualiDecimal.ZERO;
-
-        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalPayrollAmount = totalPayrollAmount.add(detailLine.getEffortCertificationPayrollAmount());
-        }
-
-        return totalPayrollAmount;
+        return EffortCertificationDetail.getTotalPayrollAmount(effortCertificationDetailLines);
     }
 
     /**
@@ -315,13 +290,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalOriginalPayrollAmount.
      */
     public KualiDecimal getTotalOriginalPayrollAmount() {
-        totalOriginalPayrollAmount = KualiDecimal.ZERO;
-
-        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalOriginalPayrollAmount = totalOriginalPayrollAmount.add(detailLine.getEffortCertificationOriginalPayrollAmount());
-        }
-
-        return totalOriginalPayrollAmount;
+        return EffortCertificationDetail.getTotalOriginalPayrollAmount(effortCertificationDetailLines);
     }
 
     /**
@@ -566,7 +535,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOtherTotal = salaryOtherTotal.add(detailLine.getEffortCertificationPayrollAmount());
             }
-
         }
 
         return salaryOtherTotal;
@@ -578,15 +546,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalFringeBenefit.
      */
     public KualiDecimal getTotalFringeBenefit() {
-        KualiDecimal totalFringeBenefit = KualiDecimal.ZERO;
-
-        List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-
-        for (EffortCertificationDetail detailLine : detailLineList) {
-            totalFringeBenefit = totalFringeBenefit.add(detailLine.getFringeBenefitAmount());
-        }
-
-        return totalFringeBenefit;
+        return EffortCertificationDetail.getTotalFringeBenefit(effortCertificationDetailLines);
     }
 
     /**
@@ -595,15 +555,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalOriginalFringeBenefit.
      */
     public KualiDecimal getTotalOriginalFringeBenefit() {
-        KualiDecimal totalOriginalFringeBenefit = KualiDecimal.ZERO;
-
-        List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-
-        for (EffortCertificationDetail detailLine : detailLineList) {
-            totalOriginalFringeBenefit = totalOriginalFringeBenefit.add(detailLine.getOriginalFringeBenefitAmount());
-        }
-
-        return totalOriginalFringeBenefit;
+        return EffortCertificationDetail.getTotalOriginalFringeBenefit(effortCertificationDetailLines);
     }
 
     /**
@@ -744,5 +696,23 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      */
     public void setTotalOriginalPayrollAmount(KualiDecimal totalOriginalPayrollAmount) {
         return;
+    }
+
+    /**
+     * Gets the summarizedDetailLines attribute.
+     * 
+     * @return Returns the summarizedDetailLines.
+     */
+    public List<EffortCertificationDetail> getSummarizedDetailLines() {
+        return summarizedDetailLines;
+    }
+
+    /**
+     * Sets the summarizedDetailLines attribute value.
+     * 
+     * @param summarizedDetailLines The summarizedDetailLines to set.
+     */
+    public void setSummarizedDetailLines(List<EffortCertificationDetail> summarizedDetailLines) {
+        this.summarizedDetailLines = summarizedDetailLines;
     }
 }

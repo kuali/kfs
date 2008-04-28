@@ -32,7 +32,9 @@
 	description="The names of the fields that will have hidden forms when the fields are readonly. The attribute can hold multiple filed names, which are separated by commas."%>	             
 <%@ attribute name="hiddenFieldNames" required="false"
     description="The names of the fields that can be rendered as hidden fields. The attribute can hold multiple filed names, which are separated by commas." %> 
-    
+<%@ attribute name="detailLineFormName" required="true"
+	description="The name  of the detail line"%>   
+	 
 <%@ attribute name="inquirableUrl" required="false" type="java.util.List"
     description="The list of URLs for the inquirable fields" %>  
 <%@ attribute name="fieldInfo" required="false" type="java.util.List"
@@ -60,6 +62,8 @@
                                         
 <%@ attribute name="hasActions" required="false"
     description="Determine if a user can take an action on the given line" %>
+<%@ attribute name="actionSuffix" required="false"
+    description="the suffix of the actions" %>    
 <%@ attribute name="readOnlySection" required="false"
     description="Determine if the detail lines will be rended as a readonly section" %>	              
 	
@@ -85,10 +89,10 @@
 <c:set var="completeOnblurForEditableFieldNames" value="${onblurForExtraEditableFieldNames}${commaDeliminator}${onblurForEditableFieldNames}" />
 <c:set var="completeOnblurableInfoFieldNames" value="${onblurableExtraInfoFieldNames}${commaDeliminator}${onblurableInfoFieldNames}" />
 
-<c:set var="actionForExistingLine" value="recalculate,revert" />
+<c:set var="actionForExistingLine" value="recalculate${actionSuffix},revert${actionSuffix}" />
 <c:set var="actionForExistingLineImageFileName" value="tinybutton-recalculate.gif,tinybutton-revert1.gif" />
 
-<c:set var="actionForNewLine" value="recalculate,delete" />
+<c:set var="actionForNewLine" value="recalculate${actionSuffix},delete${actionSuffix}" />
 <c:set var="actionForNewLineImageFileName" value="tinybutton-recalculate.gif,tinybutton-delete1.gif" />
 
 <c:set var="countOfFerderalFunding" value="0"/>
@@ -164,7 +168,7 @@
 				</c:if>			
 				
 				<er:detailLine detailLine="${detailLine}" 
-					detailLineFormName="document.effortCertificationDetailLines[${status.index}]"
+					detailLineFormName="${detailLineFormName}[${status.index}]"
 					attributes="${attributes}"
 					detailFieldNames="${detailFieldNames}"
 					detailFieldNamesWithHiddenFormWhenReadonly="${detailFieldNamesWithHiddenFormWhenReadonly}"

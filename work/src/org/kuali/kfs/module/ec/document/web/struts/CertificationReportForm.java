@@ -16,18 +16,25 @@
 package org.kuali.module.effort.web.struts.form;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.util.DetailLineGroup;
 
 /**
  * Action form for Effort Certification Document.
  */
 public class CertificationReportForm extends EffortCertificationForm {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationReportForm.class);
 
     private String sortOrder = SortOrder.ASC.name();
 
@@ -105,6 +112,63 @@ public class CertificationReportForm extends EffortCertificationForm {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(accountingPeriod.getUniversityFiscalPeriodEndDate());
         calendar.set(Calendar.DAY_OF_MONTH, 1);
+
         return new Date(calendar.getTime().getTime());
+    }
+
+    /**
+     * Sets the detailLineGroupMap attribute value.
+     * 
+     * @param detailLineGroupMap The detailLineGroupMap to set.
+     */
+    public void refreshDetailLineGroupMap() {
+        LOG.info("refreshDetailLineGroupMap() started");
+
+        List<EffortCertificationDetail> summarizedDetailLines = this.getSummarizedDetailLines();
+        if (summarizedDetailLines == null) {
+            EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
+            effortCertificationDocument.setSummarizedDetailLines(new ArrayList<EffortCertificationDetail>());
+        }
+        summarizedDetailLines.clear();
+
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(this.getDetailLines(), EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+
+        for (String key : detailLineGroupMap.keySet()) {
+            EffortCertificationDetail sumaryline = detailLineGroupMap.get(key).getSummaryDetailLine();
+
+            summarizedDetailLines.add(sumaryline);
+        }
+    }
+
+    /**
+     * Gets the summarizedDetailLines attribute.
+     * 
+     * @return Returns the summarizedDetailLines.
+     */
+    public List<EffortCertificationDetail> getSummarizedDetailLines() {
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
+        return effortCertificationDocument.getSummarizedDetailLines();
+    }
+    
+    /**
+     * Gets the inquiryUrl attribute.
+     * 
+     * @return Returns the inquiryUrl for the detail lines in the document.
+     */
+    public List<Map<String, String>> getSummarizedDetailLineFieldInquiryUrl() {
+        LOG.info("getSummarizedDetailLineFieldInquiryUrl() start");
+
+        return this.getDetailLineFieldInquiryUrl(this.getSummarizedDetailLines());
+    }
+
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    public List<Map<String, String>> getSummarizedDetailLineFieldInfo() {
+        LOG.info("getSummarizedDetailLineFieldInfo() start");
+
+        return this.getFieldInfo(this.getSummarizedDetailLines());
     }
 }

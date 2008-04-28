@@ -35,7 +35,7 @@
 						boClassName="org.kuali.core.bo.user.UniversalUser" 
 						keyValues="personPayrollIdentifier=${document.emplid}&personUniversalIdentifier=${document.employee.personUniversalIdentifier}" 
 						render="true">
-			         	<kul:htmlControlAttribute attributeEntry="${erAttributes['employee.personName']}" property="document.employee.personName" readOnly="true"/>
+						${document.employee.personName}
 					</kul:inquiry>
 				</td>
 			

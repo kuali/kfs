@@ -172,7 +172,7 @@
   <bean id="AssetPayment-accountChargeAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountChargeAmount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Charge Amount" />
+    <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -300,7 +300,7 @@
 
   <bean id="AssetPayment-financialDocumentPostingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="financialDocumentPostingDate" />
-    <property name="label" value="Financial Document Posting Date" />
+    <property name="label" value="Posting Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="AssetPayment-financialDocumentPostingPeriodCode" parent="AssetPayment-financialDocumentPostingPeriodCode-parentBean" />
@@ -308,7 +308,7 @@
   <bean id="AssetPayment-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingPeriodCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Posting Period Code" />
+    <property name="label" value="Posting Period Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -326,7 +326,7 @@
   <bean id="AssetPayment-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Posting Year" />
+    <property name="label" value="Posting Year" />
     <property name="shortLabel" value="Year" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -344,7 +344,7 @@
   <bean id="AssetPayment-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Type Code" />
+    <property name="label" value="Document Type Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -362,7 +362,7 @@
   <bean id="AssetPayment-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Object Code" />
+    <property name="label" value="Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -380,7 +380,7 @@
   <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Sub Object Code" />
+    <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
@@ -398,8 +398,8 @@
   <bean id="AssetPayment-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemOriginationCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial System Origination Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Origination Code" />
+    <property name="shortLabel" value="Origination Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1217,7 +1217,8 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="asset.campusTagNumber" />
+              p:attributeName="asset.campusTagNumber"
+              p:noLookup="true" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition"

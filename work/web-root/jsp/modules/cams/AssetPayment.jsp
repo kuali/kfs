@@ -53,18 +53,23 @@
 		  </table>   
         </div>
 	  </kul:tab>
-	        
+	     
+
+	<!--isOptionalFieldsInNewRow="false"		
+		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
+		extraSourceRowFields="expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"
+	-->        
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
-		isOptionalFieldsInNewRow="false"		
-		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode"		
-		extraSourceRowFields="expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"
-		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
+		isOptionalFieldsInNewRow="true"		
+		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber,accountChargeAmount"
-		sourceTotalsOverride="${KualiForm.assetPaymentTotals}" >
-		
-	</fin:accountingLines>			
+		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
+	</fin:accountingLines>
+
+	
+				
 	<cams:assetPaymentHeader defaultTabHide="true" />
 	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />

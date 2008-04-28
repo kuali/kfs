@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
@@ -34,9 +35,11 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.OriginationCodeService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
@@ -75,6 +78,9 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         // Validating document type code
         result &= this.validateDocumentType(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
 
+        //Validating origination code
+        result &= validateOriginationCode(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode());
+        
         // Validating posting date which must exists in the university date table
         result &= this.validatePostedDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
 
@@ -120,12 +126,13 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      */
     private boolean validateDocumentType(String expenditureFinancialDocumentTypeCode) {
         boolean result = true;
+        String label;
         if (!StringUtils.isBlank(expenditureFinancialDocumentTypeCode)) {
             Map<String, Object> keyToFind = new HashMap<String, Object>();
             keyToFind.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
 
             if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
+                label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
@@ -133,6 +140,25 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         return result;
     }
 
+
+    /**
+     * 
+     * Validates that origination code exists
+     *  
+     * @param originationCode
+     * @return boolean
+     */    
+    private boolean validateOriginationCode(String originationCode) {
+        boolean result = true;
+        if (!StringUtils.isBlank(originationCode)) {
+            if (SpringContext.getBean(OriginationCodeService.class).getByPrimaryKey(originationCode) == null) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginationCode.class.getName()).getAttributeDefinition(RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE).getLabel();
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                result = false;
+            }
+        }
+        return result;        
+    }
 
     /**
      * 

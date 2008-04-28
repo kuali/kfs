@@ -20,11 +20,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
@@ -47,7 +49,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public AssetPaymentForm() {
         super();
         setDocument(new AssetPaymentDocument());
-        LOG.info("***AssetPaymentForm - Constructor()");
     }
 
     /**
@@ -60,13 +61,13 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     
-    @Override
+/*    @Override
     public Map<String,Boolean> getForcedReadOnlyFields() {
         Map<String,Boolean> map = super.getForcedReadOnlyFields();
         map.put(CamsPropertyConstants.AssetPayment.FINANCIAL_DOCUMENT_POSTING_YEAR, Boolean.TRUE);
         map.put(CamsPropertyConstants.AssetPayment.FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE, Boolean.TRUE);
         return map;
-    }
+    }*/
     
 /**
  * 
@@ -75,8 +76,9 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     @Override
     public Map<String,String> getForcedLookupOptionalFields() {
         Map<String,String> forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
-        String lookupField = KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE;
-        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, lookupField + "," + DocumentType.class.getName());
+        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE + ";" + DocumentType.class.getName());
+        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE+ ";" + OriginationCode.class.getName());
+        
         return forcedLookupOptionalFields;
     }
 
@@ -139,7 +141,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         DocumentRouteHeaderValue doc = null; 
         try {
             doc = KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-            LOG.info("***** DOCUMENT - Approved Date:"+doc.getApprovedDate());
         } catch(Exception e) {
             
         }

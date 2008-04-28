@@ -163,14 +163,13 @@
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="capitalAssetNumber" />
+                    p:name="campusCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingCode" />
             </list>
           </property>
           <property name="maintainableFields" >
-            <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="capitalAssetNumber"
-                    p:readOnly="true" />
+            <list>              
               <bean parent="MaintainableFieldDefinition"
                     p:name="campusCode"
                     p:required="true" />
@@ -199,8 +198,6 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusCountryCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
           <property name="maintainableCollections" >
@@ -212,11 +209,15 @@
                 <property name="summaryFields" >
                   <list>
                     <bean parent="MaintainableFieldDefinition"
-                          p:name="serialNumber" />
+                          p:name="capitalAssetNumber" 
+                          />
                   </list>
                 </property>
                 <property name="maintainableFields" >
                   <list>
+                	 <bean parent="MaintainableFieldDefinition"
+                   		 p:name="capitalAssetNumber"
+                   		 p:readOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="serialNumber" />
                     <bean parent="MaintainableFieldDefinition"
@@ -230,7 +231,7 @@
                     <bean parent="MaintainableFieldDefinition"
                           p:name="nationalStockNumber" />
                     <bean parent="MaintainableFieldDefinition"
-                          p:name="versionNumber" />
+                          p:name="versionNumber" /> 
                   </list>
                 </property>
               </bean>

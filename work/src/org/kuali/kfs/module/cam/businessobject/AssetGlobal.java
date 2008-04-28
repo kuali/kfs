@@ -44,7 +44,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     // Not Presisted
     private Date lastInventoryDate;
-
     private AssetHeader assetHeader;
     private AssetType capitalAssetType;
     private AssetCondition assetCondition;
@@ -591,30 +590,59 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
             // Asset never exists since per location we don't look up Asset numbers.
             Asset asset = new Asset();
+            //AssetPayment assetPayment = new AssetPayment();
+            //newAssetGlobalDetail = (AssetGlobalDetail) ObjectUtils.deepCopy(locationDetail);
             asset.setCapitalAssetNumber(detail.getCapitalAssetNumber());
-
             asset.setCapitalAssetDescription(capitalAssetDescription);
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
             asset.setConditionCode(conditionCode);
-
             asset.setCampusCode(detail.getCampusCode());
             asset.setBuildingCode(detail.getBuildingCode());
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
             asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
-
             asset.setActive(true);
-
+            //asset.setVersionNumber(1L);
             persistables.add(asset);
         }
-
+     
+        for (AssetPaymentDetail payment : assetPaymentDetails) {
+            for (AssetGlobalDetail location : assetGlobalDetails) {
+                // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
+                // Divide each payment to records in Asset AssetGlobalDetails
+                AssetPayment assetPayment = new AssetPayment();
+                assetPayment.setCapitalAssetNumber(location.getCapitalAssetNumber());
+                assetPayment.setPaymentSequenceNumber(payment.getFinancialDocumentLineNumber());
+                assetPayment.setChartOfAccountsCode(payment.getChartOfAccountsCode());
+                assetPayment.setAccountNumber(payment.getAccountNumber());
+                assetPayment.setSubAccountNumber(payment.getSubAccountNumber());
+                assetPayment.setFinancialObjectCode(payment.getFinancialObjectCode());
+                assetPayment.setFinancialSubObjectCode(payment.getFinancialSubObjectCode());
+                assetPayment.setProjectCode(payment.getProjectCode());
+                assetPayment.setOrganizationReferenceId(payment.getOrganizationReferenceId());
+                assetPayment.setDocumentNumber(payment.getDocumentNumber()); //???
+                // ??? assetPayment.setFinancialDocumentTypeCode(detail.getFinancialDocumentTypeCode());
+                assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
+                assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
+                assetPayment.setFinancialDocumentPostingYear(payment.getFinancialDocumentPostingYear());
+                assetPayment.setFinancialDocumentPostingPeriodCode(payment.getFinancialDocumentPostingPeriodCode());
+                assetPayment.setAccountChargeAmount(payment.getAccountChargeAmount().divide(new KualiDecimal(assetGlobalDetails.size())));
+                assetPayment.setVersionNumber(1L);
+                persistables.add(assetPayment);
+            }
+        }
+        
         return persistables;
     }
-
+    
     public boolean isPersistable() {
         return true;
     }
-
-    public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
+    
+@Override
+    public void prepareForWorkflow() {
+        // TODO Auto-generated method stub
+        super.prepareForWorkflow();
+    }    public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return getAssetGlobalDetails();
     }
 

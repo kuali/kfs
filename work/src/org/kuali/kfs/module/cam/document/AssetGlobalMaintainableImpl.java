@@ -19,13 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
@@ -60,8 +58,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 assetPaymentDetail.setFinancialDocumentLineNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             }
         }
-        int pos = assetGlobal.getAssetGlobalDetails().size() - 1;
-        if (pos > -1 && ("assetGlobalDetails[" + pos + "].assetGlobalUniqueDetails").equalsIgnoreCase(collectionName)) {
+        int pos = assetGlobal.getAssetSharedDetails().size() - 1;
+        if (pos > -1 && ("assetSharedDetails[" + pos + "].assetGlobalUniqueDetails").equalsIgnoreCase(collectionName)) {
             AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
             if (assetGlobalDetail != null) {
                 assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
@@ -78,7 +76,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        List<MaintenanceLock> maintenanceLocks = new ArrayList();
+        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
 
         for (AssetGlobalDetail detail : assetGlobal.getAssetGlobalDetails()) {
             MaintenanceLock maintenanceLock = new MaintenanceLock();
@@ -100,13 +98,11 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     public void prepareForSave() {
         super.prepareForSave();
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        deleteExistingDetails(assetGlobal);
-
-        List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
+        List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
         AssetGlobalDetail newAssetGlobalDetail = null;
 
-        for (AssetGlobalDetail locationDetail : assetGlobalDetails) {
+        for (AssetGlobalDetail locationDetail : assetSharedDetails) {
             List<AssetGlobalDetail> assetGlobalUniqueDetails = locationDetail.getAssetGlobalUniqueDetails();
 
             for (AssetGlobalDetail detail : assetGlobalUniqueDetails) {
@@ -143,18 +139,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     }
 
-    private void deleteExistingDetails(AssetGlobal assetGlobal) {
-        AssetGlobal assetGlobalForDelete = new AssetGlobal();
-        assetGlobalForDelete.setDocumentNumber(assetGlobal.getDocumentNumber());
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        assetGlobalForDelete = (AssetGlobal) boService.retrieve(assetGlobalForDelete);
-        if (assetGlobalForDelete != null) {
-            assetGlobalForDelete.refreshReferenceObject("assetGlobalDetails");
-            List<PersistableBusinessObject> deleteList = new ArrayList<PersistableBusinessObject>();
-            deleteList.addAll(assetGlobalForDelete.getAssetGlobalDetails());
-            boService.delete(deleteList);
-        }
-    }
 
     @Override
     public void processAfterRetrieve() {
@@ -164,18 +148,18 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
         AssetGlobalDetail currLocationDetail = null;
         HashMap<String, AssetGlobalDetail> locationMap = new HashMap<String, AssetGlobalDetail>();
-
+        AssetGlobalDetail copyValue = null;
         for (AssetGlobalDetail detail : assetGlobalDetails) {
-            detail.setVersionNumber(null);
-            String key = generateLocationKey(detail);
+            copyValue = (AssetGlobalDetail) ObjectUtils.deepCopy(detail);
+            String key = generateLocationKey(copyValue);
             if ((currLocationDetail = locationMap.get(key)) == null) {
-                currLocationDetail = detail;
+                currLocationDetail = copyValue;
                 locationMap.put(key, currLocationDetail);
             }
-            currLocationDetail.getAssetGlobalUniqueDetails().add(detail);
+            currLocationDetail.getAssetGlobalUniqueDetails().add(copyValue);
         }
-        assetGlobal.getAssetGlobalDetails().clear();
-        assetGlobal.getAssetGlobalDetails().addAll(locationMap.values());
+        assetGlobal.getAssetSharedDetails().clear();
+        assetGlobal.getAssetSharedDetails().addAll(locationMap.values());
     }
 
     private String generateLocationKey(AssetGlobalDetail location) {

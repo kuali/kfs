@@ -157,7 +157,7 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="assetGlobalDetails" />
+          <property name="name" value="assetSharedDetails" />
           <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetGlobalDetail" />
           <property name="summaryTitle" value="Asset Location" />
           <property name="summaryFields" >
@@ -183,19 +183,19 @@
                     p:name="buildingSubRoomNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusName"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusAddress"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusCityName"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusStateCode"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusZipCode"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusCountryCode" />
             </list>

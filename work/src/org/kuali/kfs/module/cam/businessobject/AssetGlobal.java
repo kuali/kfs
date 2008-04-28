@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -41,6 +42,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Date capitalAssetInServiceDate;
     private Date capitalAssetDepreciationDate;
     private Integer financialDocumentNextLineNumber;
+    private DocumentHeader documentHeader;
 
     // Not Presisted
     private Date lastInventoryDate;
@@ -49,13 +51,16 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private AssetCondition assetCondition;
     private AssetStatus inventoryStatus;
     private List<AssetGlobalDetail> assetGlobalDetails;
+    private List<AssetGlobalDetail> assetSharedDetails;
     private List<AssetPaymentDetail> assetPaymentDetails;
+
 
     /**
      * Default constructor.
      */
     public AssetGlobal() {
         assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
+        assetSharedDetails = new TypedArrayList(AssetGlobalDetail.class);
         assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);
     }
 
@@ -590,8 +595,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
             // Asset never exists since per location we don't look up Asset numbers.
             Asset asset = new Asset();
-            //AssetPayment assetPayment = new AssetPayment();
-            //newAssetGlobalDetail = (AssetGlobalDetail) ObjectUtils.deepCopy(locationDetail);
+            // AssetPayment assetPayment = new AssetPayment();
+            // newAssetGlobalDetail = (AssetGlobalDetail) ObjectUtils.deepCopy(locationDetail);
             asset.setCapitalAssetNumber(detail.getCapitalAssetNumber());
             asset.setCapitalAssetDescription(capitalAssetDescription);
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
@@ -601,10 +606,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
             asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
             asset.setActive(true);
-            //asset.setVersionNumber(1L);
+            // asset.setVersionNumber(1L);
             persistables.add(asset);
         }
-     
+
         for (AssetPaymentDetail payment : assetPaymentDetails) {
             for (AssetGlobalDetail location : assetGlobalDetails) {
                 // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
@@ -619,7 +624,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setFinancialSubObjectCode(payment.getFinancialSubObjectCode());
                 assetPayment.setProjectCode(payment.getProjectCode());
                 assetPayment.setOrganizationReferenceId(payment.getOrganizationReferenceId());
-                assetPayment.setDocumentNumber(payment.getDocumentNumber()); //???
+                assetPayment.setDocumentNumber(payment.getDocumentNumber()); // ???
                 // ??? assetPayment.setFinancialDocumentTypeCode(detail.getFinancialDocumentTypeCode());
                 assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
                 assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
@@ -630,19 +635,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 persistables.add(assetPayment);
             }
         }
-        
+
         return persistables;
     }
-    
+
     public boolean isPersistable() {
         return true;
     }
-    
-@Override
+
+    @Override
     public void prepareForWorkflow() {
         // TODO Auto-generated method stub
         super.prepareForWorkflow();
-    }    public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
+    }
+
+    public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return getAssetGlobalDetails();
     }
 
@@ -720,6 +727,22 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         }
         this.financialDocumentNextLineNumber += 1;
         return financialDocumentNextLineNumber;
+    }
+
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
+    public List<AssetGlobalDetail> getAssetSharedDetails() {
+        return assetSharedDetails;
+    }
+
+    public void setAssetSharedDetails(List<AssetGlobalDetail> assetSharedDetails) {
+        this.assetSharedDetails = assetSharedDetails;
     }
 
 

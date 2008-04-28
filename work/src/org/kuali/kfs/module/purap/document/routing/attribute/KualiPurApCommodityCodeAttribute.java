@@ -201,6 +201,13 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                 String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY) + " must exists in the database. ";
                 errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
             }
+            else {
+                if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
+                    // Commodity Code and Restricted Material Code cannot coexists in a rule.
+                    String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY) + " and Commodity Code field cannot be both filled in. ";
+                    errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
+                }
+            }
         }
         return errors;
     }
@@ -283,7 +290,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                     return true;
                 }
             }
-            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) && (StringUtils.equals(commodityCode.getRestrictedMaterialCode(), getRestrictedMaterialCode())) ) {
+            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) || (StringUtils.equals(commodityCode.getRestrictedMaterialCode(), getRestrictedMaterialCode())) ) {
                 return true;
             }
         }

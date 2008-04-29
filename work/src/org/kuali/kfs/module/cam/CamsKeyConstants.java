@@ -21,7 +21,6 @@ package org.kuali.module.cams;
  */
 public class CamsKeyConstants {
 
-    public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.invalid.capital.asset.number";
     public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
     public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.number";
@@ -31,6 +30,17 @@ public class CamsKeyConstants {
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
+    
+    public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
+    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
+    public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";
+    public static final String ERROR_ASSET_TYPE_CODE_RESTRICT_CHANGE = "error.asset.type.code.restrict.change";
+    public static final String ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE = "error.asset.description.restrict.change";
+    public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
+    public static final String ERROR_ASSET_RETIRED_NOEDIT = "error.asset.retired.noedit";
+    public static final String ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_REQUIRED = "error.asset.fabrication.totalAmount.required";
+    public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED = "error.asset.fabrication.completionDate.required";
+    public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED = "error.asset.fabrication.lifeLimit.required";
 
     public static class Depreciation {
         public static final String NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND = "error.batch.depreciation.assetsNotFound";
@@ -50,18 +60,6 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
     }
-
-
-    public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
-    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
-    public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";
-    public static final String ERROR_ASSET_TYPE_CODE_RESTRICT_CHANGE = "error.asset.type.code.restrict.change";
-    public static final String ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE = "error.asset.description.restrict.change";
-    public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
-    public static final String ERROR_ASSET_RETIRED_NOEDIT = "error.asset.retired.noedit";
-    public static final String ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_REQUIRED = "error.asset.fabrication.totalAmount.required";
-    public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED = "error.asset.fabrication.completionDate.required";
-    public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED = "error.asset.fabrication.lifeLimit.required";
 
     public static class Transfer {
         public static final String ERROR_ASSET_DOCS_PENDING = "error.asset.pending.docs";
@@ -109,5 +107,10 @@ public class CamsKeyConstants {
         public static final String ERROR_DUPLICATE_CAPITAL_ASSET_NUMBER_WITH_TARGET = "error.duplicate.capital.asset.number.with.target";
         public static final String ERROR_BLANK_CAPITAL_ASSET_NUMBER = "error.blank.capital.asset.number";
         public static final String ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET = "error.asset.retirement.global.no.asset";
+    }
+    
+    public static class AssetLocationGlobal {
+        public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.invalid.capital.asset.number";
+        public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET = "error.invalid.no.asset.location.detail.line";
     }
 }

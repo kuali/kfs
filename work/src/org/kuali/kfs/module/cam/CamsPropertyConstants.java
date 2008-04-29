@@ -81,7 +81,6 @@ public class CamsPropertyConstants {
         public static final String ESTIMATED_FABRICATION_LIFE_LIMIT = "estimatedFabricationLifetimeLimitNumber";
         public static final String FINANCIAL_OBJECT_SUB_TYP_CODE = "financialObjectSubTypeCode";
 
-
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
             public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
@@ -93,8 +92,7 @@ public class CamsPropertyConstants {
         }
 
     }
-
-
+    
     public static class AssetHeader {
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String DOCUMENT_HEADER = "documentHeader";
@@ -218,5 +216,14 @@ public class CamsPropertyConstants {
         public static final String PREVENTIVE_MAINTENANCE_AMOUNT = "preventiveMaintenanceAmount";
         public static final String BUYER_DESCRIPTION = "buyerDescription";
         public static final String PAID_CASE_NUMBER = "paidCaseNumber";
+    }
+    
+    public static class AssetLocationGlobal {
+        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+        public static final String CAMPUS_CODE = "campusCode";
+        public static final String BUILDING_CODE = "buildingCode";
+        public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+        public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
+        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
     }
 }

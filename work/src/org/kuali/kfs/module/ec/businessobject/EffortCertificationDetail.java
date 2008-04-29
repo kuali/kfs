@@ -60,8 +60,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer financialDocumentPostingYear;
     private Integer universityFiscalYear; // hold the same value as financialDocumentPostingYear, but serve for a special purpose
 
-    private KualiDecimal originalFringeBenefitAmount;
-
     private boolean accountExpiredOverride;
     private boolean accountExpiredOverrideNeeded;
     private String overrideCode = AccountingLineOverride.CODE.NONE;
@@ -91,7 +89,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         effortCertificationOriginalPayrollAmount = new KualiDecimal(0);
         effortCertificationCalculatedOverallPercent = new Integer(0);
         effortCertificationUpdatedOverallPercent = new Integer(0);
-        originalFringeBenefitAmount = new KualiDecimal(0);
     }
 
     public EffortCertificationDetail(EffortCertificationDetail effortCertificationDetail) {
@@ -110,7 +107,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
             this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
-            this.originalFringeBenefitAmount = effortCertificationDetail.getOriginalFringeBenefitAmount();
         }
     }
 
@@ -617,16 +613,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the originalFringeBenefitAmount.
      */
     public KualiDecimal getOriginalFringeBenefitAmount() {
-        return originalFringeBenefitAmount;
+        return SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(this.getFinancialDocumentPostingYear(), this.getChartOfAccountsCode(), this.getFinancialObjectCode(), this.getEffortCertificationOriginalPayrollAmount());
     }
 
     /**
-     * Sets the originalFringeBenefitAmount attribute value.
-     * 
-     * @param originalFringeBenefitAmount The originalFringeBenefitAmount to set.
+     * This is a marker method, which does nothing.
      */
     public void setOriginalFringeBenefitAmount(KualiDecimal originalFringeBenefitAmount) {
-        this.originalFringeBenefitAmount = originalFringeBenefitAmount;
+        return;
     }
 
     /**

@@ -103,7 +103,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         Set testSet = new HashSet();
         testSet.add(new RoutingAccount("BL", "4831401"));
         testSet.add(new OrgReviewRoutingData("BL", "PSY"));
-        document.setRoutingSet(testSet);
+        //document.setRoutingSet(testSet);
         document.setEmplid("0000000060");
         document.setEffortCertificationReportNumber("A03");
         document.setUniversityFiscalYear(2007);// Data only exists for this year

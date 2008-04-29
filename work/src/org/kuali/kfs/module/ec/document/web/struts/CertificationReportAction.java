@@ -169,10 +169,10 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CertificationReportForm certificationReportForm = (CertificationReportForm) form;
+        /*CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         if (this.isSummarizeDetailLinesRendered(certificationReportForm)) {
             this.recalculateAllDetailLines(certificationReportForm);
-        }
+        }*/
 
         return super.approve(mapping, form, request, response);
     }
@@ -338,7 +338,6 @@ public class CertificationReportAction extends EffortCertificationAction {
         KualiDecimal totalPayrollAmount = effortDocument.getTotalOriginalPayrollAmount();
 
         List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
-
         for (EffortCertificationDetail detailLine : summarizedDetailLines) {
             // recalculate the selected summary line
             detailLine.recalculatePayrollAmount(totalPayrollAmount);

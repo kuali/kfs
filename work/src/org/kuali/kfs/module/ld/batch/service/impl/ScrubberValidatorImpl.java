@@ -424,6 +424,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message useSuspenseAccount(LaborOriginEntry workingEntry) {
         String suspenseAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
         String suspenseCOAcode = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
+        String suspenseSubAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_SUB_ACCOUNT);
+        
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         if (account == null) {
@@ -433,8 +435,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         workingEntry.setAccount(account);
         workingEntry.setAccountNumber(suspenseAccountNumber);
         workingEntry.setChartOfAccountsCode(suspenseCOAcode);
+        workingEntry.setSubAccountNumber(suspenseSubAccountNumber);
 
-        return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber);
+        return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber, suspenseSubAccountNumber);
     }
 
     /**

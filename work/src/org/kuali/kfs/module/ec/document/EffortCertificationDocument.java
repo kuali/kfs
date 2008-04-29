@@ -36,14 +36,19 @@ import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.integration.service.LaborModuleService;
-import org.kuali.workflow.attribute.GenericRoutingSet;
+import org.kuali.workflow.attribute.GenericRoutingInfo;
+import org.kuali.workflow.attribute.KualiAccountAttribute;
+import org.kuali.workflow.attribute.KualiCGAttribute;
+import org.kuali.workflow.attribute.KualiOrgReviewAttribute;
+import org.kuali.workflow.attribute.KualiPDAttribute;
 import org.kuali.workflow.attribute.OrgReviewRoutingData;
 import org.kuali.workflow.attribute.RoutingAccount;
+import org.kuali.workflow.attribute.RoutingData;
 
 /**
  * Effort Certification Document Class.
  */
-public class EffortCertificationDocument extends TransactionalDocumentBase implements GenericRoutingSet {
+public class EffortCertificationDocument extends TransactionalDocumentBase implements GenericRoutingInfo {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
     private String effortCertificationReportNumber;
@@ -64,7 +69,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     private List<EffortCertificationDetail> summarizedDetailLines;
 
-    public Set routingSet;
+    public Set<RoutingData> routingInfo;
 
     /**
      * Default constructor.
@@ -627,26 +632,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
         return maxLine;
     }
 
-    public Set getRoutingSet() {
-        return routingSet;
-    }
-
-    public void setRoutingSet(Set routingSet) {
-        this.routingSet = routingSet;
-    }
-
-    public void populateRoutingSet() {
-        routingSet = new HashSet();
-        List<EffortCertificationDetail> detailLinesForRouting = getEffortCertificationDetailLines();
-        for (EffortCertificationDetail detailLine : detailLinesForRouting) {
-            routingSet.add(new RoutingAccount(detailLine.getChartOfAccountsCode(), detailLine.getAccountNumber()));
-            routingSet.add(new OrgReviewRoutingData(detailLine.getChartOfAccountsCode(), detailLine.getAccount().getOrganizationCode()));
-        }
-    }
-
+    /**
+     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     */
     @Override
     public void populateDocumentForRouting() {
-        populateRoutingSet();
+        populateRoutingInfo();
         if (ObjectUtils.isNotNull(getTotalPayrollAmount())) {
             documentHeader.setFinancialDocumentTotalAmount(getTotalPayrollAmount());
         }
@@ -714,5 +705,57 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      */
     public void setSummarizedDetailLines(List<EffortCertificationDetail> summarizedDetailLines) {
         this.summarizedDetailLines = summarizedDetailLines;
+    }
+
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * @see org.kuali.workflow.attribute.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+
+        List<String> routingTypes = new ArrayList<String>();
+        routingTypes.add(KualiCGAttribute.class.getSimpleName());
+        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
+        routingTypes.add(KualiPDAttribute.class.getSimpleName());
+
+        RoutingData orgRoutingData = new RoutingData();
+        orgRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+
+        Set<OrgReviewRoutingData> orgRoutingSet = new HashSet<OrgReviewRoutingData>();
+
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingTypes(routingTypes);
+
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+
+        List<EffortCertificationDetail> detailLines = this.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine : detailLines) {
+            orgRoutingSet.add(new OrgReviewRoutingData(detailLine.getChartOfAccountsCode(), detailLine.getAccount().getOrganizationCode()));
+            accountRoutingSet.add(new RoutingAccount(detailLine.getChartOfAccountsCode(), detailLine.getAccountNumber()));
+        }
+        
+        orgRoutingData.setRoutingSet(orgRoutingSet);
+        routingInfo.add(orgRoutingData);
+
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
     }
 }

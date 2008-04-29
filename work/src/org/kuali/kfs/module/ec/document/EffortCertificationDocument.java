@@ -577,7 +577,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
 
         // calculate original fringe benefits for each line
         for (EffortCertificationDetail detailLine : this.getEffortCertificationDetailLines()) {
-            detailLine.setOriginalFringeBenefitAmount(SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(detailLine.getFinancialDocumentPostingYear(), detailLine.getChartOfAccountsCode(), detailLine.getFinancialObjectCode(), detailLine.getEffortCertificationPayrollAmount()));
+            detailLine.recalculateOriginalFringeBenefit();
         }
     }
 

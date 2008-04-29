@@ -60,6 +60,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer financialDocumentPostingYear;
     private Integer universityFiscalYear; // hold the same value as financialDocumentPostingYear, but serve for a special purpose
 
+    private KualiDecimal originalFringeBenefitAmount;
+
     private boolean accountExpiredOverride;
     private boolean accountExpiredOverrideNeeded;
     private String overrideCode = AccountingLineOverride.CODE.NONE;
@@ -89,6 +91,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         effortCertificationOriginalPayrollAmount = new KualiDecimal(0);
         effortCertificationCalculatedOverallPercent = new Integer(0);
         effortCertificationUpdatedOverallPercent = new Integer(0);
+        originalFringeBenefitAmount = new KualiDecimal(0);
     }
 
     public EffortCertificationDetail(EffortCertificationDetail effortCertificationDetail) {
@@ -107,6 +110,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
             this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
+            this.originalFringeBenefitAmount = effortCertificationDetail.getOriginalFringeBenefitAmount();
         }
     }
 
@@ -350,7 +354,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the effortCertificationOriginalPayrollAmount.
      */
-    public KualiDecimal getEffortCertificationOriginalPayrollAmount() {
+    public KualiDecimal getEffortCertificationOriginalPayrollAmount() {        
         return effortCertificationOriginalPayrollAmount;
     }
 
@@ -597,7 +601,9 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the fringeBenefitAmount.
      */
     public KualiDecimal getFringeBenefitAmount() {
-        return SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(this.getFinancialDocumentPostingYear(), this.getChartOfAccountsCode(), this.getFinancialObjectCode(), this.getEffortCertificationPayrollAmount());
+        KualiDecimal payrollAmount = this.getEffortCertificationPayrollAmount();
+        
+        return EffortCertificationDetail.calculateFringeBenefit(this, payrollAmount);      
     }
 
     /**
@@ -613,14 +619,19 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the originalFringeBenefitAmount.
      */
     public KualiDecimal getOriginalFringeBenefitAmount() {
-        return SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(this.getFinancialDocumentPostingYear(), this.getChartOfAccountsCode(), this.getFinancialObjectCode(), this.getEffortCertificationOriginalPayrollAmount());
+        if(this.originalFringeBenefitAmount == null || originalFringeBenefitAmount.isZero()) {
+            this.recalculateOriginalFringeBenefit();
+        }        
+        return originalFringeBenefitAmount;
     }
 
     /**
-     * This is a marker method, which does nothing.
+     * Sets the originalFringeBenefitAmount attribute value.
+     * 
+     * @param originalFringeBenefitAmount The originalFringeBenefitAmount to set.
      */
     public void setOriginalFringeBenefitAmount(KualiDecimal originalFringeBenefitAmount) {
-        return;
+        this.originalFringeBenefitAmount = originalFringeBenefitAmount;
     }
 
     /**
@@ -809,6 +820,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         return totalOriginalFringeBenefit;
     }
 
+    /**
+     * recalculate the payroll amount of the current detail line
+     * @param totalPayrollAmount the total payroll amount of the hosting document
+     */
     public void recalculatePayrollAmount(KualiDecimal totalPayrollAmount) {
         if (this != null) {
             Integer effortPercent = this.getEffortCertificationUpdatedOverallPercent();
@@ -816,4 +831,25 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.setEffortCertificationPayrollAmount(payrollAmount);
         }
     }
+    
+    /**
+     * recalculate the original fringe benefit of the current detail line
+     */
+    public void recalculateOriginalFringeBenefit() {   
+        KualiDecimal originalPayrollAmount = this.getEffortCertificationOriginalPayrollAmount();
+        KualiDecimal fringeBenefit = EffortCertificationDetail.calculateFringeBenefit(this, originalPayrollAmount);      
+        this.setOriginalFringeBenefitAmount(fringeBenefit);
+    }
+    
+    /**
+     * recalculate the original fringe benefit of the current detail line
+     */
+    public static KualiDecimal calculateFringeBenefit(EffortCertificationDetail detailLine, KualiDecimal payrollAmount) {
+        LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
+        Integer fiscalYear = detailLine.getFinancialDocumentPostingYear();
+        String chartOfAccountsCode = detailLine.getChartOfAccountsCode();
+        String objectCode = detailLine.getFinancialObjectCode();
+        
+        return laborModuleService.calculateFringeBenefit(fiscalYear, chartOfAccountsCode, objectCode, payrollAmount);        
+    }    
 }

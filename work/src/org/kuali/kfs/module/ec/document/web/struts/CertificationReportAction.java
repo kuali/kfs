@@ -49,6 +49,7 @@ import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
 import org.kuali.module.effort.util.DetailLineGroup;
 import org.kuali.module.effort.web.struts.form.CertificationReportForm;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;

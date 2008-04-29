@@ -776,6 +776,11 @@
 	<field-descriptor name="organizationRemitToZipCode" column="ORG_REMIT_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCheckPayableToName" column="ORG_CHCK_PAY_TO_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentInitiatorIdentifier" column="FDOC_INITIATOR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="wireChartOfAccountsCode" column="WIRE_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="wireAccountNumber" column="WIRE_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="wireSubAccountNumber" column="WIRE_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="wireObjectCode" column="WIRE_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="wireSubObjectCode" column="WIRE_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="adjustmentFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -840,6 +845,30 @@
     <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="organizationRemitToStateCode" />
     </reference-descriptor>
+	<reference-descriptor name="wireChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="wireChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="wireAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="wireChartOfAccountsCode" />
+		<foreignkey field-ref="wireAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="wireSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="wireChartOfAccountsCode" />
+		<foreignkey field-ref="wireAccountNumber" />
+		<foreignkey field-ref="wireSubAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="wireObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="wireChartOfAccountsCode" />
+		<foreignkey field-ref="wireObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="wireSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="wireChartOfAccountsCode" />
+		<foreignkey field-ref="wireAccountNumber" />
+		<foreignkey field-ref="wireObjectCode" />
+		<foreignkey field-ref="wireSubObjectCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.PrintInvoiceOptions" table="AR_PRN_INV_OPTN_T">

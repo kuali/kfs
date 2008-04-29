@@ -39,7 +39,12 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private String organizationRemitToZipCode;
     private String organizationCheckPayableToName;
     private String financialDocumentInitiatorIdentifier;
-   
+    private String wireChartOfAccountsCode;
+    private String wireAccountNumber;
+    private String wireSubAccountNumber;
+    private String wireObjectCode;
+    private String wireSubObjectCode;    
+    
     private ObjectCode adjustmentFinancialObject;
 	private ObjectCode salesTaxFinancialObject;
 	private ObjectCode creditCardFinancialObject;
@@ -54,6 +59,11 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private SubAccount universityClearingSubAccount;
     private ObjectCode universityFiscalYearObject;
     private State organizationRemitToState;
+    private Chart wireChartOfAccounts;
+    private Account wireAccount;
+    private SubAccount wireSubAccount;
+    private ObjectCode wireObject;
+    private SubObjCd wireSubObject;
     
 	/**
 	 * Default constructor.
@@ -505,6 +515,86 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the wireAccountNumber attribute. 
+     * @return Returns the wireAccountNumber.
+     */
+    public String getWireAccountNumber() {
+        return wireAccountNumber;
+    }
+
+    /**
+     * Sets the wireAccountNumber attribute value.
+     * @param wireAccountNumber The wireAccountNumber to set.
+     */
+    public void setWireAccountNumber(String wireAccountNumber) {
+        this.wireAccountNumber = wireAccountNumber;
+    }
+
+    /**
+     * Gets the wireChartOfAccountsCode attribute. 
+     * @return Returns the wireChartOfAccountsCode.
+     */
+    public String getWireChartOfAccountsCode() {
+        return wireChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the wireChartOfAccountsCode attribute value.
+     * @param wireChartOfAccountsCode The wireChartOfAccountsCode to set.
+     */
+    public void setWireChartOfAccountsCode(String wireChartOfAccountsCode) {
+        this.wireChartOfAccountsCode = wireChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the wireObjectCode attribute. 
+     * @return Returns the wireObjectCode.
+     */
+    public String getWireObjectCode() {
+        return wireObjectCode;
+    }
+
+    /**
+     * Sets the wireObjectCode attribute value.
+     * @param wireObjectCode The wireObjectCode to set.
+     */
+    public void setWireObjectCode(String wireObjectCode) {
+        this.wireObjectCode = wireObjectCode;
+    }
+
+    /**
+     * Gets the wireSubAccountNumber attribute. 
+     * @return Returns the wireSubAccountNumber.
+     */
+    public String getWireSubAccountNumber() {
+        return wireSubAccountNumber;
+    }
+
+    /**
+     * Sets the wireSubAccountNumber attribute value.
+     * @param wireSubAccountNumber The wireSubAccountNumber to set.
+     */
+    public void setWireSubAccountNumber(String wireSubAccountNumber) {
+        this.wireSubAccountNumber = wireSubAccountNumber;
+    }
+
+    /**
+     * Gets the wireSubObjectCode attribute. 
+     * @return Returns the wireSubObjectCode.
+     */
+    public String getWireSubObjectCode() {
+        return wireSubObjectCode;
+    }
+
+    /**
+     * Sets the wireSubObjectCode attribute value.
+     * @param wireSubObjectCode The wireSubObjectCode to set.
+     */
+    public void setWireSubObjectCode(String wireSubObjectCode) {
+        this.wireSubObjectCode = wireSubObjectCode;
+    }
+
+    /**
 	 * Gets the adjustmentFinancialObject attribute.
 	 * 
 	 * @return Returns the adjustmentFinancialObject
@@ -756,6 +846,91 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      */
     public void setOrganizationRemitToState(State organizationRemitToState) {
         this.organizationRemitToState = organizationRemitToState;
+    }
+
+    /**
+     * Gets the wireAccount attribute. 
+     * @return Returns the wireAccount.
+     */
+    public Account getWireAccount() {
+        return wireAccount;
+    }
+
+    /**
+     * Sets the wireAccount attribute value.
+     * @param wireAccount The wireAccount to set.
+     * @deprecated
+     */
+    public void setWireAccount(Account wireAccount) {
+        this.wireAccount = wireAccount;
+    }
+
+    /**
+     * Gets the wireChartOfAccounts attribute. 
+     * @return Returns the wireChartOfAccounts.
+     */
+    public Chart getWireChartOfAccounts() {
+        return wireChartOfAccounts;
+    }
+
+    /**
+     * Sets the wireChartOfAccounts attribute value.
+     * @param wireChartOfAccounts The wireChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setWireChartOfAccounts(Chart wireChartOfAccounts) {
+        this.wireChartOfAccounts = wireChartOfAccounts;
+    }
+
+    /**
+     * Gets the wireObject attribute. 
+     * @return Returns the wireObject.
+     */
+    public ObjectCode getWireObject() {
+        return wireObject;
+    }
+
+    /**
+     * Sets the wireObject attribute value.
+     * @param wireObject The wireObject to set.
+     * @deprecated
+     */
+    public void setWireObject(ObjectCode wireObject) {
+        this.wireObject = wireObject;
+    }
+
+    /**
+     * Gets the wireSubAccount attribute. 
+     * @return Returns the wireSubAccount.
+     */
+    public SubAccount getWireSubAccount() {
+        return wireSubAccount;
+    }
+
+    /**
+     * Sets the wireSubAccount attribute value.
+     * @param wireSubAccount The wireSubAccount to set.
+     * @deprecated
+     */
+    public void setWireSubAccount(SubAccount wireSubAccount) {
+        this.wireSubAccount = wireSubAccount;
+    }
+
+    /**
+     * Gets the wireSubObject attribute. 
+     * @return Returns the wireSubObject.
+     */
+    public SubObjCd getWireSubObject() {
+        return wireSubObject;
+    }
+
+    /**
+     * Sets the wireSubObject attribute value.
+     * @param wireSubObject The wireSubObject to set.
+     * @deprecated
+     */
+    public void setWireSubObject(SubObjCd wireSubObject) {
+        this.wireSubObject = wireSubObject;
     }
 
     /**

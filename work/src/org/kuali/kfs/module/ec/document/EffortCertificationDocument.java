@@ -730,31 +730,31 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      */
     public void populateRoutingInfo() {
         routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+
+        List<EffortCertificationDetail> detailLines = this.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine : detailLines) {
+            String chartOfAccountsCode = detailLine.getChartOfAccountsCode();
+            String accountNumber = detailLine.getAccountNumber();
+            String organizationcode = detailLine.getAccount().getOrganizationCode();
+
+            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+        }
+
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
 
         List<String> routingTypes = new ArrayList<String>();
         routingTypes.add(KualiCGAttribute.class.getSimpleName());
         routingTypes.add(KualiAccountAttribute.class.getSimpleName());
         routingTypes.add(KualiPDAttribute.class.getSimpleName());
 
-        RoutingData orgRoutingData = new RoutingData();
-        orgRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
-
-        Set<OrgReviewRoutingData> orgRoutingSet = new HashSet<OrgReviewRoutingData>();
-
         RoutingData accountRoutingData = new RoutingData();
         accountRoutingData.setRoutingTypes(routingTypes);
-
-        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-
-        List<EffortCertificationDetail> detailLines = this.getEffortCertificationDetailLines();
-        for (EffortCertificationDetail detailLine : detailLines) {
-            orgRoutingSet.add(new OrgReviewRoutingData(detailLine.getChartOfAccountsCode(), detailLine.getAccount().getOrganizationCode()));
-            accountRoutingSet.add(new RoutingAccount(detailLine.getChartOfAccountsCode(), detailLine.getAccountNumber()));
-        }
-        
-        orgRoutingData.setRoutingSet(orgRoutingSet);
-        routingInfo.add(orgRoutingData);
-
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }

@@ -23,22 +23,45 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * Yes, we need to test our test utilities since they seem to be misbehaving in some areas.
- * This class...
+ * 
  */
 @ConfigureContext
 public class TestUtilsTest extends KualiTestBase {
 
+    public static final String TEST_PARAM_NAME = "FUND_GROUP_DENOTES_CG_IND";
+    public static final Class TEST_PARAM_COMPONENT = Account.class;
+    
     public void testSetSystemParameter1() throws Exception {
-        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "FUND_GROUP_DENOTES_CG_IND");
+        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValue(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
         assertEquals( "indicator must be true", "Y", dbValue );
-        TestUtils.setSystemParameter(Account.class, "FUND_GROUP_DENOTES_CG_IND", "N");
-        String cachedValue = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "FUND_GROUP_DENOTES_CG_IND");
+        TestUtils.setSystemParameter(TEST_PARAM_COMPONENT, TEST_PARAM_NAME, "N");
+        String cachedValue = SpringContext.getBean(ParameterService.class).getParameterValue(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
         assertEquals( "indicator must be false when pulled after the set", "N", cachedValue );        
     }
 
     public void testSetSystemParameter2() throws Exception {
-        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "FUND_GROUP_DENOTES_CG_IND");
+        String dbValue = SpringContext.getBean(ParameterService.class).getParameterValue(TEST_PARAM_COMPONENT, TEST_PARAM_NAME);
         assertEquals( "indicator must be true", "Y", dbValue );
     }
     
+    @ConfigureContext(shouldCommitTransactions=true)
+    public void testSetSystemParameterFailsWhenNonRollback() throws Exception {
+        try {
+            TestUtils.setSystemParameter(TEST_PARAM_COMPONENT, TEST_PARAM_NAME, "N");
+            fail( "TestUtils.setSystemParameter() did not fail when called from a committing test.");
+        } catch ( Exception ex ) {
+            System.err.println( ex.getMessage() );
+            // failed as expected
+        }
+    }
+
+    @ConfigureContext(shouldCommitTransactions=false)
+    public void testSetSystemParameterSucceedsWhenRollback() throws Exception {
+        try {
+            TestUtils.setSystemParameter(TEST_PARAM_COMPONENT, TEST_PARAM_NAME, "N");
+        } catch ( Exception ex ) {
+            fail( "TestUtils.setSystemParameter() failed when called from a non-committing test: " + ex.getMessage() );
+        }
+    }
+
 }

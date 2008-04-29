@@ -30,18 +30,28 @@ import junit.textui.TestRunner;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.properties.PropertyTree;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.PreCommitSuite;
 
 /**
  * This class provides utility methods for use during manual testing.
  */
-
+@AnnotationTestSuite(PreCommitSuite.class)
 public class TestUtils {
-    private static final Log LOG = LogFactory.getLog(KualiTestBase.class);
+    private static final Log LOG = LogFactory.getLog(TestUtils.class);
 
+    private static ParameterService parameterService;
 
+    public static ParameterService getParameterService() {
+        if ( parameterService == null ) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
+    
     /**
      * Disables all scheduled tasks, to make debugging easier.
      */
@@ -272,8 +282,39 @@ public class TestUtils {
     /**
      * This sets a given system parameter and clears the method cache for retrieving the parameter.
      */
-    public static void setSystemParameter(Class componentClass, String parameterName, String parameterText) throws Exception {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(componentClass, parameterName, parameterText);
+    public static void setSystemParameter(Class componentClass, String parameterName, String parameterText) {
+        // check that we are in a test that is set to roll-back the transaction
+        Exception ex = new Exception();
+        ex.fillInStackTrace();
+        boolean willCommit = true;
+        // loop over the stack trace
+        for ( StackTraceElement ste : ex.getStackTrace() ) {
+            try {
+                Class clazz = Class.forName( ste.getClassName() );
+                // for efficiency, only check classes that extend from KualiTestBase
+                if ( KualiTestBase.class.isAssignableFrom(clazz) ) {
+                    // check the class-level annotation to set the default for test methods in that class
+                    ConfigureContext a = (ConfigureContext)clazz.getAnnotation(ConfigureContext.class);
+                    if ( a != null ) {
+                        willCommit = a.shouldCommitTransactions();
+                    }
+                    // now, check the method-level annotation
+                    Method m = clazz.getMethod(ste.getMethodName(), (Class[])null);
+                    if ( a != null ) {
+                        // if the method-level annotation is present, it overrides the class-level annotation
+                        a = (ConfigureContext)m.getAnnotation(ConfigureContext.class);
+                        willCommit = a.shouldCommitTransactions();
+                    }                    
+                }
+            } catch ( Exception e ) {
+                LOG.error( "Error checking stack trace element: " + ste.toString(), e );
+            }
+        }
+        if ( willCommit ) {
+            throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
+        }
+        
+        getParameterService().setParameterForTesting(componentClass, parameterName, parameterText);
     }
 
     /**

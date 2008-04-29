@@ -54,7 +54,7 @@ public class SpringAOPUsageTest extends KualiTestBase {
         assertTrue(classOrMethodAnnotationNoCopyFilter.matches(BalanceTypServiceImpl.class));
         // should be cached cause of method annotation
         SpringContext.getBean(BalanceTypService.class).getCurrentYearCostShareEncumbranceBalanceType();
-        assertTrue(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
+        assertTrue("BalanceTypService.getCurrentYearCostShareEncumbranceBalanceType() is not cached.", methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
         // should not be cached cause no method annotation and no class annotation
         SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
         assertFalse(methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
@@ -70,7 +70,7 @@ public class SpringAOPUsageTest extends KualiTestBase {
      */
     public void testClearMethodCache() throws Exception {
         SpringContext.getBean(BalanceTypService.class).getCurrentYearCostShareEncumbranceBalanceType();
-        assertTrue(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
+        assertTrue("BalanceTypService.getCurrentYearCostShareEncumbranceBalanceType() is not cached.", methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
         removeCachedMethod(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {});
         assertFalse(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
     }

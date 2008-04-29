@@ -29,6 +29,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -575,8 +576,8 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
             String propertyValue = StringUtils.trim(properties.getProperty(propertyKey));
 
             if (propertyValue != null) {
-                // NOTE: parameter servcie is caching the searching results that may cause the tests unstable.
-                parameterService.setParameterForTesting(EffortCertificationExtractStep.class, name, propertyValue);
+                // NOTE: parameter service is caching the searching results that may cause the tests unstable.
+                TestUtils.setSystemParameter(EffortCertificationExtractStep.class, name, propertyValue);
             }
         }
     }

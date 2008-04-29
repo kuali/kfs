@@ -118,7 +118,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @param asset Asset
      * @return Total Payment Amount
      */
-    private KualiDecimal calculatePaymentTotalCost(Asset asset) {
+    public KualiDecimal calculatePaymentTotalCost(Asset asset) {
         List<AssetPayment> payments = asset.getAssetPayments();
         KualiDecimal totalCost = new KualiDecimal(0);
         for (AssetPayment payment : payments) {

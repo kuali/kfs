@@ -47,4 +47,6 @@ public interface PaymentSummaryService {
     KualiDecimal calculatePrimaryAccumulatedDepreciation(Asset asset);
     
     KualiDecimal calculatePrimaryBookValue(Asset asset);
+    
+    KualiDecimal calculatePaymentTotalCost(Asset asset);
 }

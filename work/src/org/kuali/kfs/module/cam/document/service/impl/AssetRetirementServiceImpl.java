@@ -15,8 +15,17 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import java.util.List;
+
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
 
 public class AssetRetirementServiceImpl implements AssetRetirementService {
@@ -38,8 +47,62 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
     }
 
     public String getAssetRetirementReasonName(AssetRetirementGlobal assetRetirementGlobal) {
-        return assetRetirementGlobal.getRetirementReason() == null? new String() : assetRetirementGlobal.getRetirementReason().getRetirementReasonName();
+        return assetRetirementGlobal.getRetirementReason() == null ? new String() : assetRetirementGlobal.getRetirementReason().getRetirementReasonName();
     }
 
-    
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#generateOffsetPaymentsForEachSource(org.kuali.module.cams.bo.Asset, java.util.List, java.lang.String)
+     */
+    public void generateOffsetPaymentsForEachSource(Asset sourceAsset, List<PersistableBusinessObject> persistables, String currentDocumentNumber) {
+        AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
+
+        List<AssetPayment> offsetPayments = new TypedArrayList(AssetPayment.class);
+        Integer maxSequenceNo = assetPaymentService.getMaxSequenceNumber(sourceAsset.getCapitalAssetNumber());
+
+        AssetPayment offsetPayment = null;
+        try {
+            for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
+                if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equalsIgnoreCase(sourcePayment.getTransferPaymentCode())) {
+                    offsetPayment = (AssetPayment) ObjectUtils.deepCopy(sourcePayment);
+                    offsetPayment.setFinancialDocumentTypeCode("AMRG");
+                    offsetPayment.setDocumentNumber(currentDocumentNumber);
+                    offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
+                    assetPaymentService.adjustPaymentAmounts(offsetPayment, true, false);
+                    offsetPayments.add(offsetPayment);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error occured while creating offset payment in retirement", e);
+        }
+        persistables.addAll(offsetPayments);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#generateNewPaymentForTarget(org.kuali.module.cams.bo.Asset, org.kuali.module.cams.bo.Asset, java.util.List, java.lang.Integer, java.lang.String)
+     */
+    public Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String currentDocumentNumber) {
+        List<AssetPayment> newPayments = new TypedArrayList(AssetPayment.class);
+        AssetPayment newPayment = null;
+        try {
+            for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
+                if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equalsIgnoreCase(sourcePayment.getTransferPaymentCode())) {
+                    newPayment = (AssetPayment) ObjectUtils.deepCopy(sourcePayment);
+                    newPayment.setCapitalAssetNumber(targetAsset.getCapitalAssetNumber());
+                    newPayment.setPaymentSequenceNumber(++maxSequenceNo);
+                    newPayment.setDocumentNumber(currentDocumentNumber);
+                    newPayments.add(newPayment);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error occured while creating new payment in retirement", e);
+        }
+        persistables.addAll(newPayments);
+        return maxSequenceNo;
+    }
+
+
 }

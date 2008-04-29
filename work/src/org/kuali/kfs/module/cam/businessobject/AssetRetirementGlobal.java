@@ -14,10 +14,15 @@ import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.service.AssetPaymentService;
+import org.kuali.module.cams.service.AssetRetirementService;
+import org.kuali.module.cams.service.PaymentSummaryService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -37,6 +42,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
     // non-persistent relation
     private AssetRetirementGlobalDetail sharedRetirementInfo;
+
 
     public AssetRetirementGlobalDetail getSharedRetirementInfo() {
         return sharedRetirementInfo;
@@ -64,28 +70,97 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        List<PersistableBusinessObject> persistables = new ArrayList();
+        AssetRetirementService retirementService = SpringContext.getBean(AssetRetirementService.class);
+
+        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
+
+        if (retirementService.isAssetRetiredByMerged(this) && mergedTargetCapitalAsset != null) {
+            setMergeObjectsForPersist(persistables, retirementService);
+        }
+
 
         for (AssetRetirementGlobalDetail detail : assetRetirementGlobalDetails) {
-            // load the object by key
-            Map pkMap = new HashMap();
-            pkMap.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, detail.getCapitalAssetNumber());
-
-            Asset asset = (Asset) boService.findByPrimaryKey(Asset.class, pkMap);
-
-            asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED);
-            asset.setRetirementReasonCode(retirementReasonCode);
-
-            if (CamsConstants.AssetRetirementReasonCode.THEFT.equalsIgnoreCase(retirementReasonCode) && StringUtils.isNotBlank(sharedRetirementInfo.getPaidCaseNumber())) {
-                asset.setCampusPoliceDepartmentCaseNumber(sharedRetirementInfo.getPaidCaseNumber());
-            }
-
-            persistables.add(asset);
+            setAssetForPersist(detail, persistables, retirementService);
         }
 
         return persistables;
     }
+
+
+    /**
+     * 
+     * This method set asset fields for update
+     * 
+     * @param detail
+     * @param persistables
+     */
+    private void setAssetForPersist(AssetRetirementGlobalDetail detail, List<PersistableBusinessObject> persistables, AssetRetirementService retirementService) {
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+
+        // load the object by key
+        Asset asset = detail.getAsset();
+        asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED);
+        asset.setRetirementReasonCode(retirementReasonCode);
+        if (retirementDate != null) {
+            asset.setRetirementFiscalYear(universityDateService.getFiscalYear(retirementDate));
+        }
+
+
+        if (retirementService.isAssetRetiredByTheft(this) && StringUtils.isNotBlank(sharedRetirementInfo.getPaidCaseNumber())) {
+            asset.setCampusPoliceDepartmentCaseNumber(sharedRetirementInfo.getPaidCaseNumber());
+        }
+        else if (retirementService.isAssetRetiredBySoldOrAuction(this)) {
+            asset.setRetirementChartOfAccountsCode(detail.getRetirementChartOfAccountsCode());
+            asset.setRetirementAccountNumber(detail.getRetirementAccountNumber());
+            asset.setCashReceiptFinancialDocumentNumber(detail.getCashReceiptFinancialDocumentNumber());
+            asset.setSalePrice(detail.getSalePrice());
+            asset.setEstimatedSellingPrice(detail.getEstimatedSellingPrice());
+        }
+        else if (retirementService.isAssetRetiredByMerged(this)) {
+            asset.setTotalCostAmount(KualiDecimal.ZERO);
+            asset.setSalvageAmount(KualiDecimal.ZERO);
+        }
+        persistables.add(asset);
+    }
+
+
+    /**
+     * 
+     * This method set target payment and source payment; set target/source asset salvageAmount/totalCostAmount
+     * 
+     * @param persistables
+     */
+    private void setMergeObjectsForPersist(List<PersistableBusinessObject> persistables, AssetRetirementService retirementService) {
+        PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+        AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
+
+        Integer maxTargetSequenceNo = assetPaymentService.getMaxSequenceNumber(mergedTargetCapitalAssetNumber);
+
+        KualiDecimal salvageAmount = KualiDecimal.ZERO;
+        KualiDecimal totalCostAmount = KualiDecimal.ZERO;
+        Asset sourceAsset;
+
+        // update for each merge source asset
+        for (AssetRetirementGlobalDetail detail : getAssetRetirementGlobalDetails()) {
+            if (detail.getAsset() == null) {
+                detail.refreshReferenceObject("asset");
+            }
+            sourceAsset = detail.getAsset();
+
+            totalCostAmount = totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(sourceAsset));
+            salvageAmount = salvageAmount.add(sourceAsset.getSalvageAmount());
+
+            retirementService.generateOffsetPaymentsForEachSource(sourceAsset, persistables,detail.getDocumentNumber());
+            maxTargetSequenceNo = retirementService.generateNewPaymentForTarget(mergedTargetCapitalAsset, sourceAsset, persistables, maxTargetSequenceNo,detail.getDocumentNumber());
+
+        }
+        
+        // update merget target asset
+        mergedTargetCapitalAsset.setTotalCostAmount(totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(mergedTargetCapitalAsset)));
+        mergedTargetCapitalAsset.setSalvageAmount(salvageAmount.add(mergedTargetCapitalAsset.getSalvageAmount()));
+        persistables.add(mergedTargetCapitalAsset);
+    }
+
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return getAssetRetirementGlobalDetails();

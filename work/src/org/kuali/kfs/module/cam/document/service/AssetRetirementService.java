@@ -15,6 +15,10 @@
  */
 package org.kuali.module.cams.service;
 
+import java.util.List;
+
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 
 
@@ -23,13 +27,33 @@ import org.kuali.module.cams.bo.AssetRetirementGlobal;
  */
 public interface AssetRetirementService {
     boolean isAssetRetiredBySoldOrAuction(AssetRetirementGlobal assetRetirementGlobal);
-    
+
     boolean isAssetRetiredByExternalTransferOrGift(AssetRetirementGlobal assetRetirementGlobal);
-    
+
     boolean isAssetRetiredByTheft(AssetRetirementGlobal assetRetirementGlobal);
-    
+
     boolean isAssetRetiredByMerged(AssetRetirementGlobal assetRetirementGlobal);
-    
+
     String getAssetRetirementReasonName(AssetRetirementGlobal assetRetirementGlobal);
 
+    /**
+     * 
+     * This method generates offset payments for each sourceAsset.
+     * @param sourceAsset
+     * @param persistables
+     * @param documentNumber
+     */
+    void generateOffsetPaymentsForEachSource(Asset sourceAsset, List<PersistableBusinessObject> persistables, String documentNumber);
+
+    /**
+     * 
+     * This method generates new payments from sourceAsset for targetAsset.
+     * @param targetAsset
+     * @param sourceAsset
+     * @param persistables
+     * @param maxSequenceNo
+     * @param documentNumber
+     * @return
+     */
+    Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String documentNumber);
 }

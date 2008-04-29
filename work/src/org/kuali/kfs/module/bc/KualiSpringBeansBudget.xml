@@ -382,6 +382,22 @@
     	<ref bean="businessObjectService" />
     </property>
     </bean>
+    
+    <bean id="budgetConstructionSalarySummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSalarySummaryReportServiceImpl">
+	<property name="budgetConstructionSalarySummaryReportDao">
+		<ref bean="budgetConstructionSalarySummaryReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+    	<ref bean="businessObjectService" />
+    </property>
+    </bean>
+
  	
     <bean id="budgetParameterService" class="org.kuali.module.budget.service.impl.BudgetParameterServiceImpl">
     <property name="parameterService">

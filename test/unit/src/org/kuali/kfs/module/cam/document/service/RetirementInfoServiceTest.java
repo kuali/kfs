@@ -30,7 +30,6 @@ import org.kuali.module.cams.service.impl.AssetServiceImpl;
 import org.kuali.module.cams.service.impl.RetirementInfoServiceImpl;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
-    private static final String DOC_DISAPPROVED = "D";
     private RetirementInfoServiceImpl retirementInfoService;
     private Asset asset;
 

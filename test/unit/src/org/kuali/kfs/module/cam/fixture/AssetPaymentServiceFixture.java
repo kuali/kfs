@@ -18,17 +18,15 @@ package org.kuali.module.cams.fixture;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.document.AssetTransferDocument;
 
-public enum AssetTransferFixture {
-    ACTIVE_CAPITAL_ASSET(1), RETIRED_ASSET(2), ACTIVE_NON_CAPITAL_ASSET(3), PAYMENT1_WITH_OFFSET(1), PAYMENT2_WITH_OFFSET(2), PAYMENT3_WITHOUT_OFFSET(3), PAYMENT4_WITHOUT_OFFSET(4), ASSET_TRANSFER(1);
+public enum AssetPaymentServiceFixture {
+    PAYMENT1(1);
     private int testDataPos;
 
     private static Properties properties;
     static {
-        String propertiesFileName = "org/kuali/module/cams/service/testdata/asset_transfer_service.properties";
+        String propertiesFileName = "org/kuali/module/cams/service/testdata/asset_payment_service.properties";
         properties = new Properties();
         try {
             properties.load(ClassLoader.getSystemResourceAsStream(propertiesFileName));
@@ -38,24 +36,8 @@ public enum AssetTransferFixture {
         }
     }
 
-    private AssetTransferFixture(int dataPos) {
+    private AssetPaymentServiceFixture(int dataPos) {
         this.testDataPos = dataPos;
-    }
-
-    public Asset newAsset() {
-        String propertyKey = "asset.testData" + testDataPos;
-        String deliminator = properties.getProperty("deliminator");
-        String fieldNames = properties.getProperty("asset.fieldNames");
-        Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator);
-        return asset;
-    }
-
-    public AssetTransferDocument newAssetTransferDocument() {
-        String propertyKey = "assetTransfer.testData" + testDataPos;
-        String deliminator = properties.getProperty("deliminator");
-        String fieldNames = properties.getProperty("assetTransfer.fieldNames");
-        AssetTransferDocument assetTransferDocument = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetTransferDocument.class, properties, propertyKey, fieldNames, deliminator);
-        return assetTransferDocument;
     }
 
     @SuppressWarnings("deprecation")

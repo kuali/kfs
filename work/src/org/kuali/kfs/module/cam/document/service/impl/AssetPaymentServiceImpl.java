@@ -217,7 +217,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         AssetPayment offsetPayment = null;
         try {
             offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
-            offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
             offsetPayment.setDocumentNumber(documentNumber);
             offsetPayment.setFinancialDocumentTypeCode(documentTypeCode);
             offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
@@ -266,8 +265,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * public Collection<AssetPaymentDetail> getApprovedPaymentDetail(String capitalAssetNumber) { DocumentRouteHeaderValue doc =
      * null; try { doc =
      * KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-     * LOG.info("***** DOCUMENT - Approved Date:"+doc.getApprovedDate()); } catch(Exception e) {
-     *  } }
+     * LOG.info("***** DOCUMENT - Approved Date:"+doc.getApprovedDate()); } catch(Exception e) { } }
      */
 
 

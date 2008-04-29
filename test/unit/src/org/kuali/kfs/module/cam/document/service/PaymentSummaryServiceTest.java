@@ -19,11 +19,8 @@ package org.kuali.module.cams.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.ParameterDetailType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterServiceImpl;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;

@@ -27,7 +27,6 @@ import org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl;
 
 public class EquipmentLoanInfoServiceTest extends KualiTestBase {
 
-    private static final String DOC_DISAPPROVED = "D";
     private static final int THREE_DAYS_LATER = 3;
     private static final int TWO_DAYS_LATER = 2;
     private EquipmentLoanInfoServiceImpl equipmentLoanInfoService;

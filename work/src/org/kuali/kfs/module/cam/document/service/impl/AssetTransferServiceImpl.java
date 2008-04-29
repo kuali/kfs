@@ -160,7 +160,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private Integer createNewPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
         Integer maxSequenceNo = maxSequence;
         for (AssetPayment assetPayment : originalPayments) {
-            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // copy and create new payment
                 AssetPayment newPayment;
                 try {
@@ -202,7 +202,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private Integer createOffsetPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         Integer maxSequenceNo = null;
         for (AssetPayment assetPayment : originalPayments) {
-            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // copy and create an offset payment
                 AssetPayment offsetPayment;
                 try {
@@ -211,6 +211,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     }
                     // add offset payment
                     offsetPayment = getAssetPaymentService().createOffsetPayment(assetPayment, document.getDocumentNumber(), AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
+                    offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
                     offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     persistableObjects.add(offsetPayment);
                 }
@@ -555,7 +556,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     private void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         for (AssetPayment assetPayment : originalPayments) {
-            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // change payment code
                 assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
                 persistableObjects.add(assetPayment);

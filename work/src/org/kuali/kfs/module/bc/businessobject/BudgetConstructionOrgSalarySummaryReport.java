@@ -49,6 +49,8 @@ public class BudgetConstructionOrgSalarySummaryReport {
     
     private String deleteBox;
     private String personName;
+    //from BudgetConstructionIntendedIncumbent
+    private String iuClassificationLevel;
     
     //from PendingBudgetConstructionAppointmentFunding
     

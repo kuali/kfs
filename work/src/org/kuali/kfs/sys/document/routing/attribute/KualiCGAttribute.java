@@ -140,7 +140,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
         List qualifiedRoleNames = new ArrayList();
         try {
-            boolean isGeneric = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingSet").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            boolean isGeneric = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingInfo").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
 
             if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
                 AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
@@ -152,7 +152,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
                 awardWorkgroups.addAll(tempSet);
             }
             else if (isGeneric){
-                NodeList lineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS), docContent.getDocument(), XPathConstants.NODESET);
+                NodeList lineNodes = (NodeList) xpath.evaluate(new StringBuffer(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_PREFIX).append(this.getClass().getSimpleName()).append(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_SUFFIX).toString(), docContent.getDocument(), XPathConstants.NODESET);
                 awardWorkgroups.addAll(getGenericAwardWorkgroupCriteria(xpath, lineNodes, roleName));           
             }
             else {

@@ -25,6 +25,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.workflow.attribute.RoutingAccount;
 import org.kuali.workflow.attribute.OrgReviewRoutingData;
+import org.kuali.workflow.attribute.RoutingData;
 
 /**
  * This class is used to define global constants.
@@ -986,8 +987,10 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String RECON_FILE_TYPE = "RECON";
     
     public static final class WorkflowConstants {
-        public static final String GET_GENERIC_ACCOUNTS = "//routingSet/" + RoutingAccount.class.getName();
-        public static final String GET_GENERIC_ORGS = "//routingSet/" + OrgReviewRoutingData.class.getName();
+        public static final String GET_GENERIC_ACCOUNTS_PREFIX = "//routingInfo/"+RoutingData.class.getName()+"/routingTypes[string='";
+        public static final String GET_GENERIC_ACCOUNTS_SUFFIX = "']/following-sibling::routingSet/"+ RoutingAccount.class.getName();
+        public static final String GET_GENERIC_ORGS_PREFIX = "//routingInfo/"+RoutingData.class.getName()+"/routingTypes[string='";
+        public static final String GET_GENERIC_ORGS_SUFFIX = "']/following-sibling::routingSet/"+OrgReviewRoutingData.class.getName();
         public static final String GET_GENERIC_CHART= "./routingChart";
         public static final String GET_GENERIC_ACCOUNT = "./routingAccount";
         public static final String GET_GENERIC_OVERRIDE_CD = "./routingOverrideCode";

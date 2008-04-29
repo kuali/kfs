@@ -372,13 +372,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             List qualifiedRoleNames = new ArrayList();
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
-            boolean isGeneric = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingSet").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            boolean isGeneric = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingInfo").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 Set fiscalOfficers = new HashSet();
                 //Check for Generic Routing
                 if (isGeneric) {
-                    NodeList routingNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS), docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList routingNodes = (NodeList) xpath.evaluate(new StringBuffer(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_PREFIX).append(this.getClass().getSimpleName()).append(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_SUFFIX).toString(), docContent.getDocument(), XPathConstants.NODESET);
                     
                     FiscalOfficerRole role = new FiscalOfficerRole(roleName);
                     String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(docContent.getDocument()));
@@ -452,7 +452,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 Set<String> supervisors = new HashSet<String>();
                 if (isGeneric){
                     
-                    NodeList routingNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS), docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList routingNodes = (NodeList) xpath.evaluate(new StringBuffer(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_PREFIX).append(this.getClass().getSimpleName()).append(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_SUFFIX).toString(), docContent.getDocument(), XPathConstants.NODESET);
                     for (int index = 0; index < routingNodes.getLength(); index++) {
                         Element accountElement = (Element) routingNodes.item(index);
                         String chartOfAccountsCode = getChildElementValue(accountElement, KFSConstants.WorkflowConstants.GET_GENERIC_CHART);

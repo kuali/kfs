@@ -141,7 +141,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
         try {
 
-            NodeList routingNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS), docContent.getDocument(), XPathConstants.NODESET);
+            NodeList routingNodes = (NodeList) xpath.evaluate(new StringBuffer(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_PREFIX).append(this.getClass().getSimpleName()).append(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS_SUFFIX).toString(), docContent.getDocument(), XPathConstants.NODESET);
             for (int i = 0; i < routingNodes.getLength(); i++) {
                 Node routingDataNode = routingNodes.item(i);
                 ProjectDirectorRole role = new ProjectDirectorRole(roleName);

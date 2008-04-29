@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 package org.kuali.workflow.attribute;
-/**
- * 
- * This class is the abstract superclass of all objects that will contain 
- * document data that will be used by routing attributes to determine routing
- * as part of the generic routing framework.  See {@link RoutingData}
- */
-abstract class RoutingObject {
+
+import org.kuali.core.util.Guid;
+
+public final class RoutingGuid extends RoutingObject {
+    String routingGuid;
+    
+    RoutingGuid(){
+        this.routingGuid = new Guid().toString();
+    }
+
+    public String getRoutingGuid() {
+        return routingGuid;
+    }
+
+    public void setRoutingGuid(String routingGuid) {
+        this.routingGuid = routingGuid;
+    }
 
 }

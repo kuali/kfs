@@ -286,20 +286,21 @@ public class TestUtils {
         // check that we are in a test that is set to roll-back the transaction
         Exception ex = new Exception();
         ex.fillInStackTrace();
-        boolean willCommit = true;
+        Boolean willCommit = null;
         // loop over the stack trace
         for ( StackTraceElement ste : ex.getStackTrace() ) {
             try {
                 Class clazz = Class.forName( ste.getClassName() );
                 // for efficiency, only check classes that extend from KualiTestBase
                 if ( KualiTestBase.class.isAssignableFrom(clazz) ) {
+                    //System.err.println( "Checking Method: " + ste.toString() );
                     // check the class-level annotation to set the default for test methods in that class
                     ConfigureContext a = (ConfigureContext)clazz.getAnnotation(ConfigureContext.class);
                     if ( a != null ) {
                         willCommit = a.shouldCommitTransactions();
                     }
                     // now, check the method-level annotation
-                    Method m = clazz.getMethod(ste.getMethodName(), (Class[])null);
+                    Method m = clazz.getDeclaredMethod(ste.getMethodName(), (Class[])null);
                     if ( a != null ) {
                         // if the method-level annotation is present, it overrides the class-level annotation
                         a = (ConfigureContext)m.getAnnotation(ConfigureContext.class);
@@ -310,7 +311,7 @@ public class TestUtils {
                 LOG.error( "Error checking stack trace element: " + ste.toString(), e );
             }
         }
-        if ( willCommit ) {
+        if ( willCommit == null || willCommit ) {
             throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
         }
         

@@ -43,12 +43,14 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.test.ConfigureContext;
 
 /**
  * OriginEntryTestBase...the uberpowerful base of a lot of GL tests.  Basically, this class provides
  * many convenience methods for writing tests that test against large batches of origin entries.
  */
 @RawSQL
+@ConfigureContext
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
 

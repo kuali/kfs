@@ -55,6 +55,7 @@ import org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportServi
 import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionPositionFundingDetailReportService;
+import org.kuali.module.budget.service.BudgetConstructionSalarySummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.util.ReportControlListBuildHelper;
@@ -271,6 +272,10 @@ public class OrganizationReportSelectionAction extends KualiAction {
             case POSITION_FUNDING_DETAIL_REPORT:
                 SpringContext.getBean(BudgetConstructionPositionFundingDetailReportService.class).updatePositionFundingDetailReport(personUserIdentifier, budgetConstructionReportThresholdSettings);
                 reportData = SpringContext.getBean(BudgetConstructionPositionFundingDetailReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+            case SALARY_SUMMARY_REPORT:
+                SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).updateSalarySummaryReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
                 break;
         }
 

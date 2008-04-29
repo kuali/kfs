@@ -48,6 +48,7 @@ import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.dao.DepreciableAssetsDao;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.chart.bo.Account;
@@ -217,9 +218,19 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         ReportQueryByCriteria arSubQuery;
         arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
+        arSubQuery = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, arCriteria);
+        arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
+        
+        
+        
+        /* Retired assets sub query
+        ReportQueryByCriteria arSubQuery;
+        arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
+
         arSubQuery = QueryFactory.newReportQuery(AssetRetirementGlobal.class, arCriteria);
         arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
-
+*/
+        
         // transferred assets sub query
         ReportQueryByCriteria atSubQuery;
         atCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
@@ -757,20 +768,29 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
 
         Object[] fieldValue;
-
+        
         Integer fullyDepreciatedCounter = 0;
         while (i.hasNext()) {
             fieldValue = (Object[]) i.next();
-            KualiDecimal salvageAmount = (KualiDecimal) fieldValue[0];
-            KualiDecimal baseAmount = (KualiDecimal) fieldValue[1];
-            KualiDecimal accumulatedDepreciation = (KualiDecimal) fieldValue[2];
 
-            if (baseAmount.subtract(salvageAmount).compareTo(accumulatedDepreciation) == 0)
+            KualiDecimal salvageAmount = new KualiDecimal(0);
+            if (fieldValue[0] != null)
+                salvageAmount = (KualiDecimal)fieldValue[0];
+                        
+            KualiDecimal baseAmount  = new KualiDecimal(0);
+            if (fieldValue[1] != null)
+                baseAmount = (KualiDecimal)fieldValue[1];
+            
+            KualiDecimal accumulatedDepreciation = new KualiDecimal(0);
+            if (fieldValue[2] != null)
+                accumulatedDepreciation = (KualiDecimal)fieldValue[2];
+                
+            if (baseAmount.subtract(salvageAmount).compareTo(accumulatedDepreciation) == 0) {
                 fullyDepreciatedCounter++;
-
+            }
         }
         LOG.debug("DepreciableAssetsDaoOjb.getFullyDepreciatedAssetCount() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finised getting the number of assets fully depreciated.");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets fully depreciated.");
         return fullyDepreciatedCounter;
     }
 

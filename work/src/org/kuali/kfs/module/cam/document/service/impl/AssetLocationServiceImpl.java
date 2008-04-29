@@ -83,7 +83,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         String zipCode = readPropertyValue(businessObject, fieldMap, LocationField.ZIP_CODE);
         String countryCode = readPropertyValue(businessObject, fieldMap, LocationField.COUNTRY_CODE);
         boolean onCampus = StringUtils.isNotBlank(buildingCode) || StringUtils.isNotBlank(roomNumber) || StringUtils.isNotBlank(subRoomNumber);
-        boolean offCampus = StringUtils.isNotBlank(streetAddress) || StringUtils.isNotBlank(cityName) || StringUtils.isNotBlank(stateCode) || StringUtils.isNotBlank(zipCode);
+        boolean offCampus = StringUtils.isNotBlank(contactName) || StringUtils.isNotBlank(streetAddress) || StringUtils.isNotBlank(cityName) || StringUtils.isNotBlank(stateCode) || StringUtils.isNotBlank(zipCode) || StringUtils.isNotBlank(countryCode);
 
         boolean valid = true;
         if (onCampus && offCampus) {

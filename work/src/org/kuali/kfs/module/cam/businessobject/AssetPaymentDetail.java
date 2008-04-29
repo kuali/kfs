@@ -18,7 +18,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private static Logger LOG = Logger.getLogger(AssetPaymentDetail.class);
 
     private Integer financialDocumentLineNumber;
-    private KualiDecimal accountChargeAmount;
 
     private String expenditureFinancialSystemOriginationCode;
     private Date expenditureFinancialDocumentPostedDate;
@@ -67,17 +66,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
         this.financialDocumentLineNumber = financialDocumentLineNumber;
     }
-
-
-    public KualiDecimal getAccountChargeAmount() {
-        return accountChargeAmount;
-    }
-
-
-    public void setAccountChargeAmount(KualiDecimal accountChargeAmount) {
-        this.accountChargeAmount = accountChargeAmount;
-    }
-
 
     public String getExpenditureFinancialSystemOriginationCode() {
         return expenditureFinancialSystemOriginationCode;

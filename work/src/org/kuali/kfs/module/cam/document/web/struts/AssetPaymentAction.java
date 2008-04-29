@@ -18,6 +18,7 @@ package org.kuali.module.cams.web.struts.action;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.web.struts.form.AssetPaymentForm;
 
@@ -78,21 +80,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         }
         return super.refresh(mapping, form, request, response);
     }*/
-
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
-        LOG.info("***********AssetPaymentACtion.docHandler()");
-        return docHandlerForward;
-    }
-
-
-    //  @Override
-    public void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.loadDocument(kualiDocumentFormBase);
-        LOG.info("***********AssetPaymentACtion.loadDocument()");
-    }
-
+    
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
@@ -115,8 +103,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         //Adding the changes made in the document in the ActionForm.
         assetPaymentForm.setDocument(assetPaymentDocument);
-        LOG.info("***********AssetPaymentACtion.createDocument()");
-
     }
 
     /**

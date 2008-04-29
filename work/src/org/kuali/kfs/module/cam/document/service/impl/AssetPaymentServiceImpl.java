@@ -147,11 +147,15 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             assetPayment.setFinancialDocumentPostingDate(assetPaymentDetail.getPaymentApplicationDate());
             assetPayment.setProjectCode(assetPaymentDetail.getProjectCode());
             assetPayment.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
-            assetPayment.setAccountChargeAmount(assetPaymentDetail.getAccountChargeAmount());
+            assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount());
             assetPayment.setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
             assetPayment.setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
             assetPayment.setAccumulatedPrimaryDepreciationAmount(new KualiDecimal(0));
             assetPayment.setPreviousYearPrimaryDepreciationAmount(new KualiDecimal(0));
+            
+            assetPayment.setAccumulatedSecondaryDepreciationAmount(new KualiDecimal(0));
+            assetPayment.setPreviousYearSecondaryDepreciationAmount(new KualiDecimal(0));
+            assetPayment.setSecondaryDepreciationBaseAmount(new KualiDecimal(0));
             assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
 
             KualiDecimal baseAmount = new KualiDecimal(0);
@@ -162,10 +166,11 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
             // federally owned one
             if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
-                baseAmount = assetPaymentDetail.getAccountChargeAmount();
+                baseAmount = assetPaymentDetail.getAmount();
             }
             assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
-
+            
+            
             // Resetting each period field its value with zeros
             PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {

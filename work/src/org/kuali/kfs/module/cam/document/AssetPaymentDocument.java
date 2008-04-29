@@ -91,7 +91,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
         assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
-        assetPaymentDetail.setAccountChargeAmount(line.getAmount());
+        //assetPaymentDetail.setAccountChargeAmount(line.getAmount());
         assetPaymentDetail.setPaymentApplicationDate(systemDate);
 
         line = (SourceAccountingLine) assetPaymentDetail;

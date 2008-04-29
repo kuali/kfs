@@ -24,6 +24,8 @@ import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.OriginationCode;
@@ -59,16 +61,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public AssetPaymentDocument getAssetPaymentDocument() {
         return (AssetPaymentDocument) getDocument();
     }
-
-    
-/*    @Override
-    public Map<String,Boolean> getForcedReadOnlyFields() {
-        Map<String,Boolean> map = super.getForcedReadOnlyFields();
-        map.put(CamsPropertyConstants.AssetPayment.FINANCIAL_DOCUMENT_POSTING_YEAR, Boolean.TRUE);
-        map.put(CamsPropertyConstants.AssetPayment.FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE, Boolean.TRUE);
-        return map;
-    }*/
-    
+       
 /**
  * 
  * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
@@ -110,7 +103,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         try {
             if (GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()) != null)
                 worflowDocumentNumber = GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()).getRouteHeaderId().toString();
-
         }
         catch (Exception e) {
             throw new RuntimeException("Error converting workflow document number to string:" + e.getMessage());
@@ -134,7 +126,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
      * 
      * @return LinkedHashMap
      */
-    public LinkedHashMap<String, String> getAssetPaymentTotals() {
+    public LinkedHashMap<String, String> getAssetPaymentTotals()  {
         LinkedHashMap<String, String> totals = new LinkedHashMap<String, String>();
         CurrencyFormatter cf = new CurrencyFormatter();
 
@@ -142,12 +134,14 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         try {
             doc = KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         } catch(Exception e) {
-            
+            throw new RuntimeException("Unable to retrieve workflow document.");
         }
+
+        KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getAsset().getTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getAsset().getTotalCostAmount());
         
         totals.put("Total", (String) cf.format(this.getAssetPaymentDocument().getSourceTotal()));
-        totals.put("Previous cost", (String) cf.format(getAssetPaymentDocument().getAsset().getTotalCostAmount()));
-        totals.put("New total", (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(getAssetPaymentDocument().getAsset().getTotalCostAmount())));
+        totals.put("Previous cost", (String) cf.format(assetTotalCost));
+        totals.put("New total", (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(assetTotalCost)));
         return totals;
     }
 }

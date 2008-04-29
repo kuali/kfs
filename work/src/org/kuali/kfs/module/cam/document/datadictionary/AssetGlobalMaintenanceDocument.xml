@@ -297,7 +297,7 @@
                     p:name="financialDocumentPostingPeriodCode"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountChargeAmount"
+                    p:name="amount"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />

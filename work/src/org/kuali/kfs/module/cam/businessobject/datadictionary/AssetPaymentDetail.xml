@@ -10,7 +10,6 @@
     <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetPaymentDetail" />
     <property name="attributes" >
       <list>
-        <ref bean="AssetPaymentDetail-accountChargeAmount" />
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentNumber" />
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" />
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" />
@@ -69,23 +68,24 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AssetPaymentDetail-accountChargeAmount" parent="AssetPaymentDetail-accountChargeAmount-parentBean" />
+  <bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
 
-  <bean id="AssetPaymentDetail-accountChargeAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountChargeAmount" />
+  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Charge Amount" />
+    <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="13" />
     </property>
-    <property name="summary" value="accountChargeAmount" />
-    <property name="description" value="accountChargeAmount description..." />
+    <property name="summary" value="amount" />
+    <property name="description" value="Amount description..." />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber" parent="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" />
@@ -490,13 +490,13 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
   </bean>
-  <bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
+  <!-- bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
 
   <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
-  </bean>
+  </bean-->
   <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
 
   <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">

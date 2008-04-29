@@ -64,7 +64,7 @@
 		sourceAccountingLinesOnly="true"
 		isOptionalFieldsInNewRow="true"		
 		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
-		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber,accountChargeAmount"
+		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber"
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
 	</fin:accountingLines>
 

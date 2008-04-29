@@ -25,16 +25,13 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.service.AssetLocationService;
-import org.kuali.module.cams.service.AssetService;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
 
-    private AssetService assetService;
 
     /**
      * @see org.kuali.module.cams.service.AssetLocationService#setOffCampusLocation(org.kuali.module.cams.bo.Asset)
@@ -74,7 +71,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
      * @see org.kuali.module.cams.service.AssetLocationService#validateLocation(java.lang.Object, org.kuali.module.cams.bo.Asset,
      *      java.util.Map)
      */
-    public boolean validateLocation(BusinessObject businessObject, Asset asset, Map<LocationField, String> fieldMap) {
+    public boolean validateLocation(Map<LocationField, String> fieldMap, BusinessObject businessObject, boolean isCapital, AssetType assetType) {
         String campusCode = readPropertyValue(businessObject, fieldMap, LocationField.CAMPUS_CODE);
         String buildingCode = readPropertyValue(businessObject, fieldMap, LocationField.BUILDING_CODE);
         String roomNumber = readPropertyValue(businessObject, fieldMap, LocationField.ROOM_NUMBER);
@@ -94,8 +91,8 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             valid &= false;
         }
         else {
-            if (getAssetService().isCapitalAsset(asset)) {
-                valid &= validateCapitalAssetLocation(asset, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus);
+            if (isCapital) {
+                valid &= validateCapitalAssetLocation(assetType, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus);
             }
             else {
                 valid &= validateNonCapitalAssetLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus);
@@ -105,9 +102,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
 
-    private boolean validateCapitalAssetLocation(Asset asset, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
-        asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
-        AssetType assetType = asset.getCapitalAssetType();
+    private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
         boolean valid = true;
         if (ObjectUtils.isNull(assetType)) {
             putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);
@@ -125,7 +120,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid &= false;
             }
             else if (onCampus) {
-                valid = validateOnCampusLocation(fieldMap, assetType, campusCode, buildingCode, roomNumber, subRoomNumber, asset);
+                valid = validateOnCampusLocation(fieldMap, assetType, campusCode, buildingCode, roomNumber, subRoomNumber);
             }
             else if (offCampus) {
                 valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
@@ -154,7 +149,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return GlobalVariables.getErrorMap().putError(fieldMap.get(field), errorKey, errorParameters);
     }
 
-    private boolean validateOnCampusLocation(Map<LocationField, String> fieldMap, AssetType assetType, String campusCode, String buildingCode, String buildingRoomNumber, String subRoomNumber, Asset asset) {
+    private boolean validateOnCampusLocation(Map<LocationField, String> fieldMap, AssetType assetType, String campusCode, String buildingCode, String buildingRoomNumber, String subRoomNumber) {
         boolean valid = true;
         if (assetType.isMovingIndicator()) {
             if (StringUtils.isBlank(buildingCode)) {
@@ -229,15 +224,4 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         }
         return stringValue;
     }
-
-
-    private AssetService getAssetService() {
-        return this.assetService;
-    }
-
-    public void setAssetService(AssetService assetService) {
-        this.assetService = assetService;
-    }
-
-
 }

@@ -19,14 +19,12 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.service.ParameterService;
@@ -209,26 +207,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
 
-    /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#createOffsetPayment(org.kuali.module.cams.bo.AssetPayment,
-     *      java.lang.String, java.lang.String)
-     */
-    public AssetPayment createOffsetPayment(AssetPayment assetPayment, String documentNumber, String documentTypeCode) {
-        AssetPayment offsetPayment = null;
-        try {
-            offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
-            offsetPayment.setDocumentNumber(documentNumber);
-            offsetPayment.setFinancialDocumentTypeCode(documentTypeCode);
-            offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
-            offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-            offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-            adjustPaymentAmounts(offsetPayment, true, true);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Error occured while creating offset payment ", e);
-        }
-        return offsetPayment;
-    }
 
     /**
      * @see org.kuali.module.cams.service.AssetPaymentService#adjustPaymentAmounts(org.kuali.module.cams.bo.AssetPayment, boolean,

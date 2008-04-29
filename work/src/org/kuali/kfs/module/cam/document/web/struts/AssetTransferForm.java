@@ -15,16 +15,14 @@
  */
 package org.kuali.module.cams.web.struts.form;
 
-import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -49,38 +47,9 @@ public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        // TODO - When I use below method gets an error [error getting property value for accountingPeriod Property
-        // 'accountingPeriod' has no getter method] while reloading a document
-        // SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
-        performCustomForceUpperCase(dataDictionaryService);
-
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
     }
 
-    /**
-     * Forces upper case on all field marked for upper case
-     * 
-     * @param dataDictionaryService Data Dictionary Service
-     */
-    private void performCustomForceUpperCase(DataDictionaryService dataDictionaryService) {
-        AssetTransferDocument bo = getAssetTransferDocument();
-        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetTransferDocument.class);
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            Class<?> propertyType = propertyDescriptor.getPropertyType();
-            if (propertyType != null && propertyType.isAssignableFrom(String.class)) {
-                String propertyName = propertyDescriptor.getName();
-                String currValue = (String) ObjectUtils.getPropertyValue(bo, propertyName);
-                if (currValue != null && dataDictionaryService.isAttributeDefined(AssetTransferDocument.class, propertyName).booleanValue() && dataDictionaryService.getAttributeForceUppercase(AssetTransferDocument.class, propertyName).booleanValue()) {
-                    try {
-                        PropertyUtils.setProperty(bo, propertyName, currValue.toUpperCase());
-                    }
-                    catch (Exception e) {
-                        throw new RuntimeException("Error while performing uppercase on field " + propertyName, e);
-                    }
-
-                }
-            }
-        }
-    }
 
     public boolean isLoanNoteAdded() {
         return loanNoteAdded;

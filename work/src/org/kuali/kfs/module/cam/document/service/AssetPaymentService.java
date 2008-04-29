@@ -57,16 +57,6 @@ public interface AssetPaymentService {
 
 
     /**
-     * This method will create an offset payment for a given payment
-     * 
-     * @param assetPayment Payment for which offset to be created
-     * @param documentNumber Document number creating the offset
-     * @param documentTypeCode Document type code
-     * @return Offset payment record
-     */
-    public AssetPayment createOffsetPayment(AssetPayment assetPayment, String documentNumber, String documentTypeCode);
-
-    /**
      * This method uses reflection and performs below steps on all Amount fields
      * <li>If it is a depreciation field, then reset the value to null, so that they don't get copied to offset payments </li>
      * <li>If it is an amount field, then reverse the amount by multiplying with -1 </li>

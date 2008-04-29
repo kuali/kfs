@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetType;
 
 public interface AssetLocationService {
 
@@ -36,5 +37,5 @@ public interface AssetLocationService {
      */
     public void updateOffCampusLocation(Asset newAsset);
 
-    boolean validateLocation(BusinessObject businessObject, Asset asset, Map<LocationField, String> fieldMap);
+    boolean validateLocation(Map<LocationField, String> fieldMap, BusinessObject businessObject, boolean isCapital, AssetType assetType);
 }

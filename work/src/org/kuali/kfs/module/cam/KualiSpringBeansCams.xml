@@ -255,9 +255,7 @@
     	<property name="universityDateService" ref="universityDateService"/>
     </bean>
     
-    <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" >
-    	<property name="assetService" ref="assetService" />
-    </bean>
+    <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" />
     
     <bean id="assetHeaderService" class="org.kuali.module.cams.service.impl.AssetHeaderServiceImpl" />    
     

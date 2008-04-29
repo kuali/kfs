@@ -314,7 +314,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.Asset.AssetLocation.VERSION_NUM);
 
         GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
-        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(newAsset, newAsset, fieldMap);
+        boolean isCapitalAsset = SpringContext.getBean(AssetService.class).isCapitalAsset(newAsset);
+        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(fieldMap, newAsset, isCapitalAsset, newAsset.getCapitalAssetType());
         GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
 
         if (valid && (this.isFabrication || isOffCampusLocationChanged())) {

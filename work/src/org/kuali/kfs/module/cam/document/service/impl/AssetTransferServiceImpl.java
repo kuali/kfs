@@ -204,13 +204,17 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         for (AssetPayment assetPayment : originalPayments) {
             if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // copy and create an offset payment
-                AssetPayment offsetPayment;
                 try {
                     if (maxSequenceNo == null) {
                         maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
-                    // add offset payment
-                    offsetPayment = getAssetPaymentService().createOffsetPayment(assetPayment, document.getDocumentNumber(), AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
+                    AssetPayment offsetPayment = (AssetPayment) ObjectUtils.deepCopy(assetPayment);
+                    offsetPayment.setDocumentNumber(document.getDocumentNumber());
+                    offsetPayment.setFinancialDocumentTypeCode(AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
+                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
+                    offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+                    offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+                    getAssetPaymentService().adjustPaymentAmounts(offsetPayment, true, true);
                     offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
                     offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     persistableObjects.add(offsetPayment);
@@ -563,6 +567,5 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             }
         }
     }
-
 
 }

@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.KualiTestBase;
@@ -30,6 +31,8 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.cams.bo.AssetLocation;
+import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementReason;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -269,6 +272,8 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(document.getCampusCode(), asset.getCampusCode());
         assertEquals(document.getBuildingCode(), asset.getBuildingCode());
         assertEquals(document.getBuildingRoomNumber(), asset.getBuildingRoomNumber());
+        assertEquals(document.getBuildingSubRoomNumber(), asset.getBuildingSubRoomNumber());
+        assertTrue(DateUtils.isSameDay(new java.util.Date(), asset.getLastInventoryDate()));
         List<AssetPayment> assetPayments = asset.getAssetPayments();
         // sort the payment
         Collections.sort(assetPayments, new Comparator<AssetPayment>() {
@@ -306,6 +311,48 @@ public class AssetTransferServiceTest extends KualiTestBase {
         testDataPayment = AssetTransferFixture.PAYMENT2_WITH_OFFSET.newAssetPayment();
         AssetPayment newPayment2 = assetPayments.get(5);
         assertNewPayment(document, testDataPayment, newPayment2);
+    }
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    public void testSaveApprovedChanges_Offcampus() throws Exception {
+        AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
+        document.setOffCampusAddress("4700 S HAGADORN");
+        document.setOffCampusCityName("E LANSING");
+        document.setOffCampusStateCode("MI");
+        document.setOffCampusZipCode("48823");
+        this.assetTransferService.saveApprovedChanges(document);
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        Asset asset = document.getAsset();
+        asset = (Asset) boService.retrieve(asset);
+        asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
+        SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);
+        assertNotNull(asset);
+        assertEquals(document.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerChartOfAccountsCode());
+        assertEquals(document.getOrganizationOwnerAccountNumber(), asset.getOrganizationOwnerAccountNumber());
+        assertEquals(document.getCampusCode(), asset.getCampusCode());
+        assertTrue(DateUtils.isSameDay(new java.util.Date(), asset.getLastInventoryDate()));
+        AssetLocation offCampusLocation = asset.getOffCampusLocation();
+        assertNotNull(offCampusLocation);
+        assertEquals("4700 S HAGADORN", offCampusLocation.getAssetLocationStreetAddress());
+        assertEquals("E LANSING", offCampusLocation.getAssetLocationCityName());
+        assertEquals("MI", offCampusLocation.getAssetLocationStateCode());
+        assertEquals("48823", offCampusLocation.getAssetLocationZipCode());
+    }
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    public void testSaveApprovedChanges_AssetOrgInfo() throws Exception {
+        AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
+        document.setOrganizationTagNumber("TEL");
+        document.setOrganizationText("TEXT");
+        this.assetTransferService.saveApprovedChanges(document);
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        Asset asset = document.getAsset();
+        asset = (Asset) boService.retrieve(asset);
+        asset.refreshReferenceObject(CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION);
+        AssetOrganization assetOrganization = asset.getAssetOrganization();
+        assertNotNull(assetOrganization);
+        assertEquals("TEL", assetOrganization.getOrganizationTagNumber());
+        assertEquals("TEXT", assetOrganization.getOrganizationText());
     }
 
     private void assertNewPayment(AssetTransferDocument document, AssetPayment referencePayment, AssetPayment newPayment) {

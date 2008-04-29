@@ -119,7 +119,11 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ZIP);
         fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetTransferDocument.LOCATION_TAB);
         GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_PATH);
-        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(assetTransferDocument, assetTransferDocument.getAsset(), fieldMap);
+
+        Asset asset = assetTransferDocument.getAsset();
+        asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
+        boolean isCapitalAsset = SpringContext.getBean(AssetService.class).isCapitalAsset(asset);
+        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(fieldMap, assetTransferDocument, isCapitalAsset, asset.getCapitalAssetType());
         GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_PATH);
         return valid;
     }

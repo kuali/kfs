@@ -39,6 +39,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
@@ -46,14 +47,19 @@ import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.workflow.attribute.KualiAccountAttribute;
+import org.kuali.workflow.attribute.KualiCGAttribute;
+import org.kuali.workflow.attribute.KualiOrgReviewAttribute;
+import org.kuali.workflow.attribute.KualiPDAttribute;
 import org.kuali.workflow.attribute.OrgReviewRoutingData;
 import org.kuali.workflow.attribute.RoutingAccount;
+import org.kuali.workflow.attribute.RoutingData;
 
 import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.actionrequests.ActionRequestValue;
 
 
-@ConfigureContext(session = KHUNTLEY)// , shouldCommitTransactions = true)
+@ConfigureContext(session = KHUNTLEY)//, shouldCommitTransactions = true)
 public class EffortCertificationRoutingTest extends KualiTestBase {
     
     private Set<String> databaseNodes;
@@ -99,11 +105,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
     private EffortCertificationDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         EffortCertificationDocument document = (EffortCertificationDocument) getDocumentParameterFixture();
-
-        Set testSet = new HashSet();
-        testSet.add(new RoutingAccount("BL", "4831401"));
-        testSet.add(new OrgReviewRoutingData("BL", "PSY"));
-        //document.setRoutingSet(testSet);
+       
         document.setEmplid("0000000060");
         document.setEffortCertificationReportNumber("A03");
         document.setUniversityFiscalYear(2007);// Data only exists for this year
@@ -113,8 +115,8 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         testDetailLine.setAccountNumber("4831401");
         testDetailLine.setChartOfAccountsCode("BL");
         // Calculated and updated percent differ to invoke recreate routing
-        testDetailLine.setEffortCertificationCalculatedOverallPercent(90);
-        testDetailLine.setEffortCertificationUpdatedOverallPercent(100);
+        testDetailLine.setEffortCertificationCalculatedOverallPercent(40);
+        testDetailLine.setEffortCertificationUpdatedOverallPercent(50);
         testDetailLine.setPositionNumber("1");
         testDetailLine.setFinancialObjectCode("4000");
         testDetailLine.setSourceChartOfAccountsCode("BL");
@@ -129,6 +131,20 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         testNote.setNoteText("This is a nice note.");
         testNote.setAuthorUniversalIdentifier(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
         document.getDocumentHeader().addNote(testNote);
+        effortCertificationDetailLines.add(testDetailLine);
+        testDetailLine = new EffortCertificationDetail();
+        testDetailLine.setAccountNumber("4631483");
+        testDetailLine.setChartOfAccountsCode("BL");
+        // Calculated and updated percent differ to invoke recreate routing
+        testDetailLine.setEffortCertificationCalculatedOverallPercent(60);
+        testDetailLine.setEffortCertificationUpdatedOverallPercent(50);
+        testDetailLine.setPositionNumber("1");
+        testDetailLine.setFinancialObjectCode("4000");
+        testDetailLine.setSourceChartOfAccountsCode("BL");
+        testDetailLine.setSourceAccountNumber("4631483");
+        testDetailLine.setUniversityFiscalYear(testDate);
+        testDetailLine.setFinancialDocumentPostingYear(testDate);
+        testDetailLine.setEffortCertificationOriginalPayrollAmount(new KualiDecimal(100.00));
         effortCertificationDetailLines.add(testDetailLine);
         document.setEffortCertificationDetailLines(effortCertificationDetailLines);
         KNSServiceLocator.getDocumentService().saveDocument(document);
@@ -159,8 +175,9 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
     public final void testRouting() throws Exception {
         EffortCertificationDocument document = buildDocument();
         System.out.println("EffortCertificationDocument doc# " + document.getDocumentNumber());
-        document.getDocumentHeader().getWorkflowDocument().blanketApprove("Approved by unit test");
-        assertTrue("Document didn't route!",document.getDocumentHeader().getWorkflowDocument().stateIsProcessed());
+        KualiWorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
+        testDoc.blanketApprove("Approved by unit test");
+        assertTrue("Document didn't route!",testDoc.stateIsProcessed()||testDoc.stateIsFinal());
 
 
         List <ActionRequestValue> tempValues = KEWServiceLocator.getActionRequestService().findByRouteHeaderIdIgnoreCurrentInd(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());

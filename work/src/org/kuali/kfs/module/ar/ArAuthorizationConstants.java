@@ -30,5 +30,9 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
         public static final String EDIT_PAYMENT_APP_DOC = "editPaymentAppDoc";
         public static final String SHOW_GENERATE_BUTTON = "showGenerateButton";
     }
+    
+    public static class CustomerCreditMemoEditMode extends EditMode {
+        public static final String DISPLAY_INIT_TAB ="displayInitTab";  
+    }
 
 }

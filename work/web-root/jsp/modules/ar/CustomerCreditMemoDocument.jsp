@@ -21,8 +21,8 @@
 	showTabButtons="true">
 	
 	<!--  value should be replaced with variable -->
-	<c:set var="displayInitTab" value="true" scope="request" />
-
+	<c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
+	
 	<kul:hiddenDocumentFields />
 
 	<!--  Display 1st screen -->
@@ -46,6 +46,7 @@
 		<kul:panelFooter />
 	</c:if>
 
-	<kul:documentControls transactionalDocument="true" />
+	<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
+  	<kul:documentControls transactionalDocument="true" extraButtons="${extraButtons}" suppressRoutingControls="${displayInitTab}" />
 
 </kul:documentPage>

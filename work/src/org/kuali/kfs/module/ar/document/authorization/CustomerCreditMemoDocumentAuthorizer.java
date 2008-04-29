@@ -15,10 +15,55 @@
  */
 package org.kuali.module.ar.document.authorization;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.module.ar.ArAuthorizationConstants;
+import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.InvoicePaidAppliedService;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.service.CreditMemoService;
 
 public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
+    @Override
+    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+        
+        Map<String,String> editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
+        
+        if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(),ArConstants.CustomerCreditMemoStatuses.INITIATE))
+            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"TRUE");
+        else
+            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"FALSE");
+        
+        return editModeMap;
+    }
     
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
+        if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
+            flags.setCanSave(false);
+            flags.setCanClose(true);
+            flags.setCanCancel(false);
+        }
+        return flags;
+    }
 }

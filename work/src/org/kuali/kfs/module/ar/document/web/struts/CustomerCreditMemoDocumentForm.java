@@ -18,14 +18,23 @@ package org.kuali.module.ar.web.struts.form;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PurapService;
 
 public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormBase {
     public DateTimeService dateTimeService;
@@ -102,6 +111,48 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+    
+    /**
+     * Build additional customer credit memo specific buttons and set extraButtons list.
+     * 
+     * @return - list of extra buttons to be displayed to the user
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+
+        //CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) getDocument();
+
+        String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB)) {
+            if (getEditingMode().get(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
+                addExtraButton("", externalImageURL + "buttonsmall_continue.gif", "Continue");
+                addExtraButton("", externalImageURL + "buttonsmall_clear.gif", "Clear");
+            }
+        }
+        return extraButtons;
+    }
+    
+    /**
+     * Adds a new button to the extra buttons collection.
+     * 
+     * @param property - property for button
+     * @param source - location of image
+     * @param altText - alternate text for button if images don't appear
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+
+        ExtraButton newButton = new ExtraButton();
+
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+
+        extraButtons.add(newButton);
     }
 
 

@@ -152,6 +152,10 @@ public class ArConstants {
         public static final String SHOW_EDIT_PAYMENTS_DEFAULTS_TAB = GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU;
         public static final String NAME_OF_THE_TAB_TO_HIDE = "Edit Organization Receivable Account Defaults";
     }
+    
+    public static class CustomerCreditMemoStatuses {
+        public static final String INITIATE = "INIT";
+    }
 
     //TODO: this has to be removed when it will be set up as part of bootstrap data
     public static final String WIRE_ORG = "WIRE";

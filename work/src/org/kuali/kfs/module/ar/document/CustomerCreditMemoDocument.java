@@ -6,12 +6,15 @@ import java.util.List;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CustomerCreditMemoDocument extends AccountingDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
+    private String statusCode;
     
     private String documentNumber;
     private Integer financialDocumentPostingYear;
@@ -119,7 +122,6 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         return invoice;
     }
 
-
     /**
      * Sets the invoice attribute value.
      * @param invoice The invoice to set.
@@ -129,8 +131,29 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * Gets the statusCode attribute. 
+     * @return Returns the statusCode.
      */
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    /**
+     * Sets the statusCode attribute value.
+     * @param statusCode The statusCode to set.
+     */
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+    
+    /**
+     * Initializes the values for a new document.
+     */
+    public void initiateDocument() {
+        LOG.debug("initiateDocument() started");
+        setStatusCode(ArConstants.CustomerCreditMemoStatuses.INITIATE);
+    }
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
@@ -143,4 +166,5 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         // TODO Auto-generated method stub
         return false;
     }
+
 }

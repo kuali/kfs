@@ -71,8 +71,8 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
             flags.setCanCopy(false);
             flags.setCanErrorCorrect(false);
         } else {
-            //a normal invoice can only be error corrected if no amounts have been applied (excluding discounts)
-            flags.setCanErrorCorrect(!SpringContext.getBean(InvoicePaidAppliedService.class).doesInvoiceHaveAppliedAmounts((CustomerInvoiceDocument)document));
+            //a normal invoice can only be error corrected if document is in a final state and no amounts have been applied (excluding discounts)
+            flags.setCanErrorCorrect(document.getDocumentHeader().getWorkflowDocument().stateIsFinal() && !SpringContext.getBean(InvoicePaidAppliedService.class).doesInvoiceHaveAppliedAmounts((CustomerInvoiceDocument)document));
         }
         
         return flags;

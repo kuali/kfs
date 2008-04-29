@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="cgModule" class="org.kuali.core.KualiModule">
+    <bean id="cgModule" parent="cgModule-parentBean" />
+
+    <bean id="cgModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="cg" />
 		<property name="moduleName" value="Post-Award" />
 		<property name="moduleCode" value="CG" />

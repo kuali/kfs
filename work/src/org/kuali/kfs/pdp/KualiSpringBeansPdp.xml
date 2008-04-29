@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="pdpModule" class="org.kuali.core.KualiModule">
+    <bean id="pdpModule" parent="pdpModule-parentBean" />
+
+    <bean id="pdpModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="pdp" />
 		<property name="moduleName" value="Pre-Disbursement Processor" />
 		<property name="moduleCode" value="PD" />

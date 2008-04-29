@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="effortModule" class="org.kuali.core.KualiModule">
+    <bean id="effortModule" parent="effortModule-parentBean" />
+
+    <bean id="effortModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="effort" />
 		<property name="moduleName" value="Effort Certification" />
 		<property name="moduleCode" value="ER" />

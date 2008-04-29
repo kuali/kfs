@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="kraModule" class="org.kuali.core.KualiModule">
+    <bean id="kraModule" parent="kraModule-parentBean" />
+
+    <bean id="kraModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="kra" />
 		<property name="moduleName" value="Pre-Award" />
 		<property name="moduleCode" value="RA" />

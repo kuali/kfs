@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="purapModule" class="org.kuali.core.KualiModule">
+    <bean id="purapModule" parent="purapModule-parentBean" />
+
+    <bean id="purapModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="purap" />
 		<property name="moduleName" value="Purchasing/Accounts Payable" />
 		<property name="moduleCode" value="PA" />

@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="financialModule" class="org.kuali.core.KualiModule">
+    <bean id="financialModule" parent="financialModule-parentBean" />
+
+    <bean id="financialModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="financial" />
 		<property name="moduleName" value="Financial Transaction Processing" />
 		<property name="moduleCode" value="FP" />

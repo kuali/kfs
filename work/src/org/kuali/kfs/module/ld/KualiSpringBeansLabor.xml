@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="laborModule" class="org.kuali.core.KualiModule">
+    <bean id="laborModule" parent="laborModule-parentBean" />
+
+    <bean id="laborModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="labor" />
 		<property name="moduleName" value="Labor Distribution" />
 		<property name="moduleCode" value="LD" />

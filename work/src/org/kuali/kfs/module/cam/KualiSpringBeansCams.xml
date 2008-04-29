@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="camsModule" class="org.kuali.core.KualiModule">
+    <bean id="camsModule" parent="camsModule-parentBean" />
+
+    <bean id="camsModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="cams" />
 		<property name="moduleName" value="Capital Asset Management" />
 		<property name="moduleCode" value="CM" />

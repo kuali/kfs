@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="budgetModule" class="org.kuali.core.KualiModule">
+    <bean id="budgetModule" parent="budgetModule-parentBean" />
+
+    <bean id="budgetModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="budget" />
 		<property name="moduleName" value="Budget Construction" />
 		<property name="moduleCode" value="BC" />

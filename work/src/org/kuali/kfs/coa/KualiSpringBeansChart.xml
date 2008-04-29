@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="chartModule" class="org.kuali.core.KualiModule">
+    <bean id="chartModule" parent="chartModule-parentBean" />
+
+    <bean id="chartModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="chart" />
 		<property name="moduleName" value="Chart Of Accounts" />
 		<property name="moduleCode" value="CA" />

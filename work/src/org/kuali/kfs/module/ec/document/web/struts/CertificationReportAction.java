@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
@@ -57,7 +60,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationReportAction.class);
 
     /**
-     * Recalculates the detail line
+     * recalculate the detail line
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToRecalculateIndex = getLineToDelete(request);
@@ -74,7 +77,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * Adds New Effort Certification Detail Lines
+     * add New Effort Certification Detail Lines
      */
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
@@ -113,7 +116,7 @@ public class CertificationReportAction extends EffortCertificationAction {
 
 
     /**
-     * Deletes detail line
+     * delete detail line
      */
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToDeleteIndex = getLineToDelete(request);
@@ -128,7 +131,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * Reverts the detail line to the original values
+     * revert the detail line to the original values
      */
     public ActionForward revert(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToRevertIndex = getLineToDelete(request);
@@ -155,8 +158,8 @@ public class CertificationReportAction extends EffortCertificationAction {
         super.loadDocument(kualiDocumentFormBase);
 
         CertificationReportForm certificationReportForm = (CertificationReportForm) kualiDocumentFormBase;
-        if (this.isSummarizeDetailLinesRended(certificationReportForm)) {
-            certificationReportForm.refreshDetailLineGroupMap();
+        if (this.isSummarizeDetailLinesRendered(certificationReportForm)) {
+            this.refreshDetailLineGroupMap(certificationReportForm);
         }
     }
 
@@ -167,7 +170,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
-        if (this.isSummarizeDetailLinesRended(certificationReportForm)) {
+        if (this.isSummarizeDetailLinesRendered(certificationReportForm)) {
             this.recalculateAllDetailLines(certificationReportForm);
         }
 
@@ -212,14 +215,18 @@ public class CertificationReportAction extends EffortCertificationAction {
         String methodToCallAttribute = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
         String sortColumn = StringUtils.substringBetween(methodToCallAttribute, "sortDetailLineByColumn.", ".");
 
-        certificationReportForm.toggleSortOrder();
-        certificationReportForm.sortDetailLine(sortColumn);
+        this.toggleSortOrder(certificationReportForm);
+        this.sortDetailLine(certificationReportForm, certificationReportForm.getDetailLines(), sortColumn);
+        
+        if (this.isSummarizeDetailLinesRendered(certificationReportForm)) {
+            this.sortDetailLine(certificationReportForm, certificationReportForm.getSummarizedDetailLines(), sortColumn);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * Recalculates the detail line
+     * recalculate a detail line in summarized detail lines and make a corresponding update on the underlying detail lines 
      */
     public ActionForward recalculateSummarizedDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
@@ -241,21 +248,21 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * Adds New Effort Certification Detail Lines
+     * add a new detail line and make a corresponding update on the underlying detail lines 
      */
     public ActionForward addSummarizedDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = this.add(mapping, form, request, response);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
             CertificationReportForm certificationReportForm = (CertificationReportForm) form;
-            certificationReportForm.refreshDetailLineGroupMap();
+            this.refreshDetailLineGroupMap(certificationReportForm);
         }
 
         return actionForward;
     }
 
     /**
-     * Deletes detail line
+     * delete a detail line from summarized detail lines and make a corresponding update on the underlying detail lines 
      */
     public ActionForward deleteSummarizedDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
@@ -276,13 +283,13 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * Reverts the detail line to the original values
+     * revert a detail line in summarized detail lines and make a corresponding update on the underlying detail lines 
      */
     public ActionForward revertSummarizedDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = this.revert(mapping, form, request, response);
 
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
-        certificationReportForm.refreshDetailLineGroupMap();
+        this.refreshDetailLineGroupMap(certificationReportForm);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -300,12 +307,12 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * determine whether the summarized detail lines need to be rended
+     * determine whether the summarized detail lines need to be rendered
      * 
      * @param certificationReportForm the action form
-     * @return true if the summarized detail lines need to be rended; otherwise, false
+     * @return true if the summarized detail lines need to be rendered; otherwise, false
      */
-    private boolean isSummarizeDetailLinesRended(CertificationReportForm certificationReportForm) {
+    private boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
         Document document = certificationReportForm.getDocument();
         DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(document);
 
@@ -358,5 +365,48 @@ public class CertificationReportAction extends EffortCertificationAction {
 
         EffortCertificationDetail delegateDetailLine = detailLineGroup.getDelegateDetailLine();
         delegateDetailLine.recalculatePayrollAmount(totalPayrollAmount);
+    }
+    
+    /**
+     * Toggles the sort order between ascending and descending. If the current order is ascending, then the sort order will be set
+     * to descending, and vice versa.
+     */
+    private void toggleSortOrder(CertificationReportForm certificationReportForm) {
+        if (SortOrder.ASC.name().equals(certificationReportForm.getSortOrder())) {
+            certificationReportForm.setSortOrder(SortOrder.DESC.name());
+        }
+        else {
+            certificationReportForm.setSortOrder(SortOrder.ASC.name());
+        }
+    }
+
+    /**
+     * sort the detail lines based on the values of the sort order and sort column
+     */
+    private void sortDetailLine(CertificationReportForm certificationReportForm, List<EffortCertificationDetail> detailLines, String... sortColumn) {
+        String sortOrder = certificationReportForm.getSortOrder();
+        DynamicCollectionComparator.sort(detailLines, SortOrder.valueOf(sortOrder), sortColumn);
+    }
+
+    /**
+     * rebuild the detail line group map from the detail lines of the current document
+     */
+    private void refreshDetailLineGroupMap(CertificationReportForm certificationReportForm) {
+        LOG.info("refreshDetailLineGroupMap() started");
+
+        List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
+        if (summarizedDetailLines == null) {
+            EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) certificationReportForm.getDocument();
+            effortCertificationDocument.setSummarizedDetailLines(new ArrayList<EffortCertificationDetail>());
+        }
+        summarizedDetailLines.clear();
+
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines(), EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+
+        for (String key : detailLineGroupMap.keySet()) {
+            EffortCertificationDetail sumaryline = detailLineGroupMap.get(key).getSummaryDetailLine();
+
+            summarizedDetailLines.add(sumaryline);
+        }
     }
 }

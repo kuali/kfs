@@ -18,6 +18,7 @@ function EffortAmountUpdator(){
 	totalAmountFiledName ="document.totalOriginalPayrollAmount";
 	editableDetailLineTableId = "editableDetailLineTable";
 	detailLinesPrefix = "document.effortCertificationDetailLines";
+	summarizedDetailLinesPrefix = "document.summarizedDetailLines";
 	
 	fiscalYearFieldNameSuffix = ".universityFiscalYear";
 	objectCodeFieldNameSuffix = ".financialObjectCode";
@@ -111,12 +112,18 @@ EffortAmountUpdator.prototype.recalculateEffortPercent = function(payrollAmountF
 			}
 		};
 		
-		PayrollAmountUtil.recalculateEffortPercent(totalPayrollAmount, payrollAmount, updateEffortPercent);				
+		PayrollAmountUtil.recalculateEffortPercent(totalPayrollAmount, payrollAmount, updateEffortPercent);	
+		
+		var detailLinesPrefixName = effortAmountUpdator.removeIndex(fieldNamePrefix);
+		effortAmountUpdator.updateTotals(detailLinesPrefixName);			
 	}
 };
 
 // recalculate the fringe benefit when the payroll amount is changes
 EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefix, payrollAmount){
+	var detailLinesPrefixName = effortAmountUpdator.removeIndex(fieldNamePrefix);
+	effortAmountUpdator.updateTotals(detailLinesPrefixName);
+	
 	try{
 		var fiscalYear = DWRUtil.getValue(fieldNamePrefix + fiscalYearFieldNameSuffix);
 		var objectCode = DWRUtil.getValue(fieldNamePrefix + objectCodeFieldNameSuffix);
@@ -135,7 +142,8 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 				var benefitFieldNameReadonly = benefitFieldNameSpan + readonlySuffix;
 				effortAmountUpdator.setValueByElementId( benefitFieldNameReadonly, benefit);
 				
-				effortAmountUpdator.updateTotals();
+				var detailLinesPrefixName = effortAmountUpdator.removeIndex(fieldNamePrefix);
+				effortAmountUpdator.updateTotals(detailLinesPrefixName);
 			};
 			
 			LaborModuleService.calculateFringeBenefit(fiscalYear, chartOfAccountsCode, objectCode, payrollAmount, updateFringeBenefit);
@@ -188,6 +196,13 @@ EffortAmountUpdator.prototype.removeDelimator = function(stringObject, delimator
 	return stringObject.replace(delimator, "").trim();
 };
 
+// remove the specified delimators and leading/trailing blanks from the given string
+EffortAmountUpdator.prototype.removeIndex = function(stringObject){
+	var index = stringObject.lastIndexOf('[');
+	
+	return stringObject.substring(0, index).trim();
+};
+
 // format the given number as the currency format
 EffortAmountUpdator.prototype.formatNumberAsCurrency = function(number, currencySymbol) {
 	if(currencySymbol == null){
@@ -223,36 +238,36 @@ EffortAmountUpdator.prototype.displayMessageAfter = function(elementId, message)
 };
 
 // update all values in total fields
-EffortAmountUpdator.prototype.updateTotals = function(){
+EffortAmountUpdator.prototype.updateTotals = function(detailLinesPrefixName){
 	// update the payroll amount totals
 	totalFieldId = "document.totalPayrollAmount";
 	federalTotalFieldId = "document.federalTotalPayrollAmount";
 	otherTotalFieldId = "document.otherTotalPayrollAmount";
-	this.updateTotalField(editableDetailLineTableId, payrollAmountFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
+	this.updateTotalField(editableDetailLineTableId, detailLinesPrefixName, payrollAmountFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 
 	// update the effort percent totals
 	totalFieldId = "document.totalEffortPercent";
 	federalTotalFieldId = "document.federalTotalEffortPercent";
 	otherTotalFieldId = "document.otherTotalEffortPercent";
-	this.updateTotalField(editableDetailLineTableId, effortPercentFieldNameSuffix, true, totalFieldId, federalTotalFieldId, otherTotalFieldId);
+	this.updateTotalField(editableDetailLineTableId, detailLinesPrefixName, effortPercentFieldNameSuffix, true, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 	
 	// update the fringe benefit totals
 	totalFieldId = "document.totalFringeBenefit";
 	federalTotalFieldId = "document.federalTotalFringeBenefit";
 	otherTotalFieldId = "document.otherTotalFringeBenefit";
-	this.updateTotalField(editableDetailLineTableId, fringeBenefitFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
+	this.updateTotalField(editableDetailLineTableId, detailLinesPrefixName, fringeBenefitFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 };
 
 // update the specific total fields
-EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, amountFieldSuffix, isPercent, totalFieldId, federalTotalFieldId, otherTotalFieldId){
+EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, detailLinesPrefixName, amountFieldSuffix, isPercent, totalFieldId, federalTotalFieldId, otherTotalFieldId){
 	var federalTotal = 0.0;
 	var otherTotal = 0.0;
 	
 	var numOfTableRows = document.getElementById(detailLineTableId).rows.length;  	
   	for (var index = 0; index < numOfTableRows; index++) {
   		var indexHolder = "[" + index + "]";
-  		var amountFieldId = detailLinesPrefix + indexHolder + amountFieldSuffix;
-  		var fereralIndicatorFieldId = detailLinesPrefix + indexHolder + federalIndicatorFieldNameSuffix;
+  		var amountFieldId = detailLinesPrefixName + indexHolder + amountFieldSuffix;
+  		var fereralIndicatorFieldId = detailLinesPrefixName + indexHolder + federalIndicatorFieldNameSuffix;
   		
   		var nodes = document.getElementsByName(amountFieldId);
   		if(document.getElementById(amountFieldId) == null && nodes.length <= 0){
@@ -285,9 +300,9 @@ EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, amo
  	this.setValueByElementId( otherTotalFieldId, formattedOtherTotal);
  	this.setValueByElementId( totalFieldId, formattedGrandTotal);
  	
- 	this.setValueByElementId( federalTotalFieldId + readonlySuffix, formattedFederalTotal);
- 	this.setValueByElementId( otherTotalFieldId + readonlySuffix, formattedOtherTotal);
- 	this.setValueByElementId( totalFieldId + readonlySuffix, formattedGrandTotal);
+ 	//this.setValueByElementId( federalTotalFieldId + readonlySuffix, formattedFederalTotal);
+ 	//this.setValueByElementId( otherTotalFieldId + readonlySuffix, formattedOtherTotal);
+ 	//this.setValueByElementId( totalFieldId + readonlySuffix, formattedGrandTotal);
 };
 
 var effortAmountUpdator = new EffortAmountUpdator();

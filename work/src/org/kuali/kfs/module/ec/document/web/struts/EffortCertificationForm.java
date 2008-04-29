@@ -411,7 +411,7 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * load the descriptive information of the given account
+     * load the descriptive information of the given account. This method is used by DWR.
      * 
      * @param chartOfAccountsCode the given chart of accounts code
      * @param accountNumber the given account number

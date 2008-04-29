@@ -57,27 +57,6 @@ public class CertificationReportForm extends EffortCertificationForm {
     }
 
     /**
-     * Toggles the sort order between ascending and descending. If the current order is ascending, then the sort order will be set
-     * to descending, and vice versa.
-     */
-    public void toggleSortOrder() {
-        if (SortOrder.ASC.name().equals(this.getSortOrder())) {
-            this.setSortOrder(SortOrder.DESC.name());
-        }
-        else {
-            this.setSortOrder(SortOrder.ASC.name());
-        }
-    }
-
-    /**
-     * sort the detail lines based on the values of the sort order and sort column
-     */
-    public void sortDetailLine(String... sortColumn) {
-        String sortOrder = this.getSortOrder();
-        DynamicCollectionComparator.sort(this.getDetailLines(), SortOrder.valueOf(sortOrder), sortColumn);
-    }
-
-    /**
      * Gets the reportPeriodBeginDate attribute.
      * 
      * @return Returns the reportPeriodBeginDate.
@@ -114,30 +93,6 @@ public class CertificationReportForm extends EffortCertificationForm {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
         return new Date(calendar.getTime().getTime());
-    }
-
-    /**
-     * Sets the detailLineGroupMap attribute value.
-     * 
-     * @param detailLineGroupMap The detailLineGroupMap to set.
-     */
-    public void refreshDetailLineGroupMap() {
-        LOG.info("refreshDetailLineGroupMap() started");
-
-        List<EffortCertificationDetail> summarizedDetailLines = this.getSummarizedDetailLines();
-        if (summarizedDetailLines == null) {
-            EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
-            effortCertificationDocument.setSummarizedDetailLines(new ArrayList<EffortCertificationDetail>());
-        }
-        summarizedDetailLines.clear();
-
-        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(this.getDetailLines(), EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
-
-        for (String key : detailLineGroupMap.keySet()) {
-            EffortCertificationDetail sumaryline = detailLineGroupMap.get(key).getSummaryDetailLine();
-
-            summarizedDetailLines.add(sumaryline);
-        }
     }
 
     /**

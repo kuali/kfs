@@ -78,10 +78,14 @@
 </c:if>              
               
 <c:set var="inquirable" value="${not empty inquirableUrl}" />  
-<c:set var="numericFormatter" value="org.kuali.core.web.format.CurrencyFormatter,org.kuali.core.web.format.IntegerFormatter"/> 
+<c:set var="currencyFormatter" value="org.kuali.core.web.format.CurrencyFormatter"/>
+<c:set var="integerFormatter" value="org.kuali.core.web.format.IntegerFormatter"/> 
+
 <c:set var="entryFormatter" value="${attributeEntry.formatterClass}" /> 
-<c:set var="isNumeric" value="${not empty entryFormatter && fn:contains(numericFormatter, entryFormatter)}" />
-<c:set var="styleClass" value="${isNumeric ? 'right' : '' }" /> 
+<c:set var="isCurrency" value="${not empty entryFormatter && fn:contains(currencyFormatter, entryFormatter)}" />
+<c:set var="isInteger" value="${not empty entryFormatter && fn:contains(integerFormatter, entryFormatter)}" />
+
+<c:set var="styleClass" value="${(isCurrency || isInteger) ? 'right' : '' }" /> 
 <c:set var="readonlySuffix" value="${readOnlySection ? '.readonly' : ''}" /> 
 <c:set var="percent" value="${fn:contains(fieldFormName, 'Percent') ? '%' : '' }" />
                    
@@ -98,10 +102,15 @@
 	<c:set var="divName" value="${fieldFormName}.div${readonlySuffix}" />
 	<c:set var="formatNumber" value="${fieldValue}" />
 	
-	<c:if test="${isNumeric}">
-	    <fmt:formatNumber var="formatNumber" value="${fieldValue}" currencySymbol="" type="currency"/>
-	</c:if>
-     	
+	<c:choose>
+		<c:when test="${isCurrency}">
+		    <fmt:formatNumber var="formatNumber" value="${fieldValue}" currencySymbol="" type="currency"/>
+		</c:when>
+		<c:when test="${isInteger}">
+		    <fmt:formatNumber var="formatNumber" value="${fieldValue}" type="number"/>
+		</c:when>
+	</c:choose>
+  	
     <c:choose>
       	<c:when test="${inquirable}">
       		<a href="${inquirableUrl}" target="_blank">

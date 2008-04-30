@@ -24,7 +24,7 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     // Header parts
     private String fiscalYear;
-    
+
     private String chartOfAccountsCode;
     private String chartOfAccountDescription;
     private String organizationCode;
@@ -33,78 +33,66 @@ public class BudgetConstructionOrgSalarySummaryReport {
     private String reqFy;
     private String objectCodes;
     private String numberAndNameForAccountSubAccount;
-    
-    
+
+
     // Groups
     private String emplid;
     private Integer personSortCode;
-    
+
     // Body parts
-    
+
     private String accountNumber;
     private String subAccountNumber;
     private String financialObjectCode;
     private String financialSubObjectCode;
-    private BigDecimal appointmentRequestedPayRate;
-    
     private String deleteBox;
     private String personName;
-    //from BudgetConstructionIntendedIncumbent
+    
+    // from BudgetConstructionIntendedIncumbent
     private String iuClassificationLevel;
-    
-    //from PendingBudgetConstructionAppointmentFunding
-    
-    //from BudgetConstructionAdministrativePost
+    // from PendingBudgetConstructionAppointmentFunding
+    // from BudgetConstructionAdministrativePost
     private String administrativePost;
-    //from BudgetConstructionPosition
+    // from BudgetConstructionPosition
     private String positionNumber;
     private String normalWorkMonthsAndiuPayMonths;
     private String positionSalaryPlanDefault;
     private String positionGradeDefault;
-    private BigDecimal positionStandardHoursDefault;
-    //from BudgetConstructionCalculatedSalaryFoundationTracker
-    private String csfFundingStatusCode;
+    // from BudgetConstructionCalculatedSalaryFoundationTracker
     private BigDecimal csfTimePercent;
     private Integer csfAmount;
-    private String csfFullTimeEmploymentQuantity;
-    //from PendingBudgetConstructionAppointmentFunding
-    private Integer appointmentFundingMonth;
-    private Integer appointmentRequestedAmount;
-    private BigDecimal appointmentRequestedTimePercent;
-    private String appointmentRequestedFteQuantity;
+    // from PendingBudgetConstructionAppointmentFunding
     private String appointmentFundingDurationCode;
-    private Integer appointmentRequestedCsfAmount;
-    private BigDecimal appointmentRequestedCsfTimePercent;
-    private String appointmentRequestedCsfFteQuantity;
     private Integer appointmentTotalIntendedAmount;
     private String appointmentTotalIntendedFteQuantity;
+    private Integer salaryMonths;
+    private Integer salaryAmount;
+    private BigDecimal percentAmount;
+
+
     private Integer amountChange;
     private BigDecimal percentChange;
-    
-    //not sure where it is from
+
+    // not sure where it is from
     private String positionFte;
 
     // Total parts
-   
+
     private Integer totalPersonPositionCsfAmount;
     private Integer totalPersonAppointmentRequestedAmount;
     private String totalPersonPositionCsfFteQuantity;
     private String totalPersonAppointmentRequestedFteQuantity;
     private Integer totalPersonAmountChange;
     private BigDecimal totalPersonPercentChange;
-    
-   
+
+
     private Integer totalOrgPositionCsfAmount;
     private Integer totalOrgAppointmentRequestedAmount;
     private String totalOrgPositionCsfFteQuantity;
     private String totalOrgAppointmentRequestedFteQuantity;
     private Integer totalOrgAmountChange;
     private BigDecimal totalOrgPercentChange;
-        
- 
-    
-    
-    
+
 
     /**
      * Gets the consHdr
@@ -233,22 +221,6 @@ public class BudgetConstructionOrgSalarySummaryReport {
     }
 
 
-    public String getAppointmentRequestedCsfFteQuantity() {
-        return appointmentRequestedCsfFteQuantity;
-    }
-
-    public void setAppointmentRequestedCsfFteQuantity(String appointmentRequestedCsfFteQuantity) {
-        this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
-    }
-
-    public String getAppointmentRequestedFteQuantity() {
-        return appointmentRequestedFteQuantity;
-    }
-
-    public void setAppointmentRequestedFteQuantity(String appointmentRequestedFteQuantity) {
-        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
-    }
-    
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
@@ -273,45 +245,6 @@ public class BudgetConstructionOrgSalarySummaryReport {
         this.appointmentFundingDurationCode = appointmentFundingDurationCode;
     }
 
-    public Integer getAppointmentFundingMonth() {
-        return appointmentFundingMonth;
-    }
-
-    public void setAppointmentFundingMonth(Integer appointmentFundingMonth) {
-        this.appointmentFundingMonth = appointmentFundingMonth;
-    }
-
-    public Integer getAppointmentRequestedAmount() {
-        return appointmentRequestedAmount;
-    }
-
-    public void setAppointmentRequestedAmount(Integer appointmentRequestedAmount) {
-        this.appointmentRequestedAmount = appointmentRequestedAmount;
-    }
-
-    public Integer getAppointmentRequestedCsfAmount() {
-        return appointmentRequestedCsfAmount;
-    }
-
-    public void setAppointmentRequestedCsfAmount(Integer appointmentRequestedCsfAmount) {
-        this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
-    }
-
-    public BigDecimal getAppointmentRequestedCsfTimePercent() {
-        return appointmentRequestedCsfTimePercent;
-    }
-
-    public void setAppointmentRequestedCsfTimePercent(BigDecimal appointmentRequestedCsfTimePercent) {
-        this.appointmentRequestedCsfTimePercent = appointmentRequestedCsfTimePercent;
-    }
-
-    public BigDecimal getAppointmentRequestedTimePercent() {
-        return appointmentRequestedTimePercent;
-    }
-
-    public void setAppointmentRequestedTimePercent(BigDecimal appointmentRequestedTimePercent) {
-        this.appointmentRequestedTimePercent = appointmentRequestedTimePercent;
-    }
 
     public Integer getAppointmentTotalIntendedAmount() {
         return appointmentTotalIntendedAmount;
@@ -335,14 +268,6 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     public void setCsfAmount(Integer csfAmount) {
         this.csfAmount = csfAmount;
-    }
-
-    public String getCsfFullTimeEmploymentQuantity() {
-        return csfFullTimeEmploymentQuantity;
-    }
-
-    public void setCsfFullTimeEmploymentQuantity(String csfFullTimeEmploymentQuantity) {
-        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
     }
 
     public BigDecimal getCsfTimePercent() {
@@ -391,23 +316,6 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     public void setPositionSalaryPlanDefault(String positionSalaryPlanDefault) {
         this.positionSalaryPlanDefault = positionSalaryPlanDefault;
-    }
-
-    public BigDecimal getPositionStandardHoursDefault() {
-        return positionStandardHoursDefault;
-    }
-
-    public void setPositionStandardHoursDefault(BigDecimal positionStandardHoursDefault) {
-        this.positionStandardHoursDefault = positionStandardHoursDefault;
-    }
-
-    
-    public BigDecimal getAppointmentRequestedPayRate() {
-        return appointmentRequestedPayRate;
-    }
-
-    public void setAppointmentRequestedPayRate(BigDecimal appointmentRequestedPayRate) {
-        this.appointmentRequestedPayRate = appointmentRequestedPayRate;
     }
 
     public Integer getTotalOrgAmountChange() {
@@ -480,14 +388,6 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     public void setTotalPersonAppointmentRequestedFteQuantity(String totalPersonAppointmentRequestedFteQuantity) {
         this.totalPersonAppointmentRequestedFteQuantity = totalPersonAppointmentRequestedFteQuantity;
-    }
-
-    public String getCsfFundingStatusCode() {
-        return csfFundingStatusCode;
-    }
-
-    public void setCsfFundingStatusCode(String csfFundingStatusCode) {
-        this.csfFundingStatusCode = csfFundingStatusCode;
     }
 
     public BigDecimal getTotalPersonPercentChange() {
@@ -600,6 +500,38 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     public void setPersonSortCode(Integer personSortCode) {
         this.personSortCode = personSortCode;
+    }
+
+    public String getIuClassificationLevel() {
+        return iuClassificationLevel;
+    }
+
+    public void setIuClassificationLevel(String iuClassificationLevel) {
+        this.iuClassificationLevel = iuClassificationLevel;
+    }
+
+    public BigDecimal getPercentAmount() {
+        return percentAmount;
+    }
+
+    public void setPercentAmount(BigDecimal percentAmount) {
+        this.percentAmount = percentAmount;
+    }
+
+    public Integer getSalaryAmount() {
+        return salaryAmount;
+    }
+
+    public void setSalaryAmount(Integer salaryAmount) {
+        this.salaryAmount = salaryAmount;
+    }
+
+    public Integer getSalaryMonths() {
+        return salaryMonths;
+    }
+
+    public void setSalaryMonths(Integer salaryMonths) {
+        this.salaryMonths = salaryMonths;
     }
 
 

@@ -18,6 +18,8 @@
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
+<c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
+<c:set var="assetOrganizationAttributes" value="${DataDictionary.AssetOrganization.attributes}" />
 
 <kul:tab tabTitle="Asset Detail Information" defaultOpen="${!defaultTabHide}">		
     <div class="tab-container" align=center > 
@@ -43,10 +45,10 @@
 	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.agencyNumber}" property="document.asset.agencyNumber" readOnly="${!fullEntryMode}"/>
 	        </td>
 	      
-	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}"/></div></th>
+	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.organizationCode}"/></div></th>
 	        
 	        <td align=left valign=middle class="grid">
-	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}" property="document.asset.organizationOwnerAccount.organizationCode" readOnly="${!fullEntryMode}"/>  
+	           <kul:htmlControlAttribute attributeEntry="${accountAttributes.organizationCode}" property="document.asset.organizationOwnerAccount.organizationCode" readOnly="${!fullEntryMode}"/>  
 	        </td>
 	      </tr>
 	            
@@ -99,9 +101,9 @@
 	        <td align=left valign=middle class="grid">
 	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.capitalAssetTypeCode}" property="document.asset.capitalAssetTypeCode" readOnly="${!fullEntryMode}"/>  
 	        </td>
-	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.assetOrganization.organizationText}"/></div></th>
+	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetOrganizationAttributes.organizationText}"/></div></th>
 	        <td align=left valign=middle class="grid">
-	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.assetOrganization.organizationText}" property="document.asset.assetOrganization.organizationText" readOnly="${!fullEntryMode}"/>  
+	           <kul:htmlControlAttribute attributeEntry="${assetOrganizationAttributes.organizationText}" property="document.asset.assetOrganization.organizationText" readOnly="${!fullEntryMode}"/>  
 	        </td>
 	      </tr>
 	      <tr>

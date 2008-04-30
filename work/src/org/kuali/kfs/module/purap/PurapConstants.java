@@ -345,7 +345,6 @@ public class PurapConstants extends JstlConstants {
 
     // PAYMENT REQUEST
     public static final String PAYMENT_REQUEST_ACTION_NAME = "PaymentRequest";
-    public static final int PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS = 10;
     public static final String PREQ_PAY_DATE_DAYS = "days";
     public static final String PREQ_PAY_DATE_DATE = "date";
     public static final int PREQ_PAY_DATE_EMPTY_TERMS_DEFAULT_DAYS = 28;

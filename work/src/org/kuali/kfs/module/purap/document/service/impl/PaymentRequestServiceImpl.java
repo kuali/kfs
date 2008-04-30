@@ -585,9 +585,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // calculate the invoice + processed calendar
         Calendar invoicedDateCalendar = dateTimeService.getCalendar(invoiceDate);
         Calendar processedDateCalendar = dateTimeService.getCurrentCalendar();
+        
         // add default number of days to processed
-        processedDateCalendar.add(Calendar.DAY_OF_MONTH, PurapConstants.PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
-
+        String defaultDays = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
+        processedDateCalendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(defaultDays));
+        
         if (ObjectUtils.isNull(terms) || StringUtils.isEmpty(terms.getVendorPaymentTermsCode())) {
             invoicedDateCalendar.add(Calendar.DAY_OF_MONTH, PurapConstants.PREQ_PAY_DATE_EMPTY_TERMS_DEFAULT_DAYS);
             return returnLaterDate(invoicedDateCalendar, processedDateCalendar);
@@ -925,7 +927,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
-
         /*
          * The user is an approver of the document,
          */
@@ -1356,4 +1357,4 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         return hasActivePreqs;
     }
-}
+            }

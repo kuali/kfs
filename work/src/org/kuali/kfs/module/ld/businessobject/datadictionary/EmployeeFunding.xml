@@ -38,6 +38,7 @@
         <ref bean="EmployeeFunding-csfFundingStatusCode" />
         <ref bean="EmployeeFunding-csfFullTimeEmploymentQuantity" />
         <ref bean="EmployeeFunding-dummyBusinessObject.pendingEntryOption" />
+        <ref bean="EmployeeFunding-dummyBusinessObject.blankLineOption" />
       </list>
     </property>
     <property name="relationships" >
@@ -178,6 +179,11 @@
   <bean id="EmployeeFunding-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
     <property name="name" value="dummyBusinessObject.pendingEntryOption" />
   </bean>
+  
+  <bean id="EmployeeFunding-dummyBusinessObject.blankLineOption" parent="EmployeeFunding-dummyBusinessObject.blankLineOption-parentBean" />
+  <bean id="EmployeeFunding-dummyBusinessObject.blankLineOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-blankLineOption">
+    <property name="name" value="dummyBusinessObject.blankLineOption" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -237,6 +243,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.pendingEntryOption"
               p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dummyBusinessObject.blankLineOption"
+              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.BlankLineOptionFinder" />
       </list>
     </property>
     <property name="resultFields" >

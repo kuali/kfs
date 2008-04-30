@@ -34,6 +34,10 @@ public final class Constant {
     public static final String AMOUNT_VIEW_OPTION = "dummyBusinessObject.amountViewOption";
     public static final String MONTHLY = "Monthly";
     public static final String ACCUMULATE = "Accumulate";
+    
+    public static final String BLANK_LINE_OPTION = "dummyBusinessObject.blankLineOption";
+    public static final String SHOW_BLANK_LINE = "Yes";
+    public static final String NOT_SHOW_BLANK_LINE = "No";
 
     public static final String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
     public static final String COST_SHARE_EXCLUDE = "Exclude";

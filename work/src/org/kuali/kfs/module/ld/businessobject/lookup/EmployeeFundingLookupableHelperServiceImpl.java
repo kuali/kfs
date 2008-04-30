@@ -71,6 +71,9 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        
+        boolean showBlankLine = this.showBlankLines(fieldValues);
+        fieldValues.remove(Constant.BLANK_LINE_OPTION);
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
@@ -80,6 +83,16 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
         Collection<EmployeeFunding> searchResultsCollection = laborLedgerBalanceService.findEmployeeFundingWithCSFTracker(fieldValues, isConsolidated);
 
+        if(!showBlankLine) {
+            Collection<EmployeeFunding> tempSearchResultsCollection = new ArrayList<EmployeeFunding>();
+            for (EmployeeFunding employeeFunding : searchResultsCollection) {
+                if(employeeFunding.getCurrentAmount().isNonZero() || employeeFunding.getOutstandingEncumbrance().isNonZero()) {
+                    tempSearchResultsCollection.add(employeeFunding);
+                }
+            }
+            searchResultsCollection = tempSearchResultsCollection;
+        }
+        
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
 
@@ -87,6 +100,11 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         Long actualSize = new Long(searchResultsCollection.size());
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
+    }
+
+    private boolean showBlankLines(Map fieldValues) {
+        String pendingEntryOption = (String) fieldValues.get(Constant.BLANK_LINE_OPTION);        
+        return Constant.SHOW_BLANK_LINE.equals(pendingEntryOption) ? true : false;
     }
 
     /**

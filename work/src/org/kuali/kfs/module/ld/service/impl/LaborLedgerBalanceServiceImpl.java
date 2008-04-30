@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -154,9 +155,9 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
 
             if (currentFundsCollection.contains(encumbranceFunding)) {
                 int index = currentFundsCollection.indexOf(encumbranceFunding);
-                currentFundsCollection.get(index).setOutstandingEncumbrance(encumbranceFunding.getOutstandingEncumbrance());
+                currentFundsCollection.get(index).setOutstandingEncumbrance(encumbrance);
             }
-            else {
+            else if(encumbrance != null && encumbrance.isNonZero()){
                 currentFundsCollection.add(encumbranceFunding);
             }
         }
@@ -187,10 +188,8 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
                 currentFunds.setCsfAmount(CSFTrackerAsEmployeeFunding.getCsfAmount());
                 currentFunds.setCsfFullTimeEmploymentQuantity(CSFTrackerAsEmployeeFunding.getCsfFullTimeEmploymentQuantity());
             }
-            else {
-                currentFundsCollection.add(CSFTrackerAsEmployeeFunding);
-            }
         }
+
         return currentFundsCollection;
     }
 

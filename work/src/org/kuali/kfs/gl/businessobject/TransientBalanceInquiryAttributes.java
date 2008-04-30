@@ -30,6 +30,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     private String consolidationOption;
     private String amountViewOption;
     private String costShareOption;
+    private String blankLineOption;
     private String linkButtonOption;
     private KualiDecimal genericAmount;
     private String genericText;
@@ -253,5 +254,23 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
      */
     public void setGenericText(String genericText) {
         this.genericText = genericText;
+    }
+
+    /**
+     * Gets the blankLineOption attribute.
+     * 
+     * @return Returns the blankLineOption.
+     */
+    public String getBlankLineOption() {
+        return blankLineOption;
+    }
+
+    /**
+     * Sets the blankLineOption attribute value.
+     * 
+     * @param blankLineOption The blankLineOption to set.
+     */
+    public void setBlankLineOption(String blankLineOption) {
+        this.blankLineOption = blankLineOption;
     }
 }

@@ -56,6 +56,10 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.FundingSource&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
+			<portal:portalLink displayTitle="true" title="Item Reason Added"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ItemReasonAdded&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		<li>
 			<portal:portalLink displayTitle="true" title="Item Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ItemType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

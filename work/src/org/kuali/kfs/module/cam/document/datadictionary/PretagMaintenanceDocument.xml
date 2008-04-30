@@ -38,10 +38,10 @@
         <value>lineItemNumber</value>
       </list>
     </property>
-    <property name="label" value="Pre Asset Tagging" />
-    <property name="shortLabel" value="Pre Asset Tagging" />
-    <property name="summary" value="Pre Asset Tagging maintenance document" />
-    <property name="description" value="Document used to create or update Pre Asset Tagging" />
+    <property name="label" value="Pre-Asset Tagging" />
+    <property name="shortLabel" value="Pre-Asset Tagging" />
+    <property name="summary" value="Pre-Asset Tagging maintenance document" />
+    <property name="description" value="Document used to create or update Pre-Asset Tagging" />
     <property name="documentTypeName" value="PretagMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.cams.rules.PretagRule" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
@@ -66,8 +66,8 @@
   <bean id="PretagMaintenanceDocument-EditPreAssetTagging" parent="PretagMaintenanceDocument-EditPreAssetTagging-parentBean" />
 
   <bean id="PretagMaintenanceDocument-EditPreAssetTagging-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Pre Asset Tagging" />
-    <property name="title" value="Edit Pre Asset Tagging" />
+    <property name="id" value="Edit Pre-Asset Tagging" />
+    <property name="title" value="Edit Pre-Asset Tagging" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
@@ -123,8 +123,8 @@
   <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails" parent="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean" />
 
   <bean id="PretagMaintenanceDocument-EditListofPreAssetTaggingDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit List of Pre Asset Tagging Details" />
-    <property name="title" value="Edit List of Pre Asset Tagging Details" />
+    <property name="id" value="Edit List of Pre-Asset Tagging Details" />
+    <property name="title" value="Edit List of Pre-Asset Tagging Details" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableCollectionDefinition">

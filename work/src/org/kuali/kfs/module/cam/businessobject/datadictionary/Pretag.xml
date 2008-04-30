@@ -474,7 +474,7 @@
   <bean id="Pretag-lookupDefinition" parent="Pretag-lookupDefinition-parentBean" />
 
   <bean id="Pretag-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Pretag Lookup" />
+    <property name="title" value="Pre-Asset Tagging Lookup" />
     <property name="instructions" value="Look up a Pretag" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

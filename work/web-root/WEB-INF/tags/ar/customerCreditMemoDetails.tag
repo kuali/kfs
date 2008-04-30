@@ -37,18 +37,16 @@
 				<kul:htmlAttributeHeaderCell literalLabel="Open Invoice Amount" />				
 			    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
 			</tr>
-			<%--
 			<logic:iterate
 				id="customerCreditMemoDetail"
 				name="KualiForm"
-				property="document.customerCreditMemoDetails"
+				property="document.creditMemoDetails"
 				indexId="ctr">
 						<ar:customerCreditMemoDetail
 							invPropertyName="document.invoice.sourceAccountingLines[${ctr}]"
-							crmPropertyName="document.customerCreditMemoDetails[${ctr}]" 
+							crmPropertyName="document.creditMemoDetails[${ctr}]" 
 			        		cssClass="datacell" />
 			</logic:iterate>
-			--%>
 			<tr>
 				<td class="total-line" colspan="6">
 					<strong>Credit Memo Total:</strong>

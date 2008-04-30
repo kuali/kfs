@@ -89,8 +89,8 @@
 	<!--  Open Invoice Amount -->
 	<td align=right class="${cssClass}">
 		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.openInvoiceItemAmount}"
-			property="${crmPropertyName}.openInvoiceItemAmount"
+			attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemAmount}"
+			property="${crmPropertyName}.invoiceOpenItemAmount"
 			readOnly="true" />
 
 	<!--  Actions -->

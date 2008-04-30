@@ -1,5 +1,6 @@
 package org.kuali.module.ar.document;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,6 +25,11 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
 
     private CustomerInvoiceDocument invoice;
     private List<CustomerCreditMemoDetail> creditMemoDetails;
+    
+    public CustomerCreditMemoDocument(){
+        super();
+        creditMemoDetails = new ArrayList<CustomerCreditMemoDetail>();
+    }
 
     /**
      * Gets the creditMemoDetails attribute. 

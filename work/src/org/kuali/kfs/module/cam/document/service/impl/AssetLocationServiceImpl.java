@@ -29,6 +29,7 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.service.AssetLocationService;
+import org.kuali.module.cams.service.AssetLocationService.LocationField;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
 
@@ -181,34 +182,36 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     private boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode) {
         boolean valid = true;
 
-        // If contact name field is defined
-        if (fieldMap.get(LocationField.CONTACT_NAME) != null && StringUtils.isBlank(contactName)) {
+        if (isBlank(fieldMap, LocationField.CONTACT_NAME, contactName)) {
             putError(fieldMap, LocationField.CONTACT_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CONTACT_REQUIRED);
             valid &= false;
         }
 
-        if (StringUtils.isBlank(streetAddress)) {
+        if (isBlank(fieldMap, LocationField.STREET_ADDRESS, streetAddress)) {
             putError(fieldMap, LocationField.STREET_ADDRESS, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ADDRESS_REQUIRED);
             valid &= false;
         }
-        if (StringUtils.isBlank(cityName)) {
+        if (isBlank(fieldMap, LocationField.CITY_NAME, cityName)) {
             putError(fieldMap, LocationField.CITY_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CITY_REQUIRED);
             valid &= false;
         }
-        if (StringUtils.isBlank(stateCode)) {
+        if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
             putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);
             valid &= false;
         }
-        if (StringUtils.isBlank(zipCode)) {
+        if (isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
             putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ZIP_REQUIRED);
             valid &= false;
         }
-        // If contact name field is defined
-        if (fieldMap.get(LocationField.COUNTRY_CODE) != null && StringUtils.isBlank(countryCode)) {
+        if (isBlank(fieldMap, LocationField.COUNTRY_CODE, countryCode)) {
             putError(fieldMap, LocationField.COUNTRY_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_COUNTRY_REQUIRED);
             valid &= false;
         }
         return valid;
+    }
+
+    private boolean isBlank(Map<LocationField, String> fieldMap, LocationField field, String countryCode) {
+        return fieldMap.get(field) != null && StringUtils.isBlank(countryCode);
     }
 
     private String readPropertyValue(BusinessObject currObject, Map<LocationField, String> fieldMap, LocationField field) {
@@ -224,4 +227,6 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         }
         return stringValue;
     }
+
+
 }

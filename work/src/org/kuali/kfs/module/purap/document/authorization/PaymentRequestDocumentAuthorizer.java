@@ -38,6 +38,7 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -162,7 +163,8 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             flags.setCanDisapprove(false);
         }
         else {
-            if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName())) {
+            if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName()) ||
+                 StringUtils.equals(paymentRequestDocument.getStatusCode(),PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW)) {
                 flags.setCanDisapprove(false);
             }
 

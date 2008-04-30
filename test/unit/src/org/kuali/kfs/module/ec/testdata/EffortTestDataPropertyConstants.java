@@ -49,9 +49,16 @@ public class EffortTestDataPropertyConstants {
     public static final String NUM_OF_EXPECTED_DETAILS_WITH_A21_SUB_ACCOUNT = "numOfExpectedDetailsWithA21SubAccount";
     public static final String NUM_OF_EXPECTED_DETAILS_WITHOUT_A21_SUB_ACCOUNT = "numOfExpectedDetailsWithoutA21SubAccount";
     public static final String NUM_OF_EXPECTED_DOCUMENTS = "numOfExpectedDocuments";
+    public static final String NUM_OF_EXPECTED_GROUPS = "numOfExpectedGroups";
     public static final String POSTING_YEAR = "postingYear";
     public static final String REPORT_DEFINITION_FIELD_NAMES = "reportDefinitionFieldNames";
     public static final String REPORT_DEFINITION_FIELD_VALUES = "reportDefinitionFieldValues";
     public static final String REPORT_NUMBER = "reportNumber";
     public static final String SUB_FUND_GROUPS = "subFundGroups";
+    public static final String SUMMARY_LINE = "summaryLine";
+    public static final String DELEGATE_LINE = "delegateLine";
+    public static final String EXPECTED_SUMMARY_LINE = "expectedSummaryLine";
+    public static final String EXPECTED_DELEGATE_LINE = "expectedDelegateLine";   
+    public static final String CONSOLIDATION_FIELD_NAMES = "consolidationFieldNames";
+    public static final String NEW_EFFORT_PERCENT = "newEffortPercent";
 }

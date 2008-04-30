@@ -101,7 +101,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
         AssetGlobalDetail newAssetGlobalDetail = null;
-
+        if (assetSharedDetails != null){
+            assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber()); 
+        }
+        
         for (AssetGlobalDetail locationDetail : assetSharedDetails) {
             List<AssetGlobalDetail> assetGlobalUniqueDetails = locationDetail.getAssetGlobalUniqueDetails();
 

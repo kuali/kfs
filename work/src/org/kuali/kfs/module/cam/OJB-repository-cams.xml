@@ -284,9 +284,7 @@
 	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.module.cams.bo.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetObjectCode" table="CM_CPTLAST_OBJ_T">

@@ -21,14 +21,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
 import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
@@ -57,7 +52,7 @@ public class DetailLineGroupTest extends KualiTestBase {
     }
     
     /**
-     * test the constructor with a single parameter
+     * test the constructor with a single parameter: EffortCertificationDetail
      */
     public void testConstructor_WithOneParameter() throws Exception {
         String testTarget = "constructor.withOneParameter.";
@@ -155,14 +150,14 @@ public class DetailLineGroupTest extends KualiTestBase {
     }
     
     /**
-     * build a list of expected detail lines for the specified test target
+     * build a list of detail lines for the specified test data
      */
     private List<EffortCertificationDetail> buildDetailLines(String testTarget, String propertyKeyPrefix, int numberOfDetails) {
         return TestDataPreparator.buildTestDataList(EffortCertificationDetail.class, properties, testTarget + propertyKeyPrefix, detailFieldNames, deliminator, numberOfDetails);
     }
     
     /**
-     * build a list of expected detail lines for the specified test target
+     * build a detail line for the specified test data
      */
     private EffortCertificationDetail buildDetailLine(String testTarget, String propertyKeyPrefix) {
         return TestDataPreparator.buildTestDataObject(EffortCertificationDetail.class, properties, testTarget + propertyKeyPrefix, detailFieldNames, deliminator);

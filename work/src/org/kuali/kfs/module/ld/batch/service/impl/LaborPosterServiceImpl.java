@@ -264,7 +264,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
             numberOfSelectedOriginEntry++;
         }
+        int numberOfBypassedOriginEntry = numberOfOriginEntries - numberOfSelectedOriginEntry;
+        
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ, numberOfOriginEntries, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.BYPASS, numberOfBypassedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);

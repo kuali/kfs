@@ -152,7 +152,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgPositionFundingDetailReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
         orgPositionFundingDetailReportEntry.setFinancialObjectCode(positionFundingDetail.getFinancialObjectCode());
-       
+        orgPositionFundingDetailReportEntry.setObjectCodes(objectCodes);
     }
 
 

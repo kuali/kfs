@@ -123,8 +123,8 @@ public class DetailLineGroupTest extends KualiTestBase {
     /**
      * all detail lines are consolidated into multiple groups
      */
-    public void testGroupDetailLines_MutilpleGroups() throws Exception {
-        String testTarget = "groupDetailLines.mutilpleGroups.";
+    public void testGroupDetailLines_MultipleGroups() throws Exception {
+        String testTarget = "groupDetailLines.multipleGroups.";
         List<String> consolidationKeyFields = ObjectUtil.split(consolidationFieldNames, deliminator);
 
         int numberOfDetails = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DETAILS)));

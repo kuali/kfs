@@ -592,8 +592,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             PurApAccountingLine lastAccount = null;
 
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getExtendedPrice().toString()))));
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getExtendedPrice().toString()))));
+                }
+                else {
+                    account.setAmount(KualiDecimal.ZERO);
+                }
                 accountTotal = accountTotal.add(account.getAmount());
                 lastAccount = account;
             }

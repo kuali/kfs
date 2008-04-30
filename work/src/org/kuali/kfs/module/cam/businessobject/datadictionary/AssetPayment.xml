@@ -1256,7 +1256,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingYear" />
         <bean parent="FieldDefinition"
-              p:attributeName="asset.capitalAssetDescription"/>
+              p:attributeName="asset.capitalAssetDescription"
+              p:noLookup="true" />              
         <bean parent="FieldDefinition"
               p:attributeName="asset.campusCode" />
         <bean parent="FieldDefinition"
@@ -1280,7 +1281,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="asset.capitalAssetDescription"/>
+              p:attributeName="asset.capitalAssetDescription"
+              p:noInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"

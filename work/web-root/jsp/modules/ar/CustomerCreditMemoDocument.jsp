@@ -20,10 +20,10 @@
 	htmlFormAction="arCustomerCreditMemoDocument" renderMultipart="true"
 	showTabButtons="true">
 	
-	<!--  value should be replaced with variable -->
 	<c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
 	
 	<kul:hiddenDocumentFields />
+	<html:hidden property="document.statusCode" />
 
 	<!--  Display 1st screen -->
 	<c:if test="${displayInitTab}" >

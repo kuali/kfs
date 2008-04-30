@@ -30,7 +30,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.NonAppliedHolding;
@@ -149,7 +148,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         Options options = optionsService.getCurrentYearOptions();
 
         // build an accounting line that will be used to create the glpe
-        accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
         String documentType = documentTypeService.getDocumentTypeCodeByClass(CashReceiptDocument.class);
         // create and add the new explicit entry based on this accounting line
@@ -185,20 +184,12 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         if (ObjectUtils.isNull(systemInformation)) {
             return false;
         }
-        String rootChartOfAccountsCode = chartService.getUniversityChart().getChartOfAccountsCode();
-        // get system information for the root chart of accounts and WIRE (organization code)
-        SystemInformation wireSystemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, rootChartOfAccountsCode, ArConstants.WIRE_ORG);
-
-        // if no system information return false; glpes cannot be created
-        if (ObjectUtils.isNull(wireSystemInformation)) {
-            return false;
-        }
 
         // get current year oprions
         Options options = optionsService.getCurrentYearOptions();
 
         // build dummy accounting line for gl population
-        accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
         String documentType = documentTypeService.getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class);
         // create and add the new explicit entry based on this accounting line
@@ -207,7 +198,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
         // build dummy accounting line for gl creation
-        accountingLine = buildAccountingLine(wireSystemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        accountingLine = buildAccountingLine(systemInformation.getWireAccountNumber(), systemInformation.getWireSubAccountNumber(), systemInformation.getWireObjectCode(), systemInformation.getWireSubObjectCode(), systemInformation.getWireChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
         // create and add the offset entry
@@ -245,32 +236,32 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         Options options = optionsService.getCurrentYearOptions();
 
         // build dummy accounting line for gl creation
-        accountingLine = buildAccountingLine(systemInformation, systemInformation.getCreditCardObjectCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getCreditCardObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         //get document type for the glpes
         String documentType = documentTypeService.getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class);
         // create and add the new explicit entry based on this accounting line
         createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
 
         // build dummy accounting line for gl creation
-        accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), systemInformation.getUniversityClearingSubObjectCode(), systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // create and add the new explicit entry based on this accounting line
         createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
 
         return success;
     }
-    
+
     /**
      * @see org.kuali.module.ar.service.CashControlDocumentService#getLockboxNumber(org.kuali.module.ar.document.CashControlDocument)
      */
     public String getLockboxNumber(CashControlDocument cashControlDocument) {
-        
+
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         String chartOfAccountsCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, chartOfAccountsCode, processingOrgCode);
-        
+
         return (systemInformation == null) ? null : systemInformation.getLockboxNumber();
-        
+
     }
 
     /**
@@ -281,7 +272,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @param amount The amount
      * @return The created accounting line
      */
-    private AccountingLine buildAccountingLine(SystemInformation systemInformation, String objectCode, String debitOrCredit, KualiDecimal amount) {
+    private AccountingLine buildAccountingLine(String accountNumber, String subAccountNumber, String objectCode, String subObjectCode, String chartOfAccountsCode, String debitOrCredit, KualiDecimal amount) {
 
         AccountingLine accountingLine = null;
 
@@ -296,11 +287,11 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
         }
 
-        accountingLine.setAccountNumber(systemInformation.getUniversityClearingAccountNumber());
+        accountingLine.setAccountNumber(accountNumber);
         accountingLine.setFinancialObjectCode(objectCode);
-        accountingLine.setSubAccountNumber(systemInformation.getUniversityClearingSubAccountNumber());
-        accountingLine.setChartOfAccountsCode(systemInformation.getUniversityClearingChartOfAccountsCode());
-        accountingLine.setFinancialSubObjectCode(systemInformation.getUniversityClearingSubObjectCode());
+        accountingLine.setSubAccountNumber(subAccountNumber);
+        accountingLine.setChartOfAccountsCode(chartOfAccountsCode);
+        accountingLine.setFinancialSubObjectCode(subObjectCode);
         accountingLine.setDebitCreditCode(debitOrCredit);
         accountingLine.setAmount(amount);
 
@@ -363,7 +354,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         return success;
     }
-    
 
 
     /**
@@ -501,6 +491,5 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-
 
 }

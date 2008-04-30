@@ -98,4 +98,11 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetDepreciableLifeLimitZero(Asset asset) {
         return asset.getCapitalAssetType().getDepreciableLifeLimit().intValue() == 0;
     }
+    
+    public boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2) {
+        if (capitalAssetNumber1!= null && capitalAssetNumber2!= null && capitalAssetNumber1.compareTo(capitalAssetNumber2) == 0) {
+            return true;
+        }
+        return false;
+    }
 }

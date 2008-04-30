@@ -78,4 +78,13 @@ public interface AssetService {
      * @return
      */
     boolean isAssetDepreciableLifeLimitZero(Asset asset);
+    
+    /**
+     * 
+     * Test two capitalAssetNumber equal.
+     * @param capitalAssetNumber1
+     * @param capitalAssetNumber2
+     * @return
+     */
+    boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2);
 }

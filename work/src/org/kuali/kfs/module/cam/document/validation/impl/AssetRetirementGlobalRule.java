@@ -125,9 +125,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
 
                 success &= checkRetirementDetailOneLine(detail, assetRetirementGlobal);
-                if (success) {
-                    success &= validateActiveCapitalAsset(detail);
-                }
+
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
 
                 success &= validatePendingDocument(detail);
@@ -136,33 +134,42 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    private boolean checkDuplicateAssetNumberWithTarget(AssetRetirementGlobalDetail detail, AssetRetirementGlobal assetRetirementGlobal) {
-        if (detail.getCapitalAssetNumber() != null && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() != null && detail.getCapitalAssetNumber().compareTo(assetRetirementGlobal.getMergedTargetCapitalAssetNumber()) == 0) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_DUPLICATE_CAPITAL_ASSET_NUMBER_WITH_TARGET, detail.getCapitalAssetNumber().toString());
-            return false;
-        }
-        return true;
-    }
 
     /**
      * 
-     * This method validates one asset each call.
+     * This method validates one asset is a valid asset and no duplicate with target asset when merge.
      * 
      * @param detail
      * @return
      */
-    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail detail, AssetRetirementGlobal assetRetirementGlobal) {
+    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail assetRetirementGlobalDetail, AssetRetirementGlobal assetRetirementGlobal) {
+        boolean success = true;
+        
+        assetRetirementGlobalDetail.refreshReferenceObject("asset");
+        if (!(detailHasValidAsset(assetRetirementGlobalDetail) && validateActiveCapitalAsset(assetRetirementGlobalDetail.getAsset(), assetRetirementGlobalDetail.getCapitalAssetNumber()))) {
+            success = false;
+        }
+
+        // Check for Merge Asset, no duplicate capitalAssetNumber between "from" and "to".
+        if (success && assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() != null && assetService.isCapitalAssetNumberDuplicate(assetRetirementGlobalDetail.getCapitalAssetNumber(), assetRetirementGlobal.getMergedTargetCapitalAssetNumber())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_DUPLICATE_CAPITAL_ASSET_NUMBER_WITH_TARGET, assetRetirementGlobalDetail.getCapitalAssetNumber().toString());
+            success = false;
+        }
+        return success;
+    }
+
+    /**
+     * Check if AssetRetirementGlobalDetail has a valid Asset BO
+     * 
+     * @param assetRetirementGlobalDetail
+     * @return
+     */
+    private boolean detailHasValidAsset(AssetRetirementGlobalDetail assetRetirementGlobalDetail) {
         boolean success = true;
 
-        if (StringUtils.isNotBlank(detail.getCapitalAssetNumber().toString())) {
-            detail.refreshReferenceObject("asset");
-            if (detail.getAsset() == null) {
-                success = false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_CAPITAL_ASSET_NUMBER, detail.getCapitalAssetNumber().toString());
-            }
-            else {
-                success &= checkDuplicateAssetNumberWithTarget(detail, assetRetirementGlobal);
-            }
+        if (assetRetirementGlobalDetail.getAsset() == null) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_CAPITAL_ASSET_NUMBER, assetRetirementGlobalDetail.getCapitalAssetNumber().toString());
         }
         return success;
     }
@@ -170,11 +177,10 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     private boolean assetRetirementValidation(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
-
+        
         if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             valid &= validateMergeTargetAsset(assetRetirementGlobal);
         }
-
         valid &= validateRequiredSharedInfoFields(assetRetirementGlobal);
 
         valid &= validateRetirementDetails(assetRetirementGlobal);
@@ -182,11 +188,20 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * 
+     * Validate mergedTargetCapitalAsset is valid and active capital asset.
+     * @param assetRetirementGlobal
+     * @return
+     */
     private boolean validateMergeTargetAsset(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
-        if (assetRetirementGlobal.getMergedTargetCapitalAssetNumber() == null || assetRetirementGlobal.getMergedTargetCapitalAsset() == null) {
+        if (assetRetirementGlobal.getMergedTargetCapitalAsset() == null) {
             putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_MERGED_TARGET_ASSET_NUMBER, assetRetirementGlobal.getMergedTargetCapitalAssetNumber() == null ? "" : assetRetirementGlobal.getMergedTargetCapitalAssetNumber().toString());
             valid = false;
+        }
+        else {
+            valid &= validateActiveCapitalAsset(assetRetirementGlobal.getMergedTargetCapitalAsset(), assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
         }
         return valid;
     }
@@ -203,17 +218,15 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param detail
      * @return
      */
-    private boolean validateActiveCapitalAsset(AssetRetirementGlobalDetail detail) {
+    private boolean validateActiveCapitalAsset(Asset asset, Long capitalAssetNumber) {
         boolean valid = true;
 
-        Asset asset = detail.getAsset();
-
         if (!assetService.isCapitalAsset(asset)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_CAPITAL_ASSET_RETIREMENT, new String[] { detail.getCapitalAssetNumber().toString() });
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_CAPITAL_ASSET_RETIREMENT, capitalAssetNumber.toString());
             valid = false;
         }
         else if (assetService.isAssetRetired(asset)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, new String[] { detail.getCapitalAssetNumber().toString() });
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, capitalAssetNumber.toString());
             valid = false;
         }
 

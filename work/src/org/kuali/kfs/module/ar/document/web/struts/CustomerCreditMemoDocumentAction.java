@@ -15,9 +15,18 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
+import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -37,4 +46,22 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         super.createDocument(kualiDocumentFormBase);
         ((CustomerCreditMemoDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
+    
+    /**
+     * Clears out init tab.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward clearInitTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
+        customerCreditMemoDocument.clearInitFields();
+        
+        return super.refresh(mapping, form, request, response);
+    }   
 }

@@ -105,12 +105,14 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         return financialDocumentReferenceInvoiceNumber;
     }
 
-
     /**
      * Sets the financialDocumentReferenceInvoiceNumber attribute value.
      * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
      */
     public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
+        if (financialDocumentReferenceInvoiceNumber != null) {
+            financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber.toUpperCase();
+        }
         this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
     }
     
@@ -158,6 +160,23 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+    
+    /**
+     * Clear out the initially populated fields.
+     */
+    public void clearInitFields() {
+        LOG.debug("clearDocument() started");
+
+        // Clearing document overview fields
+        /*
+        getDocumentHeader().setFinancialDocumentDescription(null);
+        getDocumentHeader().setExplanation(null);
+        getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        getDocumentHeader().setOrganizationDocumentNumber(null);
+        */
+        // Clearing document Init fields
+        setFinancialDocumentReferenceInvoiceNumber(null);
     }
 
 

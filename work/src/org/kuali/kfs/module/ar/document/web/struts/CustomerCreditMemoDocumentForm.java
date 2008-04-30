@@ -131,7 +131,7 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
         if (getEditingMode().containsKey(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB)) {
             if (getEditingMode().get(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
                 addExtraButton("", externalImageURL + "buttonsmall_continue.gif", "Continue");
-                addExtraButton("", externalImageURL + "buttonsmall_clear.gif", "Clear");
+                addExtraButton("methodToCall.clearInitTab", externalImageURL + "buttonsmall_clear.gif", "Clear");
             }
         }
         return extraButtons;

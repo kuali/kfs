@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
@@ -63,10 +63,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         criteria.put("organizationCode", document.getBilledByOrganizationCode());
         OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
         
-        document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
-        document.setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
+        if( ObjectUtils.isNotNull( organizationOptions ) ){
+            document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
+            document.setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
+        }
         
-        //If document is using receivable option, set receivable accounting line for customer invioce document
+        //If document is using receivable option, set receivable accounting line for customer invoice document
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption );
         if ( isUsingReceivableFAU ){

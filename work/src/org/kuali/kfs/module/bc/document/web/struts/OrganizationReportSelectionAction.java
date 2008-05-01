@@ -108,6 +108,8 @@ public class OrganizationReportSelectionAction extends KualiAction {
 
         // a few reports go just against the account control table, therefore we are ready to run the report
         if (ReportSelectMode.ACCOUNT.equals(reportMode.reportSelectMode)) {
+            // fixed null point exception of operationgModeTitle. 
+            organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.NONE_SELECTION_TITLE);
             return performReport(mapping, form, request, response);
         }
 
@@ -277,6 +279,21 @@ public class OrganizationReportSelectionAction extends KualiAction {
                 SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).updateSalarySummaryReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
                 reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
                 break;
+            /*case SALARY_STATISTICS_REPORT:
+                SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).updateSalaryStatisticsReport(personUserIdentifier, universityFiscalYear);
+                reportData = SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+                
+            case REASON_STATISTICS_REPORT:
+                SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+                
+            case TWOPLG_LIST_REPORT:
+                SpringContext.getBean(BudgetConstructionList2PLGReportService.class).updateList2PLGReport(personUserIdentifier, universityFiscalYear);
+                reportData = SpringContext.getBean(BudgetConstructionList2PLGReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;*/
+                
         }
 
         return reportData;

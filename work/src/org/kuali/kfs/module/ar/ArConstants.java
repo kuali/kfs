@@ -155,6 +155,7 @@ public class ArConstants {
     
     public static class CustomerCreditMemoStatuses {
         public static final String INITIATE = "INIT";
+        public static final String IN_PROCESS = "INPR";
     }
 
     //TODO: this has to be removed when it will be set up as part of bootstrap data

@@ -20,15 +20,52 @@
               
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 
+<%-- generate unique tab key from invPropertyName --%>
+<c:set var="tabKey" value="${kfunc:generateTabKey(invPropertyName)}"/>
+<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
+
+<%-- default to closed --%>
+<c:choose>
+    <c:when test="${empty currentTab}">
+        <c:set var="isOpen" value="false" />
+    </c:when>
+    <c:when test="${!empty currentTab}" >
+        <c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+    </c:when>
+</c:choose>
+
+<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+
 <tr>
     <td colspan="9" style="padding: 0px;">
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
             <tr>
-                <td class="tab-subhead" style="border-right: none;">Accounting Information 
-                   <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                <td class="tab-subhead" style="border-right: none;">Accounting Information
+                	<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}"> 
+                		<html:image property="methodToCall.toggleTab.tab${tabKey}" 
+                        			src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" 
+                                    alt="hide" title="toggle" styleClass="tinybutton"
+                                    styleId="tab-${tabKey}-imageToggle"
+                                    onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                    </c:if>
+                    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+                    	<html:image property="methodToCall.toggleTab.tab${tabKey}"
+                    				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif"
+                    				alt="show" title="toggle" styleClass="tinybutton"
+                    				styleId="tab-${tabKey}-imageToggle"
+                    				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                 	</c:if>
                 </td>
             </tr>
-        </table>    
+        </table>
+        
+        <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+            <div style="display: block;" id="tab-${tabKey}-div" class="accountingInfo">
+        </c:if>
+        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+            <div style="display: none;" id="tab-${tabKey}-div" class="accountingInfo">
+        </c:if>
+        
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
         	<tr>
         		<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}" />
@@ -89,8 +126,7 @@
 						property="${invPropertyName}.organizationReferenceId"
 						readOnly="true"/>
 				</td> 
-			</tr> 
-          </table>
-        </div>
+			</tr>
+         </table>    
     </td>
 </tr>

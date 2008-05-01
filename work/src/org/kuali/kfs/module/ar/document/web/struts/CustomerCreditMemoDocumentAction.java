@@ -27,6 +27,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
@@ -36,6 +37,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentActionBase {
     
     public CustomerCreditMemoDocumentAction() {
+        
         super();
     }
     
@@ -46,6 +48,7 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        
         super.createDocument(kualiDocumentFormBase);
         ((CustomerCreditMemoDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
@@ -61,6 +64,7 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      * @return An ActionForward
      */
     public ActionForward clearInitTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
         customerCreditMemoDocument.clearInitFields();
@@ -69,8 +73,8 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
     }   
     
     /**
-     * Handles continue request. This request comes from the initial screen which gives indicates whether the type is payment
-     * request, purchase order, or vendor. Based on that, the credit memo is initially populated and the remaining tabs shown.
+     * Handles continue request. This request comes from the initial screen which gives ref. invoice number.
+     * Based on that, the customer credit memo is initially populated.
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -80,38 +84,30 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      * @return An ActionForward
      */
     public ActionForward continueCreditMemo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerCreditMemoDocumentForm cmForm = (CustomerCreditMemoDocumentForm) form;
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) cmForm.getDocument();
+        
+        CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
 
         /*
-        // preform duplicate check which will forward to a question prompt if one is found
-        ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
-        if (forward != null) {
-
-            return forward;
-        }*/
-
-        /*
-        // perform validation of init tab
-        SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(creditMemoDocument);
-
-        // sort below the line (doesn't really need to be done on CM, but will help if we ever bring btl from other docs)
-        SpringContext.getBean(PurapService.class).sortBelowTheLine(creditMemoDocument);
-
-        // update the counts on the form
-        cmForm.updateItemCounts();
+         1. perform validation of init tab: check if invoice ref. number is valid
+         2. check if there is already an open customer credit memo for the referenced invoice
+            (only one customer credit memo is allowed per invoice)
         */
+
+        customerCreditMemoDocument.setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
         
-        customerCreditMemoDocument.setStatusCode("INPR");
-        
-        //1. try saving the document, to see if invoice reference is populated automatically
-        //SpringContext.getBean(DocumentService.class).saveDocument(customerCreditMemoDocument);
-        //2. explicitly refresh invoice object
+        /*
+         Qiestions:
+         1. try saving the document, to see if invoice reference is populated automatically
+            SpringContext.getBean(DocumentService.class).saveDocument(customerCreditMemoDocument);
+         2. explicitly refresh invoice object
+         */
         customerCreditMemoDocument.refreshReferenceObject("invoice");
         
+        // initialize creditMemoDetails
         List<SourceAccountingLine> invoiceDetails = customerCreditMemoDocument.getInvoice().getSourceAccountingLines();
-        
         CustomerCreditMemoDetail customerCreditMemoDetail;
+        
         for( SourceAccountingLine invoiceDetail : invoiceDetails ){
             customerCreditMemoDetail = new CustomerCreditMemoDetail();
             customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);

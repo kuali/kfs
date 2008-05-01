@@ -25,10 +25,10 @@
 
 <tr>
 	<!--  Line Number -->
-	<td align=right class="${cssClass}" rowspan="3">
+	<td align=right class="${cssClass}" rowspan="4">
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.referenceInvoiceItemNumber}"
-			property="${crmPropertyName}.referenceInvoiceItemNumber"
+			property="${invPropertyName}.sequenceNumber"
 			readOnly="true" />
 	<!--  Quantity -->	
 	<td align=right class="${cssClass}">
@@ -94,7 +94,7 @@
 			readOnly="true" />
 
 	<!--  Actions -->
-	<td rowspan="3"><div align="center" class="middle" >
+	<td rowspan="4"><div align="center" class="middle" >
 		<html:image property=""
 	    	src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 	    	title="Recalculate Credit Memo Line Amounts"
@@ -102,7 +102,7 @@
 	        styleClass="tinybutton" />
 	    &nbsp;
 		<html:image property=""
-	    	src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+	    	src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
 	    	title="Refresh Credit Memo Line"
 	    	alt="Refresh Credit Memo Line"
 	        styleClass="tinybutton" />
@@ -117,10 +117,13 @@
 			property="${crmPropertyName}.creditMemoItemQuantity"
 			readOnly="false" />
 	</td>
-	<td class="${cssClass}" />
 	
 	<!--  CRM 4 empty columns -->
-	<td class="${cssClass}" colspan="4" />
+	<td class="${cssClass}" />
+	<td class="${cssClass}" />
+	<td class="${cssClass}" />
+	<td class="${cssClass}" />
+
 	
 	<!--  CRM Item Amount -->
 	<td align=right class="${cssClass}">
@@ -137,10 +140,9 @@
 			property="${crmPropertyName}.creditMemoItemTaxAmount"
 			readOnly="true" />
 	</td>
-	<td class="${cssClass}" />
 	
 	<!--  CRM Total Amount -->
-	<td align=right class="${cssClass}">
+	<td align=right class="${cssClass}" colspan="1">
 		<kul:htmlControlAttribute 
 			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoLineTotalAmount}"
 			property="${crmPropertyName}.creditMemoLineTotalAmount"

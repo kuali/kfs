@@ -14,7 +14,9 @@ import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CustomerCreditMemoDocument extends AccountingDocumentBase {
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
+    
     private String statusCode;
     
     private String documentNumber;
@@ -174,13 +176,6 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     public void clearInitFields() {
         LOG.debug("clearDocument() started");
 
-        // Clearing document overview fields
-        /*
-        getDocumentHeader().setFinancialDocumentDescription(null);
-        getDocumentHeader().setExplanation(null);
-        getDocumentHeader().setFinancialDocumentTotalAmount(null);
-        getDocumentHeader().setOrganizationDocumentNumber(null);
-        */
         // Clearing document Init fields
         setFinancialDocumentReferenceInvoiceNumber(null);
     }

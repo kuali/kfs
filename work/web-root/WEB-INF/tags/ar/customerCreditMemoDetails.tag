@@ -63,7 +63,7 @@
 	                            styleClass="tinybutton" />
 	                &nbsp;
 					<html:image property=""
-	    						src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+	    						src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
 	    						title="Refresh Credit Memo Line"
 	    						alt="Refresh Credit Memo Line"
 	                            styleClass="tinybutton" />

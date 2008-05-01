@@ -52,9 +52,12 @@ import org.kuali.module.budget.service.BudgetConstructionAccountFundingDetailRep
 import org.kuali.module.budget.service.BudgetConstructionAccountObjectDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService;
+import org.kuali.module.budget.service.BudgetConstructionList2PLGReportService;
 import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionPositionFundingDetailReportService;
+import org.kuali.module.budget.service.BudgetConstructionReasonStatisticsReportService;
+import org.kuali.module.budget.service.BudgetConstructionSalaryStatisticsReportService;
 import org.kuali.module.budget.service.BudgetConstructionSalarySummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
@@ -108,6 +111,8 @@ public class OrganizationReportSelectionAction extends KualiAction {
 
         // a few reports go just against the account control table, therefore we are ready to run the report
         if (ReportSelectMode.ACCOUNT.equals(reportMode.reportSelectMode)) {
+            // fixed null point exception of operationgModeTitle. 
+            organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.NONE_SELECTION_TITLE);
             return performReport(mapping, form, request, response);
         }
 
@@ -276,6 +281,20 @@ public class OrganizationReportSelectionAction extends KualiAction {
             case SALARY_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).updateSalarySummaryReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
                 reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+            case SALARY_STATISTICS_REPORT:
+                SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).updateSalaryStatisticsReport(personUserIdentifier, universityFiscalYear);
+                reportData = SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+                
+            case REASON_STATISTICS_REPORT:
+                SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+                
+            case TWOPLG_LIST_REPORT:
+                SpringContext.getBean(BudgetConstructionList2PLGReportService.class).updateList2PLGReport(personUserIdentifier, universityFiscalYear);
+                reportData = SpringContext.getBean(BudgetConstructionList2PLGReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
                 break;
         }
 

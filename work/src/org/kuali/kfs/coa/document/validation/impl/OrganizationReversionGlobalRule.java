@@ -227,40 +227,15 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         for (int i = 0; i < globalOrgRev.getOrganizationReversionGlobalDetails().size(); i++) {
             OrganizationReversionGlobalDetail detail = globalOrgRev.getOrganizationReversionGlobalDetails().get(i);
             
-                String errorPath = MAINTAINABLE_ERROR_PREFIX + "organizationReversionGlobalDetails[" + i + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-            
-            success &= this.checkDetailObjectCodeAndReversionCodeBothPresentOrNot(detail);
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + "organizationReversionGlobalDetails[" + i + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+
             if (!StringUtils.isBlank(detail.getOrganizationReversionObjectCode()) && !StringUtils.isBlank(detail.getOrganizationReversionCode())) {
                 success &= this.checkDetailOrgReversionCategoryValidity(detail);
                 success &= this.checkDetailObjectCodeValidity(globalOrgRev, detail);
                 success &= this.checkDetailObjectReversionCodeValidity(detail);
             }
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
-            }
-        return success;
-        }
-
-    /**
-     * For a detail record, checks whether the object code and the organization reversion code are both filled in/selected
-     * or both blank.
-     * 
-     * @param detail OrganizationReversionGlobalDetail to check
-     * @return @return true if both filled in or both blank, false if otherwise
-     */
-    protected boolean checkDetailObjectCodeAndReversionCodeBothPresentOrNot(OrganizationReversionGlobalDetail detail) {
-        // both blank, or both filled in, so isBlank must return the same result for both of the values
-        boolean success = StringUtils.isBlank(detail.getOrganizationReversionObjectCode()) == StringUtils.isBlank(detail.getOrganizationReversionCode());
-        if (!success) {
-            if (StringUtils.isBlank(detail.getOrganizationReversionObjectCode())) {
-                GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", 
-                        KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_OBJECT_CODE_IS_BLANK_WHEN_ORG_REVERSION_CODE_IS_NOT);
-            }
-            if (StringUtils.isBlank(detail.getOrganizationReversionCode())) {
-                GlobalVariables.getErrorMap().putError("organizationReversionCode", 
-                        KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_ORG_REVERSION_CODE_IS_BLANK_WHEN_OBJECT_CODE_IS_NOT);                
-            }
-            
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
         }
         return success;
     }

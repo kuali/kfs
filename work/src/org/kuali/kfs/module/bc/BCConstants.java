@@ -191,6 +191,7 @@ public class BCConstants extends JstlConstants {
         public final static String CONSOLIIDATED = "Consolidated";
         public final static String NONE = "NONE";
         // selection screen
+        public final static String NONE_SELECTION_TITLE = "";
         public final static String SUB_FUND_SELECTION_TITLE = "Sub-Fund List Selection";
         public final static String OBJECT_CODE_SELECTION_TITLE = "Salary Object List Selection";
         public final static String REASON_CODE_SELECTION_TITLE = "Reason Code Selection";

@@ -456,7 +456,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * This method returns true if invoice detail unit price is greater than zero
+     * This method returns true if invoice detail unit price is greater than zero.  Boolean isDiscountAction is used to determine if
+     * validation is coming from add source accounting line event or discount event.
      * 
      * @param customerInvoiceDetail
      * @return
@@ -467,7 +468,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
      // if amount is = 0
         if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.equals(unitPrice) ) { 
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         } else {
             //else if unit price is greater than or less than zero
@@ -594,7 +595,9 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     public boolean processDiscountCustomerInvoiceDetailRules(AccountingDocument financialDocument, CustomerInvoiceDetail parentCustomerInvoiceDetail) {
 
         boolean success = true;
-        
+        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)financialDocument;
+        success &= isCustomerInvoiceDetailUnitPriceValid(parentCustomerInvoiceDetail, customerInvoiceDocument);
+        success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(parentCustomerInvoiceDetail);
         
         return success;
     }

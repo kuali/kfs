@@ -141,8 +141,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(customerInvoiceDetail);
         discountCustomerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
         discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
-        
-        discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX );
+        discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.DISCOUNT_PREFIX + StringUtils.trimToEmpty(customerInvoiceDetail.getInvoiceItemDescription()));
         
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", universityFiscalYear);

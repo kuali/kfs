@@ -162,5 +162,6 @@ public class ArConstants {
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
     public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
+    public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
 
 }

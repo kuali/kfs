@@ -414,7 +414,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     private Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> rearrangeOrganizationReversionDetailsAsMap() {
         Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> orgRevMap = new HashMap<OrganizationReversionCategory, OrganizationReversionGlobalDetail>();
         for (OrganizationReversionGlobalDetail orgRevDetail : this.getOrganizationReversionGlobalDetails()) {
-            if (!StringUtils.isBlank(orgRevDetail.getOrganizationReversionObjectCode()) && !StringUtils.isBlank(orgRevDetail.getOrganizationReversionCode())) {
+            if (!StringUtils.isBlank(orgRevDetail.getOrganizationReversionObjectCode()) || !StringUtils.isBlank(orgRevDetail.getOrganizationReversionCode())) {
                 orgRevMap.put(orgRevDetail.getOrganizationReversionCategory(), orgRevDetail);
             }
         }

@@ -6,13 +6,17 @@
       <parent>KualiPurapDocument</parent>
       <label>Contract Manager Assignment</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/purapAssignContractManager.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <policies>
         <policy>
-          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
+          <name>INITIATOR_MUST_ROUTE</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>INITIATOR_MUST_SAVE</name>
           <value>true</value>
         </policy>
         <policy>
@@ -20,11 +24,7 @@
           <value>true</value>
         </policy>
         <policy>
-          <name>INITIATOR_MUST_ROUTE</name>
-          <value>true</value>
-        </policy>
-        <policy>
-          <name>INITIATOR_MUST_SAVE</name>
+          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
           <value>true</value>
         </policy>
       </policies>

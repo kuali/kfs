@@ -7,9 +7,9 @@
       <description>The Purchasing &amp; Accounts Payable parent document type</description>
       <label>Purchasing &amp; Accounts Payable Parent Document</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApprovePolicy>NONE</blanketApprovePolicy>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_ADMINISTRATOR</defaultExceptionWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_BLANKET_APPROVERS</defaultExceptionWorkgroupName>
       <docHandler>none</docHandler>
       <active>true</active>
       <policies>

@@ -6,8 +6,8 @@
       <parent>KualiSimpleMaintenanceDocument</parent>
       <label>Budget Aggregation Code</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_TABLE_MAINTAINERS</blanketApproveWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_MAINTENANCE_REVIEWERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>

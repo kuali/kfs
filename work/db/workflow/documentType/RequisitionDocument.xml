@@ -6,8 +6,8 @@
       <parent>KualiPurapDocument</parent>
       <label>Requisition</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <attributes>
@@ -70,7 +70,8 @@
           <requests name="Content Review" nextNode="Sub Account Review" />
           <requests name="Sub Account Review" nextNode="Account Review" />
           <requests name="Account Review" nextNode="Org Review" />
-          <requests name="Org Review" nextNode="Separation of Duties" />
+          <requests name="Org Review" nextNode="Commodity Code Review" />
+          <requests name="Commodity Code Review" nextNode="Separation of Duties" />
           <requests name="Separation of Duties" />
         </routePath>
       </routePaths>
@@ -101,6 +102,12 @@
         <requests name="Org Review">
           <activationType>S</activationType>
           <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Commodity Code Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiPurApCommodityCodeTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>

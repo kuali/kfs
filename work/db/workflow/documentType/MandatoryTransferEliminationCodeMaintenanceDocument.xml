@@ -6,8 +6,8 @@
       <parent>KualiSimpleMaintenanceDocument</parent>
       <label>Mandatory Transfer Elimination</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_ROLE_MAINTENANCE</blanketApproveWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_MAINTAINENANCE_USERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>

@@ -6,27 +6,34 @@
       <parent>KualiFinancialDocument</parent>
       <label>Budget Adjustment</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
       <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>true</value>
+        </policy>
+      </policies>
       <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="Approval No Approval Split" />
-          <split name="Approval No Approval Split" nextNode="Award Workgroup">
+          <split name="Approval No Approval Split" nextNode="Do More Nothing">
             <branch name="ApprovalBranch">
               <requests name="Account Review" nextNode="Org Review" />
               <requests name="Org Review" nextNode="Subfund" />
-              <requests name="Subfund" nextNode="Join" />
+              <requests name="Subfund" nextNode="Award Workgroup" />
+              <requests name="Award Workgroup" nextNode="Join" />
             </branch>
             <branch name="NoApprovalBranch">
               <simple name="Do Nothing" nextNode="Join" />
             </branch>
             <join name="Join" />
           </split>
-          <requests name="Award Workgroup" />
+          <simple name="Do More Nothing" />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -59,6 +66,12 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>
+        <requests name="Award Workgroup">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
         <join name="Join">
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
@@ -70,12 +83,12 @@
           <finalApproval>false</finalApproval>
           <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
         </simple>
-        <requests name="Award Workgroup">
+        <simple name="Do More Nothing">
           <activationType>S</activationType>
-          <ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-        </requests>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
       </routeNodes>
     </documentType>
   </documentTypes>

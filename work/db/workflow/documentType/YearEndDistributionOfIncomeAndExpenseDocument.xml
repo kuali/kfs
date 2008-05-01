@@ -6,11 +6,45 @@
       <parent>KualiFinancialYearEndDocument</parent>
       <label>Year End Distribution Of Income And Expense</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Org Review" />
+          <requests name="Org Review" nextNode="Subfund" />
+          <requests name="Subfund" nextNode="Award Workgroup" />
+          <requests name="Award Workgroup" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Subfund">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiSubFundTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Award Workgroup">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
     </documentType>
   </documentTypes>
 </data>

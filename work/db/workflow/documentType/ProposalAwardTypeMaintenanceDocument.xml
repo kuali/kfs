@@ -6,9 +6,9 @@
       <parent>KualiMaintenanceDocument</parent>
       <label>Proposal Type</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>

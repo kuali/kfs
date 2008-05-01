@@ -7,9 +7,9 @@
       <description>Parent document of all Purchasing &amp; AP maintenance documents</description>
       <label>Kuali PurAp Maintenance Document</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_ADMINISTRATOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_BLANKET_APPROVERS</defaultExceptionWorkgroupName>
       <docHandler>none</docHandler>
       <active>true</active>
       <routingVersion>2</routingVersion>

@@ -6,9 +6,9 @@
       <parent>KualiPurapDocument</parent>
       <label>Payment Request</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_AP_DOCUMENT_SUPER_USERS</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_AP_DOCUMENT_BLANKET_APPROVERS</blanketApproveWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>PA_AP_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>PA_AP_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <attributes>

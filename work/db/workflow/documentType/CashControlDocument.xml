@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CashControlDocument</name>
+      <parent>KualiBaseDocument</parent>
+      <description>CashControlDocument</description>
+      <label>Cash Control</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/arCashControlDocument.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>true</value>
+        </policy>
+      </policies>
+      <routingVersion>1</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Lockbox" />
+          <requests name="Lockbox" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Lockbox">
+          <activationType>S</activationType>
+          <ruleTemplate>LockboxTemplate</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

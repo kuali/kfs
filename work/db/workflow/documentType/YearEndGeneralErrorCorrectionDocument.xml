@@ -6,16 +6,17 @@
       <parent>KualiFinancialYearEndDocument</parent>
       <label>Year End General Error Correction</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
-      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>
       <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="Org Review" />
-          <requests name="Org Review" nextNode="Award Workgroup" />
+          <requests name="Org Review" nextNode="Subfund" />
+          <requests name="Subfund" nextNode="Award Workgroup" />
           <requests name="Award Workgroup" />
         </routePath>
       </routePaths>
@@ -28,6 +29,12 @@
         <requests name="Org Review">
           <activationType>S</activationType>
           <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Subfund">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiSubFundTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>

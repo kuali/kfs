@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>EffortCertificationDocument</name>
+      <parent>KualiBaseDocument</parent>
+      <label>Effort Certification</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Project Director" />
+          <requests name="Project Director" nextNode="Account Review" />
+          <requests name="Account Review" nextNode="Org Review" />
+          <requests name="Org Review" nextNode="Do Award Split" />
+          <split name="Do Award Split" nextNode="Do Nothing">
+            <branch name="EffortDistributionIsChangedBranch">
+              <requests name="Award Workgroup" nextNode="Award Join" />
+            </branch>
+            <branch name="EffortDistributionIsNotChangedBranch">
+              <simple name="Award Do Nothing" nextNode="Award Join" />
+            </branch>
+            <join name="Award Join" />
+          </split>
+          <simple name="Do Nothing" nextNode="Do Recreate Split" />
+          <split name="Do Recreate Split" nextNode="Do Nothing Again">
+            <branch name="RecreateWorkgroupBranch">
+              <requests name="Recreate Workgroup" nextNode="Recreate Join" />
+            </branch>
+            <branch name="NoRecreateWorkgroupBranch">
+              <simple name="Recreate Do Nothing" nextNode="Recreate Join" />
+            </branch>
+            <join name="Recreate Join" />
+          </split>
+          <simple name="Do Nothing Again" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Project Director">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiProjectDirectorTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAccountTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <split name="Do Award Split">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.workflow.module.effort.node.DoEffortCertificationAwardRoutingSplitNode</type>
+        </split>
+        <requests name="Award Workgroup">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="Award Join">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="Award Do Nothing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="Do Nothing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
+        <split name="Do Recreate Split">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.workflow.module.effort.node.DoEffortCertificationRecreateRoutingSplitNode</type>
+        </split>
+        <requests name="Recreate Workgroup">
+          <activationType>S</activationType>
+          <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="Recreate Join">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="Recreate Do Nothing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
+        <simple name="Do Nothing Again">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

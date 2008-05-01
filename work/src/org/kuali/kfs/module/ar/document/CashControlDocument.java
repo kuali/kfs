@@ -5,8 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -15,21 +17,24 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.PaymentMedium;
 import org.kuali.module.ar.service.CashControlDocumentService;
-import org.kuali.module.ar.service.impl.CashControlDocumentServiceImpl;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends TransactionalDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource {
+public class CashControlDocument extends TransactionalDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
 
     private String referenceFinancialDocumentNumber;
     private Integer universityFiscalYear;
@@ -314,23 +319,68 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         return cashControlDetails.get(index);
     }
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     public void addPendingEntry(GeneralLedgerPendingEntry entry) {
         generalLedgerPendingEntries.add(entry);
 
     }
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
+     */
     public void clearAnyGeneralLedgerPendingEntries() {
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
 
     }
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        // TODO Auto-generated method stub
+        String documentType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class);
+        if (explicitEntry.getFinancialDocumentTypeCode().equalsIgnoreCase(documentType)) {
+            explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(postable));
+
+            // Clearing fields that are already handled by the parent algorithm - we don't actually want
+            // these to copy over from the accounting lines b/c they don't belong in the GLPEs
+            // if the aren't nulled, then GECs fail to post
+            explicitEntry.setReferenceFinancialDocumentNumber(null);
+            explicitEntry.setReferenceFinancialSystemOriginationCode(null);
+            explicitEntry.setReferenceFinancialDocumentTypeCode(null);
+        }
 
     }
 
+    /**
+     * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
+     * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
+     * 
+     * @param line accounting line
+     * @param transactionalDocument submitted accounting document
+     * @return String formatted string to be used for transaction ledger entry description
+     */
+    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail line) {
+        String description = "";
+        description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
+
+        if (StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {
+            description += ": " + line.getFinancialDocumentLineDescription();
+        }
+        else {
+            description += ": " + getDocumentHeader().getFinancialDocumentDescription();
+        }
+
+        if (description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {
+            description = description.substring(0, GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH - 3) + "...";
+        }
+
+        return description;
+    }
+
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -430,7 +480,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         }
         return generalLedgerPendingEntries.get(index);
     }
-    
+
     public String getLockboxNumber() {
         return lockboxNumber;
     }
@@ -446,5 +496,12 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         super.populateDocumentForRouting();
 
     }
-    
+
+    /**
+     * @see org.kuali.kfs.document.ElectronicPaymentClaiming#declaimElectronicPaymentClaims()
+     */
+    public void declaimElectronicPaymentClaims() {
+        SpringContext.getBean(ElectronicPaymentClaimingService.class).declaimElectronicPaymentClaimsForDocument(this);
+    }
+
 }

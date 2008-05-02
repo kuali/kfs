@@ -18,6 +18,7 @@ package org.kuali.module.cams.document.authorization;
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -61,6 +62,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
             if (newAsset.getCapitalAssetNumber() == null) {
                 newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
                 oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+                newAsset.setCreateDate(new Date(new java.util.Date().getTime()));
             }
             // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
             // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections

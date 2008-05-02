@@ -117,6 +117,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRetirementGlobal> retirementGlobals;
     private ObjSubTyp financialObjectSubType;
     private AssetDepreciationConvention assetDepreciationConvention;
+    private AssetAcquisitionType acquisitionType;
 
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
@@ -1936,6 +1937,14 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setDepreciationDateCopy(Date depreciationDateCopy) {
         this.depreciationDateCopy = depreciationDateCopy;
     }
-    
-    
+
+    public AssetAcquisitionType getAcquisitionType() {
+        return acquisitionType;
+    }
+
+    public void setAcquisitionType(AssetAcquisitionType acquisitionType) {
+        this.acquisitionType = acquisitionType;
+    }
+
+
 }

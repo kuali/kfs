@@ -236,7 +236,10 @@
 	</reference-descriptor>	
 	<reference-descriptor name="assetDepreciationConvention" class-ref="org.kuali.module.cams.bo.AssetDepreciationConvention" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialObjectSubTypeCode" />
-	</reference-descriptor>	
+	</reference-descriptor>
+	<reference-descriptor name="acquisitionType" class-ref="org.kuali.module.cams.bo.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="acquisitionTypeCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_DOC_T">

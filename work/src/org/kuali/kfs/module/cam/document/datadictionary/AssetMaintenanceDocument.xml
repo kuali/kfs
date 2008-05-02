@@ -108,8 +108,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetTypeCode"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorName" />
+        <bean parent="MaintainableFieldDefinition" 
+        	  p:name="vendorName"
+        	  p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerName"
               p:required="false" />

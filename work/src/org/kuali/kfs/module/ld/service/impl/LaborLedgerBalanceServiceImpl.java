@@ -230,6 +230,14 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public Collection<LedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
         return laborLedgerBalanceDao.findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypeList, positionObjectGroupCodes);
     }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#deleteLedgerBalancesPriorToYear(java.lang.Integer, java.lang.String)
+     */
+    public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountCodes) {
+        // TODO Auto-generated method stub
+        
+    }
 
     /**
      * Sets the laborLedgerBalanceDao attribute value.

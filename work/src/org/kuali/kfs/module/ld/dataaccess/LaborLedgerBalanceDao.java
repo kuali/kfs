@@ -144,4 +144,12 @@ public interface LaborLedgerBalanceDao {
      * @return all ledger balances matching the given criteria within the given fiscal years
      */
     public Collection<LedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes);
+    
+    /**
+     * delete the ledger balance records that were posted prior to the given fiscal year
+     * 
+     * @param fiscalYear the given fiscal year
+     * @param chartOfAccountsCode the given chart of account code
+     */
+    public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountsCode);
 }

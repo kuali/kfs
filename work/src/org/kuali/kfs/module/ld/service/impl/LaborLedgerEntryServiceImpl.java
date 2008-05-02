@@ -72,6 +72,13 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     }
     
     /**
+     * @see org.kuali.module.labor.service.LaborLedgerEntryService#deleteLedgerEntriesPriorToYear(java.lang.Integer, java.lang.String)
+     */
+    public void deleteLedgerEntriesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
+        laborLedgerEntryDao.deleteLedgerEntriesPriorToYear(fiscalYear, chartOfAccountsCode);       
+    }
+    
+    /**
      * Sets the laborLedgerEntryDao attribute value.
      * 
      * @param laborLedgerEntryDao The laborLedgerEntryDao to set.

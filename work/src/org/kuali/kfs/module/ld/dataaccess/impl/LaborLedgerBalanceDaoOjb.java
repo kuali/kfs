@@ -51,11 +51,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -542,5 +539,19 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#deleteLedgerBalancesPriorToYear(java.lang.Integer, java.lang.String)
+     */
+    public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
+        LOG.debug("deleteLedgerBalancesPriorToYear() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+
+        QueryByCriteria query = new QueryByCriteria(LedgerBalance.class, criteria);
+        getPersistenceBrokerTemplate().deleteByQuery(query);       
     }
 }

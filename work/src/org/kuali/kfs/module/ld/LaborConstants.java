@@ -160,6 +160,11 @@ public class LaborConstants {
         public static final String ORIGINATION_CODE = "ORIGINATION";
         public static final String SUB_FUND_GROUP_PROCESSED = "SUB_FUND_GROUPS";
     }
+    
+    public static class PurgeJob{
+        public static final String PURGE_LEDGER_BALANCE_YEAR= "PRIOR_TO_YEAR";
+        public static final String PURGE_LEDGER_ENTRY_YEAR= "PRIOR_TO_YEAR";
+    }
 
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
 

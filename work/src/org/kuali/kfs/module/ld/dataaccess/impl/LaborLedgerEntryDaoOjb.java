@@ -31,7 +31,6 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 
@@ -41,6 +40,7 @@ import org.kuali.module.labor.dao.LaborLedgerEntryDao;
  * @see org.kuali.module.labor.bo.LedgerEntry
  */
 public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerEntryDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryDaoOjb.class);
 
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
@@ -125,9 +125,10 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
-    
+
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List, java.util.Map)
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List,
+     *      java.util.Map)
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         Criteria criteria = this.buildPayTypeCriteria(payPeriods, balanceTypes, earnCodePayGroupMap);
@@ -135,6 +136,21 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getCount(query) > 0;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#deleteLedgerEntriesPriorToYear(java.lang.Integer, java.lang.String)
+     */
+    public void deleteLedgerEntriesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
+        LOG.debug("deleteLedgerEntriesPriorToYear() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+
+        QueryByCriteria query = new QueryByCriteria(this.getEntryClass(), criteria);
+        getPersistenceBrokerTemplate().deleteByQuery(query);
+
     }
 
     // build the pay type criteria

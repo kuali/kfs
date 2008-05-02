@@ -74,4 +74,12 @@ public interface LaborLedgerEntryService {
      * @return true if the given employee was paid based on a set of specified pay type within the given report periods; otherwise, false
      */
     boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
+
+    /**
+     * delete the ledger entry records that were posted prior to the given fiscal year
+     * 
+     * @param fiscalYear the given fiscal year
+     * @param chartOfAccountsCode the given chart of account code
+     */
+    void deleteLedgerEntriesPriorToYear(Integer fiscalYear, String chartOfAccountsCode);
 }

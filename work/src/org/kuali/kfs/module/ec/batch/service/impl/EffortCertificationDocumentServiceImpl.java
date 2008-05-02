@@ -38,6 +38,7 @@ import org.kuali.core.util.spring.Logged;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.bo.Account;
@@ -326,6 +327,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param accountingLine the accounting line needed to be populated
      */
     private void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
+        accountingLine.setOverrideCode(AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED);
+        
         accountingLine.setChartOfAccountsCode(detailLine.getChartOfAccountsCode());
         accountingLine.setAccountNumber(detailLine.getAccountNumber());
         accountingLine.setSubAccountNumber(detailLine.getSubAccountNumber());

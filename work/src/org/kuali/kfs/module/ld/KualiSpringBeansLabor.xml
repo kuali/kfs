@@ -437,6 +437,33 @@
 		</property>
 	</bean>
 	
+	<bean id="laborPurgeEntryStep" class="org.kuali.module.labor.batch.LaborPurgeEntryStep" parent="step">
+		<property name="laborLedgerEntryService">
+			<ref bean="laborLedgerEntryService" />
+		</property>
+		<property name="chartService">
+			<ref bean="chartService" />
+		</property>
+	</bean>
+
+	<bean id="laborPurgeBalanceStep" class="org.kuali.module.labor.batch.LaborPurgeBalanceStep" parent="step">
+		<property name="laborLedgerBalanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>
+		<property name="chartService">
+			<ref bean="chartService" />
+		</property>
+	</bean>
+	
+	<bean id="laborPurgeJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborPurgeBalanceStep"/>
+				<ref bean="laborPurgeEntryStep"/>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="laborNightlyOutJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

@@ -63,6 +63,7 @@
 				<value>laborFeedJob</value>
 				<value>clearLaborPendingEntriesJob</value>
 				<value>laborBalanceForwardJob</value>
+				<value>laborPurgeJob</value>
 			</list>
 		</property>
 	</bean>

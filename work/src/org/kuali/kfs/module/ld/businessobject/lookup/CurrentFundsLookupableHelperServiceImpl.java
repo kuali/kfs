@@ -47,8 +47,9 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
+import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
 import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 
 /**
  * Service implementation for the CurrentFundsLookupableHelperServiceImpl class is the front-end for all current funds balance
@@ -70,6 +71,17 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
+            LedgerBalance balance = (LedgerBalance) bo;
+            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(propertyName, balance.getPositionNumber());
+
+            BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
+
+            return positionData == null ? KFSConstants.EMPTY_STRING : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+        }
         return (new CurrentFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

@@ -16,6 +16,7 @@
 package org.kuali.module.labor.web.lookupable;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,10 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker;
+import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
+import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 import org.kuali.module.labor.web.inquirable.PositionFundingInquirableImpl;
 
 public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -32,6 +37,17 @@ public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupab
      */
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
+        if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
+            CalculatedSalaryFoundationTracker CSFTracker = (CalculatedSalaryFoundationTracker) businessObject;
+            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(propertyName, CSFTracker.getPositionNumber());
+
+            BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
+
+            return positionData == null ? KFSConstants.EMPTY_STRING : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+        }
         return (new PositionFundingInquirableImpl()).getInquiryUrl(businessObject, propertyName);
     }
 

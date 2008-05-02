@@ -19,6 +19,7 @@ import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYP
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,11 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
+import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
+import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -55,6 +59,17 @@ public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHe
                 LedgerEntry entry = (LedgerEntry) businessObject;
                 return new InquirableFinancialDocument().getInquirableDocumentUrl(entry);
             }
+        }
+        else if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
+            LedgerEntry entry = (LedgerEntry) businessObject;
+            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(propertyName, entry.getPositionNumber());
+
+            BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
+
+            return positionData == null ? KFSConstants.EMPTY_STRING : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
         }
         return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
     }

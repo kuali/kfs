@@ -17,6 +17,7 @@ package org.kuali.module.labor.web.inquirable;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -82,12 +83,13 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
      */
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
-        List<PositionData> positionList = new ArrayList<PositionData>(getLookupService().findCollectionBySearch(getBusinessObjectClass(), fieldValues));
+        List<PositionData> positionList = new ArrayList<PositionData>(getLookupService().findCollectionBySearch(PositionData.class, fieldValues));
         SimpleDateFormat formatter = new SimpleDateFormat("MMddyyyy");
-        Date today = formatter.getCalendar().getInstance().getTime();
+
+        Date today = Calendar.getInstance().getTime();
         Date maxEffectiveDate = null;
+
         PositionData lookupValue = null;
-        
         for (PositionData position : positionList) {
             Date effectiveDate = position.getEffectiveDate();
             if (effectiveDate.compareTo(today) <= 0 && (maxEffectiveDate == null || effectiveDate.compareTo(maxEffectiveDate) > 0)) {
@@ -95,10 +97,10 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
                 lookupValue = position;
             }
         }
-        
+
         return lookupValue;
     }
-    
+
     /**
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyName(java.lang.String)
      */

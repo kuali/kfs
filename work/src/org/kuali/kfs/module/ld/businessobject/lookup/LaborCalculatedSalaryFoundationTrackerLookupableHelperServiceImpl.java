@@ -17,6 +17,7 @@ package org.kuali.module.labor.web.lookupable;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +26,12 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
+import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
 import org.kuali.module.labor.web.inquirable.LaborCalculatedSalaryFoundationTrackerInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 
 /**
  * The CSFTrackerBalanceLookupableHelperServiceImpl class is the front-end for all Calculated Salary Foundation balance inquiry
@@ -45,6 +49,17 @@ public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl e
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
+            CalculatedSalaryFoundationTracker CSFTracker = (CalculatedSalaryFoundationTracker) bo;
+            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(propertyName, CSFTracker.getPositionNumber());
+
+            BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
+
+            return positionData == null ? KFSConstants.EMPTY_STRING : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+        }
         return (new LaborCalculatedSalaryFoundationTrackerInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

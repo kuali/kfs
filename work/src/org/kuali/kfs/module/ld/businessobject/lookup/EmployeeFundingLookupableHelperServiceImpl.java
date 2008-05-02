@@ -21,6 +21,7 @@ import static org.kuali.module.labor.LaborConstants.BalanceInquiries.EMPLOYEE_FU
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,9 @@ import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.util.DebitCreditUtil;
+import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 
 /**
  * The EmployeeFundingLookupableHelperServiceImpl class is the front-end for all Employee Funding balance inquiry processing.
@@ -61,6 +62,18 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
+            EmployeeFunding employeeFunding = (EmployeeFunding) bo;
+            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(propertyName, employeeFunding.getPositionNumber());
+
+            BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
+
+            return positionData == null ? KFSConstants.EMPTY_STRING : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+        }
+
         return (new EmployeeFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
@@ -71,7 +84,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        
+
         boolean showBlankLine = this.showBlankLines(fieldValues);
         fieldValues.remove(Constant.BLANK_LINE_OPTION);
 
@@ -83,16 +96,16 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
         Collection<EmployeeFunding> searchResultsCollection = laborLedgerBalanceService.findEmployeeFundingWithCSFTracker(fieldValues, isConsolidated);
 
-        if(!showBlankLine) {
+        if (!showBlankLine) {
             Collection<EmployeeFunding> tempSearchResultsCollection = new ArrayList<EmployeeFunding>();
             for (EmployeeFunding employeeFunding : searchResultsCollection) {
-                if(employeeFunding.getCurrentAmount().isNonZero() || employeeFunding.getOutstandingEncumbrance().isNonZero()) {
+                if (employeeFunding.getCurrentAmount().isNonZero() || employeeFunding.getOutstandingEncumbrance().isNonZero()) {
                     tempSearchResultsCollection.add(employeeFunding);
                 }
             }
             searchResultsCollection = tempSearchResultsCollection;
         }
-        
+
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
 
@@ -103,7 +116,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     }
 
     private boolean showBlankLines(Map fieldValues) {
-        String pendingEntryOption = (String) fieldValues.get(Constant.BLANK_LINE_OPTION);        
+        String pendingEntryOption = (String) fieldValues.get(Constant.BLANK_LINE_OPTION);
         return Constant.SHOW_BLANK_LINE.equals(pendingEntryOption) ? true : false;
     }
 

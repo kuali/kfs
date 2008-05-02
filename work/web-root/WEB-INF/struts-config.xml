@@ -116,6 +116,7 @@
         <!-- CAMs Module Bean Definitions -->
         <form-bean name="AssetPaymentForm" type="org.kuali.module.cams.web.struts.form.AssetPaymentForm" />  
         <form-bean name="AssetTransferForm" type="org.kuali.module.cams.web.struts.form.AssetTransferForm" />
+        <form-bean name="EquipmentLoanOrReturnForm" type="org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm" />
         
         <!-- Effort Certification Bean Definitions -->
         <form-bean name="EffortCertificationForm" type="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />

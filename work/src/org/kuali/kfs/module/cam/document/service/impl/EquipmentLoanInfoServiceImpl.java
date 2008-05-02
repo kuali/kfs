@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
+import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 
@@ -47,16 +47,16 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
 
     public void setEquipmentLoanInfo(Asset asset) {
         List<AssetHeader> assetHeaders = asset.getAssetHeaders();
-        List<EquipmentLoanOrReturn> sortableList = new ArrayList<EquipmentLoanOrReturn>();
+        List<EquipmentLoanOrReturnDocument> sortableList = new ArrayList<EquipmentLoanOrReturnDocument>();
 
         for (AssetHeader assetHeader : assetHeaders) {
-            EquipmentLoanOrReturn equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturn();
+            EquipmentLoanOrReturnDocument equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturnDocument();
             if (equipmentLoanOrReturn != null && assetHeaderService.isDocumentApproved(assetHeader)) {
                 sortableList.add(equipmentLoanOrReturn);
             }
         }
-        Comparator<EquipmentLoanOrReturn> comparator = new Comparator<EquipmentLoanOrReturn>() {
-            public int compare(EquipmentLoanOrReturn o1, EquipmentLoanOrReturn o2) {
+        Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
+            public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
                 // sort descending based on loan date
                 return o2.getLoanDate().compareTo(o1.getLoanDate());
             }

@@ -15,11 +15,11 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjSubTyp;
-
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -128,7 +128,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRetirementGlobalDetail> mergeHistory;
     private KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
-    private EquipmentLoanOrReturn loanOrReturnInfo;
+    private EquipmentLoanOrReturnDocument loanOrReturnInfo;
     private AssetLocation offCampusLocation;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
@@ -1803,11 +1803,11 @@ public class Asset extends PersistableBusinessObjectBase {
         this.retirementInfo = retirementInfo;
     }
 
-    public EquipmentLoanOrReturn getLoanOrReturnInfo() {
+    public EquipmentLoanOrReturnDocument getLoanOrReturnInfo() {
         return loanOrReturnInfo;
     }
 
-    public void setLoanOrReturnInfo(EquipmentLoanOrReturn loanOrReturnInfo) {
+    public void setLoanOrReturnInfo(EquipmentLoanOrReturnDocument loanOrReturnInfo) {
         this.loanOrReturnInfo = loanOrReturnInfo;
     }
 

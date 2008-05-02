@@ -267,9 +267,11 @@
 	<field-descriptor name="createDate" column="CPTLAST_CRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="capitalAssetDepreciationDate" column="CPTL_AST_DEPR_DT" jdbc-type="DATE"/>
+	
 	<reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+	
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -592,7 +594,7 @@
 	<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
-
+	
 	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
@@ -870,7 +872,7 @@
     <reference-descriptor name="assetRetirementGlobal" class-ref="org.kuali.module.cams.bo.AssetRetirementGlobal" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="equipmentLoanOrReturn" class-ref="org.kuali.module.cams.bo.EquipmentLoanOrReturn" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="equipmentLoanOrReturnDocument" class-ref="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 </class-descriptor>
@@ -931,7 +933,7 @@
     </reference-descriptor>
     <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
+	</reference-descriptor>
     <!-- General ledger entries  -->
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
@@ -939,7 +941,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.EquipmentLoanOrReturn" table="CM_EQPLNRTRN_DOC_T">
+<class-descriptor class="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" table="CM_EQPLNRTRN_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -988,6 +990,9 @@
     <reference-descriptor name="borrowerStorageCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="borrowerStorageCountryCode" />
     </reference-descriptor>
+    <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.ComponentRepairHistory" table="CM_CACMP_RPRHIST_T">
@@ -1106,7 +1111,7 @@
 	</reference-descriptor>
 	<collection-descriptor name="assetRetirementGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
         <orderby name="capitalAssetNumber" sort="ASC" />
-		<inverse-foreignkey field-ref="documentNumber" />		
+		<inverse-foreignkey field-ref="documentNumber" />
 	</collection-descriptor>
 </class-descriptor>
 

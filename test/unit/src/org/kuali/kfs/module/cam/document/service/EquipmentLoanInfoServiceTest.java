@@ -21,7 +21,7 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
+import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.impl.AssetHeaderServiceImpl;
 import org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl;
 
@@ -47,10 +47,10 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
 
     private AssetHeader createAssetHeader(String docNumber, int daysToAdd) {
         AssetHeader assetHeader = new AssetHeader();
-        EquipmentLoanOrReturn loanOrReturn = new EquipmentLoanOrReturn();
+        EquipmentLoanOrReturnDocument loanOrReturn = new EquipmentLoanOrReturnDocument();
         loanOrReturn.setDocumentNumber(docNumber);
         loanOrReturn.setLoanDate(new java.sql.Date(DateUtils.addDays(new Date(), daysToAdd).getTime()));
-        assetHeader.setEquipmentLoanOrReturn(loanOrReturn);
+        assetHeader.setEquipmentLoanOrReturnDocument(loanOrReturn);
         return assetHeader;
     }
 

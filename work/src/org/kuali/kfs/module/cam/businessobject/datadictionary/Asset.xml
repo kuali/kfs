@@ -1284,79 +1284,79 @@
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" parent="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerUniversalUser.personName">
+  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personName">
     <property name="name" value="loanOrReturnInfo.borrowerUniversalUser.personName" />
     <property name="label" value="Name" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerAddress" parent="Asset-loanOrReturnInfo.borrowerAddress-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerAddress">
+  <bean id="Asset-loanOrReturnInfo.borrowerAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerAddress">
     <property name="name" value="loanOrReturnInfo.borrowerAddress" />
     <property name="label" value="Street" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerCityName" parent="Asset-loanOrReturnInfo.borrowerCityName-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerCityName">
+  <bean id="Asset-loanOrReturnInfo.borrowerCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCityName">
     <property name="name" value="loanOrReturnInfo.borrowerCityName" />
     <property name="label" value="City" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStateCode" parent="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStateCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStateCode" />
     <property name="label" value="State" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerZipCode" parent="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerZipCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerZipCode">
     <property name="name" value="loanOrReturnInfo.borrowerZipCode" />
     <property name="label" value="Zip Code" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerCountryCode" parent="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerCountryCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerCountryCode">
     <property name="name" value="loanOrReturnInfo.borrowerCountryCode" />
     <property name="label" value="Country" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber" parent="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerPhoneNumber">
+  <bean id="Asset-loanOrReturnInfo.borrowerPhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPhoneNumber">
     <property name="name" value="loanOrReturnInfo.borrowerPhoneNumber" />
     <property name="label" value="Phone" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress" parent="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageAddress">
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageAddress-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageAddress">
     <property name="name" value="loanOrReturnInfo.borrowerStorageAddress" />
     <property name="label" value="Street" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName" parent="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageCityName">
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCityName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCityName">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCityName" />
     <property name="label" value="City" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageStateCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageStateCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageStateCode" />
     <property name="label" value="State" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode" parent="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageZipCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageZipCode" />
     <property name="label" value="Zip Code" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode" parent="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStorageCountryCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountryCode" />
     <property name="label" value="Country" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber" parent="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturn-borrowerStoragePhoneNumber">
+  <bean id="Asset-loanOrReturnInfo.borrowerStoragePhoneNumber-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStoragePhoneNumber">
     <property name="name" value="loanOrReturnInfo.borrowerStoragePhoneNumber" />
     <property name="label" value="Phone" />
   </bean>

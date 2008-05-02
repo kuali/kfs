@@ -46,7 +46,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.AssetActions.LOAN);
+        actions.append(getLoanUrl(bo));
         actions.append("&nbsp;&nbsp;");
         actions.append(getMergeUrl(bo));
         actions.append("&nbsp;&nbsp;");
@@ -63,6 +63,11 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         // TODO use system parameter
         Asset asset = (Asset) bo;
         return "<a href=\"maintenance.do?methodToCall=newWithExisting&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal&" + KFSConstants.OVERRIDE_KEYS + "=retirementReasonCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "mergedTargetCapitalAssetNumber&docFormKey=88888888&retirementReasonCode=M&mergedTargetCapitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.MERGE + "</a>";
+    }
+
+    private String getLoanUrl(BusinessObject bo) {
+        Asset asset = (Asset) bo;
+        return "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>";
     }
 
     private String getTransferUrl(BusinessObject bo) {

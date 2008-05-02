@@ -156,7 +156,6 @@ public class GenesisServiceImpl implements GenesisService {
         if (GLUpdatesAllowed(BaseYear)) {
             genesisDao.updateToPBGL(BaseYear);
         }
-        genesisDao.initialLoadToPBGL(BaseYear);
         boolean CSFOK = CSFUpdatesAllowed(BaseYear);
         boolean PSSynchOK = BatchPositionSynchAllowed(BaseYear);
         budgetConstructionHumanResourcesPayrollInterfaceService.refreshBudgetConstructionPosition(BaseYear,PSSynchOK,CSFOK);

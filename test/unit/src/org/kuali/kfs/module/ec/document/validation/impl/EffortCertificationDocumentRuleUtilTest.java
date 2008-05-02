@@ -88,7 +88,7 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
         assertEquals(numberOfExpectedDetails, details.size());
 
         List<String> detailKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        detailKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        detailKeyFields.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         assertTrue(TestDataPreparator.hasSameElements(expectedDetails, details, detailKeyFields));
     }
 

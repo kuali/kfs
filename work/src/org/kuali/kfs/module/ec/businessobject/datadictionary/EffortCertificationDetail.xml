@@ -24,7 +24,7 @@
         <ref bean="EffortCertificationDetail-accountNumber" />
         <ref bean="EffortCertificationDetail-chartOfAccountsCode" />
         <ref bean="EffortCertificationDetail-subAccountNumber" />
-        <ref bean="EffortCertificationDetail-financialDocumentPostingYear" />
+        <ref bean="EffortCertificationDetail-universityFiscalYear" />
         <ref bean="EffortCertificationDetail-financialObjectCode" />
         <ref bean="EffortCertificationDetail-positionNumber" />
         <ref bean="EffortCertificationDetail-sourceAccountNumber" />
@@ -105,14 +105,14 @@
   <bean id="EffortCertificationDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="CS Sub-Acct" />
   </bean>
-  <bean id="EffortCertificationDetail-financialDocumentPostingYear" parent="EffortCertificationDetail-financialDocumentPostingYear-parentBean" />
+  <bean id="EffortCertificationDetail-universityFiscalYear" parent="EffortCertificationDetail-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationDetail-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
-    <property name="name" value="financialDocumentPostingYear" />
+  <bean id="EffortCertificationDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
     <property name="label" value="Financial Document Posting Year" />
     <property name="shortLabel" value="Posting Year" />
-    <property name="summary" value="financialDocumentPostingYear" />
-    <property name="description" value="financialDocumentPostingYear description..." />
+    <property name="summary" value="universityFiscalYear" />
+    <property name="description" value="universityFiscalYear description..." />
   </bean>
   <bean id="EffortCertificationDetail-financialObjectCode" parent="EffortCertificationDetail-financialObjectCode-parentBean" />
 
@@ -235,7 +235,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="documentNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentPostingYear" />
+                    p:attributeName="universityFiscalYear" />
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
@@ -285,7 +285,7 @@
               p:required="true"
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingYear" />
+              p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -307,7 +307,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="sourceAccountNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingYear" />
+              p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"

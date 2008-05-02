@@ -180,7 +180,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="effortCertificationOriginalPayrollAmount" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="financialDocumentPostingYear" />
+                          p:attributeName="universityFiscalYear" />
                   </list>
                 </property>
               </bean>

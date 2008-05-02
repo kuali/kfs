@@ -47,7 +47,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
     public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LaborLedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         EffortCertificationDetailBuild detailLine = new EffortCertificationDetailBuild();
 
-        detailLine.setFinancialDocumentPostingYear(postingYear);
+        detailLine.setUniversityFiscalYear(postingYear);
         detailLine.setAccountNumber(ledgerBalance.getAccountNumber());
         detailLine.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
 

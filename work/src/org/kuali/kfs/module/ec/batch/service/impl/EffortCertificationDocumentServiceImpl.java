@@ -333,7 +333,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setAccountNumber(detailLine.getAccountNumber());
         accountingLine.setSubAccountNumber(detailLine.getSubAccountNumber());
 
-        accountingLine.setPostingYear(detailLine.getFinancialDocumentPostingYear());
+        accountingLine.setPostingYear(detailLine.getUniversityFiscalYear());
         accountingLine.setFinancialObjectCode(detailLine.getFinancialObjectCode());
         accountingLine.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
 

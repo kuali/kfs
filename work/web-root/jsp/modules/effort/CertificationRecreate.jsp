@@ -54,7 +54,7 @@
 			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationOriginalPayrollAmount"
 				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent"				
-				hiddenFieldNames="universityFiscalYear,financialDocumentPostingYear,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount,costShareSourceSubAccountNumber,versionNumber"
+				hiddenFieldNames="universityFiscalYear,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount,costShareSourceSubAccountNumber,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"/>
 		</div>		

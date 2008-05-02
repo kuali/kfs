@@ -21,7 +21,7 @@
         <ref bean="EffortCertificationDetailBuild-effortCertificationPayrollAmount" />
         <ref bean="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent" />
         <ref bean="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent" />
-        <ref bean="EffortCertificationDetailBuild-financialDocumentPostingYear" />
+        <ref bean="EffortCertificationDetailBuild-universityFiscalYear" />
         <ref bean="EffortCertificationDetailBuild-accountNumber" />
         <ref bean="EffortCertificationDetailBuild-chartOfAccountsCode" />
         <ref bean="EffortCertificationDetailBuild-subAccountNumber" />
@@ -84,9 +84,9 @@
 
   <bean id="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent">
   </bean>
-  <bean id="EffortCertificationDetailBuild-financialDocumentPostingYear" parent="EffortCertificationDetailBuild-financialDocumentPostingYear-parentBean" />
+  <bean id="EffortCertificationDetailBuild-universityFiscalYear" parent="EffortCertificationDetailBuild-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationDetailBuild-financialDocumentPostingYear-parentBean" abstract="true" parent="EffortCertificationDetail-financialDocumentPostingYear">
+  <bean id="EffortCertificationDetailBuild-universityFiscalYear-parentBean" abstract="true" parent="EffortCertificationDetail-universityFiscalYear">
   </bean>
   <bean id="EffortCertificationDetailBuild-accountNumber" parent="EffortCertificationDetailBuild-accountNumber-parentBean" />
 
@@ -184,7 +184,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="costShareSourceSubAccountNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentPostingYear" />
+                    p:attributeName="universityFiscalYear" />
               <bean parent="FieldDefinition"
                     p:attributeName="effortCertificationUpdatedOverallPercent" />
               <bean parent="FieldDefinition"

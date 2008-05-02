@@ -123,7 +123,6 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         testDetailLine.setSourceAccountNumber("4831401");
         Integer testDate = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         testDetailLine.setUniversityFiscalYear(testDate);
-        testDetailLine.setFinancialDocumentPostingYear(testDate);
         testDetailLine.setEffortCertificationOriginalPayrollAmount(new KualiDecimal(100.00));
         //testDetailLine.setEffortCertificationPayrollAmount(new KualiDecimal(100.00));
         // Adding a note because duplicate documents are not permitted otherwise
@@ -143,7 +142,6 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         testDetailLine.setSourceChartOfAccountsCode("BL");
         testDetailLine.setSourceAccountNumber("4631483");
         testDetailLine.setUniversityFiscalYear(testDate);
-        testDetailLine.setFinancialDocumentPostingYear(testDate);
         testDetailLine.setEffortCertificationOriginalPayrollAmount(new KualiDecimal(100.00));
         effortCertificationDetailLines.add(testDetailLine);
         document.setEffortCertificationDetailLines(effortCertificationDetailLines);

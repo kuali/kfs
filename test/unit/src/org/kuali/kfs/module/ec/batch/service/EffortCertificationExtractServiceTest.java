@@ -302,7 +302,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         assertEquals(expectedDetailLines.size(), detailLinesBuild.size());
 
         List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        detailLineKeyFields.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
     }
 
@@ -446,7 +446,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DETAIL, detailFieldNames, deliminator, numberOfExpectedDetailLines);
 
         List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        detailLineKeyFields.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
     }
 
@@ -484,7 +484,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         assertEquals(expectedDetailLines.size(), detailLinesBuild.size());
 
         List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        detailLineKeyFields.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
     }
 

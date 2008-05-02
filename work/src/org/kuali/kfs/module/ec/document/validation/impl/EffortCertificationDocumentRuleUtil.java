@@ -84,7 +84,7 @@ public class EffortCertificationDocumentRuleUtil {
         }
 
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-        detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
+        detailLine.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
     }
 
     /**

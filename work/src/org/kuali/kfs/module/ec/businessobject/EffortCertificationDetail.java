@@ -57,8 +57,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer effortCertificationUpdatedOverallPercent;
     private String costShareSourceSubAccountNumber;
 
-    private Integer financialDocumentPostingYear;
-    private Integer universityFiscalYear; // hold the same value as financialDocumentPostingYear, but serve for a special purpose
+    private Integer universityFiscalYear;
 
     private KualiDecimal originalFringeBenefitAmount;
 
@@ -107,7 +106,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.effortCertificationPayrollAmount = effortCertificationDetail.getEffortCertificationPayrollAmount();
             this.effortCertificationCalculatedOverallPercent = effortCertificationDetail.getEffortCertificationCalculatedOverallPercent();
             this.effortCertificationUpdatedOverallPercent = effortCertificationDetail.getEffortCertificationUpdatedOverallPercent();
-            this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
+            this.universityFiscalYear = effortCertificationDetail.getUniversityFiscalYear();
             this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
             this.originalFringeBenefitAmount = effortCertificationDetail.getOriginalFringeBenefitAmount();
@@ -310,25 +309,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setEffortCertificationUpdatedOverallPercent(Integer effortCertificationUpdatedOverallPercent) {
         this.effortCertificationUpdatedOverallPercent = effortCertificationUpdatedOverallPercent;
-    }
-
-    /**
-     * Gets the financialDocumentPostingYear attribute.
-     * 
-     * @return Returns the financialDocumentPostingYear.
-     */
-    public Integer getFinancialDocumentPostingYear() {
-        return financialDocumentPostingYear;
-    }
-
-    /**
-     * Sets the financialDocumentPostingYear attribute value.
-     * 
-     * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
-     */
-    public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
-        this.financialDocumentPostingYear = financialDocumentPostingYear;
-        this.universityFiscalYear = financialDocumentPostingYear;
     }
 
     /**
@@ -640,7 +620,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
-        return this.getFinancialDocumentPostingYear();
+        return this.universityFiscalYear;
     }
 
     /**
@@ -846,7 +826,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public static KualiDecimal calculateFringeBenefit(EffortCertificationDetail detailLine, KualiDecimal payrollAmount) {
         LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
-        Integer fiscalYear = detailLine.getFinancialDocumentPostingYear();
+        Integer fiscalYear = detailLine.getUniversityFiscalYear();
         String chartOfAccountsCode = detailLine.getChartOfAccountsCode();
         String objectCode = detailLine.getFinancialObjectCode();
         

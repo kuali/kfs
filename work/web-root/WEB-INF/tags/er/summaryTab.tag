@@ -25,7 +25,7 @@
 	
 	<div class="tab-container" align=center>
 		<div class="h2-container"><h2>Add New Detail Line</h2></div>
-		<c:set var="newLineHiddenFieldNames" value="universityFiscalYear,financialDocumentPostingYear,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent,costShareSourceSubAccountNumber,fringeBenefitAmount,financialObjectCode,versionNumber"/>
+		<c:set var="newLineHiddenFieldNames" value="universityFiscalYear,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent,costShareSourceSubAccountNumber,fringeBenefitAmount,financialObjectCode,versionNumber"/>
 		<c:set var="newLineDetailFieldNames" value="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"/>
 		
 		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -55,7 +55,7 @@
 			attributes="${detailAttributes}"
 			detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"
 			detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"				
-			hiddenFieldNames="documentNumber,universityFiscalYear,financialDocumentPostingYear,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,costShareSourceSubAccountNumber,originalFringeBenefitAmount,fringeBenefitAmount,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
+			hiddenFieldNames="documentNumber,universityFiscalYear,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,costShareSourceSubAccountNumber,originalFringeBenefitAmount,fringeBenefitAmount,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
 			inquirableUrl="${KualiForm.summarizedDetailLineFieldInquiryUrl}"
 			fieldInfo="${KualiForm.summarizedDetailLineFieldInfo}"
 			sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"

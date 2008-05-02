@@ -30,7 +30,7 @@
 	<c:when test="${expenseEntry}">
 		<div class="tab-container" align=center>
 			<div class="h2-container"><h2>Add New Detail Line</h2></div>
-			<c:set var="newLineHiddenFieldNames" value="universityFiscalYear,financialDocumentPostingYear,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent,costShareSourceSubAccountNumber,fringeBenefitAmount,financialObjectCode,versionNumber"/>
+			<c:set var="newLineHiddenFieldNames" value="universityFiscalYear,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent,costShareSourceSubAccountNumber,fringeBenefitAmount,financialObjectCode,versionNumber"/>
 			<c:set var="newLineDetailFieldNames" value="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"/>
 			
 			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -59,7 +59,7 @@
 				attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,positionNumber,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount,originalFringeBenefitAmount,fringeBenefitAmount"
 				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount,originalFringeBenefitAmount,fringeBenefitAmount"				
-				hiddenFieldNames="documentNumber,universityFiscalYear,financialDocumentPostingYear,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
+				hiddenFieldNames="documentNumber,universityFiscalYear,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
 				sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
@@ -84,7 +84,7 @@
 				attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,positionNumber,sourceChartOfAccountsCode,sourceAccountNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount,originalFringeBenefitAmount,fringeBenefitAmount"
 				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount,originalFringeBenefitAmount,fringeBenefitAmount"				
-				hiddenFieldNames="documentNumber,universityFiscalYear,financialDocumentPostingYear,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
+				hiddenFieldNames="documentNumber,universityFiscalYear,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
 				ferderalTotalFieldNames="federalTotalOriginalEffortPercent,federalTotalEffortPercent,federalTotalOriginalPayrollAmount,federalTotalPayrollAmount,federalTotalOriginalFringeBenefit,federalTotalFringeBenefit" 

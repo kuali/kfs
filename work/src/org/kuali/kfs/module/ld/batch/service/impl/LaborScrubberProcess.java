@@ -404,7 +404,7 @@ public class LaborScrubberProcess {
                 }
 
                 if (transactionErrors.size() > 0) {
-                    scrubberReportErrors.put(scrubbedEntry, transactionErrors);
+                    scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
                 }
 
                 lastEntry = scrubbedEntry;

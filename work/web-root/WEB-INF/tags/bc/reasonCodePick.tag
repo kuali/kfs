@@ -83,7 +83,7 @@
 
 <div id="globalbuttons" class="globalbuttons">
 	<html:image
-		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+		src="${ConfigProperties.externalizable.images.url}buttonsmall_back.gif"
 		styleClass="globalbuttons" property="methodToCall.start" title="back"
 		alt="back" />
 	<html:image
@@ -140,7 +140,7 @@
 
 	<div id="globalbuttons" class="globalbuttons">
 		<html:image
-			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+			src="${ConfigProperties.externalizable.images.url}buttonsmall_back.gif"
 			styleClass="globalbuttons" property="methodToCall.start" title="back"
 			alt="back" />
 		<html:image

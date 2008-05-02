@@ -46,7 +46,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         StringBuilder sqlText = new StringBuilder(2500);
         sqlText.append("INSERT INTO ld_bcn_build_saltot01_mt \n");
         sqlText.append("(SESID, EMPLID, POSITION_NBR, SAL_AMT, SAL_PCT, SAL_MTHS, POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
-        sqlText.append("SELECT ?, bcaf.position_nbr, bcaf.emplid, bcaf.appt_rqst_amt, bcaf.appt_rqst_tm_pct, \n");
+        sqlText.append("SELECT ?, bcaf.emplid, bcaf.position_nbr, bcaf.appt_rqst_amt, bcaf.appt_rqst_tm_pct, \n");
         sqlText.append(" bcaf.appt_fnd_mo, bcsf.pos_csf_amt, bcsf.pos_csf_tm_pct, posn.iu_pay_months \n");
         sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN  ld_bcn_csf_trckr_t bcsf ON \n");
         sqlText.append(" ((bcaf.univ_fiscal_yr = bcsf.univ_fiscal_yr) AND \n");
@@ -82,7 +82,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
 
         sqlText.append("INSERT INTO ld_bcn_build_saltot01_mt \n");
         sqlText.append("(SESID, EMPLID, POSITION_NBR, SAL_AMT, SAL_PCT, SAL_MTHS, POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
-        sqlText.append("SELECT ?, bcaf.position_nbr, bcaf.emplid, bcaf.appt_rqst_csf_amt, bcaf.appt_rqcsf_tm_pct, posn.iu_norm_work_months, \n");
+        sqlText.append("SELECT ?, bcaf.emplid, bcaf.position_nbr, bcaf.appt_rqst_csf_amt, bcaf.appt_rqcsf_tm_pct, posn.iu_norm_work_months, \n");
         sqlText.append(" bcsf.pos_csf_amt, bcsf.pos_csf_tm_pct, posn.iu_pay_months \n");
         sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN  ld_bcn_csf_trckr_t bcsf ON \n");
         sqlText.append(" ((bcaf.univ_fiscal_yr = bcsf.univ_fiscal_yr) AND \n");

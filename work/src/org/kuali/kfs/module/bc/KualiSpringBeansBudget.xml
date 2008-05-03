@@ -399,8 +399,67 @@
     	<ref bean="businessObjectService" />
     </property>
     </bean>
-
- 	
+    
+    <bean id="budgetConstructionSalaryStatisticsReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSalaryStatisticsReportServiceImpl">
+	<property name="budgetConstructionSalaryStatisticsReportDao">
+		<ref bean="budgetConstructionSalaryStatisticsReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+    	<ref bean="businessObjectService" />
+    </property>
+    </bean>
+    
+    <bean id="budgetConstructionReasonStatisticsReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionReasonStatisticsReportServiceImpl">
+	<property name="budgetConstructionReasonStatisticsReportDao">
+		<ref bean="budgetConstructionReasonStatisticsReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+    	<ref bean="businessObjectService" />
+    </property>
+    </bean>
+    
+    <bean id="budgetConstructionList2PLGReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionList2PLGReportServiceImpl">
+	<property name="budgetConstructionList2PLGReportDao">
+		<ref bean="budgetConstructionList2PLGReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+    	<ref bean="businessObjectService" />
+    </property>
+    </bean>
+    
+    <bean id="budgetConstructionSynchronizationProblemsReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSynchronizationProblemsReportServiceImpl">
+	<property name="budgetConstructionSynchronizationProblemsReportDao">
+		<ref bean="budgetConstructionSynchronizationProblemsReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+    	<ref bean="businessObjectService" />
+    </property>
+    </bean>
+    
     <bean id="budgetParameterService" class="org.kuali.module.budget.service.impl.BudgetParameterServiceImpl">
     <property name="parameterService">
     	<ref bean="parameterService" />

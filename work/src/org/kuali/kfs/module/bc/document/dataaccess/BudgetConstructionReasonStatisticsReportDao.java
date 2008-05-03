@@ -35,7 +35,7 @@ public interface BudgetConstructionReasonStatisticsReportDao {
      * @param reportIncreasesAtOrAboveTheThreshold--true if we report increases at or above the threshold, false otherwise
      * @param thresholdPercent--the threshold percent (fraction times 100) increase
      */
-    public void reportReasonStatisticsWithAThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent);
+    public void updateReasonStatisticsReportsWithAThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent);
     
     /**
      * 
@@ -43,7 +43,7 @@ public interface BudgetConstructionReasonStatisticsReportDao {
      * @param personUserIdentifier--the user running this report
      * @param previousFiscalYear--the fiscal year preceding the one for which we are building a budget
      */
-    public void reportReasonStatisticsWithoutAThreshold(String personUserIdentifier, Integer previousFiscalYear);
+    public void updateReasonStatisticsReportsWithoutAThreshold(String personUserIdentifier, Integer previousFiscalYear);
 
 
 }

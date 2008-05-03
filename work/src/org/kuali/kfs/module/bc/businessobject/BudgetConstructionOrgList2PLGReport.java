@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao;
+package org.kuali.module.budget.bo;
 
-public interface BudgetConstructionList2PLGReportDao {
+import java.math.BigDecimal;
 
+/**
+ * Budget Construction Organization Account Funding Detail Report Business Object.
+ */
+public class BudgetConstructionOrgList2PLGReport {
 
-    /**
-     *  updates the table for the report which lists general ledger rows which do not balance with the corresponding detailed salary rows.  the amount of the difference is in an object class called '2PLG'.
-     * 
-     * @param personUserIdentifier--the user requesting this report
-     */
-    public void updateList2PLGReportsTable(String personUserIdentifier);
+    // Header parts
+    private String fiscalYear;
+    
+   
+
 }

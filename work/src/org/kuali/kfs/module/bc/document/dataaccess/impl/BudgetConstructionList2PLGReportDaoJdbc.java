@@ -75,7 +75,7 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionList2PLGReportDao#updateReportsList2PLGTable(java.lang.String)
      */
-    public void updateReportsList2PLGTable(String personUserIdentifier) {
+    public void updateList2PLGReportsTable(String personUserIdentifier) {
         // get rid of any rows from a previous report requested by this user
         cleanReportsList2PLGTable(personUserIdentifier);
         // fetch the constant naming the 2PLG object class

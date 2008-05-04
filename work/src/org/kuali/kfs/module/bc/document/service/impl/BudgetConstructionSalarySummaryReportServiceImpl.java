@@ -30,11 +30,10 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionOrgPositionFundingDetailReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSalarySummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.BudgetConstructionPositionFunding;
 import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
 import org.kuali.module.budget.bo.BudgetConstructionSalaryFunding;
 import org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber;
@@ -105,7 +104,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             BudgetConstructionSalarySocialSecurityNumber bcSSN = (BudgetConstructionSalarySocialSecurityNumber) salarySummaryMap.get(salaryFundingEntry);
             orgSalarySummaryReportEntry = new BudgetConstructionOrgSalarySummaryReport();
             buildReportsHeader(universityFiscalYear, objectCodes, orgSalarySummaryReportEntry, salaryFundingEntry, bcSSN);
-            buildReportsBody(universityFiscalYear, orgSalarySummaryReportEntry, salaryFundingEntry);
+            buildReportsBody(universityFiscalYear, orgSalarySummaryReportEntry, salaryFundingEntry, bcSSN);
             //buildReportsTotal(orgSalarySummaryReportEntry, salaryFundingEntry, fundingDetailTotalPerson, fundingDetailTotalOrg);
             reportSet.add(orgSalarySummaryReportEntry);
 
@@ -151,9 +150,6 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         orgSalarySummaryReportEntry.setFinancialObjectCode(salaryFundingEntry.getFinancialObjectCode());
        
         orgSalarySummaryReportEntry.setObjectCodes(objectCodes);
-        
-        
-        
     }
     
     
@@ -164,12 +160,18 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      * 
      * @param BudgetConstructionObjectDump bcod
      */
-    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry) {
+    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN) {
         BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
         BudgetConstructionPosition budgetConstructionPosition;
         BudgetConstructionCalculatedSalaryFoundationTracker budgetConstructionCalculatedSalaryFoundationTracker;
         PendingBudgetConstructionAppointmentFunding appointmentFundingEntry = salaryFundingEntry.getPendingAppointmentFunding();
+        BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
 
+        budgetConstructionIntendedIncumbent = getBudgetConstructionIntendedIncumbent(appointmentFundingEntry);
+        if (budgetConstructionIntendedIncumbent != null) {
+            orgSalarySummaryReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
+        }
+        orgSalarySummaryReportEntry.setPersonName(bcSSN.getPersonName());
         // get budgetConstructionIntendedIncumbent, budgetConstructionAdministrativePost, budgetConstructionPosition objects
         budgetConstructionAdministrativePost = getBudgetConstructionAdministrativePost(appointmentFundingEntry);
         budgetConstructionPosition = getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
@@ -178,9 +180,6 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         orgSalarySummaryReportEntry.setAccountNumber(salaryFundingEntry.getAccountNumber());
         orgSalarySummaryReportEntry.setSubAccountNumber(salaryFundingEntry.getSubAccountNumber());
         orgSalarySummaryReportEntry.setFinancialSubObjectCode(salaryFundingEntry.getFinancialSubObjectCode());
-      
-        
-
 
         if (budgetConstructionAdministrativePost != null) {
             orgSalarySummaryReportEntry.setAdministrativePost(budgetConstructionAdministrativePost.getAdministrativePost());
@@ -274,6 +273,11 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         return returnList;
     }
     
+    private BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
+        return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
+    }
     
     private BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
         Map searchCriteria = new HashMap();

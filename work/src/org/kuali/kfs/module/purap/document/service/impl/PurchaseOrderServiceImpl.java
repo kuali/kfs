@@ -80,6 +80,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.util.PurApObjectUtils;
+import org.kuali.module.purap.util.ThresholdHelper;
 import org.kuali.module.vendor.bo.CommodityCode;
 import org.kuali.module.vendor.bo.VendorCommodityCode;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -1149,7 +1150,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po) {
-        //TODO: Add threshold check and set receiving required indicator if necessary
+        ThresholdHelper thresholdHelper = new ThresholdHelper(po);
+        po.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
     }
 
     /**

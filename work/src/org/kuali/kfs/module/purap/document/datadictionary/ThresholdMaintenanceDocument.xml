@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ThresholdMaintenanceDocument" parent="ThresholdMaintenanceDocument-parentBean" />
+
+  <bean id="ThresholdMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.purap.bo.Threshold" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ThresholdMaintenanceDocument-EditThreshold" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>thresholdIdentifier</value>
+      </list>
+    </property>
+    <property name="label" value="Threshold" />
+    <property name="shortLabel" value="Threshold" />
+    <property name="documentTypeName" value="ThresholdMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.ThresholdRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="THLD" />
+    <property name="workflowProperties" >
+      <ref bean="ThresholdMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ThresholdMaintenanceDocument-EditThreshold" parent="ThresholdMaintenanceDocument-EditThreshold-parentBean" />
+
+  <bean id="ThresholdMaintenanceDocument-EditThreshold-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Threshold" />
+    <property name="title" value="Edit Threshold" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="thresholdIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="chartOfAccountsCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="accountTypeCode"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="subFundGroupCode"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="purchasingCommodityCode"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialObjectCode"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationCode"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorDetailAssignedIdentifier"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorNumber"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="thresholdAmount"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ThresholdMaintenanceDocument-workflowProperties" parent="ThresholdMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="ThresholdMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

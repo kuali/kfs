@@ -354,6 +354,23 @@
 		</property>
 	</bean>
 
+	<bean id="thresholdService" 
+		class="org.kuali.module.purap.service.impl.ThresholdServiceImpl">
+		<property name="thresholdDao">
+			<ref bean="thresholdDao" />
+		</property>
+	</bean>
+	
+	<bean id="thresholdDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ThresholdDaoOjb" />
+	
+	<bean id="thresholdLookupableHelperService" class="org.kuali.module.purap.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" singleton="false"/>
+	
+	<bean id="thresholdLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	    <property name="lookupableHelperService">
+	        <ref bean="thresholdLookupableHelperService" />
+	    </property>
+	</bean>
+	
 	<bean id="receivingAddressService" class="org.kuali.module.purap.service.impl.ReceivingAddressServiceImpl">
 		<property name="receivingAddressDao">
 			<ref bean="receivingAddressDao" />
@@ -440,7 +457,7 @@
 			<ref bean="dateTimeService"/>
 		</property>
     </bean>
-
+    
 	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.module.purap.batch.ProcessPdPCancelsAndPaidStep" parent="step">
 		<property name="processPdpCancelPaidService">
 			<ref bean="processPdpCancelPaidService"/>

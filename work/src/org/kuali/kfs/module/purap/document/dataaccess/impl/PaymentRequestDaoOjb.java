@@ -409,4 +409,32 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
         this.purapRunDateService = purapRunDateService;
     }
+    
+    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {
+        Criteria criteria = new Criteria();
+        criteria.addNotEqualTo("holdIndicator", "Y");
+        criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
+//        criteria.addEqualTo("status", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING);
+
+        Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+        Iterator<PaymentRequestDocument> documents = (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        ArrayList<String> documentHeaderIds = new ArrayList<String>();
+        while (documents.hasNext()) {
+            PaymentRequestDocument document = (PaymentRequestDocument) documents.next();
+            documentHeaderIds.add(document.getDocumentNumber());
+        }
+
+        if (documentHeaderIds.size() > 0) {
+            try {
+                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(PaymentRequestDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("unable to retrieve paymentRequestDocuments", e);
+            }
+        }
+        else {
+            return null;
+        }
+
+    }
 }

@@ -21,6 +21,7 @@ package org.kuali.module.purap;
 public class PurapPropertyConstants {
 
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
+    public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
 
     // ITEM
     public static final String ITEM_IDENTIFIER = "itemIdentifier";
@@ -43,6 +44,11 @@ public class PurapPropertyConstants {
     // accounting line
     public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";
     public static final String ACCOUNT_LINE_PERCENT = "accountLinePercent";
+    public static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";
+    public static final String SUB_FUND_GROUP_CODE = "subFundGroupCode";
+    public static final String ACCOUNT_TYPE_CODE = "accountTypeCode";
+    public static final String ORGANIZATION_CODE = "organizationCode";
+    public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
 
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
 

@@ -24,8 +24,18 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
+import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
+import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
+import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
+import org.kuali.module.budget.bo.BudgetConstructionOrgSalarySummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSynchronizationProblemsReport;
+import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.BudgetConstructionPositionFunding;
+import org.kuali.module.budget.bo.BudgetConstructionSalaryFunding;
+import org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.dao.BudgetConstructionSynchronizationProblemsReportDao;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetConstructionSynchronizationProblemsReportService;
@@ -43,17 +53,15 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
     BusinessObjectService businessObjectService;
 
 
-    
-
     public void updateSynchronizationProblemsReport(String personUserIdentifier) {
-        budgetConstructionSynchronizationProblemsReportDao.updateReportsSynchronizationProblemsTable(personUserIdentifier); 
-            
+        budgetConstructionSynchronizationProblemsReportDao.updateReportsSynchronizationProblemsTable(personUserIdentifier);
+
     }
 
     public Collection<BudgetConstructionOrgSynchronizationProblemsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
         Collection<BudgetConstructionOrgSynchronizationProblemsReport> reportSet = new ArrayList();
 
-        
+
         BudgetConstructionOrgSynchronizationProblemsReport orgSynchronizationProblemsReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
@@ -62,17 +70,87 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         // build order list
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionPositionFunding> synchronizationProblemsList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionPositionFunding.class, searchCriteria, orderList);
-        
-        
-        String test = "";
-        
-        
+        Map positionMap = new HashMap();
+        for (BudgetConstructionPositionFunding positionFundingEntry : synchronizationProblemsList) {
+            BudgetConstructionPosition budgetConstructionPosition = getBudgetConstructionPosition(universityFiscalYear, positionFundingEntry.getPendingAppointmentFunding());
+            positionMap.put(positionFundingEntry, budgetConstructionPosition);
+        }
+
+        for (BudgetConstructionPositionFunding positionFundingEntry : synchronizationProblemsList) {
+            orgSynchronizationProblemsReportEntry = new BudgetConstructionOrgSynchronizationProblemsReport();
+            buildReportsHeader(universityFiscalYear, orgSynchronizationProblemsReportEntry, positionFundingEntry);
+            buildReportsBody(orgSynchronizationProblemsReportEntry, positionFundingEntry, positionMap);
+            reportSet.add(orgSynchronizationProblemsReportEntry);
+        }
+
         return reportSet;
     }
 
+
+    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgSynchronizationProblemsReport orgSynchronizationProblemsReportEntry, BudgetConstructionPositionFunding positionFunding) {
+
+        String chartDesc = positionFunding.getSelectedOrganizationChartOfAccounts().getFinChartOfAccountDescription();
+        String orgName = positionFunding.getSelectedOrganization().getOrganizationName();
+
+        Integer prevFiscalyear = universityFiscalYear - 1;
+        orgSynchronizationProblemsReportEntry.setChartOfAccountsCode(positionFunding.getSelectedOrganizationChartOfAccountsCode());
+        orgSynchronizationProblemsReportEntry.setOrganizationCode(positionFunding.getSelectedOrganizationCode());
+        if (chartDesc == null) {
+            orgSynchronizationProblemsReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+        }
+        else {
+            orgSynchronizationProblemsReportEntry.setChartOfAccountDescription(chartDesc);
+        }
+        if (orgName == null) {
+            orgSynchronizationProblemsReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+        }
+        else {
+            orgSynchronizationProblemsReportEntry.setOrganizationName(orgName);
+        }
+        orgSynchronizationProblemsReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+    }
+    
+    
+    public void buildReportsBody(BudgetConstructionOrgSynchronizationProblemsReport orgSynchronizationProblemsReportEntry, BudgetConstructionPositionFunding positionFunding, Map positionMap) {
+        
+        orgSynchronizationProblemsReportEntry.setBodyChartOfAccountsCode(positionFunding.getChartOfAccountsCode());
+        orgSynchronizationProblemsReportEntry.setAccountNumber(positionFunding.getAccountNumber());
+        orgSynchronizationProblemsReportEntry.setSubAccountNumber(positionFunding.getSubAccountNumber());
+        orgSynchronizationProblemsReportEntry.setFinancialObjectCode(positionFunding.getFinancialObjectCode());
+        orgSynchronizationProblemsReportEntry.setFinancialSubObjectCode(positionFunding.getFinancialSubObjectCode());
+        orgSynchronizationProblemsReportEntry.setPositionNumber(positionFunding.getPositionNumber());
+        orgSynchronizationProblemsReportEntry.setEmplid(positionFunding.getEmplid());
+        orgSynchronizationProblemsReportEntry.setPersonName(positionFunding.getPersonName());
+        
+        orgSynchronizationProblemsReportEntry.setPositionObjectChangeIndicator(new Boolean(positionFunding.getPendingAppointmentFunding().isPositionObjectChangeIndicator()).toString());
+        orgSynchronizationProblemsReportEntry.setPositionSalaryChangeIndicator(new Boolean(positionFunding.getPendingAppointmentFunding().isPositionSalaryChangeIndicator()).toString());
+        
+        BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) positionMap.get(positionFunding);
+        orgSynchronizationProblemsReportEntry.setPositionEffectiveStatus(budgetConstructionPosition.getPositionEffectiveStatus());
+        orgSynchronizationProblemsReportEntry.setBudgetedPosition(new Boolean(budgetConstructionPosition.isBudgetedPosition()).toString());
+    }
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    private BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        return (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, searchCriteria);
+    }
+
+
     /**
      * builds orderByList for sort order.
      * 
@@ -80,20 +158,20 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
      */
     public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
-        /*returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
-        returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
-        returnList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
+        returnList.add(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER);
+        returnList.add(KFSPropertyConstants.SELECTED_ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        returnList.add(KFSPropertyConstants.SELECTED_ORGANIZATION_CODE);
         returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
-        returnList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
-        returnList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
-        */
-        returnList.add(KFSPropertyConstants.EMPLID);
-        
+        returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        returnList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        returnList.add(KFSPropertyConstants.PERSON_NAME);
+        returnList.add(KFSPropertyConstants.POSITION_NUMBER);
         return returnList;
     }
-  
-    
+
+
     public void setBudgetConstructionSynchronizationProblemsReportDao(BudgetConstructionSynchronizationProblemsReportDao budgetConstructionSynchronizationProblemsReportDao) {
         this.budgetConstructionSynchronizationProblemsReportDao = budgetConstructionSynchronizationProblemsReportDao;
     }

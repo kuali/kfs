@@ -588,39 +588,4 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.vendor.bo.Threshold" table="PUR_THRSHLD_T">
-	<field-descriptor name="purchasingThresholdIdentifier" column="PUR_THRSHLD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PUR_THRSHLD_ID"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountTypeCode" column="ACCT_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchasingThresholdAmount" column="PUR_THRSHLD_AMT" jdbc-type="BIGINT"/>
-	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="purchasingCommodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="organizationCode" />
-	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="accountType" class-ref="org.kuali.module.chart.bo.AcctType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="accountTypeCode" />
-	</reference-descriptor>
-	<reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="subFundGroupCode" />
-	</reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="commodityCode" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="purchasingCommodityCode" />
-    </reference-descriptor>
-</class-descriptor>
 </descriptor-repository>

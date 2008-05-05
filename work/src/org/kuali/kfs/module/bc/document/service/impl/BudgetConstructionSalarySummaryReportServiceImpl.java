@@ -382,11 +382,14 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                             }
                         }
                     }
-                    // TODO ask to Gary
-                    csfPayMonths = budgetConstructionPosition.getIuPayMonths();
-                    csfNormalMonths = budgetConstructionPosition.getIuNormalWorkMonths();
+                    //data for previous year, position table has two data, one is for current year and another is for previous year. 
+                    Integer previousFiscalYear = new Integer(universityFiscalYear.intValue() - 1);
+                    BudgetConstructionPosition previousYearBudgetConstructionPosition = getBudgetConstructionPosition(previousFiscalYear, appointmentFundingEntry);
+                    csfPayMonths = previousYearBudgetConstructionPosition.getIuPayMonths();
+                    csfNormalMonths = previousYearBudgetConstructionPosition.getIuNormalWorkMonths();
+                    //positioNumber is using current year position
                     positionNumber = budgetConstructionPosition.getPositionNumber();
-                    fiscalYearTag = universityFiscalYear.toString() + ":";
+                    fiscalYearTag = previousFiscalYear.toString() + ":";
                     
                     if (appointmentFundingEntry.isAppointmentFundingDeleteIndicator()) {
                         if (curToInt == -1) {
@@ -410,7 +413,6 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                 salaryFte = BigDecimal.ZERO;
             } else {
                 salaryFte = (salaryPercent.multiply(new BigDecimal(salaryNormalMonths)).divide(new BigDecimal(salaryPayMonth))).divide(new BigDecimal(100));
-                salaryFte = BudgetConstructionReportHelper.setFiveDecimalDigit(salaryFte);
             }
             if (salaryPayMonth != csfPayMonths) {
                 if(csfPayMonths == 0){
@@ -427,20 +429,20 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             if (curToInt != 0 && curToInt != -1 && curToInt != salaryAmount.intValue() || curFteInt != 0 && curFteInt != -1.00 && curFteInt != salaryFte.doubleValue()){
                 tiFlag = BCConstants.Report.PLUS;
             } else {
-                tiFlag = BCConstants.Report.NONE;
+                tiFlag = BCConstants.Report.BLANK;
             }
 
             budgetConstructionOrgSalarySummaryReportTotal.setBudgetConstructionSalaryFunding(totalPersonEntry);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonPositionNumber(positionNumber); 
             budgetConstructionOrgSalarySummaryReportTotal.setPersonFiscalYearTag(fiscalYearTag);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonCsfNormalMonths(csfNormalMonths);
-            budgetConstructionOrgSalarySummaryReportTotal.setPersonAmountChange(csfPayMonths);
+            budgetConstructionOrgSalarySummaryReportTotal.setPersonCsfPayMonths(csfPayMonths);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonCsfAmount(csfAmount);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonCsfPercent(csfPercent);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryNormalMonths(salaryNormalMonths);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryAmount(salaryAmount);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryPercent(salaryPercent);
-            budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryFte(salaryFte);
+            budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryFte(BudgetConstructionReportHelper.setFiveDecimalDigit(salaryFte));
             budgetConstructionOrgSalarySummaryReportTotal.setPersonTiFlag(tiFlag);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonAmountChange(amountChange);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonPercentChange(percentChange);

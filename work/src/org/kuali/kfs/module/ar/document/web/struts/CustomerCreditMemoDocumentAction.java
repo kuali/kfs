@@ -23,12 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
 
@@ -107,9 +109,20 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         // initialize creditMemoDetails
         List<SourceAccountingLine> invoiceDetails = customerCreditMemoDocument.getInvoice().getSourceAccountingLines();
         CustomerCreditMemoDetail customerCreditMemoDetail;
+        KualiDecimal invItemTaxAmount;
         
         for( SourceAccountingLine invoiceDetail : invoiceDetails ){
             customerCreditMemoDetail = new CustomerCreditMemoDetail();
+            
+            // populate invoice item 'Total Amount'
+            invItemTaxAmount = ((CustomerInvoiceDetail)invoiceDetail).getInvoiceItemTaxAmount();
+            if (invItemTaxAmount == null) {
+                invItemTaxAmount = KualiDecimal.ZERO;
+                ((CustomerInvoiceDetail)invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
+            }
+            
+            customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
+            
             customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
         }
 

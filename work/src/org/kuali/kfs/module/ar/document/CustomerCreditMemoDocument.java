@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.ArConstants;
@@ -22,6 +24,10 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     private String documentNumber;
     private Integer financialDocumentPostingYear;
     private String financialDocumentReferenceInvoiceNumber;
+    
+    private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
+    private KualiDecimal crmTotalTaxAmount = KualiDecimal.ZERO;
+    private KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
     
     private DocumentHeader documentHeader;
 
@@ -185,6 +191,81 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    /**
+     * Gets the crmTotalAmount attribute. 
+     * @return Returns the crmTotalAmount.
+     */
+    public KualiDecimal getCrmTotalAmount() {
+        return crmTotalAmount;
+    }
+    
+    /**
+     * This method returns the crmTotalAmount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedCrmTotalAmount() {
+        return (String) new CurrencyFormatter().format(crmTotalAmount);
+    }    
+
+    /**
+     * Sets the crmTotalAmount attribute value.
+     * @param crmTotalAmount The crmTotalAmount to set.
+     */
+    public void setCrmTotalAmount(KualiDecimal crmTotalAmount) {
+        this.crmTotalAmount = crmTotalAmount;
+    }
+
+    /**
+     * Gets the crmTotalItemAmount attribute. 
+     * @return Returns the crmTotalItemAmount.
+     */
+    public KualiDecimal getCrmTotalItemAmount() {
+        return crmTotalItemAmount;
+    }
+    
+    /**
+     * This method returns the crmTotalItemAmount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedCrmTotalItemAmount() {
+        return (String) new CurrencyFormatter().format(crmTotalItemAmount);
+    }
+
+    /**
+     * Sets the crmTotalItemAmount attribute value.
+     * @param crmTotalItemAmount The crmTotalItemAmount to set.
+     */
+    public void setCrmTotalItemAmount(KualiDecimal crmTotalItemAmount) {
+        this.crmTotalItemAmount = crmTotalItemAmount;
+    }
+
+    /**
+     * Gets the crmTotalTaxAmount attribute. 
+     * @return Returns the crmTotalTaxAmount.
+     */
+    public KualiDecimal getCrmTotalTaxAmount() {
+        return crmTotalTaxAmount;
+    }
+    
+    /**
+     * This method returns the crmTotalTaxAmount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedCrmTotalTaxAmount() {
+        return (String) new CurrencyFormatter().format(crmTotalTaxAmount);
+    }  
+
+    /**
+     * Sets the crmTotalTaxAmount attribute value.
+     * @param crmTotalTaxAmount The crmTotalTaxAmount to set.
+     */
+    public void setCrmTotalTaxAmount(KualiDecimal crmTotalTaxAmount) {
+        this.crmTotalTaxAmount = crmTotalTaxAmount;
     }
 
 }

@@ -17,9 +17,9 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     private BigDecimal creditMemoItemQuantity;
     private KualiDecimal creditMemoItemTaxAmount;
     private KualiDecimal creditMemoItemTotalAmount;
-    private KualiDecimal invoiceLineTotalAmount;
-    private KualiDecimal creditMemoLineTotalAmount;
-    private KualiDecimal invoiceOpenItemAmount;
+    private KualiDecimal invoiceLineTotalAmount; // not in DB
+    private KualiDecimal creditMemoLineTotalAmount; // not in DB
+    private KualiDecimal invoiceOpenItemAmount; //not in DB
 
     /**
      * Default constructor.
@@ -98,6 +98,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      * 
      */
     public KualiDecimal getCreditMemoItemTaxAmount() { 
+        if (creditMemoItemTaxAmount == null)
+            setCreditMemoItemTaxAmount(KualiDecimal.ZERO);
         return creditMemoItemTaxAmount;
     }
 
@@ -108,6 +110,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      * 
      */
     public void setCreditMemoItemTaxAmount(KualiDecimal creditMemoItemTaxAmount) {
+        if (creditMemoItemTaxAmount == null)
+            creditMemoItemTaxAmount = KualiDecimal.ZERO;
         this.creditMemoItemTaxAmount = creditMemoItemTaxAmount;
     }
 
@@ -160,8 +164,13 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      * Sets the invoiceLineTotalAmount attribute value.
      * @param invoiceLineTotalAmount The invoiceLineTotalAmount to set.
      */
-    public void setInvoiceLineTotalAmount(KualiDecimal invoiceLineTotalAmount) {
-        this.invoiceLineTotalAmount = invoiceLineTotalAmount;
+    public void setInvoiceLineTotalAmount(KualiDecimal tax, KualiDecimal invItemAmount) {
+        if (invItemAmount == null)
+            invItemAmount = KualiDecimal.ZERO;
+        if (tax == null)
+            tax = KualiDecimal.ZERO;
+        
+        this.invoiceLineTotalAmount = invItemAmount.add(tax);
     }
     
     /**
@@ -169,6 +178,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      * @return Returns the creditMemoLineTotalAmount.
      */
     public KualiDecimal getCreditMemoLineTotalAmount() {
+        if (creditMemoLineTotalAmount == null)
+            setCreditMemoLineTotalAmount(KualiDecimal.ZERO);    
         return creditMemoLineTotalAmount;
     }
 

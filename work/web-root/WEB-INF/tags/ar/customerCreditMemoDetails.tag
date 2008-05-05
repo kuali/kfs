@@ -51,9 +51,24 @@
 				<td class="total-line" colspan="6">
 					<strong>Credit Memo Total:</strong>
 				</td>
-				<td class="total-line"></td>
-				<td class="total-line"></td>
-				<td class="total-line"></td>
+				<!--  Customer Credit Memo Total Item Amount -->
+				<td class="total-line">
+					<strong>${KualiForm.document.currencyFormattedCrmTotalItemAmount}</strong>
+					<html:hidden write="false"
+						property="document.crmTotalItemAmount" />
+				</td>
+				<!-- Customer Credit Memo Total Tax Amount -->
+				<td class="total-line">
+					<strong>${KualiForm.document.currencyFormattedCrmTotalTaxAmount}</strong>
+					<html:hidden write="false"
+						property="document.crmTotalTaxAmount" />
+				</td>
+				<!--  Customer Credit Memo Total Amount -->
+				<td class="total-line">
+					<strong>${KualiForm.document.currencyFormattedCrmTotalAmount}</strong>
+					<html:hidden write="false"
+						property="document.crmTotalAmount" />
+				</td>
 				<td />
 				<td><div align="center" valign="middle" >
 					<html:image property=""

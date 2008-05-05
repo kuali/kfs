@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
@@ -30,13 +29,11 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.module.integration.service.AccountsReceivableModuleService;
 
 public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentClaimingService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimingServiceImpl.class);
@@ -143,7 +140,12 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
             if (claimingDocHelper.userMayUseToClaim(user)) {
                 documentChoices.add(claimingDocHelper);
             }
-            // TODO how 'bout AR?
+
+            // try the AR Cash Control
+            claimingDocHelper = SpringContext.getBean(AccountsReceivableModuleService.class).getAccountsReceivablePaymentClaimingStrategy();
+            if (claimingDocHelper.userMayUseToClaim(user)) {
+                documentChoices.add(claimingDocHelper);
+            }
         }
         return documentChoices;
     }

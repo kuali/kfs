@@ -22,13 +22,19 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CashControlDocumentService;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -41,10 +47,11 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private DocumentTypeService documentTypeService;
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private CashControlDocumentService cashControlDocumentService;
+    private KualiConfigurationService kualiConfigurationService;
 
     private final static String CC_WORKFLOW_DOCUMENT_TYPE = "CashControlDocument";
     private final static String URL_PREFIX = "ar";
-    private final static String URL_MIDDLE = ".do?methodToCall=docHandler&command=";
+    private final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
     private final static String URL_SUFFIX = "&docId=";
 
     /**
@@ -56,6 +63,15 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         try {
             document = (CashControlDocument) documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
             document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.WIRE_TRANSFER);
+            document.getDocumentHeader().setFinancialDocumentDescription("Electronic Payment Claim");
+
+            //create and set AccountsReceivableDocumentHeader
+            ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+            AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+            AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+            accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
+            document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+
             addCashControlDetailsToDocument(document, electronicPayments);
             addDescriptionToDocument(document);
             addNotesToDocument(document, electronicPayments, user);
@@ -111,7 +127,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             newCashControlDetail.setCashControlDocument(document);
             newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
             newCashControlDetail.setFinancialDocumentLineAmount(electronicPaymentClaim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositAmount());
-            cashControlDocumentService.addNewCashControlDetail("Electronic payment claim", document, newCashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(kualiConfigurationService.getPropertyString(ArConstants.CREATED_BY_CASH_CTRL_DOC), document, newCashControlDetail);
         }
 
     }
@@ -268,6 +284,22 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * This method gets kualiConfigurationService
+     * @return kualiConfigurationService
+     */
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    /**
+     * This method sets kualiConfigurationService
+     * @param kualiConfigurationService
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 
 }

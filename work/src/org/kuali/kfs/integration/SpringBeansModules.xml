@@ -6,4 +6,6 @@
 	<bean id="laborModuleService" class="org.kuali.module.labor.service.impl.LaborModuleServiceImpl" />
 	
 	<bean id="purchasingAccountsPayableModuleService" class="org.kuali.module.purap.service.impl.PurchasingAccountsPayableModuleServiceImpl" />
+	
+	<bean id="accountsReceivableModuleService" class="org.kuali.module.ar.service.impl.AccountsReceivableModuleServiceImpl" />
 </beans>

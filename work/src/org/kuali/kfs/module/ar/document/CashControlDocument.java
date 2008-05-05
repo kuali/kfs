@@ -14,6 +14,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
@@ -51,6 +52,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
 
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
+    private List<ElectronicPaymentClaim> electronicPaymentClaims;
 
     /**
      * Default constructor.
@@ -62,6 +64,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         universityFiscalPeriod = new AccountingPeriod();
         cashControlDetails = new ArrayList<CashControlDetail>();
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
+        electronicPaymentClaims = new ArrayList<ElectronicPaymentClaim>();
     }
 
     /**
@@ -502,6 +505,25 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
      */
     public void declaimElectronicPaymentClaims() {
         SpringContext.getBean(ElectronicPaymentClaimingService.class).declaimElectronicPaymentClaimsForDocument(this);
+    }
+
+    /**
+     * This method gets electronicPaymentClaims
+     * 
+     * @return electronicPaymentClaims
+     */
+    public List<ElectronicPaymentClaim> getElectronicPaymentClaims() {
+        return electronicPaymentClaims;
+    }
+
+    /**
+     * This method sets electronicPaymentClaims
+     * 
+     * @param electronicPaymentClaims
+     * @deprecated
+     */
+    public void setElectronicPaymentClaims(List<ElectronicPaymentClaim> electronicPaymentClaims) {
+        this.electronicPaymentClaims = electronicPaymentClaims;
     }
 
 }

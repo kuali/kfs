@@ -39,7 +39,7 @@ import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-    
+
     /**
      * @see org.kuali.core.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
@@ -66,7 +66,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         return flags;
 
     }
-    
+
     /**
      * This method checks if the CashControlDocument has at least one application document that has been approved
      * 
@@ -87,7 +87,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         }
         return result;
     }
-    
+
     /**
      * This method chech if all application document have been approved
      * 
@@ -109,7 +109,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         }
         return result;
     }
-    
+
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.core.bo.user.UniversalUser)
      */
@@ -120,12 +120,12 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
         String chartCode = chartUser.getChartOfAccountsCode();
         String orgCode = chartUser.getUserOrganizationCode();
-        
+
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartCode);
         criteria.put("organizationCode", orgCode);
         OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-        
+
         KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
 
         //if organization doesn't exist
@@ -134,7 +134,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
 
         }
     }
-    
+
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
         Map editMode = super.getEditMode(d, u);
@@ -147,7 +147,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         String editGenerateBtnKey = ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON;
         String editPaymentAppDoc = ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC;
 
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
             editMode.put(editPaymentMediumKey, "TRUE");
             editMode.put(editDetailsKey, "TRUE");
             editMode.put(editRefDocNbrKey, "TRUE");
@@ -159,12 +159,12 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
             // the person who has the approval request in their Action List
             // should be able to modify the document
             if (workflowDocument.isApprovalRequested() && !ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
-                // if glpes have not been generated yet the user can change payment mediumand generate glpes
-                if (cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
+                // if glpes have not been generated yet the user can change payment medium and generate glpes
+                if (cashControlDocument.getGeneralLedgerPendingEntries().isEmpty() && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
                     editMode.put(editPaymentMediumKey, "TRUE");
                     editMode.put(editGenerateBtnKey, "TRUE");
                 }
-                else {
+                else if (!cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
                     editMode.put(editPaymentAppDoc, "TRUE");
                 }
             }

@@ -218,6 +218,9 @@
 	    <property name="documentTypeService"><ref bean="documentTypeService" /></property>
 		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
 		<property name="cashControlDocumentService"><ref bean="cashControlDocumentService" /></property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 	</bean>
 	
 </beans>

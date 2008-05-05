@@ -910,6 +910,32 @@
 	<field-descriptor name="creditMemoItemTotalAmount" column="CRDT_MEMO_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.ar.bo.DocumentRecurrence" table="AR_DOC_RCURRNC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="documentRecurrenceBeginDate" column="DOC_RCURRNC_BEG_DT" jdbc-type="DATE"/>
+	<field-descriptor name="documentRecurrenceEndDate" column="DOC_RCURRNC_END_DT" jdbc-type="DATE"/>
+	<field-descriptor name="documentTotalRecurrenceNumber" column="DOC_TOT_RCURRNC_NBR" jdbc-type="INTEGER"/>
+	<field-descriptor name="documentRecurrenceIntervalCode" column="DOC_RCURRNC_INTRV_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="workgroupIdentifier" column="WRKGRP_ID" jdbc-type="BIGINT"/>
+	<field-descriptor name="documentInitiatorUserIdentifier" column="DOC_INITR_USR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="documentLastCreateDate" column="DOC_LST_CRTE_DT" jdbc-type="DATE"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    <reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="referenceFinancialDocumentNumber" />
+    </reference-descriptor>
+	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="customerNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.ar.bo.InvoicePaidAppliedMove" table="AR_INV_PD_APLD_MT">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="paidAppliedItemNumber" column="AR_PD_APLD_ITM_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>

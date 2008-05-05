@@ -36,6 +36,7 @@ public class SecurityRecord implements Serializable {
     private boolean viewBankRole = false;
     private boolean limitedViewRole = false;
     private boolean taxHoldersRole = false;
+    private boolean viewIdPartialBank = false;
 
     public SecurityRecord() {
         super();
@@ -143,5 +144,13 @@ public class SecurityRecord implements Serializable {
 
     public void setViewBankRole(boolean viewBankRole) {
         this.viewBankRole = viewBankRole;
+    }
+
+    public boolean isViewIdPartialBank() {
+        return viewIdPartialBank;
+    }
+
+    public void setViewIdPartialBank(boolean viewIdPartialBank) {
+        this.viewIdPartialBank = viewIdPartialBank;
     }
 }

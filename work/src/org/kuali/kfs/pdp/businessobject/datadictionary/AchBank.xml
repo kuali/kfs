@@ -412,6 +412,8 @@
   <bean id="AchBank-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="ACH Bank Lookup" />
     <property name="instructions" value="Lookup an ACH Bank" />
+    <property name="lookupableID" value="pdAchLookupable" />
+    
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

@@ -40,7 +40,7 @@
 				            <td align=left class="datacell">
                       <c:if test="${not empty PaymentDetail.paymentGroup.achBankRoutingNbr}">
                         <c:choose>
-                          <c:when test="${SecurityRecord.anyViewRole == true}">
+                          <c:when test="${(SecurityRecord.sysAdminRole == true) or (SecurityRecord.viewAllRole == true) or (SecurityRecord.viewBankRole == true) or (SecurityRecord.viewIdPartialBank == true)}">
                             <c:out value="${PaymentDetail.paymentGroup.achBankRoutingNbr}"/>
                           </c:when>
                           <c:otherwise>
@@ -61,13 +61,13 @@
                     <td align=left class="datacell">
                       <c:if test="${not empty PaymentDetail.paymentGroup.achAccountNumber.achBankAccountNbr}">
 	                      <c:choose>
-	                        <c:when test="${(SecurityRecord.viewAllRole == true)}">
+	                        <c:when test="${(SecurityRecord.sysAdminRole == true) or (SecurityRecord.viewAllRole == true) or (SecurityRecord.viewBankRole == true)}">
 	                          <c:out value="${PaymentDetail.paymentGroup.achAccountNumber.achBankAccountNbr}"/>
 	                        </c:when>
 	                        <c:otherwise>
 		                        <font color="#800000">
                             <c:choose>
-                              <c:when test="${(SecurityRecord.viewBankRole == true)}">
+                              <c:when test="${(SecurityRecord.viewIdPartialBank == true)}">
 	                              <c:out value="${PaymentDetail.paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr}"/>
                               </c:when>
                               <c:otherwise>

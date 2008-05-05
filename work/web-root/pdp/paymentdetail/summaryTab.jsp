@@ -98,16 +98,19 @@
 						          Payee ID:
 						        </th>
 				            <td class="datacell">
-						          <c:if test="${(SecurityRecord.viewIdRole == true)}">
+				            	<c:choose>
+						          <c:when test="${(SecurityRecord.sysAdminRole == true) or (SecurityRecord.viewAllRole == true) or (SecurityRecord.viewIdRole == true)}">
 					              <c:out value="${PaymentDetail.paymentGroup.payeeId}"/>&nbsp;
-							        </c:if>
-						          <c:if test="${(SecurityRecord.viewIdRole != true)}">
+							        </c:when>
+						          	<c:otherwise>
 						          	<font color="#800000">
-						          	<c:if test="${not empty PaymentDetail.paymentGroup.payeeId}">
+						          	
 					              	*************
-					              </c:if>&nbsp;
+					              	&nbsp;
 					              </font>
-							        </c:if>
+					              </c:otherwise>
+					              </c:choose>
+							        
 										</td>	
 				          </tr>
 				          <tr>

@@ -137,7 +137,7 @@
 				            <td align=left class="datacell">
                       <c:if test="${not empty PaymentDetail.paymentGroup.adviceEmailAddress}">
                         <c:choose>
-                          <c:when test="${SecurityRecord.anyViewRole == true}">
+                          <c:when test="${(SecurityRecord.sysAdminRole == true) or (SecurityRecord.viewAllRole == true) or (SecurityRecord.viewBankRole == true) or (SecurityRecord.viewIdPartialBank == true)}">
                             <c:out value="${PaymentDetail.paymentGroup.adviceEmailAddress}"/>
                           </c:when>
                           <c:otherwise>

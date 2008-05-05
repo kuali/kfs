@@ -248,18 +248,18 @@
               <table cellpadding=3 width="100%" cellspacing=0 border=0  class="bord-r-t">
                 <tbody>
                   <tr valign=middle align=left>
+                  <th nowrap=nowrap>
                     <c:choose>
                       <c:when test="${PaymentDetail.paymentGroup.paymentStatus.code == 'OPEN'}">
-                        <c:if test="${(SecurityRecord.cancelRole == true) or (SecurityRecord.holdRole == true) or (SecurityRecord.processRole == true)}">
-                          <th nowrap=nowrap>
+                         
                             <div align="center">
-                              <c:if test="${SecurityRecord.holdRole == true}">
+                              <c:if test="${(SecurityRecord.sysAdminRole == true) or (SecurityRecord.holdRole == true)}">
                                 <input type="image" name="btnHold" src="<%= request.getContextPath().toString() %>/pdp/images/button_holdpayment.gif" alt="Hold Payment" align="absmiddle">
                               </c:if>
-                              <c:if test="${SecurityRecord.cancelRole == true}">
+                              <c:if test="${(SecurityRecord.cancelRole == true) or (SecurityRecord.sysAdminRole == true) or (SecurityRecord.taxHoldersRole == true)}">
                                 <input type="image" name="btnCancel" src="<%= request.getContextPath() + "/pdp/images/button_cancelpayment.gif" %>" alt="Cancel Payment" align="absmiddle">
                               </c:if>
-                              <c:if test="${SecurityRecord.processRole == true}">
+                              <c:if test="${(SecurityRecord.processRole == true) or (SecurityRecord.sysAdminRole == true)}">
                                 <c:if test="${PaymentDetail.paymentGroup.processImmediate == true}" >
                                   <input type="image" name="btnChangeImmediate" src="<%= request.getContextPath() + "/pdp/images/button_remimmediate.gif" %>" alt="Remove Immediate Print" align="absmiddle"></a>
                                 </c:if>
@@ -268,31 +268,30 @@
                                 </c:if>
                               </c:if>
                             </div>
-                          </th>
-                        </c:if>
+                          
+                        
                       </c:when>
                       <c:when test="${PaymentDetail.paymentGroup.paymentStatus.code == 'HELD'}">
-                        <c:if test="${(SecurityRecord.cancelRole == true) or (SecurityRecord.holdRole == true)}">
-                          <th nowrap=nowrap>
+                          
                             <div align="center">
                               <c:if test="${SecurityRecord.holdRole == true}">
                                 <input type="image" name="btnRemoveHold" src="<%= request.getContextPath() + "/pdp/images/button_removehold.gif" %>" alt="Remove Hold" align="absmiddle"></a>
                               </c:if>
-                              <c:if test="${SecurityRecord.cancelRole == true}">
+                              <c:if test="${(SecurityRecord.cancelRole == true) or (SecurityRecord.sysAdminRole == true) or (SecurityRecord.taxHoldersRole == true)}">
                                 <input type="image" name="btnCancel" src="<%= request.getContextPath() + "/pdp/images/button_cancelpayment.gif" %>" alt="Cancel Payment" align="absmiddle"></a>
                               </c:if>
                             </div>
-                          </th>
-                        </c:if>
+                          
+                       
                       </c:when>
                       <c:when test="${PaymentDetail.paymentGroup.paymentStatus.code == 'PACH'}">
-                        <th nowrap=nowrap>
+                        
                           <div align="center">
                             <c:choose>
-                              <c:when test="${SecurityRecord.sysAdminRole == true}">
+                              <c:when test="${(SecurityRecord.cancelRole == true) or (SecurityRecord.sysAdminRole == true)}">
                                 <c:choose>
                                   <c:when test="${PaymentDetail.disbursementActionAllowed}">
-                                    <input type="image" name="btnDisbursementCancel" src="<%= request.getContextPath() + "/pdp/images/button_canceldisb.gif" %>" alt="Cancel Disbursement" align="absmiddle">
+                                  	<input type="image" name="btnDisbursementCancel" src="<%= request.getContextPath() + "/pdp/images/button_canceldisb.gif" %>" alt="Cancel Disbursement" align="absmiddle">
                                     <input type="image" name="btnReIssueCancel" src="<%= request.getContextPath() + "/pdp/images/button_cancreissuedis.gif" %>" alt="Cancel & Reissue Disbursement" align="absmiddle">
                                   </c:when>
                                   <c:otherwise>
@@ -305,11 +304,11 @@
                               </c:when>
                             </c:choose>
                           </div>
-                        </th>
+                        
                       </c:when>
                       <c:when test="${PaymentDetail.paymentGroup.paymentStatus.code == 'EXTR'}">
                         <c:if  test="${SecurityRecord.cancelRole == true}">
-                          <th nowrap=nowrap>
+                          
                             <div align="center">
                               <c:choose>
                                 <c:when test="${not empty PaymentDetail.paymentGroup.disbursementDate}">
@@ -328,20 +327,21 @@
                                 </c:otherwise>
                               </c:choose>
                             </div>
-                          </th>
+                         
                         </c:if>
                       </c:when>
                       <c:when test="${(PaymentDetail.paymentGroup.paymentStatus.code == 'HTXE') or (PaymentDetail.paymentGroup.paymentStatus.code == 'HTXN') or (PaymentDetail.paymentGroup.paymentStatus.code == 'HTXB')}">
-                        <c:if test="${(SecurityRecord.taxHoldersRole == true) or (SecurityRecord.sysAdminRole == true)}">
-                          <th nowrap=nowrap>
+                        <c:if test="${(SecurityRecord.taxHoldersRole == true)}">
+                          
                             <div align="center">
                               <input type="image" name="btnRemoveHold" src="<%= request.getContextPath() + "/pdp/images/button_removehold.gif" %>" alt="Remove Hold" align="absmiddle"></a>
                               <input type="image" name="btnCancel" src="<%= request.getContextPath() + "/pdp/images/button_cancelpayment.gif" %>" alt="Cancel Payment" align="absmiddle"></a>
                             </div>
-                          </th>
+                          
                         </c:if>
                       </c:when>
                     </c:choose>
+                    </th>
                   </tr>
                 </tbody>
               </table>

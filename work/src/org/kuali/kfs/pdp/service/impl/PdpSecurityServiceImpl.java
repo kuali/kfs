@@ -71,6 +71,7 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
         sr.setViewAllRole(groupMember(groups, PdpConstants.Groups.VIEWALL_GROUP));
         sr.setViewIdRole(groupMember(groups, PdpConstants.Groups.VIEWID_GROUP));
         sr.setViewBankRole(groupMember(groups, PdpConstants.Groups.VIEWBANK_GROUP));
+        sr.setViewIdPartialBank(groupMember(groups, PdpConstants.Groups.VIEWIDPARTIALBANK_GROUP));
 
         return sr;
     }

@@ -36,8 +36,10 @@
 		<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		<ar:customerCreditMemoGeneral />
-    	<!-- Check if receivable accounting line should be displayed -->
-    	<ar:customerCreditMemoReceivableAccountingLine />
+		
+    	<c:if test="${!empty KualiForm.editingMode['showReceivableFAU']}">
+    		<ar:customerCreditMemoReceivableAccountingLine />
+    	</c:if>
       
       	<ar:customerCreditMemoDetails />
     	<kul:notes />

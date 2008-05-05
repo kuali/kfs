@@ -22,18 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.InvoicePaidAppliedService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.service.CreditMemoService;
 
 public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
@@ -47,6 +42,11 @@ public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuth
             editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"TRUE");
         else
             editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"FALSE");
+        
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){
+            editModeMap.put(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.SHOW_RECEIVABLE_FAU, "TRUE");
+        }
         
         return editModeMap;
     }

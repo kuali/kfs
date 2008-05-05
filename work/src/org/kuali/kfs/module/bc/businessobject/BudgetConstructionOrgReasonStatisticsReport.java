@@ -24,7 +24,126 @@ public class BudgetConstructionOrgReasonStatisticsReport {
 
     // Header parts
     private String fiscalYear;
+    private String chartOfAccountsCode;
+    private String chartOfAccountDescription;
+    private String organizationCode;
+    private String organizationName;
+    private String consHdr;
+    private String objectCodes;
     
+    // Body parts
+    private BigDecimal initialRequestedFteQuantity;
+    private Integer totalInitialRequestedAmount;
+    private Integer totalAverageAmount = new Integer(0);
+    private BigDecimal appointmentRequestedFteQuantity;
+    private Integer totalCsfAmount;
+    private Integer totalAppointmentRequestedAmount;
+    private Integer averageCsfAmount;
+    private Integer averageAppointmentRequestedAmount;
+    private Integer averageChange;
+    private BigDecimal percentChange;
+    public BigDecimal getAppointmentRequestedFteQuantity() {
+        return appointmentRequestedFteQuantity;
+    }
+    public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
+        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
+    }
+    public Integer getAverageAppointmentRequestedAmount() {
+        return averageAppointmentRequestedAmount;
+    }
+    public void setAverageAppointmentRequestedAmount(Integer averageAppointmentRequestedAmount) {
+        this.averageAppointmentRequestedAmount = averageAppointmentRequestedAmount;
+    }
+    public Integer getAverageChange() {
+        return averageChange;
+    }
+    public void setAverageChange(Integer averageChange) {
+        this.averageChange = averageChange;
+    }
+    public Integer getAverageCsfAmount() {
+        return averageCsfAmount;
+    }
+    public void setAverageCsfAmount(Integer averageCsfAmount) {
+        this.averageCsfAmount = averageCsfAmount;
+    }
+    public String getChartOfAccountDescription() {
+        return chartOfAccountDescription;
+    }
+    public void setChartOfAccountDescription(String chartOfAccountDescription) {
+        this.chartOfAccountDescription = chartOfAccountDescription;
+    }
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+    public String getConsHdr() {
+        return consHdr;
+    }
+    public void setConsHdr(String consHdr) {
+        this.consHdr = consHdr;
+    }
+    public String getFiscalYear() {
+        return fiscalYear;
+    }
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
+    public BigDecimal getInitialRequestedFteQuantity() {
+        return initialRequestedFteQuantity;
+    }
+    public void setInitialRequestedFteQuantity(BigDecimal initialRequestedFteQuantity) {
+        this.initialRequestedFteQuantity = initialRequestedFteQuantity;
+    }
+    public String getObjectCodes() {
+        return objectCodes;
+    }
+    public void setObjectCodes(String objectCodes) {
+        this.objectCodes = objectCodes;
+    }
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+    public String getOrganizationName() {
+        return organizationName;
+    }
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+    public BigDecimal getPercentChange() {
+        return percentChange;
+    }
+    public void setPercentChange(BigDecimal percentChange) {
+        this.percentChange = percentChange;
+    }
+    public Integer getTotalAppointmentRequestedAmount() {
+        return totalAppointmentRequestedAmount;
+    }
+    public void setTotalAppointmentRequestedAmount(Integer totalAppointmentRequestedAmount) {
+        this.totalAppointmentRequestedAmount = totalAppointmentRequestedAmount;
+    }
+    public Integer getTotalAverageAmount() {
+        return totalAverageAmount;
+    }
+    public void setTotalAverageAmount(Integer totalAverageAmount) {
+        this.totalAverageAmount = totalAverageAmount;
+    }
+    public Integer getTotalCsfAmount() {
+        return totalCsfAmount;
+    }
+    public void setTotalCsfAmount(Integer totalCsfAmount) {
+        this.totalCsfAmount = totalCsfAmount;
+    }
+    public Integer getTotalInitialRequestedAmount() {
+        return totalInitialRequestedAmount;
+    }
+    public void setTotalInitialRequestedAmount(Integer totalInitialRequestedAmount) {
+        this.totalInitialRequestedAmount = totalInitialRequestedAmount;
+    }
    
 
 }

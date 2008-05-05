@@ -141,14 +141,24 @@ public class CamsPropertyConstants {
         public static final String PERIOD_12_DEPRECIATION_AMOUNT = "period12Depreciation1Amount";
     }
 
-    public static class AssetPaymentDetail {
+    public static class AssetPaymentDetail {    
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";        
+        public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
+        public static final String OBJECT_CODE = "financialObjectCode";
+        public static final String SUB_OBJECT_CODE = "financialSubObjectCode";
+        public static final String PROJECT_CODE = "projectCode";
+        public static final String ORGANIZATION_REFERENCE_ID = "organizationReferenceId";
+        public static final String AMOUNT = "amount";
+        public static final String PURCHASE_ORDER="purchaseOrderNumber";
+        public static final String REQUISITION_NUMBER="requisitionNumber";
+        public static final String DOCUMENT_NUMBER="expenditureFinancialDocumentNumber";
+        public static final String DOCUMENT_TYPE="expenditureFinancialDocumentTypeCode";    
         public static final String ORIGINATION_CODE = "expenditureFinancialSystemOriginationCode";
-        public static final String DOCUMENT_TYPE_CODE = "expenditureFinancialDocumentTypeCode";
         public static final String DOCUMENT_POSTING_DATE = "expenditureFinancialDocumentPostedDate";
-        public static final String DOCUMENT_POSTING_FISCAL_MONTH = "financialDocumentPostingPeriodCode";
         public static final String DOCUMENT_POSTING_FISCAL_YEAR = "financialDocumentPostingYear";
+        public static final String DOCUMENT_POSTING_FISCAL_MONTH = "financialDocumentPostingPeriodCode";
     }
-
     public static class AssetType {
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }

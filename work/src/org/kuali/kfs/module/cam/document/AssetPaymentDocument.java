@@ -25,16 +25,19 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPaymentAccountingLineParser;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.labor.bo.LaborJournalVoucherAccountingLineParser;
 
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
@@ -91,7 +94,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
         assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
-        //assetPaymentDetail.setAccountChargeAmount(line.getAmount());
         assetPaymentDetail.setPaymentApplicationDate(systemDate);
 
         line = (SourceAccountingLine) assetPaymentDetail;
@@ -125,7 +127,16 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         // This is an empty method in order to prevent kuali from generating a gl pending entry record.     
     }
 
-
+/**
+ * 
+ * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+ */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new AssetPaymentAccountingLineParser();
+    }
+    
+    
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }

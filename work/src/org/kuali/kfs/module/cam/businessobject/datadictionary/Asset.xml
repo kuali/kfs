@@ -294,7 +294,7 @@
             p:cols="40" />
     </property>
     <property name="summary" value="capitalAssetDescription" />
-    <property name="description" value="capitalAssetDescription description..." />
+    <property name="description" value="capitalAssetDescription description..." />    
   </bean>
   <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean" />
 
@@ -887,7 +887,7 @@
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
-    <property name="validationPattern" >    
+    <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>

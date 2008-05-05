@@ -69,7 +69,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     @Override
     public Map<String,String> getForcedLookupOptionalFields() {
         Map<String,String> forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
-        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE + ";" + DocumentType.class.getName());
+        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE + ";" + DocumentType.class.getName());
         forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE+ ";" + OriginationCode.class.getName());
         
         return forcedLookupOptionalFields;

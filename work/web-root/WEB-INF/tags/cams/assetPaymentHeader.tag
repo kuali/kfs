@@ -48,7 +48,7 @@
 	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.organizationCode}"/></div></th>
 	        
 	        <td align=left valign=middle class="grid">
-	           <kul:htmlControlAttribute attributeEntry="${accountAttributes.organizationCode}" property="document.asset.organizationOwnerAccount.organizationCode" readOnly="${!fullEntryMode}"/>  
+	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}" property="document.asset.organizationOwnerAccount.organizationCode" readOnly="${!fullEntryMode}"/>  
 	        </td>
 	      </tr>
 	            
@@ -103,7 +103,7 @@
 	        </td>
 	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetOrganizationAttributes.organizationText}"/></div></th>
 	        <td align=left valign=middle class="grid">
-	           <kul:htmlControlAttribute attributeEntry="${assetOrganizationAttributes.organizationText}" property="document.asset.assetOrganization.organizationText" readOnly="${!fullEntryMode}"/>  
+	           <kul:htmlControlAttribute attributeEntry="${assetAttributes.asset.assetOrganization.organizationText}" property="document.asset.assetOrganization.organizationText" readOnly="${!fullEntryMode}"/>  
 	        </td>
 	      </tr>
 	      <tr>

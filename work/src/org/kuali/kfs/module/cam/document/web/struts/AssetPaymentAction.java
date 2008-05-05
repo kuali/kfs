@@ -17,6 +17,8 @@ package org.kuali.module.cams.web.struts.action;
 
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,12 +30,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.web.struts.form.AssetPaymentForm;
+import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -124,5 +129,44 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             assetPaymentDocument.setAsset(newAsset);
         }
         return newAsset;
+    }
+    
+        
+    /**
+     * This action executes a call to upload CSV accounting line values as SourceAccountingLines for a given transactional document.
+     * The "uploadAccountingLines()" method handles the multi-part request.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    @Override
+    public ActionForward uploadSourceLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
+        // call method that sourceform and destination list
+        uploadAccountingLines(true, form);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method determines whether we are uploading source or target lines, and then calls uploadAccountingLines directly on the
+     * document object. This method handles retrieving the actual upload file as an input stream into the document.
+     * 
+     * @param isSource
+     * @param form
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    @Override
+    protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
+        AssetPaymentForm apf = (AssetPaymentForm) form;
+        
+        // JournalVoucherAccountingLineParser needs a fresh BalanceType BO in the JournalVoucherDocument.
+        //apf.getAssetPaymentDocument().refreshReferenceObject(KFSPropertyConstants.BALANCE_TYPE);
+        super.uploadAccountingLines(isSource, apf);
     }
 }

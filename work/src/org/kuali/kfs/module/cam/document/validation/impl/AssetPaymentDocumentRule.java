@@ -15,6 +15,9 @@
  */
 package org.kuali.module.cams.rules;
 
+import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import java.sql.Date;
@@ -32,6 +35,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -133,7 +137,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
 
             if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {
                 label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
         }
@@ -215,4 +219,25 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         }
         return result;
     }
+
+    /**
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     */
+    public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
+        LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
+
+        KualiDecimal amount = accountingLine.getAmount();
+
+        // Check for zero amount
+        String correctsDocumentId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
+            GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
+            LOG.info("failing isAmountValid - zero check");
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

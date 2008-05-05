@@ -120,8 +120,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED);
             valid &= false;
         }
+
         if (newAsset.getEstimatedFabricationLifetimeLimitNumber() == null) {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED);
+            valid &= false;
+        }
+        if (newAsset.getEstimatedFabricationLifetimeLimitNumber() != null && newAsset.getEstimatedFabricationLifetimeLimitNumber().intValue() < 0) {
+            putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE);
             valid &= false;
         }
         return valid;

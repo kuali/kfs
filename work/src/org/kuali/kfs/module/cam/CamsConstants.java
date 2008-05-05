@@ -170,6 +170,9 @@ public class CamsConstants {
 
     public static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
     public static final String CPTLAST_NBR_SEQ = "CPTLAST_NBR_SEQ";
+    public static final String CONDITION_CODE_E = "E";
+    public static final String ACQUISITION_TYPE_CODE_C = "C";
+    public static final String VENDOR_NAME_CONSTRUCTED = "CONSTRUCTED";
 
     // TODO: replaced by System parameter
     public static class DepreciationConvention {

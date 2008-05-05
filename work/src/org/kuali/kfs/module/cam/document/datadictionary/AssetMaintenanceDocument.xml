@@ -38,6 +38,27 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="buildingRoom"
               p:attributeToHighlightOnFail="buildingRoomNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="capitalAssetType"
+              p:attributeToHighlightOnFail="capitalAssetTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organizationOwnerAccount"
+              p:attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organizationOwnerChartOfAccounts"
+              p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="condition"
+              p:attributeToHighlightOnFail="conditionCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="inventoryStatus"
+              p:attributeToHighlightOnFail="inventoryStatusCode" />     
+        <bean parent="ReferenceDefinition"
+              p:attributeName="acquisitionType"
+              p:attributeToHighlightOnFail="acquisitionTypeCode" />     
+        <bean parent="ReferenceDefinition"
+              p:attributeName="agency"
+              p:attributeToHighlightOnFail="agencyNumber" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -95,13 +116,16 @@
               p:name="agencyNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
-              p:readOnly="false" />
+              p:readOnly="false"
+              p:defaultValue="C" />
         <bean parent="MaintainableFieldDefinition"
               p:name="inventoryStatusCode"
               p:required="true" p:defaultValue="U" />
         <bean parent="MaintainableFieldDefinition"
               p:name="conditionCode"
-              p:required="true" />
+              p:required="true"
+              p:defaultValue="E"
+               />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetDescription"
               p:required="true" />
@@ -110,7 +134,8 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition" 
         	  p:name="vendorName"
-        	  p:required="true" />
+        	  p:required="true" 
+        	  p:defaultValue="CONSTRUCTED" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerName"
               p:required="false" />

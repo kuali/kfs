@@ -42,6 +42,7 @@ public class CamsKeyConstants {
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED = "error.asset.fabrication.completionDate.required";
     public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED = "error.asset.fabrication.lifeLimit.required";
     public static final String ERROR_FABRICATION_ESTIMATED_TOTAL_AMOUNT_NEGATIVE = "error.asset.fabrication.totalAmount.negative";
+    public static final String ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE = "error.asset.fabrication.lifeLimit.negative";
 
     public static class Depreciation {
         public static final String NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND = "error.batch.depreciation.assetsNotFound";

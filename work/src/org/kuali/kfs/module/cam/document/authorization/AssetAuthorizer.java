@@ -63,6 +63,9 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
                 newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
                 oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
                 newAsset.setCreateDate(new Date(new java.util.Date().getTime()));
+                newAsset.setConditionCode(CamsConstants.CONDITION_CODE_E);
+                newAsset.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_C);
+                newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
             }
             // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
             // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
@@ -70,6 +73,8 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
             hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
             newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.VENDOR_NAME);
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
         }
         else {
             // Asset edit: work group authorization

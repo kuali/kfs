@@ -24,6 +24,9 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
+import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgList2PLGReport;
 import org.kuali.module.budget.bo.BudgetConstructionTwoPlugListMove;
 import org.kuali.module.budget.dao.BudgetConstructionList2PLGReportDao;
@@ -42,18 +45,13 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
-
-    
-
     public void updateList2PLGReport(String personUserIdentifier, Integer universityFiscalYear) {
-        budgetConstructionList2PLGReportDao.updateList2PLGReportsTable(personUserIdentifier); 
-            
+        budgetConstructionList2PLGReportDao.updateList2PLGReportsTable(personUserIdentifier);
+
     }
 
     public Collection<BudgetConstructionOrgList2PLGReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
         Collection<BudgetConstructionOrgList2PLGReport> reportSet = new ArrayList();
-
-        
         BudgetConstructionOrgList2PLGReport orgList2PLGReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
@@ -61,17 +59,57 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
 
         // build order list
         List<String> orderList = buildOrderByList();
-        Collection<BudgetConstructionTwoPlugListMove> salarySummaryList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionTwoPlugListMove.class, searchCriteria, orderList);
-        
-        
-        String test = "";
-        
-        
+        Collection<BudgetConstructionTwoPlugListMove> twoPlugList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionTwoPlugListMove.class, searchCriteria, orderList);
+        for (BudgetConstructionTwoPlugListMove orgList2PLGEntry : twoPlugList) {
+            orgList2PLGReportEntry = new BudgetConstructionOrgList2PLGReport();
+            buildReportsHeader(universityFiscalYear, orgList2PLGReportEntry, orgList2PLGEntry);
+            buildReportsBody(orgList2PLGReportEntry, orgList2PLGEntry);
+            reportSet.add(orgList2PLGReportEntry);
+        }
         return reportSet;
     }
 
+    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgList2PLGReport orgList2PLGReportEntry, BudgetConstructionTwoPlugListMove twoPlugListMoveEntry) {
+        String orgChartDesc = twoPlugListMoveEntry.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
+        String chartDesc = twoPlugListMoveEntry.getChartOfAccounts().getFinChartOfAccountDescription();
+        String orgName = twoPlugListMoveEntry.getOrganization().getOrganizationName();
+        String finChartDesc = twoPlugListMoveEntry.getChartOfAccounts().getReportsToChartOfAccounts().getFinChartOfAccountDescription();
+        Integer prevFiscalyear = universityFiscalYear - 1;
+        orgList2PLGReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgList2PLGReportEntry.setOrgChartOfAccountsCode(twoPlugListMoveEntry.getOrganizationChartOfAccountsCode());
+
+        if (orgChartDesc == null) {
+            orgList2PLGReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+        }
+        else {
+            orgList2PLGReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
+        }
+
+        orgList2PLGReportEntry.setOrganizationCode(twoPlugListMoveEntry.getOrganizationCode());
+        if (orgName == null) {
+            orgList2PLGReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+        }
+        else {
+            orgList2PLGReportEntry.setOrganizationName(orgName);
+        }
+
+        orgList2PLGReportEntry.setChartOfAccountsCode(twoPlugListMoveEntry.getChartOfAccountsCode());
+        if (chartDesc == null) {
+            orgList2PLGReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+        }
+        else {
+            orgList2PLGReportEntry.setChartOfAccountDescription(chartDesc);
+        }
+        Integer prevPrevFiscalyear = prevFiscalyear - 1;
+        orgList2PLGReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+    }
     
-    
+    public void buildReportsBody(BudgetConstructionOrgList2PLGReport orgList2PLGReportEntry, BudgetConstructionTwoPlugListMove twoPlugListMoveEntry) {
+        orgList2PLGReportEntry.setAccountNumber(twoPlugListMoveEntry.getAccountNumber());
+        orgList2PLGReportEntry.setSubAccountNumber(twoPlugListMoveEntry.getSubAccountNumber());
+        orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getAccount().getAccountName());
+        orgList2PLGReportEntry.setReqAmount(new Integer(twoPlugListMoveEntry.getAccountLineAnnualBalanceAmount().intValue()));
+    }
     
     /**
      * builds orderByList for sort order.
@@ -80,19 +118,14 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
      */
     public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
-        /*returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
-        returnList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
         returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
-        returnList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
-        returnList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
-        returnList.add(KFSPropertyConstants.EMPLID);
-        */
+        returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         return returnList;
     }
-  
-    
+
     public void setBudgetConstructionList2PLGReportDao(BudgetConstructionList2PLGReportDao budgetConstructionList2PLGReportDao) {
         this.budgetConstructionList2PLGReportDao = budgetConstructionList2PLGReportDao;
     }
@@ -101,7 +134,6 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
         this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
     }
 
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -109,5 +141,4 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-
 }

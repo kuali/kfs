@@ -64,7 +64,7 @@
           <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationGlobalDetail" />
           <property name="sourceClassName" value="org.kuali.module.cams.bo.Asset" />
           <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
-          <property name="summaryTitle" value="Asset" />
+          <property name="summaryTitle" value="Asset Location" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -80,18 +80,23 @@
                     p:template="capitalAssetNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="campusCode"
+                    p:required="false"
                     p:template="campusCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="buildingCode"
+                    p:required="false"
                     p:template="buildingCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="buildingRoomNumber"
+                    p:required="false"
                     p:template="buildingRoomNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="buildingSubRoomNumber"
+                    p:required="false"
                     p:template="buildingSubRoomNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="campusTagNumber"
+                    p:required="false"
                     p:template="campusTagNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />

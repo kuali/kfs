@@ -25,69 +25,69 @@
 
 <tr>
 	<!--  Line Number -->
-	<td align=right class="${cssClass}" rowspan="4">
+	<td class="${cssClass}" style="text-align:right" rowspan="4" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.referenceInvoiceItemNumber}"
 			property="${invPropertyName}.sequenceNumber"
 			readOnly="true" />
 	<!--  Quantity -->	
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}"
 			property="${invPropertyName}.invoiceItemQuantity"
 			readOnly="true" />
 	
 	<!--  Item Code -->		
-	<td align=center class="${cssClass}">
+	<td class="${cssClass}" style="text-align:center" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemCode}"
 			property="${invPropertyName}.invoiceItemCode"
 			readOnly="true" />
 			
 	<!--  UOM -->
-	<td align=left class="${cssClass}">
+	<td class="${cssClass}" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitOfMeasureCode}"
 			property="${invPropertyName}.invoiceItemUnitOfMeasureCode"
 			readOnly="true" />
 			
 	<!--  Description -->
-	<td align=left class="${cssClass}">
+	<td class="${cssClass}" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
 			property="${invPropertyName}.invoiceItemDescription"
 			readOnly="true" />
 
 	<!--  Unit Price -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitPrice}"
 			property="${invPropertyName}.invoiceItemUnitPrice"
 			readOnly="true" />
 			
 	<!--  Item Amount -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.amount}"
 			property="${invPropertyName}.amount"
 			readOnly="true" />
 
 	<!--  Tax Amount -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}"
 			property="${invPropertyName}.invoiceItemTaxAmount"
 			readOnly="true" />
 			
 	<!--  Total Amount -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.invoiceLineTotalAmount}"
 			property="${crmPropertyName}.invoiceLineTotalAmount"
 			readOnly="true" />
 	
 	<!--  Open Invoice Amount -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemAmount}"
 			property="${crmPropertyName}.invoiceOpenItemAmount"
@@ -111,7 +111,7 @@
 </tr>
 <tr>			
 	<!--  CRM Quantity -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
 			property="${crmPropertyName}.creditMemoItemQuantity"
@@ -126,7 +126,7 @@
 
 	
 	<!--  CRM Item Amount -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
 			property="${crmPropertyName}.creditMemoItemTotalAmount"
@@ -134,7 +134,7 @@
 	</td>
 	
 	<!--  CRM Tax Amount -->
-	<td align=right class="${cssClass}">
+	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTaxAmount}"
 			property="${crmPropertyName}.creditMemoItemTaxAmount"
@@ -142,7 +142,7 @@
 	</td>
 	
 	<!--  CRM Total Amount -->
-	<td align=right class="${cssClass}" colspan="1">
+	<td class="${cssClass}" style="text-align:right" colspan="1" >
 		<kul:htmlControlAttribute 
 			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoLineTotalAmount}"
 			property="${crmPropertyName}.creditMemoLineTotalAmount"

@@ -15,11 +15,13 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjSubTyp;
+
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -118,6 +120,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private ObjSubTyp financialObjectSubType;
     private AssetDepreciationConvention assetDepreciationConvention;
     private AssetAcquisitionType acquisitionType;
+    private Agency agency;
 
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
@@ -1944,6 +1947,14 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setAcquisitionType(AssetAcquisitionType acquisitionType) {
         this.acquisitionType = acquisitionType;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 
 

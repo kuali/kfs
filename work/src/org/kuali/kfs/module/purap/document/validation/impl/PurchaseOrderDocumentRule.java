@@ -31,9 +31,11 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
@@ -43,6 +45,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorConstants.VendorTypes;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -345,6 +348,14 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
             return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
         }
+    }
+    
+    /**
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#commodityCodeIsRequired()
+     */
+    @Override
+    protected boolean commodityCodeIsRequired() {
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
     }
 
 }

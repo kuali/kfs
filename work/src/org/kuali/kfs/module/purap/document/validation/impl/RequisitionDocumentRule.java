@@ -34,6 +34,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -263,5 +264,13 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         else {
             return true;
         }
+    }
+    
+    /**
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#commodityCodeIsRequired()
+     */
+    @Override
+    protected boolean commodityCodeIsRequired() {
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
     }
 }

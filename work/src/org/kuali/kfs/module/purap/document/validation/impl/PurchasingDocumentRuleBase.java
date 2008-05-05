@@ -184,7 +184,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
-                valid &= validateCommodityCodes(item, document);
+                valid &= validateCommodityCodes(item, commodityCodeIsRequired());
             }
             GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
             i++;
@@ -222,13 +222,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         valid &= super.newIndividualItemValidation(purapDocument, documentType, item);
         
         valid &= validateItemCapitalAssetWithErrors(purapDocument, item, false);
-        valid &= validateUnitOfMeasure(item);
-        valid &= validateItemDescription(item);
+        valid &= validateUnitOfMeasure(item);       
         valid &= validateItemUnitPrice(item);      
         
         if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            valid &= validateItemDescription(item);
             valid &= validateItemQuantity(item);
-            valid &= validateCommodityCodes(item, commodityCodeIsRequired(purapDocument));           
+            valid &= validateCommodityCodes(item, commodityCodeIsRequired());           
         }
         else {
             // No accounts can be entered on below-the-line items that have no unit cost.
@@ -239,18 +239,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * Predicate to do a parameter lookup and tell us whether a commodity code is required. 
-     * Needed so that we don't have to create system parameters for each of the subclasses 
-     * of PurchaseOrderDocument.
+     * Predicate to do a parameter lookup and tell us whether a commodity code is required.
+     * Override in child classes. 
      * 
-     * @param purapDocument     A PurchasingAccountsPayableDocument.
      * @return      True if a commodity code is required.
      */
-    private boolean commodityCodeIsRequired(PurchasingAccountsPayableDocument purapDocument) {
-        Class<? extends PurchasingAccountsPayableDocument> purapDocumentClass = null;
-        purapDocumentClass = (purapDocument instanceof RequisitionDocument ? RequisitionDocument.class : PurchaseOrderDocument.class);
-        
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);     
+    protected boolean commodityCodeIsRequired() {
+        return false;
     }
 
 
@@ -301,12 +296,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return
      */
     public boolean validateItemDescription(PurApItem item) {
-        boolean valid = true;
-        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-            if (StringUtils.isEmpty(item.getItemDescription())) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
-            }
+        boolean valid = true;      
+        if (StringUtils.isEmpty(item.getItemDescription())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
         }
         return valid;
     }
@@ -354,7 +347,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processAddItemBusinessRules(financialDocument, item);
         GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
-        valid &= validateItemDescription(item);
+        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            valid &= validateItemDescription(item);
+        }
         valid &= validateItemUnitPrice(item);
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
 
@@ -372,11 +367,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processImportItemBusinessRules(financialDocument, item);
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
-        valid &= validateItemDescription(item);
+        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            valid &= validateItemDescription(item);
+        }
         valid &= validateItemUnitPrice(item);
         valid &= validateUnitOfMeasureCodeExists(item);
         
-        valid &= validateCommodityCodes(item, financialDocument);
+        valid &= validateCommodityCodes(item, commodityCodeIsRequired());
         
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
 
@@ -467,26 +464,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
         return valid;
     }
-
-    protected boolean validateCommodityCodes(PurApItem item, Document financialDocument) {
-    
-        //This is needed so that we don't have to create system parameters for each of the subclasses of PurchaseOrderDocument.
-        Class purapDocumentClass = null;
-        if (financialDocument instanceof RequisitionDocument) {
-            purapDocumentClass = financialDocument.getClass();
-        }
-        else {
-            purapDocumentClass = PurchaseOrderDocument.class;
-        }
-        
-        String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
-        boolean commodityCodeRequired = (commodityCodeIsRequired.equalsIgnoreCase("Y")? true : false);
-        
-        return validateCommodityCodes(item, commodityCodeRequired);
-        
-    }
-    
-    
 
     /**
      * Validates whether the commodity code existed on the item, and if existed, whether the

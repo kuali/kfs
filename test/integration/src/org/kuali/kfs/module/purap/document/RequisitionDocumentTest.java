@@ -23,10 +23,10 @@ import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
@@ -171,18 +171,9 @@ public class RequisitionDocumentTest extends KualiTestBase {
         return RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
     }
     
-    public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() throws Exception {
+    public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
-        requisitionDocument.prepareForSave();
-        List<AdHocRouteRecipient> adHocRouteRecipients = null;
-        boolean failedAsExpected = false;
-        try {
-            SpringContext.getBean(DocumentService.class).routeDocument(requisitionDocument, "", adHocRouteRecipients);
-        }
-        catch (ValidationException e) {
-            failedAsExpected = true;
-        }
-        assertTrue(failedAsExpected);
+        assertFalse(SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument)));
     }
 
     private UserNameFixture getInitialUserName() {

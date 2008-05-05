@@ -43,6 +43,24 @@ public class BudgetConstructionReportHelper {
         return returnNum;
     }
     
+    public static BigDecimal setZeroDecimalDigit(BigDecimal number){
+        BigDecimal returnNum = BigDecimal.ZERO;
+        if (number != null){
+            number.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+        }
+        
+        return returnNum;
+    }
+
+    public static BigDecimal setOneDecimalDigit(BigDecimal number){
+        BigDecimal returnNum = BigDecimal.ZERO;
+        if (number != null){
+            number.setScale(1, BigDecimal.ROUND_HALF_EVEN);
+        }
+        
+        return returnNum;
+    }
+    
     public static BigDecimal calculateChange (BigDecimal numerator, BigDecimal denominator){
         BigDecimal result = BigDecimal.ZERO;
         if (!denominator.equals(BigDecimal.ZERO)){

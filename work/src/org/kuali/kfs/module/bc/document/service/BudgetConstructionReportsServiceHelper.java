@@ -16,8 +16,15 @@
 package org.kuali.module.budget.service;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
+import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
+import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.chart.bo.ObjectCode;
 
 
@@ -26,5 +33,13 @@ public interface BudgetConstructionReportsServiceHelper {
     public Collection getDataForBuildingReports(Class clazz, String personUserIdentifier, List<String> orderList);
     
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+        
+    public String getSelectedObjectCodes (String personUserIdentifier);
+        
+    public BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry); 
+
+    public BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry);
+    
+    public BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry);
         
 }

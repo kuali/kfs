@@ -15,13 +15,12 @@
  */
 package org.kuali.module.cams.rules;
 
-import org.kuali.core.rules.DocumentRuleBase;
+import org.kuali.core.rules.TransactionalDocumentRuleBase;
 
-public class EquipmentLoanOrReturnDocumentRule extends DocumentRuleBase {
+public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRuleBase {
 
     public EquipmentLoanOrReturnDocumentRule() {
-        super();
-        // TODO Auto-generated constructor stub
+        super(); 
     }
 
 }

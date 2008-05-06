@@ -25,21 +25,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.batch.PreAssetTaggingStepTest;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm;
-import org.kuali.rice.KNSServiceLocator;
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
 /**
@@ -48,6 +43,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         // TODO Auto-generated constructor stub
     }
 **/
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnAction.class);
 
     /**
      * This method had to override because asset information has to be refreshed before display
@@ -71,35 +67,19 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
             assetHeader.setDocumentNumber(equipmentLoanOrReturnDocument.getDocumentNumber());
             assetHeader.setCapitalAssetNumber(equipmentLoanOrReturnDocument.getAsset().getCapitalAssetNumber());
             equipmentLoanOrReturnDocument.setAssetHeader(assetHeader);
+            equipmentLoanOrReturnDocument.setCampusTagNumber(asset.getCampusTagNumber());
+            equipmentLoanOrReturnDocument.setOrganizationTagNumber(asset.getOrganizationTagNumber());
         }
 
-        asset = handleRequestFromWorkflow(equipmentLoanOrReturnForm, equipmentLoanOrReturnDocument, service, assetHeader);
         asset = equipmentLoanOrReturnDocument.getAsset();
-
+        
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary(asset);
+        LOG.info("docHandler: " + assetHeader.getDocumentNumber());
 
         return docHandlerForward;
     }
 
-    /**
-     * This method handles when request is from a work flow document search
-     * 
-     * @param equipmentLoanOrReturnForm Form
-     * @param equipmentLoanOrReturnDocument Document
-     * @param service BusinessObjectService
-     * @param assetHeader Asset header object
-     * @return Asset
-     */
-    private Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService service, AssetHeader assetHeader) {
-        Asset newAsset = new Asset();
-        if (equipmentLoanOrReturnForm.getDocId() != null && assetHeader != null) {
-            newAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
-            newAsset = (Asset) service.retrieve(newAsset);
-            equipmentLoanOrReturnDocument.setAsset(newAsset);
-        }
-        return newAsset;
-    }
 
     /**
      * This method handles the request coming from asset lookup screen

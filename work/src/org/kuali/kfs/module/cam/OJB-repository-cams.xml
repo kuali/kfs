@@ -969,7 +969,7 @@
 	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">

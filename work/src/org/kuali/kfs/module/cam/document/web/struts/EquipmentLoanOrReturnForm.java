@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -59,12 +60,9 @@ public class EquipmentLoanOrReturnForm extends KualiTransactionalDocumentFormBas
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        // TODO - When I use below method gets an error [error getting property value for accountingPeriod Property
-        // 'accountingPeriod' has no getter method] while reloading a document
-        // SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
-        // TODO So this is a hack to prevent that error
-        performCustomForceUpperCase(dataDictionaryService);
+//        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
+//        performCustomForceUpperCase(dataDictionaryService);
 
     }
 

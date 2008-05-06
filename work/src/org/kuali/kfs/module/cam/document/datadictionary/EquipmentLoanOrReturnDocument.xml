@@ -16,6 +16,9 @@
     <property name="businessRulesClass" value="org.kuali.module.cams.rules.EquipmentLoanOrReturnDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.EquipmentLoanOrReturnDocumentAuthorizer" />
     <property name="documentTypeCode" value="ELR" />
+    <property name="workflowProperties" >
+      <ref bean="EquipmentLoanOrReturnDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -487,6 +490,27 @@
   <bean id="EquipmentLoanOrReturnDocument-versionNumber" parent="EquipmentLoanOrReturnDocument-versionNumber-parentBean" />
 
   <bean id="EquipmentLoanOrReturnDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="EquipmentLoanOrReturnDocument-workflowProperties" parent="EquipmentLoanOrReturnDocument-workflowProperties-parentBean" />
+
+  <bean id="EquipmentLoanOrReturnDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="assetHeader" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 
 </beans>

@@ -21,7 +21,9 @@ import org.apache.log4j.Logger;
 import org.kuali.module.purap.bo.Threshold;
 import org.kuali.module.purap.dao.ThresholdDao;
 import org.kuali.module.purap.service.ThresholdService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class ThresholdServiceImpl implements ThresholdService{
 
     private static Logger LOG = Logger.getLogger(ThresholdServiceImpl.class);

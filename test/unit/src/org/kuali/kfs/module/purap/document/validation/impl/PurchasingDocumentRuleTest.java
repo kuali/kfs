@@ -600,21 +600,11 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_ABOVE_QUANTITY_BASED.populateRequisitionItem();
         assertTrue(rules.validateItemDescription(item));
     }
-    
-    public void testValidateItemDescription_WithDescription_Below() {
-        RequisitionItem item = ItemFieldsFixture.ALL_FIELDS_BELOW.populateRequisitionItem();
-        assertTrue(rules.validateItemDescription(item));
-    }
-    
+        
     public void testValidateItemDescription_WithoutDescription_Above() {
         RequisitionItem item = ItemFieldsFixture.NO_DESC_ABOVE_QUANTITY_BASED.populateRequisitionItem();
         assertFalse(rules.validateItemDescription(item));
     }
-    
-    public void testValidateItemDescription_WithoutDescription_Below() {
-        RequisitionItem item = ItemFieldsFixture.NO_DESC_BELOW.populateRequisitionItem();
-        assertTrue(rules.validateItemDescription(item));
-    }   
     
     // Tests of validateCommodityCodes.
     

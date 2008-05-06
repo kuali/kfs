@@ -97,11 +97,11 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
                     p:attributeName="itemReasonAddedCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemReasonAddedDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -124,21 +124,21 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
               p:attributeName="itemReasonAddedCode" />
         <bean parent="FieldDefinition"
               p:attributeName="itemReasonAddedDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
               p:attributeName="itemReasonAddedCode" />
         <bean parent="FieldDefinition"
               p:attributeName="itemReasonAddedDescription" />
+	    <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

@@ -356,22 +356,17 @@
 	</property>
 	</bean>
     
-    
     <bean id="budgetConstructionPositionFundingDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionPositionFundingDetailReportServiceImpl">
 	<property name="budgetConstructionPositionFundingDetailReportDao">
 		<ref bean="budgetConstructionPositionFundingDetailReportDao" />
 	</property>
-	<property name="budgetConstructionOrganizationReportsService">
-		<ref bean="budgetConstructionOrganizationReportsService" />
-	</property>
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
-    <property name="businessObjectService">
-		<ref bean="businessObjectService" />
-	</property>
+    <property name="budgetConstructionReportsServiceHelper">
+		<ref bean="budgetConstructionReportsServiceHelper" />
+		</property>
 	</bean>
-    
     
     <bean id="budgetConstructionMonthSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthSummaryReportServiceImpl">
 	<property name="budgetConstructionMonthSummaryReportDao">

@@ -56,4 +56,13 @@ public interface AssetRetirementService {
      * @return
      */
     Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String documentNumber);
+    
+    /**
+     * 
+     * Check if reasonCode is in reasonCodeGroup
+     * @param reasonCodeGroup
+     * @param reasonCode
+     * @return
+     */
+    boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode);
 }

@@ -2,10 +2,8 @@ package org.kuali.module.cams.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
@@ -13,12 +11,10 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.PaymentSummaryService;
@@ -29,7 +25,7 @@ import org.kuali.module.financial.service.UniversityDateService;
  */
 
 public class AssetRetirementGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
-
+    public static final String ASSET_RETIREMENT_DOCTYPE_CD = "AMRG";
     private String documentNumber;
     private Long mergedTargetCapitalAssetNumber;
     private String inventoryStatusCode;
@@ -86,6 +82,14 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         return persistables;
     }
 
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedList = super.buildListOfDeletionAwareLists();
+        
+        managedList.add(getAssetRetirementGlobalDetails());
+        
+        return managedList;
+    }
 
     /**
      * 

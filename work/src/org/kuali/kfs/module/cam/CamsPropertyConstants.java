@@ -15,15 +15,8 @@
  */
 package org.kuali.module.cams;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.Room;
-import org.kuali.kfs.bo.State;
-import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.KFSConstants;
+
 
 
 /**
@@ -92,7 +85,7 @@ public class CamsPropertyConstants {
         }
 
     }
-    
+
     public static class AssetHeader {
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String DOCUMENT_HEADER = "documentHeader";
@@ -205,6 +198,8 @@ public class CamsPropertyConstants {
     public static class AssetRetirementGlobal {
         public static final String SHARED_RETIREMENT_INFO = "sharedRetirementInfo";
         public static final String MERGED_TARGET_CAPITAL_ASSET_NUMBER = "mergedTargetCapitalAssetNumber";
+        public static final String RETIREMENT_REASON_CODE = "retirementReasonCode";
+        public static final String ASSET_RETIREMENT_GLOBAL_DETAILS = "assetRetirementGlobalDetails";
     }
 
     public static class AssetRetirementGlobalDetail {
@@ -227,7 +222,7 @@ public class CamsPropertyConstants {
         public static final String BUYER_DESCRIPTION = "buyerDescription";
         public static final String PAID_CASE_NUMBER = "paidCaseNumber";
     }
-    
+
     public static class AssetLocationGlobal {
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String CAMPUS_CODE = "campusCode";

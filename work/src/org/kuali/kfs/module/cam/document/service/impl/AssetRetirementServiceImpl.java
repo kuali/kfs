@@ -15,8 +15,15 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -52,7 +59,8 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#generateOffsetPaymentsForEachSource(org.kuali.module.cams.bo.Asset, java.util.List, java.lang.String)
+     * @see org.kuali.module.cams.service.AssetRetirementService#generateOffsetPaymentsForEachSource(org.kuali.module.cams.bo.Asset,
+     *      java.util.List, java.lang.String)
      */
     public void generateOffsetPaymentsForEachSource(Asset sourceAsset, List<PersistableBusinessObject> persistables, String currentDocumentNumber) {
         AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
@@ -65,7 +73,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
                 if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equalsIgnoreCase(sourcePayment.getTransferPaymentCode())) {
                     offsetPayment = (AssetPayment) ObjectUtils.deepCopy(sourcePayment);
-                    offsetPayment.setFinancialDocumentTypeCode("AMRG");
+                    offsetPayment.setFinancialDocumentTypeCode(AssetRetirementGlobal.ASSET_RETIREMENT_DOCTYPE_CD);
                     offsetPayment.setDocumentNumber(currentDocumentNumber);
                     offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     assetPaymentService.adjustPaymentAmounts(offsetPayment, true, false);
@@ -81,7 +89,8 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#generateNewPaymentForTarget(org.kuali.module.cams.bo.Asset, org.kuali.module.cams.bo.Asset, java.util.List, java.lang.Integer, java.lang.String)
+     * @see org.kuali.module.cams.service.AssetRetirementService#generateNewPaymentForTarget(org.kuali.module.cams.bo.Asset,
+     *      org.kuali.module.cams.bo.Asset, java.util.List, java.lang.Integer, java.lang.String)
      */
     public Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String currentDocumentNumber) {
         List<AssetPayment> newPayments = new TypedArrayList(AssetPayment.class);
@@ -91,8 +100,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equalsIgnoreCase(sourcePayment.getTransferPaymentCode())) {
                     newPayment = (AssetPayment) ObjectUtils.deepCopy(sourcePayment);
                     newPayment.setCapitalAssetNumber(targetAsset.getCapitalAssetNumber());
+                    newPayment.setFinancialDocumentTypeCode(AssetRetirementGlobal.ASSET_RETIREMENT_DOCTYPE_CD);
                     newPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     newPayment.setDocumentNumber(currentDocumentNumber);
+                    resetPeriodDepreciationAmount(newPayment);
                     newPayments.add(newPayment);
                 }
             }
@@ -104,5 +115,33 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         return maxSequenceNo;
     }
 
+    /**
+     * 
+     * Clear setting for periodic depreciation expenses.
+     * 
+     * @param newPayment
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    private void resetPeriodDepreciationAmount(AssetPayment newPayment) throws IllegalAccessException, InvocationTargetException {
+        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
+
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            Method writeMethod = propertyDescriptor.getWriteMethod();
+
+            if (writeMethod != null && Pattern.matches(CamsConstants.SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
+                Object[] nullVals = new Object[] { null };
+                writeMethod.invoke(newPayment, nullVals);
+            }
+        }
+    }
+
+    
+    public boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode) {
+        if (StringUtils.isBlank(reasonCodeGroup) || StringUtils.isBlank(reasonCode)) {
+            return false;
+        }
+        return Arrays.asList(reasonCodeGroup.split(";")).contains(reasonCode);
+    }
 
 }

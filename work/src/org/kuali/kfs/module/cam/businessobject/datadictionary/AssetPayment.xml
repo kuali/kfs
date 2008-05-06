@@ -1080,6 +1080,7 @@
     <property name="shortLabel" value="yearToDate" />
     <property name="summary" value="Year to Date" />
     <property name="description" value="Year to Date" />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

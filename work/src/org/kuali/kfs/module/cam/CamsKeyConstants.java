@@ -108,8 +108,11 @@ public class CamsKeyConstants {
         public static final String ERROR_NON_ACTIVE_ASSET_RETIREMENT = "error.non.active.asset.retirment";
         public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.invalid.capital.asset.number";
         public static final String ERROR_DUPLICATE_CAPITAL_ASSET_NUMBER_WITH_TARGET = "error.duplicate.capital.asset.number.with.target";
+        public static final String ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET = "error.invalid.user.group.for.nonmoveable.asset";
         public static final String ERROR_BLANK_CAPITAL_ASSET_NUMBER = "error.blank.capital.asset.number";
         public static final String ERROR_ASSET_RETIREMENT_GLOBAL_NO_ASSET = "error.asset.retirement.global.no.asset";
+        public static final String ERROR_DISALLOWED_RETIREMENT_REASON_CODE = "error.disallowed.retirement.reason.code";
+        public static final String ERROR_MULTIPLE_ASSET_RETIRED = "error.multiple.asset.retired";
     }
 
     public static class AssetLocationGlobal {

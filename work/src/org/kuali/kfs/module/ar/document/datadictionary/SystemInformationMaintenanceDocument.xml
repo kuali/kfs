@@ -113,8 +113,8 @@
               p:defaultValueFinderClass="org.kuali.module.cg.lookup.valuefinder.CurrentSessionUserValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="lockboxNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="salesTaxAccountNumber" />
+<!--        <bean parent="MaintainableFieldDefinition"-->
+<!--              p:name="salesTaxAccountNumber" />-->
       </list>
     </property>
   </bean>
@@ -125,8 +125,8 @@
     <property name="title" value="Edit Object Codes" />
     <property name="maintainableItems" >
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="salesTaxFinancialObjectCode" />
+<!--        <bean parent="MaintainableFieldDefinition"-->
+<!--              p:name="salesTaxFinancialObjectCode" />-->
         <bean parent="MaintainableFieldDefinition"
               p:name="adjustmentObjectCode" />
         <bean parent="MaintainableFieldDefinition"

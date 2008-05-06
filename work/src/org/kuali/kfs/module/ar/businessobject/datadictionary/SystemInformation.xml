@@ -345,8 +345,8 @@
                     p:attributeName="processingOrganizationCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="lockboxNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="salesTaxAccountNumber" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="salesTaxAccountNumber" />-->
              </list>
           </property>
         </bean>                     
@@ -355,8 +355,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 			<list>                
-              <bean parent="FieldDefinition"
-                    p:attributeName="salesTaxFinancialObjectCode" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="salesTaxFinancialObjectCode" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="adjustmentObjectCode" />
               <bean parent="FieldDefinition"

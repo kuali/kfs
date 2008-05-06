@@ -30,7 +30,6 @@
 	<field name="organizationCode" class="java.lang.String"/>
 	<field name="organizationName" class="java.lang.String"/>
 	<field name="objectCodes" class="java.lang.String"/>
-	<field name="appointmentTotalIntendedAmount" class="java.lang.Integer"/>
 	<field name="initialRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalInitialRequestedAmount" class="java.lang.Integer"/>
 	<field name="totalAverageAmount" class="java.lang.Integer"/>

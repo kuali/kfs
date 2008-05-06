@@ -33,6 +33,7 @@
 	<field name="objectCodes" class="java.lang.String"/>
 	<field name="deleteBox" class="java.lang.String"/>
 	<field name="personName" class="java.lang.String"/>
+	<field name="cls" class="java.lang.String"/>
 	<field name="financialSubObjectCode" class="java.lang.String"/>
 	<field name="administrativePost" class="java.lang.String"/>
 	<field name="positionNumber" class="java.lang.String"/>
@@ -263,24 +264,24 @@
 			<groupExpression><![CDATA[$F{emplid}]]></groupExpression>
 			<groupHeader>
 			<band height="12"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="203"
 						y="0"
-						width="18"
+						width="30"
 						height="12"
 						key="textField-236"/>
 					<box></box>
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Cls}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{cls}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="8"
 						y="0"
-						width="166"
+						width="189"
 						height="12"
 						key="textField-238"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1333,7 +1334,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Left">
+					<textElement textAlignment="Center">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Hrte}]]></textFieldExpression>
@@ -1549,7 +1550,7 @@
 					<reportElement
 						x="203"
 						y="100"
-						width="18"
+						width="30"
 						height="12"
 						key="textField-235"/>
 					<box></box>
@@ -1575,6 +1576,24 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{organizationName}]]></textFieldExpression>
 				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="9"
+						y="112"
+						width="188"
+						height="1"
+						key="line-91"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="203"
+						y="112"
+						width="30"
+						height="1"
+						key="line-92"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 			</band>
 		</pageHeader>
 		<columnHeader>
@@ -1782,7 +1801,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Right">
+					<textElement textAlignment="Center">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{normalWorkMonthsAndiuPayMonths}]]></textFieldExpression>
@@ -1901,14 +1920,14 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Right">
+					<textElement textAlignment="Center">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{positionStandardHoursDefault}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="210"
+						x="212"
 						y="12"
 						width="33"
 						height="12"
@@ -1935,7 +1954,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement textAlignment="Left">
+					<textElement textAlignment="Center">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{positionFte}]]></textFieldExpression>
@@ -1976,7 +1995,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="244"
+						x="247"
 						y="12"
 						width="38"
 						height="12"

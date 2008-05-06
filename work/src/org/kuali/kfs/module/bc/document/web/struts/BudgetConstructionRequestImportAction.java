@@ -30,6 +30,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.Timer;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
@@ -62,7 +63,10 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         BudgetRequestImportService budgetRequestImportService = SpringContext.getBean(BudgetRequestImportService.class);
         Integer budgetYear = budgetConstructionImportForm.getUniversityFiscalYear();
         
+        Timer t = new Timer("validateFormData");
+        
         boolean isValid = validateFormData(budgetConstructionImportForm);
+        t.log();
         
         String basePath;
         String lookupUrl;
@@ -73,8 +77,9 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String personUniversalIdentifier = user.getPersonUniversalIdentifier();
+        t = new Timer("processImportFile");
         List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), personUniversalIdentifier, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType(), budgetYear);
-        
+        t.log();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         
         if (!parsingErrors.isEmpty()) {
@@ -82,16 +87,18 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
             return null;
         }
-        
+        t = new Timer("validateData");
         List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear);
+        t.log();
         List<String> messageList = new ArrayList<String>();
         
         if (!dataValidationErrorList.isEmpty()) {
             messageList.add("Fatal error during data validation");
             messageList.addAll(dataValidationErrorList);
         }
-        
+        t = new Timer("loadBudget");
         List<String> updateErrorMessages = budgetRequestImportService.loadBudget(user, budgetConstructionImportForm.getFileType(), budgetYear);
+        t.log();
         messageList.addAll(updateErrorMessages);
         
         if ( !messageList.isEmpty() ) {
@@ -99,7 +106,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
             return null;
         }
-        
+        t.log();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
       
     }

@@ -17,8 +17,11 @@ package org.kuali.module.budget.dao;
 
 import java.util.List;
 
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 
 /**
  * Facilates Budget Construction Import requests
@@ -38,5 +41,29 @@ public interface ImportRequestDao {
      * @return List<BudgetConstructionRequestMove>
      */
     public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords();
+    
+    /**
+     * Save or update business object based on isUpdate
+     * 
+     * @param businessObject
+     * @param isUpadate
+     */
+    public void save(BusinessObject businessObject, boolean isUpdate);
+    
+    /**
+     * Gets the version number
+     * 
+     * @param businessObject
+     * @return
+     */
+    public Long getPendingBudgetConstructionGeneralLedgerVersionNumber(PendingBudgetConstructionGeneralLedger pendingEntry);
+    
+    /**
+     * Gets the version number
+     * 
+     * @param businessObject
+     * @return
+     */
+    public Long getBudgetConstructionMonthlyVersionNumber(BudgetConstructionMonthly monthlyEntry);
     
 }

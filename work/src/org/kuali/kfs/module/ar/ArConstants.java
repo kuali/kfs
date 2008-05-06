@@ -41,6 +41,7 @@ public class ArConstants {
 
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
+    public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";
 
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;

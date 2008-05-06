@@ -63,7 +63,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         try {
             document = (CashControlDocument) documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
             document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.WIRE_TRANSFER);
-            document.getDocumentHeader().setFinancialDocumentDescription("Electronic Payment Claim");
 
             //create and set AccountsReceivableDocumentHeader
             ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
@@ -91,8 +90,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @param document the cash control document
      */
     private void addDescriptionToDocument(CashControlDocument document) {
-        // TODO Auto-generated method stub
-
+        document.getDocumentHeader().setFinancialDocumentDescription(kualiConfigurationService.getPropertyString(ArConstants.ELECTRONIC_PAYMENT_CLAIM));
     }
 
     /**

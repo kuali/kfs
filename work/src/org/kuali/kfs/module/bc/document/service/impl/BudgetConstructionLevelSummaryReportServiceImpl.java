@@ -33,6 +33,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgLevelSummaryReportTotal;
 import org.kuali.module.budget.dao.BudgetConstructionLevelSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.budget.util.BudgetConstructionReportHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -80,10 +81,18 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
 
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
-        List listForCalculateCons = deleteDuplicated((List) levelSummaryList, 1);
-        List listForCalculateGexpAndType = deleteDuplicated((List) levelSummaryList, 2);
-        List listForCalculateTotal = deleteDuplicated((List) levelSummaryList, 3);
-
+        List<String> fieldList = new ArrayList();
+        fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+        fieldList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
+        fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        List listForCalculateTotal = BudgetConstructionReportHelper.deleteDuplicated((List) levelSummaryList, fieldList);
+        
+        fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
+        List listForCalculateGexpAndType = BudgetConstructionReportHelper.deleteDuplicated((List) levelSummaryList, fieldList);
+        
+        fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
+        List listForCalculateCons = BudgetConstructionReportHelper.deleteDuplicated((List) levelSummaryList, fieldList );
 
         // Calculate Total Section
         List<BudgetConstructionOrgLevelSummaryReportTotal> levelSummaryTotalConsList;
@@ -638,56 +647,6 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         else
             return false;
     }
-
-    /**
-     * Deletes duplicated entry from list
-     * 
-     * @param List list
-     * @return a list that all duplicated entries were deleted
-     */
-    public List deleteDuplicated(List list, int mode) {
-
-        // mode 1 is for getting a list of cons
-        // mode 2 is for getting a list of gexp and type
-        // mode 3 is for getting a list of total
-
-        int count = 0;
-        BudgetConstructionLevelSummary levelSummaryEntry = null;
-        BudgetConstructionLevelSummary levelSummaryEntryAux = null;
-        List returnList = new ArrayList();
-        if ((list != null) && (list.size() > 0)) {
-            levelSummaryEntry = (BudgetConstructionLevelSummary) list.get(count);
-            levelSummaryEntryAux = (BudgetConstructionLevelSummary) list.get(count);
-            returnList.add(levelSummaryEntry);
-            count++;
-            while (count < list.size()) {
-                levelSummaryEntry = (BudgetConstructionLevelSummary) list.get(count);
-                switch (mode) {
-                    case 1: {
-                        if (!isSameLevelSummaryEntry(levelSummaryEntry, levelSummaryEntryAux)) {
-                            returnList.add(levelSummaryEntry);
-                            levelSummaryEntryAux = levelSummaryEntry;
-                        }
-                    }
-                    case 2: {
-                        if (!isSameLevelSummaryEntryWithoutSortCode(levelSummaryEntry, levelSummaryEntryAux)) {
-                            returnList.add(levelSummaryEntry);
-                            levelSummaryEntryAux = levelSummaryEntry;
-                        }
-                    }
-                    case 3: {
-                        if (!isSameLevelSummaryEntryWithoutSortCodeAndExpenseCode(levelSummaryEntry, levelSummaryEntryAux)) {
-                            returnList.add(levelSummaryEntry);
-                            levelSummaryEntryAux = levelSummaryEntry;
-                        }
-                    }
-                }
-                count++;
-            }
-        }
-        return returnList;
-    }
-
 
     /**
      * builds orderByList for sort order.

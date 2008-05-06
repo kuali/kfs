@@ -254,7 +254,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
             if (appointmentFundingEntry.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
                 Integer amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
                 orgAccountFundingDetailReportEntry.setAmountChange(amountChange);
-                orgAccountFundingDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculateChange(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
+                orgAccountFundingDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
             }
         }
         
@@ -302,7 +302,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
                 // calculate amountChange and percentChange
                 Integer amountChange = fundingDetailTotalObjectEntry.getTotalObjectAppointmentRequestedAmount() - fundingDetailTotalObjectEntry.getTotalObjectPositionCsfAmount();
                 orgAccountFundingDetailReportEntry.setTotalObjectAmountChange(amountChange);
-                orgAccountFundingDetailReportEntry.setTotalObjectPercentChange(BudgetConstructionReportHelper.calculateChange(new BigDecimal(amountChange.intValue()), new BigDecimal(fundingDetailTotalObjectEntry.getTotalObjectPositionCsfAmount().intValue())));
+                orgAccountFundingDetailReportEntry.setTotalObjectPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), new BigDecimal(fundingDetailTotalObjectEntry.getTotalObjectPositionCsfAmount().intValue())));
             }
         }
 
@@ -325,7 +325,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
                 orgAccountFundingDetailReportEntry.setTotalAccountAppointmentRequestedFteQuantity(fundingDetailTotalAccountEntry.getTotalAccountAppointmentRequestedFteQuantity().setScale(5, 5).toString());
                 Integer amountChange = fundingDetailTotalAccountEntry.getTotalAccountAppointmentRequestedAmount() - fundingDetailTotalAccountEntry.getTotalAccountPositionCsfAmount();
                 orgAccountFundingDetailReportEntry.setTotalAccountAmountChange(amountChange);
-                orgAccountFundingDetailReportEntry.setTotalAccountPercentChange(BudgetConstructionReportHelper.calculateChange(new BigDecimal(amountChange.intValue()), new BigDecimal(fundingDetailTotalAccountEntry.getTotalAccountPositionCsfAmount().intValue())));
+                orgAccountFundingDetailReportEntry.setTotalAccountPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), new BigDecimal(fundingDetailTotalAccountEntry.getTotalAccountPositionCsfAmount().intValue())));
             }
         }
     }

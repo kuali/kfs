@@ -272,6 +272,7 @@
      
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
     	<property name="parameterService" ref="parameterService" />
+    	<property name="documentHelperService" ref="documentHelperService" />
     </bean>
     
     <bean id="assetTransferDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetTransferDaoOjb"/>

@@ -15,20 +15,27 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.DocumentHelperService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
+import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetServiceImpl implements AssetService {
-    ParameterService parameterService;
-
+    private ParameterService parameterService;
+    private DocumentHelperService documentHelperService;
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -38,6 +45,14 @@ public class AssetServiceImpl implements AssetService {
         this.parameterService = parameterService;
     }
 
+    public DocumentHelperService getDocumentHelperService() {
+        return documentHelperService;
+    }
+
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
+    }
+    
     public boolean isAssetMovable(Asset asset) {
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         return asset.getCapitalAssetType().isMovingIndicator();
@@ -103,6 +118,39 @@ public class AssetServiceImpl implements AssetService {
         if (capitalAssetNumber1!= null && capitalAssetNumber2!= null && capitalAssetNumber1.compareTo(capitalAssetNumber2) == 0) {
             return true;
         }
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.module.cams.service.AssetService#generateAssetLock(java.lang.String, java.lang.Long)
+     */
+    public MaintenanceLock generateAssetLock(String documentNumber, Long capitalAssetNumber) {
+        MaintenanceLock maintenanceLock = new MaintenanceLock();
+        StringBuffer lockrep = new StringBuffer();
+
+        lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+        lockrep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+        lockrep.append(capitalAssetNumber);
+
+        maintenanceLock.setDocumentNumber(documentNumber);
+        maintenanceLock.setLockingRepresentation(lockrep.toString());
+
+        return maintenanceLock;
+    }
+    
+    /**
+     * @see org.kuali.module.cams.service.AssetService#isAssetLocked(java.lang.String, java.lang.Long)
+     */
+    public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
+        List<MaintenanceLock> maintenanceLocks = new ArrayList();
+        maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
+        String lockingDocumentId = getDocumentHelperService().getLockingDocumentId(documentNumber, maintenanceLocks);
+        if (StringUtils.isNotEmpty(lockingDocumentId)) {
+            documentHelperService.checkForLockingDocument(lockingDocumentId);
+            
+            return true;
+        }
+        
         return false;
     }
 }

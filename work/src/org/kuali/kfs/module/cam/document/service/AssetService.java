@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.service;
 
+import org.kuali.core.document.MaintenanceLock;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.bo.Asset;
 
 
@@ -87,4 +89,23 @@ public interface AssetService {
      * @return
      */
     boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2);
+    
+    /**
+     * Creates the particular locking representation for this transactional asset document.
+     * 
+     * @param documentNumber
+     * @param capitalAssetNumber
+     * @return locking representation
+     */
+    public MaintenanceLock generateAssetLock(String documentNumber, Long capitalAssetNumber);
+
+    /**
+     * Helper method that will check if an asset is locked. If it is we fail error check and
+     * call another helper message to add appropriate error message to global ErrorMap.
+     * 
+     * @param documentNumber
+     * @param capitalAssetNumber
+     * @return boolean True if no lock, false otherwise.
+     */
+    public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber);
 }

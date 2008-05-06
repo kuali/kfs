@@ -331,6 +331,10 @@
     </bean>
     
     <bean id="kfsDoNothingGeneralLedgerPostingHelper" class="org.kuali.kfs.service.impl.DoNothingGeneralLedgerPendingEntryGenerationProcessImpl" />
+
+    <bean id="documentHelperService" class="org.kuali.kfs.service.impl.DocumentHelperServiceImpl">
+    	<property name="maintenanceDocumentDao"><ref bean="maintenanceDocumentDao" /></property>
+    </bean>
     
     <bean id="accountingDocumentRuleHelperService" class="org.kuali.kfs.service.impl.AccountingDocumentRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>

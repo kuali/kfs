@@ -15,12 +15,52 @@
  */
 package org.kuali.module.cams.rules;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
+import org.kuali.module.cams.service.AssetService;
 
 public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRuleBase {
 
-    public EquipmentLoanOrReturnDocumentRule() {
-        super(); 
+    private AssetService assetService;
+    
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
+        
+        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getAssetHeader().getCapitalAssetNumber())) {
+            return false;
+        }
+        
+        return true;
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
+        
+        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getAssetHeader().getCapitalAssetNumber())) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public AssetService getAssetService() {
+        if (this.assetService == null) {
+            this.assetService = SpringContext.getBean(AssetService.class);
+        }
+        return assetService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
+    }
 }

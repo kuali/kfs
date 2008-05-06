@@ -55,6 +55,11 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
+        
+        if (getAssetService().isAssetLocked(assetTransferDocument.getDocumentNumber(), assetTransferDocument.getAssetHeader().getCapitalAssetNumber())) {
+            return false;
+        }
+        
         if (checkReferencesExist(assetTransferDocument)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
             if (assetTransferDocument.getSourceAssetGlpeSourceDetails() != null && !SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
@@ -63,7 +68,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             return true;
         }
         return false;
-
     }
 
     /**
@@ -71,13 +75,18 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean valid = true;
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
+        
+        if (getAssetService().isAssetLocked(assetTransferDocument.getDocumentNumber(), assetTransferDocument.getAssetHeader().getCapitalAssetNumber())) {
+            return false;
+        }
+        
+        boolean valid = true;
         valid &= SpringContext.getBean(AssetTransferService.class).isTransferable(assetTransferDocument);
         valid &= applyRules(document);
         return valid;
     }
-
+    
     /**
      * This method applies business rules
      * 
@@ -258,14 +267,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         this.assetPaymentService = assetPaymentService;
     }
 
-
     public AssetService getAssetService() {
         if (this.assetService == null) {
             this.assetService = SpringContext.getBean(AssetService.class);
         }
         return assetService;
     }
-
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;

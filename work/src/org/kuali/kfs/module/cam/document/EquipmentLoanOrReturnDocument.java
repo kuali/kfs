@@ -16,12 +16,17 @@
 package org.kuali.module.cams.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.Country;
@@ -29,6 +34,7 @@ import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
@@ -59,7 +65,6 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     private Integer insuranceCode;
     private String signatureCode;
 
-    private DocumentHeader documentHeader;
     private Chart insuranceChartOfAccounts;
     private Account insuranceChargeAccount;
     private State borrowerState;
@@ -119,14 +124,6 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
 
     public void setBorrowerUniversalUser(UniversalUser borrowerUniversalUser) {
         this.borrowerUniversalUser = borrowerUniversalUser;
-    }
-
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
     }
 
     public Account getInsuranceChargeAccount() {
@@ -345,6 +342,39 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
 
     public void setAssetHeader(AssetHeader assetHeader) {
         this.assetHeader = assetHeader;
+    }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        
+        if (!(event instanceof SaveDocumentEvent)) { //don't lock until they route
+            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
+            AssetService assetService = SpringContext.getBean(AssetService.class);
+            
+            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
+            
+            List<MaintenanceLock> maintenanceLocks = new ArrayList();
+            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetHeader.getCapitalAssetNumber()));
+            maintenanceDocumentService.storeLocks(maintenanceLocks);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            /** @TODO update asset */
+            
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
+        }
     }
     
     /**

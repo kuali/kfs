@@ -24,7 +24,10 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.SaveDocumentEvent;
+import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
@@ -35,9 +38,9 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPaymentAccountingLineParser;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.service.AssetPaymentService;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.labor.bo.LaborJournalVoucherAccountingLineParser;
 
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
@@ -102,8 +105,26 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
     }
-
-
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        
+        if (!(event instanceof SaveDocumentEvent)) { //don't lock until they route
+            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
+            AssetService assetService = SpringContext.getBean(AssetService.class);
+            
+            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
+            
+            List<MaintenanceLock> maintenanceLocks = new ArrayList();
+            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
+            maintenanceDocumentService.storeLocks(maintenanceLocks);
+        }
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
@@ -115,6 +136,8 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         //Update asset payment table with the approved asset detail records.
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
+
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
     }
 

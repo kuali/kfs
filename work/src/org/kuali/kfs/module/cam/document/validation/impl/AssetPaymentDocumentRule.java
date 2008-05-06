@@ -16,7 +16,6 @@
 package org.kuali.module.cams.rules;
 
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
@@ -50,22 +49,45 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.dao.AssetRetirementDao;
 import org.kuali.module.cams.dao.AssetTransferDao;
 import org.kuali.module.cams.document.AssetPaymentDocument;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 
 public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentRule.class);
 
-    /*
+    private AssetService assetService;
+    
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) document;
+        
+        if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
      * This method was overrided because the asset payment only uses source and not target lines. Not gl pending entries are needed.
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean valid = this.isSourceAccountingLinesRequiredNumberForRoutingMet((AccountingDocument) document);
-        valid &= validateAssetEligibilityForPayment(((AssetPaymentDocument) document).getAsset().getCapitalAssetNumber());
+        AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) document;
+        
+        if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
+            return false;
+        }
+        
+        boolean valid = this.isSourceAccountingLinesRequiredNumberForRoutingMet(assetPaymentDocument);
+        valid &= validateAssetEligibilityForPayment(assetPaymentDocument.getAsset().getCapitalAssetNumber());
         return valid;
     }
-
+    
     /**
      * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
@@ -239,5 +261,14 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         return true;
     }
     
-    
+    public AssetService getAssetService() {
+        if (this.assetService == null) {
+            this.assetService = SpringContext.getBean(AssetService.class);
+        }
+        return assetService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
+    }
 }

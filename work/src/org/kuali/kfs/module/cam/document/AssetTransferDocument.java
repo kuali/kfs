@@ -20,10 +20,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.MaintenanceLock;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.SaveDocumentEvent;
+import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Building;
@@ -38,6 +41,7 @@ import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -376,20 +380,39 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public String getTransferOfFundsFinancialDocumentNumber() {
         return transferOfFundsFinancialDocumentNumber;
     }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        
+        if (!(event instanceof SaveDocumentEvent)) { //don't lock until they route
+            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
+            AssetService assetService = SpringContext.getBean(AssetService.class);
+            
+            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
+            
+            List<MaintenanceLock> maintenanceLocks = new ArrayList();
+            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetHeader.getCapitalAssetNumber()));
+            maintenanceDocumentService.storeLocks(maintenanceLocks);
+        }
+    }
 
-
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
-        LOG.debug("Start - handleRouteStatusChange " + financialDocumentStatusCode);
-        // if status is approved
-        if (RiceConstants.DocumentStatusCodes.APPROVED.equals(financialDocumentStatusCode)) {
-            SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
-        }
-        LOG.debug("End - handleRouteStatusChange " + financialDocumentStatusCode);
-    }
 
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
+            
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
+        }
+    }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return ((AssetGlpeSourceDetail) postable).isDebit();

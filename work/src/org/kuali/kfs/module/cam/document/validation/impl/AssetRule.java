@@ -19,6 +19,7 @@ import static org.kuali.module.cams.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANT
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
@@ -122,6 +124,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_REQUIRED);
             valid &= false;
         }
+        if (newAsset.getEstimatedFabricationCompletionDate() != null && newAsset.getEstimatedFabricationCompletionDate().before(DateUtils.clearTimeFields(new Date()))) {
+            putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_COMPLETION_DATE, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST);
+            valid &= false;
+        }
 
         if (newAsset.getEstimatedFabricationLifetimeLimitNumber() == null) {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED);
@@ -129,6 +135,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         if (newAsset.getEstimatedFabricationLifetimeLimitNumber() != null && newAsset.getEstimatedFabricationLifetimeLimitNumber().intValue() < 0) {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE);
+            valid &= false;
+        }
+        // check asset type values
+        if (!CamsConstants.ASSET_TYPE_40000.equals(newAsset.getCapitalAssetTypeCode()) && !CamsConstants.ASSET_TYPE_1000.equals(newAsset.getCapitalAssetTypeCode())) {
+            putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION);
             valid &= false;
         }
         return valid;

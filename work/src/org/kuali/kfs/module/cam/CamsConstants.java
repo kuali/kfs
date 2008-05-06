@@ -15,8 +15,6 @@
  */
 package org.kuali.module.cams;
 
-import org.kuali.kfs.KFSPropertyConstants;
-
 
 /**
  * Global constants for CAMS.
@@ -132,7 +130,7 @@ public class CamsConstants {
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
     }
-    
+
     public static class AssetRetirementReasonCodeGroup {
         // TODO: system parameters??
         public static final String ALLOWED_FOR_ANY_KUALI_USERS = "1;2;;3;4;5;6;7;8;9;A";
@@ -140,7 +138,7 @@ public class CamsConstants {
         public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
         public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F";
         public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";
-        
+
     }
 
     public static class AssetRetirementReasonCode {
@@ -172,7 +170,7 @@ public class CamsConstants {
         public static final String SECTION_ID_COMPONENTS = "components";
 
         public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_YEAR, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.LAST_INVENTORY_DATE, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE };
-        public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER, CamsPropertyConstants.Asset.ASSET_REPRESENTATIVE + "." + KFSPropertyConstants.KUALI_USER_PERSON_USER_IDENTIFIER, CamsPropertyConstants.Asset.ESTIMATED_SELLING_PRICE, CamsPropertyConstants.Asset.RECEIVE_DATE, CamsPropertyConstants.Asset.REPLACEMENT_AMOUNT };
+        public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER, CamsPropertyConstants.Asset.ESTIMATED_SELLING_PRICE, CamsPropertyConstants.Asset.RECEIVE_DATE, CamsPropertyConstants.Asset.REPLACEMENT_AMOUNT };
         public static final String SECTION_ID_MERGE_HISTORY = "mergeHistory";
 
         public static final String SECTION_TITLE_NO_PAYMENT = "- No payment exists for Capital Asset: ";
@@ -183,6 +181,8 @@ public class CamsConstants {
     public static final String CONDITION_CODE_E = "E";
     public static final String ACQUISITION_TYPE_CODE_C = "C";
     public static final String VENDOR_NAME_CONSTRUCTED = "CONSTRUCTED";
+    public static final String ASSET_TYPE_1000 = "1000";
+    public static final String ASSET_TYPE_40000 = "40000";
 
     // TODO: replaced by System parameter
     public static class DepreciationConvention {

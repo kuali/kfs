@@ -131,6 +131,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetTypeCode"
+              p:defaultValue="40000"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition" 
         	  p:name="vendorName"

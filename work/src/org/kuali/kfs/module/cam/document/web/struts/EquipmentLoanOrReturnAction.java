@@ -29,7 +29,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.batch.PreAssetTaggingStepTest;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;

@@ -145,6 +145,9 @@
 	</bean>
 
 	<bean id="salarySettingService" class="org.kuali.module.budget.service.impl.SalarySettingServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>

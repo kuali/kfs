@@ -23,7 +23,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 
-
 /**
  * TODO is this needed??? probably need to just point OJB repository to PBGL class or this should extend PBGL if something extra is
  * needed
@@ -37,7 +36,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     private BigDecimal appointmentRequestedFteQuantityTotal;
     private KualiDecimal percentChangeTotal;
 
-    private List pendingBudgetConstructionAppointmentFunding;
+    private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
 
     /**
      * Default constructor.
@@ -45,8 +44,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     public SalarySettingExpansion() {
         super();
         zeroTotals();
-        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
-
+        pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
     }
 
     /**
@@ -176,6 +174,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * 
      * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
      */
+    @Deprecated
     public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
     }
@@ -190,5 +189,4 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
         managedLists.add(this.getPendingBudgetConstructionAppointmentFunding());
         return managedLists;
     }
-
 }

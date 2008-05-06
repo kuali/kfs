@@ -31,6 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
 /**
@@ -724,5 +725,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         return m;
     }
 
-
+    public boolean isEffective() {
+        return !BCConstants.POSITION_CODE_INACTIVE.equals(this.getPositionEffectiveStatus());
+    }
 }

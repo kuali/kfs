@@ -310,4 +310,6 @@ public class BCConstants extends JstlConstants {
         }
     }
     
+    public final static String POSITION_CODE_INACTIVE = "I";
+    
 }

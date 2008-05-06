@@ -68,13 +68,12 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private BudgetConstructionPosition budgetConstructionPosition;
     private BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
-    // private BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker;
     private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
     private BudgetConstructionDuration budgetConstructionDuration;
 
-    private List bcnCalculatedSalaryFoundationTracker;
-    private List budgetConstructionSalaryFunding;
-    private List budgetConstructionAppointmentFundingReason;
+    private List<BudgetConstructionCalculatedSalaryFoundationTracker> bcnCalculatedSalaryFoundationTracker;
+    private List<BudgetConstructionSalaryFunding> budgetConstructionSalaryFunding;
+    private List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason;
 
     private KualiDecimal percentChange;
 
@@ -82,8 +81,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * Default constructor.
      */
     public PendingBudgetConstructionAppointmentFunding() {
-        budgetConstructionSalaryFunding = new ArrayList();
-        bcnCalculatedSalaryFoundationTracker = new ArrayList();
+        budgetConstructionSalaryFunding = new ArrayList<BudgetConstructionSalaryFunding>();
+        bcnCalculatedSalaryFoundationTracker = new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>();
 
     }
 
@@ -94,7 +93,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public KualiDecimal getPercentChange() {
 
-        if (bcnCalculatedSalaryFoundationTracker.isEmpty()) {
+        if (bcnCalculatedSalaryFoundationTracker == null || bcnCalculatedSalaryFoundationTracker.isEmpty()) {
             percentChange = null;
         }
         else {
@@ -197,7 +196,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.subAccountNumber = subAccountNumber;
     }
 
-
     /**
      * Gets the financialObjectCode attribute.
      * 
@@ -215,7 +213,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
-
 
     /**
      * Gets the financialSubObjectCode attribute.
@@ -235,7 +232,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.financialSubObjectCode = financialSubObjectCode;
     }
 
-
     /**
      * Gets the positionNumber attribute.
      * 
@@ -253,7 +249,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setPositionNumber(String positionNumber) {
         this.positionNumber = positionNumber;
     }
-
 
     /**
      * Gets the emplid attribute.
@@ -273,7 +268,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.emplid = emplid;
     }
 
-
     /**
      * Gets the appointmentFundingDurationCode attribute.
      * 
@@ -291,7 +285,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setAppointmentFundingDurationCode(String appointmentFundingDurationCode) {
         this.appointmentFundingDurationCode = appointmentFundingDurationCode;
     }
-
 
     /**
      * Gets the appointmentRequestedCsfAmount attribute.
@@ -329,7 +322,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
     }
 
-
     /**
      * Gets the appointmentRequestedCsfTimePercent attribute.
      * 
@@ -347,7 +339,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setAppointmentRequestedCsfTimePercent(BigDecimal appointmentRequestedCsfTimePercent) {
         this.appointmentRequestedCsfTimePercent = appointmentRequestedCsfTimePercent;
     }
-
 
     /**
      * Gets the appointmentTotalIntendedAmount attribute.
@@ -385,14 +376,13 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
     }
 
-
     /**
      * Gets the appointmentRequestedAmount attribute.
      * 
      * @return Returns the appointmentRequestedAmount
      */
     public KualiInteger getAppointmentRequestedAmount() {
-        if (appointmentRequestedAmount == null){
+        if (appointmentRequestedAmount == null) {
             appointmentRequestedAmount = KualiInteger.ZERO;
         }
         return appointmentRequestedAmount;
@@ -406,7 +396,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setAppointmentRequestedAmount(KualiInteger appointmentRequestedAmount) {
         this.appointmentRequestedAmount = appointmentRequestedAmount;
     }
-
 
     /**
      * Gets the appointmentRequestedTimePercent attribute.
@@ -426,7 +415,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.appointmentRequestedTimePercent = appointmentRequestedTimePercent;
     }
 
-
     /**
      * Gets the appointmentRequestedFteQuantity attribute.
      * 
@@ -444,7 +432,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
         this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
     }
-
 
     /**
      * Gets the appointmentRequestedPayRate attribute.
@@ -464,7 +451,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.appointmentRequestedPayRate = appointmentRequestedPayRate;
     }
 
-
     /**
      * Gets the appointmentFundingDeleteIndicator attribute.
      * 
@@ -474,7 +460,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         return appointmentFundingDeleteIndicator;
     }
 
-
     /**
      * Sets the appointmentFundingDeleteIndicator attribute.
      * 
@@ -483,7 +468,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setAppointmentFundingDeleteIndicator(boolean appointmentFundingDeleteIndicator) {
         this.appointmentFundingDeleteIndicator = appointmentFundingDeleteIndicator;
     }
-
 
     /**
      * Gets the appointmentFundingMonth attribute.
@@ -503,7 +487,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.appointmentFundingMonth = appointmentFundingMonth;
     }
 
-
     /**
      * Gets the positionObjectChangeIndicator attribute.
      * 
@@ -512,7 +495,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public boolean isPositionObjectChangeIndicator() {
         return positionObjectChangeIndicator;
     }
-
 
     /**
      * Sets the positionObjectChangeIndicator attribute.
@@ -523,7 +505,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.positionObjectChangeIndicator = positionObjectChangeIndicator;
     }
 
-
     /**
      * Gets the positionSalaryChangeIndicator attribute.
      * 
@@ -533,7 +514,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         return positionSalaryChangeIndicator;
     }
 
-
     /**
      * Sets the positionSalaryChangeIndicator attribute.
      * 
@@ -542,7 +522,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setPositionSalaryChangeIndicator(boolean positionSalaryChangeIndicator) {
         this.positionSalaryChangeIndicator = positionSalaryChangeIndicator;
     }
-
 
     /**
      * Gets the financialObject attribute.
@@ -658,22 +637,23 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.budgetConstructionPosition = budgetConstructionPosition;
     }
 
+
     /**
-     * Gets the budgetConstructionSalaryFunding list.
+     * Gets the budgetConstructionSalaryFunding attribute.
      * 
-     * @return Returns the budgetConstructionSalaryFunding list
+     * @return Returns the budgetConstructionSalaryFunding.
      */
-    public List getBudgetConstructionSalaryFunding() {
+    public List<BudgetConstructionSalaryFunding> getBudgetConstructionSalaryFunding() {
         return budgetConstructionSalaryFunding;
     }
 
     /**
-     * Sets the budgetConstructionSalaryFunding list.
+     * Sets the budgetConstructionSalaryFunding attribute value.
      * 
-     * @param budgetConstructionSalaryFunding The budgetConstructionSalaryFunding list to set.
-     * @deprecated
+     * @param budgetConstructionSalaryFunding The budgetConstructionSalaryFunding to set.
      */
-    public void setBudgetConstructionSalaryFunding(List budgetConstructionSalaryFunding) {
+    @Deprecated
+    public void setBudgetConstructionSalaryFunding(List<BudgetConstructionSalaryFunding> budgetConstructionSalaryFunding) {
         this.budgetConstructionSalaryFunding = budgetConstructionSalaryFunding;
     }
 
@@ -682,7 +662,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * 
      * @return Returns the budgetConstructionAppointmentFundingReason.
      */
-    public List getBudgetConstructionAppointmentFundingReason() {
+    public List<BudgetConstructionAppointmentFundingReason> getBudgetConstructionAppointmentFundingReason() {
         return budgetConstructionAppointmentFundingReason;
     }
 
@@ -691,7 +671,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * 
      * @param budgetConstructionAppointmentFundingReason The budgetConstructionAppointmentFundingReason to set.
      */
-    public void setBudgetConstructionAppointmentFundingReason(List budgetConstructionAppointmentFundingReason) {
+    @Deprecated
+    public void setBudgetConstructionAppointmentFundingReason(List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason) {
         this.budgetConstructionAppointmentFundingReason = budgetConstructionAppointmentFundingReason;
     }
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.service;
 
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+
 /**
  * This class defines methods a Salary Setting Service must provide The Salary Setting Service supports functionality associated
  * with detailed salary setting for an account as well as organization based salary setting by incumbent and by position.
@@ -29,5 +31,20 @@ public interface SalarySettingService {
      * @return
      */
     public boolean isSalarySettingDisabled();
+    
+    /**
+     * determine whehter the given appointment funding can be vacated
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the given appointment funding can be vacated; otherwise, false
+     */
+    public boolean canBeVacant(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
+    /**
+     * vacate the given appointment funding and create a vacant appointment funding based on the given funding
+     * 
+     * @param appointmentFunding the given apporintment funding
+     * @return a vacant appointment funding
+     */
+    public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

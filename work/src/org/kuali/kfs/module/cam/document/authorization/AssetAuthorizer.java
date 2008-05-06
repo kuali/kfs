@@ -35,7 +35,6 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetService;
 
 /**
@@ -59,11 +58,8 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         if (document.isNew()) {
-            if (newAsset.getCapitalAssetNumber() == null) {
-                newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-                oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+            if (newAsset.getCreateDate() == null) {
                 newAsset.setCreateDate(new Date(new java.util.Date().getTime()));
-                newAsset.setConditionCode(CamsConstants.CONDITION_CODE_E);
                 newAsset.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_C);
                 newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
             }

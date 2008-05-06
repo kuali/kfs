@@ -36,6 +36,7 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetWarranty;
+import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.AssetDateService;
 import org.kuali.module.cams.service.AssetDispositionService;
@@ -45,6 +46,7 @@ import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
@@ -67,15 +69,15 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);
-        boolean valid = false;
+        boolean valid = true;
         if (document.isNew()) {
             this.isFabrication = true;
+            valid &= validateAccount();
             valid &= validateLocation();
             valid &= validateFabricationDetails();
         }
         else {
             setAssetComponentNumbers(newAsset);
-
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
@@ -91,7 +93,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
             equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
             equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
-
+            valid &= validateAccount();
             valid = processAssetValidation(document);
             valid &= validateWarrantyInformation(newAsset);
 
@@ -127,6 +129,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         if (newAsset.getEstimatedFabricationLifetimeLimitNumber() != null && newAsset.getEstimatedFabricationLifetimeLimitNumber().intValue() < 0) {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE);
+            valid &= false;
+        }
+        return valid;
+    }
+
+
+    private boolean validateAccount() {
+        boolean valid = true;
+        Account organizationOwnerAccount = newAsset.getOrganizationOwnerAccount();
+        if (organizationOwnerAccount != null && (organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator())) {
+            // Account is not active
+            putFieldError(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INACTIVE);
             valid &= false;
         }
         return valid;
@@ -350,6 +364,16 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                     return false;
                 }
             }
+        }
+        return true;
+    }
+
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        initializeAttributes(document);
+        if (document.isNew() && newAsset.getCapitalAssetNumber() == null) {
+            newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+            oldAsset.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
         }
         return true;
     }

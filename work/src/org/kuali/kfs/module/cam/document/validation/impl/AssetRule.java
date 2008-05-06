@@ -138,10 +138,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
         // check asset type values
-        if (!CamsConstants.ASSET_TYPE_40000.equals(newAsset.getCapitalAssetTypeCode()) && !CamsConstants.ASSET_TYPE_1000.equals(newAsset.getCapitalAssetTypeCode())) {
-            putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION);
-            valid &= false;
-        }
+        /**
+         * if (!CamsConstants.ASSET_TYPE_40000.equals(newAsset.getCapitalAssetTypeCode()) &&
+         * !CamsConstants.ASSET_TYPE_1000.equals(newAsset.getCapitalAssetTypeCode())) {
+         * putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE,
+         * CamsKeyConstants.ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION); valid &= false; }
+         */
         return valid;
     }
 

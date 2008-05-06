@@ -22,7 +22,12 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
+import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.bo.BudgetConstructionMonthSummary;
+import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
+import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -56,9 +61,39 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
         return (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
     }
+
+    public String getSelectedObjectCodes (String personUserIdentifier){
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.SELECT_FLAG, 1);
+        Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
+        String objectCodes = "";
+        for (BudgetConstructionObjectPick objectPick : objectPickList) {
+            objectCodes += objectPick.getFinancialObjectCode() + " ";
+        }
+        return objectCodes;
+    }
     
+    
+    public BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
+        searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
+        return (BudgetConstructionAdministrativePost) businessObjectService.findByPrimaryKey(BudgetConstructionAdministrativePost.class, searchCriteria);
+    }
 
+    public BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        return (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, searchCriteria);
+    }
 
+    public BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
+        return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
+    }
 
 
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {

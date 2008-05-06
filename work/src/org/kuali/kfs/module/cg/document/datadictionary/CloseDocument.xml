@@ -35,6 +35,46 @@
         </bean>
       </list>
     </property>
+    <property name="attributes">
+      <list>
+        <ref bean="CloseDocument-userInitiatedCloseDate" />
+        <ref bean="CloseDocument-closeOnOrBeforeDate" />
+      </list>
+    </property>
+  </bean> 
+  
+  <bean id="CloseDocument-closeOnOrBeforeDate" parent="CloseDocument-closeOnOrBeforeDate-parentBean" />
+
+  <bean id="CloseDocument-closeOnOrBeforeDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="closeOnOrBeforeDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Close On Or Before Date" />
+    <property name="shortLabel" value="Close on or before" />
+    <property name="maxLength" value="10" />
+    <!-- Required checking will be handled within the CloseDocumentRule class -->
+    <property name="required" value="true" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
+  </bean>
+  
+  <bean id="CloseDocument-userInitiatedCloseDate" parent="CloseDocument-userInitiatedCloseDate-parentBean" />
+
+  <bean id="CloseDocument-userInitiatedCloseDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userInitiatedCloseDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Close Date" />
+    <property name="shortLabel" value="Date closed" />
+    <property name="maxLength" value="10" />
+    <!-- Required checking will be handled within the CloseDocumentRule class -->
+    <property name="required" value="true" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="&amp;nbsp;" />
   </bean>
 
 <!-- Exported Workflow Properties -->

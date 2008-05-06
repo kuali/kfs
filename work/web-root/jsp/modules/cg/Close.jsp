@@ -14,6 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
+<c:set var="closeAttributes"
+	value="${DataDictionary['CloseDocument'].attributes}" />
+		
 <kul:page showDocumentInfo="true"
 	htmlFormAction="cgClose"
     renderMultipart="true"
@@ -23,7 +27,7 @@
     <kul:hiddenDocumentFields isTransactionalDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Close" defaultOpen="true"
-             tabErrorKey="${CGConstants.CLOSE_DOCUMENT_TAB_ERRORS}">
+             tabErrorKey="document.userInitiatedCloseDate,document.closeOnOrBeforeDate">
         <c:set var="closeAttributes" value="${DataDictionary.Close.attributes}" />
 
          <div class="tab-container" align="center">
@@ -32,13 +36,13 @@
                 <legend><b>Perform Close</b></legend>
                 <table>
                     <tr>
-                        <th style="text-align: right;">* Date Closed: </th>
+                        <th style="text-align: right;"><kul:htmlAttributeLabel attributeEntry="${closeAttributes.userInitiatedCloseDate}" useShortLabel="true" /></th>
                         <td style="width:50%">
                             <kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
                         </td>
                     </tr>
                     <tr>
-                        <th style="text-align: right;">* Close on or before:</th>
+                        <th style="text-align: right;"><kul:htmlAttributeLabel attributeEntry="${closeAttributes.closeOnOrBeforeDate}" useShortLabel="true" /></th>
                         <td style="width:50%">
                             <kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate"  maxLength="10" size="10" />
                         </td>

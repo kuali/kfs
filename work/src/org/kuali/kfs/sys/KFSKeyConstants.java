@@ -947,6 +947,8 @@ public class KFSKeyConstants {
 
     public static final class ContractsAndGrants {
         public static final String USER_INITIATED_DATE_TOO_EARLY = "error.cg.userInitiatedDateTooEarly";
+        public static final String CLOSE_ON_OR_BEFORE_DATE_TOO_EARLY = "error.cg.closeOnOrBeforeDateTooEarly";
+        public static final String CLOSE_ON_OR_BEFORE_DATE_TOO_LATE = "error.cg.closeOnOrBeforeDateTooLate";
     }
     
     public static final class InvoiceItemCode {

@@ -61,7 +61,7 @@ public class FormatPrepareAction extends BaseAction {
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
-        return sr.isProcessRole();
+        return sr.isProcessRole()||sr.isSysAdminRole();
     }
 
     protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

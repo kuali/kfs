@@ -49,7 +49,7 @@ public class PdpConstants {
         public static String VIEWALL_GROUP = "PD_VIEW_ALL";
         public static String VIEWID_GROUP = "PD_VIEW_ID";
         public static String VIEWBANK_GROUP = "PD_VIEW_BANK";
-        public static String VIEWIDPARTIALBANK_GROUP = "PD_VIEW_ID_PARTIAL_BANK";
+        public static String VIEWIDPARTIALBANK_GROUP = "PD_VIEW_ID_AND PARTIAL_BANK";
     }
 
     public static class ApplicationParameterKeys {

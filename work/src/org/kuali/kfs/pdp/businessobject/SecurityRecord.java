@@ -47,11 +47,12 @@ public class SecurityRecord implements Serializable {
         String out = "sysAdminRole = " + sysAdminRole + " rangesRole = " + rangesRole + " cancelRole = " + cancelRole + " submitRole = " + submitRole;
         out = out + " processRole = " + processRole + " holdRole = " + holdRole + " viewAllRole = " + viewAllRole + " viewIdRole = " + viewIdRole;
         out = out + " viewBankRole = " + viewBankRole + " limitedViewRole = " + limitedViewRole + " taxHoldersrole = " + taxHoldersRole;
+        out = out + " viewIdPartialBank = " + viewIdPartialBank;
         return out;
     }
 
     public boolean isAnyRole() {
-        return sysAdminRole || rangesRole || cancelRole || submitRole || processRole || holdRole || viewAllRole || viewIdRole || viewBankRole || limitedViewRole || taxHoldersRole;
+        return sysAdminRole || rangesRole || cancelRole || submitRole || processRole || holdRole || viewAllRole || viewIdRole || viewBankRole || limitedViewRole || taxHoldersRole||viewIdPartialBank;
     }
 
     public boolean isAnyViewRole() {
@@ -139,7 +140,7 @@ public class SecurityRecord implements Serializable {
     }
 
     public boolean isViewBankRole() {
-        return viewIdRole;
+        return viewBankRole;
     }
 
     public void setViewBankRole(boolean viewBankRole) {

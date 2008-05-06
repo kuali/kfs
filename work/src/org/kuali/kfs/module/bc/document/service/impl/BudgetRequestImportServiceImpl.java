@@ -25,10 +25,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -63,6 +67,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private BusinessObjectService businessObjectService;
     private ImportRequestDao importRequestDao;
     private PermissionService permissionService;
+    private DictionaryValidationService dictionaryValidationService;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
     
@@ -141,6 +146,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 businessObjectService.save(budgetConstructionRequestMove);
             }
             catch (RuntimeException e) {
+                LOG.error("Move table store error, import aborted");
                 fileErrorList.add("Move table store error, import aborted");
                 return fileErrorList;
             }
@@ -150,18 +156,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         
         return fileErrorList;
     }
-    
-    
-
-    /**
-     * Gets the business object service
-     * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
+   
     /**
      * Sets the business object service
      * 
@@ -321,6 +316,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 recordToLoad.setHasLock(temp.getHasLock());
                 recordToLoad.setRequestUpdateErrorCode(temp.getRequestUpdateErrorCode());
             } else {
+                //TODO:use BudgetConstructionDao to find if user is delagate instead of manager
                 if (recordToLoad.getAccount().getAccountFiscalOfficerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier()) ||
                         recordToLoad.getAccount().getAccountManagerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier())) {
                     recordToLoad.setHasAccess(true);
@@ -392,15 +388,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         this.importRequestDao = dao;
         
     }
-    /**
-     * 
-     * 
-     * @return permissionService
-     */
-    public PermissionService getPermissionService() {
-        return permissionService;
-    }
-
+    
     /**
      * Sets permissionService
      * 
@@ -536,27 +524,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private List<String> validateLine(BudgetConstructionRequestMove budgetConstructionRequestMove, int lineNumber, boolean isAnnual) {
         List<String> errorList = new ArrayList<String>();
         
-        if (StringUtils.isBlank(budgetConstructionRequestMove.getAccountNumber()) || budgetConstructionRequestMove.getAccountNumber().length() != 7 ) {
-            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
-            return errorList;
-        }
-        
-        if ( StringUtils.isBlank(budgetConstructionRequestMove.getChartOfAccountsCode()) || budgetConstructionRequestMove.getChartOfAccountsCode().length() != 2 ) {
-            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
-            return errorList;
-        }
-        
-        if ( StringUtils.isBlank(budgetConstructionRequestMove.getFinancialObjectCode()) || budgetConstructionRequestMove.getFinancialObjectCode().length() != 4 ) {
-            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
-            return errorList;
-        }
-        
-        if (!StringUtils.isBlank(budgetConstructionRequestMove.getSubAccountNumber()) && budgetConstructionRequestMove.getSubAccountNumber().length() != 5 ) {
-            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
-            return errorList;
-        }
-        
-        if (!StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode()) && budgetConstructionRequestMove.getFinancialSubObjectCode().length() != 3 ) {
+        if ( !this.dictionaryValidationService.isBusinessObjectValid(budgetConstructionRequestMove)) {
             errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
             return errorList;
         }
@@ -630,7 +598,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, record.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, record.getFinancialObjectCode());
         
-        List<LaborObject> laborObjectList = new ArrayList<LaborObject> (getBusinessObjectService().findMatching(LaborObject.class, searchCriteria));
+        List<LaborObject> laborObjectList = new ArrayList<LaborObject> (this.businessObjectService.findMatching(LaborObject.class, searchCriteria));
         
         if (laborObjectList.size() == 1) return laborObjectList.get(0);
         
@@ -660,7 +628,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, record.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, record.getFinancialSubObjectCode());
         
-        List<SubObjCd> objectList = new ArrayList<SubObjCd> (getBusinessObjectService().findMatching(SubObjCd.class, searchCriteria));
+        List<SubObjCd> objectList = new ArrayList<SubObjCd> (this.businessObjectService.findMatching(SubObjCd.class, searchCriteria));
         
         if (objectList.size() == 1) return objectList.get(0);
         
@@ -675,7 +643,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, record.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, record.getSubAccountNumber());
         
-        List<BudgetConstructionFundingLock> lockList = new ArrayList<BudgetConstructionFundingLock> (getBusinessObjectService().findMatching(BudgetConstructionFundingLock.class, searchCriteria));
+        List<BudgetConstructionFundingLock> lockList = new ArrayList<BudgetConstructionFundingLock> (this.businessObjectService.findMatching(BudgetConstructionFundingLock.class, searchCriteria));
         
         return lockList;
     }
@@ -693,7 +661,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, record.getFinancialObjectTypeCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET); 
         
-        return new ArrayList<BudgetConstructionMonthly> (getBusinessObjectService().findMatching(BudgetConstructionMonthly.class, searchCriteria));
+        return new ArrayList<BudgetConstructionMonthly> (this.businessObjectService.findMatching(BudgetConstructionMonthly.class, searchCriteria));
     }
     
     /**
@@ -706,4 +674,15 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, fieldValues);
     }
+    
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.core.service.DictionaryValidationService)
+     */
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+        
+    }
+    
+    
 }

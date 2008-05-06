@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.module.budget.dao.ImportRequestDao;
 
 import com.lowagie.text.DocumentException;
@@ -84,17 +85,17 @@ public interface BudgetRequestImportService {
     public void setImportRequestDao(ImportRequestDao dao);
     
     /**
-     * returns the permission service
-     * 
-     * @return
-     */
-    public PermissionService getPermissionService();
-
-    /**
      * Sets permissionService
      * 
      * @param permissionService
      */
     public void setPermissionService(PermissionService permissionService);
+    
+    /**
+     * Sets the dictionaryValidationService
+     * 
+     * @param dictionaryValidationService
+     */
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService);
     
 }

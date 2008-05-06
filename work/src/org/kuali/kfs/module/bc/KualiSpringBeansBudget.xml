@@ -640,6 +640,9 @@
 		<property name="permissionService">
 			<ref bean="permissionService" />
 		</property>	
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
 		<property name="importRequestDao">
 			<ref bean="importRequestDao" />
 		</property>					

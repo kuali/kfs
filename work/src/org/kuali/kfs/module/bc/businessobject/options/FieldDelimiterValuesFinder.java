@@ -33,7 +33,7 @@ public class FieldDelimiterValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator(), BCConstants.RequestImportFieldSeparator.COMMA.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.TAB.getSeparator(), BCConstants.RequestImportFieldSeparator.TAB.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.TAB.toString(), BCConstants.RequestImportFieldSeparator.TAB.toString()));
         keyValues.add(new KeyLabelPair(BCConstants.RequestImportFieldSeparator.OTHER.getSeparator(), BCConstants.RequestImportFieldSeparator.OTHER.toString()));
         
         return keyValues;

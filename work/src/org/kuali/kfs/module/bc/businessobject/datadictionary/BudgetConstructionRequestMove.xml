@@ -54,7 +54,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -71,8 +72,10 @@
     <property name="label" value="Account Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="7" />
+    <property name="required" value="true" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:exactLength="7" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -89,8 +92,10 @@
     <property name="label" value="Chart Of Accounts Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
+    <property name="required" value="true" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:exactLength="2" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -108,7 +113,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -126,7 +132,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -144,7 +151,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -162,7 +170,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -180,7 +189,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -198,7 +208,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -216,7 +227,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -234,7 +246,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -252,7 +265,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -270,7 +284,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -288,7 +303,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -306,7 +322,8 @@
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" 
+      		p:allowNegative = "true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -323,8 +340,10 @@
     <property name="label" value="Financial Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
+    <property name="required" value="true" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:exactLength="4" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -340,7 +359,8 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Object Type Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="false" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
@@ -359,8 +379,10 @@
     <property name="label" value="Financial Sub Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
+    <property name="required" value="false" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:exactLength="3" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -413,8 +435,10 @@
     <property name="label" value="Sub Account Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="5" />
+    <property name="required" value="false" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      		p:exactLength="5" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

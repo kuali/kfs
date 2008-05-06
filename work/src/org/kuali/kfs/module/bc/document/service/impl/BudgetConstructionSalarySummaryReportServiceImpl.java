@@ -220,7 +220,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             if (appointmentFundingEntry.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
                 Integer amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
                 orgSalarySummaryReportEntry.setAmountChange(amountChange);
-                orgSalarySummaryReportEntry.setPercentChange(BudgetConstructionReportHelper.calculateChange(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
+                orgSalarySummaryReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
             }
         }
 
@@ -418,13 +418,13 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                 if(csfPayMonths == 0){
                     resCsfAmount = 0;
                 } else {
-                    resCsfAmount = BudgetConstructionReportHelper.setZeroDecimalDigit(new BigDecimal(resCsfAmount).multiply((new BigDecimal(salaryPayMonth / csfPayMonths)))).intValue();
+                    resCsfAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(resCsfAmount).multiply((new BigDecimal(salaryPayMonth / csfPayMonths))), 0).intValue();
                 }
             }
             csfAmount = resCsfAmount;
             amountChange = salaryAmount - csfAmount;
             if (csfAmount != 0){
-                percentChange = BudgetConstructionReportHelper.setZeroDecimalDigit(new BigDecimal((amountChange / csfAmount) * 100));
+                percentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((amountChange / csfAmount) * 100), 0);
             }
             if (curToInt != 0 && curToInt != -1 && curToInt != salaryAmount.intValue() || curFteInt != 0 && curFteInt != -1.00 && curFteInt != salaryFte.doubleValue()){
                 tiFlag = BCConstants.Report.PLUS;
@@ -442,7 +442,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryNormalMonths(salaryNormalMonths);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryAmount(salaryAmount);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryPercent(salaryPercent);
-            budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryFte(BudgetConstructionReportHelper.setFiveDecimalDigit(salaryFte));
+            budgetConstructionOrgSalarySummaryReportTotal.setPersonSalaryFte(BudgetConstructionReportHelper.setDecimalDigit(salaryFte, 5));
             budgetConstructionOrgSalarySummaryReportTotal.setPersonTiFlag(tiFlag);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonAmountChange(amountChange);
             budgetConstructionOrgSalarySummaryReportTotal.setPersonPercentChange(percentChange);
@@ -497,15 +497,15 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             }
             //calculate average and change
             if(!newFte.equals(BigDecimal.ZERO)) {
-                newAverageAmount = BudgetConstructionReportHelper.setZeroDecimalDigit(new BigDecimal(newTotalAmount / newFte.intValue())).intValue();
+                newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(newTotalAmount / newFte.intValue()), 0).intValue();
             }
             if (!conFte.equals(BigDecimal.ZERO)) {
-                conAverageBaseAmount = BudgetConstructionReportHelper.setZeroDecimalDigit(new BigDecimal(conTotalBaseAmount / conFte.intValue())).intValue();
-                conAverageRequestAmount = BudgetConstructionReportHelper.setZeroDecimalDigit(new BigDecimal(conTotalRequestAmount / conFte.intValue())).intValue();
+                conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(conTotalBaseAmount / conFte.intValue()), 0).intValue();
+                conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(conTotalRequestAmount / conFte.intValue()), 0).intValue();
             }
             conAveragechange = conAverageRequestAmount - conAverageBaseAmount;
             if (conAverageBaseAmount != 0) {
-                conPercentChange = BudgetConstructionReportHelper.setOneDecimalDigit(new BigDecimal((conAveragechange / conAverageBaseAmount) * 100));
+                conPercentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((conAveragechange / conAverageBaseAmount) * 100), 1);
             }
             budgetConstructionOrgSalarySummaryReportTotal.setBudgetConstructionSalaryFunding(totalOrgEntry);
             budgetConstructionOrgSalarySummaryReportTotal.setNewFte(newFte);

@@ -120,13 +120,13 @@
 	<c:when test="${descriptionFirst}">
 		<kul:htmlAttributeHeaderCell colspan="2"
 			attributeEntry="${itemAttributes.itemDescription}" />
-		<kul:htmlAttributeHeaderCell colspan="3"
+		<kul:htmlAttributeHeaderCell colspan="4"
 			attributeEntry="${itemAttributes.extendedPrice}" />
 	</c:when>
     <c:otherwise>
 		<kul:htmlAttributeHeaderCell colspan="2"
 			attributeEntry="${itemAttributes.extendedPrice}" />
-		<kul:htmlAttributeHeaderCell colspan="3"
+		<kul:htmlAttributeHeaderCell colspan="4"
 			attributeEntry="${itemAttributes.itemDescription}" />
 	</c:otherwise>
 </c:choose>	
@@ -194,7 +194,7 @@
 					<td class="infoline" colspan="2">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
-					<td class="infoline" colspan="3">
+					<td class="infoline" colspan="4">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
@@ -206,7 +206,7 @@
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
-					<td class="infoline" colspan="3">
+					<td class="infoline" colspan="4">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
 				</c:otherwise>

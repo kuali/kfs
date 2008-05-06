@@ -2962,10 +2962,17 @@
 <class-descriptor class="org.kuali.module.purap.bo.PaymentChangeAccount" table="AP_PMT_CHG_ACCT_T">
     <field-descriptor name="paymentChangeIdentifier" column="PMT_CHG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_CHG_ID"/>
     <field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-    <field-descriptor name="generalLedgerPendingEntryIdentifier" column="GL_PENDING_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="itemAccountTotalAmount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <reference-descriptor name="generalLedgerPendingEntry" class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialSystemOriginationCode" />
+        <foreignkey field-ref="documentNumber" />
+        <foreignkey field-ref="transactionLedgerEntrySequenceNumber" />
+    </reference-descriptor>        
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PaymentChange" table="AP_PMT_CHG_T">

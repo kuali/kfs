@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 
 /**
  * Payment Change Account Business Object.
@@ -28,9 +29,13 @@ public class PaymentChangeAccount extends PersistableBusinessObjectBase {
 
     private Integer paymentChangeIdentifier;
     private Integer itemLineNumber;
-    private Integer generalLedgerPendingEntryIdentifier;
+    private String financialSystemOriginationCode;
+    private String documentNumber;
+    private Integer transactionLedgerEntrySequenceNumber;
     private KualiDecimal itemAccountTotalAmount;
 
+    private GeneralLedgerPendingEntry generalLedgerPendingEntry;
+    
     /**
      * Default constructor.
      */
@@ -46,12 +51,52 @@ public class PaymentChangeAccount extends PersistableBusinessObjectBase {
         this.paymentChangeIdentifier = paymentChangeIdentifier;
     }
 
-    public Integer getGeneralLedgerPendingEntryIdentifier() {
-        return generalLedgerPendingEntryIdentifier;
+    /**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setGeneralLedgerPendingEntryIdentifier(Integer generalLedgerPendingEntryIdentifier) {
-        this.generalLedgerPendingEntryIdentifier = generalLedgerPendingEntryIdentifier;
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
+     * Gets the financialSystemOriginationCode attribute. 
+     * @return Returns the financialSystemOriginationCode.
+     */
+    public String getFinancialSystemOriginationCode() {
+        return financialSystemOriginationCode;
+    }
+
+    /**
+     * Sets the financialSystemOriginationCode attribute value.
+     * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
+     */
+    public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
+        this.financialSystemOriginationCode = financialSystemOriginationCode;
+    }
+
+    /**
+     * Gets the transactionLedgerEntrySequenceNumber attribute. 
+     * @return Returns the transactionLedgerEntrySequenceNumber.
+     */
+    public Integer getTransactionLedgerEntrySequenceNumber() {
+        return transactionLedgerEntrySequenceNumber;
+    }
+
+    /**
+     * Sets the transactionLedgerEntrySequenceNumber attribute value.
+     * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
+     */
+    public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
+        this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
     }
 
     public KualiDecimal getItemAccountTotalAmount() {
@@ -71,6 +116,23 @@ public class PaymentChangeAccount extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the generalLedgerPendingEntry attribute. 
+     * @return Returns the generalLedgerPendingEntry.
+     */
+    public GeneralLedgerPendingEntry getGeneralLedgerPendingEntry() {
+        return generalLedgerPendingEntry;
+    }
+
+    /**
+     * Sets the generalLedgerPendingEntry attribute value.
+     * @param generalLedgerPendingEntry The generalLedgerPendingEntry to set.
+     * @deprecated
+     */
+    public void setGeneralLedgerPendingEntry(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
+        this.generalLedgerPendingEntry = generalLedgerPendingEntry;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -81,8 +143,10 @@ public class PaymentChangeAccount extends PersistableBusinessObjectBase {
         if (this.itemLineNumber != null) {
             m.put("itemLineNumber", this.itemLineNumber.toString());
         }
-        if (this.generalLedgerPendingEntryIdentifier != null) {
-            m.put("generalLedgerPendingEntryIdentifier", this.generalLedgerPendingEntryIdentifier.toString());
+        m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
+        m.put("documentNumber", this.documentNumber);
+        if (this.transactionLedgerEntrySequenceNumber != null) {
+            m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         }
         return m;
     }

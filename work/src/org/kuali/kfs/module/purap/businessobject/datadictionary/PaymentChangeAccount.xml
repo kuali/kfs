@@ -17,7 +17,6 @@
     <property name="attributes" >
       <list>
         <ref bean="PaymentChangeAccount-paymentChangeIdentifier" />
-        <ref bean="PaymentChangeAccount-generalLedgerPendingEntryIdentifier" />
         <ref bean="PaymentChangeAccount-itemAccountTotalAmount" />
         <ref bean="PaymentChangeAccount-itemLineNumber" />
         <ref bean="PaymentChangeAccount-versionNumber" />
@@ -44,22 +43,7 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="PaymentChangeAccount-generalLedgerPendingEntryIdentifier" parent="PaymentChangeAccount-generalLedgerPendingEntryIdentifier-parentBean" />
 
-  <bean id="PaymentChangeAccount-generalLedgerPendingEntryIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="generalLedgerPendingEntryIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="General Ledger Pending Entry Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-  </bean>
   <bean id="PaymentChangeAccount-itemAccountTotalAmount" parent="PaymentChangeAccount-itemAccountTotalAmount-parentBean" />
 
   <bean id="PaymentChangeAccount-itemAccountTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
@@ -126,8 +110,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentChangeIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="generalLedgerPendingEntryIdentifier" />
-              <bean parent="FieldDefinition"
                     p:attributeName="itemAccountTotalAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemLineNumber" />
@@ -155,8 +137,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="paymentChangeIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="generalLedgerPendingEntryIdentifier" />
-        <bean parent="FieldDefinition"
               p:attributeName="itemAccountTotalAmount" />
         <bean parent="FieldDefinition"
               p:attributeName="itemLineNumber" />
@@ -166,8 +146,6 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="paymentChangeIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="generalLedgerPendingEntryIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="itemAccountTotalAmount" />
         <bean parent="FieldDefinition"

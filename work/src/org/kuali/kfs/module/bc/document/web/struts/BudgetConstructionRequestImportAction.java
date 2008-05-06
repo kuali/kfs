@@ -170,7 +170,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
             isValid = false;
         } else if (!form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator()) &&
-                    !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.TAB.getSeparator()) &&
+                    !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.TAB.toString()) &&
                     !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) {
                         //user did not pick a valid field separator value
                         errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
@@ -208,7 +208,9 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      */
     private String getFieldSeparator(BudgetConstructionRequestImportForm form) {
         String separator = form.getFieldDelimiter();
+        
         if ( separator.equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) separator = form.getOtherFieldDelimiter();
+        if ( separator.endsWith(BCConstants.RequestImportFieldSeparator.TAB.toString()) ) separator = BCConstants.RequestImportFieldSeparator.TAB.getSeparator();
         
         return separator;
     }

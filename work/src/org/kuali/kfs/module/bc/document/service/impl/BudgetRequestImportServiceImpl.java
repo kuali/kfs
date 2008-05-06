@@ -60,7 +60,7 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 /**
  * Contains services relevent to the budget construction import request process
- * This class...
+ * 
  */
 @Transactional
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
@@ -368,7 +368,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
         }
         
-        //deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
+        deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
         return errorMessages;
     }
 

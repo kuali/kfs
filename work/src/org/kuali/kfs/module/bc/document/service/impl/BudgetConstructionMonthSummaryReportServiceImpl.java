@@ -32,6 +32,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgMonthSummaryReportTotal;
 import org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.module.budget.util.BudgetConstructionReportHelper;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +44,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetConstructionMonthSummaryReportService {
 
     BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     KualiConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
+    BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)
@@ -56,65 +56,35 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     }
 
     /**
-     * sets budgetConstructionMonthSummaryReportDao
-     * 
-     * @param budgetConstructionMonthSummaryReportDao
-     */
-    public void setBudgetConstructionMonthSummaryReportDao(BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao) {
-        this.budgetConstructionMonthSummaryReportDao = budgetConstructionMonthSummaryReportDao;
-    }
-
-    /**
      * @see org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
     public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
         Collection<BudgetConstructionOrgMonthSummaryReport> reportSet = new ArrayList();
-
-        BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry;
-        // build searchCriteria
-        Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-
-        // build order list
+        
+        // order list
         List<String> orderList = buildOrderByList();
-        Collection<BudgetConstructionMonthSummary> monthSummaryList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionMonthSummary.class, searchCriteria, orderList);
-
-
-        // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
-        List listForCalculateLevel = deleteDuplicated((List) monthSummaryList, 1);
-        List listForCalculateCons = deleteDuplicated((List) monthSummaryList, 2);
-        List listForCalculateType = deleteDuplicated((List) monthSummaryList, 3);
-        List listForCalculateIncexp = deleteDuplicated((List) monthSummaryList, 4);
-
+        Collection<BudgetConstructionMonthSummary> monthSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionMonthSummary.class, personUserIdentifier, orderList);
 
         // Calculate Total Section
-        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalLevelList;
-        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalConsList;
-        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalTypeList;
-        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalIncexpList;
-
-        monthSummaryTotalLevelList = calculateLevelTotal((List) monthSummaryList, listForCalculateLevel);
-        monthSummaryTotalConsList = calculateConsTotal((List) monthSummaryList, listForCalculateCons);
-        monthSummaryTotalTypeList = calculateTypeTotal((List) monthSummaryList, listForCalculateType);
-        monthSummaryTotalIncexpList = calculateIncexpTotal((List) monthSummaryList, listForCalculateIncexp);
-
-
+        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalLevelList = calculateLevelTotal((List) monthSummaryList, monthSummaryList);
+        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalConsList = calculateConsTotal((List) monthSummaryList, monthSummaryList);
+        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalTypeList = calculateTypeTotal((List) monthSummaryList, monthSummaryList);
+        List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalIncexpList = calculateIncexpTotal((List) monthSummaryList, monthSummaryList);
+        
         for (BudgetConstructionMonthSummary monthSummaryEntry : monthSummaryList) {
-            orgMonthSummaryReportEntry = new BudgetConstructionOrgMonthSummaryReport();
+            BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry = new BudgetConstructionOrgMonthSummaryReport();
             buildReportsHeader(universityFiscalYear, orgMonthSummaryReportEntry, monthSummaryEntry, consolidateToObjectCodeLevel);
             buildReportsBody(universityFiscalYear, orgMonthSummaryReportEntry, monthSummaryEntry);
             buildReportsTotal(orgMonthSummaryReportEntry, monthSummaryEntry, monthSummaryTotalLevelList, monthSummaryTotalConsList, monthSummaryTotalTypeList, monthSummaryTotalIncexpList);
             reportSet.add(orgMonthSummaryReportEntry);
         }
-
         return reportSet;
     }
 
     /**
      * builds report Header
      * 
-     * @param BudgetConstructionMonthSummary bcas
      */
     public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary, boolean consolidateToObjectCodeLevel) {
         String orgChartDesc = monthSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
@@ -172,8 +142,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         if (consolidateToObjectCodeLevel){
             orgMonthSummaryReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
         }
-        // For page break for objectMonthCode
-        //orgMonthSummaryReportEntry.setFinancialObjectLevelCode(monthSummary.getFinancialObjectLevelCode());
+        
         orgMonthSummaryReportEntry.setIncomeExpenseCode(monthSummary.getIncomeExpenseCode());
         orgMonthSummaryReportEntry.setFinancialConsolidationSortCode(monthSummary.getFinancialConsolidationSortCode());
         orgMonthSummaryReportEntry.setFinancialLevelSortCode(monthSummary.getFinancialLevelSortCode());
@@ -184,21 +153,14 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     /**
      * builds report body
      * 
-     * @param BudgetConstructionMonthSummary bcas
      */
     public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary) {
-        
-        Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, monthSummary.getChartOfAccountsCode());
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, monthSummary.getFinancialObjectCode());
-        ObjectCode objectCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
+        ObjectCode objectCode = budgetConstructionReportsServiceHelper.getObjectCode(universityFiscalYear, monthSummary.getChartOfAccountsCode(), monthSummary.getFinancialObjectCode());
         if ( objectCode != null){
             orgMonthSummaryReportEntry.setFinancialObjectCodeName(objectCode.getFinancialObjectCodeName());
         } else {
             orgMonthSummaryReportEntry.setFinancialObjectCodeName("NULL");
         }
-
         orgMonthSummaryReportEntry.setAccountLineAnnualBalanceAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getAccountLineAnnualBalanceAmount()));
         orgMonthSummaryReportEntry.setFinancialDocumentMonth1LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth1LineAmount()));
         orgMonthSummaryReportEntry.setFinancialDocumentMonth2LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth2LineAmount()));
@@ -212,9 +174,6 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         orgMonthSummaryReportEntry.setFinancialDocumentMonth10LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth10LineAmount()));
         orgMonthSummaryReportEntry.setFinancialDocumentMonth11LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth11LineAmount()));
         orgMonthSummaryReportEntry.setFinancialDocumentMonth12LineAmount(BudgetConstructionReportHelper.convertKualiInteger(monthSummary.getFinancialDocumentMonth12LineAmount()));
-
-        
-        
     }
 
     /**
@@ -224,7 +183,6 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * @param List reportTotalList
      */     
     public void buildReportsTotal(BudgetConstructionOrgMonthSummaryReport orgMonthSummaryReportEntry, BudgetConstructionMonthSummary monthSummary, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalLevelList, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalConsList, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalTypeList, List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalIncexpList) {
-
         Integer differenceAccountLineAnnualBalanceAmount = new Integer(0);
         Integer differenceMonth1LineAmount = new Integer(0);
         Integer differenceMonth2LineAmount = new Integer(0);
@@ -238,7 +196,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         Integer differenceMonth10LineAmount = new Integer(0);
         Integer differenceMonth11LineAmount = new Integer(0);
         Integer differenceMonth12LineAmount = new Integer(0);
-        
+      
         for (BudgetConstructionOrgMonthSummaryReportTotal levelTotal : monthSummaryTotalLevelList) {
             if (isSameMonthSummaryEntryForLevel(monthSummary, levelTotal.getBudgetConstructionMonthSummary())) {
                 orgMonthSummaryReportEntry.setLevelTotalDescription(monthSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
@@ -277,13 +235,11 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                 orgMonthSummaryReportEntry.setConsMonth12LineAmount(consTotal.getConsMonth12LineAmount());
             }
         }
-
         for (BudgetConstructionOrgMonthSummaryReportTotal typeTotal : monthSummaryTotalTypeList) {
             if (isSameMonthSummaryEntryForType(monthSummary, typeTotal.getBudgetConstructionMonthSummary())) {
                 //get Type desc
                 if (monthSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)){
                     orgMonthSummaryReportEntry.setTypeTotalDescription(BCConstants.Report.REVENUE);
-                    
                 } else {
                     orgMonthSummaryReportEntry.setTypeTotalDescription(BCConstants.Report.EXPENDITURE);
                 }
@@ -300,10 +256,8 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                 orgMonthSummaryReportEntry.setTypeMonth10LineAmount(typeTotal.getTypeMonth10LineAmount());
                 orgMonthSummaryReportEntry.setTypeMonth11LineAmount(typeTotal.getTypeMonth11LineAmount());
                 orgMonthSummaryReportEntry.setTypeMonth12LineAmount(typeTotal.getTypeMonth12LineAmount());
-
             }
         }
-
         for (BudgetConstructionOrgMonthSummaryReportTotal incexpTotal : monthSummaryTotalIncexpList) {
             if (isSameMonthSummaryEntryForIncexp(monthSummary, incexpTotal.getBudgetConstructionMonthSummary())) {
                 orgMonthSummaryReportEntry.setRevAccountLineAnnualBalanceAmount(incexpTotal.getRevAccountLineAnnualBalanceAmount());
@@ -365,8 +319,8 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         }
     }
 
-
-    public List calculateLevelTotal(List<BudgetConstructionMonthSummary> bcmsList, List<BudgetConstructionMonthSummary> simpleList) {
+    public List calculateLevelTotal(List<BudgetConstructionMonthSummary> bcmsList, Collection<BudgetConstructionMonthSummary> monthSummaryList) {
+        List returnList = new ArrayList();
         Integer levelAccountLineAnnualBalanceAmount = new Integer(0);
         Integer levelMonth1LineAmount = new Integer(0);
         Integer levelMonth2LineAmount = new Integer(0);
@@ -380,12 +334,12 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         Integer levelMonth10LineAmount = new Integer(0);
         Integer levelMonth11LineAmount = new Integer(0);
         Integer levelMonth12LineAmount = new Integer(0);
-
-        List returnList = new ArrayList();
-        for (BudgetConstructionMonthSummary simpleBclsEntry : simpleList) {
+        
+        List<BudgetConstructionMonthSummary>listForCalculateLevel = deleteDuplicated((List) monthSummaryList, 1);
+        for (BudgetConstructionMonthSummary levelEntry : listForCalculateLevel) {
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
-                if (isSameMonthSummaryEntryForLevel(simpleBclsEntry, bcmsListEntry)) {
+                if (isSameMonthSummaryEntryForLevel(levelEntry, bcmsListEntry)) {
                     levelAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
                     levelMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
                     levelMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
@@ -401,7 +355,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                     levelMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());     
                 }
             }
-            bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
+            bcMonthTotal.setBudgetConstructionMonthSummary(levelEntry);
             bcMonthTotal.setLevelAccountLineAnnualBalanceAmount(levelAccountLineAnnualBalanceAmount);
             bcMonthTotal.setLevelMonth1LineAmount(levelMonth1LineAmount);
             bcMonthTotal.setLevelMonth2LineAmount(levelMonth1LineAmount);
@@ -434,9 +388,8 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         return returnList;
     }
 
-
-    public List calculateConsTotal(List<BudgetConstructionMonthSummary> bcmsList, List<BudgetConstructionMonthSummary> simpleList) {
-        
+    public List calculateConsTotal(List<BudgetConstructionMonthSummary> bcmsList, Collection<BudgetConstructionMonthSummary> monthSummaryList) {
+        List returnList = new ArrayList();
         Integer consAccountLineAnnualBalanceAmount = new Integer(0);
         Integer consMonth1LineAmount = new Integer(0);
         Integer consMonth2LineAmount = new Integer(0);
@@ -450,14 +403,12 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         Integer consMonth10LineAmount = new Integer(0);
         Integer consMonth11LineAmount = new Integer(0);
         Integer consMonth12LineAmount = new Integer(0);
-
-        List returnList = new ArrayList();
-
-
-        for (BudgetConstructionMonthSummary simpleBclsEntry : simpleList) {
+        
+        List<BudgetConstructionMonthSummary>listForCalculateCons = deleteDuplicated((List) monthSummaryList, 2);
+        for (BudgetConstructionMonthSummary consEntry : listForCalculateCons) {
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
-                if (isSameMonthSummaryEntryForCons(simpleBclsEntry, bcmsListEntry)) {
+                if (isSameMonthSummaryEntryForCons(consEntry, bcmsListEntry)) {
                     consAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
                     consMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
                     consMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
@@ -471,10 +422,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                     consMonth10LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth10LineAmount());
                     consMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
                     consMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());   
-
                 }
             }
-            bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
+            bcMonthTotal.setBudgetConstructionMonthSummary(consEntry);
             bcMonthTotal.setConsAccountLineAnnualBalanceAmount(consAccountLineAnnualBalanceAmount);
             bcMonthTotal.setConsMonth1LineAmount(consMonth1LineAmount);
             bcMonthTotal.setConsMonth2LineAmount(consMonth1LineAmount);
@@ -503,16 +453,12 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             consMonth10LineAmount = new Integer(0);
             consMonth11LineAmount = new Integer(0);
             consMonth12LineAmount = new Integer(0);
-
         }
-
-
         return returnList;
     }
 
-
-    public List calculateTypeTotal(List<BudgetConstructionMonthSummary> bcmsList, List<BudgetConstructionMonthSummary> simpleList) {
-
+    public List calculateTypeTotal(List<BudgetConstructionMonthSummary> bcmsList, Collection<BudgetConstructionMonthSummary> monthSummaryList) {
+        List returnList = new ArrayList();
         Integer typeAccountLineAnnualBalanceAmount = new Integer(0);
         Integer typeMonth1LineAmount = new Integer(0);
         Integer typeMonth2LineAmount = new Integer(0);
@@ -526,12 +472,12 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         Integer typeMonth10LineAmount = new Integer(0);
         Integer typeMonth11LineAmount = new Integer(0);
         Integer typeMonth12LineAmount = new Integer(0);
-
-        List returnList = new ArrayList();
-        for (BudgetConstructionMonthSummary simpleBclsEntry : simpleList) {
+        
+        List<BudgetConstructionMonthSummary> listForCalculateType = deleteDuplicated((List) monthSummaryList, 3);
+        for (BudgetConstructionMonthSummary typeEntry : listForCalculateType) {
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
-                if (isSameMonthSummaryEntryForType(simpleBclsEntry, bcmsListEntry)) {
+                if (isSameMonthSummaryEntryForType(typeEntry, bcmsListEntry)) {
                     typeAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
                     typeMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
                     typeMonth2LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth2LineAmount());
@@ -547,9 +493,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                     typeMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());   
                 }
             }
-            
-            
-            bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
+            bcMonthTotal.setBudgetConstructionMonthSummary(typeEntry);
             bcMonthTotal.setTypeAccountLineAnnualBalanceAmount(typeAccountLineAnnualBalanceAmount);
             bcMonthTotal.setTypeMonth1LineAmount(typeMonth1LineAmount);
             bcMonthTotal.setTypeMonth2LineAmount(typeMonth1LineAmount);
@@ -578,15 +522,12 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             typeMonth10LineAmount = new Integer(0);
             typeMonth11LineAmount = new Integer(0);
             typeMonth12LineAmount = new Integer(0);
-            
         }
-
         return returnList;
     }
 
-
-    public List calculateIncexpTotal(List<BudgetConstructionMonthSummary> bcmsList, List<BudgetConstructionMonthSummary> simpleList) {
-
+    public List calculateIncexpTotal(List<BudgetConstructionMonthSummary> bcmsList, Collection<BudgetConstructionMonthSummary> monthSummaryList) {
+        List returnList = new ArrayList();
         Integer revAccountLineAnnualBalanceAmount = new Integer(0);
         Integer revMonth1LineAmount = new Integer(0);
         Integer revMonth2LineAmount = new Integer(0);
@@ -614,14 +555,12 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         Integer expMonth10LineAmount = new Integer(0);
         Integer expMonth11LineAmount = new Integer(0);
         Integer expMonth12LineAmount = new Integer(0);
-        
 
-        List returnList = new ArrayList();
-
-        for (BudgetConstructionMonthSummary simpleBclsEntry : simpleList) {
+        List<BudgetConstructionMonthSummary> listForCalculateIncexp = deleteDuplicated((List) monthSummaryList, 4);
+        for (BudgetConstructionMonthSummary incexpEntry : listForCalculateIncexp) {
             BudgetConstructionOrgMonthSummaryReportTotal bcMonthTotal = new BudgetConstructionOrgMonthSummaryReportTotal();
             for (BudgetConstructionMonthSummary bcmsListEntry : bcmsList) {
-                if (isSameMonthSummaryEntryForIncexp(simpleBclsEntry, bcmsListEntry)) {
+                if (isSameMonthSummaryEntryForIncexp(incexpEntry, bcmsListEntry)) {
                     if (bcmsListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)){
                         revAccountLineAnnualBalanceAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getAccountLineAnnualBalanceAmount());
                         revMonth1LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth1LineAmount());
@@ -651,11 +590,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
                         expMonth11LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth11LineAmount());
                         expMonth12LineAmount += BudgetConstructionReportHelper.convertKualiInteger(bcmsListEntry.getFinancialDocumentMonth12LineAmount());
                     }
-
                 }
             }
-            
-            bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
+            bcMonthTotal.setBudgetConstructionMonthSummary(incexpEntry);
             bcMonthTotal.setRevAccountLineAnnualBalanceAmount(revAccountLineAnnualBalanceAmount);
             bcMonthTotal.setRevMonth1LineAmount(revMonth1LineAmount);
             bcMonthTotal.setRevMonth2LineAmount(revMonth2LineAmount);
@@ -670,7 +607,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setRevMonth11LineAmount(revMonth11LineAmount);
             bcMonthTotal.setRevMonth12LineAmount(revMonth12LineAmount);
             
-            bcMonthTotal.setBudgetConstructionMonthSummary(simpleBclsEntry);
+            bcMonthTotal.setBudgetConstructionMonthSummary(incexpEntry);
             bcMonthTotal.setExpAccountLineAnnualBalanceAmount(expAccountLineAnnualBalanceAmount);
             bcMonthTotal.setExpMonth1LineAmount(expMonth1LineAmount);
             bcMonthTotal.setExpMonth2LineAmount(expMonth2LineAmount);
@@ -714,46 +651,33 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             expMonth11LineAmount = new Integer(0);
             expMonth12LineAmount = new Integer(0);
         }
-
-
         return returnList;
     }
-
 
     public boolean isSameMonthSummaryEntryForLevel(BudgetConstructionMonthSummary firstBcms, BudgetConstructionMonthSummary secondBcms) {
         if (isSameMonthSummaryEntryForCons(firstBcms, secondBcms) && firstBcms.getFinancialLevelSortCode().equals(secondBcms.getFinancialLevelSortCode())) {
             return true;
-        }
-        else
-            return false;
+        } else return false;
     }
 
 
     public boolean isSameMonthSummaryEntryForCons(BudgetConstructionMonthSummary firstBcms, BudgetConstructionMonthSummary secondBcms) {
         if (isSameMonthSummaryEntryForType(firstBcms, secondBcms) && firstBcms.getFinancialConsolidationSortCode().equals(secondBcms.getFinancialConsolidationSortCode())) {
             return true;
-        }
-        else
-            return false;
+        } else return false;
     }
 
 
     public boolean isSameMonthSummaryEntryForType(BudgetConstructionMonthSummary firstBcms, BudgetConstructionMonthSummary secondBcms) {
         if (isSameMonthSummaryEntryForIncexp(firstBcms, secondBcms) && firstBcms.getIncomeExpenseCode().equals(secondBcms.getIncomeExpenseCode())) {
             return true;
-        }
-
-        else
-            return false;
+        } else return false;
     }
 
     public boolean isSameMonthSummaryEntryForIncexp(BudgetConstructionMonthSummary firstBcms, BudgetConstructionMonthSummary secondBcms) {
         if (firstBcms.getOrganizationChartOfAccountsCode().equals(secondBcms.getOrganizationChartOfAccountsCode()) && firstBcms.getOrganizationCode().equals(secondBcms.getOrganizationCode()) && firstBcms.getSubFundGroupCode().equals(secondBcms.getSubFundGroupCode()) && firstBcms.getChartOfAccountsCode().equals(secondBcms.getChartOfAccountsCode())) {
             return true;
-        }
-
-        else
-            return false;
+        } else return false;
     }
 
     /**
@@ -831,15 +755,21 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         return returnList;
     }
 
-    public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
-        this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
-    }
-
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    /**
+     * sets budgetConstructionMonthSummaryReportDao
+     * 
+     * @param budgetConstructionMonthSummaryReportDao
+     */
+    public void setBudgetConstructionMonthSummaryReportDao(BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao) {
+        this.budgetConstructionMonthSummaryReportDao = budgetConstructionMonthSummaryReportDao;
     }
+
+    public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
+        this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
+    }
+
 }

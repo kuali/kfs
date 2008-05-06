@@ -234,11 +234,17 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetRepresentative.personName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationText" />
+              p:name="assetOrganization.organizationText"
+              p:overrideFieldConversions="organizationText:assetOrganization.organizationText"
+              p:overrideLookupClass="org.kuali.module.cams.bo.AssetOrganization"
+              />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationTagNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationAssetTypeIdentifier" />
+              p:name="assetOrganization.organizationAssetTypeIdentifier" 
+              p:overrideFieldConversions="organizationAssetTypeIdentifier:assetOrganization.organizationAssetTypeIdentifier"
+              p:overrideLookupClass="org.kuali.module.cams.bo.AssetOrganization"
+              />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.versionNumber" />
         <bean parent="MaintainableFieldDefinition"

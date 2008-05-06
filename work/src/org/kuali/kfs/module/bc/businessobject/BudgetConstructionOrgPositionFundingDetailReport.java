@@ -49,6 +49,7 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
     
     private String deleteBox;
     private String personName;
+    private String cls;
     
     //from PendingBudgetConstructionAppointmentFunding
     
@@ -598,6 +599,14 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
 
     public void setPersonSortCode(Integer personSortCode) {
         this.personSortCode = personSortCode;
+    }
+
+    public String getCls() {
+        return cls;
+    }
+
+    public void setCls(String cls) {
+        this.cls = cls;
     }
 
 

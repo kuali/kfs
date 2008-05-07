@@ -272,7 +272,7 @@
      
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
     	<property name="parameterService" ref="parameterService" />
-    	<property name="documentHelperService" ref="documentHelperService" />
+    	<property name="documentLockingService" ref="documentLockingService" />
     </bean>
     
     <bean id="assetTransferDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetTransferDaoOjb"/>
@@ -291,5 +291,9 @@
 	<bean id="assetRetirementDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetRetirementDaoOjb"/>
 	    
     <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl">
+    </bean>
+
+    <bean id="documentLockingService" class="org.kuali.module.cams.service.impl.DocumentLockingServiceImpl">
+    	<property name="maintenanceDocumentDao"><ref bean="maintenanceDocumentDao" /></property>
     </bean>
 </beans>

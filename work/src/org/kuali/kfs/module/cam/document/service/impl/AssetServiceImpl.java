@@ -23,7 +23,6 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.DocumentHelperService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -31,11 +30,12 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.cams.service.DocumentLockingService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetServiceImpl implements AssetService {
     private ParameterService parameterService;
-    private DocumentHelperService documentHelperService;
+    private DocumentLockingService documentLockingService;
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -45,12 +45,12 @@ public class AssetServiceImpl implements AssetService {
         this.parameterService = parameterService;
     }
 
-    public DocumentHelperService getDocumentHelperService() {
-        return documentHelperService;
+    public DocumentLockingService getDocumentLockingService() {
+        return documentLockingService;
     }
 
-    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
-        this.documentHelperService = documentHelperService;
+    public void setDocumentLockingService(DocumentLockingService documentLockingService) {
+        this.documentLockingService = documentLockingService;
     }
     
     public boolean isAssetMovable(Asset asset) {
@@ -144,9 +144,9 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
         maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
-        String lockingDocumentId = getDocumentHelperService().getLockingDocumentId(documentNumber, maintenanceLocks);
+        String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
         if (StringUtils.isNotEmpty(lockingDocumentId)) {
-            documentHelperService.checkForLockingDocument(lockingDocumentId);
+            documentLockingService.checkForLockingDocument(lockingDocumentId);
             
             return true;
         }

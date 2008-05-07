@@ -1,8 +1,8 @@
 package org.kuali.module.ar.bo;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -35,7 +35,8 @@ public class Customer extends PersistableBusinessObjectBase {
 	private String customerEmailAddress;
 
 	private Customer customerParentCompany;
-
+    private CustomerType customerType;
+    
     private List<CustomerInternalNote> customerInternalNotes;
     
 	/**
@@ -463,6 +464,23 @@ public class Customer extends PersistableBusinessObjectBase {
 	public void setCustomerParentCompany(Customer customerParentCompany) {
 		this.customerParentCompany = customerParentCompany;
 	}
+
+    /**
+     * Gets the customerType attribute. 
+     * @return Returns the customerType.
+     */
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    /**
+     * Sets the customerType attribute value.
+     * @param customerType The customerType to set.
+     * @deprecated
+     */
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
 
     /**
      * Gets the customerInternalNotes attribute. 

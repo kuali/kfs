@@ -132,6 +132,9 @@
 	<reference-descriptor name="customerParentCompany" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerParentCompanyNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="customerType" class-ref="org.kuali.module.ar.bo.CustomerType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="customerTypeCode" />
+	</reference-descriptor>
     <collection-descriptor name="customerInternalNotes" element-class-ref="org.kuali.module.ar.bo.CustomerInternalNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="customerInternalNoteCreateTimestamp" sort="ASC" />
         <inverse-foreignkey field-ref="customerNumber" />
@@ -934,6 +937,14 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.ar.bo.CustomerType" table="AR_CUST_TYP_T">
+	<field-descriptor name="customerTypeCode" column="CUST_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="customerTypeDescription" column="CUST_TYP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.InvoicePaidAppliedMove" table="AR_INV_PD_APLD_MT">

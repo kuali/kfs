@@ -102,7 +102,6 @@ public class ThresholdHelper {
     private void updateThresholdSummary(ThresholdCriteria thresholdCriteria,
                                         SummaryAccount account){
         
-        LOG.error("........account......."+account.getAccount());
         if (thresholdCriteria != CHART_AND_COMMODITYCODE && 
             thresholdCriteria != CHART_AND_VENDOR){
             
@@ -258,17 +257,10 @@ public class ThresholdHelper {
                                                                        thresholdSummary.getProperty(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID));
                 }
                 
-                LOG.error("\n\n\n\n\n---------------------------------------------------------------");
-                LOG.error("collection " + collection);
-                LOG.error("---------------------------------------------------------------\n\n\n\n\n");
-                
                 if (collection != null){
                     for (Threshold threshold :(List<Threshold>) collection){
                         if (threshold.getThresholdAmount() == null ||
                             threshold.getThresholdAmount().isLessThan(thresholdSummary.getTotalAmount())){
-                            LOG.error("\n\n\n\n\n---------------------------------------------------------------");
-                            LOG.error("Receiving Set with " + threshold);
-                            LOG.error("---------------------------------------------------------------\n\n\n\n\n");
                             return true;
                         }
                     }

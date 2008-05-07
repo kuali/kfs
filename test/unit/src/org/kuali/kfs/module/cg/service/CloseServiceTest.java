@@ -37,9 +37,12 @@ import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.cg.service.CloseService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@RelatesTo(JiraIssue.KFSMI838)
 @ConfigureContext(session = KHUNTLEY)
 public class CloseServiceTest extends KualiTestBase {
 

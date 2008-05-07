@@ -118,6 +118,8 @@
               p:name="lockboxNumber" />
 <!--        <bean parent="MaintainableFieldDefinition"-->
 <!--              p:name="salesTaxAccountNumber" />-->
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />	
       </list>
     </property>
   </bean>

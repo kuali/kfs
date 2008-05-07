@@ -103,6 +103,9 @@
               p:name="universityFiscalYear"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="universityName"
+              p:required="false" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="processingChartOfAccountCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

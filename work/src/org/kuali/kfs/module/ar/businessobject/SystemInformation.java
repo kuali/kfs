@@ -17,6 +17,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 public class SystemInformation extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
+	private String universityName;
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
 	private String salesTaxAccountNumber;
@@ -92,6 +93,25 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 		this.universityFiscalYear = universityFiscalYear;
 	}
 
+	   /**
+     * Gets the universityName attribute.
+     * 
+     * @return Returns the universityName
+     * 
+     */
+    public String getUniversityName() { 
+        return universityName;
+    }
+
+    /**
+     * Sets the universityName attribute.
+     * 
+     * @param universityName The universityName to set.
+     * 
+     */
+    public void setUniversityName(String universityName) {
+        this.universityName = universityName;
+    }
 
 	/**
 	 * Gets the processingChartOfAccountCode attribute.

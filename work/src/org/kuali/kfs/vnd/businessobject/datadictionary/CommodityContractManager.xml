@@ -34,32 +34,34 @@
     <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Campus Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="campusCode" />
     <property name="description" value="campusCode description..." />
   </bean>
   <bean id="CommodityContractManager-contractManagerCode" parent="CommodityContractManager-contractManagerCode-parentBean" />
 
-  <bean id="CommodityContractManager-contractManagerCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CommodityContractManager-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
     <property name="name" value="contractManagerCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Contract Manager Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Contract Manager" />
+    <property name="shortLabel" value="Contract Manager" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="contractManagerCode" />
     <property name="description" value="contractManagerCode description..." />

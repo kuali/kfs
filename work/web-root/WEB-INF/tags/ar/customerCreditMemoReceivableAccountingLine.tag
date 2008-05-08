@@ -18,7 +18,7 @@
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />          
 <c:set var="customerInvoiceAttributes" value="${DataDictionary.CustomerInvoiceDocument.attributes}" />    
                       
-<kul:tab tabTitle="Receivable" defaultOpen="false" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE}">
+<kul:tab tabTitle="Receivable" defaultOpen="false" >
     <div class="tab-container" align=center>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">
             <tr>

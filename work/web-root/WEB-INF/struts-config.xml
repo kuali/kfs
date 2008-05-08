@@ -78,6 +78,7 @@
    		<form-bean name="IncumbentSalarySettingForm" type="org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm" />
    		<form-bean name="TempListLookupForm" type="org.kuali.module.budget.web.struts.form.TempListLookupForm" />
    		<form-bean name="OrganizationReportSelectionForm" type="org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm" />
+   		<form-bean name="ReportDumpForm" type="org.kuali.module.budget.web.struts.form.ReportDumpForm" />
    		
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
@@ -268,6 +269,7 @@
         <action path="/budget*" name="{1}Form" input="/jsp/modules/budget/{1}.jsp" type="org.kuali.module.budget.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/budget/{1}.jsp" /> 
+            <forward name="import_export" path="/jsp/modules/budget/BudgetConstructionImportExport.jsp"/>
         </action> 
 
         <action path="/researchBudget*" name="BudgetForm" input="/jsp/modules/research/budget/Budget{1}.jsp" type="org.kuali.module.kra.budget.web.struts.action.Budget{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

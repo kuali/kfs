@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +33,13 @@ import net.sf.jasperreports.engine.JRParameter;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ReportGeneration;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ReportGenerationService;
@@ -64,6 +68,7 @@ import org.kuali.module.budget.service.BudgetConstructionSynchronizationProblems
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.util.ReportControlListBuildHelper;
 import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
+import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 
 /**
  * Struts Action Class for the Organization Report Selection Screen.
@@ -167,6 +172,12 @@ public class OrganizationReportSelectionAction extends KualiAction {
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationReportSelectionForm.getReportMode());
         if (!storeCodeSelections(organizationReportSelectionForm, reportMode, personUserIdentifier)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        // for report dumps foward to dump action to display formatting screen
+        if (reportMode.dump) {
+            String dumpUrl = this.buildReportDumpForwardURL(organizationReportSelectionForm, mapping);
+            return new ActionForward(dumpUrl, true);
         }
 
         // build report data and populate report objects for rendering
@@ -306,6 +317,21 @@ public class OrganizationReportSelectionAction extends KualiAction {
         }
 
         return reportData;
+    }
+    
+    /**
+     * Builds URL for the report dump url.
+     */
+    private String buildReportDumpForwardURL(OrganizationReportSelectionForm organizationReportSelectionForm, ActionMapping mapping) {
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationReportSelectionForm.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());
+
+        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_DUMP_ACTION, parameters);
     }
 
     /**

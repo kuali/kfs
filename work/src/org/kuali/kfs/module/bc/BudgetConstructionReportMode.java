@@ -45,7 +45,10 @@ public enum BudgetConstructionReportMode {
     SALARY_SUMMARY_REPORT("SalarySummaryReport", BCAF, OBJECT_CODE, "BudgetOrgSalarySummary", false), 
     SUBFUND_SUMMARY_REPORT("SubFundSummaryReport", PBGL, SUBFUND, "BudgetOrgSubFundSummary", true),
     SYNCHRONIZATION_PROBLEMS_REPORT("SynchronizationProblemsReport", PBGL, ACCOUNT, "BudgetOrgSynchronizationProblems", true), 
-    TWOPLG_LIST_REPORT("TwoPLGListReport", PBGL, ACCOUNT, "BudgetOrgTwoPLGList", true);
+    TWOPLG_LIST_REPORT("TwoPLGListReport", PBGL, ACCOUNT, "BudgetOrgTwoPLGList", true),
+    ACCOUNT_DUMP("AccountDump", PBGL, SUBFUND, true),
+    MONTHLY_DUMP("MonthlyDump", MONTH, SUBFUND, true),
+    FUNDING_DUMP("FundingDump", BCAF, SUBFUND, true);
 
 
     public final String reportModeName;
@@ -53,14 +56,10 @@ public enum BudgetConstructionReportMode {
     public final ReportSelectMode reportSelectMode;
     public final String jasperFileName;
     public final boolean lockThreshold;
+    public final boolean dump;
 
     /**
      * Constructs a BudgetConstructionReportMode.java.
-     * 
-     * @param reportModeName
-     * @param reportBuildMode
-     * @param reportSelectMode
-     * @param jasperFileName
      */
     private BudgetConstructionReportMode(final String reportModeName, final BuildMode reportBuildMode, final ReportSelectMode reportSelectMode, final String jasperFileName, final boolean lockThreshold) {
         this.reportModeName = reportModeName;
@@ -68,6 +67,19 @@ public enum BudgetConstructionReportMode {
         this.reportSelectMode = reportSelectMode;
         this.jasperFileName = jasperFileName;
         this.lockThreshold = lockThreshold;
+        this.dump = false;
+    }
+    
+    /**
+     * Constructs a BudgetConstructionReportMode.java.
+     */
+    private BudgetConstructionReportMode(final String reportModeName, final BuildMode reportBuildMode, final ReportSelectMode reportSelectMode, final boolean dump) {
+        this.reportModeName = reportModeName;
+        this.reportBuildMode = reportBuildMode;
+        this.reportSelectMode = reportSelectMode;
+        this.lockThreshold = false;
+        this.dump = dump;
+        this.jasperFileName = "";
     }
 
     /**

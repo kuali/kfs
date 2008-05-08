@@ -778,13 +778,6 @@ public class OrganizationSelectionTreeAction extends KualiAction {
     }
 
     /**
-     * Handles requests for data dumps.
-     */
-    public ActionForward performDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * Handles forwarding to account list or report selection screen.
      */
     public ActionForward performReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

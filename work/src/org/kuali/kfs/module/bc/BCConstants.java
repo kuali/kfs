@@ -47,12 +47,14 @@ public class BCConstants extends JstlConstants {
     public static final String ORG_SEL_TREE_METHOD = "loadExpansionScreen";
     public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
     public static final String ORG_REPORT_SELECTION_ACTION = "budgetOrganizationReportSelection.do";
+    public static final String REPORT_DUMP_ACTION = "budgetReportDumpAction.do";
 
     public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
     
     public static final String REQUEST_IMPORT_OUTPUT_FILE = "budgetImportLog.pdf";
     
     public static final String LABOR_OBJECT_FRINGE_CODE = "F";
+    public static final String MAPPING_IMPORT_EXPORT = "import_export";
     
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT

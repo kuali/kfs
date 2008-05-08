@@ -19,12 +19,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
  * Value Finder for Purchase Order Retransmission Methods.
@@ -39,10 +43,14 @@ public class PurchaseOrderRetransmissionMethodValuesFinder extends KeyValuesBase
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<PurchaseOrderTransmissionMethod> codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
+        String retransmitTypes = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class,PurapParameterConstants.PURAP_PO_RETRANSMIT_TRANSMISSION_METHOD_TYPES);
         List labels = new ArrayList();
-        for (PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod : codes) {
-            if (purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode().equals(POTransmissionMethods.FAX) || purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode().equals(POTransmissionMethods.PRINT)) {
-                labels.add(new KeyLabelPair(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
+        if (retransmitTypes != null){
+            for (PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod : codes) {
+                if (StringUtils.contains(retransmitTypes,
+                                         StringUtils.left(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(),4))){
+                    labels.add(new KeyLabelPair(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
+                }
             }
         }
         return labels;

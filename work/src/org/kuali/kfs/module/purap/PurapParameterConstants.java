@@ -37,6 +37,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String PURAP_PREQ_REQUIRE_ATTACHMENT = "REQUIRE_ATTACHMENT_IND";
     public static final String PURAP_CM_REQUIRE_ATTACHMENT = "REQUIRE_ATTACHMENT_IND";
     public static final String PURAP_PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS = "NUMBER_OF_DAYS_USED_TO_CALCULATE_DEFAULT_PAY_DATE";
+    public static final String PURAP_PO_RETRANSMIT_TRANSMISSION_METHOD_TYPES = "RETRANSMIT_TRANSMISSION_METHOD_TYPES";
 
     public static final String PURAP_PDP_PREQ_CANCEL_NOTE = "CANCEL_NOTE";
     public static final String PURAP_PDP_PREQ_RESET_NOTE = "RESET_NOTE";

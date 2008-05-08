@@ -343,7 +343,7 @@
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">
-                            <html:image property="methodToCall.performDump.(((Account)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Dump" alt="Account Dump" styleClass="tinybutton" />
+                            <html:image property="methodToCall.performReport.(((AccountDump)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Dump" alt="Account Dump" styleClass="tinybutton" />
                         </div>
                         </td>
                     </tr>
@@ -376,7 +376,7 @@
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">
-                            <html:image property="methodToCall.performDump.(((Funding)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Funding Dump" alt="Funding Dump" styleClass="tinybutton" />
+                            <html:image property="methodToCall.performReport.(((FundingDump)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Funding Dump" alt="Funding Dump" styleClass="tinybutton" />
                         </div>
                         </td>
                     </tr>
@@ -403,7 +403,7 @@
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">
-                            <html:image property="methodToCall.performDump.(((Monthly)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthly Dump" alt="Monthly Dump" styleClass="tinybutton" />
+                            <html:image property="methodToCall.performReport.(((MonthlyDump)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthly Dump" alt="Monthly Dump" styleClass="tinybutton" />
                         </div>
                         </td>
                     </tr>

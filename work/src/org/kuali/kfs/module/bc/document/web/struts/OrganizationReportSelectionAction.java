@@ -327,6 +327,8 @@ public class OrganizationReportSelectionAction extends KualiAction {
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationReportSelectionForm));
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationReportSelectionForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());

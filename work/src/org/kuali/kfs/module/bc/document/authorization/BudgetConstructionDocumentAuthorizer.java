@@ -21,16 +21,18 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
 // public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase {
@@ -58,8 +60,9 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
     /**
      * This calculates editMode based on the BC Security model. A Budget Construction Document contains information associated with
      * a Fiscal Year, Chart, Account and SubAccount. This candidate key is used to find the document and calculate the editMode
-     * based on the document's current level and the user's approval level. Document level < user level = viewonly access, document =
-     * user = edit access, and document > user or user not an approver anywhere in the account's hierarchy= no access.
+     * based on the document's current level and the user's approval level. Document level < user level = VIEW_ONLY access, document =
+     * user = FULL_ENTRY access, and document > USER_BELOW_DOC_LEVEL or user not an approver anywhere in the account's hierarchy = UNVIEWABLE access.
+     * Users that aren't organization level approvers = USER_NOT_ORG_APPROVER
      * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
@@ -70,15 +73,20 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
      */
     public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
 
-        /*
-         * TODO this eventually needs to call service methods that implements the BC security model use FULL_ENTRY for
-         * userAtDocLevel, VIEW_ONLY for userAboveDocLevel and
-         * AuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL for limited access use
-         * AuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY to reflect when BC itself is in viewonly mode
-         */
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+
         Map editModeMap = new HashMap();
-        String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+//        String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, u);
         editModeMap.put(editMode, "TRUE");
+        
+        // adding the case where system is in view only mode in case we need this fact for functionality
+        // getAccessMode() will not return FULL_ENTRY if the system is in view only mode,
+        // so we may or may not need this extra map row
+        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)){
+            editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
+        }
 
         return editModeMap;
     }
@@ -101,11 +109,11 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
             List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
             if (pointOfViewOrgs.isEmpty()) {
                 // GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
-                String editMode = AuthorizationConstants.EditMode.UNVIEWABLE;
+                String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
                 editModeMap.put(editMode, "TRUE");
             }
             else {
-                String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+                String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
                 editModeMap.put(editMode, "TRUE");
             }
 
@@ -113,7 +121,7 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
         catch (Exception e) {
             // TODO for now just return unviewable - really should report the exception in some soft way - maybe another EditMode
             // value
-            String editMode = AuthorizationConstants.EditMode.UNVIEWABLE;
+            String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
             editModeMap.put(editMode, "TRUE");
         }
 

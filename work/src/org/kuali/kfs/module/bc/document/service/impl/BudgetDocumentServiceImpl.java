@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
@@ -40,12 +41,14 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
@@ -53,6 +56,10 @@ import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.service.BudgetParameterService;
+import org.kuali.module.budget.service.PermissionService;
+import org.kuali.module.chart.bo.Delegate;
+import org.kuali.module.chart.bo.Org;
+import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.rice.config.ConfigurationException;
@@ -63,9 +70,8 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * Implements the BudgetDocumentService interface.
- * Methods here operate on objects associated with the Budget Construction document such as BudgetConstructionHeader
- * 
+ * Implements the BudgetDocumentService interface. Methods here operate on objects associated with the Budget Construction document
+ * such as BudgetConstructionHeader
  */
 @Transactional
 public class BudgetDocumentServiceImpl implements BudgetDocumentService {
@@ -80,6 +86,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private LaborModuleService laborModuleService;
     private ParameterService parameterService;
     private BudgetParameterService budgetParameterService;
+    private PermissionService permissionService;
+    private FiscalYearFunctionControlService fiscalYearFunctionControlService;
 
     /**
      * @see org.kuali.module.budget.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
@@ -91,12 +99,11 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocument(org.kuali.core.document.Document)
-     * 
-     * similar to DocumentService.saveDocument()
+     * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocument(org.kuali.core.document.Document) similar to
+     *      DocumentService.saveDocument()
      */
     public Document saveDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException, ValidationException {
-        
+
         this.saveDocumentNoWorkflow(budgetConstructionDocument);
 
         // this seems to be the workflow related stuff only needed during a final save from save button or close
@@ -104,31 +111,31 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         documentService.prepareWorkflowDocument(budgetConstructionDocument);
         workflowDocumentService.save(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument(), null);
         GlobalVariables.getUserSession().setWorkflowDocument(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument());
-        
+
         // save any messages up to this point and put them back in after logDocumentAction()
         // this is a hack to get around the problem where messageLists gets cleared
-        // that is PostProcessorServiceImpl.doActionTaken(ActionTakenEventVO), establishGlobalVariables(), which does GlobalVariables.clear()
+        // that is PostProcessorServiceImpl.doActionTaken(ActionTakenEventVO), establishGlobalVariables(), which does
+        // GlobalVariables.clear()
         // not sure why this doesn't trash the GlobalVariables.getErrorMap()
         ArrayList messagesSoFar = GlobalVariables.getMessageList();
 
         budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
-        
+
         // putting messages back in
         GlobalVariables.getMessageList().addAll(messagesSoFar);
-        
+
         return budgetConstructionDocument;
     }
-    
+
     /**
      * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.core.document.Document)
      * 
-     * TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls
-     * add to interface
-     * this should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass) above
-     * instead of duplicating all the calls up to the point of workflow related calls
+     *  TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls add to interface this
+     *  should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass) above instead
+     *  of duplicating all the calls up to the point of workflow related calls
      */
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument bcDoc) throws ValidationException {
-        
+
         checkForNulls(bcDoc);
 
         bcDoc.prepareForSave();
@@ -136,108 +143,127 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // validate and save the local objects not workflow objects
         // this eventually calls BudgetConstructionRules.processSaveDocument() which overrides the method in DocumentRuleBase
         validateAndPersistDocument(bcDoc, new SaveDocumentEvent(bcDoc));
-        
-        // TODO move this to its own method and call from the BudgetConstructionAction actions that need it, save(if flagged), calcbene(regardless of flag)
+
+        // TODO move this to its own method and call from the BudgetConstructionAction actions that need it, save(if flagged),
+        // calcbene(regardless of flag)
         // calc benefits if needed
-        
-//        if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()){
-//
-//            // allow benefits calculation if document's account is not salary setting only lines
-//            AccountSalarySettingOnlyCause retVal = budgetParameterService.isSalarySettingOnlyAccount(bcDoc);
-//            if (retVal == AccountSalarySettingOnlyCause.MISSING_PARAM || retVal == AccountSalarySettingOnlyCause.NONE){
-//                
-//                if (bcDoc.isBenefitsCalcNeeded()){
-//                    bcDoc.setBenefitsCalcNeeded(false);
-//
-//                    // pbgl lines are saved at this point, calc benefits
-//                    benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-//                    
-//                    // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
-//                    this.reloadBenefitsLines(bcDoc);
-//                    
-//                    // write global message on calc success
-//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
-//                }
-//                
-//                if (bcDoc.isMonthlyBenefitsCalcNeeded()){
-//                    bcDoc.setMonthlyBenefitsCalcNeeded(false);
-//
-//                    // pbgl lines are saved at this point, calc benefits
-//                    benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-//                    
-//                    // write global message on calc success
-//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
-//                }
-//
-//            }
-//        }
+
+        // if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()){
+        //
+        // // allow benefits calculation if document's account is not salary setting only lines
+        // AccountSalarySettingOnlyCause retVal = budgetParameterService.isSalarySettingOnlyAccount(bcDoc);
+        // if (retVal == AccountSalarySettingOnlyCause.MISSING_PARAM || retVal == AccountSalarySettingOnlyCause.NONE){
+        //                
+        // if (bcDoc.isBenefitsCalcNeeded()){
+        // bcDoc.setBenefitsCalcNeeded(false);
+        //
+        // // pbgl lines are saved at this point, calc benefits
+        // benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(),
+        // bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+        //                    
+        // // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
+        // this.reloadBenefitsLines(bcDoc);
+        //                    
+        // // write global message on calc success
+        // GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
+        // }
+        //                
+        // if (bcDoc.isMonthlyBenefitsCalcNeeded()){
+        // bcDoc.setMonthlyBenefitsCalcNeeded(false);
+        //
+        // // pbgl lines are saved at this point, calc benefits
+        // benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(),
+        // bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
+        //                    
+        // // write global message on calc success
+        // GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
+        // }
+        //
+        // }
+        // }
         return bcDoc;
     }
 
-    public void calculateBenefitsIfNeeded (BudgetConstructionDocument bcDoc){
-        
-        if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()){
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateBenefitsIfNeeded(org.kuali.module.budget.document.BudgetConstructionDocument)
+     */
+    public void calculateBenefitsIfNeeded(BudgetConstructionDocument bcDoc) {
+
+        if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()) {
 
             // allow benefits calculation if document's account is not salary setting only lines
             AccountSalarySettingOnlyCause retVal = budgetParameterService.isSalarySettingOnlyAccount(bcDoc);
-            if (retVal == AccountSalarySettingOnlyCause.MISSING_PARAM || retVal == AccountSalarySettingOnlyCause.NONE){
-                
-                if (bcDoc.isBenefitsCalcNeeded()){
+            if (retVal == AccountSalarySettingOnlyCause.MISSING_PARAM || retVal == AccountSalarySettingOnlyCause.NONE) {
+
+                if (bcDoc.isBenefitsCalcNeeded()) {
                     this.calculateAnnualBenefits(bcDoc);
-//                    bcDoc.setBenefitsCalcNeeded(false);
-//
-//                    // pbgl lines are saved at this point, calc benefits
-//                    benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-//                    
-//                    // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
-//                    this.reloadBenefitsLines(bcDoc);
-//                    
-//                    // write global message on calc success
-//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
+                    // bcDoc.setBenefitsCalcNeeded(false);
+                    //
+                    // // pbgl lines are saved at this point, calc benefits
+                    // benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(),
+                    // bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(),
+                    // bcDoc.getSubAccountNumber());
+                    //                    
+                    // // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
+                    // this.reloadBenefitsLines(bcDoc);
+                    //                    
+                    // // write global message on calc success
+                    // GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
                 }
-                
-                if (bcDoc.isMonthlyBenefitsCalcNeeded()){
+
+                if (bcDoc.isMonthlyBenefitsCalcNeeded()) {
                     this.calculateMonthlyBenefits(bcDoc);
-//                    bcDoc.setMonthlyBenefitsCalcNeeded(false);
-//
-//                    // pbgl lines are saved at this point, calc benefits
-//                    benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-//                    
-//                    // write global message on calc success
-//                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
+                    // bcDoc.setMonthlyBenefitsCalcNeeded(false);
+                    //
+                    // // pbgl lines are saved at this point, calc benefits
+                    // benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(),
+                    // bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(),
+                    // bcDoc.getSubAccountNumber());
+                    //                    
+                    // // write global message on calc success
+                    // GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
                 }
 
             }
         }
     }
 
-    public void calculateBenefits(BudgetConstructionDocument bcDoc){
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateBenefits(org.kuali.module.budget.document.BudgetConstructionDocument)
+     */
+    public void calculateBenefits(BudgetConstructionDocument bcDoc) {
 
         this.calculateAnnualBenefits(bcDoc);
         this.calculateMonthlyBenefits(bcDoc);
     }
-    
-    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc){
-        
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateAnnualBenefits(org.kuali.module.budget.document.BudgetConstructionDocument)
+     */
+    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc) {
+
         bcDoc.setBenefitsCalcNeeded(false);
 
         // pbgl lines are saved at this point, calc benefits
         benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-        
+
         // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
         this.reloadBenefitsLines(bcDoc);
-        
+
         // write global message on calc success
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
     }
 
-    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc){
-        
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateMonthlyBenefits(org.kuali.module.budget.document.BudgetConstructionDocument)
+     */
+    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc) {
+
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
 
         // pbgl lines are saved at this point, calc benefits
         benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-        
+
         // write global message on calc success
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_MONTHLY_CALCULATED);
     }
@@ -257,12 +283,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * Runs validation and persists a document to the database.
+     * Runs validation and persists a document to the database. TODO This method is just like the one in DocumentServiceImpl. This
+     * method exists because the DocumentService Interface does not define this method, so we can't call it. Not sure if this is an
+     * oversite or by design. If the interface gets adjusted, fix to call it, otherwise leave this and remove the marker.
      * 
-     * TODO This method is just like the one in DocumentServiceImpl. This method exists because the DocumentService Interface does not
-     * define this method, so we can't call it.  Not sure if this is an oversite or by design.  If the interface gets adjusted, fix to
-     * call it, otherwise leave this and remove the marker.
-     *   
      * @param document
      * @param event
      * @throws WorkflowException
@@ -274,10 +298,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             throw new IllegalArgumentException("invalid (null) document");
         }
         LOG.info("validating and preparing to persist document " + document.getDocumentNumber());
-        
+
         // runs business rules event.validate() and creates rule instance and runs rule method recursively
         document.validateBusinessRules(event);
-        
+
         // calls overriden method for specific document for anything that needs to happen before the save
         // currently nothing for BC document
         document.prepareForSave(event);
@@ -291,21 +315,21 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             LOG.error("exception encountered on store of document " + e.getMessage());
             throw e;
         }
-        
+
         document.postProcessSave(event);
 
 
     }
 
     /**
-     * Reloads benefits target accounting lines. Usually called right after an annual benefits calculation
-     * and the display needs updated with a fresh copy from the database.  All old row versions are removed
-     * and database row versions are inserted in the list in the correct order.
+     * Reloads benefits target accounting lines. Usually called right after an annual benefits calculation and the display needs
+     * updated with a fresh copy from the database. All old row versions are removed and database row versions are inserted in the
+     * list in the correct order.
      * 
      * @param bcDoc
      */
-    private void reloadBenefitsLines(BudgetConstructionDocument bcDoc){
-        
+    private void reloadBenefitsLines(BudgetConstructionDocument bcDoc) {
+
         // get list of potential fringe objects to use as an in query param
         Map fieldValues = new HashMap();
         fieldValues.put("universityFiscalYear", bcDoc.getUniversityFiscalYear());
@@ -316,65 +340,69 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             LaborLedgerBenefitsCalculation element = (LaborLedgerBenefitsCalculation) iter.next();
             fringeObjects.add(element.getPositionFringeBenefitObjectCode());
         }
-        List<PendingBudgetConstructionGeneralLedger> dbPBGLFringeLines = budgetConstructionDao.getDocumentPBGLFringeLines(bcDoc.getDocumentNumber(),fringeObjects);
+        List<PendingBudgetConstructionGeneralLedger> dbPBGLFringeLines = budgetConstructionDao.getDocumentPBGLFringeLines(bcDoc.getDocumentNumber(), fringeObjects);
         List<PendingBudgetConstructionGeneralLedger> docPBGLExpLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
 
         // holds the request sums of removed, added records and used to adjust the document expenditure request total
         KualiInteger docRequestTotals = KualiInteger.ZERO;
         KualiInteger dbRequestTotals = KualiInteger.ZERO;
-        
-        //remove the current set of fringe lines
+
+        // remove the current set of fringe lines
         ListIterator docLines = docPBGLExpLines.listIterator();
-        while (docLines.hasNext()){
+        while (docLines.hasNext()) {
             PendingBudgetConstructionGeneralLedger docLine = (PendingBudgetConstructionGeneralLedger) docLines.next();
-            if (fringeObjects.contains(docLine.getFinancialObjectCode())){
+            if (fringeObjects.contains(docLine.getFinancialObjectCode())) {
                 docRequestTotals = docRequestTotals.add(docLine.getAccountLineAnnualBalanceAmount());
                 docLines.remove();
             }
         }
-        
-        //add the dbset of fringe lines, if any
-        if (dbPBGLFringeLines != null && !dbPBGLFringeLines.isEmpty()){
 
-            if (docPBGLExpLines == null || docPBGLExpLines.isEmpty()){
+        // add the dbset of fringe lines, if any
+        if (dbPBGLFringeLines != null && !dbPBGLFringeLines.isEmpty()) {
+
+            if (docPBGLExpLines == null || docPBGLExpLines.isEmpty()) {
                 docPBGLExpLines.addAll(dbPBGLFringeLines);
-            } else {
+            }
+            else {
                 ListIterator dbLines = dbPBGLFringeLines.listIterator();
                 docLines = docPBGLExpLines.listIterator();
                 PendingBudgetConstructionGeneralLedger dbLine = (PendingBudgetConstructionGeneralLedger) dbLines.next();
                 PendingBudgetConstructionGeneralLedger docLine = (PendingBudgetConstructionGeneralLedger) docLines.next();
                 boolean dbDone = false;
                 boolean docDone = false;
-                while (!dbDone){
-                    if (docDone || docLine.getFinancialObjectCode().compareToIgnoreCase(dbLine.getFinancialObjectCode()) > 0){
-                        if (!docDone){
+                while (!dbDone) {
+                    if (docDone || docLine.getFinancialObjectCode().compareToIgnoreCase(dbLine.getFinancialObjectCode()) > 0) {
+                        if (!docDone) {
                             docLine = (PendingBudgetConstructionGeneralLedger) docLines.previous();
                         }
                         dbRequestTotals = dbRequestTotals.add(dbLine.getAccountLineAnnualBalanceAmount());
                         dbLine.setPersistedAccountLineAnnualBalanceAmount(dbLine.getAccountLineAnnualBalanceAmount());
                         docLines.add(dbLine);
-                        if (!docDone){
+                        if (!docDone) {
                             docLine = (PendingBudgetConstructionGeneralLedger) docLines.next();
                         }
-                        if (dbLines.hasNext()){
+                        if (dbLines.hasNext()) {
                             dbLine = (PendingBudgetConstructionGeneralLedger) dbLines.next();
-                        } else {
+                        }
+                        else {
                             dbDone = true;
                         }
-                    } else {
-                        if (docLines.hasNext()){
+                    }
+                    else {
+                        if (docLines.hasNext()) {
                             docLine = (PendingBudgetConstructionGeneralLedger) docLines.next();
-                        } else {
+                        }
+                        else {
                             docDone = true;
                         }
                     }
                 }
             }
         }
-        
+
         // adjust the request total for the removed and added recs
         bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(dbRequestTotals.subtract(docRequestTotals)));
-        
+
     }
 
     /**
@@ -383,6 +411,128 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
         return budgetConstructionDao.getPendingBudgetConstructionAppointmentFundingRequestSum(salaryDetailLine);
     }
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     */
+    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
+        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
+
+        BudgetConstructionHeader bcHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        Integer hdrLevel = bcHeader.getOrganizationLevelCode();
+
+        // special case level 0 access, check if user is fiscal officer or delegate
+        if (hdrLevel == 0) {
+            if (u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier())) {
+                if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())){
+                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
+                } else {
+                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
+                }
+                return editMode;
+            }
+        }
+
+        // drops here if we need to check for org approver access for any doc level
+        editMode = this.getOrgApproverAcessMode(bcHeader, u);
+
+
+        return editMode;
+    }
+
+    /**
+     * Gets the Budget Construction access mode for a Budget Construction document header and Organization Approver user.
+     * This method assumes the Budget Document exists in the database and the Account Organization Hierarchy rows exist
+     * for the account. This will not check the special case where the document is at level 0. Most authorization routines
+     * should use getAccessMode()
+     * 
+     * @param bcHeader
+     * @param u
+     * @return
+     */
+    private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, UniversalUser u) {
+
+        // default the edit mode to user not an organization approver
+        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
+
+        HashMap fieldValues = new HashMap();
+        fieldValues.put("universityFiscalYear", bcHeader.getUniversityFiscalYear());
+        fieldValues.put("chartOfAccountsCode", bcHeader.getChartOfAccountsCode());
+        fieldValues.put("accountNumber", bcHeader.getAccountNumber());
+        List<BudgetConstructionAccountOrganizationHierarchy> rvwHierList = (List<BudgetConstructionAccountOrganizationHierarchy>) businessObjectService.findMatchingOrderBy(BudgetConstructionAccountOrganizationHierarchy.class, fieldValues, "organizationLevelCode", true);
+
+        if (rvwHierList != null && !rvwHierList.isEmpty()) {
+
+            // get a hashmap copy of the accountOrgHier rows for the account
+            HashMap<String, BudgetConstructionAccountOrganizationHierarchy> rvwHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>();
+            for (BudgetConstructionAccountOrganizationHierarchy rvwHier : rvwHierList) {
+                rvwHierMap.put(rvwHier.getOrganizationChartOfAccountsCode() + rvwHier.getOrganizationCode(), rvwHier);
+            }
+            // this will hold subset of accounOrgHier rows where user is approver
+            List<BudgetConstructionAccountOrganizationHierarchy> rvwHierApproverList = new ArrayList();
+
+            // get the subset of hier rows where the user is an approver
+            try {
+                List<Org> povOrgs = (List<Org>) permissionService.getOrgReview(u.getPersonUserIdentifier());
+                if (povOrgs.isEmpty()) {
+
+                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
+
+                }
+                else {
+                    for (Org povOrg : povOrgs) {
+                        if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
+                            rvwHierApproverList.add(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
+                        }
+                    }
+
+                    // check if the user is an approver somewhere in the hier for this document, compare the header level with the
+                    // approval level(s)
+                    if (!rvwHierApproverList.isEmpty()) {
+
+                        // user is approver somewhere in the account hier, look for a min record above or equal to doc level
+                        boolean fnd = false;
+                        for (BudgetConstructionAccountOrganizationHierarchy rvwHierApprover : rvwHierApproverList) {
+                            if (rvwHierApprover.getOrganizationLevelCode() >= bcHeader.getOrganizationLevelCode()) {
+                                fnd = true;
+                                if (rvwHierApprover.getOrganizationLevelCode() > bcHeader.getOrganizationLevelCode()) {
+                                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
+                                }
+                                else {
+                                    if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())){
+                                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
+                                    } else {
+                                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
+                                    }
+
+                                }
+                                break;
+                            }
+                        }
+
+                        // if min rec >= doc level not found, the remaining objects must be < doc level
+                        if (!fnd) {
+                            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
+                        }
+                    }
+                    else {
+                        // user not an approver in this account's hier, see if the user is an org approver somewhere
+                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
+                    }
+                }
+            }
+            catch (Exception e) {
+                // TODO should this reraise workflow exception? or should the method say it throws an exception
+            }
+        }
+        else {
+            // TODO should this raise an exception? no hierarchy for account?
+        }
+
+        return editMode;
+    }
+
 
     /**
      * Sets the budgetConstructionDao attribute value.
@@ -413,6 +563,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the documentDao attribute value.
+     * 
      * @param documentDao The documentDao to set.
      */
     public void setDocumentDao(DocumentDao documentDao) {
@@ -422,6 +573,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the benefitsCalculationService attribute value.
+     * 
      * @param benefitsCalculationService The benefitsCalculationService to set.
      */
     public void setBenefitsCalculationService(BenefitsCalculationService benefitsCalculationService) {
@@ -431,6 +583,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -440,6 +593,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the laborModuleService attribute value.
+     * 
      * @param laborModuleService The laborModuleService to set.
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
@@ -449,6 +603,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the budgetParameterService attribute value.
+     * 
      * @param budgetParameterService The budgetParameterService to set.
      */
     public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
@@ -458,10 +613,30 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+
+    /**
+     * Sets the permissionService attribute value.
+     * 
+     * @param permissionService The permissionService to set.
+     */
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
+
+    /**
+     * Sets the fiscalYearFunctionControlService attribute value.
+     * @param fiscalYearFunctionControlService The fiscalYearFunctionControlService to set.
+     */
+    public void setFiscalYearFunctionControlService(FiscalYearFunctionControlService fiscalYearFunctionControlService) {
+        this.fiscalYearFunctionControlService = fiscalYearFunctionControlService;
     }
 
 }

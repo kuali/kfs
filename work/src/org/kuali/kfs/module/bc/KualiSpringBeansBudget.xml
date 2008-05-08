@@ -97,6 +97,12 @@
 		<property name="budgetParameterService">
 			<ref bean="budgetParameterService" />
 		</property>
+		<property name="permissionService">
+			<ref bean="permissionService" />
+		</property>
+		<property name="fiscalYearFunctionControlService">
+			<ref bean="fiscalYearFunctionControlService" />
+		</property>
 	</bean>
 
 	<bean id="budgetOrganizationTreeService" class="org.kuali.module.budget.service.impl.BudgetOrganizationTreeServiceImpl">
@@ -237,7 +243,11 @@
 		</property>
 	</bean>	
 
-	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb" />
+	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb">
+	    <property name="documentTypeService">
+	       <ref bean="documentTypeService"/>
+	    </property>   
+	</bean>
 	
 	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDaoJdbcBase">
 	    <property name="parameterService">

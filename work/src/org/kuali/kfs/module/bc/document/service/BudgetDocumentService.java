@@ -15,9 +15,11 @@
  */
 package org.kuali.module.budget.service;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
@@ -61,12 +63,34 @@ public interface BudgetDocumentService {
      */
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument budgetConstructionDocument) throws ValidationException;
     
+    /**
+     * Checks if annual and/or monthly benefits need calculated and calls the associated calculation method
+     * 
+     * @param bcDoc
+     */
     public void calculateBenefitsIfNeeded (BudgetConstructionDocument bcDoc);
 
+    /**
+     * Explicitly calls both the annual and monthly benefits calculation methods
+     * 
+     * @param bcDoc
+     */
     public void calculateBenefits(BudgetConstructionDocument bcDoc);
 
+    /**
+     * Calculates annual benefits for a budget construction document using the persisted data
+     * currently stored in the database.
+     * 
+     * @param bcDoc
+     */
     public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
 
+    /**
+     * Calculates the monthly benefits for a budget construction document using the persisted data
+     * currently stored in the database.
+     * 
+     * @param bcDoc
+     */
     public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc);
 
     /**
@@ -78,10 +102,19 @@ public interface BudgetDocumentService {
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
 
     /**
-     * Sets the budgetConstructionDao attribute value.
+     * Gets the Budget Construction access mode for the document candidate key and the user. Assumes the Budget Document
+     * exists in the database and the Account Organization Hierarchy rows exist for the account.  Checks the special
+     * case when the document is at level 0 and the user is either the fiscal officer for the account or an account
+     * delegate for the Budget Construction document type or the special 'ALL' document type.
      * 
-     * @param budgetConstructionDao The budgetConstructionDao to set.
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param u
+     * @return
      */
-    public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao);
+    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u);
+    
     
 }

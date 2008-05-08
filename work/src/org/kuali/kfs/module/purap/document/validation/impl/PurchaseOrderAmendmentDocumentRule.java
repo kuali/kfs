@@ -112,7 +112,7 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
             String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
-                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                    getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }

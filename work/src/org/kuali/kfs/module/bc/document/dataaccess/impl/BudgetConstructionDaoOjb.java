@@ -28,9 +28,11 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -39,11 +41,15 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.chart.bo.Delegate;
 
 /**
  * This class is the OJB implementation of the BudgetConstructionDao interface.
  */
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
+    
+    private DocumentTypeService documentTypeService;
 
     /**
      * This gets a BudgetConstructionHeader using the candidate key chart, account, subaccount, fiscalyear
@@ -302,4 +308,40 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         return documentPBGLfringeLines;
     }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public boolean isDelegate(String chartOfAccountsCode, String accountNumber, String personUniversalIdentifier) {
+        
+        boolean retval = false;
+        
+        // active BC account delegates are marked with the BC document type or the special "ALL" document type
+        List docTypes = new ArrayList();
+        docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
+        docTypes.add(documentTypeService.getDocumentTypeCodeByClass(BudgetConstructionDocument.class));
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountNumber", accountNumber);
+        criteria.addEqualTo("accountDelegateSystemId", personUniversalIdentifier);
+        criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
+        criteria.addIn("financialDocumentTypeCode", docTypes);
+        QueryByCriteria query = QueryFactory.newQuery(Delegate.class, criteria);
+        if (getPersistenceBrokerTemplate().getCount(query) > 0){
+            retval = true;
+        }
+        
+        return retval;
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+    
+    
 }

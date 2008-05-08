@@ -147,4 +147,14 @@ public interface BudgetConstructionDao {
      */
     public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects);
 
+    /**
+     * Determines is a user is an active Budget Construction document delegate approver for
+     * the Budget Construction document type or the 'ALL' document type
+     * 
+     * @param chartCd
+     * @param accountNbr
+     * @param personUniversalIdentifier
+     * @return
+     */
+    public boolean isDelegate(String chartCd, String accountNbr, String personUniversalIdentifier);
 }

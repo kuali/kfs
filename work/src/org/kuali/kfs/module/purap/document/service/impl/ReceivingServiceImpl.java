@@ -263,7 +263,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             if(!(workflowDocument.stateIsCanceled() ||
                  workflowDocument.stateIsException() ||
                  workflowDocument.stateIsFinal()) &&
-                 docNumber.equals(receivingDocumentNumber) == false ){
+                 docNumber.equals(receivingCorrectionDocNumber) == false ){
                      
                 isInProcess = true;
                 break;

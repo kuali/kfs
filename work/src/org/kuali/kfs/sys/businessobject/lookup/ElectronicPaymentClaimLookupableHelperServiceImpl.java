@@ -50,7 +50,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
                 fieldValues.put("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
-        return (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, new Criteria());
+        return (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, null);
     }
 
     /**

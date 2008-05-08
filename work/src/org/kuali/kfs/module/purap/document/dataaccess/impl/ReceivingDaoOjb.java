@@ -31,6 +31,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.ReceivingDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 
 import edu.iu.uis.eden.clientapp.WorkflowDocument;
@@ -55,6 +56,20 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
 
     }
     
+    public List<String> getReceivingCorrectionDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber) {
+
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.RECEIVING_LINE_DOCUMENT_NUMBER, receivingDocumentNumber);        
+        Iterator<Object[]> iter = getDocumentNumbersOfReceivingCorrectionByCriteria(criteria, false);
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        return returnList;
+
+    }
+    
     /**
      * Retrieves a document number for a payment request by user defined criteria and sorts the values ascending if orderByAscending
      * parameter is true, descending otherwise.
@@ -66,6 +81,19 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
     private Iterator<Object[]> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
         
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ReceivingLineDocument.class, criteria);
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+        if (orderByAscending) {
+            rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        else {
+            rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+    }
+
+    private Iterator<Object[]> getDocumentNumbersOfReceivingCorrectionByCriteria(Criteria criteria, boolean orderByAscending) {
+        
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ReceivingCorrectionDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);

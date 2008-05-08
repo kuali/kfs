@@ -257,8 +257,12 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_BILL_OF_LADING_NUMBER = "message.duplicate.receivingLine.billOfLadingNumber";
     public static final String MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT = "message.receiving.lineitem.return";
     public static final String MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT = "message.receiving.lineitem.damage";
-    
+
     //Threshold
     public static final String THRESHOLD_FIELD_INVALID = "errors.threshold.field.invalid";
     public static final String INVALID_THRESHOLD_CRITERIA = "errors.threshold.criteria.invalid";
+        
+    // Receiving Correction
+    public static final String ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE = "errors.receivingCorrection.documentActiveForRcvLine";
+    
 }

@@ -201,11 +201,55 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreate;
     }
 
+    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl) throws RuntimeException {
+        return canCreateReceivingCorrectionDocument(rl, null);
+    }
+
+    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl, String receivingCorrectionDocNumber) throws RuntimeException {
+
+        boolean canCreate = false;
+        
+        if( rl.getDocumentHeader().getWorkflowDocument().stateIsFinal() &&
+            !isReceivingCorrectionDocumentInProcessForReceivingLine(rl.getDocumentNumber(), receivingCorrectionDocNumber)){            
+            canCreate = true;
+        }
+        
+        return canCreate;
+    }
+
     private boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
         
         boolean isInProcess = false;
         
         List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
+        KualiWorkflowDocument workflowDocument = null;
+                
+        for (String docNumber : docNumbers) {
+        
+            try{
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+            }catch(WorkflowException we){
+                throw new RuntimeException(we);
+            }
+            
+            if(!(workflowDocument.stateIsCanceled() ||
+                 workflowDocument.stateIsException() ||
+                 workflowDocument.stateIsFinal()) &&
+                 docNumber.equals(receivingDocumentNumber) == false ){
+                     
+                isInProcess = true;
+                break;
+            }
+        }
+
+        return isInProcess;
+    }
+
+    private boolean isReceivingCorrectionDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
+        
+        boolean isInProcess = false;
+        
+        List<String> docNumbers = receivingDao.getReceivingCorrectionDocumentNumbersByReceivingLineNumber(receivingDocumentNumber);
         KualiWorkflowDocument workflowDocument = null;
                 
         for (String docNumber : docNumbers) {

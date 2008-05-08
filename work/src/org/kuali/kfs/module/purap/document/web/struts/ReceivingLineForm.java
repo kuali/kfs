@@ -25,7 +25,10 @@ import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
+import org.kuali.module.purap.document.authorization.ReceivingLineDocumentActionAuthorizer;
 
 public class ReceivingLineForm extends ReceivingFormBase {
     
@@ -81,6 +84,8 @@ public class ReceivingLineForm extends ReceivingFormBase {
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
         Map buttonsMap = createButtonsMap();
+        
+        ReceivingLineDocumentActionAuthorizer auth = new ReceivingLineDocumentActionAuthorizer(this.getReceivingLineDocument(), getEditingMode());        
 
         if (this.getEditingMode().containsKey(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB)) {
             if (this.getEditingMode().get(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
@@ -91,8 +96,10 @@ public class ReceivingLineForm extends ReceivingFormBase {
                 extraButtons.add(clearButton);                
                 
             }else{
-                ExtraButton correctionButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingCorrection");
-                extraButtons.add(correctionButton);                
+                if( auth.canCreateCorrection() ){
+                    ExtraButton correctionButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingCorrection");
+                    extraButtons.add(correctionButton);
+                }
             }
         }
         

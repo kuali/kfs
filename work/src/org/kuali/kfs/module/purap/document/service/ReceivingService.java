@@ -81,6 +81,25 @@ public interface ReceivingService {
     public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException;
     
     /**
+     * 
+     * 
+     * @param rl
+     * @return
+     * @throws RuntimeException
+     */
+    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl) throws RuntimeException;
+    
+    /**
+     * 
+     * 
+     * @param rl
+     * @param receivingCorrectionDocNumber
+     * @return
+     * @throws RuntimeException
+     */
+    public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl, String receivingCorrectionDocNumber) throws RuntimeException;
+        
+    /**
      * Checks for duplicate Receiving Line documents and passes back a list of those found
      * where vendor date, packing slip number or bill of lading match on previous receiving line
      * documents by purchase order.

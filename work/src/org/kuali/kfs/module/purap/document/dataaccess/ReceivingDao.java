@@ -24,6 +24,8 @@ import java.util.List;
 public interface ReceivingDao {
 
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
+
+    public List<String> getReceivingCorrectionDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber);
     
     public List<String> duplicateVendorDate(Integer poId, java.sql.Date vendorDate);
     

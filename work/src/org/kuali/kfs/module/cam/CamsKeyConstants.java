@@ -64,6 +64,9 @@ public class CamsKeyConstants {
     public static class Payment {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
+        public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
+        public static final String MESSAGE_PAYMENT_WAS_NOT_SAVED="message.payment.cancelledSaved";
+
     }
 
     public static class Transfer {

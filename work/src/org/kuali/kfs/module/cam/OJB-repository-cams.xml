@@ -499,10 +499,6 @@
         <orderby name="financialDocumentLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    
-   <!-- collection-descriptor name="assetPayment" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="documentNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor-->        
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetPaymentDetail" table="CM_AST_PMT_DTL_T">

@@ -17,6 +17,8 @@ package org.kuali.module.cams.document;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -35,6 +37,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentAccountingLineParser;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -123,6 +126,36 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
+    }    
+
+   
+    
+    /**
+     * 
+     * This method determines whether or not an asset has differents object sub type codes in its documents
+     * @return true when the asset has payments with object codes that point to different object sub type codes
+     */
+    public boolean hasDifferentObjectSubTypes() {
+        List<AssetPayment> assetPayments = this.getAsset().getAssetPayments();
+        List<AssetPaymentDetail> assetPaymentDetails_a = this.getSourceAccountingLines();
+        List<AssetPaymentDetail> assetPaymentDetails_b = this.getSourceAccountingLines();
+        
+        String objectSubTypeCode=null;
+        for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
+            //Comparing the same asset payment document
+            for(AssetPaymentDetail assetPaymentDetail_b:assetPaymentDetails_b){
+                if (!assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode().equals(assetPaymentDetail_b.getObjectCode().getFinancialObjectSubTypeCode())) {
+                    return true;
+                }
+            }                        
+            //Comparing against the already approved asset payments
+            for(AssetPayment assetPayment:assetPayments){
+                if (!assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode().equals(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     /**

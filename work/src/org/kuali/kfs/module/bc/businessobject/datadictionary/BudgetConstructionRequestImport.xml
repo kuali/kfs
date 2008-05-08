@@ -38,8 +38,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Import File" />
-    <property name="description" value="Import File" />
+    <property name="summary" value="File" />
+    <property name="description" value="File" />
   </bean>
   <bean id="BudgetConstructionRequestImport-otherFieldDelimiter" parent="BudgetConstructionRequestImport-otherFieldDelimiter-parentBean" />
 

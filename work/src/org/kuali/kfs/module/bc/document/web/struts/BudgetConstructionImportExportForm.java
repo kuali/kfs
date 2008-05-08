@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,30 +20,22 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionRequestImport;
 
-
-/**
- * Form for Budget Construction Import
- */
-public class BudgetConstructionRequestImportForm extends BudgetConstructionImportExportForm {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRequestImportForm.class);
-
-    private FormFile file;
-    private String fileType;
+public class BudgetConstructionImportExportForm extends KualiForm {
+    
     private String fieldDelimiter;
     private String textFieldDelimiter;
     private String otherFieldDelimiter;
     private String otherTextFieldDelimiter;
+    private String title;
+    private String operatingMode;
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
     private Integer universityFiscalYear;
     
-    public BudgetConstructionRequestImportForm() {
+    public BudgetConstructionImportExportForm() {
         super();
         this.budgetConstructionRequestImport = new BudgetConstructionRequestImport();
-        setFileType(BCConstants.RequestImportFileType.ANNUAL.toString());
-        this.setTitle("BC Request Import Tool");
-        this.setOperatingMode("requestImport");
-        /*setFieldDelimiter(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator());
-        setTextFieldDelimiter(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter());*/
+        setFieldDelimiter(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator());
+        setTextFieldDelimiter(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter());
     }
     
     /**
@@ -51,54 +43,17 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
      * 
      * @return
      */
-    /*public String getFieldDelimiter() {
+    public String getFieldDelimiter() {
         return this.budgetConstructionRequestImport.getFieldDelimiter();
-    }*/
+    }
     
     /**
      * Sets the field delimiter
      * 
      * @param fieldDelimiter
      */
-    /*public void setFieldDelimiter(String fieldDelimiter) {
+    public void setFieldDelimiter(String fieldDelimiter) {
         this.budgetConstructionRequestImport.setFieldDelimiter(fieldDelimiter);
-    }*/
-    
-    /**
-     * Gets the file name to import
-     * 
-     * @return
-     */
-    public FormFile getFile() {
-        return this.file;
-    }
-    
-    /**
-     * Sets the file name to import
-     * This method...
-     * @param fileName
-     */
-    public void setFile(FormFile file) {
-        this.file = file;
-        this.budgetConstructionRequestImport.setFileName(file.getFileName());
-    }
-    
-    /**
-     * Gets the file type
-     * 
-     * @return
-     */
-    public String getFileType() {
-        return this.budgetConstructionRequestImport.getFileType();
-    }
-    
-    /**
-     * Sets the file type
-     * 
-     * @param fileType
-     */
-    public void setFileType(String fileType) {
-        this.budgetConstructionRequestImport.setFileType(fileType);
     }
     
     /**
@@ -106,88 +61,126 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
      * 
      * @return
      */
-    /*public String getTextFieldDelimiter() {
+    public String getTextFieldDelimiter() {
         return this.budgetConstructionRequestImport.getTextFieldDelimiter();
-    }*/
+    }
 
     /**
      * Sets the text field delimiter
      * 
      * @param textFieldDelimiter
      */
-    /*public void setTextFieldDelimiter(String textFieldDelimiter) {
+    public void setTextFieldDelimiter(String textFieldDelimiter) {
         this.budgetConstructionRequestImport.setTextFieldDelimiter(textFieldDelimiter);
-    }*/
+    }
     
     /**
      * Gets Field delimiter
      * 
      * @return
      */
-    /*public String getOtherFieldDelimiter() {
+    public String getOtherFieldDelimiter() {
         return this.budgetConstructionRequestImport.getOtherFieldDelimiter();
-    }*/
+    }
     
     /**
      * Sets field delimiter
      * 
      * @param otherFieldDelimiter
      */
-    /*public void setOtherFieldDelimiter(String otherFieldDelimiter) {
+    public void setOtherFieldDelimiter(String otherFieldDelimiter) {
         this.budgetConstructionRequestImport.setOtherFieldDelimiter(otherFieldDelimiter);
-    }*/
+    }
     
     /**
      * gets text field delimiter
      * 
      * @return
      */
-    /*public String getOtherTextFieldDelimiter() {
+    public String getOtherTextFieldDelimiter() {
         return this.budgetConstructionRequestImport.getOtherTextFieldDelimiter();
-    }*/
+    }
     
     /**
      * Sets text field delimiter
      * 
      * @param otherTextFieldDelimiter
      */
-    /*public void setOtherTextFieldDelimiter(String otherTextFieldDelimiter) {
+    public void setOtherTextFieldDelimiter(String otherTextFieldDelimiter) {
         this.budgetConstructionRequestImport.setOtherTextFieldDelimiter(otherTextFieldDelimiter);
-    }*/
+    }
     
     /**
      * 
      * 
      * @return
      */
-    /*public BudgetConstructionRequestImport getBudgetConstructionRequestImport() {
+    public BudgetConstructionRequestImport getBudgetConstructionRequestImport() {
         return budgetConstructionRequestImport;
-    }*/
+    }
 
     /**
      * 
      * 
      * @param budgetConstructionRequestImport
      */
-    /*public void setBudgetConstructionRequestImport(BudgetConstructionRequestImport budgetConstructionRequestImport) {
+    public void setBudgetConstructionRequestImport(BudgetConstructionRequestImport budgetConstructionRequestImport) {
         this.budgetConstructionRequestImport = budgetConstructionRequestImport;
-    }*/
+    }
     
     /**
      * Sets the universityFiscalYear attribute value.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
-    /*public void setUniversityFiscalYear(Integer universityFiscalYear) {
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
-    }*/
+    }
     /**
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear.
      */
-    /*public Integer getUniversityFiscalYear() {
+    public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
-    }*/
-
+    }
+    
+    /**
+     * Sets form title
+     * 
+     * @return
+     */
+    public String getTitle() {
+        return title;
+    }
+    
+    /**
+     * Gets form title
+     * 
+     * @param operatingModeTitle
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    /**
+     * Gets operating mode
+     * 
+     * @return
+     */
+    public String getOperatingMode() {
+        return operatingMode;
+    }
+    
+    /**
+     * Sets operating mode
+     * 
+     * @param operatingMode
+     */
+    public void setOperatingMode(String operatingMode) {
+        this.operatingMode = operatingMode;
+    }
+    
+    
+    
 }

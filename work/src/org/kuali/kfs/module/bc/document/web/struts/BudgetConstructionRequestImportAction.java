@@ -39,15 +39,22 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.service.BudgetRequestImportService;
+import org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
 
 
 /**
  * Handles Budget Construction Import Requests
  */
-public class BudgetConstructionRequestImportAction extends KualiAction {
+public class BudgetConstructionRequestImportAction extends BudgetConstructionImportExportAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRequestImportAction.class);
     
+    @Override
+    public ActionForward execute(ActionMapping arg0, ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+        super.execute(arg0, arg1, arg2, arg3);
+        return arg0.findForward("import_export");
+    }
+
     /**
      * Imports file
      * 
@@ -72,7 +79,8 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         String lookupUrl;
         
         if (!isValid) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            //TODO: add path to constants
+            return mapping.findForward("import_export");
         }
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
@@ -107,7 +115,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             return null;
         }
         t.log();
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return mapping.findForward("import_export");
       
     }
     
@@ -130,77 +138,39 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
     }
     
     /**
-     * checks form values against business rules
      * 
-     * @param form
-     * @return
+     * @see org.kuali.module.budget.web.struts.action.BudgetConstructionImportExportAction#validateFormData(org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm)
      */
-    private boolean validateFormData(BudgetConstructionRequestImportForm form) {
-        boolean isValid = true;
+    public boolean validateFormData(BudgetConstructionImportExportForm form) {
+        boolean isValid = super.validateFormData(form);
+        BudgetConstructionRequestImportForm requestImportForm = (BudgetConstructionRequestImportForm) form;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
-        if ( form.getFile() == null || form.getFile().getFileSize() == 0 ) {
+        if ( requestImportForm.getFile() == null || requestImportForm.getFile().getFileSize() == 0 ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
             isValid = false;
         }
-        if ( form.getFile() != null && form.getFile().getFileSize() == 0 ) {
+        if ( requestImportForm.getFile() != null && requestImportForm.getFile().getFileSize() == 0 ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_EMPTY);
             isValid = false;
         }
-        if (form.getFile() != null && (StringUtils.isBlank(form.getFile().getFileName())) ) {
+        if (requestImportForm.getFile() != null && (StringUtils.isBlank(requestImportForm.getFile().getFileName())) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
-        if (form.getUniversityFiscalYear() ==  null) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_YEAR_REQUIRED);
-            isValid = false;
-        }
+        
         //file type validation
-        if ( StringUtils.isBlank(form.getFileType()) ) {
+        if ( StringUtils.isBlank(requestImportForm.getFileType()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
             isValid = false;
         }
-        if (!StringUtils.isBlank(form.getFileType()) && 
-                !form.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.ANNUAL.toString()) &&
-                !form.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
+        if (!StringUtils.isBlank(requestImportForm.getFileType()) && 
+                !requestImportForm.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.ANNUAL.toString()) &&
+                !requestImportForm.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
             isValid = false;
         }
-        //field separator validations
-        if ( StringUtils.isBlank(form.getFieldDelimiter()) )  {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-            isValid = false;
-        } else if (form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) && StringUtils.isBlank(form.getOtherFieldDelimiter()) ) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-            isValid = false;
-        } else if (!form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator()) &&
-                    !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.TAB.toString()) &&
-                    !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) {
-                        //user did not pick a valid field separator value
-                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-                        isValid = false;    
-        }
         
-        //text delimiter validations
-        if ( StringUtils.isBlank(form.getTextFieldDelimiter()) ) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
-            isValid = false;
-        } else if (form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) && StringUtils.isBlank(form.getOtherTextFieldDelimiter()) ) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
-            isValid = false;
-        } else if (!form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter()) &&
-                !form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter()) &&
-                !form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) {
-                    //user did not pick a valid field separator value
-                    errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
-                    isValid = false;    
-        }
-        
-        if (isValid && getFieldSeparator(form).equalsIgnoreCase(getTextFieldDelimiter(form))) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_DISTINCT_DELIMITERS_REQUIRED);
-            isValid = false;
-        }
-         
         return isValid;
     }
     
@@ -210,14 +180,14 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      * @param form
      * @return
      */
-    private String getFieldSeparator(BudgetConstructionRequestImportForm form) {
+    /*private String getFieldSeparator(BudgetConstructionRequestImportForm form) {
         String separator = form.getFieldDelimiter();
         
         if ( separator.equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) separator = form.getOtherFieldDelimiter();
         if ( separator.endsWith(BCConstants.RequestImportFieldSeparator.TAB.toString()) ) separator = BCConstants.RequestImportFieldSeparator.TAB.getSeparator();
         
         return separator;
-    }
+    }*/
     
     /**
      * Returns the text field delimiter
@@ -225,10 +195,10 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      * @param form
      * @return
      */
-    private String getTextFieldDelimiter(BudgetConstructionRequestImportForm form) {
+    /*private String getTextFieldDelimiter(BudgetConstructionRequestImportForm form) {
         String delimiter = form.getTextFieldDelimiter();
         if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) delimiter = form.getOtherTextFieldDelimiter();
         
         return delimiter;
-    }
+    }*/
 }

@@ -134,7 +134,7 @@ public class CamsConstants {
 	 public static class AssetRetirementReasonCodeGroup {
         // TODO: system parameters??
         public static final String ALLOWED_FOR_ANY_KUALI_USERS = "1;2;;3;4;5;6;7;8;9;A";
-        public static final String ALLOWED_FOR_CM_ASSET_MERGE_SEPARATE_USERS = "M;S";
+        public static final String ALLOWED_FOR_CM_ASSET_MERGE_SEPARATE_USERS = "M";
         public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
         public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F";
         public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";

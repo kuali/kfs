@@ -108,4 +108,11 @@ public interface AssetService {
      * @return boolean True if no lock, false otherwise.
      */
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber);
+    
+    /**
+     * This method calls the service codes to calculate the summary fields for each asset
+     * 
+     * @param asset
+     */
+    void setAssetNonPersistentFields(Asset asset);
 }

@@ -221,6 +221,7 @@ public class CamsPropertyConstants {
         public static final String PREVENTIVE_MAINTENANCE_AMOUNT = "preventiveMaintenanceAmount";
         public static final String BUYER_DESCRIPTION = "buyerDescription";
         public static final String PAID_CASE_NUMBER = "paidCaseNumber";
+        public static final String VERSION_NUMBER = "versionNumber";
     }
 
     public static class AssetLocationGlobal {

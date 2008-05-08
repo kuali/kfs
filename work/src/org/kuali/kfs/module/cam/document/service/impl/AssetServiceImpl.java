@@ -31,11 +31,13 @@ import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.DocumentLockingService;
+import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetServiceImpl implements AssetService {
     private ParameterService parameterService;
     private DocumentLockingService documentLockingService;
+    private PaymentSummaryService paymentSummaryService;
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -52,7 +54,7 @@ public class AssetServiceImpl implements AssetService {
     public void setDocumentLockingService(DocumentLockingService documentLockingService) {
         this.documentLockingService = documentLockingService;
     }
-    
+
     public boolean isAssetMovable(Asset asset) {
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         return asset.getCapitalAssetType().isMovingIndicator();
@@ -97,30 +99,36 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isFinancialObjectSubTypeCodeChanged(org.kuali.module.cams.bo.Asset, org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.module.cams.service.AssetService#isFinancialObjectSubTypeCodeChanged(org.kuali.module.cams.bo.Asset,
+     *      org.kuali.module.cams.bo.Asset)
      */
     public boolean isFinancialObjectSubTypeCodeChanged(Asset oldAsset, Asset newAsset) {
         return !StringUtils.equalsIgnoreCase(oldAsset.getFinancialObjectSubTypeCode(), newAsset.getFinancialObjectSubTypeCode());
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isAssetTypeCodeChanged(org.kuali.module.cams.bo.Asset, org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.module.cams.service.AssetService#isAssetTypeCodeChanged(org.kuali.module.cams.bo.Asset,
+     *      org.kuali.module.cams.bo.Asset)
      */
     public boolean isAssetTypeCodeChanged(Asset oldAsset, Asset newAsset) {
         return !StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode());
     }
-    
+
     public boolean isAssetDepreciableLifeLimitZero(Asset asset) {
         return asset.getCapitalAssetType().getDepreciableLifeLimit().intValue() == 0;
     }
-    
+
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetService#isCapitalAssetNumberDuplicate(java.lang.Long, java.lang.Long)
+     */
     public boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2) {
-        if (capitalAssetNumber1!= null && capitalAssetNumber2!= null && capitalAssetNumber1.compareTo(capitalAssetNumber2) == 0) {
+        if (capitalAssetNumber1 != null && capitalAssetNumber2 != null && capitalAssetNumber1.compareTo(capitalAssetNumber2) == 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * @see org.kuali.module.cams.service.AssetService#generateAssetLock(java.lang.String, java.lang.Long)
      */
@@ -137,7 +145,7 @@ public class AssetServiceImpl implements AssetService {
 
         return maintenanceLock;
     }
-    
+
     /**
      * @see org.kuali.module.cams.service.AssetService#isAssetLocked(java.lang.String, java.lang.Long)
      */
@@ -147,10 +155,31 @@ public class AssetServiceImpl implements AssetService {
         String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
         if (StringUtils.isNotEmpty(lockingDocumentId)) {
             documentLockingService.checkForLockingDocument(lockingDocumentId);
-            
+
             return true;
         }
-        
+
         return false;
+    }
+    
+    /**
+     * This method calls the service codes to calculate the summary fields for each asset
+     * 
+     * @param asset
+     */
+    public void setAssetNonPersistentFields(Asset asset) {
+        if (ObjectUtils.isNotNull(asset)) {
+            asset.setFederalContribution(paymentSummaryService.calculateFederalContribution(asset));
+            asset.setAccumulatedDepreciation(paymentSummaryService.calculatePrimaryAccumulatedDepreciation(asset));
+            asset.setBookValue(paymentSummaryService.calculatePrimaryBookValue(asset));
+        }
+    }
+
+    public PaymentSummaryService getPaymentSummaryService() {
+        return paymentSummaryService;
+    }
+
+    public void setPaymentSummaryService(PaymentSummaryService paymentSummaryService) {
+        this.paymentSummaryService = paymentSummaryService;
     }
 }

@@ -17,9 +17,6 @@ package org.kuali.module.cams.document.authorization;
 
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
 
-import java.util.Arrays;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
@@ -27,13 +24,17 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.service.AssetRetirementService;
+import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -55,7 +56,7 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        if (!StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.MERGED, assetRetirementGlobal.getRetirementReasonCode())) {
+        if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
         }
 
@@ -91,6 +92,12 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
         return actionFlags;
     }
 
+    /**
+     * 
+     * Hide action buttons in the screen when the user not allowed to proceed.
+     * 
+     * @param actionFlags
+     */
     private void hideActions(DocumentActionFlags actionFlags) {
         actionFlags.setCanAdHocRoute(false);
         actionFlags.setCanApprove(false);

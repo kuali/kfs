@@ -24,35 +24,61 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
 
 public class AssetRetirementServiceImpl implements AssetRetirementService {
 
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredBySoldOrAuction(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     */
     public boolean isAssetRetiredBySoldOrAuction(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.AUCTION.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode()) || CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredByExternalTransferOrGift(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     */
     public boolean isAssetRetiredByExternalTransferOrGift(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode()) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredByMerged(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     */
     public boolean isAssetRetiredByMerged(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.MERGED.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredByTheft(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     */
     public boolean isAssetRetiredByTheft(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.THEFT.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#getAssetRetirementReasonName(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     */
     public String getAssetRetirementReasonName(AssetRetirementGlobal assetRetirementGlobal) {
         return assetRetirementGlobal.getRetirementReason() == null ? new String() : assetRetirementGlobal.getRetirementReason().getRetirementReasonName();
     }
@@ -136,7 +162,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         }
     }
 
-    
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#isRetirementReasonCodeInGroup(java.lang.String, java.lang.String)
+     */
     public boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode) {
         if (StringUtils.isBlank(reasonCodeGroup) || StringUtils.isBlank(reasonCode)) {
             return false;
@@ -144,4 +173,26 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         return Arrays.asList(reasonCodeGroup.split(";")).contains(reasonCode);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetRetirementService#checkRetireMultipleAssets(java.lang.String, java.util.List,
+     *      java.lang.Integer)
+     */
+    public boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, boolean addErrorPath) {
+        boolean success = true;
+        String errorPath = RiceConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
+
+        if (addErrorPath) {
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+        }
+        if (isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.SINGLE_RETIRED_ASSET, retirementReasonCode) && assetRetirementDetails.size() > maxNumber) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
+            success = false;
+        }
+        if (addErrorPath) {
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+        }
+        
+        return success;
+    }
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 
 
 /**
@@ -65,4 +66,13 @@ public interface AssetRetirementService {
      * @return
      */
     boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode);
+    
+    /**
+     * 
+     * Check if the retirement reason code allows to retire multiple assets
+     * @param retirementReasonCode
+     * @param assetDetails
+     * @return
+     */
+    boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, boolean addErrorPath);
 }

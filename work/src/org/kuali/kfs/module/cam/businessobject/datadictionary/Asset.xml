@@ -139,7 +139,7 @@
         <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
         <ref bean="Asset-offCampusLocation.versionNumber" />
-        <ref bean="Asset-assetStatus.inventoryStatusCode" />
+        <ref bean="Asset-assetStatus.inventoryStatusCode" />        
         <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
         <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
         <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
@@ -996,6 +996,11 @@
   <bean id="Asset-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
     <property name="name" value="conditionCode" />
     <property name="label" value="Asset Condition" />
+    <property name="control">
+    	<bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.cams.lookup.valuefinder.AssetConditionValuesFinder"
+            />
+    </property>
   </bean>
   <bean id="Asset-landCountyName" parent="Asset-landCountyName-parentBean" />
 
@@ -1437,7 +1442,8 @@
 
   <bean id="Asset-assetStatus.inventoryStatusCode-parentBean" abstract="true" parent="AssetStatus-inventoryStatusCode">
     <property name="name" value="assetStatus.inventoryStatusCode" />
-  </bean>
+  </bean>  
+
   <bean id="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" parent="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode-parentBean" />
 
   <bean id="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode-parentBean" abstract="true" parent="AssetDepreciationMethod-depreciationMethodCode">
@@ -2067,7 +2073,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="inventoryStatusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="conditionCode" />
+              p:attributeName="conditionCode"
+              p:noLookup="true" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"

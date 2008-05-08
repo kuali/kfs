@@ -188,6 +188,7 @@ public class CamsPropertyConstants {
         public static final String LOCATION_TAB = "locationTabKey";
         public static final String TRANSFER_FUND_FINANCIAL_DOC = "transferOfFundsFinancialDocument";
         public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM = "transferOfFundsFinancialDocumentNumber";
+        public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
     }
 
     public static class AssetComponent {

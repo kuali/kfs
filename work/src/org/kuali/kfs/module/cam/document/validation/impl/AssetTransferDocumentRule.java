@@ -19,8 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -55,11 +58,11 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        
+
         if (getAssetService().isAssetLocked(assetTransferDocument.getDocumentNumber(), assetTransferDocument.getAssetHeader().getCapitalAssetNumber())) {
             return false;
         }
-        
+
         if (checkReferencesExist(assetTransferDocument)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
             if (assetTransferDocument.getSourceAssetGlpeSourceDetails() != null && !SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
@@ -76,17 +79,17 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        
+
         if (getAssetService().isAssetLocked(assetTransferDocument.getDocumentNumber(), assetTransferDocument.getAssetHeader().getCapitalAssetNumber())) {
             return false;
         }
-        
+
         boolean valid = true;
         valid &= SpringContext.getBean(AssetTransferService.class).isTransferable(assetTransferDocument);
         valid &= applyRules(document);
         return valid;
     }
-    
+
     /**
      * This method applies business rules
      * 
@@ -195,6 +198,16 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE);
                 valid &= false;
             }
+        }
+        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
+        try {
+            UniversalUser universalUser = universalUserService.getUniversalUserByAuthenticationUserId(assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier());
+            assetTransferDocument.setAssetRepresentative(universalUser);
+            assetTransferDocument.setRepresentativeUniversalIdentifier(universalUser.getPersonUniversalIdentifier());
+        }
+        catch (UserNotFoundException e) {
+            putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, CamsKeyConstants.AssetLocation.ERROR_INVALID_USER_AUTH_ID);
+            valid &= false;
         }
         return valid;
     }

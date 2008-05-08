@@ -43,6 +43,7 @@
 	<logic:iterate name="KualiForm" id="objectCodePick"	property="objectCodePickList" indexId="ctr">
 		<html-el:hidden name="KualiForm" property="objectCodePickList[${ctr}].personUniversalIdentifier" />
 		<html-el:hidden name="KualiForm" property="objectCodePickList[${ctr}].versionNumber" />
+		<html-el:hidden name="KualiForm" property="objectCodePickList[${ctr}].selectFlag" />
 
 		<c:if test="${objectCodePick.selectFlag == 1}">
 			<tr align="center">
@@ -149,7 +150,7 @@
 			alt="Select All Codes" styleClass="smallbutton" />
 		<html:image
 			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_unselall.gif"
-			property="methodToCall.unselectAllReasontCodes" title="Unselect"
+			property="methodToCall.unselectAllReasonCodes" title="Unselect"
 			alt="Unselect All Codes" styleClass="smallbutton" />
 		<html:image
 			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif"

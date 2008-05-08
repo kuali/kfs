@@ -23,15 +23,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.KFSConstants;
@@ -47,6 +51,8 @@ import org.kuali.module.cams.web.struts.form.AssetTransferForm;
 import org.kuali.rice.KNSServiceLocator;
 
 public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
+    private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
+
     /**
      * This method had to override because asset information has to be refreshed before display
      * 
@@ -95,6 +101,14 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
             newAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
             newAsset = (Asset) service.retrieve(newAsset);
             assetTransferDocument.setAsset(newAsset);
+            UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
+            try {
+                UniversalUser universalUser = universalUserService.getUniversalUser(assetTransferDocument.getRepresentativeUniversalIdentifier());
+                assetTransferDocument.setAssetRepresentative(universalUser);
+            }
+            catch (UserNotFoundException e) {
+                LOG.info("UniversalUserService returned with UserNotFoundException for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
+            }
         }
         return newAsset;
     }

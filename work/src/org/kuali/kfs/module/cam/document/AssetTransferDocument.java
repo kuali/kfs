@@ -380,21 +380,21 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public String getTransferOfFundsFinancialDocumentNumber() {
         return transferOfFundsFinancialDocumentNumber;
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
-        
-        if (!(event instanceof SaveDocumentEvent)) { //don't lock until they route
+
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
             AssetService assetService = SpringContext.getBean(AssetService.class);
-            
+
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-            
-            List<MaintenanceLock> maintenanceLocks = new ArrayList();
+
+            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
             maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetHeader.getCapitalAssetNumber()));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
@@ -409,7 +409,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
-            
+
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }
     }

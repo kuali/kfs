@@ -25,14 +25,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -47,6 +44,7 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ImportRequestDao;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.BudgetRequestImportService;
+import org.kuali.module.budget.service.LockService;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.util.ImportRequestFileParsingHelper;
 import org.kuali.module.chart.bo.Account;
@@ -68,7 +66,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private ImportRequestDao importRequestDao;
     private PermissionService permissionService;
     private DictionaryValidationService dictionaryValidationService;
-
+    private LockService lockService;
+    
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 
     /**
@@ -281,6 +280,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List<BudgetConstructionRequestMove> recordsToLoad = importRequestDao.findAllNonErrorCodeRecords();
         List<String> errorMessages = new ArrayList<String>();
         HashMap<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
+        
         for (BudgetConstructionRequestMove recordToLoad : recordsToLoad) {
             BudgetConstructionHeader header = importRequestDao.getHeaderRecord(recordToLoad, budgetYear);
 
@@ -305,13 +305,10 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 }
 
                 if (recordToLoad.getHasAccess() && header.getBudgetLockUserIdentifier() == null) {
-                    List<BudgetConstructionFundingLock> locks = findBudgetLocks(recordToLoad, budgetYear);
-                    if (locks.isEmpty()) {
-                        header.setBudgetLockUserIdentifier(user.getPersonUserIdentifier());
-                        importRequestDao.save(header, true);
+                    BudgetConstructionLockStatus lockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
+                    if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS)) {
                         recordToLoad.setHasLock(true);
-                    }
-                    else {
+                    } else {
                         recordToLoad.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_BUDGET_ACCOUNT_LOCKED.getErrorCode());
                         errorMessages.add(recordToLoad.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_BUDGET_ACCOUNT_LOCKED.getMessage());
                     }
@@ -337,8 +334,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
 
             if (record.getHasLock() && header != null) {
-                header.setBudgetLockUserIdentifier(null);
-                importRequestDao.save(header, true);
+                this.lockService.unlockAccount(header);
             }
         }
 
@@ -660,6 +656,14 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
         
-}
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetRequestImportService#setLockService(org.kuali.module.budget.service.LockService)
+     */
+    public void setLockService(LockService lockService) {
+       this.lockService = lockService;
+    }
     
 }

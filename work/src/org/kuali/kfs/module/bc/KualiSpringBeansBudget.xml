@@ -643,6 +643,9 @@
 		<property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 		</property>
+		<property name="lockService">
+			<ref bean="lockService" />
+		</property>
 		<property name="importRequestDao">
 			<ref bean="importRequestDao" />
 		</property>					

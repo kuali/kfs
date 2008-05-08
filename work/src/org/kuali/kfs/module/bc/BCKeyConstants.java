@@ -62,6 +62,7 @@ public class BCKeyConstants {
     public static final String MSG_REPORT_HEADER_SUBFUND_DESCRIPTION = "message.budget.report.header.subFundDescription";
     
     public static final String ERROR_FILE_IS_REQUIRED = "error.budget.requestImport.missingFile";
+    public static final String ERROR_FILE_EMPTY = "error.budget.requestImport.emptyFile";
     public static final String ERROR_FILE_TYPE_IS_REQUIRED = "error.budget.requestImport.missingFileType";
     public static final String ERROR_FILENAME_REQUIRED = "error.budget.requestImport.missingFileName";
     public static final String ERROR_FIELD_SEPARATOR_REQUIRED = "error.budget.requestImport.missingFieldSeparator";

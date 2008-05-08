@@ -84,7 +84,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         
         if (!parsingErrors.isEmpty()) {
             budgetRequestImportService.generatePdf(parsingErrors, baos);
-            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.REQUEST_IMPORT_OUTPUT_FILE);
             return null;
         }
         t = new Timer("validateData");
@@ -103,7 +103,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         
         if ( !messageList.isEmpty() ) {
             budgetRequestImportService.generatePdf(messageList, baos);
-            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.REQUEST_IMPORT_OUTPUT_FILE);
             return null;
         }
         t.log();
@@ -141,6 +141,10 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         
         if ( form.getFile() == null || form.getFile().getFileSize() == 0 ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
+            isValid = false;
+        }
+        if ( form.getFile() != null && form.getFile().getFileSize() == 0 ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_EMPTY);
             isValid = false;
         }
         if (form.getFile() != null && (StringUtils.isBlank(form.getFile().getFileName())) ) {

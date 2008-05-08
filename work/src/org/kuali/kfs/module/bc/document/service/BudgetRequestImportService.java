@@ -98,4 +98,10 @@ public interface BudgetRequestImportService {
      */
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService);
     
+    /**
+     * Sets the lock service
+     * 
+     * @param lockService
+     */
+    public void setLockService(LockService lockService);
 }

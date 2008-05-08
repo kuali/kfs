@@ -111,7 +111,10 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
+            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                    getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }
         else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
             //Find out whether the commodity code has existed in the database

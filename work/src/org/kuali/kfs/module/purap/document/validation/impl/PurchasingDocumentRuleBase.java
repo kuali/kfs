@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.datadictionary.AttributeDefinition;
+import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
@@ -59,6 +61,7 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -220,7 +223,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
         boolean valid = true;
         valid &= super.newIndividualItemValidation(purapDocument, documentType, item);
-        
         valid &= validateItemCapitalAssetWithErrors(purapDocument, item, false);
         valid &= validateUnitOfMeasure(item);       
         valid &= validateItemUnitPrice(item);      
@@ -299,7 +301,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = true;      
         if (StringUtils.isEmpty(item.getItemDescription())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
+            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                    getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
         return valid;
     }
@@ -316,7 +321,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_COST + " in " + item.getItemIdentifierString());
+                String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                                        getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                        getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_PRICE).getLabel();
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
             }
         }    
 
@@ -410,7 +418,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             String uomCode = purItem.getItemUnitOfMeasureCode();
             if (StringUtils.isEmpty(uomCode)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_OF_MEASURE + " in " + item.getItemIdentifierString());
+                String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                                        getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                        getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
+                                        getLabel();
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
             }
         }
 
@@ -455,11 +467,17 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()))) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + item.getItemIdentifierString());
+            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                    getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();            
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, ItemFields.QUANTITY + " in " + item.getItemIdentifierString());
+            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                                    getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                    getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel(); 
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
         }
 
         return valid;
@@ -482,7 +500,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
+            String attributeLabel = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }
         else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
             //Find out whether the commodity code has existed in the database

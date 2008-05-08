@@ -50,6 +50,8 @@ public class BCConstants extends JstlConstants {
 
     public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
     
+    public static final String LABOR_OBJECT_FRINGE_CODE = "F";
+    
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }

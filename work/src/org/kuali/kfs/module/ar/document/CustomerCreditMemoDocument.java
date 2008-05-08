@@ -1,13 +1,17 @@
 package org.kuali.module.ar.document;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
@@ -28,6 +32,8 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
     private KualiDecimal crmTotalTaxAmount = KualiDecimal.ZERO;
     private KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
+    
+    private Integer invOutstandingDays;
     
     private DocumentHeader documentHeader;
 
@@ -266,6 +272,27 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
      */
     public void setCrmTotalTaxAmount(KualiDecimal crmTotalTaxAmount) {
         this.crmTotalTaxAmount = crmTotalTaxAmount;
+    }
+
+    /**
+     * Gets the invOutstandingDays attribute. 
+     * @return Returns the invOutstandingDays.
+     */
+    public Integer getInvOutstandingDays() {
+        Timestamp invBillingDateTimestamp = new Timestamp(invoice.getBillingDate().getTime());
+        Timestamp todayDateTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime());
+        double diffInDays = DateUtils.getDifferenceInDays(invBillingDateTimestamp,todayDateTimestamp);
+        invOutstandingDays = new Integer(new KualiDecimal(diffInDays).intValue());
+
+        return invOutstandingDays;
+    }
+
+    /**
+     * Sets the invOutstandingDays attribute value.
+     * @param invOutstandingDays The invOutstandingDays to set.
+     */
+    public void setInvOutstandingDays(Integer invOutstandingDays) {
+        this.invOutstandingDays = invOutstandingDays;
     }
 
 }

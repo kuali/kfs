@@ -38,6 +38,7 @@
         <ref bean="CustomerCreditMemoDocument-crmTotalItemAmount" />
         <ref bean="CustomerCreditMemoDocument-crmTotalTaxAmount" />
         <ref bean="CustomerCreditMemoDocument-crmTotalAmount" />
+        <ref bean="CustomerCreditMemoDocument-invOutstandingDays" />
       </list>
     </property>
   </bean>
@@ -84,5 +85,23 @@
     <property name="label" value="CRM Total Amount" />
     <property name="shortLabel" value="CRM Total Amount" />
   </bean>
+ 
+ 
+  <bean id="CustomerCreditMemoDocument-invOutstandingDays" parent="CustomerCreditMemoDocument-invOutstandingDays-parentBean" />
+
+  <bean id="CustomerCreditMemoDocument-invOutstandingDays-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invOutstandingDays" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Invoice Outstanding Days" />
+    <property name="shortLabel" value="Inv Outstanding Days" />
+    <property name="maxLength" value="5" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Special Processing Instructions" />
+  </bean> 
 
 </beans>

@@ -81,9 +81,21 @@
 			</tr>
 			
             <tr>
+				<th align=right valign=middle class="bord-l-b">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.invOutstandingDays}" />
+					</div>
+				</th>
+				<td style="width: 50%;">
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.invOutstandingDays}"
+				                          	property="document.invOutstandingDays"
+				                          	readOnly="true" />
+				</td>
+            <%--
         		<kul:htmlAttributeHeaderCell align="right" literalLabel="Invoice Outstanding Days:" scope="row" />
-        		<!--  service should be called here -->
+        		<!--  service should be called here customerShipToAddressIdentifier-->
         		<td align=left valign=middle class="datacell" style="width: 50%;"></td>
+        	--%>
         	</tr>
         	
 		</table>

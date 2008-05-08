@@ -731,7 +731,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return m;
     }
 
-
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
         List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);

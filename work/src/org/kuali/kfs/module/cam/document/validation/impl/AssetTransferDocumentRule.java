@@ -65,7 +65,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         if (checkReferencesExist(assetTransferDocument)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
-            if (assetTransferDocument.getSourceAssetGlpeSourceDetails() != null && !SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
+            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
                 throw new ValidationException("general ledger GLPE generation failed");
             }
             return true;
@@ -199,15 +199,17 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 valid &= false;
             }
         }
-        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
-        try {
-            UniversalUser universalUser = universalUserService.getUniversalUserByAuthenticationUserId(assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier());
-            assetTransferDocument.setAssetRepresentative(universalUser);
-            assetTransferDocument.setRepresentativeUniversalIdentifier(universalUser.getPersonUniversalIdentifier());
-        }
-        catch (UserNotFoundException e) {
-            putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, CamsKeyConstants.AssetLocation.ERROR_INVALID_USER_AUTH_ID);
-            valid &= false;
+        if (StringUtils.isNotBlank(assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier())) {
+            UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
+            try {
+                UniversalUser universalUser = universalUserService.getUniversalUserByAuthenticationUserId(assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier());
+                assetTransferDocument.setAssetRepresentative(universalUser);
+                assetTransferDocument.setRepresentativeUniversalIdentifier(universalUser.getPersonUniversalIdentifier());
+            }
+            catch (UserNotFoundException e) {
+                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, CamsKeyConstants.AssetLocation.ERROR_INVALID_USER_AUTH_ID);
+                valid &= false;
+            }
         }
         return valid;
     }

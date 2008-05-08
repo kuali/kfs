@@ -29,7 +29,6 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.service.AssetLocationService;
-import org.kuali.module.cams.service.AssetLocationService.LocationField;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
 

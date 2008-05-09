@@ -23,18 +23,18 @@ import java.math.BigDecimal;
 public class BudgetConstructionOrgSubFundSummaryReportTotal {
     BudgetConstructionAccountSummary bcas;
     
-    private BigDecimal subFundTotalRevenueBaseAmount;
-    private BigDecimal subFundTotalRevenueReqAmount;
+    private Integer subFundTotalRevenueBaseAmount;
+    private Integer subFundTotalRevenueReqAmount;
    
-    private BigDecimal totalRevenueBaseAmount;
-    private BigDecimal totalGrossBaseAmount;
-    private BigDecimal totalTransferInBaseAmount;
-    private BigDecimal totalNetTransferBaseAmount;
+    private Integer totalRevenueBaseAmount;
+    private Integer totalGrossBaseAmount;
+    private Integer totalTransferInBaseAmount;
+    private Integer totalNetTransferBaseAmount;
 
-    private BigDecimal totalRevenueReqAmount;
-    private BigDecimal totalGrossReqAmount;
-    private BigDecimal totalTransferInReqAmount;
-    private BigDecimal totalNetTransferReqAmount;
+    private Integer totalRevenueReqAmount;
+    private Integer totalGrossReqAmount;
+    private Integer totalTransferInReqAmount;
+    private Integer totalNetTransferReqAmount;
 
     /**
      * Default constructor.
@@ -47,7 +47,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalGrossBaseAmount.
      */
-    public BigDecimal getTotalGrossBaseAmount() {
+    public Integer getTotalGrossBaseAmount() {
         return totalGrossBaseAmount;
     }
 
@@ -56,7 +56,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalGrossBaseAmount The totalGrossBaseAmount to set.
      */
-    public void setTotalGrossBaseAmount(BigDecimal totalGrossBaseAmount) {
+    public void setTotalGrossBaseAmount(Integer totalGrossBaseAmount) {
         this.totalGrossBaseAmount = totalGrossBaseAmount;
     }
 
@@ -65,7 +65,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalGrossReqAmount.
      */
-    public BigDecimal getTotalGrossReqAmount() {
+    public Integer getTotalGrossReqAmount() {
         return totalGrossReqAmount;
     }
 
@@ -74,7 +74,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalGrossReqAmount The totalGrossReqAmount to set.
      */
-    public void setTotalGrossReqAmount(BigDecimal totalGrossReqAmount) {
+    public void setTotalGrossReqAmount(Integer totalGrossReqAmount) {
         this.totalGrossReqAmount = totalGrossReqAmount;
     }
 
@@ -83,7 +83,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalNetTransferBaseAmount.
      */
-    public BigDecimal getTotalNetTransferBaseAmount() {
+    public Integer getTotalNetTransferBaseAmount() {
         return totalNetTransferBaseAmount;
     }
 
@@ -92,7 +92,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalNetTransferBaseAmount The totalNetTransferBaseAmount to set.
      */
-    public void setTotalNetTransferBaseAmount(BigDecimal totalNetTransferBaseAmount) {
+    public void setTotalNetTransferBaseAmount(Integer totalNetTransferBaseAmount) {
         this.totalNetTransferBaseAmount = totalNetTransferBaseAmount;
     }
 
@@ -101,7 +101,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalNetTransferReqAmount.
      */
-    public BigDecimal getTotalNetTransferReqAmount() {
+    public Integer getTotalNetTransferReqAmount() {
         return totalNetTransferReqAmount;
     }
 
@@ -110,7 +110,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalNetTransferReqAmount The totalNetTransferReqAmount to set.
      */
-    public void setTotalNetTransferReqAmount(BigDecimal totalNetTransferReqAmount) {
+    public void setTotalNetTransferReqAmount(Integer totalNetTransferReqAmount) {
         this.totalNetTransferReqAmount = totalNetTransferReqAmount;
     }
 
@@ -119,7 +119,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalRevenueBaseAmount.
      */
-    public BigDecimal getTotalRevenueBaseAmount() {
+    public Integer getTotalRevenueBaseAmount() {
         return totalRevenueBaseAmount;
     }
 
@@ -128,7 +128,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalRevenueBaseAmount The totalRevenueBaseAmount to set.
      */
-    public void setTotalRevenueBaseAmount(BigDecimal totalRevenueBaseAmount) {
+    public void setTotalRevenueBaseAmount(Integer totalRevenueBaseAmount) {
         this.totalRevenueBaseAmount = totalRevenueBaseAmount;
     }
 
@@ -137,7 +137,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalRevenueReqAmount.
      */
-    public BigDecimal getTotalRevenueReqAmount() {
+    public Integer getTotalRevenueReqAmount() {
         return totalRevenueReqAmount;
     }
 
@@ -146,7 +146,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalRevenueReqAmount The totalRevenueReqAmount to set.
      */
-    public void setTotalRevenueReqAmount(BigDecimal totalRevenueReqAmount) {
+    public void setTotalRevenueReqAmount(Integer totalRevenueReqAmount) {
         this.totalRevenueReqAmount = totalRevenueReqAmount;
     }
 
@@ -155,7 +155,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalTransferInBaseAmount.
      */
-    public BigDecimal getTotalTransferInBaseAmount() {
+    public Integer getTotalTransferInBaseAmount() {
         return totalTransferInBaseAmount;
     }
 
@@ -164,7 +164,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalTransferInBaseAmount The totalTransferInBaseAmount to set.
      */
-    public void setTotalTransferInBaseAmount(BigDecimal totalTransferInBaseAmount) {
+    public void setTotalTransferInBaseAmount(Integer totalTransferInBaseAmount) {
         this.totalTransferInBaseAmount = totalTransferInBaseAmount;
     }
 
@@ -173,7 +173,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the totalTransferInReqAmount.
      */
-    public BigDecimal getTotalTransferInReqAmount() {
+    public Integer getTotalTransferInReqAmount() {
         return totalTransferInReqAmount;
     }
 
@@ -182,7 +182,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param totalTransferInReqAmount The totalTransferInReqAmount to set.
      */
-    public void setTotalTransferInReqAmount(BigDecimal totalTransferInReqAmount) {
+    public void setTotalTransferInReqAmount(Integer totalTransferInReqAmount) {
         this.totalTransferInReqAmount = totalTransferInReqAmount;
     }
 
@@ -209,7 +209,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the bcas.
      */
-    public BigDecimal getSubFundTotalRevenueBaseAmount() {
+    public Integer getSubFundTotalRevenueBaseAmount() {
         return subFundTotalRevenueBaseAmount;
     }
 
@@ -218,7 +218,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param bcas The subFundTotalRevenueBaseAmount to set.
      */
-    public void setSubFundTotalRevenueBaseAmount(BigDecimal subFundTotalRevenueBaseAmount) {
+    public void setSubFundTotalRevenueBaseAmount(Integer subFundTotalRevenueBaseAmount) {
         this.subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount;
     }
 
@@ -227,7 +227,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @return Returns the bcas.
      */
-    public BigDecimal getSubFundTotalRevenueReqAmount() {
+    public Integer getSubFundTotalRevenueReqAmount() {
         return subFundTotalRevenueReqAmount;
     }
 
@@ -236,7 +236,7 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      * 
      * @param bcas The subFundTotalRevenueReqAmount to set.
      */
-    public void setSubFundTotalRevenueReqAmount(BigDecimal subFundTotalRevenueReqAmount) {
+    public void setSubFundTotalRevenueReqAmount(Integer subFundTotalRevenueReqAmount) {
         this.subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount;
     }
 }

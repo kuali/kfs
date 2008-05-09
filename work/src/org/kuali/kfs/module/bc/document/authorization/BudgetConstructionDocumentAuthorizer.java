@@ -101,6 +101,7 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
     public Map getEditMode() {
 
         // TODO this eventually needs to check when the BC system itself is in viewonly mode
+        // probably need to change the signature to pass in fiscalYear from the Position/Incumbent expansion screens
 
         Map editModeMap = new HashMap();
 
@@ -119,8 +120,11 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
 
         }
         catch (Exception e) {
-            // TODO for now just return unviewable - really should report the exception in some soft way - maybe another EditMode
-            // value
+
+            // TODO for now just return unviewable
+            // really should report the exception in some soft way - maybe another EditMode value
+
+            LOG.error("Could not get list of pointOfViewOrgs from permissionService.getOrgReview() for: "+GlobalVariables.getUserSession().getNetworkId(),e);
             String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
             editModeMap.put(editMode, "TRUE");
         }

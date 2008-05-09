@@ -523,11 +523,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                 }
             }
             catch (Exception e) {
+                
                 // TODO should this reraise workflow exception? or should the method say it throws an exception
+                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: "+u.getPersonUserIdentifier(),e);
             }
         }
         else {
+
             // TODO should this raise an exception? no hierarchy for account?
+            LOG.error("Budget Construction Document's Account Organization Hierarchy not found for: "+bcHeader.getUniversityFiscalYear().toString()+","+bcHeader.getChartOfAccountsCode()+","+bcHeader.getAccountNumber());
+
         }
 
         return editMode;

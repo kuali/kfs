@@ -86,7 +86,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private String landParcelNumber;
     private Date depreciationDate;
     private String financialObjectSubTypeCode;
-
+    private Integer fabricationEstimatedRetentionYears;
+    
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -1844,6 +1845,22 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setAssetPrimaryDepreciationMethod(AssetDepreciationMethod assetPrimaryDepreciationMethod) {
         this.assetPrimaryDepreciationMethod = assetPrimaryDepreciationMethod;
+    }
+
+    /**
+     * Gets the fabricationEstimatedRetentionYears attribute. 
+     * @return Returns the fabricationEstimatedRetentionYears.
+     */
+    public Integer getFabricationEstimatedRetentionYears() {
+        return fabricationEstimatedRetentionYears;
+    }
+
+    /**
+     * Sets the fabricationEstimatedRetentionYears attribute value.
+     * @param fabricationEstimatedRetentionYears The fabricationEstimatedRetentionYears to set.
+     */
+    public void setFabricationEstimatedRetentionYears(Integer fabricationEstimatedRetentionYears) {
+        this.fabricationEstimatedRetentionYears = fabricationEstimatedRetentionYears;
     }
 
     /**

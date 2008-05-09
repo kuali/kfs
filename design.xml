@@ -28,6 +28,7 @@
 	<package name="ar" package="org.kuali.module.ar" subpackages="include"/>
 	<package name="budget" package="org.kuali.module.budget" subpackages="include"/>
 	<package name="cams" package="org.kuali.module.cams" subpackages="include"/>
+	<package name="capitalAssetBuilder" package="org.kuali.module.capitalAssetBuilder" subpackages="include" depends="cams,purap" />
 	<package name="cg" package="org.kuali.module.cg" subpackages="include"/>
 	<package name="effort" package="org.kuali.module.effort" subpackages="include"/>
 	<package name="kra" package="org.kuali.module.kra" subpackages="include"/>

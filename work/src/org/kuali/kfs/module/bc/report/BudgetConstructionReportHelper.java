@@ -16,6 +16,7 @@
 package org.kuali.module.budget.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,8 +40,24 @@ public class BudgetConstructionReportHelper {
 
     public static BigDecimal calculatePercent(BigDecimal numerator, BigDecimal denominator) {
         BigDecimal result = BigDecimal.ZERO;
+        if (numerator != null && denominator != null && !denominator.equals(BigDecimal.ZERO) ) {
+            result = numerator.divide(denominator, 3, BigDecimal.ROUND_HALF_UP ).movePointRight(2);
+        }
+        return result;
+    }
+    
+    public static BigDecimal calculatePercent(Integer numerator, Integer denominator) {
+        BigDecimal result = BigDecimal.ZERO;
+        if (numerator != null && denominator != null){
+            return calculatePercent(new BigDecimal(numerator.intValue()), new BigDecimal(denominator.intValue()));
+        } 
+        return result;
+    }
+    
+    public static BigDecimal calculateDivide(BigDecimal numerator, BigDecimal denominator) {
+        BigDecimal result = BigDecimal.ZERO;
         if (!denominator.equals(BigDecimal.ZERO)) {
-            result = numerator.divide(denominator, 3).multiply(new BigDecimal(100));
+            result = numerator.divide(denominator, 3);
         }
         return result;
     }

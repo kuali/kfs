@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
 import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
@@ -122,15 +123,20 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         orgSynchronizationProblemsReportEntry.setEmplid(positionFunding.getEmplid());
         orgSynchronizationProblemsReportEntry.setPersonName(positionFunding.getPersonName());
         
-        orgSynchronizationProblemsReportEntry.setPositionObjectChangeIndicator(new Boolean(positionFunding.getPendingAppointmentFunding().isPositionObjectChangeIndicator()).toString());
-        orgSynchronizationProblemsReportEntry.setPositionSalaryChangeIndicator(new Boolean(positionFunding.getPendingAppointmentFunding().isPositionSalaryChangeIndicator()).toString());
+        orgSynchronizationProblemsReportEntry.setPositionObjectChangeIndicator(booleanToString(positionFunding.getPendingAppointmentFunding().isPositionObjectChangeIndicator()));
+        orgSynchronizationProblemsReportEntry.setPositionSalaryChangeIndicator(booleanToString(positionFunding.getPendingAppointmentFunding().isPositionSalaryChangeIndicator()));
         
         BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) positionMap.get(positionFunding);
         orgSynchronizationProblemsReportEntry.setPositionEffectiveStatus(budgetConstructionPosition.getPositionEffectiveStatus());
-        orgSynchronizationProblemsReportEntry.setBudgetedPosition(new Boolean(budgetConstructionPosition.isBudgetedPosition()).toString());
+        orgSynchronizationProblemsReportEntry.setBudgetedPosition(booleanToString(budgetConstructionPosition.isBudgetedPosition()));
     }
     
-    
+    private String booleanToString(boolean boo){
+        if (boo){
+            return BCConstants.Report.YES;
+        } else { return BCConstants.Report.NO; }
+        
+    }
     
     
     

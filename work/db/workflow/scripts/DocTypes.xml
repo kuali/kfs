@@ -4188,6 +4188,17 @@
       <routingVersion>1</routingVersion>
     </documentType>
     <documentType>
+      <name>CustomerTypeMaintenanceDocument</name>
+      <parent>KualiSimpleMaintenanceDocument</parent>
+      <label>Customer Type</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_MAINTAINENANCE_USERS</blanketApproveWorkgroupName>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+    </documentType>
+    <documentType>
       <name>BankMaintenanceDocument</name>
       <parent>KualiSimpleMaintenanceDocument</parent>
       <label>BankWithMoney</label>

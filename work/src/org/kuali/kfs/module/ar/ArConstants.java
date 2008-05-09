@@ -159,11 +159,11 @@ public class ArConstants {
         public static final String IN_PROCESS = "INPR";
     }
 
-    //TODO: this has to be removed when it will be set up as part of bootstrap data
-    public static final String WIRE_ORG = "WIRE";
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
     public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
-
+    
+    //Customer type constants
+    public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
 }

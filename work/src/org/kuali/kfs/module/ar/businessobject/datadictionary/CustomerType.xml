@@ -1,0 +1,139 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CustomerType" parent="CustomerType-parentBean" />
+
+  <bean id="CustomerType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerType" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomerType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomerType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="customerTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomerType-customerTypeCode" />
+        <ref bean="CustomerType-customerTypeDescription" />
+        <ref bean="CustomerType-active" />
+        <ref bean="CustomerType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CustomerType-customerTypeCode" parent="CustomerType-customerTypeCode-parentBean" />
+
+  <bean id="CustomerType-customerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="customerTypeCode" />
+    <property name="description" value="customerTypeCode description..." />
+  </bean>
+  <bean id="CustomerType-customerTypeDescription" parent="CustomerType-customerTypeDescription-parentBean" />
+
+  <bean id="CustomerType-customerTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerTypeDescription" />
+    <property name="label" value="Customer Type Description" />
+    <property name="shortLabel" value="Type Desc" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="customerTypeDescription" />
+    <property name="description" value="customerTypeDescription description..." />
+  </bean>
+  <bean id="CustomerType-active" parent="CustomerType-active-parentBean" />
+
+  <bean id="CustomerType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="CustomerType-versionNumber" parent="CustomerType-versionNumber-parentBean" />
+
+  <bean id="CustomerType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CustomerType-inquiryDefinition" parent="CustomerType-inquiryDefinition-parentBean" />
+
+  <bean id="CustomerType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Customer Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Customer Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerTypeDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CustomerType-lookupDefinition" parent="CustomerType-lookupDefinition-parentBean" />
+
+  <bean id="CustomerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Type Lookup" />
+    <property name="instructions" value="Look up a Customer Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="customerTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerTypeDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

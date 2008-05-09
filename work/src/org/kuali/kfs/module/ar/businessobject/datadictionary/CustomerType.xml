@@ -68,12 +68,12 @@
   </bean>
   <bean id="CustomerType-active" parent="CustomerType-active-parentBean" />
 
-  <bean id="CustomerType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="CustomerType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="CustomerType-versionNumber" parent="CustomerType-versionNumber-parentBean" />
 
-  <bean id="CustomerType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CustomerType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

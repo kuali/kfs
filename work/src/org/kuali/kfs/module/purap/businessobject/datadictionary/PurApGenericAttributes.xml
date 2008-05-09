@@ -208,28 +208,28 @@
   </bean>
   <bean id="PurApGenericAttributes-extractedDate" parent="PurApGenericAttributes-extractedDate-parentBean" />
 
-  <bean id="PurApGenericAttributes-extractedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="PurApGenericAttributes-extractedDate-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="extractedDate" />
     <property name="label" value="Extracted For Payment Indicator" />
     <property name="shortLabel" value="Extracted" />
   </bean>
   <bean id="PurApGenericAttributes-paymentPaidDate" parent="PurApGenericAttributes-paymentPaidDate-parentBean" />
 
-  <bean id="PurApGenericAttributes-paymentPaidDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="PurApGenericAttributes-paymentPaidDate-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="paymentPaidDate" />
     <property name="label" value="Paid Indicator" />
     <property name="shortLabel" value="Paid" />
   </bean>
   <bean id="PurApGenericAttributes-creditMemoPaidTimestamp" parent="PurApGenericAttributes-creditMemoPaidTimestamp-parentBean" />
 
-  <bean id="PurApGenericAttributes-creditMemoPaidTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="PurApGenericAttributes-creditMemoPaidTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="creditMemoPaidTimestamp" />
     <property name="label" value="Paid Indicator" />
     <property name="shortLabel" value="Paid" />
   </bean>
   <bean id="PurApGenericAttributes-genericItemAmount" parent="PurApGenericAttributes-genericItemAmount-parentBean" />
 
-  <bean id="PurApGenericAttributes-genericItemAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurApGenericAttributes-genericItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="genericItemAmount" />
     <property name="label" value="Generic Item Amount" />
     <property name="shortLabel" value="Amount" />

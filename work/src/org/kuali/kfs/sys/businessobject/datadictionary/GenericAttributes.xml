@@ -22,7 +22,7 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="BO to provide labels for Module Codes that appear in ChangedModuleCodes on Universal User." />
   </bean>
- <bean id="GenericAttributes-oneDigitTextCode" parent="KFSAttributeReferenceDummy-oneDigitTextCode-parentBean" />
+ <bean id="GenericAttributes-oneDigitTextCode" parent="GenericAttributes-oneDigitTextCode-parentBean" />
  
  <bean id="GenericAttributes-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneDigitTextCode" />

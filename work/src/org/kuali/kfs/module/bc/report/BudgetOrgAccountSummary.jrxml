@@ -48,64 +48,67 @@
 	<field name="subAccountNumber" class="java.lang.String"/>
 	<field name="accountNameAndSubAccountName" class="java.lang.String"/>
 	<field name="incExpDesc" class="java.lang.String"/>
-	<field name="baseAmount" class="java.math.BigDecimal"/>
-	<field name="reqAmount" class="java.math.BigDecimal"/>
-	<field name="amountChange" class="java.math.BigDecimal"/>
+	<field name="baseAmount" class="java.lang.Integer"/>
+	<field name="reqAmount" class="java.lang.Integer"/>
+	<field name="amountChange" class="java.lang.Integer"/>
 	<field name="percentChange" class="java.math.BigDecimal"/>
-	<field name="totalRevenueBaseAmount" class="java.math.BigDecimal"/>
-	<field name="totalGrossBaseAmount" class="java.math.BigDecimal"/>
-	<field name="totalTransferInBaseAmount" class="java.math.BigDecimal"/>
-	<field name="totalNetTransferBaseAmount" class="java.math.BigDecimal"/>
-	<field name="totalRevenueReqAmount" class="java.math.BigDecimal"/>
-	<field name="totalGrossReqAmount" class="java.math.BigDecimal"/>
-	<field name="totalTransferInReqAmount" class="java.math.BigDecimal"/>
-	<field name="totalNetTransferReqAmount" class="java.math.BigDecimal"/>
-	<field name="totalRevenueAmountChange" class="java.math.BigDecimal"/>
-	<field name="totalGrossAmountChange" class="java.math.BigDecimal"/>
-	<field name="totalTransferAmountChange" class="java.math.BigDecimal"/>
-	<field name="totalNetTransferAmountChange" class="java.math.BigDecimal"/>
+	<field name="totalRevenueBaseAmount" class="java.lang.Integer"/>
+	<field name="totalGrossBaseAmount" class="java.lang.Integer"/>
+	<field name="totalTransferInBaseAmount" class="java.lang.Integer"/>
+	<field name="totalNetTransferBaseAmount" class="java.lang.Integer"/>
+	<field name="totalRevenueReqAmount" class="java.lang.Integer"/>
+	<field name="totalGrossReqAmount" class="java.lang.Integer"/>
+	<field name="totalTransferInReqAmount" class="java.lang.Integer"/>
+	<field name="totalNetTransferReqAmount" class="java.lang.Integer"/>
+	<field name="totalRevenueAmountChange" class="java.lang.Integer"/>
+	<field name="totalGrossAmountChange" class="java.lang.Integer"/>
+	<field name="totalTransferAmountChange" class="java.lang.Integer"/>
+	<field name="totalNetTransferAmountChange" class="java.lang.Integer"/>
 	<field name="totalRevenuePercentChange" class="java.math.BigDecimal"/>
 	<field name="totalGrossPercentChange" class="java.math.BigDecimal"/>
 	<field name="totalTransferInPercentChange" class="java.math.BigDecimal"/>
 	<field name="totalNetTransferPercentChange" class="java.math.BigDecimal"/>
-	<field name="revExpDifferenceBaseAmount" class="java.math.BigDecimal"/>
-	<field name="revExpDifferenceReqAmount" class="java.math.BigDecimal"/>
-	<field name="revExpDifferenceAmountChange" class="java.math.BigDecimal"/>
+	<field name="revExpDifferenceBaseAmount" class="java.lang.Integer"/>
+	<field name="revExpDifferenceReqAmount" class="java.lang.Integer"/>
+	<field name="revExpDifferenceAmountChange" class="java.lang.Integer"/>
 	<field name="revExpDifferencePercentChange" class="java.math.BigDecimal"/>
 
-	<variable name="SubFundGroup" class="java.lang.String" resetType="None" calculation="Nothing">
-		<variableExpression><![CDATA[$F{subFundGroupCode}]]></variableExpression>
-	</variable>
-	<variable name="AccountNumberGroup" class="java.lang.String" resetType="None" calculation="Nothing">
-		<variableExpression><![CDATA[$F{accountNumber}]]></variableExpression>
-	</variable>
-	<variable name="accountNumber" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{accountNumber}]]></variableExpression>
-	</variable>
-	<variable name="subAccountNumber" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{subAccountNumber}]]></variableExpression>
-	</variable>
-	<variable name="accountNameAndSubAccountName" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{accountNameAndSubAccountName}]]></variableExpression>
-	</variable>
-	<variable name="incExpDesc" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{incExpDesc}]]></variableExpression>
-	</variable>
-	<variable name="baseAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{baseAmount}]]></variableExpression>
-	</variable>
-	<variable name="reqAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{reqAmount}]]></variableExpression>
-	</variable>
-	<variable name="amountChange" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{amountChange}]]></variableExpression>
-	</variable>
-	<variable name="percentChange" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{percentChange}]]></variableExpression>
-	</variable>
 
-		<group  name="SubFundGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
-			<groupExpression><![CDATA[$V{SubFundGroup}]]></groupExpression>
+		<group  name="OrgChartOfAccountsCode" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{orgChartOfAccountsCode}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="OrganizationCodeGroup" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{organizationCode}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="ChartOfAccountsCodeGroup" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{chartOfAccountsCode}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="SubFundGroupCodeGroup" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{subFundGroupCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -197,7 +200,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalRevenueBaseAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalRevenueBaseAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -214,7 +217,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalRevenueReqAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalRevenueReqAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -231,13 +234,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalRevenueAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalRevenueAmountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="4"
-						width="26"
+						width="53"
 						height="13"
 						key="textField-37"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -282,7 +285,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalGrossBaseAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalGrossBaseAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -299,7 +302,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalGrossReqAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalGrossReqAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -316,13 +319,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalGrossAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalGrossAmountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="18"
-						width="26"
+						width="53"
 						height="13"
 						key="textField-41"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -367,7 +370,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalTransferInBaseAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalTransferInBaseAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -384,13 +387,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalTransferInReqAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalTransferInReqAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
 						y="32"
-						width="74"
+						width="75"
 						height="13"
 						key="textField-44"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -401,13 +404,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalTransferAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalTransferAmountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="32"
-						width="26"
+						width="53"
 						height="13"
 						key="textField-45"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -452,7 +455,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalNetTransferReqAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalNetTransferReqAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -469,13 +472,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalNetTransferAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalNetTransferAmountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="46"
-						width="26"
+						width="53"
 						height="13"
 						key="textField-49"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -543,9 +546,9 @@
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="374"
+						x="328"
 						y="4"
-						width="74"
+						width="120"
 						height="13"
 						key="textField-69"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -560,9 +563,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="374"
+						x="328"
 						y="18"
-						width="74"
+						width="120"
 						height="13"
 						key="textField-70"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -577,9 +580,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="374"
+						x="328"
 						y="32"
-						width="74"
+						width="120"
 						height="13"
 						key="textField-71"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -594,9 +597,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="374"
+						x="328"
 						y="46"
-						width="74"
+						width="120"
 						height="13"
 						key="textField-72"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -624,7 +627,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferenceBaseAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{revExpDifferenceBaseAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -641,13 +644,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferenceReqAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{revExpDifferenceReqAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
 						y="66"
-						width="74"
+						width="76"
 						height="15"
 						key="textField-52"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -658,13 +661,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferenceAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{revExpDifferenceAmountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="66"
-						width="26"
+						width="53"
 						height="15"
 						key="textField-53"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -696,9 +699,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="356"
+						x="295"
 						y="66"
-						width="92"
+						width="153"
 						height="15"
 						key="textField-73"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -726,13 +729,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalNetTransferBaseAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalNetTransferBaseAmount}]]></textFieldExpression>
 				</textField>
 			</band>
 			</groupFooter>
 		</group>
 		<group  name="AccountNumberGroup" >
-			<groupExpression><![CDATA[$V{AccountNumberGroup}]]></groupExpression>
+			<groupExpression><![CDATA[$F{accountNumber}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -1217,9 +1220,9 @@
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="315"
+						x="305"
 						y="16"
-						width="52"
+						width="63"
 						height="15"
 						key="textField-13"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1391,7 +1394,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{accountNumber}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{accountNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1408,7 +1411,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{subAccountNumber}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subAccountNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1425,7 +1428,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{accountNameAndSubAccountName}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{accountNameAndSubAccountName}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1442,7 +1445,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{baseAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{baseAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1459,7 +1462,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{reqAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{reqAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1476,13 +1479,13 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{amountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{amountChange}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="0"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-12"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1493,7 +1496,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{percentChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{percentChange}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1514,9 +1517,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="374"
+						x="328"
 						y="0"
-						width="74"
+						width="120"
 						height="12"
 						key="textField-32"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1527,7 +1530,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{incExpDesc}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{incExpDesc}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
@@ -1541,7 +1544,7 @@
 					<reportElement
 						x="9"
 						y="2"
-						width="148"
+						width="213"
 						height="13"
 						key="textField-74"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1556,9 +1559,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="158"
+						x="222"
 						y="2"
-						width="65"
+						width="125"
 						height="13"
 						key="textField-55"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1579,7 +1582,7 @@
 					<reportElement
 						x="9"
 						y="2"
-						width="148"
+						width="213"
 						height="13"
 						key="textField-75"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1594,9 +1597,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="158"
+						x="222"
 						y="2"
-						width="65"
+						width="125"
 						height="13"
 						key="textField-56"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

@@ -45,11 +45,11 @@
 
   <bean id="RequisitionItem-versionNumber" parent="RequisitionItem-versionNumber-parentBean" />
 
-  <bean id="RequisitionItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RequisitionItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="RequisitionItem-itemIdentifier" parent="RequisitionItem-itemIdentifier-parentBean" />
 
-  <bean id="RequisitionItem-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="RequisitionItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>
@@ -116,14 +116,14 @@
   </bean>
   <bean id="RequisitionItem-extendedPrice" parent="RequisitionItem-extendedPrice-parentBean" />
 
-  <bean id="RequisitionItem-extendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="RequisitionItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="extendedPrice" />
     <property name="label" value="Extended Price" />
     <property name="shortLabel" value="Extended Cost" />
   </bean>
   <bean id="RequisitionItem-itemUnitPrice" parent="RequisitionItem-itemUnitPrice-parentBean" />
 
-  <bean id="RequisitionItem-itemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+  <bean id="RequisitionItem-itemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="itemUnitPrice" />
     <property name="label" value="Unit Cost" />
     <property name="shortLabel" value="Unit Cost" />
@@ -267,7 +267,7 @@
   </bean>
   <bean id="RequisitionItem-itemQuantity" parent="RequisitionItem-itemQuantity-parentBean" />
 
-  <bean id="RequisitionItem-itemQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="RequisitionItem-itemQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemQuantity" />
     <property name="exclusiveMin" value="0" />
   </bean>

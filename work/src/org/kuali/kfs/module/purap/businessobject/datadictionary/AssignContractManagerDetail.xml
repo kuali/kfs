@@ -71,6 +71,6 @@
   </bean>
   <bean id="AssignContractManagerDetail-versionNumber" parent="AssignContractManagerDetail-versionNumber-parentBean" />
 
-  <bean id="AssignContractManagerDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssignContractManagerDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

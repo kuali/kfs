@@ -448,7 +448,7 @@
   </bean>
   <bean id="LaborGeneralLedgerEntry-versionNumber" parent="LaborGeneralLedgerEntry-versionNumber-parentBean" />
 
-  <bean id="LaborGeneralLedgerEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LaborGeneralLedgerEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -66,12 +66,12 @@
   </bean>
   <bean id="EffortCertificationReportType-active" parent="EffortCertificationReportType-active-parentBean" />
 
-  <bean id="EffortCertificationReportType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="EffortCertificationReportType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="EffortCertificationReportType-versionNumber" parent="EffortCertificationReportType-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationReportType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationReportType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

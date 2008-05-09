@@ -53,7 +53,7 @@
 
   <bean id="BudgetConstructionPosition-budgetedPosition" parent="BudgetConstructionPosition-budgetedPosition-parentBean" />
 
-  <bean id="BudgetConstructionPosition-budgetedPosition-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="BudgetConstructionPosition-budgetedPosition-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="budgetedPosition" />
     <property name="label" value="Budgeted Position" />
     <property name="shortLabel" value="Budgeted" />
@@ -62,7 +62,7 @@
   </bean>
   <bean id="BudgetConstructionPosition-confidentialPosition" parent="BudgetConstructionPosition-confidentialPosition-parentBean" />
 
-  <bean id="BudgetConstructionPosition-confidentialPosition-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="BudgetConstructionPosition-confidentialPosition-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="confidentialPosition" />
     <property name="label" value="Confidential Position" />
     <property name="shortLabel" value="Conf. Pos." />
@@ -216,7 +216,7 @@
   </bean>
   <bean id="BudgetConstructionPosition-positionEffectiveDate" parent="BudgetConstructionPosition-positionEffectiveDate-parentBean" />
 
-  <bean id="BudgetConstructionPosition-positionEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="BudgetConstructionPosition-positionEffectiveDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="positionEffectiveDate" />
     <property name="label" value="Position Effective Date" />
     <property name="shortLabel" value="Pos Eff Date" />
@@ -483,14 +483,14 @@
   </bean>
   <bean id="BudgetConstructionPosition-universityFiscalYear" parent="BudgetConstructionPosition-universityFiscalYear-parentBean" />
 
-  <bean id="BudgetConstructionPosition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="BudgetConstructionPosition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
     <property name="description" value="This identifies the fiscal year." />
   </bean>
   <bean id="BudgetConstructionPosition-versionNumber" parent="BudgetConstructionPosition-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionPosition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionPosition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -75,6 +75,6 @@
   </bean>
   <bean id="RoutingFormQuestion-versionNumber" parent="RoutingFormQuestion-versionNumber-parentBean" />
 
-  <bean id="RoutingFormQuestion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RoutingFormQuestion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

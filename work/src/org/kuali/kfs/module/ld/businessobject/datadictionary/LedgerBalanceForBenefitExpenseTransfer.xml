@@ -122,7 +122,7 @@
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-universityFiscalYear" parent="LedgerBalanceForBenefitExpenseTransfer-universityFiscalYear-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -162,7 +162,7 @@
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-accountLineAnnualBalanceAmount" parent="LedgerBalanceForBenefitExpenseTransfer-accountLineAnnualBalanceAmount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accountLineAnnualBalanceAmount" />
     <property name="label" value="Account Line Annual Balance Amount" />
     <property name="shortLabel" value="Account Line Annual Balance Amount" />
@@ -170,7 +170,7 @@
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-financialBeginningBalanceLineAmount" parent="LedgerBalanceForBenefitExpenseTransfer-financialBeginningBalanceLineAmount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialBeginningBalanceLineAmount" />
     <property name="label" value="Beginning Balance Line Amount" />
     <property name="shortLabel" value="Beginning Balance Line Amount" />
@@ -178,7 +178,7 @@
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-contractsGrantsBeginningBalanceAmount" parent="LedgerBalanceForBenefitExpenseTransfer-contractsGrantsBeginningBalanceAmount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="contractsGrantsBeginningBalanceAmount" />
     <property name="label" value="Contracts Grants Beginning Balance Amount" />
     <property name="shortLabel" value="CG Amount" />
@@ -186,109 +186,109 @@
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month1Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month1Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month1Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month1Amount" />
     <property name="label" value="July" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month2Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month2Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month2Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month2Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month2Amount" />
     <property name="label" value="August" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month3Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month3Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month3Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month3Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month3Amount" />
     <property name="label" value="September" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month4Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month4Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month4Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month4Amount" />
     <property name="label" value="October" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month5Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month5Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month5Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month5Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month5Amount" />
     <property name="label" value="November" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month6Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month6Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month6Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month6Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month6Amount" />
     <property name="label" value="December" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month7Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month7Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month7Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month7Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month7Amount" />
     <property name="label" value="January" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month8Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month8Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month8Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month8Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month8Amount" />
     <property name="label" value="February" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month9Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month9Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month9Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month9Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month9Amount" />
     <property name="label" value="March" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month10Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month10Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month10Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month10Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month10Amount" />
     <property name="label" value="April" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month11Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month11Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month11Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month11Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month11Amount" />
     <property name="label" value="May" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month12Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month12Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month12Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month12Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month12Amount" />
     <property name="label" value="June" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-month13Amount" parent="LedgerBalanceForBenefitExpenseTransfer-month13Amount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-month13Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-month13Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month13Amount" />
     <property name="label" value="Year End" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-transactionDateTimeStamp" parent="LedgerBalanceForBenefitExpenseTransfer-transactionDateTimeStamp-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-transactionDateTimeStamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="transactionDateTimeStamp" />
     <property name="label" value="Transaction Entry Processed" />
     <property name="shortLabel" value="Entry Processed" />
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-versionNumber" parent="LedgerBalanceForBenefitExpenseTransfer-versionNumber-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount" parent="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Year End Close" />
     <property name="shortLabel" value="Year End Close" />

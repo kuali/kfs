@@ -52,7 +52,7 @@
   </bean>
   <bean id="AssetDepreciationConvention-versionNumber" parent="AssetDepreciationConvention-versionNumber-parentBean" />
 
-  <bean id="AssetDepreciationConvention-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetDepreciationConvention-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

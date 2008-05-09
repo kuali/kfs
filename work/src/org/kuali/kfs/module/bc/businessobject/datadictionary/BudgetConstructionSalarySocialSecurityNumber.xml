@@ -121,7 +121,7 @@
   </bean>
   <bean id="BudgetConstructionSalarySocialSecurityNumber-versionNumber" parent="BudgetConstructionSalarySocialSecurityNumber-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

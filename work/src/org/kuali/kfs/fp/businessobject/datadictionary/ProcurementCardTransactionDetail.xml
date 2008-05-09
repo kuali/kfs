@@ -322,7 +322,7 @@
   </bean>
   <bean id="ProcurementCardTransactionDetail-versionNumber" parent="ProcurementCardTransactionDetail-versionNumber-parentBean" />
 
-  <bean id="ProcurementCardTransactionDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProcurementCardTransactionDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -62,15 +62,15 @@
   </bean>
   <bean id="BudgetAggregationCode-objectId" parent="BudgetAggregationCode-objectId-parentBean" />
 
-  <bean id="BudgetAggregationCode-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="BudgetAggregationCode-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="BudgetAggregationCode-versionNumber" parent="BudgetAggregationCode-versionNumber-parentBean" />
 
-  <bean id="BudgetAggregationCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetAggregationCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="BudgetAggregationCode-active" parent="BudgetAggregationCode-active-parentBean" />
 
-  <bean id="BudgetAggregationCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="BudgetAggregationCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

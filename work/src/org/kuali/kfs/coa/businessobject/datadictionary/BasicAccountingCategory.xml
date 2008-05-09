@@ -110,7 +110,7 @@
   </bean>
   <bean id="BasicAccountingCategory-versionNumber" parent="BasicAccountingCategory-versionNumber-parentBean" />
 
-  <bean id="BasicAccountingCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BasicAccountingCategory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

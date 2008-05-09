@@ -74,7 +74,7 @@
   </bean>
   <bean id="SufficientFundsCode-versionNumber" parent="SufficientFundsCode-versionNumber-parentBean" />
 
-  <bean id="SufficientFundsCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SufficientFundsCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

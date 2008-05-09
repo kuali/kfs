@@ -79,7 +79,7 @@
   </bean>
   <bean id="CustomerProcessingType-versionNumber" parent="CustomerProcessingType-versionNumber-parentBean" />
 
-  <bean id="CustomerProcessingType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CustomerProcessingType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

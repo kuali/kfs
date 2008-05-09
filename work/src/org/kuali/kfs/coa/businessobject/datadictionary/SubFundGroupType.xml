@@ -76,7 +76,7 @@
   </bean>
   <bean id="SubFundGroupType-versionNumber" parent="SubFundGroupType-versionNumber-parentBean" />
 
-  <bean id="SubFundGroupType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SubFundGroupType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

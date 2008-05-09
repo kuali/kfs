@@ -312,7 +312,7 @@
   </bean>
   <bean id="ReceivingCorrectionItem-versionNumber" parent="ReceivingCorrectionItem-versionNumber-parentBean" />
 
-  <bean id="ReceivingCorrectionItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ReceivingCorrectionItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

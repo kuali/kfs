@@ -45,7 +45,7 @@
   </bean>
   <bean id="OrganizationReversionDetail-universityFiscalYear" parent="OrganizationReversionDetail-universityFiscalYear-parentBean" />
 
-  <bean id="OrganizationReversionDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OrganizationReversionDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -80,11 +80,11 @@
   </bean>
   <bean id="OrganizationReversionDetail-newCollectionRecord" parent="OrganizationReversionDetail-newCollectionRecord-parentBean" />
 
-  <bean id="OrganizationReversionDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="OrganizationReversionDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="OrganizationReversionDetail-versionNumber" parent="OrganizationReversionDetail-versionNumber-parentBean" />
 
-  <bean id="OrganizationReversionDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationReversionDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

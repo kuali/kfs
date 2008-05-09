@@ -59,7 +59,7 @@
   </bean>
   <bean id="OwnershipTypeCode-versionNumber" parent="OwnershipTypeCode-versionNumber-parentBean" />
 
-  <bean id="OwnershipTypeCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OwnershipTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

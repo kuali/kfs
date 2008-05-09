@@ -72,7 +72,7 @@
   </bean>
   <bean id="VendorType-vendorTaxNumberRequiredIndicator" parent="VendorType-vendorTaxNumberRequiredIndicator-parentBean" />
 
-  <bean id="VendorType-vendorTaxNumberRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="VendorType-vendorTaxNumberRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="vendorTaxNumberRequiredIndicator" />
     <property name="label" value="Tax Number Required" />
     <property name="shortLabel" value="Tax # Required" />
@@ -82,7 +82,7 @@
   </bean>
   <bean id="VendorType-vendorTypeChangeAllowedIndicator" parent="VendorType-vendorTypeChangeAllowedIndicator-parentBean" />
 
-  <bean id="VendorType-vendorTypeChangeAllowedIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="VendorType-vendorTypeChangeAllowedIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="vendorTypeChangeAllowedIndicator" />
     <property name="label" value="Type Change Allowed" />
     <property name="shortLabel" value="Type Change" />
@@ -92,7 +92,7 @@
   </bean>
   <bean id="VendorType-vendorContractAllowedIndicator" parent="VendorType-vendorContractAllowedIndicator-parentBean" />
 
-  <bean id="VendorType-vendorContractAllowedIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="VendorType-vendorContractAllowedIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="vendorContractAllowedIndicator" />
     <property name="label" value="Vendor Contract Allowed" />
     <property name="shortLabel" value="Contract Allowed" />
@@ -102,7 +102,7 @@
   </bean>
   <bean id="VendorType-vendorShowReviewIndicator" parent="VendorType-vendorShowReviewIndicator-parentBean" />
 
-  <bean id="VendorType-vendorShowReviewIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="VendorType-vendorShowReviewIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="vendorShowReviewIndicator" />
     <property name="label" value="Show Review Page" />
     <property name="shortLabel" value="Show Review Page" />
@@ -112,7 +112,7 @@
   </bean>
   <bean id="VendorType-commodityRequiredIndicator" parent="VendorType-commodityRequiredIndicator-parentBean" />
 
-  <bean id="VendorType-commodityRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="VendorType-commodityRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="commodityRequiredIndicator" />
     <property name="label" value="Commodity Code Required" />
     <property name="shortLabel" value="Commodity Code Required" />
@@ -159,12 +159,12 @@
   </bean>
   <bean id="VendorType-active" parent="VendorType-active-parentBean" />
 
-  <bean id="VendorType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="VendorType-versionNumber" parent="VendorType-versionNumber-parentBean" />
 
-  <bean id="VendorType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -92,16 +92,16 @@
   </bean>
   <bean id="ParameterNamespace-active" parent="ParameterNamespace-active-parentBean" />
 
-  <bean id="ParameterNamespace-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ParameterNamespace-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ParameterNamespace-objectId" parent="ParameterNamespace-objectId-parentBean" />
 
-  <bean id="ParameterNamespace-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ParameterNamespace-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="ParameterNamespace-versionNumber" parent="ParameterNamespace-versionNumber-parentBean" />
 
-  <bean id="ParameterNamespace-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ParameterNamespace-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

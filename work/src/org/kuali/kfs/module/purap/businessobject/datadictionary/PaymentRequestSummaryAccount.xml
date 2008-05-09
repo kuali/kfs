@@ -230,7 +230,7 @@
   </bean>
   <bean id="PaymentRequestSummaryAccount-versionNumber" parent="PaymentRequestSummaryAccount-versionNumber-parentBean" />
 
-  <bean id="PaymentRequestSummaryAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentRequestSummaryAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

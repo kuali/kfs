@@ -140,7 +140,7 @@
   </bean>
   <bean id="BudgetConstructionPullup-versionNumber" parent="BudgetConstructionPullup-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionPullup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionPullup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

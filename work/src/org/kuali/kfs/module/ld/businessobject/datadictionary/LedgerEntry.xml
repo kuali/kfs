@@ -72,7 +72,7 @@
 
   <bean id="LedgerEntry-universityFiscalYear" parent="LedgerEntry-universityFiscalYear-parentBean" />
 
-  <bean id="LedgerEntry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LedgerEntry-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="LedgerEntry-subAccountNumber" parent="LedgerEntry-subAccountNumber-parentBean" />

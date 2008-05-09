@@ -114,7 +114,7 @@
   </bean>
   <bean id="SubAccount-subAccountActiveIndicator" parent="SubAccount-subAccountActiveIndicator-parentBean" />
 
-  <bean id="SubAccount-subAccountActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="SubAccount-subAccountActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="subAccountActiveIndicator" />
   </bean>
   <bean id="SubAccount-a21SubAccount.subAccountTypeCode" parent="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" />
@@ -200,7 +200,7 @@
   </bean>
   <bean id="SubAccount-a21SubAccount.offCampusCode" parent="SubAccount-a21SubAccount.offCampusCode-parentBean" />
 
-  <bean id="SubAccount-a21SubAccount.offCampusCode-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="SubAccount-a21SubAccount.offCampusCode-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="a21SubAccount.offCampusCode" />
     <property name="label" value="Off Campus Indicator" />
     <property name="shortLabel" value="Off Campus" />
@@ -208,11 +208,11 @@
   </bean>
   <bean id="SubAccount-versionNumber" parent="SubAccount-versionNumber-parentBean" />
 
-  <bean id="SubAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SubAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="SubAccount-a21SubAccount.versionNumber" parent="SubAccount-a21SubAccount.versionNumber-parentBean" />
 
-  <bean id="SubAccount-a21SubAccount.versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SubAccount-a21SubAccount.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="name" value="a21SubAccount.versionNumber" />
   </bean>
   <bean id="SubAccount-financialReportingCodeSection" parent="SubAccount-financialReportingCodeSection-parentBean" />

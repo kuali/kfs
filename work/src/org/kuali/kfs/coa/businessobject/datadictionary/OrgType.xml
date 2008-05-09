@@ -62,11 +62,11 @@
   </bean>
   <bean id="OrgType-objectId" parent="OrgType-objectId-parentBean" />
 
-  <bean id="OrgType-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="OrgType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="OrgType-versionNumber" parent="OrgType-versionNumber-parentBean" />
 
-  <bean id="OrgType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrgType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

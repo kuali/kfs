@@ -62,7 +62,7 @@
 
   <bean id="ProjectCode-active" parent="ProjectCode-active-parentBean" />
 
-  <bean id="ProjectCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ProjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
     <property name="shortLabel" value="Active" />
   </bean>
@@ -76,7 +76,7 @@
   </bean>
   <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean" />
 
-  <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+  <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
     <property name="name" value="projectManagerUniversalId" />
     <property name="label" value="Project Manager UserID" />
     <property name="shortLabel" value="Mgr" />
@@ -163,7 +163,7 @@
   </bean>
   <bean id="ProjectCode-versionNumber" parent="ProjectCode-versionNumber-parentBean" />
 
-  <bean id="ProjectCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProjectCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

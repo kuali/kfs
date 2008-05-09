@@ -77,7 +77,7 @@
   </bean>
   <bean id="EffortCertificationDocument-universityFiscalYear" parent="EffortCertificationDocument-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationDocument-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationDocument-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="required" value="true" />
@@ -112,6 +112,6 @@
   </bean>
   <bean id="EffortCertificationDocument-versionNumber" parent="EffortCertificationDocument-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

@@ -79,7 +79,7 @@
   </bean>
   <bean id="VendorCustomerNumber-newCollectionRecord" parent="VendorCustomerNumber-newCollectionRecord-parentBean" />
 
-  <bean id="VendorCustomerNumber-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorCustomerNumber-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorCustomerNumber-vendorHeaderGeneratedIdentifier" parent="VendorCustomerNumber-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -91,11 +91,11 @@
   </bean>
   <bean id="VendorCustomerNumber-versionNumber" parent="VendorCustomerNumber-versionNumber-parentBean" />
 
-  <bean id="VendorCustomerNumber-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorCustomerNumber-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorCustomerNumber-active" parent="VendorCustomerNumber-active-parentBean" />
 
-  <bean id="VendorCustomerNumber-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorCustomerNumber-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

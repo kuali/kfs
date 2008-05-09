@@ -253,7 +253,7 @@
   </bean>
   <bean id="RoutingFormBudget-versionNumber" parent="RoutingFormBudget-versionNumber-parentBean" />
 
-  <bean id="RoutingFormBudget-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RoutingFormBudget-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

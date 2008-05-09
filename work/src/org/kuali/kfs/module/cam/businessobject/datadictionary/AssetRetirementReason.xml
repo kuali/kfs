@@ -30,7 +30,7 @@
 
   <bean id="AssetRetirementReason-active" parent="AssetRetirementReason-active-parentBean" />
 
-  <bean id="AssetRetirementReason-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AssetRetirementReason-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="AssetRetirementReason-retirementReasonCode" parent="AssetRetirementReason-retirementReasonCode-parentBean" />
@@ -86,7 +86,7 @@
   </bean>
   <bean id="AssetRetirementReason-versionNumber" parent="AssetRetirementReason-versionNumber-parentBean" />
 
-  <bean id="AssetRetirementReason-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetRetirementReason-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -95,7 +95,7 @@
   </bean>
   <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber" parent="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean" />
 
-  <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="documentNumber" />
   </bean>
 </beans>

@@ -133,7 +133,7 @@
   </bean>
   <bean id="ReceivingLineItem-itemOrderedQuantity" parent="ReceivingLineItem-itemOrderedQuantity-parentBean" />
 
-  <bean id="ReceivingLineItem-itemOrderedQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="ReceivingLineItem-itemOrderedQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemOrderedQuantity" />
     <property name="label" value="Item Ordered Quantity" />
     <property name="shortLabel" value="Qty Ordered" />
@@ -142,7 +142,7 @@
   </bean>
   <bean id="ReceivingLineItem-itemReceivedPriorQuantity" parent="ReceivingLineItem-itemReceivedPriorQuantity-parentBean" />
 
-  <bean id="ReceivingLineItem-itemReceivedPriorQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="ReceivingLineItem-itemReceivedPriorQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemReceivedPriorQuantity" />
     <property name="label" value="Prior Qty Received" />
     <property name="shortLabel" value="Prior Qty Received" />
@@ -151,7 +151,7 @@
   </bean>
   <bean id="ReceivingLineItem-itemReceivedToBeQuantity" parent="ReceivingLineItem-itemReceivedToBeQuantity-parentBean" />
 
-  <bean id="ReceivingLineItem-itemReceivedToBeQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="ReceivingLineItem-itemReceivedToBeQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemReceivedToBeQuantity" />
     <property name="label" value="To be Received" />
     <property name="shortLabel" value="To be Received" />
@@ -179,7 +179,7 @@
   </bean>
   <bean id="ReceivingLineItem-itemReceivedTotalQuantity" parent="ReceivingLineItem-itemReceivedTotalQuantity-parentBean" />
 
-  <bean id="ReceivingLineItem-itemReceivedTotalQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="ReceivingLineItem-itemReceivedTotalQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemReceivedTotalQuantity" />
     <property name="label" value="Item Received Total Quantity" />
     <property name="shortLabel" value="Qty Received" />
@@ -188,7 +188,7 @@
   </bean>
   <bean id="ReceivingLineItem-itemReturnedTotalQuantity" parent="ReceivingLineItem-itemReturnedTotalQuantity-parentBean" />
 
-  <bean id="ReceivingLineItem-itemReturnedTotalQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="ReceivingLineItem-itemReturnedTotalQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemReturnedTotalQuantity" />
     <property name="label" value="Item Returned Total Quantity" />
     <property name="shortLabel" value="Qty Returned" />
@@ -268,7 +268,7 @@
   </bean>
   <bean id="ReceivingLineItem-versionNumber" parent="ReceivingLineItem-versionNumber-parentBean" />
 
-  <bean id="ReceivingLineItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ReceivingLineItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

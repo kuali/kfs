@@ -24,7 +24,7 @@
 
   <bean id="ObjectCodeGlobalDetail-universityFiscalYear" parent="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" />
 
-  <bean id="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
@@ -42,10 +42,10 @@
   </bean>
   <bean id="ObjectCodeGlobalDetail-versionNumber" parent="ObjectCodeGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="ObjectCodeGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ObjectCodeGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ObjectCodeGlobalDetail-newCollectionRecord" parent="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" />
 
-  <bean id="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 </beans>

@@ -68,7 +68,7 @@
   </bean>
   <bean id="CommodityContractManager-newCollectionRecord" parent="CommodityContractManager-newCollectionRecord-parentBean" />
 
-  <bean id="CommodityContractManager-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="CommodityContractManager-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="CommodityContractManager-purchasingCommodityCode" parent="CommodityContractManager-purchasingCommodityCode-parentBean" />
 
@@ -76,7 +76,7 @@
   </bean>
   <bean id="CommodityContractManager-versionNumber" parent="CommodityContractManager-versionNumber-parentBean" />
 
-  <bean id="CommodityContractManager-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CommodityContractManager-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -235,7 +235,7 @@
   </bean>
   <bean id="AssetLocation-versionNumber" parent="AssetLocation-versionNumber-parentBean" />
 
-  <bean id="AssetLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -159,7 +159,7 @@
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-versionNumber" parent="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

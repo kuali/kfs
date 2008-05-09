@@ -39,7 +39,7 @@
 
   <bean id="AccountBalance-universityFiscalYear" parent="AccountBalance-universityFiscalYear-parentBean" />
 
-  <bean id="AccountBalance-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="AccountBalance-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -68,7 +68,7 @@
   </bean>
   <bean id="AccountBalance-currentBudgetLineBalanceAmount" parent="AccountBalance-currentBudgetLineBalanceAmount-parentBean" />
 
-  <bean id="AccountBalance-currentBudgetLineBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountBalance-currentBudgetLineBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="currentBudgetLineBalanceAmount" />
     <property name="label" value="Budget Amount" />
     <property name="shortLabel" value="Amount" />
@@ -76,7 +76,7 @@
   </bean>
   <bean id="AccountBalance-accountLineActualsBalanceAmount" parent="AccountBalance-accountLineActualsBalanceAmount-parentBean" />
 
-  <bean id="AccountBalance-accountLineActualsBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountBalance-accountLineActualsBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accountLineActualsBalanceAmount" />
     <property name="label" value="Actuals Amount" />
     <property name="shortLabel" value="Actuals Balance Amount" />
@@ -84,7 +84,7 @@
   </bean>
   <bean id="AccountBalance-accountLineEncumbranceBalanceAmount" parent="AccountBalance-accountLineEncumbranceBalanceAmount-parentBean" />
 
-  <bean id="AccountBalance-accountLineEncumbranceBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountBalance-accountLineEncumbranceBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accountLineEncumbranceBalanceAmount" />
     <property name="label" value="Encumbrance Amount" />
     <property name="shortLabel" value="Encumbrance Balance" />
@@ -92,7 +92,7 @@
   </bean>
   <bean id="AccountBalance-timestamp" parent="AccountBalance-timestamp-parentBean" />
 
-  <bean id="AccountBalance-timestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="AccountBalance-timestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="timestamp" />
     <property name="label" value="Transaction Entry Processed" />
     <property name="shortLabel" value="Entry Processed" />
@@ -109,7 +109,7 @@
   </bean>
   <bean id="AccountBalance-dummyBusinessObject.genericAmount" parent="AccountBalance-dummyBusinessObject.genericAmount-parentBean" />
 
-  <bean id="AccountBalance-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountBalance-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Variance" />
     <property name="shortLabel" value="Variance" />

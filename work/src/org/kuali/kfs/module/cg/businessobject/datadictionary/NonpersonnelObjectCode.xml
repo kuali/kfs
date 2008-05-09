@@ -73,12 +73,12 @@
   </bean>
   <bean id="NonpersonnelObjectCode-active" parent="NonpersonnelObjectCode-active-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="NonpersonnelObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="NonpersonnelObjectCode-versionNumber" parent="NonpersonnelObjectCode-versionNumber-parentBean" />
 
-  <bean id="NonpersonnelObjectCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="NonpersonnelObjectCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

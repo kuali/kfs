@@ -38,31 +38,31 @@
 
   <bean id="BillingAddress-billingCampusCode" parent="BillingAddress-billingCampusCode-parentBean" />
 
-  <bean id="BillingAddress-billingCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="BillingAddress-billingCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="billingCampusCode" />
     <property name="label" value="Billing Campus Code" />
   </bean>
   <bean id="BillingAddress-billingCityName" parent="BillingAddress-billingCityName-parentBean" />
 
-  <bean id="BillingAddress-billingCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="BillingAddress-billingCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="billingCityName" />
     <property name="label" value="Billing City Name" />
   </bean>
   <bean id="BillingAddress-billingCountryCode" parent="BillingAddress-billingCountryCode-parentBean" />
 
-  <bean id="BillingAddress-billingCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="BillingAddress-billingCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="billingCountryCode" />
     <property name="label" value="Billing Country Code" />
   </bean>
   <bean id="BillingAddress-billingLine1Address" parent="BillingAddress-billingLine1Address-parentBean" />
 
-  <bean id="BillingAddress-billingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="BillingAddress-billingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="billingLine1Address" />
     <property name="label" value="Billing Line 1 Address" />
   </bean>
   <bean id="BillingAddress-billingLine2Address" parent="BillingAddress-billingLine2Address-parentBean" />
 
-  <bean id="BillingAddress-billingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="BillingAddress-billingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="billingLine2Address" />
     <property name="label" value="Billing Line 2 Address" />
   </bean>
@@ -85,30 +85,30 @@
   </bean>
   <bean id="BillingAddress-billingPhoneNumber" parent="BillingAddress-billingPhoneNumber-parentBean" />
 
-  <bean id="BillingAddress-billingPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="BillingAddress-billingPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="billingPhoneNumber" />
     <property name="label" value="Billing Phone Number" />
   </bean>
   <bean id="BillingAddress-billingPostalCode" parent="BillingAddress-billingPostalCode-parentBean" />
 
-  <bean id="BillingAddress-billingPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="BillingAddress-billingPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="billingPostalCode" />
     <property name="label" value="Billing Postal Code" />
   </bean>
   <bean id="BillingAddress-billingStateCode" parent="BillingAddress-billingStateCode-parentBean" />
 
-  <bean id="BillingAddress-billingStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="BillingAddress-billingStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="billingStateCode" />
     <property name="label" value="Billing State Code" />
   </bean>
   <bean id="BillingAddress-active" parent="BillingAddress-active-parentBean" />
 
-  <bean id="BillingAddress-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="BillingAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="BillingAddress-versionNumber" parent="BillingAddress-versionNumber-parentBean" />
 
-  <bean id="BillingAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BillingAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

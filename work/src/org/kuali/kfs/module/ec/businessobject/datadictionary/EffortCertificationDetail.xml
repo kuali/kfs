@@ -47,7 +47,7 @@
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationOriginalPayrollAmount" parent="EffortCertificationDetail-effortCertificationOriginalPayrollAmount-parentBean" />
 
-  <bean id="EffortCertificationDetail-effortCertificationOriginalPayrollAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EffortCertificationDetail-effortCertificationOriginalPayrollAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="effortCertificationOriginalPayrollAmount" />
     <property name="label" value="Original Salary" />
     <property name="shortLabel" value="Original Salary" />
@@ -57,7 +57,7 @@
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationPayrollAmount" parent="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean" />
 
-  <bean id="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="effortCertificationPayrollAmount" />
     <property name="label" value="Salary" />
     <property name="shortLabel" value="Salary" />
@@ -67,7 +67,7 @@
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" />
 
-  <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" abstract="true" parent="AttributeReferenceDummy-percent">
+  <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" abstract="true" parent="GenericAttributes-percent">
     <property name="name" value="effortCertificationCalculatedOverallPercent" />
     <property name="label" value="Original Effort" />
     <property name="shortLabel" value="Original Effort" />
@@ -77,7 +77,7 @@
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" />
 
-  <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" abstract="true" parent="AttributeReferenceDummy-percent">
+  <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" abstract="true" parent="GenericAttributes-percent">
     <property name="name" value="effortCertificationUpdatedOverallPercent" />
     <property name="label" value="Effort" />
     <property name="shortLabel" value="Effort" />
@@ -107,7 +107,7 @@
   </bean>
   <bean id="EffortCertificationDetail-universityFiscalYear" parent="EffortCertificationDetail-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationDetail-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Financial Document Posting Year" />
     <property name="shortLabel" value="Posting Year" />
@@ -195,7 +195,7 @@
   </bean>
   <bean id="EffortCertificationDetail-originalFringeBenefitAmount" parent="EffortCertificationDetail-originalFringeBenefitAmount-parentBean" />
 
-  <bean id="EffortCertificationDetail-originalFringeBenefitAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EffortCertificationDetail-originalFringeBenefitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="originalFringeBenefitAmount" />
     <property name="label" value="Original Fringe Benefit" />
     <property name="shortLabel" value="Original F-Ben" />
@@ -205,7 +205,7 @@
   </bean>
   <bean id="EffortCertificationDetail-fringeBenefitAmount" parent="EffortCertificationDetail-fringeBenefitAmount-parentBean" />
 
-  <bean id="EffortCertificationDetail-fringeBenefitAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EffortCertificationDetail-fringeBenefitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="fringeBenefitAmount" />
     <property name="label" value="Fringe Benefit" />
     <property name="shortLabel" value="F-Ben" />
@@ -215,7 +215,7 @@
   </bean>
   <bean id="EffortCertificationDetail-versionNumber" parent="EffortCertificationDetail-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

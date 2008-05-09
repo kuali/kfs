@@ -66,12 +66,12 @@
   </bean>
   <bean id="OwnershipCategory-active" parent="OwnershipCategory-active-parentBean" />
 
-  <bean id="OwnershipCategory-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="OwnershipCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="OwnershipCategory-versionNumber" parent="OwnershipCategory-versionNumber-parentBean" />
 
-  <bean id="OwnershipCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OwnershipCategory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

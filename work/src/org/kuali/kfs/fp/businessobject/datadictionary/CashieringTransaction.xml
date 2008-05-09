@@ -49,7 +49,7 @@
   </bean>
   <bean id="CashieringTransaction-transactionStarted" parent="CashieringTransaction-transactionStarted-parentBean" />
 
-  <bean id="CashieringTransaction-transactionStarted-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="CashieringTransaction-transactionStarted-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="transactionStarted" />
     <property name="label" value="Transaction Started" />
     <property name="shortLabel" value="TrnsStrtd" />

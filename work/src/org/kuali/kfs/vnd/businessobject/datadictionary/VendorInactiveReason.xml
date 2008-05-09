@@ -64,11 +64,11 @@
   </bean>
   <bean id="VendorInactiveReason-versionNumber" parent="VendorInactiveReason-versionNumber-parentBean" />
 
-  <bean id="VendorInactiveReason-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorInactiveReason-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorInactiveReason-active" parent="VendorInactiveReason-active-parentBean" />
 
-  <bean id="VendorInactiveReason-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorInactiveReason-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

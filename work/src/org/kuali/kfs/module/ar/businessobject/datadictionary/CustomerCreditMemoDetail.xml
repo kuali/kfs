@@ -40,7 +40,7 @@
 <!--  Ask Justin about this bean -->
 <!--
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" />
-  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="description" value="The invoice item number." />
   </bean>
 -->
@@ -66,7 +66,7 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount" parent="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" />
-  <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="creditMemoItemTaxAmount" />
     <property name="label" value="Tax Amount" />
     <property name="shortLabel" value="Tax Amount" />
@@ -75,7 +75,7 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount" parent="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" />
-  <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="creditMemoItemTotalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
@@ -84,7 +84,7 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount" parent="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" />
-  <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="creditMemoLineTotalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
@@ -93,7 +93,7 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount" parent="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" />
-  <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="invoiceLineTotalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
@@ -102,7 +102,7 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" />
-  <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="invoiceOpenItemAmount" />
     <property name="label" value="Open Invoice Amount" />
     <property name="shortLabel" value="Open Invoice Amount" />

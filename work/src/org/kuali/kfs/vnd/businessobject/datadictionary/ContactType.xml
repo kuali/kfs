@@ -66,12 +66,12 @@
   </bean>
   <bean id="ContactType-active" parent="ContactType-active-parentBean" />
 
-  <bean id="ContactType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ContactType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ContactType-versionNumber" parent="ContactType-versionNumber-parentBean" />
 
-  <bean id="ContactType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ContactType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -121,7 +121,7 @@
   </bean>
   <bean id="AssetDisposition-versionNumber" parent="AssetDisposition-versionNumber-parentBean" />
 
-  <bean id="AssetDisposition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetDisposition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

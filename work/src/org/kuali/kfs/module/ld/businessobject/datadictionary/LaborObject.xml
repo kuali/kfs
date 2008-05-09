@@ -106,12 +106,12 @@
   </bean>
   <bean id="LaborObject-universityFiscalYear" parent="LaborObject-universityFiscalYear-parentBean" />
 
-  <bean id="LaborObject-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LaborObject-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="LaborObject-versionNumber" parent="LaborObject-versionNumber-parentBean" />
 
-  <bean id="LaborObject-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LaborObject-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

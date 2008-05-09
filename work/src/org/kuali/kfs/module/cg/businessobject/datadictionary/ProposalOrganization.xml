@@ -69,11 +69,11 @@
   </bean>
   <bean id="ProposalOrganization-newCollectionRecord" parent="ProposalOrganization-newCollectionRecord-parentBean" />
 
-  <bean id="ProposalOrganization-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="ProposalOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="ProposalOrganization-versionNumber" parent="ProposalOrganization-versionNumber-parentBean" />
 
-  <bean id="ProposalOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProposalOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

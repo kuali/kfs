@@ -122,7 +122,7 @@
   </bean>
   <bean id="AssetOrganization-versionNumber" parent="AssetOrganization-versionNumber-parentBean" />
 
-  <bean id="AssetOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

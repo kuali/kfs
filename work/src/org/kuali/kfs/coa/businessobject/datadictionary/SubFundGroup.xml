@@ -70,19 +70,19 @@
   </bean>
   <bean id="SubFundGroup-subfundgrpActivityIndicator" parent="SubFundGroup-subfundgrpActivityIndicator-parentBean" />
 
-  <bean id="SubFundGroup-subfundgrpActivityIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="SubFundGroup-subfundgrpActivityIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="subfundgrpActivityIndicator" />
   </bean>
   <bean id="SubFundGroup-subFundGroupWagesIndicator" parent="SubFundGroup-subFundGroupWagesIndicator-parentBean" />
 
-  <bean id="SubFundGroup-subFundGroupWagesIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="SubFundGroup-subFundGroupWagesIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="subFundGroupWagesIndicator" />
     <property name="label" value="Wage Indicator" />
     <property name="shortLabel" value="Indicator" />
   </bean>
   <bean id="SubFundGroup-objectId" parent="SubFundGroup-objectId-parentBean" />
 
-  <bean id="SubFundGroup-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="SubFundGroup-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="SubFundGroup-fundGroupCode" parent="SubFundGroup-fundGroupCode-parentBean" />
 
@@ -162,7 +162,7 @@
   </bean>
   <bean id="SubFundGroup-versionNumber" parent="SubFundGroup-versionNumber-parentBean" />
 
-  <bean id="SubFundGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SubFundGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

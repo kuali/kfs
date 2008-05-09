@@ -77,12 +77,12 @@
   </bean>
   <bean id="ShippingPaymentTerms-active" parent="ShippingPaymentTerms-active-parentBean" />
 
-  <bean id="ShippingPaymentTerms-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ShippingPaymentTerms-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ShippingPaymentTerms-versionNumber" parent="ShippingPaymentTerms-versionNumber-parentBean" />
 
-  <bean id="ShippingPaymentTerms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ShippingPaymentTerms-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

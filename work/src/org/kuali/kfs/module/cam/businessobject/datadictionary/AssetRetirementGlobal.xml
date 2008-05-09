@@ -102,7 +102,7 @@
   </bean>
   <bean id="AssetRetirementGlobal-retirementDate" parent="AssetRetirementGlobal-retirementDate-parentBean" />
 
-  <bean id="AssetRetirementGlobal-retirementDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetRetirementGlobal-retirementDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="retirementDate" />
     <property name="label" value="Retirement Date" />
     <property name="shortLabel" value="Date" />
@@ -232,7 +232,7 @@
   </bean>
   <bean id="AssetRetirementGlobal-versionNumber" parent="AssetRetirementGlobal-versionNumber-parentBean" />
 
-  <bean id="AssetRetirementGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetRetirementGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

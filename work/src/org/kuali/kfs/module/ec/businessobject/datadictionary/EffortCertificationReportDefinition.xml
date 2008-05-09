@@ -55,7 +55,7 @@
   </bean>
   <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear" parent="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="expenseTransferFiscalYear" />
     <property name="label" value="Expense Transfer Fiscal Year" />
     <property name="shortLabel" value="Expense Transfer Year" />
@@ -64,7 +64,7 @@
   </bean>
   <bean id="EffortCertificationReportDefinition-universityFiscalYear" parent="EffortCertificationReportDefinition-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationReportDefinition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportNumber" parent="EffortCertificationReportDefinition-effortCertificationReportNumber-parentBean" />
@@ -106,7 +106,7 @@
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate" parent="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="effortCertificationReportReturnDate" />
     <property name="label" value="Report Return Date" />
     <property name="shortLabel" value="Report Return Date" />
@@ -128,7 +128,7 @@
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="effortCertificationReportBeginFiscalYear" />
     <property name="label" value="Report Begin Fiscal Year" />
     <property name="summary" value="Effort Certification ReportBeginFiscalYear" />
@@ -150,7 +150,7 @@
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="effortCertificationReportEndFiscalYear" />
     <property name="label" value="Report End Fiscal Year" />
     <property name="shortLabel" value="End Fiscal Year" />
@@ -182,12 +182,12 @@
   </bean>
   <bean id="EffortCertificationReportDefinition-active" parent="EffortCertificationReportDefinition-active-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="EffortCertificationReportDefinition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="EffortCertificationReportDefinition-versionNumber" parent="EffortCertificationReportDefinition-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationReportDefinition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationReportDefinition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

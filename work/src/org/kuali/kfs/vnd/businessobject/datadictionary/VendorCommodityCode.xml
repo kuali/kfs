@@ -71,7 +71,7 @@
   </bean>
   <bean id="VendorCommodityCode-versionNumber" parent="VendorCommodityCode-versionNumber-parentBean" />
 
-  <bean id="VendorCommodityCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorCommodityCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

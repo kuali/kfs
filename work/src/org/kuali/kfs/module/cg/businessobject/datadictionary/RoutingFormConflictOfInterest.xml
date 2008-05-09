@@ -65,7 +65,7 @@
   </bean>
   <bean id="RoutingFormConflictOfInterest-versionNumber" parent="RoutingFormConflictOfInterest-versionNumber-parentBean" />
 
-  <bean id="RoutingFormConflictOfInterest-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RoutingFormConflictOfInterest-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

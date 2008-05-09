@@ -51,7 +51,7 @@
   </bean>
   <bean id="MessageOfTheDay-versionNumber" parent="MessageOfTheDay-versionNumber-parentBean" />
 
-  <bean id="MessageOfTheDay-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="MessageOfTheDay-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

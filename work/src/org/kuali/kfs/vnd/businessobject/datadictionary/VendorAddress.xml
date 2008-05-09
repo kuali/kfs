@@ -106,7 +106,7 @@
   </bean>
   <bean id="VendorAddress-vendorFaxNumber" parent="VendorAddress-vendorFaxNumber-parentBean" />
 
-  <bean id="VendorAddress-vendorFaxNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="VendorAddress-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="vendorFaxNumber" />
     <property name="label" value="Vendor Fax Number" />
     <property name="shortLabel" value="Vendor Fax Number" />
@@ -128,53 +128,53 @@
   </bean>
   <bean id="VendorAddress-newCollectionRecord" parent="VendorAddress-newCollectionRecord-parentBean" />
 
-  <bean id="VendorAddress-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorAddress-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorAddress-versionNumber" parent="VendorAddress-versionNumber-parentBean" />
 
-  <bean id="VendorAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorAddress-vendorLine1Address" parent="VendorAddress-vendorLine1Address-parentBean" />
 
-  <bean id="VendorAddress-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="VendorAddress-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="VendorAddress-vendorLine2Address" parent="VendorAddress-vendorLine2Address-parentBean" />
 
-  <bean id="VendorAddress-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="VendorAddress-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
   <bean id="VendorAddress-vendorCityName" parent="VendorAddress-vendorCityName-parentBean" />
 
-  <bean id="VendorAddress-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="VendorAddress-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="VendorAddress-vendorStateCode" parent="VendorAddress-vendorStateCode-parentBean" />
 
-  <bean id="VendorAddress-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="VendorAddress-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
   <bean id="VendorAddress-vendorZipCode" parent="VendorAddress-vendorZipCode-parentBean" />
 
-  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorZipCode" />
   </bean>
   <bean id="VendorAddress-vendorCountryCode" parent="VendorAddress-vendorCountryCode-parentBean" />
 
-  <bean id="VendorAddress-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="VendorAddress-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="VendorAddress-vendorAddressInternationalProvinceName" parent="VendorAddress-vendorAddressInternationalProvinceName-parentBean" />
 
-  <bean id="VendorAddress-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+  <bean id="VendorAddress-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
     <property name="name" value="vendorAddressInternationalProvinceName" />
   </bean>
   <bean id="VendorAddress-vendorAttentionName" parent="VendorAddress-vendorAttentionName-parentBean" />
 
-  <bean id="VendorAddress-vendorAttentionName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+  <bean id="VendorAddress-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
     <property name="name" value="vendorAttentionName" />
   </bean>
   <bean id="VendorAddress-vendorHeaderGeneratedIdentifier" parent="VendorAddress-vendorHeaderGeneratedIdentifier-parentBean" />
@@ -187,7 +187,7 @@
   </bean>
   <bean id="VendorAddress-active" parent="VendorAddress-active-parentBean" />
 
-  <bean id="VendorAddress-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

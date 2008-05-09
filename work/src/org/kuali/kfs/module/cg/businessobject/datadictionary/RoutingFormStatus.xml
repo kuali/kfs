@@ -79,7 +79,7 @@
   </bean>
   <bean id="RoutingFormStatus-versionNumber" parent="RoutingFormStatus-versionNumber-parentBean" />
 
-  <bean id="RoutingFormStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RoutingFormStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -142,7 +142,7 @@
   </bean>
   <bean id="OutstandingCertificationsByOrganization-universityFiscalYear" parent="OutstandingCertificationsByOrganization-universityFiscalYear-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OutstandingCertificationsByOrganization-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="OutstandingCertificationsByOrganization-effortCertificationReportNumber" parent="OutstandingCertificationsByOrganization-effortCertificationReportNumber-parentBean" />
@@ -151,7 +151,7 @@
   </bean>
   <bean id="OutstandingCertificationsByOrganization-versionNumber" parent="OutstandingCertificationsByOrganization-versionNumber-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OutstandingCertificationsByOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Lookup Definition -->

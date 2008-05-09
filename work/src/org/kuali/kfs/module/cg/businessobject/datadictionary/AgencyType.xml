@@ -80,11 +80,11 @@
   </bean>
   <bean id="AgencyType-versionNumber" parent="AgencyType-versionNumber-parentBean" />
 
-  <bean id="AgencyType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AgencyType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AgencyType-objectId" parent="AgencyType-objectId-parentBean" />
 
-  <bean id="AgencyType-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="AgencyType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

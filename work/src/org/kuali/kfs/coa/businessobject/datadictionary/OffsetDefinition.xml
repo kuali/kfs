@@ -32,7 +32,7 @@
 
   <bean id="OffsetDefinition-universityFiscalYear" parent="OffsetDefinition-universityFiscalYear-parentBean" />
 
-  <bean id="OffsetDefinition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OffsetDefinition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -55,7 +55,7 @@
   </bean>
   <bean id="OffsetDefinition-versionNumber" parent="OffsetDefinition-versionNumber-parentBean" />
 
-  <bean id="OffsetDefinition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OffsetDefinition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

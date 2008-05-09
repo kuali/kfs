@@ -1,0 +1,238 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PurApGenericAttributes-genericTime" parent="PurApGenericAttributes-genericTime-parentBean" />
+
+  <bean id="PurApGenericAttributes-genericTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="genericTime" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Generic Time Style Attribute" />
+    <property name="shortLabel" value="GenericTime" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-purapDocumentIdentifier" parent="PurApGenericAttributes-purapDocumentIdentifier-parentBean" />
+
+  <bean id="PurApGenericAttributes-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purapDocumentIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Purchasing/Accounts Payable Document #" />
+    <property name="shortLabel" value="PURAP Doc #" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-genericItemQuantity" parent="PurApGenericAttributes-genericItemQuantity-parentBean" />
+
+  <bean id="PurApGenericAttributes-genericItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="genericItemQuantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="11" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="11"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-genericItemIdentifier" parent="PurApGenericAttributes-genericItemIdentifier-parentBean" />
+
+  <bean id="PurApGenericAttributes-genericItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="genericItemIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Generic Item Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-genericItemUnitPrice" parent="PurApGenericAttributes-genericItemUnitPrice-parentBean" />
+
+  <bean id="PurApGenericAttributes-genericItemUnitPrice-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="genericItemUnitPrice" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Generic Item Unit Price" />
+    <property name="shortLabel" value="Price" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="19"
+            p:scale="4"
+            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="26"
+            p:size="10" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-purchaseOrderDocumentCurrentIndicator" parent="PurApGenericAttributes-purchaseOrderDocumentCurrentIndicator-parentBean" />
+
+  <bean id="PurApGenericAttributes-purchaseOrderDocumentCurrentIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderDocumentCurrentIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Return Current Documents Only" />
+    <property name="shortLabel" value="Return Current" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-receivingDocumentRequiredIndicator" parent="PurApGenericAttributes-receivingDocumentRequiredIndicator-parentBean" />
+
+  <bean id="PurApGenericAttributes-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingDocumentRequiredIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Receiving Required Document Indicator" />
+    <property name="shortLabel" value="Receiving Required Document Indicator" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator" parent="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator-parentBean" />
+
+  <bean id="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentRequestPositiveApprovalIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payment Request Positive Approval Indicator" />
+    <property name="shortLabel" value="Payment Request Positive Approval Indicator" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-statusCode" parent="PurApGenericAttributes-statusCode-parentBean" />
+
+  <bean id="PurApGenericAttributes-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="statusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Incomplete Statuses" />
+    <property name="shortLabel" value="Inc Statuses" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-purchaseOrderAutomaticIndicator" parent="PurApGenericAttributes-purchaseOrderAutomaticIndicator-parentBean" />
+
+  <bean id="PurApGenericAttributes-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderAutomaticIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Purchase Order Type" />
+    <property name="shortLabel" value="PO type" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  <bean id="PurApGenericAttributes-organizationCode" parent="PurApGenericAttributes-organizationCode-parentBean" />
+
+  <bean id="PurApGenericAttributes-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+    <property name="label" value="Chart/Org" />
+    <property name="shortLabel" value="Chart/Org" />
+  </bean>
+  <bean id="PurApGenericAttributes-chartOfAccountsCode" parent="PurApGenericAttributes-chartOfAccountsCode-parentBean" />
+
+  <bean id="PurApGenericAttributes-chartOfAccountsCode-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
+    <property name="name" value="chartOfAccountsCode" />
+  </bean>
+  <bean id="PurApGenericAttributes-requisitionIdentifier" parent="PurApGenericAttributes-requisitionIdentifier-parentBean" />
+
+  <bean id="PurApGenericAttributes-requisitionIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+    <property name="name" value="requisitionIdentifier" />
+    <property name="label" value="Requisition Nbr" />
+    <property name="shortLabel" value="REQ Nbr" />
+  </bean>
+  <bean id="PurApGenericAttributes-contractManager" parent="PurApGenericAttributes-contractManager-parentBean" />
+
+  <bean id="PurApGenericAttributes-contractManager-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
+    <property name="name" value="contractManager" />
+    <property name="label" value="Contract Manager" />
+    <property name="shortLabel" value="Contract Manager" />
+  </bean>
+  <bean id="PurApGenericAttributes-requisitionStatus" parent="PurApGenericAttributes-requisitionStatus-parentBean" />
+
+  <bean id="PurApGenericAttributes-requisitionStatus-parentBean" abstract="true" parent="RequisitionStatus-statusCode">
+    <property name="name" value="requisitionStatus" />
+    <property name="label" value="Requisition Status" />
+    <property name="shortLabel" value="REQ Status" />
+  </bean>
+  <bean id="PurApGenericAttributes-purchaseOrderStatus" parent="PurApGenericAttributes-purchaseOrderStatus-parentBean" />
+
+  <bean id="PurApGenericAttributes-purchaseOrderStatus-parentBean" abstract="true" parent="PurchaseOrderStatus-statusCode">
+    <property name="name" value="purchaseOrderStatus" />
+    <property name="label" value="Purchase Order Status" />
+    <property name="shortLabel" value="PO Status" />
+  </bean>
+  <bean id="PurApGenericAttributes-paymentRequestStatus" parent="PurApGenericAttributes-paymentRequestStatus-parentBean" />
+
+  <bean id="PurApGenericAttributes-paymentRequestStatus-parentBean" abstract="true" parent="PaymentRequestStatus-statusCode">
+    <property name="name" value="paymentRequestStatus" />
+    <property name="label" value="Payment Request Status" />
+    <property name="shortLabel" value="PREQ Status" />
+  </bean>
+  <bean id="PurApGenericAttributes-creditMemoStatus" parent="PurApGenericAttributes-creditMemoStatus-parentBean" />
+
+  <bean id="PurApGenericAttributes-creditMemoStatus-parentBean" abstract="true" parent="CreditMemoStatus-statusCode">
+    <property name="name" value="creditMemoStatus" />
+    <property name="label" value="Credit Memo Status" />
+    <property name="shortLabel" value="CM Status" />
+  </bean>
+  <bean id="PurApGenericAttributes-extractedDate" parent="PurApGenericAttributes-extractedDate-parentBean" />
+
+  <bean id="PurApGenericAttributes-extractedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+    <property name="name" value="extractedDate" />
+    <property name="label" value="Extracted For Payment Indicator" />
+    <property name="shortLabel" value="Extracted" />
+  </bean>
+  <bean id="PurApGenericAttributes-paymentPaidDate" parent="PurApGenericAttributes-paymentPaidDate-parentBean" />
+
+  <bean id="PurApGenericAttributes-paymentPaidDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+    <property name="name" value="paymentPaidDate" />
+    <property name="label" value="Paid Indicator" />
+    <property name="shortLabel" value="Paid" />
+  </bean>
+  <bean id="PurApGenericAttributes-creditMemoPaidTimestamp" parent="PurApGenericAttributes-creditMemoPaidTimestamp-parentBean" />
+
+  <bean id="PurApGenericAttributes-creditMemoPaidTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+    <property name="name" value="creditMemoPaidTimestamp" />
+    <property name="label" value="Paid Indicator" />
+    <property name="shortLabel" value="Paid" />
+  </bean>
+  <bean id="PurApGenericAttributes-genericItemAmount" parent="PurApGenericAttributes-genericItemAmount-parentBean" />
+
+  <bean id="PurApGenericAttributes-genericItemAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+    <property name="name" value="genericItemAmount" />
+    <property name="label" value="Generic Item Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="A generic item amount." />
+  </bean>
+</beans>

@@ -49,7 +49,7 @@
   </bean>
   <bean id="AccountStatusCurrentFunds-universityFiscalYear" parent="AccountStatusCurrentFunds-universityFiscalYear-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="AccountStatusCurrentFunds-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -89,7 +89,7 @@
   </bean>
   <bean id="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount" parent="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialBeginningBalanceLineAmount" />
     <property name="label" value="Beginning Balance Line Amount" />
     <property name="shortLabel" value="Beginning Balance Line Amount" />
@@ -97,14 +97,14 @@
   </bean>
   <bean id="AccountStatusCurrentFunds-annualActualAmount" parent="AccountStatusCurrentFunds-annualActualAmount-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-annualActualAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusCurrentFunds-annualActualAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="annualActualAmount" />
     <property name="label" value="YTD Actual" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AccountStatusCurrentFunds-outstandingEncum" parent="AccountStatusCurrentFunds-outstandingEncum-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-outstandingEncum-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusCurrentFunds-outstandingEncum-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="outstandingEncum" />
     <property name="label" value="Outstanding Encum" />
     <property name="shortLabel" value="Outstanding Encum" />
@@ -116,7 +116,7 @@
   </bean>
   <bean id="AccountStatusCurrentFunds-variance" parent="AccountStatusCurrentFunds-variance-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-variance-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusCurrentFunds-variance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="variance" />
     <property name="label" value="Variance" />
     <property name="shortLabel" value="Variance" />
@@ -124,11 +124,11 @@
   </bean>
   <bean id="AccountStatusCurrentFunds-versionNumber" parent="AccountStatusCurrentFunds-versionNumber-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountStatusCurrentFunds-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount" parent="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" />
 
-  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Year End Close" />
     <property name="shortLabel" value="Year End Close" />

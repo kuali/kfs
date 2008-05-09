@@ -107,7 +107,7 @@
   </bean>
   <bean id="Delegate-finDocApprovalFromThisAmt" parent="Delegate-finDocApprovalFromThisAmt-parentBean" />
 
-  <bean id="Delegate-finDocApprovalFromThisAmt-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Delegate-finDocApprovalFromThisAmt-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="finDocApprovalFromThisAmt" />
     <property name="label" value="Approval From This Amount" />
     <property name="shortLabel" value="FromAmt" />
@@ -115,7 +115,7 @@
   </bean>
   <bean id="Delegate-finDocApprovalToThisAmount" parent="Delegate-finDocApprovalToThisAmount-parentBean" />
 
-  <bean id="Delegate-finDocApprovalToThisAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Delegate-finDocApprovalToThisAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="finDocApprovalToThisAmount" />
     <property name="label" value="Approval To This Amount" />
     <property name="shortLabel" value="ToAmt" />
@@ -123,21 +123,21 @@
   </bean>
   <bean id="Delegate-accountsDelegatePrmrtIndicator" parent="Delegate-accountsDelegatePrmrtIndicator-parentBean" />
 
-  <bean id="Delegate-accountsDelegatePrmrtIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="Delegate-accountsDelegatePrmrtIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="accountsDelegatePrmrtIndicator" />
     <property name="label" value="Account Delegate Primary Route" />
     <property name="shortLabel" value="PrimaryRoute" />
   </bean>
   <bean id="Delegate-accountDelegateActiveIndicator" parent="Delegate-accountDelegateActiveIndicator-parentBean" />
 
-  <bean id="Delegate-accountDelegateActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="Delegate-accountDelegateActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="accountDelegateActiveIndicator" />
     <property name="label" value="Account Delegate Active" />
     <property name="shortLabel" value="DelegateActive" />
   </bean>
   <bean id="Delegate-accountDelegateStartDate" parent="Delegate-accountDelegateStartDate-parentBean" />
 
-  <bean id="Delegate-accountDelegateStartDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Delegate-accountDelegateStartDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="accountDelegateStartDate" />
     <property name="label" value="Account Delegate Start Date" />
     <property name="shortLabel" value="DelegateStartDt" />
@@ -145,7 +145,7 @@
   </bean>
   <bean id="Delegate-versionNumber" parent="Delegate-versionNumber-parentBean" />
 
-  <bean id="Delegate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Delegate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

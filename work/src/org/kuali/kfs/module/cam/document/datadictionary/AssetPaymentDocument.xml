@@ -58,7 +58,7 @@
   </bean>
   <bean id="AssetPaymentDocument-versionNumber" parent="AssetPaymentDocument-versionNumber-parentBean" />
 
-  <bean id="AssetPaymentDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetPaymentDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetPaymentDocument-agencyNumber" parent="AssetPaymentDocument-agencyNumber-parentBean" />
 

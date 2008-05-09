@@ -31,7 +31,7 @@
 
   <bean id="DueDateType-dataObjectMaintenanceCodeActiveIndicator" parent="DueDateType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-  <bean id="DueDateType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="DueDateType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
   </bean>
   <bean id="DueDateType-approvalLeadTime" parent="DueDateType-approvalLeadTime-parentBean" />
@@ -91,7 +91,7 @@
   </bean>
   <bean id="DueDateType-versionNumber" parent="DueDateType-versionNumber-parentBean" />
 
-  <bean id="DueDateType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="DueDateType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

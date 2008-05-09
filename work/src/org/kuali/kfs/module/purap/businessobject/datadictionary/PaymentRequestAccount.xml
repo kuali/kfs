@@ -115,7 +115,7 @@
   </bean>
   <bean id="PaymentRequestAccount-sequenceNumber" parent="PaymentRequestAccount-sequenceNumber-parentBean" />
 
-  <bean id="PaymentRequestAccount-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="PaymentRequestAccount-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -130,7 +130,7 @@
   </bean>
   <bean id="PaymentRequestAccount-objectId" parent="PaymentRequestAccount-objectId-parentBean" />
 
-  <bean id="PaymentRequestAccount-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="PaymentRequestAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="PaymentRequestAccount-organizationReferenceId" parent="PaymentRequestAccount-organizationReferenceId-parentBean" />
@@ -164,7 +164,7 @@
   </bean>
   <bean id="PaymentRequestAccount-postingYear" parent="PaymentRequestAccount-postingYear-parentBean" />
 
-  <bean id="PaymentRequestAccount-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="PaymentRequestAccount-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -209,7 +209,7 @@
   </bean>
   <bean id="PaymentRequestAccount-amount" parent="PaymentRequestAccount-amount-parentBean" />
 
-  <bean id="PaymentRequestAccount-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PaymentRequestAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -248,7 +248,7 @@
   </bean>
   <bean id="PaymentRequestAccount-versionNumber" parent="PaymentRequestAccount-versionNumber-parentBean" />
 
-  <bean id="PaymentRequestAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentRequestAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="PaymentRequestAccount-documentNumber" parent="PaymentRequestAccount-documentNumber-parentBean" />
@@ -420,7 +420,7 @@
   </bean>
   <bean id="PaymentRequestAccount-itemIdentifier" parent="PaymentRequestAccount-itemIdentifier-parentBean" />
 
-  <bean id="PaymentRequestAccount-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="PaymentRequestAccount-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>
@@ -459,7 +459,7 @@
   </bean>
   <bean id="PaymentRequestAccount-disencumberedAmount" parent="PaymentRequestAccount-disencumberedAmount-parentBean" />
 
-  <bean id="PaymentRequestAccount-disencumberedAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestAccount-disencumberedAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="disencumberedAmount" />
     <property name="label" value="Disencumbered Amount" />
     <property name="shortLabel" value="Disencumbered Amount" />

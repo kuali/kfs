@@ -143,16 +143,16 @@
 
   <bean id="RequisitionDocument-statusDescription" parent="RequisitionDocument-statusDescription-parentBean" />
 
-  <bean id="RequisitionDocument-statusDescription-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionStatus">
+  <bean id="RequisitionDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
     <property name="name" value="statusDescription" />
   </bean>
   <bean id="RequisitionDocument-versionNumber" parent="RequisitionDocument-versionNumber-parentBean" />
 
-  <bean id="RequisitionDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RequisitionDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="RequisitionDocument-postingYear" parent="RequisitionDocument-postingYear-parentBean" />
 
-  <bean id="RequisitionDocument-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="RequisitionDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -173,27 +173,27 @@
   </bean>
   <bean id="RequisitionDocument-vendorLine2Address" parent="RequisitionDocument-vendorLine2Address-parentBean" />
 
-  <bean id="RequisitionDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="RequisitionDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
   <bean id="RequisitionDocument-vendorStateCode" parent="RequisitionDocument-vendorStateCode-parentBean" />
 
-  <bean id="RequisitionDocument-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="RequisitionDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
   <bean id="RequisitionDocument-vendorAddressInternationalProvinceName" parent="RequisitionDocument-vendorAddressInternationalProvinceName-parentBean" />
 
-  <bean id="RequisitionDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+  <bean id="RequisitionDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
     <property name="name" value="vendorAddressInternationalProvinceName" />
   </bean>
   <bean id="RequisitionDocument-vendorPostalCode" parent="RequisitionDocument-vendorPostalCode-parentBean" />
 
-  <bean id="RequisitionDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="RequisitionDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorPostalCode" />
   </bean>
   <bean id="RequisitionDocument-totalDollarAmount" parent="RequisitionDocument-totalDollarAmount-parentBean" />
 
-  <bean id="RequisitionDocument-totalDollarAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="RequisitionDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
@@ -202,12 +202,12 @@
   </bean>
   <bean id="RequisitionDocument-purapDocumentIdentifier" parent="RequisitionDocument-purapDocumentIdentifier-parentBean" />
 
-  <bean id="RequisitionDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionIdentifier">
+  <bean id="RequisitionDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionIdentifier">
     <property name="name" value="purapDocumentIdentifier" />
   </bean>
   <bean id="RequisitionDocument-statusCode" parent="RequisitionDocument-statusCode-parentBean" />
 
-  <bean id="RequisitionDocument-statusCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionStatus">
+  <bean id="RequisitionDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
     <property name="name" value="statusCode" />
   </bean>
   <bean id="RequisitionDocument-chartOfAccountsCode" parent="RequisitionDocument-chartOfAccountsCode-parentBean" />
@@ -218,7 +218,7 @@
   </bean>
   <bean id="RequisitionDocument-organizationCode" parent="RequisitionDocument-organizationCode-parentBean" />
 
-  <bean id="RequisitionDocument-organizationCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-organizationCode">
+  <bean id="RequisitionDocument-organizationCode-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
   </bean>
   <bean id="RequisitionDocument-vendorAddressGeneratedIdentifier" parent="RequisitionDocument-vendorAddressGeneratedIdentifier-parentBean" />
 
@@ -357,7 +357,7 @@
   </bean>
   <bean id="RequisitionDocument-deliveryCampusCode" parent="RequisitionDocument-deliveryCampusCode-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="RequisitionDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="deliveryCampusCode" />
     <property name="label" value="Delivery Campus" />
     <property name="shortLabel" value="Delivery Campus" />
@@ -382,13 +382,13 @@
   </bean>
   <bean id="RequisitionDocument-deliveryBuildingLine1Address" parent="RequisitionDocument-deliveryBuildingLine1Address-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="RequisitionDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="deliveryBuildingLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="RequisitionDocument-deliveryBuildingLine2Address" parent="RequisitionDocument-deliveryBuildingLine2Address-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="RequisitionDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="deliveryBuildingLine2Address" />
   </bean>
   <bean id="RequisitionDocument-deliveryBuildingRoomNumber" parent="RequisitionDocument-deliveryBuildingRoomNumber-parentBean" />
@@ -411,25 +411,25 @@
   </bean>
   <bean id="RequisitionDocument-deliveryCityName" parent="RequisitionDocument-deliveryCityName-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="RequisitionDocument-deliveryCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="deliveryCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="RequisitionDocument-deliveryStateCode" parent="RequisitionDocument-deliveryStateCode-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="RequisitionDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="deliveryStateCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="RequisitionDocument-deliveryPostalCode" parent="RequisitionDocument-deliveryPostalCode-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="RequisitionDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="deliveryPostalCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="RequisitionDocument-deliveryCountryCode" parent="RequisitionDocument-deliveryCountryCode-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="RequisitionDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="deliveryCountryCode" />
   </bean>
   <bean id="RequisitionDocument-deliveryInstructionText" parent="RequisitionDocument-deliveryInstructionText-parentBean" />
@@ -452,7 +452,7 @@
   </bean>
   <bean id="RequisitionDocument-deliveryRequiredDate" parent="RequisitionDocument-deliveryRequiredDate-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryRequiredDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="RequisitionDocument-deliveryRequiredDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="deliveryRequiredDate" />
     <property name="label" value="Date Required" />
     <property name="shortLabel" value="Date Required" />
@@ -470,13 +470,13 @@
   </bean>
   <bean id="RequisitionDocument-deliveryToEmailAddress" parent="RequisitionDocument-deliveryToEmailAddress-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="RequisitionDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="deliveryToEmailAddress" />
     <property name="required" value="false" />
   </bean>
   <bean id="RequisitionDocument-deliveryToName" parent="RequisitionDocument-deliveryToName-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryToName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+  <bean id="RequisitionDocument-deliveryToName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
     <property name="name" value="deliveryToName" />
     <property name="label" value="Delivery To" />
     <property name="shortLabel" value="To" />
@@ -484,7 +484,7 @@
   </bean>
   <bean id="RequisitionDocument-deliveryToPhoneNumber" parent="RequisitionDocument-deliveryToPhoneNumber-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber" />
   </bean>
   <bean id="RequisitionDocument-externalOrganizationB2bSupplierIdentifier" parent="RequisitionDocument-externalOrganizationB2bSupplierIdentifier-parentBean" />
@@ -517,7 +517,7 @@
   </bean>
   <bean id="RequisitionDocument-institutionContactEmailAddress" parent="RequisitionDocument-institutionContactEmailAddress-parentBean" />
 
-  <bean id="RequisitionDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="RequisitionDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="institutionContactEmailAddress" />
     <property name="label" value="Contact Email" />
     <property name="shortLabel" value="Address" />
@@ -541,7 +541,7 @@
   </bean>
   <bean id="RequisitionDocument-institutionContactPhoneNumber" parent="RequisitionDocument-institutionContactPhoneNumber-parentBean" />
 
-  <bean id="RequisitionDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="institutionContactPhoneNumber" />
     <property name="label" value="Contact Phone" />
     <property name="shortLabel" value="Number" />
@@ -580,7 +580,7 @@
   </bean>
   <bean id="RequisitionDocument-purchaseOrderAutomaticIndicator" parent="RequisitionDocument-purchaseOrderAutomaticIndicator-parentBean" />
 
-  <bean id="RequisitionDocument-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+  <bean id="RequisitionDocument-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
     <property name="name" value="purchaseOrderAutomaticIndicator" />
     <property name="label" value="Purchase Order Automatic Indicator" />
     <property name="shortLabel" value="Indicator" />
@@ -598,21 +598,21 @@
   </bean>
   <bean id="RequisitionDocument-purchaseOrderBeginDate" parent="RequisitionDocument-purchaseOrderBeginDate-parentBean" />
 
-  <bean id="RequisitionDocument-purchaseOrderBeginDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="RequisitionDocument-purchaseOrderBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="purchaseOrderBeginDate" />
     <property name="label" value="Begin/End Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="RequisitionDocument-purchaseOrderEndDate" parent="RequisitionDocument-purchaseOrderEndDate-parentBean" />
 
-  <bean id="RequisitionDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="RequisitionDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="purchaseOrderEndDate" />
     <property name="label" value="Begin/End Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="RequisitionDocument-purchaseOrderTotalLimit" parent="RequisitionDocument-purchaseOrderTotalLimit-parentBean" />
 
-  <bean id="RequisitionDocument-purchaseOrderTotalLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="RequisitionDocument-purchaseOrderTotalLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="purchaseOrderTotalLimit" />
     <property name="label" value="PO Total Cannot Exceed" />
     <property name="shortLabel" value="Limit" />
@@ -639,7 +639,7 @@
   </bean>
   <bean id="RequisitionDocument-requestorPersonEmailAddress" parent="RequisitionDocument-requestorPersonEmailAddress-parentBean" />
 
-  <bean id="RequisitionDocument-requestorPersonEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="RequisitionDocument-requestorPersonEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="requestorPersonEmailAddress" />
     <property name="label" value="Requestor Email" />
     <property name="required" value="true" />
@@ -664,7 +664,7 @@
   </bean>
   <bean id="RequisitionDocument-requestorPersonPhoneNumber" parent="RequisitionDocument-requestorPersonPhoneNumber-parentBean" />
 
-  <bean id="RequisitionDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="requestorPersonPhoneNumber" />
     <property name="label" value="Requestor Phone" />
     <property name="shortLabel" value="Phone Number" />
@@ -680,7 +680,7 @@
   </bean>
   <bean id="RequisitionDocument-vendorFaxNumber" parent="RequisitionDocument-vendorFaxNumber-parentBean" />
 
-  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorFaxNumber" />
     <property name="label" value="Fax Number" />
     <property name="shortLabel" value="Number" />
@@ -705,13 +705,13 @@
   </bean>
   <bean id="RequisitionDocument-vendorPhoneNumber" parent="RequisitionDocument-vendorPhoneNumber-parentBean" />
 
-  <bean id="RequisitionDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="RequisitionDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorPhoneNumber" />
     <property name="shortLabel" value="Number" />
   </bean>
   <bean id="RequisitionDocument-vendorRestrictedIndicator" parent="RequisitionDocument-vendorRestrictedIndicator-parentBean" />
 
-  <bean id="RequisitionDocument-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+  <bean id="RequisitionDocument-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
     <property name="name" value="vendorRestrictedIndicator" />
     <property name="label" value="Restricted Indicator" />
     <property name="shortLabel" value="Restricted" />
@@ -764,14 +764,14 @@
   </bean>
   <bean id="RequisitionDocument-receivingDocumentRequiredIndicator" parent="RequisitionDocument-receivingDocumentRequiredIndicator-parentBean" />
 
-  <bean id="RequisitionDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="RequisitionDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="receivingDocumentRequiredIndicator" />
     <property name="label" value="Receiving Required" />
     <property name="shortLabel" value="Receiving Required" />
   </bean>
   <bean id="RequisitionDocument-paymentRequestPositiveApprovalIndicator" parent="RequisitionDocument-paymentRequestPositiveApprovalIndicator-parentBean" />
 
-  <bean id="RequisitionDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="RequisitionDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="paymentRequestPositiveApprovalIndicator" />
     <property name="label" value="Payment Request Positive Approval Required" />
     <property name="shortLabel" value="Payment Request Positive Approval Required" />
@@ -795,7 +795,7 @@
   </bean>
   <bean id="RequisitionDocument-organizationAutomaticPurchaseOrderLimit" parent="RequisitionDocument-organizationAutomaticPurchaseOrderLimit-parentBean" />
 
-  <bean id="RequisitionDocument-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="RequisitionDocument-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="organizationAutomaticPurchaseOrderLimit" />
     <property name="label" value="APO Limit" />
     <property name="shortLabel" value="APO Limit" />
@@ -812,17 +812,17 @@
   </bean>
   <bean id="RequisitionDocument-vendorLine1Address" parent="RequisitionDocument-vendorLine1Address-parentBean" />
 
-  <bean id="RequisitionDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="RequisitionDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
   </bean>
   <bean id="RequisitionDocument-vendorCityName" parent="RequisitionDocument-vendorCityName-parentBean" />
 
-  <bean id="RequisitionDocument-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="RequisitionDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
   </bean>
   <bean id="RequisitionDocument-vendorCountryCode" parent="RequisitionDocument-vendorCountryCode-parentBean" />
 
-  <bean id="RequisitionDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="RequisitionDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
   </bean>
   <bean id="RequisitionDocument-alternate1VendorName" parent="RequisitionDocument-alternate1VendorName-parentBean" />

@@ -66,26 +66,26 @@
   </bean>
   <bean id="ItemType-quantityBasedGeneralLedgerIndicator" parent="ItemType-quantityBasedGeneralLedgerIndicator-parentBean" />
 
-  <bean id="ItemType-quantityBasedGeneralLedgerIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ItemType-quantityBasedGeneralLedgerIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="quantityBasedGeneralLedgerIndicator" />
     <property name="label" value="Quantity Based General Ledger Indicator" />
     <property name="shortLabel" value="Quantity Based" />
   </bean>
   <bean id="ItemType-itemTypeAboveTheLineIndicator" parent="ItemType-itemTypeAboveTheLineIndicator-parentBean" />
 
-  <bean id="ItemType-itemTypeAboveTheLineIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ItemType-itemTypeAboveTheLineIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="itemTypeAboveTheLineIndicator" />
     <property name="label" value="Item Type Above The Line Indicator" />
     <property name="shortLabel" value="Above Line" />
   </bean>
   <bean id="ItemType-active" parent="ItemType-active-parentBean" />
 
-  <bean id="ItemType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ItemType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ItemType-versionNumber" parent="ItemType-versionNumber-parentBean" />
 
-  <bean id="ItemType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ItemType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -74,7 +74,7 @@
   </bean>
   <bean id="PurchaseOrderQuoteList-versionNumber" parent="PurchaseOrderQuoteList-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderQuoteList-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderQuoteList-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

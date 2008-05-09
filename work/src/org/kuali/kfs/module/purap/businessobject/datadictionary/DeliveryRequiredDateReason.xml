@@ -64,12 +64,12 @@
   </bean>
   <bean id="DeliveryRequiredDateReason-active" parent="DeliveryRequiredDateReason-active-parentBean" />
 
-  <bean id="DeliveryRequiredDateReason-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="DeliveryRequiredDateReason-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="DeliveryRequiredDateReason-versionNumber" parent="DeliveryRequiredDateReason-versionNumber-parentBean" />
 
-  <bean id="DeliveryRequiredDateReason-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="DeliveryRequiredDateReason-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -101,7 +101,7 @@
   </bean>
   <bean id="AwardSubcontractor-subcontractorAmount" parent="AwardSubcontractor-subcontractorAmount-parentBean" />
 
-  <bean id="AwardSubcontractor-subcontractorAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AwardSubcontractor-subcontractorAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="subcontractorAmount" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
@@ -156,11 +156,11 @@
   </bean>
   <bean id="AwardSubcontractor-newCollectionRecord" parent="AwardSubcontractor-newCollectionRecord-parentBean" />
 
-  <bean id="AwardSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="AwardSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="AwardSubcontractor-versionNumber" parent="AwardSubcontractor-versionNumber-parentBean" />
 
-  <bean id="AwardSubcontractor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AwardSubcontractor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

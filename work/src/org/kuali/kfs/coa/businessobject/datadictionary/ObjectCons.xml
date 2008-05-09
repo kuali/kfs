@@ -82,7 +82,7 @@
   </bean>
   <bean id="ObjectCons-finConsolidationObjActiveIndicator" parent="ObjectCons-finConsolidationObjActiveIndicator-parentBean" />
 
-  <bean id="ObjectCons-finConsolidationObjActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ObjectCons-finConsolidationObjActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="finConsolidationObjActiveIndicator" />
   </bean>
   <bean id="ObjectCons-financialEliminationsObject.financialObjectCodeName" parent="ObjectCons-financialEliminationsObject.financialObjectCodeName-parentBean" />
@@ -127,7 +127,7 @@
   </bean>
   <bean id="ObjectCons-versionNumber" parent="ObjectCons-versionNumber-parentBean" />
 
-  <bean id="ObjectCons-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ObjectCons-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

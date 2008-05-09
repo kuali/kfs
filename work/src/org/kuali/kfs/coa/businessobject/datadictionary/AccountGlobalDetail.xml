@@ -54,11 +54,11 @@
   </bean>
   <bean id="AccountGlobalDetail-newCollectionRecord" parent="AccountGlobalDetail-newCollectionRecord-parentBean" />
 
-  <bean id="AccountGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="AccountGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="AccountGlobalDetail-versionNumber" parent="AccountGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="AccountGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

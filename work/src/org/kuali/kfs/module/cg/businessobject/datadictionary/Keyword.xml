@@ -29,7 +29,7 @@
 
   <bean id="Keyword-dataObjectMaintenanceCodeActiveIndicator" parent="Keyword-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-  <bean id="Keyword-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Keyword-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
   </bean>
   <bean id="Keyword-routingFormKeywordDescription" parent="Keyword-routingFormKeywordDescription-parentBean" />
@@ -53,7 +53,7 @@
   </bean>
   <bean id="Keyword-versionNumber" parent="Keyword-versionNumber-parentBean" />
 
-  <bean id="Keyword-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Keyword-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

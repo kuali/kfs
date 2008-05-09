@@ -125,6 +125,6 @@
   </bean>
   <bean id="AccountDescription-versionNumber" parent="AccountDescription-versionNumber-parentBean" />
 
-  <bean id="AccountDescription-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountDescription-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

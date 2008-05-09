@@ -77,7 +77,7 @@
   </bean>
   <bean id="FunctionControlCode-versionNumber" parent="FunctionControlCode-versionNumber-parentBean" />
 
-  <bean id="FunctionControlCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="FunctionControlCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

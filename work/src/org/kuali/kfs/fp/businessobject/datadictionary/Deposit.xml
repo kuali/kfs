@@ -59,7 +59,7 @@
   </bean>
   <bean id="Deposit-depositDate" parent="Deposit-depositDate-parentBean" />
 
-  <bean id="Deposit-depositDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Deposit-depositDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="depositDate" />
     <property name="label" value="Deposit Date" />
     <property name="shortLabel" value="Deposit Date" />
@@ -67,7 +67,7 @@
   </bean>
   <bean id="Deposit-depositAmount" parent="Deposit-depositAmount-parentBean" />
 
-  <bean id="Deposit-depositAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Deposit-depositAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="depositAmount" />
     <property name="required" value="true" />
   </bean>

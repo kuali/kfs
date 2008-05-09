@@ -269,7 +269,7 @@
   </bean>
   <bean id="PurchaseOrderCapitalAssetLocation-versionNumber" parent="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

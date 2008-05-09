@@ -86,12 +86,12 @@
   </bean>
   <bean id="PersonRole-dataObjectMaintenanceCodeActiveIndicator" parent="PersonRole-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-  <bean id="PersonRole-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PersonRole-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
   </bean>
   <bean id="PersonRole-versionNumber" parent="PersonRole-versionNumber-parentBean" />
 
-  <bean id="PersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PersonRole-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -95,7 +95,7 @@
   </bean>
   <bean id="BudgetAdjustmentDocument-postingYear" parent="BudgetAdjustmentDocument-postingYear-parentBean" />
 
-  <bean id="BudgetAdjustmentDocument-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="BudgetAdjustmentDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
     <property name="control" >

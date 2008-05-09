@@ -34,7 +34,7 @@
 
   <bean id="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator" parent="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-  <bean id="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
   </bean>
   <bean id="ResearchRiskType-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode-parentBean" />
@@ -141,7 +141,7 @@
   </bean>
   <bean id="ResearchRiskType-versionNumber" parent="ResearchRiskType-versionNumber-parentBean" />
 
-  <bean id="ResearchRiskType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ResearchRiskType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

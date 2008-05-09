@@ -123,12 +123,12 @@
   </bean>
   <bean id="Room-active" parent="Room-active-parentBean" />
 
-  <bean id="Room-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Room-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="Room-versionNumber" parent="Room-versionNumber-parentBean" />
 
-  <bean id="Room-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Room-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

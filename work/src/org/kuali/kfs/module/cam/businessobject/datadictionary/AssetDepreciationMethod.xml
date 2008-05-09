@@ -66,11 +66,11 @@
   </bean>
   <bean id="AssetDepreciationMethod-versionNumber" parent="AssetDepreciationMethod-versionNumber-parentBean" />
 
-  <bean id="AssetDepreciationMethod-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetDepreciationMethod-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetDepreciationMethod-active" parent="AssetDepreciationMethod-active-parentBean" />
 
-  <bean id="AssetDepreciationMethod-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AssetDepreciationMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

@@ -381,6 +381,6 @@
   </bean>
   <bean id="AssetGlobalDetail-versionNumber" parent="AssetGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

@@ -501,7 +501,7 @@
   </bean>
   <bean id="BudgetConstructionMonthSummary-versionNumber" parent="BudgetConstructionMonthSummary-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionMonthSummary-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionMonthSummary-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

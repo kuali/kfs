@@ -79,7 +79,7 @@
   </bean>
   <bean id="ItemReasonAdded-versionNumber" parent="ItemReasonAdded-versionNumber-parentBean" />
 
-  <bean id="ItemReasonAdded-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ItemReasonAdded-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

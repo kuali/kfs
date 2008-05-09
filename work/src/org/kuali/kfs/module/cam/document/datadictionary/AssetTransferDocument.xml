@@ -392,11 +392,11 @@
   </bean>
   <bean id="AssetTransferDocument-objectId" parent="AssetTransferDocument-objectId-parentBean" />
 
-  <bean id="AssetTransferDocument-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="AssetTransferDocument-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="AssetTransferDocument-versionNumber" parent="AssetTransferDocument-versionNumber-parentBean" />
 
-  <bean id="AssetTransferDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetTransferDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetTransferDocument-documentNumber" parent="AssetTransferDocument-documentNumber-parentBean" />
 

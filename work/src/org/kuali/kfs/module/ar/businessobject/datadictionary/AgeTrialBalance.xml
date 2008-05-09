@@ -159,7 +159,7 @@
   </bean>
   <bean id="AgeTrialBalance-versionNumber" parent="AgeTrialBalance-versionNumber-parentBean" />
 
-  <bean id="AgeTrialBalance-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AgeTrialBalance-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

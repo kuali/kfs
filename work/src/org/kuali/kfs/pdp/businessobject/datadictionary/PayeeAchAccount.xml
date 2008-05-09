@@ -293,13 +293,13 @@
   </bean>
   <bean id="PayeeAchAccount-active" parent="PayeeAchAccount-active-parentBean" />
 
-  <bean id="PayeeAchAccount-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PayeeAchAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
     <property name="required" value="true" />
   </bean>
   <bean id="PayeeAchAccount-versionNumber" parent="PayeeAchAccount-versionNumber-parentBean" />
 
-  <bean id="PayeeAchAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PayeeAchAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

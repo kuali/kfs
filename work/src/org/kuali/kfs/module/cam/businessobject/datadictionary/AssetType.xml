@@ -115,12 +115,12 @@
   </bean>
   <bean id="AssetType-active" parent="AssetType-active-parentBean" />
 
-  <bean id="AssetType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AssetType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="AssetType-versionNumber" parent="AssetType-versionNumber-parentBean" />
 
-  <bean id="AssetType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

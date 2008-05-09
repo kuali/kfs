@@ -55,14 +55,14 @@
 
   <bean id="AssignContractManagerDocument-requisitionNumber" parent="AssignContractManagerDocument-requisitionNumber-parentBean" />
 
-  <bean id="AssignContractManagerDocument-requisitionNumber-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purapDocumentIdentifier">
+  <bean id="AssignContractManagerDocument-requisitionNumber-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="requisitionNumber" />
     <property name="label" value="Requisition Number" />
     <property name="shortLabel" value="Requisition Number" />
   </bean>
   <bean id="AssignContractManagerDocument-deliveryCampusCode" parent="AssignContractManagerDocument-deliveryCampusCode-parentBean" />
 
-  <bean id="AssignContractManagerDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="AssignContractManagerDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="deliveryCampusCode" />
     <property name="label" value="Delivery Campus" />
     <property name="shortLabel" value="Delivery Campus" />

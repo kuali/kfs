@@ -73,7 +73,7 @@
   </bean>
   <bean id="KualiLaborJournalVoucherDocument-reversalDate" parent="KualiLaborJournalVoucherDocument-reversalDate-parentBean" />
 
-  <bean id="KualiLaborJournalVoucherDocument-reversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="KualiLaborJournalVoucherDocument-reversalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="reversalDate" />
     <property name="label" value="Reversal Date" />
     <property name="shortLabel" value="Reversal Date" />

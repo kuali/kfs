@@ -95,7 +95,7 @@
   </bean>
   <bean id="ControlAttributeType-versionNumber" parent="ControlAttributeType-versionNumber-parentBean" />
 
-  <bean id="ControlAttributeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ControlAttributeType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

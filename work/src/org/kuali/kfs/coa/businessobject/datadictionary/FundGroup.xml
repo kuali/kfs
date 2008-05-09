@@ -51,7 +51,7 @@
   </bean>
   <bean id="FundGroup-active" parent="FundGroup-active-parentBean" />
 
-  <bean id="FundGroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="FundGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="FundGroup-financialReportingSortCode" parent="FundGroup-financialReportingSortCode-parentBean" />
@@ -107,7 +107,7 @@
   </bean>
   <bean id="FundGroup-versionNumber" parent="FundGroup-versionNumber-parentBean" />
 
-  <bean id="FundGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="FundGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

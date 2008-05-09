@@ -34,27 +34,27 @@
   </bean>
   <bean id="AccountGuideline-accountExpenseGuidelineText" parent="AccountGuideline-accountExpenseGuidelineText-parentBean" />
 
-  <bean id="AccountGuideline-accountExpenseGuidelineText-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="AccountGuideline-accountExpenseGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="accountExpenseGuidelineText" />
     <property name="label" value="Account Expense Guideline Text" />
     <property name="shortLabel" value="ExpGuideTxt" />
   </bean>
   <bean id="AccountGuideline-accountIncomeGuidelineText" parent="AccountGuideline-accountIncomeGuidelineText-parentBean" />
 
-  <bean id="AccountGuideline-accountIncomeGuidelineText-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="AccountGuideline-accountIncomeGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="accountIncomeGuidelineText" />
     <property name="label" value="Account Income Guideline Text" />
     <property name="shortLabel" value="IncGuideTxt" />
   </bean>
   <bean id="AccountGuideline-accountPurposeText" parent="AccountGuideline-accountPurposeText-parentBean" />
 
-  <bean id="AccountGuideline-accountPurposeText-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="AccountGuideline-accountPurposeText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="accountPurposeText" />
     <property name="label" value="Account Purpose Text" />
     <property name="shortLabel" value="AcctPurpTxt" />
   </bean>
   <bean id="AccountGuideline-versionNumber" parent="AccountGuideline-versionNumber-parentBean" />
 
-  <bean id="AccountGuideline-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountGuideline-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

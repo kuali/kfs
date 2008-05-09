@@ -47,7 +47,7 @@
   </bean>
   <bean id="PurchaseOrderContractLanguage-campusCode" parent="PurchaseOrderContractLanguage-campusCode-parentBean" />
 
-  <bean id="PurchaseOrderContractLanguage-campusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="PurchaseOrderContractLanguage-campusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="label" value="Purchasing Office Campus Code" />
     <property name="shortLabel" value="Code" />
   </bean>
@@ -71,19 +71,19 @@
   </bean>
   <bean id="PurchaseOrderContractLanguage-contractLanguageCreateDate" parent="PurchaseOrderContractLanguage-contractLanguageCreateDate-parentBean" />
 
-  <bean id="PurchaseOrderContractLanguage-contractLanguageCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderContractLanguage-contractLanguageCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="contractLanguageCreateDate" />
     <property name="label" value="Contract Language Create Date" />
     <property name="shortLabel" value="Create Date" />
   </bean>
   <bean id="PurchaseOrderContractLanguage-active" parent="PurchaseOrderContractLanguage-active-parentBean" />
 
-  <bean id="PurchaseOrderContractLanguage-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PurchaseOrderContractLanguage-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PurchaseOrderContractLanguage-versionNumber" parent="PurchaseOrderContractLanguage-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderContractLanguage-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderContractLanguage-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

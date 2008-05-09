@@ -93,11 +93,11 @@
   </bean>
   <bean id="AwardProjectDirector-newCollectionRecord" parent="AwardProjectDirector-newCollectionRecord-parentBean" />
 
-  <bean id="AwardProjectDirector-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="AwardProjectDirector-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="AwardProjectDirector-versionNumber" parent="AwardProjectDirector-versionNumber-parentBean" />
 
-  <bean id="AwardProjectDirector-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AwardProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

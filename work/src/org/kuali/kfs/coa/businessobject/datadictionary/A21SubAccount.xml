@@ -107,7 +107,7 @@
   </bean>
   <bean id="A21SubAccount-offCampusCode" parent="A21SubAccount-offCampusCode-parentBean" />
 
-  <bean id="A21SubAccount-offCampusCode-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="A21SubAccount-offCampusCode-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="offCampusCode" />
     <property name="label" value="Off Campus Indicator" />
     <property name="shortLabel" value="Off Campus" />
@@ -140,6 +140,6 @@
   </bean>
   <bean id="A21SubAccount-versionNumber" parent="A21SubAccount-versionNumber-parentBean" />
 
-  <bean id="A21SubAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="A21SubAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

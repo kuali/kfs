@@ -64,12 +64,12 @@
   </bean>
   <bean id="PurchaseOrderCostSource-active" parent="PurchaseOrderCostSource-active-parentBean" />
 
-  <bean id="PurchaseOrderCostSource-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PurchaseOrderCostSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PurchaseOrderCostSource-versionNumber" parent="PurchaseOrderCostSource-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderCostSource-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderCostSource-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -127,7 +127,7 @@
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-sequenceNumber" parent="ProcurementCardSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="ProcurementCardSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="ProcurementCardSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -142,7 +142,7 @@
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-objectId" parent="ProcurementCardSourceAccountingLine-objectId-parentBean" />
 
-  <bean id="ProcurementCardSourceAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ProcurementCardSourceAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-organizationReferenceId" parent="ProcurementCardSourceAccountingLine-organizationReferenceId-parentBean" />
@@ -176,7 +176,7 @@
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-postingYear" parent="ProcurementCardSourceAccountingLine-postingYear-parentBean" />
 
-  <bean id="ProcurementCardSourceAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="ProcurementCardSourceAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -221,7 +221,7 @@
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-amount" parent="ProcurementCardSourceAccountingLine-amount-parentBean" />
 
-  <bean id="ProcurementCardSourceAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="ProcurementCardSourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -260,7 +260,7 @@
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-versionNumber" parent="ProcurementCardSourceAccountingLine-versionNumber-parentBean" />
 
-  <bean id="ProcurementCardSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProcurementCardSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-documentNumber" parent="ProcurementCardSourceAccountingLine-documentNumber-parentBean" />

@@ -80,7 +80,7 @@
   
   <bean id="Threshold-thresholdAmount" parent="Threshold-thresholdAmount-parentBean" />
 
-  <bean id="Threshold-thresholdAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="Threshold-thresholdAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="thresholdAmount" />
     <property name="label" value="Threshold Amount" />
     <property name="shortLabel" value="Amount" />
@@ -139,13 +139,13 @@
 	
   <bean id="Threshold-active" parent="Threshold-active-parentBean" />
   
-  <bean id="Threshold-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Threshold-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 	  <property name="name" value="active" />
   </bean>
 	
   <bean id="Threshold-versionNumber" parent="Threshold-versionNumber-parentBean" />
   
-  <bean id="Threshold-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Threshold-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>	
 	
   <bean id="Threshold-vendorNumber" parent="Threshold-vendorNumber-parentBean" />

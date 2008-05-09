@@ -79,7 +79,7 @@
   </bean>
   <bean id="EffortCertificationDetailReason-versionNumber" parent="EffortCertificationDetailReason-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationDetailReason-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationDetailReason-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -467,7 +467,7 @@
   </bean>
   <bean id="EquipmentLoanOrReturn-versionNumber" parent="EquipmentLoanOrReturn-versionNumber-parentBean" />
 
-  <bean id="EquipmentLoanOrReturn-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EquipmentLoanOrReturn-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

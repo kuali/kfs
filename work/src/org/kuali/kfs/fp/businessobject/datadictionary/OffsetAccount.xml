@@ -63,7 +63,7 @@
   </bean>
   <bean id="OffsetAccount-versionNumber" parent="OffsetAccount-versionNumber-parentBean" />
 
-  <bean id="OffsetAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OffsetAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

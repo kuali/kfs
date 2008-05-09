@@ -75,7 +75,7 @@
   </bean>
   <bean id="UnitOfMeasure-versionNumber" parent="UnitOfMeasure-versionNumber-parentBean" />
 
-  <bean id="UnitOfMeasure-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="UnitOfMeasure-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

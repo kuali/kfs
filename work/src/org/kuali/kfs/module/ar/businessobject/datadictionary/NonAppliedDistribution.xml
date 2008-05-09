@@ -140,7 +140,7 @@
   </bean>
   <bean id="NonAppliedDistribution-versionNumber" parent="NonAppliedDistribution-versionNumber-parentBean" />
 
-  <bean id="NonAppliedDistribution-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="NonAppliedDistribution-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

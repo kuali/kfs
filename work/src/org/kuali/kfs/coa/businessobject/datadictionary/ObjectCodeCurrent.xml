@@ -44,7 +44,7 @@
 
   <bean id="ObjectCodeCurrent-universityFiscalYear" parent="ObjectCodeCurrent-universityFiscalYear-parentBean" />
 
-  <bean id="ObjectCodeCurrent-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="ObjectCodeCurrent-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
@@ -291,7 +291,7 @@
   </bean>
   <bean id="ObjectCodeCurrent-versionNumber" parent="ObjectCodeCurrent-versionNumber-parentBean" />
 
-  <bean id="ObjectCodeCurrent-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ObjectCodeCurrent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

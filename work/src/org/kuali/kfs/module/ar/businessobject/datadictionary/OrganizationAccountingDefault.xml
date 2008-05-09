@@ -268,7 +268,7 @@
   </bean>
   <bean id="OrganizationAccountingDefault-universityFiscalYear" parent="OrganizationAccountingDefault-universityFiscalYear-parentBean" />
 
-  <bean id="OrganizationAccountingDefault-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OrganizationAccountingDefault-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
@@ -276,7 +276,7 @@
   </bean>
   <bean id="OrganizationAccountingDefault-versionNumber" parent="OrganizationAccountingDefault-versionNumber-parentBean" />
 
-  <bean id="OrganizationAccountingDefault-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationAccountingDefault-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -111,7 +111,7 @@
   </bean>
   <bean id="GECTargetAccountingLine-sequenceNumber" parent="GECTargetAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="GECTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="GECTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -126,7 +126,7 @@
   </bean>
   <bean id="GECTargetAccountingLine-objectId" parent="GECTargetAccountingLine-objectId-parentBean" />
 
-  <bean id="GECTargetAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="GECTargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="GECTargetAccountingLine-organizationReferenceId" parent="GECTargetAccountingLine-organizationReferenceId-parentBean" />
@@ -160,7 +160,7 @@
   </bean>
   <bean id="GECTargetAccountingLine-postingYear" parent="GECTargetAccountingLine-postingYear-parentBean" />
 
-  <bean id="GECTargetAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="GECTargetAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -205,7 +205,7 @@
   </bean>
   <bean id="GECTargetAccountingLine-amount" parent="GECTargetAccountingLine-amount-parentBean" />
 
-  <bean id="GECTargetAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="GECTargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -244,7 +244,7 @@
   </bean>
   <bean id="GECTargetAccountingLine-versionNumber" parent="GECTargetAccountingLine-versionNumber-parentBean" />
 
-  <bean id="GECTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="GECTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="GECTargetAccountingLine-documentNumber" parent="GECTargetAccountingLine-documentNumber-parentBean" />

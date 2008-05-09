@@ -39,7 +39,7 @@
 
   <bean id="July1PositionFunding-universityFiscalYear" parent="July1PositionFunding-universityFiscalYear-parentBean" />
 
-  <bean id="July1PositionFunding-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="July1PositionFunding-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -79,11 +79,11 @@
   </bean>
   <bean id="July1PositionFunding-versionNumber" parent="July1PositionFunding-versionNumber-parentBean" />
 
-  <bean id="July1PositionFunding-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="July1PositionFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="July1PositionFunding-july1BudgetAmount" parent="July1PositionFunding-july1BudgetAmount-parentBean" />
 
-  <bean id="July1PositionFunding-july1BudgetAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="July1PositionFunding-july1BudgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="july1BudgetAmount" />
     <property name="label" value="July1 Budget Amount" />
     <property name="shortLabel" value="Amount" />
@@ -91,7 +91,7 @@
   </bean>
   <bean id="July1PositionFunding-july1BudgetFteQuantity" parent="July1PositionFunding-july1BudgetFteQuantity-parentBean" />
 
-  <bean id="July1PositionFunding-july1BudgetFteQuantity-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="July1PositionFunding-july1BudgetFteQuantity-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="july1BudgetFteQuantity" />
     <property name="label" value="July1 Budget FTE Quantity" />
     <property name="shortLabel" value="Quantity" />
@@ -114,7 +114,7 @@
   </bean>
   <bean id="July1PositionFunding-dummyBusinessObject.genericAmount" parent="July1PositionFunding-dummyBusinessObject.genericAmount-parentBean" />
 
-  <bean id="July1PositionFunding-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="July1PositionFunding-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Year End Close" />
     <property name="shortLabel" value="Year End Close" />

@@ -230,7 +230,7 @@
   </bean>
   <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber" parent="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" />
 
-  <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -348,7 +348,7 @@
   </bean>
   <bean id="AchBank-versionNumber" parent="AchBank-versionNumber-parentBean" />
 
-  <bean id="AchBank-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AchBank-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

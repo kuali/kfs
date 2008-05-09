@@ -63,7 +63,7 @@
   </bean>
   <bean id="PurchaseOrderStatus-versionNumber" parent="PurchaseOrderStatus-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

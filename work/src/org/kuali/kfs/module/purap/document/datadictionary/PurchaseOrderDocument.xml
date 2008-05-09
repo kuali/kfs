@@ -163,21 +163,21 @@
 
   <bean id="PurchaseOrderDocument-statusDescription" parent="PurchaseOrderDocument-statusDescription-parentBean" />
 
-  <bean id="PurchaseOrderDocument-statusDescription-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purchaseOrderStatus">
+  <bean id="PurchaseOrderDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
     <property name="name" value="statusDescription" />
   </bean>
   <bean id="PurchaseOrderDocument-contractManagerName" parent="PurchaseOrderDocument-contractManagerName-parentBean" />
 
-  <bean id="PurchaseOrderDocument-contractManagerName-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-contractManager">
+  <bean id="PurchaseOrderDocument-contractManagerName-parentBean" abstract="true" parent="PurApGenericAttributes-contractManager">
     <property name="name" value="contractManagerName" />
   </bean>
   <bean id="PurchaseOrderDocument-versionNumber" parent="PurchaseOrderDocument-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="PurchaseOrderDocument-postingYear" parent="PurchaseOrderDocument-postingYear-parentBean" />
 
-  <bean id="PurchaseOrderDocument-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="PurchaseOrderDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -198,27 +198,27 @@
   </bean>
   <bean id="PurchaseOrderDocument-vendorLine2Address" parent="PurchaseOrderDocument-vendorLine2Address-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="PurchaseOrderDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
   <bean id="PurchaseOrderDocument-vendorStateCode" parent="PurchaseOrderDocument-vendorStateCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="PurchaseOrderDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
   <bean id="PurchaseOrderDocument-vendorAddressInternationalProvinceName" parent="PurchaseOrderDocument-vendorAddressInternationalProvinceName-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+  <bean id="PurchaseOrderDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
     <property name="name" value="vendorAddressInternationalProvinceName" />
   </bean>
   <bean id="PurchaseOrderDocument-vendorPostalCode" parent="PurchaseOrderDocument-vendorPostalCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="PurchaseOrderDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorPostalCode" />
   </bean>
   <bean id="PurchaseOrderDocument-totalDollarAmount" parent="PurchaseOrderDocument-totalDollarAmount-parentBean" />
 
-  <bean id="PurchaseOrderDocument-totalDollarAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurchaseOrderDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
@@ -256,14 +256,14 @@
   </bean>
   <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicator" parent="PurchaseOrderDocument-receivingDocumentRequiredIndicator-parentBean" />
 
-  <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="receivingDocumentRequiredIndicator" />
     <property name="label" value="Receiving Required" />
     <property name="shortLabel" value="Receiving Required" />
   </bean>
   <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean" />
 
-  <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="paymentRequestPositiveApprovalIndicator" />
     <property name="label" value="Payment Request Positive Approval Required" />
     <property name="shortLabel" value="Payment Request Positive Approval Required" />
@@ -276,17 +276,17 @@
   </bean>
   <bean id="PurchaseOrderDocument-contractManager" parent="PurchaseOrderDocument-contractManager-parentBean" />
 
-  <bean id="PurchaseOrderDocument-contractManager-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-contractManager">
+  <bean id="PurchaseOrderDocument-contractManager-parentBean" abstract="true" parent="PurApGenericAttributes-contractManager">
   </bean>
   <bean id="PurchaseOrderDocument-purapDocumentIdentifier" parent="PurchaseOrderDocument-purapDocumentIdentifier-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purapDocumentIdentifier">
+  <bean id="PurchaseOrderDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="label" value="Purchase Order Nbr" />
     <property name="shortLabel" value="PO Nbr" />
   </bean>
   <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-statusCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purchaseOrderStatus">
+  <bean id="PurchaseOrderDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
     <property name="name" value="statusCode" />
   </bean>
   <bean id="PurchaseOrderDocument-chartOfAccountsCode" parent="PurchaseOrderDocument-chartOfAccountsCode-parentBean" />
@@ -297,7 +297,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-organizationCode" parent="PurchaseOrderDocument-organizationCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-organizationCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-organizationCode">
+  <bean id="PurchaseOrderDocument-organizationCode-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
   </bean>
   <bean id="PurchaseOrderDocument-vendorAddressGeneratedIdentifier" parent="PurchaseOrderDocument-vendorAddressGeneratedIdentifier-parentBean" />
 
@@ -436,7 +436,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-deliveryCampusCode" parent="PurchaseOrderDocument-deliveryCampusCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="PurchaseOrderDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="deliveryCampusCode" />
     <property name="label" value="Delivery Campus" />
     <property name="shortLabel" value="Delivery Campus" />
@@ -461,13 +461,13 @@
   </bean>
   <bean id="PurchaseOrderDocument-deliveryBuildingLine1Address" parent="PurchaseOrderDocument-deliveryBuildingLine1Address-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="PurchaseOrderDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="deliveryBuildingLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryBuildingLine2Address" parent="PurchaseOrderDocument-deliveryBuildingLine2Address-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="PurchaseOrderDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="deliveryBuildingLine2Address" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryBuildingRoomNumber" parent="PurchaseOrderDocument-deliveryBuildingRoomNumber-parentBean" />
@@ -490,25 +490,25 @@
   </bean>
   <bean id="PurchaseOrderDocument-deliveryCityName" parent="PurchaseOrderDocument-deliveryCityName-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="PurchaseOrderDocument-deliveryCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="deliveryCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryStateCode" parent="PurchaseOrderDocument-deliveryStateCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="PurchaseOrderDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="deliveryStateCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryPostalCode" parent="PurchaseOrderDocument-deliveryPostalCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="PurchaseOrderDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="deliveryPostalCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryCountryCode" parent="PurchaseOrderDocument-deliveryCountryCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="PurchaseOrderDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="deliveryCountryCode" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryInstructionText" parent="PurchaseOrderDocument-deliveryInstructionText-parentBean" />
@@ -531,7 +531,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-deliveryRequiredDate" parent="PurchaseOrderDocument-deliveryRequiredDate-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryRequiredDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderDocument-deliveryRequiredDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="deliveryRequiredDate" />
     <property name="label" value="Date Required" />
     <property name="shortLabel" value="Date Required" />
@@ -549,13 +549,13 @@
   </bean>
   <bean id="PurchaseOrderDocument-deliveryToEmailAddress" parent="PurchaseOrderDocument-deliveryToEmailAddress-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="PurchaseOrderDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="deliveryToEmailAddress" />
     <property name="required" value="false" />
   </bean>
   <bean id="PurchaseOrderDocument-deliveryToName" parent="PurchaseOrderDocument-deliveryToName-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryToName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+  <bean id="PurchaseOrderDocument-deliveryToName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
     <property name="name" value="deliveryToName" />
     <property name="label" value="Delivery To" />
     <property name="shortLabel" value="To" />
@@ -563,7 +563,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-deliveryToPhoneNumber" parent="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean" />
 
-  <bean id="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber" />
   </bean>
   <bean id="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier" parent="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier-parentBean" />
@@ -596,7 +596,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-institutionContactEmailAddress" parent="PurchaseOrderDocument-institutionContactEmailAddress-parentBean" />
 
-  <bean id="PurchaseOrderDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="PurchaseOrderDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="institutionContactEmailAddress" />
     <property name="label" value="Contact Email" />
     <property name="shortLabel" value="Address" />
@@ -620,7 +620,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-institutionContactPhoneNumber" parent="PurchaseOrderDocument-institutionContactPhoneNumber-parentBean" />
 
-  <bean id="PurchaseOrderDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="PurchaseOrderDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="institutionContactPhoneNumber" />
     <property name="label" value="Contact Phone" />
     <property name="shortLabel" value="Number" />
@@ -659,7 +659,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderAutomaticIndicator" parent="PurchaseOrderDocument-purchaseOrderAutomaticIndicator-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+  <bean id="PurchaseOrderDocument-purchaseOrderAutomaticIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
     <property name="name" value="purchaseOrderAutomaticIndicator" />
     <property name="label" value="Purchase Order Automatic Indicator" />
     <property name="shortLabel" value="Indicator" />
@@ -677,21 +677,21 @@
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderBeginDate" parent="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="purchaseOrderBeginDate" />
     <property name="label" value="Begin/End Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderEndDate" parent="PurchaseOrderDocument-purchaseOrderEndDate-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="purchaseOrderEndDate" />
     <property name="label" value="Begin/End Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit" parent="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean" />
 
-  <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="purchaseOrderTotalLimit" />
     <property name="label" value="PO Total Cannot Exceed" />
     <property name="shortLabel" value="Limit" />
@@ -718,7 +718,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-requestorPersonEmailAddress" parent="PurchaseOrderDocument-requestorPersonEmailAddress-parentBean" />
 
-  <bean id="PurchaseOrderDocument-requestorPersonEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="PurchaseOrderDocument-requestorPersonEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="requestorPersonEmailAddress" />
     <property name="label" value="Requestor Email" />
     <property name="required" value="true" />
@@ -743,7 +743,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-requestorPersonPhoneNumber" parent="PurchaseOrderDocument-requestorPersonPhoneNumber-parentBean" />
 
-  <bean id="PurchaseOrderDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="PurchaseOrderDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="requestorPersonPhoneNumber" />
     <property name="label" value="Requestor Phone" />
     <property name="shortLabel" value="Phone Number" />
@@ -759,7 +759,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-vendorFaxNumber" parent="PurchaseOrderDocument-vendorFaxNumber-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="PurchaseOrderDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorFaxNumber" />
     <property name="label" value="Fax Number" />
     <property name="shortLabel" value="Number" />
@@ -784,13 +784,13 @@
   </bean>
   <bean id="PurchaseOrderDocument-vendorPhoneNumber" parent="PurchaseOrderDocument-vendorPhoneNumber-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="PurchaseOrderDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorPhoneNumber" />
     <property name="shortLabel" value="Number" />
   </bean>
   <bean id="PurchaseOrderDocument-vendorRestrictedIndicator" parent="PurchaseOrderDocument-vendorRestrictedIndicator-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-hiddenIndicator">
+  <bean id="PurchaseOrderDocument-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
     <property name="name" value="vendorRestrictedIndicator" />
     <property name="label" value="Restricted Indicator" />
     <property name="shortLabel" value="Restricted" />
@@ -809,7 +809,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-requisitionIdentifier" parent="PurchaseOrderDocument-requisitionIdentifier-parentBean" />
 
-  <bean id="PurchaseOrderDocument-requisitionIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionIdentifier">
+  <bean id="PurchaseOrderDocument-requisitionIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionIdentifier">
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderVendorChoiceCode" parent="PurchaseOrderDocument-purchaseOrderVendorChoiceCode-parentBean" />
 
@@ -867,7 +867,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-finalPaymentDate" parent="PurchaseOrderDocument-finalPaymentDate-parentBean" />
 
-  <bean id="PurchaseOrderDocument-finalPaymentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderDocument-finalPaymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="finalPaymentDate" />
     <property name="label" value="Final Payment Date" />
     <property name="shortLabel" value="Date" />
@@ -890,7 +890,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-initialPaymentDate" parent="PurchaseOrderDocument-initialPaymentDate-parentBean" />
 
-  <bean id="PurchaseOrderDocument-initialPaymentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderDocument-initialPaymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="initialPaymentDate" />
     <property name="label" value="Initial Payment Date" />
     <property name="shortLabel" value="Date" />
@@ -913,7 +913,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-recurringPaymentDate" parent="PurchaseOrderDocument-recurringPaymentDate-parentBean" />
 
-  <bean id="PurchaseOrderDocument-recurringPaymentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PurchaseOrderDocument-recurringPaymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="recurringPaymentDate" />
     <property name="label" value="Recurring Payment Date" />
     <property name="shortLabel" value="Date" />
@@ -1058,19 +1058,19 @@
   </bean>
   <bean id="PurchaseOrderDocument-vendorLine1Address" parent="PurchaseOrderDocument-vendorLine1Address-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="PurchaseOrderDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="PurchaseOrderDocument-vendorCityName" parent="PurchaseOrderDocument-vendorCityName-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="PurchaseOrderDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="PurchaseOrderDocument-vendorCountryCode" parent="PurchaseOrderDocument-vendorCountryCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="PurchaseOrderDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
@@ -1110,7 +1110,7 @@
   </bean>
   <bean id="PurchaseOrderDocument-internalPurchasingLimit" parent="PurchaseOrderDocument-internalPurchasingLimit-parentBean" />
 
-  <bean id="PurchaseOrderDocument-internalPurchasingLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurchaseOrderDocument-internalPurchasingLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="internalPurchasingLimit" />
     <property name="label" value="Internal Purchasing Limit" />
     <property name="shortLabel" value="Internal Purchasing Limit" />

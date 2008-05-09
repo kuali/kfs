@@ -54,10 +54,10 @@
   </bean>
   <bean id="OrganizationReversionGlobalOrganization-newCollectionRecord" parent="OrganizationReversionGlobalOrganization-newCollectionRecord-parentBean" />
 
-  <bean id="OrganizationReversionGlobalOrganization-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="OrganizationReversionGlobalOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="OrganizationReversionGlobalOrganization-versionNumber" parent="OrganizationReversionGlobalOrganization-versionNumber-parentBean" />
 
-  <bean id="OrganizationReversionGlobalOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationReversionGlobalOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

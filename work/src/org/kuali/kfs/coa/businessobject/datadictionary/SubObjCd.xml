@@ -36,7 +36,7 @@
 
   <bean id="SubObjCd-universityFiscalYear" parent="SubObjCd-universityFiscalYear-parentBean" />
 
-  <bean id="SubObjCd-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="SubObjCd-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -108,12 +108,12 @@
   </bean>
   <bean id="SubObjCd-financialSubObjectActiveIndicator" parent="SubObjCd-financialSubObjectActiveIndicator-parentBean" />
 
-  <bean id="SubObjCd-financialSubObjectActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="SubObjCd-financialSubObjectActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="financialSubObjectActiveIndicator" />
   </bean>
   <bean id="SubObjCd-versionNumber" parent="SubObjCd-versionNumber-parentBean" />
 
-  <bean id="SubObjCd-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SubObjCd-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -70,7 +70,7 @@
 
   <bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
 
-  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
 	<property name="maxLength" value="14" />    
@@ -392,7 +392,7 @@
   </bean>
   <bean id="AssetPaymentDetail-sequenceNumber" parent="AssetPaymentDetail-sequenceNumber-parentBean" />
 
-  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -407,7 +407,7 @@
   </bean>
   <bean id="AssetPaymentDetail-objectId" parent="AssetPaymentDetail-objectId-parentBean" />
 
-  <bean id="AssetPaymentDetail-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="AssetPaymentDetail-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="AssetPaymentDetail-organizationReferenceId" parent="AssetPaymentDetail-organizationReferenceId-parentBean" />
@@ -441,7 +441,7 @@
   </bean>
   <bean id="AssetPaymentDetail-postingYear" parent="AssetPaymentDetail-postingYear-parentBean" />
 
-  <bean id="AssetPaymentDetail-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="AssetPaymentDetail-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -486,7 +486,7 @@
   </bean>
   <!-- bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
 
-  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -525,7 +525,7 @@
   </bean>
   <bean id="AssetPaymentDetail-versionNumber" parent="AssetPaymentDetail-versionNumber-parentBean" />
 
-  <bean id="AssetPaymentDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetPaymentDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="AssetPaymentDetail-documentNumber" parent="AssetPaymentDetail-documentNumber-parentBean" />

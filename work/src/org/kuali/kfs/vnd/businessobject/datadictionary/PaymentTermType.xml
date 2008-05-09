@@ -153,12 +153,12 @@
   </bean>
   <bean id="PaymentTermType-active" parent="PaymentTermType-active-parentBean" />
 
-  <bean id="PaymentTermType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PaymentTermType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PaymentTermType-versionNumber" parent="PaymentTermType-versionNumber-parentBean" />
 
-  <bean id="PaymentTermType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentTermType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

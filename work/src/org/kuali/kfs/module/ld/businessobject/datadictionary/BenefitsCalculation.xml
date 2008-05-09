@@ -32,7 +32,7 @@
 
   <bean id="BenefitsCalculation-universityFiscalYear" parent="BenefitsCalculation-universityFiscalYear-parentBean" />
 
-  <bean id="BenefitsCalculation-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="BenefitsCalculation-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -67,7 +67,7 @@
   </bean>
   <bean id="BenefitsCalculation-versionNumber" parent="BenefitsCalculation-versionNumber-parentBean" />
 
-  <bean id="BenefitsCalculation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BenefitsCalculation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

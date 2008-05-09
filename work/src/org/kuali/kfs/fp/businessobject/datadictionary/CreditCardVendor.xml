@@ -167,7 +167,7 @@
   </bean>
   <bean id="CreditCardVendor-versionNumber" parent="CreditCardVendor-versionNumber-parentBean" />
 
-  <bean id="CreditCardVendor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CreditCardVendor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

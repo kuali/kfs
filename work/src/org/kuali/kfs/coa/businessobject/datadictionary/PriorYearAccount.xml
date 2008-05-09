@@ -964,7 +964,7 @@
   </bean>
   <bean id="PriorYearAccount-versionNumber" parent="PriorYearAccount-versionNumber-parentBean" />
 
-  <bean id="PriorYearAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PriorYearAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

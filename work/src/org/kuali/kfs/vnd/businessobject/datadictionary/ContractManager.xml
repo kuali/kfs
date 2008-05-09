@@ -151,7 +151,7 @@
   </bean>
   <bean id="ContractManager-versionNumber" parent="ContractManager-versionNumber-parentBean" />
 
-  <bean id="ContractManager-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ContractManager-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -77,7 +77,7 @@
 
   <bean id="OutstandingCertificationsByReport-universityFiscalYear" parent="OutstandingCertificationsByReport-universityFiscalYear-parentBean" />
 
-  <bean id="OutstandingCertificationsByReport-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OutstandingCertificationsByReport-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="OutstandingCertificationsByReport-effortCertificationReportNumber" parent="OutstandingCertificationsByReport-effortCertificationReportNumber-parentBean" />

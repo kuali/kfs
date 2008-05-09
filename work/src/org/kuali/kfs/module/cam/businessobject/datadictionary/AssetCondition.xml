@@ -29,7 +29,7 @@
 
   <bean id="AssetCondition-active" parent="AssetCondition-active-parentBean" />
 
-  <bean id="AssetCondition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AssetCondition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="AssetCondition-assetConditionCode" parent="AssetCondition-assetConditionCode-parentBean" />
@@ -71,7 +71,7 @@
   </bean>
   <bean id="AssetCondition-versionNumber" parent="AssetCondition-versionNumber-parentBean" />
 
-  <bean id="AssetCondition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetCondition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

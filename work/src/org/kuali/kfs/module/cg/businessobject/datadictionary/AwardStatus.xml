@@ -86,7 +86,7 @@
   </bean>
   <bean id="AwardStatus-versionNumber" parent="AwardStatus-versionNumber-parentBean" />
 
-  <bean id="AwardStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AwardStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

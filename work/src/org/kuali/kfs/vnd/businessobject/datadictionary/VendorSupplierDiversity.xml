@@ -36,7 +36,7 @@
   </bean>
   <bean id="VendorSupplierDiversity-newCollectionRecord" parent="VendorSupplierDiversity-newCollectionRecord-parentBean" />
 
-  <bean id="VendorSupplierDiversity-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorSupplierDiversity-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorSupplierDiversity-vendorHeaderGeneratedIdentifier" parent="VendorSupplierDiversity-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -44,11 +44,11 @@
   </bean>
   <bean id="VendorSupplierDiversity-versionNumber" parent="VendorSupplierDiversity-versionNumber-parentBean" />
 
-  <bean id="VendorSupplierDiversity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorSupplierDiversity-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorSupplierDiversity-active" parent="VendorSupplierDiversity-active-parentBean" />
 
-  <bean id="VendorSupplierDiversity-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorSupplierDiversity-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 </beans>

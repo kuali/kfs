@@ -66,14 +66,14 @@
   </bean>
   <bean id="DelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator" parent="DelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean" />
 
-  <bean id="DelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="DelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="accountDelegatePrimaryRoutingIndicator" />
     <property name="label" value="Account Delegate Primary Route" />
     <property name="shortLabel" value="PrimaryRoute" />
   </bean>
   <bean id="DelegateGlobalDetail-accountDelegateStartDate" parent="DelegateGlobalDetail-accountDelegateStartDate-parentBean" />
 
-  <bean id="DelegateGlobalDetail-accountDelegateStartDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="DelegateGlobalDetail-accountDelegateStartDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="accountDelegateStartDate" />
     <property name="label" value="Account Delegate Start Date" />
     <property name="shortLabel" value="DelegateStartDt" />
@@ -161,11 +161,11 @@
   </bean>
   <bean id="DelegateGlobalDetail-newCollectionRecord" parent="DelegateGlobalDetail-newCollectionRecord-parentBean" />
 
-  <bean id="DelegateGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="DelegateGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="DelegateGlobalDetail-versionNumber" parent="DelegateGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="DelegateGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="DelegateGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

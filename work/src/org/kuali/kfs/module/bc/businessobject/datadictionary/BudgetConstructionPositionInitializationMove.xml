@@ -520,7 +520,7 @@
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-versionNumber" parent="BudgetConstructionPositionInitializationMove-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionPositionInitializationMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionPositionInitializationMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

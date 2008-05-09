@@ -109,20 +109,20 @@
 
   <bean id="PaymentRequestDocument-statusDescription" parent="PaymentRequestDocument-statusDescription-parentBean" />
 
-  <bean id="PaymentRequestDocument-statusDescription-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-paymentRequestStatus">
+  <bean id="PaymentRequestDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
     <property name="name" value="statusDescription" />
   </bean>
   <bean id="PaymentRequestDocument-requisitionIdentifier" parent="PaymentRequestDocument-requisitionIdentifier-parentBean" />
 
-  <bean id="PaymentRequestDocument-requisitionIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-requisitionIdentifier">
+  <bean id="PaymentRequestDocument-requisitionIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionIdentifier">
   </bean>
   <bean id="PaymentRequestDocument-versionNumber" parent="PaymentRequestDocument-versionNumber-parentBean" />
 
-  <bean id="PaymentRequestDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentRequestDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="PaymentRequestDocument-postingYear" parent="PaymentRequestDocument-postingYear-parentBean" />
 
-  <bean id="PaymentRequestDocument-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="PaymentRequestDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -143,27 +143,27 @@
   </bean>
   <bean id="PaymentRequestDocument-vendorLine2Address" parent="PaymentRequestDocument-vendorLine2Address-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="PaymentRequestDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
   <bean id="PaymentRequestDocument-vendorStateCode" parent="PaymentRequestDocument-vendorStateCode-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="PaymentRequestDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
   <bean id="PaymentRequestDocument-vendorAddressInternationalProvinceName" parent="PaymentRequestDocument-vendorAddressInternationalProvinceName-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+  <bean id="PaymentRequestDocument-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
     <property name="name" value="vendorAddressInternationalProvinceName" />
   </bean>
   <bean id="PaymentRequestDocument-vendorPostalCode" parent="PaymentRequestDocument-vendorPostalCode-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="PaymentRequestDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorPostalCode" />
   </bean>
   <bean id="PaymentRequestDocument-totalDollarAmount" parent="PaymentRequestDocument-totalDollarAmount-parentBean" />
 
-  <bean id="PaymentRequestDocument-totalDollarAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PaymentRequestDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
@@ -184,25 +184,25 @@
   </bean>
   <bean id="PaymentRequestDocument-vendorLine1Address" parent="PaymentRequestDocument-vendorLine1Address-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="PaymentRequestDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="PaymentRequestDocument-vendorCityName" parent="PaymentRequestDocument-vendorCityName-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="PaymentRequestDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="PaymentRequestDocument-vendorCountryCode" parent="PaymentRequestDocument-vendorCountryCode-parentBean" />
 
-  <bean id="PaymentRequestDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="PaymentRequestDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="PaymentRequestDocument-accountsPayableApprovalDate" parent="PaymentRequestDocument-accountsPayableApprovalDate-parentBean" />
 
-  <bean id="PaymentRequestDocument-accountsPayableApprovalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PaymentRequestDocument-accountsPayableApprovalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="accountsPayableApprovalDate" />
     <property name="label" value="AP Processed Date" />
     <property name="shortLabel" value="Date" />
@@ -221,14 +221,14 @@
   </bean>
   <bean id="PaymentRequestDocument-extractedDate" parent="PaymentRequestDocument-extractedDate-parentBean" />
 
-  <bean id="PaymentRequestDocument-extractedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PaymentRequestDocument-extractedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="extractedDate" />
     <property name="label" value="Extract Date" />
     <property name="shortLabel" value="Extract Date" />
   </bean>
   <bean id="PaymentRequestDocument-processingCampusCode" parent="PaymentRequestDocument-processingCampusCode-parentBean" />
 
-  <bean id="PaymentRequestDocument-processingCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="PaymentRequestDocument-processingCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="processingCampusCode" />
     <property name="label" value="Process Campus" />
     <property name="shortLabel" value="Process Campus" />
@@ -287,13 +287,13 @@
   </bean>
   <bean id="PaymentRequestDocument-purapDocumentIdentifier" parent="PaymentRequestDocument-purapDocumentIdentifier-parentBean" />
 
-  <bean id="PaymentRequestDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purapDocumentIdentifier">
+  <bean id="PaymentRequestDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="label" value="Payment Request Nbr" />
     <property name="shortLabel" value="PREQ Nbr" />
   </bean>
   <bean id="PaymentRequestDocument-purchaseOrderIdentifier" parent="PaymentRequestDocument-purchaseOrderIdentifier-parentBean" />
 
-  <bean id="PaymentRequestDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-purapDocumentIdentifier">
+  <bean id="PaymentRequestDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier" />
     <property name="label" value="Purchase Order Nbr" />
     <property name="shortLabel" value="PO Nbr" />
@@ -301,12 +301,12 @@
   </bean>
   <bean id="PaymentRequestDocument-statusCode" parent="PaymentRequestDocument-statusCode-parentBean" />
 
-  <bean id="PaymentRequestDocument-statusCode-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-paymentRequestStatus">
+  <bean id="PaymentRequestDocument-statusCode-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
     <property name="name" value="statusCode" />
   </bean>
   <bean id="PaymentRequestDocument-invoiceDate" parent="PaymentRequestDocument-invoiceDate-parentBean" />
 
-  <bean id="PaymentRequestDocument-invoiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PaymentRequestDocument-invoiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="invoiceDate" />
     <property name="label" value="Invoice Date" />
     <property name="shortLabel" value="Invoice Date" />
@@ -314,14 +314,14 @@
   </bean>
   <bean id="PaymentRequestDocument-receivingDocumentRequiredIndicator" parent="PaymentRequestDocument-receivingDocumentRequiredIndicator-parentBean" />
 
-  <bean id="PaymentRequestDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="PaymentRequestDocument-receivingDocumentRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="receivingDocumentRequiredIndicator" />
     <property name="label" value="Receiving Required" />
     <property name="shortLabel" value="Receiving Required" />
   </bean>
   <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator" parent="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator-parentBean" />
 
-  <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="paymentRequestPositiveApprovalIndicator" />
     <property name="label" value="Payment Request Positive Approval Required" />
     <property name="shortLabel" value="Payment Request Positive Approval Required" />
@@ -363,7 +363,7 @@
   </bean>
   <bean id="PaymentRequestDocument-paymentRequestPayDate" parent="PaymentRequestDocument-paymentRequestPayDate-parentBean" />
 
-  <bean id="PaymentRequestDocument-paymentRequestPayDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PaymentRequestDocument-paymentRequestPayDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="paymentRequestPayDate" />
     <property name="label" value="Pay Date" />
     <property name="shortLabel" value="paymentRequestPayDate" />
@@ -461,7 +461,7 @@
   </bean>
   <bean id="PaymentRequestDocument-paymentPaidDate" parent="PaymentRequestDocument-paymentPaidDate-parentBean" />
 
-  <bean id="PaymentRequestDocument-paymentPaidDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PaymentRequestDocument-paymentPaidDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="paymentPaidDate" />
     <property name="label" value="Payment Request Paid Date" />
     <property name="shortLabel" value="paymentRequestPaidDate" />
@@ -531,7 +531,7 @@
   </bean>
   <bean id="PaymentRequestDocument-purchaseOrderEndDate" parent="PaymentRequestDocument-purchaseOrderEndDate-parentBean" />
 
-  <bean id="PaymentRequestDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="PaymentRequestDocument-purchaseOrderEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="purchaseOrderEndDate" />
     <property name="label" value="PO End Date" />
     <property name="shortLabel" value="PO End Date" />
@@ -599,42 +599,42 @@
   </bean>
   <bean id="PaymentRequestDocument-itemTotalPoEncumbranceAmount" parent="PaymentRequestDocument-itemTotalPoEncumbranceAmount-parentBean" />
 
-  <bean id="PaymentRequestDocument-itemTotalPoEncumbranceAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestDocument-itemTotalPoEncumbranceAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemTotalPoEncumbranceAmount" />
     <property name="label" value="Total PO Encumbrance Amount" />
     <property name="shortLabel" value="Encumbrance excluding freight &amp; s/h" />
   </bean>
   <bean id="PaymentRequestDocument-itemTotalPoEncumbranceAmountRelieved" parent="PaymentRequestDocument-itemTotalPoEncumbranceAmountRelieved-parentBean" />
 
-  <bean id="PaymentRequestDocument-itemTotalPoEncumbranceAmountRelieved-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestDocument-itemTotalPoEncumbranceAmountRelieved-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemTotalPoEncumbranceAmountRelieved" />
     <property name="label" value="Total PO Encumbrance Amount Relieved" />
     <property name="shortLabel" value="Total Encumbrance Amount Relieved" />
   </bean>
   <bean id="PaymentRequestDocument-itemTotalPoPaidAmount" parent="PaymentRequestDocument-itemTotalPoPaidAmount-parentBean" />
 
-  <bean id="PaymentRequestDocument-itemTotalPoPaidAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestDocument-itemTotalPoPaidAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemTotalPoPaidAmount" />
     <property name="label" value="Total PO Paid Amount" />
     <property name="shortLabel" value="TotalPaidAmount" />
   </bean>
   <bean id="PaymentRequestDocument-lineItemTotal" parent="PaymentRequestDocument-lineItemTotal-parentBean" />
 
-  <bean id="PaymentRequestDocument-lineItemTotal-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestDocument-lineItemTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="lineItemTotal" />
     <property name="label" value="Invoice Total Prior to Additional Charges" />
     <property name="shortLabel" value="Invoice Total Prior to Additional Charges" />
   </bean>
   <bean id="PaymentRequestDocument-grandTotalExcludingDiscount" parent="PaymentRequestDocument-grandTotalExcludingDiscount-parentBean" />
 
-  <bean id="PaymentRequestDocument-grandTotalExcludingDiscount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestDocument-grandTotalExcludingDiscount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="grandTotalExcludingDiscount" />
     <property name="label" value="Total Before Discount" />
     <property name="shortLabel" value="Total Before Discount" />
   </bean>
   <bean id="PaymentRequestDocument-grandTotal" parent="PaymentRequestDocument-grandTotal-parentBean" />
 
-  <bean id="PaymentRequestDocument-grandTotal-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestDocument-grandTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="grandTotal" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />

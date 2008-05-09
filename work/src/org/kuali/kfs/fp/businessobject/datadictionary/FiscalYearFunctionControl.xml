@@ -30,7 +30,7 @@
 
   <bean id="FiscalYearFunctionControl-universityFiscalYear" parent="FiscalYearFunctionControl-universityFiscalYear-parentBean" />
 
-  <bean id="FiscalYearFunctionControl-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="FiscalYearFunctionControl-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -65,7 +65,7 @@
   </bean>
   <bean id="FiscalYearFunctionControl-versionNumber" parent="FiscalYearFunctionControl-versionNumber-parentBean" />
 
-  <bean id="FiscalYearFunctionControl-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="FiscalYearFunctionControl-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

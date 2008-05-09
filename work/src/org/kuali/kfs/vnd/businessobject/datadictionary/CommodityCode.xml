@@ -115,12 +115,12 @@
   </bean>
   <bean id="CommodityCode-active" parent="CommodityCode-active-parentBean" />
 
-  <bean id="CommodityCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="CommodityCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="CommodityCode-versionNumber" parent="CommodityCode-versionNumber-parentBean" />
 
-  <bean id="CommodityCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CommodityCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

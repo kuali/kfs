@@ -74,7 +74,7 @@
   </bean>
   <bean id="LetterOfCreditFundGroup-versionNumber" parent="LetterOfCreditFundGroup-versionNumber-parentBean" />
 
-  <bean id="LetterOfCreditFundGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LetterOfCreditFundGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

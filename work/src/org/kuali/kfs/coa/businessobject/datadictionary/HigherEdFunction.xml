@@ -120,7 +120,7 @@
   </bean>
   <bean id="HigherEdFunction-versionNumber" parent="HigherEdFunction-versionNumber-parentBean" />
 
-  <bean id="HigherEdFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="HigherEdFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

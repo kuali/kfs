@@ -64,12 +64,12 @@
   </bean>
   <bean id="PhoneType-active" parent="PhoneType-active-parentBean" />
 
-  <bean id="PhoneType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PhoneType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PhoneType-versionNumber" parent="PhoneType-versionNumber-parentBean" />
 
-  <bean id="PhoneType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PhoneType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

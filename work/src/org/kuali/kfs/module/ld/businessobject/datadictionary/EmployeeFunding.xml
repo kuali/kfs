@@ -70,7 +70,7 @@
 
   <bean id="EmployeeFunding-versionNumber" parent="EmployeeFunding-versionNumber-parentBean" />
 
-  <bean id="EmployeeFunding-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EmployeeFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="EmployeeFunding-emplid" parent="EmployeeFunding-emplid-parentBean" />
 
@@ -87,7 +87,7 @@
   </bean>
   <bean id="EmployeeFunding-universityFiscalYear" parent="EmployeeFunding-universityFiscalYear-parentBean" />
 
-  <bean id="EmployeeFunding-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EmployeeFunding-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="EmployeeFunding-subAccountNumber" parent="EmployeeFunding-subAccountNumber-parentBean" />
@@ -125,7 +125,7 @@
   </bean>
   <bean id="EmployeeFunding-outstandingEncumbrance" parent="EmployeeFunding-outstandingEncumbrance-parentBean" />
 
-  <bean id="EmployeeFunding-outstandingEncumbrance-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EmployeeFunding-outstandingEncumbrance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="outstandingEncumbrance" />
     <property name="label" value="Encumbance Amount" />
     <property name="shortLabel" value="Encumb" />
@@ -133,7 +133,7 @@
   </bean>
   <bean id="EmployeeFunding-currentAmount" parent="EmployeeFunding-currentAmount-parentBean" />
 
-  <bean id="EmployeeFunding-currentAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EmployeeFunding-currentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="currentAmount" />
     <property name="label" value="Current Amount" />
     <property name="shortLabel" value="Current" />
@@ -141,7 +141,7 @@
   </bean>
   <bean id="EmployeeFunding-totalAmount" parent="EmployeeFunding-totalAmount-parentBean" />
 
-  <bean id="EmployeeFunding-totalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EmployeeFunding-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total" />
@@ -149,7 +149,7 @@
   </bean>
   <bean id="EmployeeFunding-month1Amount" parent="EmployeeFunding-month1Amount-parentBean" />
 
-  <bean id="EmployeeFunding-month1Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="EmployeeFunding-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month1Amount" />
     <property name="label" value="YTD Actual" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />

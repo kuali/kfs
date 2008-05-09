@@ -61,7 +61,7 @@
   </bean>
   <bean id="FederalFunction-versionNumber" parent="FederalFunction-versionNumber-parentBean" />
 
-  <bean id="FederalFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="FederalFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -41,7 +41,7 @@
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentLineNumber" parent="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" />
 
-  <bean id="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="financialDocumentLineNumber" />
     <property name="label" value="Generating Document Line Number" />
     <property name="shortLabel" value="Line #" />
@@ -55,7 +55,7 @@
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentPostingPeriodCode" parent="ElectronicPaymentClaim-financialDocumentPostingPeriodCode-parentBean" />
 
-  <bean id="ElectronicPaymentClaim-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+  <bean id="ElectronicPaymentClaim-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
     <property name="name" value="financialDocumentPostingPeriodCode" />
     <property name="label" value="Financial Document Fiscal Period" />
     <property name="shortLabel" value="Fiscal Period" />
@@ -64,7 +64,7 @@
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentPostingYear" parent="ElectronicPaymentClaim-financialDocumentPostingYear-parentBean" />
 
-  <bean id="ElectronicPaymentClaim-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="ElectronicPaymentClaim-financialDocumentPostingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Financial Document Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />

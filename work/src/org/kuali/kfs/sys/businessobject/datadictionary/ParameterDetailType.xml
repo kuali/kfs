@@ -89,16 +89,16 @@
   </bean>
   <bean id="ParameterDetailType-active" parent="ParameterDetailType-active-parentBean" />
 
-  <bean id="ParameterDetailType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ParameterDetailType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ParameterDetailType-objectId" parent="ParameterDetailType-objectId-parentBean" />
 
-  <bean id="ParameterDetailType-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ParameterDetailType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="ParameterDetailType-versionNumber" parent="ParameterDetailType-versionNumber-parentBean" />
 
-  <bean id="ParameterDetailType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ParameterDetailType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

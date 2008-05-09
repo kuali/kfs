@@ -33,14 +33,14 @@
 
   <bean id="VendorHeader-vendorFederalWithholdingTaxBeginningDate" parent="VendorHeader-vendorFederalWithholdingTaxBeginningDate-parentBean" />
 
-  <bean id="VendorHeader-vendorFederalWithholdingTaxBeginningDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="VendorHeader-vendorFederalWithholdingTaxBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="vendorFederalWithholdingTaxBeginningDate" />
     <property name="label" value="Backup Withholding Begin Date" />
     <property name="shortLabel" value="Begin Date" />
   </bean>
   <bean id="VendorHeader-vendorFederalWithholdingTaxEndDate" parent="VendorHeader-vendorFederalWithholdingTaxEndDate-parentBean" />
 
-  <bean id="VendorHeader-vendorFederalWithholdingTaxEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="VendorHeader-vendorFederalWithholdingTaxEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="vendorFederalWithholdingTaxEndDate" />
     <property name="label" value="Backup Withholding End Date" />
     <property name="shortLabel" value="End Date" />

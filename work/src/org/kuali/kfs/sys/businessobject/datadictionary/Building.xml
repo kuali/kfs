@@ -188,7 +188,7 @@
   </bean>
   <bean id="Building-versionNumber" parent="Building-versionNumber-parentBean" />
 
-  <bean id="Building-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Building-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

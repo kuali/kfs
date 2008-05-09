@@ -111,7 +111,7 @@
   </bean>
   <bean id="VoucherSourceAccountingLine-sequenceNumber" parent="VoucherSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="VoucherSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="VoucherSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -126,7 +126,7 @@
   </bean>
   <bean id="VoucherSourceAccountingLine-objectId" parent="VoucherSourceAccountingLine-objectId-parentBean" />
 
-  <bean id="VoucherSourceAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="VoucherSourceAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="VoucherSourceAccountingLine-organizationReferenceId" parent="VoucherSourceAccountingLine-organizationReferenceId-parentBean" />
@@ -160,7 +160,7 @@
   </bean>
   <bean id="VoucherSourceAccountingLine-postingYear" parent="VoucherSourceAccountingLine-postingYear-parentBean" />
 
-  <bean id="VoucherSourceAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="VoucherSourceAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -205,7 +205,7 @@
   </bean>
   <bean id="VoucherSourceAccountingLine-amount" parent="VoucherSourceAccountingLine-amount-parentBean" />
 
-  <bean id="VoucherSourceAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="VoucherSourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -244,7 +244,7 @@
   </bean>
   <bean id="VoucherSourceAccountingLine-versionNumber" parent="VoucherSourceAccountingLine-versionNumber-parentBean" />
 
-  <bean id="VoucherSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VoucherSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="VoucherSourceAccountingLine-documentNumber" parent="VoucherSourceAccountingLine-documentNumber-parentBean" />

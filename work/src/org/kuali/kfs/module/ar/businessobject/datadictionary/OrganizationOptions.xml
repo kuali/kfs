@@ -336,7 +336,7 @@
   </bean>
   <bean id="OrganizationOptions-versionNumber" parent="OrganizationOptions-versionNumber-parentBean" />
 
-  <bean id="OrganizationOptions-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationOptions-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

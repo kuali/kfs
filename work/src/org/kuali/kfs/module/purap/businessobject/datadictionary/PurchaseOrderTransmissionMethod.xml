@@ -66,12 +66,12 @@
   </bean>
   <bean id="PurchaseOrderTransmissionMethod-active" parent="PurchaseOrderTransmissionMethod-active-parentBean" />
 
-  <bean id="PurchaseOrderTransmissionMethod-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PurchaseOrderTransmissionMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PurchaseOrderTransmissionMethod-versionNumber" parent="PurchaseOrderTransmissionMethod-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderTransmissionMethod-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderTransmissionMethod-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

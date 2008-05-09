@@ -72,7 +72,7 @@
   </bean>
   <bean id="TravelPerDiem-versionNumber" parent="TravelPerDiem-versionNumber-parentBean" />
 
-  <bean id="TravelPerDiem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="TravelPerDiem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

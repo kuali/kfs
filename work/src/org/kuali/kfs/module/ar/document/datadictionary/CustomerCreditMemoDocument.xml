@@ -64,7 +64,7 @@
   
   <bean id="CustomerCreditMemoDocument-crmTotalItemAmount" parent="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" />
 
-  <bean id="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="crmTotalItemAmount" />
     <property name="label" value="CRM Total Item Amount" />
     <property name="shortLabel" value="CRM Total Item Amount" />
@@ -72,7 +72,7 @@
   
   <bean id="CustomerCreditMemoDocument-crmTotalTaxAmount" parent="CustomerCreditMemoDocument-crmTotalTaxAmount-parentBean" />
 
-  <bean id="CustomerCreditMemoDocument-crmTotalTaxAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDocument-crmTotalTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="crmTotalTaxAmount" />
     <property name="label" value="CRM Total Tax Amount" />
     <property name="shortLabel" value="CRM Total Tax Amount" />
@@ -80,7 +80,7 @@
   
   <bean id="CustomerCreditMemoDocument-crmTotalAmount" parent="CustomerCreditMemoDocument-crmTotalAmount-parentBean" />
 
-  <bean id="CustomerCreditMemoDocument-crmTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CustomerCreditMemoDocument-crmTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="crmTotalAmount" />
     <property name="label" value="CRM Total Amount" />
     <property name="shortLabel" value="CRM Total Amount" />

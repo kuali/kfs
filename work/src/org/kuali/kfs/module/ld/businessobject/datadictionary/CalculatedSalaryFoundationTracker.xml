@@ -45,7 +45,7 @@
 
   <bean id="CalculatedSalaryFoundationTracker-universityFiscalYear" parent="CalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" />
 
-  <bean id="CalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="CalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -73,11 +73,11 @@
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-versionNumber" parent="CalculatedSalaryFoundationTracker-versionNumber-parentBean" />
 
-  <bean id="CalculatedSalaryFoundationTracker-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CalculatedSalaryFoundationTracker-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfAmount" parent="CalculatedSalaryFoundationTracker-csfAmount-parentBean" />
 
-  <bean id="CalculatedSalaryFoundationTracker-csfAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CalculatedSalaryFoundationTracker-csfAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="csfAmount" />
     <property name="label" value="CSF Amount" />
     <property name="shortLabel" value="Amount" />

@@ -147,12 +147,12 @@
   </bean>
   <bean id="BuildingParameter-campusCode" parent="BuildingParameter-campusCode-parentBean" />
 
-  <bean id="BuildingParameter-campusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="BuildingParameter-campusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="required" value="true" />
   </bean>
   <bean id="BuildingParameter-versionNumber" parent="BuildingParameter-versionNumber-parentBean" />
 
-  <bean id="BuildingParameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BuildingParameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

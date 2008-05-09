@@ -36,11 +36,11 @@
 
   <bean id="PurApSummaryItem-versionNumber" parent="PurApSummaryItem-versionNumber-parentBean" />
 
-  <bean id="PurApSummaryItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurApSummaryItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="PurApSummaryItem-itemIdentifier" parent="PurApSummaryItem-itemIdentifier-parentBean" />
 
-  <bean id="PurApSummaryItem-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="PurApSummaryItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>
@@ -107,14 +107,14 @@
   </bean>
   <bean id="PurApSummaryItem-extendedPrice" parent="PurApSummaryItem-extendedPrice-parentBean" />
 
-  <bean id="PurApSummaryItem-extendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurApSummaryItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="extendedPrice" />
     <property name="label" value="Extended Price" />
     <property name="shortLabel" value="Extended Cost" />
   </bean>
   <bean id="PurApSummaryItem-itemUnitPrice" parent="PurApSummaryItem-itemUnitPrice-parentBean" />
 
-  <bean id="PurApSummaryItem-itemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+  <bean id="PurApSummaryItem-itemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="itemUnitPrice" />
     <property name="label" value="Unit Cost" />
     <property name="shortLabel" value="Unit Cost" />
@@ -258,7 +258,7 @@
   </bean>
   <bean id="PurApSummaryItem-estimatedEncumberanceAmount" parent="PurApSummaryItem-estimatedEncumberanceAmount-parentBean" />
 
-  <bean id="PurApSummaryItem-estimatedEncumberanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurApSummaryItem-estimatedEncumberanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="estimatedEncumberanceAmount" />
     <property name="label" value="Estimated Encumberance Amount" />
     <property name="shortLabel" value="Est Enc. Amount" />

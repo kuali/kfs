@@ -43,7 +43,7 @@
   </bean>
   <bean id="VendorAlias-newCollectionRecord" parent="VendorAlias-newCollectionRecord-parentBean" />
 
-  <bean id="VendorAlias-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorAlias-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorAlias-vendorHeaderGeneratedIdentifier" parent="VendorAlias-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -55,11 +55,11 @@
   </bean>
   <bean id="VendorAlias-versionNumber" parent="VendorAlias-versionNumber-parentBean" />
 
-  <bean id="VendorAlias-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorAlias-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorAlias-active" parent="VendorAlias-active-parentBean" />
 
-  <bean id="VendorAlias-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorAlias-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 </beans>

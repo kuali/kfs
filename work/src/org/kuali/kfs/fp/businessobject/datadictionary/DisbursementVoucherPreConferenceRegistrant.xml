@@ -80,7 +80,7 @@
   </bean>
   <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber" parent="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" />
 
-  <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="documentNumber" />
   </bean>
 </beans>

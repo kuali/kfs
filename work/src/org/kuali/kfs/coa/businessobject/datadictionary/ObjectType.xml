@@ -101,14 +101,14 @@
   </bean>
   <bean id="ObjectType-finObjectTypeIcrSelectionIndicator" parent="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" />
 
-  <bean id="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="finObjectTypeIcrSelectionIndicator" />
     <property name="label" value="ICR Selection Indicator" />
     <property name="shortLabel" value="ICR Select Indicator" />
   </bean>
   <bean id="ObjectType-fundBalanceIndicator" parent="ObjectType-fundBalanceIndicator-parentBean" />
 
-  <bean id="ObjectType-fundBalanceIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="ObjectType-fundBalanceIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="fundBalanceIndicator" />
     <property name="label" value="Fund Balance Indicator" />
     <property name="shortLabel" value="Fund Balance Indicator" />
@@ -128,15 +128,15 @@
   </bean>
   <bean id="ObjectType-objectId" parent="ObjectType-objectId-parentBean" />
 
-  <bean id="ObjectType-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ObjectType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="ObjectType-versionNumber" parent="ObjectType-versionNumber-parentBean" />
 
-  <bean id="ObjectType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ObjectType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ObjectType-active" parent="ObjectType-active-parentBean" />
 
-  <bean id="ObjectType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ObjectType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

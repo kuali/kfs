@@ -130,7 +130,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-sequenceNumber" parent="LaborJournalVoucherDetail-sequenceNumber-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="LaborJournalVoucherDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -145,7 +145,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-objectId" parent="LaborJournalVoucherDetail-objectId-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="LaborJournalVoucherDetail-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="LaborJournalVoucherDetail-organizationReferenceId" parent="LaborJournalVoucherDetail-organizationReferenceId-parentBean" />
@@ -179,7 +179,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-postingYear" parent="LaborJournalVoucherDetail-postingYear-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LaborJournalVoucherDetail-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -224,7 +224,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-amount" parent="LaborJournalVoucherDetail-amount-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="LaborJournalVoucherDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -263,7 +263,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-versionNumber" parent="LaborJournalVoucherDetail-versionNumber-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LaborJournalVoucherDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="LaborJournalVoucherDetail-documentNumber" parent="LaborJournalVoucherDetail-documentNumber-parentBean" />
@@ -634,7 +634,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalYear" parent="LaborJournalVoucherDetail-payrollEndDateFiscalYear-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LaborJournalVoucherDetail-payrollEndDateFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="payrollEndDateFiscalYear" />
     <property name="label" value="Payroll Date Fiscal Year" />
     <property name="shortLabel" value="Pay FY" />

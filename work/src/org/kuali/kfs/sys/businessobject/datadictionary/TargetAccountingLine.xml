@@ -74,7 +74,7 @@
   </bean>
   <bean id="TargetAccountingLine-sequenceNumber" parent="TargetAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -89,7 +89,7 @@
   </bean>
   <bean id="TargetAccountingLine-objectId" parent="TargetAccountingLine-objectId-parentBean" />
 
-  <bean id="TargetAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="TargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="TargetAccountingLine-organizationReferenceId" parent="TargetAccountingLine-organizationReferenceId-parentBean" />
@@ -123,7 +123,7 @@
   </bean>
   <bean id="TargetAccountingLine-postingYear" parent="TargetAccountingLine-postingYear-parentBean" />
 
-  <bean id="TargetAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="TargetAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -167,7 +167,7 @@
   </bean>
   <bean id="TargetAccountingLine-amount" parent="TargetAccountingLine-amount-parentBean" />
 
-  <bean id="TargetAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="TargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -214,7 +214,7 @@
   </bean>
   <bean id="TargetAccountingLine-versionNumber" parent="TargetAccountingLine-versionNumber-parentBean" />
 
-  <bean id="TargetAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="TargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="TargetAccountingLine-documentNumber" parent="TargetAccountingLine-documentNumber-parentBean" />

@@ -79,29 +79,29 @@
   </bean>
   <bean id="BalanceTyp-financialOffsetGenerationIndicator" parent="BalanceTyp-financialOffsetGenerationIndicator-parentBean" />
 
-  <bean id="BalanceTyp-financialOffsetGenerationIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="BalanceTyp-financialOffsetGenerationIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="financialOffsetGenerationIndicator" />
     <property name="label" value="Offset Generation" />
     <property name="shortLabel" value="Offset Gen" />
   </bean>
   <bean id="BalanceTyp-finBalanceTypeEncumIndicator" parent="BalanceTyp-finBalanceTypeEncumIndicator-parentBean" />
 
-  <bean id="BalanceTyp-finBalanceTypeEncumIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="BalanceTyp-finBalanceTypeEncumIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="finBalanceTypeEncumIndicator" />
     <property name="label" value="Encumbrance" />
     <property name="shortLabel" value="Encumbrance" />
   </bean>
   <bean id="BalanceTyp-objectId" parent="BalanceTyp-objectId-parentBean" />
 
-  <bean id="BalanceTyp-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="BalanceTyp-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="BalanceTyp-versionNumber" parent="BalanceTyp-versionNumber-parentBean" />
 
-  <bean id="BalanceTyp-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BalanceTyp-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="BalanceTyp-active" parent="BalanceTyp-active-parentBean" />
 
-  <bean id="BalanceTyp-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="BalanceTyp-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

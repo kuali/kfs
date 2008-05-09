@@ -890,7 +890,7 @@
   </bean>
   <bean id="LaborOriginEntry-versionNumber" parent="LaborOriginEntry-versionNumber-parentBean" />
 
-  <bean id="LaborOriginEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LaborOriginEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

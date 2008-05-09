@@ -148,11 +148,11 @@
   </bean>
   <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
 
-  <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="AwardAccount-versionNumber" parent="AwardAccount-versionNumber-parentBean" />
 
-  <bean id="AwardAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AwardAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

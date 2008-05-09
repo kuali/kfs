@@ -56,7 +56,7 @@
   </bean>
   <bean id="GraduateAssistantRate-active" parent="GraduateAssistantRate-active-parentBean" />
 
-  <bean id="GraduateAssistantRate-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="GraduateAssistantRate-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="GraduateAssistantRate-campusMaximumPeriod1Rate" parent="GraduateAssistantRate-campusMaximumPeriod1Rate-parentBean" />
@@ -171,11 +171,11 @@
   </bean>
   <bean id="GraduateAssistantRate-objectId" parent="GraduateAssistantRate-objectId-parentBean" />
 
-  <bean id="GraduateAssistantRate-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="GraduateAssistantRate-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="GraduateAssistantRate-versionNumber" parent="GraduateAssistantRate-versionNumber-parentBean" />
 
-  <bean id="GraduateAssistantRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="GraduateAssistantRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -149,11 +149,11 @@
   </bean>
   <bean id="ReportingCodes-versionNumber" parent="ReportingCodes-versionNumber-parentBean" />
 
-  <bean id="ReportingCodes-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ReportingCodes-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ReportingCodes-objectId" parent="ReportingCodes-objectId-parentBean" />
 
-  <bean id="ReportingCodes-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ReportingCodes-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

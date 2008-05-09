@@ -69,12 +69,12 @@
   </bean>
   <bean id="PaymentMedium-active" parent="PaymentMedium-active-parentBean" />
 
-  <bean id="PaymentMedium-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PaymentMedium-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PaymentMedium-versionNumber" parent="PaymentMedium-versionNumber-parentBean" />
 
-  <bean id="PaymentMedium-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentMedium-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

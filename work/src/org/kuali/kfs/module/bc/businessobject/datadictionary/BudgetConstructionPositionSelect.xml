@@ -244,7 +244,7 @@
   </bean>
   <bean id="BudgetConstructionPositionSelect-versionNumber" parent="BudgetConstructionPositionSelect-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionPositionSelect-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionPositionSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

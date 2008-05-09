@@ -77,12 +77,12 @@
   </bean>
   <bean id="CapitalAssetTransactionType-active" parent="CapitalAssetTransactionType-active-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="CapitalAssetTransactionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="CapitalAssetTransactionType-versionNumber" parent="CapitalAssetTransactionType-versionNumber-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CapitalAssetTransactionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

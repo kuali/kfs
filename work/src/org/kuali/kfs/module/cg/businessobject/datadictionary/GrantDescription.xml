@@ -75,7 +75,7 @@
   </bean>
   <bean id="GrantDescription-versionNumber" parent="GrantDescription-versionNumber-parentBean" />
 
-  <bean id="GrantDescription-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="GrantDescription-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -61,7 +61,7 @@
   </bean>
   <bean id="VendorPhoneNumber-vendorPhoneNumber" parent="VendorPhoneNumber-vendorPhoneNumber-parentBean" />
 
-  <bean id="VendorPhoneNumber-vendorPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="VendorPhoneNumber-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorPhoneNumber" />
     <property name="required" value="true" />
   </bean>
@@ -84,7 +84,7 @@
   </bean>
   <bean id="VendorPhoneNumber-newCollectionRecord" parent="VendorPhoneNumber-newCollectionRecord-parentBean" />
 
-  <bean id="VendorPhoneNumber-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorPhoneNumber-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorPhoneNumber-vendorHeaderGeneratedIdentifier" parent="VendorPhoneNumber-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -96,11 +96,11 @@
   </bean>
   <bean id="VendorPhoneNumber-versionNumber" parent="VendorPhoneNumber-versionNumber-parentBean" />
 
-  <bean id="VendorPhoneNumber-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorPhoneNumber-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorPhoneNumber-active" parent="VendorPhoneNumber-active-parentBean" />
 
-  <bean id="VendorPhoneNumber-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorPhoneNumber-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

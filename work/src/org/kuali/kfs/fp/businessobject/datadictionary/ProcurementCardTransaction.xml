@@ -129,7 +129,7 @@
   </bean>
   <bean id="ProcurementCardTransaction-financialDocumentTotalAmount" parent="ProcurementCardTransaction-financialDocumentTotalAmount-parentBean" />
 
-  <bean id="ProcurementCardTransaction-financialDocumentTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="ProcurementCardTransaction-financialDocumentTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentTotalAmount" />
   </bean>
   <bean id="ProcurementCardTransaction-financialObjectCode" parent="ProcurementCardTransaction-financialObjectCode-parentBean" />
@@ -291,6 +291,6 @@
   </bean>
   <bean id="ProcurementCardTransaction-versionNumber" parent="ProcurementCardTransaction-versionNumber-parentBean" />
 
-  <bean id="ProcurementCardTransaction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProcurementCardTransaction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

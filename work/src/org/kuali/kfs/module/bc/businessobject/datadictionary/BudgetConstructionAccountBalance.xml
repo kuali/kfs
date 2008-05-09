@@ -406,7 +406,7 @@
   </bean>
   <bean id="BudgetConstructionAccountBalance-versionNumber" parent="BudgetConstructionAccountBalance-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionAccountBalance-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionAccountBalance-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

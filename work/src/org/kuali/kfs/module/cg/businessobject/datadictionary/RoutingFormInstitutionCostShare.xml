@@ -163,7 +163,7 @@
   </bean>
   <bean id="RoutingFormInstitutionCostShare-versionNumber" parent="RoutingFormInstitutionCostShare-versionNumber-parentBean" />
 
-  <bean id="RoutingFormInstitutionCostShare-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RoutingFormInstitutionCostShare-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -61,7 +61,7 @@
   </bean>
   <bean id="PretagDetail-pretagTagCreateDate" parent="PretagDetail-pretagTagCreateDate-parentBean" />
 
-  <bean id="PretagDetail-pretagTagCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="PretagDetail-pretagTagCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="pretagTagCreateDate" />
     <property name="label" value="Pretag Tag Create Date" />
     <property name="shortLabel" value="Date" />
@@ -76,7 +76,7 @@
   </bean>
   <bean id="PretagDetail-active" parent="PretagDetail-active-parentBean" />
 
-  <bean id="PretagDetail-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="PretagDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="PretagDetail-buildingSubRoomNumber" parent="PretagDetail-buildingSubRoomNumber-parentBean" />
@@ -189,11 +189,11 @@
   </bean>
   <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean" />
 
-  <bean id="PretagDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="PretagDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="PretagDetail-versionNumber" parent="PretagDetail-versionNumber-parentBean" />
 
-  <bean id="PretagDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PretagDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

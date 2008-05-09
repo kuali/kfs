@@ -64,12 +64,12 @@
   </bean>
   <bean id="FundingSource-active" parent="FundingSource-active-parentBean" />
 
-  <bean id="FundingSource-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="FundingSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="FundingSource-versionNumber" parent="FundingSource-versionNumber-parentBean" />
 
-  <bean id="FundingSource-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="FundingSource-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

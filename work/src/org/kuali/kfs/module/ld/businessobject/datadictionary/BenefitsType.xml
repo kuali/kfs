@@ -72,7 +72,7 @@
   </bean>
   <bean id="BenefitsType-versionNumber" parent="BenefitsType-versionNumber-parentBean" />
 
-  <bean id="BenefitsType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BenefitsType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

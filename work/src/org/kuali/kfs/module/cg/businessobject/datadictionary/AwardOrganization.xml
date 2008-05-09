@@ -56,11 +56,11 @@
   </bean>
   <bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean" />
 
-  <bean id="AwardOrganization-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="AwardOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="AwardOrganization-versionNumber" parent="AwardOrganization-versionNumber-parentBean" />
 
-  <bean id="AwardOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AwardOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AwardOrganization-awardPrimaryOrganizationIndicator" parent="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean" />
 

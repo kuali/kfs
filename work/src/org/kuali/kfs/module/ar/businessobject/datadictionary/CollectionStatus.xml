@@ -79,7 +79,7 @@
   </bean>
   <bean id="CollectionStatus-versionNumber" parent="CollectionStatus-versionNumber-parentBean" />
 
-  <bean id="CollectionStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CollectionStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

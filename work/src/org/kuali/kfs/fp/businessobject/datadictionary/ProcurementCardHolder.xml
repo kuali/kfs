@@ -255,7 +255,7 @@
   </bean>
   <bean id="ProcurementCardHolder-versionNumber" parent="ProcurementCardHolder-versionNumber-parentBean" />
 
-  <bean id="ProcurementCardHolder-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProcurementCardHolder-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

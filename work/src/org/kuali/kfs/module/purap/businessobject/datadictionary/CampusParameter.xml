@@ -56,7 +56,7 @@
   </bean>
   <bean id="CampusParameter-campusCode" parent="CampusParameter-campusCode-parentBean" />
 
-  <bean id="CampusParameter-campusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="CampusParameter-campusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
   </bean>
   <bean id="CampusParameter-campusPurchasingDirectorName" parent="CampusParameter-campusPurchasingDirectorName-parentBean" />
 
@@ -128,43 +128,43 @@
   </bean>
   <bean id="CampusParameter-purchasingDepartmentLine1Address" parent="CampusParameter-purchasingDepartmentLine1Address-parentBean" />
 
-  <bean id="CampusParameter-purchasingDepartmentLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="CampusParameter-purchasingDepartmentLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="purchasingDepartmentLine1Address" />
     <property name="required" value="false" />
   </bean>
   <bean id="CampusParameter-purchasingDepartmentLine2Address" parent="CampusParameter-purchasingDepartmentLine2Address-parentBean" />
 
-  <bean id="CampusParameter-purchasingDepartmentLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="CampusParameter-purchasingDepartmentLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="purchasingDepartmentLine2Address" />
     <property name="required" value="false" />
   </bean>
   <bean id="CampusParameter-purchasingDepartmentCityName" parent="CampusParameter-purchasingDepartmentCityName-parentBean" />
 
-  <bean id="CampusParameter-purchasingDepartmentCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="CampusParameter-purchasingDepartmentCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="purchasingDepartmentCityName" />
     <property name="required" value="false" />
   </bean>
   <bean id="CampusParameter-purchasingDepartmentStateCode" parent="CampusParameter-purchasingDepartmentStateCode-parentBean" />
 
-  <bean id="CampusParameter-purchasingDepartmentStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="CampusParameter-purchasingDepartmentStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="purchasingDepartmentStateCode" />
     <property name="required" value="false" />
   </bean>
   <bean id="CampusParameter-purchasingDepartmentZipCode" parent="CampusParameter-purchasingDepartmentZipCode-parentBean" />
 
-  <bean id="CampusParameter-purchasingDepartmentZipCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="CampusParameter-purchasingDepartmentZipCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="purchasingDepartmentZipCode" />
     <property name="required" value="false" />
   </bean>
   <bean id="CampusParameter-purchasingDepartmentCountryCode" parent="CampusParameter-purchasingDepartmentCountryCode-parentBean" />
 
-  <bean id="CampusParameter-purchasingDepartmentCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="CampusParameter-purchasingDepartmentCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="purchasingDepartmentCountryCode" />
     <property name="required" value="false" />
   </bean>
   <bean id="CampusParameter-versionNumber" parent="CampusParameter-versionNumber-parentBean" />
 
-  <bean id="CampusParameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CampusParameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

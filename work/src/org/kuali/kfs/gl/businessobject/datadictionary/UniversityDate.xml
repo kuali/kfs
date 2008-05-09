@@ -30,7 +30,7 @@
 
   <bean id="UniversityDate-universityDate" parent="UniversityDate-universityDate-parentBean" />
 
-  <bean id="UniversityDate-universityDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="UniversityDate-universityDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="universityDate" />
     <property name="label" value="University Date" />
     <property name="shortLabel" value="Univ Dt" />
@@ -38,7 +38,7 @@
   </bean>
   <bean id="UniversityDate-universityFiscalYear" parent="UniversityDate-universityFiscalYear-parentBean" />
 
-  <bean id="UniversityDate-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="UniversityDate-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -46,12 +46,12 @@
   </bean>
   <bean id="UniversityDate-universityFiscalAccountingPeriod" parent="UniversityDate-universityFiscalAccountingPeriod-parentBean" />
 
-  <bean id="UniversityDate-universityFiscalAccountingPeriod-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+  <bean id="UniversityDate-universityFiscalAccountingPeriod-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
     <property name="required" value="true" />
   </bean>
   <bean id="UniversityDate-versionNumber" parent="UniversityDate-versionNumber-parentBean" />
 
-  <bean id="UniversityDate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="UniversityDate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

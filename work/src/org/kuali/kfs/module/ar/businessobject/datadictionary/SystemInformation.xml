@@ -262,7 +262,8 @@
   
   
   <bean id="SystemInformation-universityFiscalYear" parent="SystemInformation-universityFiscalYear-parentBean" />
-  <bean id="SystemInformation-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+
+  <bean id="SystemInformation-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="shortLabel" value="University Fiscal Year" />
   </bean>
@@ -333,7 +334,7 @@
   </bean>
   <bean id="SystemInformation-versionNumber" parent="SystemInformation-versionNumber-parentBean" />
 
-  <bean id="SystemInformation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SystemInformation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

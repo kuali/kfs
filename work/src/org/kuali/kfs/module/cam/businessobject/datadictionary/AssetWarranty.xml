@@ -38,18 +38,18 @@
   </bean>
   <bean id="AssetWarranty-versionNumber" parent="AssetWarranty-versionNumber-parentBean" />
 
-  <bean id="AssetWarranty-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetWarranty-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetWarranty-warrantyBeginningDate" parent="AssetWarranty-warrantyBeginningDate-parentBean" />
 
-  <bean id="AssetWarranty-warrantyBeginningDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetWarranty-warrantyBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="warrantyBeginningDate" />
     <property name="label" value="Warranty Beginning Date" />
     <property name="shortLabel" value="Date" />
   </bean>
   <bean id="AssetWarranty-warrantyEndingDate" parent="AssetWarranty-warrantyEndingDate-parentBean" />
 
-  <bean id="AssetWarranty-warrantyEndingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetWarranty-warrantyEndingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="warrantyEndingDate" />
     <property name="label" value="Warranty Ending Date" />
     <property name="shortLabel" value="Date" />

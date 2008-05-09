@@ -114,7 +114,7 @@
   </bean>
   <bean id="RoutingFormOrganization-versionNumber" parent="RoutingFormOrganization-versionNumber-parentBean" />
 
-  <bean id="RoutingFormOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RoutingFormOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -254,7 +254,7 @@
   </bean>
   <bean id="BudgetConstructionControlList-versionNumber" parent="BudgetConstructionControlList-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionControlList-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionControlList-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

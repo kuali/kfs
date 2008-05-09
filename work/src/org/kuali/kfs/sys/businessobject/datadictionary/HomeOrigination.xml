@@ -37,7 +37,7 @@
   </bean>
   <bean id="HomeOrigination-versionNumber" parent="HomeOrigination-versionNumber-parentBean" />
 
-  <bean id="HomeOrigination-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="HomeOrigination-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

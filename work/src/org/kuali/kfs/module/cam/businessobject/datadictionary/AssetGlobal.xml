@@ -176,25 +176,25 @@
   </bean>
   <bean id="AssetGlobal-lastInventoryDate" parent="AssetGlobal-lastInventoryDate-parentBean" />
 
-  <bean id="AssetGlobal-lastInventoryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetGlobal-lastInventoryDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="lastInventoryDate" />
     <property name="label" value="Last Inventory Date" />
   </bean>
   <bean id="AssetGlobal-createDate" parent="AssetGlobal-createDate-parentBean" />
 
-  <bean id="AssetGlobal-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetGlobal-createDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="createDate" />
     <property name="label" value="Create Date" />
   </bean>
   <bean id="AssetGlobal-capitalAssetInServiceDate" parent="AssetGlobal-capitalAssetInServiceDate-parentBean" />
 
-  <bean id="AssetGlobal-capitalAssetInServiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetGlobal-capitalAssetInServiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="capitalAssetInServiceDate" />
     <property name="label" value="In-service Date" />
   </bean>
   <bean id="AssetGlobal-capitalAssetDepreciationDate" parent="AssetGlobal-capitalAssetDepreciationDate-parentBean" />
 
-  <bean id="AssetGlobal-capitalAssetDepreciationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AssetGlobal-capitalAssetDepreciationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="capitalAssetDepreciationDate" />
     <property name="label" value="Deprecation Date" />
   </bean>
@@ -271,6 +271,6 @@
   </bean>
   <bean id="AssetGlobal-versionNumber" parent="AssetGlobal-versionNumber-parentBean" />
 
-  <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

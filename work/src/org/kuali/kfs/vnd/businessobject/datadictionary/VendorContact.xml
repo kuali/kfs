@@ -108,71 +108,71 @@
   </bean>
   <bean id="VendorContact-vendorContactEmailAddress" parent="VendorContact-vendorContactEmailAddress-parentBean" />
 
-  <bean id="VendorContact-vendorContactEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="VendorContact-vendorContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="vendorContactEmailAddress" />
     <property name="label" value="Email Address" />
   </bean>
   <bean id="VendorContact-phoneNumberForLookup" parent="VendorContact-phoneNumberForLookup-parentBean" />
 
-  <bean id="VendorContact-phoneNumberForLookup-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="VendorContact-phoneNumberForLookup-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="phoneNumberForLookup" />
   </bean>
   <bean id="VendorContact-faxForLookup" parent="VendorContact-faxForLookup-parentBean" />
 
-  <bean id="VendorContact-faxForLookup-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="VendorContact-faxForLookup-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="faxForLookup" />
     <property name="label" value="Fax Number" />
     <property name="shortLabel" value="Fax" />
   </bean>
   <bean id="VendorContact-tollFreeForLookup" parent="VendorContact-tollFreeForLookup-parentBean" />
 
-  <bean id="VendorContact-tollFreeForLookup-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="VendorContact-tollFreeForLookup-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="tollFreeForLookup" />
     <property name="label" value="Toll Free Number" />
     <property name="shortLabel" value="Toll Free" />
   </bean>
   <bean id="VendorContact-newCollectionRecord" parent="VendorContact-newCollectionRecord-parentBean" />
 
-  <bean id="VendorContact-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorContact-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorContact-vendorLine1Address" parent="VendorContact-vendorLine1Address-parentBean" />
 
-  <bean id="VendorContact-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="VendorContact-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
   </bean>
   <bean id="VendorContact-vendorLine2Address" parent="VendorContact-vendorLine2Address-parentBean" />
 
-  <bean id="VendorContact-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="VendorContact-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
   <bean id="VendorContact-vendorCityName" parent="VendorContact-vendorCityName-parentBean" />
 
-  <bean id="VendorContact-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="VendorContact-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
   </bean>
   <bean id="VendorContact-vendorStateCode" parent="VendorContact-vendorStateCode-parentBean" />
 
-  <bean id="VendorContact-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="VendorContact-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
   <bean id="VendorContact-vendorCountryCode" parent="VendorContact-vendorCountryCode-parentBean" />
 
-  <bean id="VendorContact-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="VendorContact-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
   </bean>
   <bean id="VendorContact-vendorZipCode" parent="VendorContact-vendorZipCode-parentBean" />
 
-  <bean id="VendorContact-vendorZipCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="VendorContact-vendorZipCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorZipCode" />
   </bean>
   <bean id="VendorContact-vendorAddressInternationalProvinceName" parent="VendorContact-vendorAddressInternationalProvinceName-parentBean" />
 
-  <bean id="VendorContact-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-internationalProvinceName">
+  <bean id="VendorContact-vendorAddressInternationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-internationalProvinceName">
     <property name="name" value="vendorAddressInternationalProvinceName" />
   </bean>
   <bean id="VendorContact-vendorAttentionName" parent="VendorContact-vendorAttentionName-parentBean" />
 
-  <bean id="VendorContact-vendorAttentionName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+  <bean id="VendorContact-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
     <property name="name" value="vendorAttentionName" />
   </bean>
   <bean id="VendorContact-vendorHeaderGeneratedIdentifier" parent="VendorContact-vendorHeaderGeneratedIdentifier-parentBean" />
@@ -185,11 +185,11 @@
   </bean>
   <bean id="VendorContact-versionNumber" parent="VendorContact-versionNumber-parentBean" />
 
-  <bean id="VendorContact-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorContact-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorContact-active" parent="VendorContact-active-parentBean" />
 
-  <bean id="VendorContact-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorContact-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

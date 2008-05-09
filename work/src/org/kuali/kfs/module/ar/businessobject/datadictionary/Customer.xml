@@ -399,7 +399,7 @@
   </bean>
   <bean id="Customer-versionNumber" parent="Customer-versionNumber-parentBean" />
 
-  <bean id="Customer-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Customer-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -61,7 +61,7 @@
   </bean>
   <bean id="AicpaFunction-versionNumber" parent="AicpaFunction-versionNumber-parentBean" />
 
-  <bean id="AicpaFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AicpaFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -117,7 +117,7 @@
   </bean>
   <bean id="BankAccount-versionNumber" parent="BankAccount-versionNumber-parentBean" />
 
-  <bean id="BankAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BankAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

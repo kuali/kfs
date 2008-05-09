@@ -261,7 +261,7 @@
   </bean>
   <bean id="OrganizationExtension-hrmsIuPositionAllowedFlag" parent="OrganizationExtension-hrmsIuPositionAllowedFlag-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsIuPositionAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="OrganizationExtension-hrmsIuPositionAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="hrmsIuPositionAllowedFlag" />
     <property name="label" value="Position Allowed" />
     <property name="shortLabel" value="Position Allowed" />
@@ -269,7 +269,7 @@
   </bean>
   <bean id="OrganizationExtension-hrmsIuTenureAllowedFlag" parent="OrganizationExtension-hrmsIuTenureAllowedFlag-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsIuTenureAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="OrganizationExtension-hrmsIuTenureAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="hrmsIuTenureAllowedFlag" />
     <property name="label" value="Tenure Allowed" />
     <property name="shortLabel" value="Tenure Allowed" />
@@ -277,7 +277,7 @@
   </bean>
   <bean id="OrganizationExtension-hrmsIuTitleAllowedFlag" parent="OrganizationExtension-hrmsIuTitleAllowedFlag-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsIuTitleAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="OrganizationExtension-hrmsIuTitleAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="hrmsIuTitleAllowedFlag" />
     <property name="label" value="Title Allowed" />
     <property name="shortLabel" value="Title Allowed" />
@@ -285,7 +285,7 @@
   </bean>
   <bean id="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag" parent="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="hrmsIuOccupationalUnitAllowedFlag" />
     <property name="label" value="Occupational Unit Allowed" />
     <property name="shortLabel" value="Occupational Unit Allowed" />
@@ -293,13 +293,13 @@
   </bean>
   <bean id="OrganizationExtension-hrmsLastUpdateDate" parent="OrganizationExtension-hrmsLastUpdateDate-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsLastUpdateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="OrganizationExtension-hrmsLastUpdateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="hrmsLastUpdateDate" />
     <property name="label" value="Last Update Date" />
     <property name="shortLabel" value="Last Update Date" />
   </bean>
   <bean id="OrganizationExtension-versionNumber" parent="OrganizationExtension-versionNumber-parentBean" />
 
-  <bean id="OrganizationExtension-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationExtension-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

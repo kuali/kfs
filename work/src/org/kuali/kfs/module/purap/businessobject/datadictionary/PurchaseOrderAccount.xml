@@ -115,7 +115,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-sequenceNumber" parent="PurchaseOrderAccount-sequenceNumber-parentBean" />
 
-  <bean id="PurchaseOrderAccount-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="PurchaseOrderAccount-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -130,7 +130,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-objectId" parent="PurchaseOrderAccount-objectId-parentBean" />
 
-  <bean id="PurchaseOrderAccount-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="PurchaseOrderAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="PurchaseOrderAccount-organizationReferenceId" parent="PurchaseOrderAccount-organizationReferenceId-parentBean" />
@@ -164,7 +164,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-postingYear" parent="PurchaseOrderAccount-postingYear-parentBean" />
 
-  <bean id="PurchaseOrderAccount-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="PurchaseOrderAccount-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -209,7 +209,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-amount" parent="PurchaseOrderAccount-amount-parentBean" />
 
-  <bean id="PurchaseOrderAccount-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurchaseOrderAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -248,7 +248,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-versionNumber" parent="PurchaseOrderAccount-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="PurchaseOrderAccount-documentNumber" parent="PurchaseOrderAccount-documentNumber-parentBean" />
@@ -420,7 +420,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-itemIdentifier" parent="PurchaseOrderAccount-itemIdentifier-parentBean" />
 
-  <bean id="PurchaseOrderAccount-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="PurchaseOrderAccount-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>
@@ -459,7 +459,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-itemAccountOutstandingEncumbranceAmount" parent="PurchaseOrderAccount-itemAccountOutstandingEncumbranceAmount-parentBean" />
 
-  <bean id="PurchaseOrderAccount-itemAccountOutstandingEncumbranceAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PurchaseOrderAccount-itemAccountOutstandingEncumbranceAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemAccountOutstandingEncumbranceAmount" />
     <property name="label" value="Item Account Outstanding Encumbrance Amount" />
   </bean>

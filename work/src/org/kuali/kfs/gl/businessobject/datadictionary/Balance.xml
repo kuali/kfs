@@ -54,7 +54,7 @@
 
   <bean id="Balance-universityFiscalYear" parent="Balance-universityFiscalYear-parentBean" />
 
-  <bean id="Balance-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="Balance-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -93,7 +93,7 @@
   </bean>
   <bean id="Balance-accountLineAnnualBalanceAmount" parent="Balance-accountLineAnnualBalanceAmount-parentBean" />
 
-  <bean id="Balance-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accountLineAnnualBalanceAmount" />
     <property name="label" value="Account Line Annual Balance Amount" />
     <property name="shortLabel" value="Account Line Annual Balance Amount" />
@@ -101,7 +101,7 @@
   </bean>
   <bean id="Balance-beginningBalanceLineAmount" parent="Balance-beginningBalanceLineAmount-parentBean" />
 
-  <bean id="Balance-beginningBalanceLineAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-beginningBalanceLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="beginningBalanceLineAmount" />
     <property name="label" value="Beginning Balance Line Amount" />
     <property name="shortLabel" value="Beginning Balance Line Amount" />
@@ -109,7 +109,7 @@
   </bean>
   <bean id="Balance-contractsGrantsBeginningBalanceAmount" parent="Balance-contractsGrantsBeginningBalanceAmount-parentBean" />
 
-  <bean id="Balance-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="contractsGrantsBeginningBalanceAmount" />
     <property name="label" value="Contracts Grants Beginning Balance Amount" />
     <property name="shortLabel" value="CG Amount" />
@@ -117,98 +117,98 @@
   </bean>
   <bean id="Balance-month1Amount" parent="Balance-month1Amount-parentBean" />
 
-  <bean id="Balance-month1Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month1Amount" />
     <property name="label" value="July" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month2Amount" parent="Balance-month2Amount-parentBean" />
 
-  <bean id="Balance-month2Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month2Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month2Amount" />
     <property name="label" value="August" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month3Amount" parent="Balance-month3Amount-parentBean" />
 
-  <bean id="Balance-month3Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month3Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month3Amount" />
     <property name="label" value="September" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month4Amount" parent="Balance-month4Amount-parentBean" />
 
-  <bean id="Balance-month4Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month4Amount" />
     <property name="label" value="October" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month5Amount" parent="Balance-month5Amount-parentBean" />
 
-  <bean id="Balance-month5Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month5Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month5Amount" />
     <property name="label" value="November" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month6Amount" parent="Balance-month6Amount-parentBean" />
 
-  <bean id="Balance-month6Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month6Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month6Amount" />
     <property name="label" value="December" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month7Amount" parent="Balance-month7Amount-parentBean" />
 
-  <bean id="Balance-month7Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month7Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month7Amount" />
     <property name="label" value="January" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month8Amount" parent="Balance-month8Amount-parentBean" />
 
-  <bean id="Balance-month8Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month8Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month8Amount" />
     <property name="label" value="February" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month9Amount" parent="Balance-month9Amount-parentBean" />
 
-  <bean id="Balance-month9Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month9Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month9Amount" />
     <property name="label" value="March" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month10Amount" parent="Balance-month10Amount-parentBean" />
 
-  <bean id="Balance-month10Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month10Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month10Amount" />
     <property name="label" value="April" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month11Amount" parent="Balance-month11Amount-parentBean" />
 
-  <bean id="Balance-month11Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month11Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month11Amount" />
     <property name="label" value="May" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month12Amount" parent="Balance-month12Amount-parentBean" />
 
-  <bean id="Balance-month12Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month12Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month12Amount" />
     <property name="label" value="June" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-month13Amount" parent="Balance-month13Amount-parentBean" />
 
-  <bean id="Balance-month13Amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-month13Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month13Amount" />
     <property name="label" value="Year End" />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Balance-timestamp" parent="Balance-timestamp-parentBean" />
 
-  <bean id="Balance-timestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Balance-timestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="timestamp" />
     <property name="label" value="Transaction Entry Processed" />
     <property name="shortLabel" value="Entry Processed" />
@@ -230,7 +230,7 @@
   </bean>
   <bean id="Balance-dummyBusinessObject.genericAmount" parent="Balance-dummyBusinessObject.genericAmount-parentBean" />
 
-  <bean id="Balance-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Balance-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Year End Close" />
     <property name="shortLabel" value="Year End Close" />

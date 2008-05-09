@@ -79,7 +79,7 @@
   </bean>
   <bean id="PrintInvoiceOptions-versionNumber" parent="PrintInvoiceOptions-versionNumber-parentBean" />
 
-  <bean id="PrintInvoiceOptions-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PrintInvoiceOptions-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

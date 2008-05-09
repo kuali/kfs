@@ -228,14 +228,14 @@
   </bean>
   <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber" parent="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" />
 
-  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberNoValidation">
+  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorPhoneNumber" />
     <property name="label" value="Vendor Phone Number" />
     <property name="shortLabel" value="Vendor Phone" />
   </bean>
   <bean id="PurchaseOrderVendorQuote-versionNumber" parent="PurchaseOrderVendorQuote-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderVendorQuote-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderVendorQuote-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

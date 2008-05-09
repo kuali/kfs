@@ -70,7 +70,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount" parent="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-userBudgetPeriodSalaryAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="userBudgetPeriodSalaryAmount" />
     <property name="label" value="Period Salary" />
     <property name="shortLabel" value="Amount" />
@@ -80,7 +80,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyRequestTotalAmount" parent="UserAppointmentTaskPeriod-agencyRequestTotalAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-agencyRequestTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-agencyRequestTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="agencyRequestTotalAmount" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -88,7 +88,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount" parent="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-agencyFringeBenefitTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="agencyFringeBenefitTotalAmount" />
     <property name="shortLabel" value="Fringe Benefits" />
     <property name="control" >
@@ -97,7 +97,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount" parent="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-institutionCostShareRequestTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="institutionCostShareRequestTotalAmount" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -105,7 +105,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount" parent="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-institutionCostShareFringeBenefitTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="institutionCostShareFringeBenefitTotalAmount" />
     <property name="shortLabel" value="Fringe Benefits" />
     <property name="control" >
@@ -222,7 +222,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount" parent="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="agencyHealthInsuranceAmount" />
     <property name="label" value="Agency Health Insurance Amount" />
     <property name="shortLabel" value="Health Insurance" />
@@ -235,7 +235,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyRequestedFeesAmount" parent="UserAppointmentTaskPeriod-agencyRequestedFeesAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-agencyRequestedFeesAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-agencyRequestedFeesAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="agencyRequestedFeesAmount" />
     <property name="label" value="Agency Amount Requested" />
     <property name="shortLabel" value="Amount" />
@@ -248,7 +248,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencySalaryAmount" parent="UserAppointmentTaskPeriod-agencySalaryAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-agencySalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-agencySalaryAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="agencySalaryAmount" />
     <property name="label" value="Agency Salary Amount" />
     <property name="shortLabel" value="Salary" />
@@ -261,7 +261,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount" parent="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="institutionHealthInsuranceAmount" />
     <property name="label" value="Institution Health Insurance Amount" />
     <property name="shortLabel" value="Health Insurance" />
@@ -274,7 +274,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionRequestedFeesAmount" parent="UserAppointmentTaskPeriod-institutionRequestedFeesAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-institutionRequestedFeesAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-institutionRequestedFeesAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="institutionRequestedFeesAmount" />
     <property name="label" value="Institution Cost Share" />
     <property name="shortLabel" value="Amount" />
@@ -287,7 +287,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionSalaryAmount" parent="UserAppointmentTaskPeriod-institutionSalaryAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-institutionSalaryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-institutionSalaryAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="institutionSalaryAmount" />
     <property name="label" value="Institution Salary Amount" />
     <property name="shortLabel" value="Salary" />
@@ -300,7 +300,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-userCreditHourAmount" parent="UserAppointmentTaskPeriod-userCreditHourAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-userCreditHourAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-userCreditHourAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="userCreditHourAmount" />
     <property name="label" value="$ Per Credit Hour" />
     <property name="shortLabel" value="Amount" />
@@ -313,7 +313,7 @@
   </bean>
   <bean id="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount" parent="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount-parentBean" />
 
-  <bean id="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="userMiscellaneousFeeAmount" />
     <property name="label" value="Miscellaneous Fees" />
     <property name="shortLabel" value="Amount" />

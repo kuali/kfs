@@ -75,7 +75,7 @@
   </bean>
   <bean id="ProposalStatus-versionNumber" parent="ProposalStatus-versionNumber-parentBean" />
 
-  <bean id="ProposalStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProposalStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

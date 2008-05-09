@@ -263,7 +263,7 @@
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-versionNumber" parent="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" />
 
-  <bean id="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

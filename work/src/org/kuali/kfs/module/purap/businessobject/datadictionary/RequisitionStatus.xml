@@ -63,7 +63,7 @@
   </bean>
   <bean id="RequisitionStatus-versionNumber" parent="RequisitionStatus-versionNumber-parentBean" />
 
-  <bean id="RequisitionStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RequisitionStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

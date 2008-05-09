@@ -34,7 +34,7 @@
 
   <bean id="WireCharge-universityFiscalYear" parent="WireCharge-universityFiscalYear-parentBean" />
 
-  <bean id="WireCharge-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="WireCharge-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="WireCharge-chartOfAccountsCode" parent="WireCharge-chartOfAccountsCode-parentBean" />
@@ -61,21 +61,21 @@
   </bean>
   <bean id="WireCharge-domesticChargeAmt" parent="WireCharge-domesticChargeAmt-parentBean" />
 
-  <bean id="WireCharge-domesticChargeAmt-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="WireCharge-domesticChargeAmt-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="domesticChargeAmt" />
     <property name="label" value="Domestic Charge Amount" />
     <property name="shortLabel" value="Dom Amt" />
   </bean>
   <bean id="WireCharge-foreignChargeAmt" parent="WireCharge-foreignChargeAmt-parentBean" />
 
-  <bean id="WireCharge-foreignChargeAmt-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="WireCharge-foreignChargeAmt-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="foreignChargeAmt" />
     <property name="label" value="Foreign Charge Amount" />
     <property name="shortLabel" value="For Amt" />
   </bean>
   <bean id="WireCharge-versionNumber" parent="WireCharge-versionNumber-parentBean" />
 
-  <bean id="WireCharge-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="WireCharge-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

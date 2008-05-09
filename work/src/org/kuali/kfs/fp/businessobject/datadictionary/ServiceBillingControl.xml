@@ -52,11 +52,11 @@
   </bean>
   <bean id="ServiceBillingControl-versionNumber" parent="ServiceBillingControl-versionNumber-parentBean" />
 
-  <bean id="ServiceBillingControl-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ServiceBillingControl-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ServiceBillingControl-objectId" parent="ServiceBillingControl-objectId-parentBean" />
 
-  <bean id="ServiceBillingControl-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ServiceBillingControl-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

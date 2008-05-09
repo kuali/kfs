@@ -99,7 +99,7 @@
   </bean>
   <bean id="ObjLevel-financialObjectLevelActiveIndicator" parent="ObjLevel-financialObjectLevelActiveIndicator-parentBean" />
 
-  <bean id="ObjLevel-financialObjectLevelActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ObjLevel-financialObjectLevelActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="financialObjectLevelActiveIndicator" />
     <property name="required" value="true" />
   </bean>
@@ -123,7 +123,7 @@
   </bean>
   <bean id="ObjLevel-versionNumber" parent="ObjLevel-versionNumber-parentBean" />
 
-  <bean id="ObjLevel-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ObjLevel-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

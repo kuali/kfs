@@ -114,7 +114,7 @@
   </bean>
   <bean id="CreditMemoAccount-sequenceNumber" parent="CreditMemoAccount-sequenceNumber-parentBean" />
 
-  <bean id="CreditMemoAccount-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="CreditMemoAccount-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -129,7 +129,7 @@
   </bean>
   <bean id="CreditMemoAccount-objectId" parent="CreditMemoAccount-objectId-parentBean" />
 
-  <bean id="CreditMemoAccount-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="CreditMemoAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="CreditMemoAccount-organizationReferenceId" parent="CreditMemoAccount-organizationReferenceId-parentBean" />
@@ -163,7 +163,7 @@
   </bean>
   <bean id="CreditMemoAccount-postingYear" parent="CreditMemoAccount-postingYear-parentBean" />
 
-  <bean id="CreditMemoAccount-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="CreditMemoAccount-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -208,7 +208,7 @@
   </bean>
   <bean id="CreditMemoAccount-amount" parent="CreditMemoAccount-amount-parentBean" />
 
-  <bean id="CreditMemoAccount-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CreditMemoAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -247,7 +247,7 @@
   </bean>
   <bean id="CreditMemoAccount-versionNumber" parent="CreditMemoAccount-versionNumber-parentBean" />
 
-  <bean id="CreditMemoAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CreditMemoAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="CreditMemoAccount-documentNumber" parent="CreditMemoAccount-documentNumber-parentBean" />
@@ -419,7 +419,7 @@
   </bean>
   <bean id="CreditMemoAccount-itemIdentifier" parent="CreditMemoAccount-itemIdentifier-parentBean" />
 
-  <bean id="CreditMemoAccount-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="CreditMemoAccount-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>

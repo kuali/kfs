@@ -159,7 +159,7 @@
   </bean>
   <bean id="InvoicePaidAppliedMove-versionNumber" parent="InvoicePaidAppliedMove-versionNumber-parentBean" />
 
-  <bean id="InvoicePaidAppliedMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="InvoicePaidAppliedMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

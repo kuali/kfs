@@ -334,35 +334,35 @@
   </bean>
   <bean id="Asset-createDate" parent="Asset-createDate-parentBean" />
 
-  <bean id="Asset-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-createDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="createDate" />
     <property name="label" value="Create Date" />
     <property name="shortLabel" value="Create Date" />
   </bean>
   <bean id="Asset-depreciationDate" parent="Asset-depreciationDate-parentBean" />
 
-  <bean id="Asset-depreciationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-depreciationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="depreciationDate" />
     <property name="label" value="Depreciation Date" />
     <property name="shortLabel" value="Depreciation Date" />
   </bean>
   <bean id="Asset-depreciationDateCopy" parent="Asset-depreciationDateCopy-parentBean" />
 
-  <bean id="Asset-depreciationDateCopy-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-depreciationDateCopy-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="depreciationDateCopy" />
     <property name="label" value="Depreciation Date" />
     <property name="shortLabel" value="Depreciation Date" />
   </bean>
   <bean id="Asset-capitalAssetInServiceDate" parent="Asset-capitalAssetInServiceDate-parentBean" />
 
-  <bean id="Asset-capitalAssetInServiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-capitalAssetInServiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="capitalAssetInServiceDate" />
     <property name="label" value="In-Service Date" />
     <property name="shortLabel" value="In Service Date" />
   </bean>
   <bean id="Asset-estimatedFabricationCompletionDate" parent="Asset-estimatedFabricationCompletionDate-parentBean" />
 
-  <bean id="Asset-estimatedFabricationCompletionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-estimatedFabricationCompletionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="estimatedFabricationCompletionDate" />
     <property name="label" value="Estimated Fabrication Completion Date" />
     <property name="shortLabel" value="Estimated Fabrication Completion Date" />
@@ -387,7 +387,7 @@
   </bean>
   <bean id="Asset-estimatedSellingPrice" parent="Asset-estimatedSellingPrice-parentBean" />
 
-  <bean id="Asset-estimatedSellingPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-estimatedSellingPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="estimatedSellingPrice" />
     <property name="label" value="Estimated Sale Price" />
     <property name="shortLabel" value="Price" />
@@ -397,14 +397,14 @@
   </bean>
   <bean id="Asset-expectedReturnDate" parent="Asset-expectedReturnDate-parentBean" />
 
-  <bean id="Asset-expectedReturnDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-expectedReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="expectedReturnDate" />
     <property name="label" value="Expected Return Date" />
     <property name="shortLabel" value="Expected Return Date" />
   </bean>
   <bean id="Asset-fabricationEstimatedTotalAmount" parent="Asset-fabricationEstimatedTotalAmount-parentBean" />
 
-  <bean id="Asset-fabricationEstimatedTotalAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-fabricationEstimatedTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="fabricationEstimatedTotalAmount" />
     <property name="label" value="Fabrication Estimated Total Amount" />
     <property name="shortLabel" value="Amount" />
@@ -432,7 +432,7 @@
   </bean>
   <bean id="Asset-financialDocumentPostingYear" parent="Asset-financialDocumentPostingYear-parentBean" />
 
-  <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="Asset-financialDocumentPostingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Fiscal Year" />
     <property name="summary" value="financialDocumentPostingYear" />
@@ -545,21 +545,21 @@
   </bean>
   <bean id="Asset-lastInventoryDate" parent="Asset-lastInventoryDate-parentBean" />
 
-  <bean id="Asset-lastInventoryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-lastInventoryDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="lastInventoryDate" />
     <property name="label" value="Last Inventory Date" />
     <property name="shortLabel" value="Last Inventory Date" />
   </bean>
   <bean id="Asset-loanDate" parent="Asset-loanDate-parentBean" />
 
-  <bean id="Asset-loanDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-loanDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="loanDate" />
     <property name="label" value="Loan Date" />
     <property name="shortLabel" value="Loan Date" />
   </bean>
   <bean id="Asset-loanReturnDate" parent="Asset-loanReturnDate-parentBean" />
 
-  <bean id="Asset-loanReturnDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-loanReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="loanReturnDate" />
     <property name="label" value="Return Date" />
     <property name="shortLabel" value="Loan Return Date" />
@@ -663,14 +663,14 @@
   </bean>
   <bean id="Asset-receiveDate" parent="Asset-receiveDate-parentBean" />
 
-  <bean id="Asset-receiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="Asset-receiveDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="receiveDate" />
     <property name="label" value="Receive Date" />
     <property name="shortLabel" value="Receive Date" />
   </bean>
   <bean id="Asset-replacementAmount" parent="Asset-replacementAmount-parentBean" />
 
-  <bean id="Asset-replacementAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-replacementAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="replacementAmount" />
     <property name="label" value="Replacement Amount" />
     <property name="shortLabel" value="Amount" />
@@ -779,7 +779,7 @@
   </bean>
   <bean id="Asset-salePrice" parent="Asset-salePrice-parentBean" />
 
-  <bean id="Asset-salePrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-salePrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="salePrice" />
     <property name="label" value="Sale Price" />
     <property name="shortLabel" value="Price" />
@@ -789,7 +789,7 @@
   </bean>
   <bean id="Asset-salvageAmount" parent="Asset-salvageAmount-parentBean" />
 
-  <bean id="Asset-salvageAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-salvageAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="salvageAmount" />
     <property name="label" value="Salvage Amount" />
     <property name="shortLabel" value="Amount" />
@@ -853,7 +853,7 @@
   </bean>  
   <bean id="Asset-totalCostAmount" parent="Asset-totalCostAmount-parentBean" />
 
-  <bean id="Asset-totalCostAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-totalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCostAmount" />
     <property name="label" value="Total Cost" />
     <property name="shortLabel" value="Amount" />
@@ -900,7 +900,7 @@
   </bean>
   <bean id="Asset-versionNumber" parent="Asset-versionNumber-parentBean" />
 
-  <bean id="Asset-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Asset-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="Asset-capitalAssetType.depreciableLifeLimit" parent="Asset-capitalAssetType.depreciableLifeLimit-parentBean" />
 
@@ -1061,7 +1061,7 @@
   </bean>
   <bean id="Asset-accumulatedDepreciation" parent="Asset-accumulatedDepreciation-parentBean" />
 
-  <bean id="Asset-accumulatedDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-accumulatedDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accumulatedDepreciation" />
     <property name="label" value="Accumulated Depreciation" />
     <property name="shortLabel" value="Accumulated" />
@@ -1071,7 +1071,7 @@
   </bean>
   <bean id="Asset-baseAmount" parent="Asset-baseAmount-parentBean" />
 
-  <bean id="Asset-baseAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-baseAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="baseAmount" />
     <property name="label" value="Base Amount" />
     <property name="shortLabel" value="Base" />
@@ -1081,7 +1081,7 @@
   </bean>
   <bean id="Asset-bookValue" parent="Asset-bookValue-parentBean" />
 
-  <bean id="Asset-bookValue-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-bookValue-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="bookValue" />
     <property name="label" value="Book Value" />
     <property name="shortLabel" value="Book Value" />
@@ -1091,7 +1091,7 @@
   </bean>
   <bean id="Asset-prevYearDepreciation" parent="Asset-prevYearDepreciation-parentBean" />
 
-  <bean id="Asset-prevYearDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-prevYearDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="prevYearDepreciation" />
     <property name="label" value="Previous Year" />
     <property name="shortLabel" value="Previous Year" />
@@ -1101,7 +1101,7 @@
   </bean>
   <bean id="Asset-yearToDateDepreciation" parent="Asset-yearToDateDepreciation-parentBean" />
 
-  <bean id="Asset-yearToDateDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-yearToDateDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="yearToDateDepreciation" />
     <property name="label" value="Year To Date" />
     <property name="shortLabel" value="Year To Date" />
@@ -1111,7 +1111,7 @@
   </bean>
   <bean id="Asset-currentMonthDepreciation" parent="Asset-currentMonthDepreciation-parentBean" />
 
-  <bean id="Asset-currentMonthDepreciation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-currentMonthDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="currentMonthDepreciation" />
     <property name="label" value="Current Month" />
     <property name="shortLabel" value="Current Month" />
@@ -1121,7 +1121,7 @@
   </bean>
   <bean id="Asset-paymentTotalCost" parent="Asset-paymentTotalCost-parentBean" />
 
-  <bean id="Asset-paymentTotalCost-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-paymentTotalCost-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="paymentTotalCost" />
     <property name="label" value="Display Total Cost" />
     <property name="shortLabel" value="Total Cost" />
@@ -1129,7 +1129,7 @@
   </bean>
   <bean id="Asset-federalContribution" parent="Asset-federalContribution-parentBean" />
 
-  <bean id="Asset-federalContribution-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="Asset-federalContribution-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="federalContribution" />
     <property name="label" value="Federal Contribution" />
     <property name="shortLabel" value="Contribution" />

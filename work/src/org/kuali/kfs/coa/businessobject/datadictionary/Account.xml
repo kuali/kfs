@@ -311,7 +311,7 @@
   </bean>
   <bean id="Account-accountsFringesBnftIndicator" parent="Account-accountsFringesBnftIndicator-parentBean" />
 
-  <bean id="Account-accountsFringesBnftIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-accountsFringesBnftIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="accountsFringesBnftIndicator" />
     <property name="label" value="Account Fringe Benefit" />
     <property name="shortLabel" value="FringeBene" />
@@ -358,7 +358,7 @@
   </bean>
   <bean id="Account-accountRestrictedStatusDate" parent="Account-accountRestrictedStatusDate-parentBean" />
 
-  <bean id="Account-accountRestrictedStatusDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Account-accountRestrictedStatusDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="accountRestrictedStatusDate" />
     <property name="label" value="Account Restricted Status Date" />
     <property name="shortLabel" value="RstrcStatDt" />
@@ -383,7 +383,7 @@
   </bean>
   <bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean" />
 
-  <bean id="Account-accountStateCode-parentBean" abstract="true" parent="AttributeReferenceDummy-twoDigitTextCode">
+  <bean id="Account-accountStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="accountStateCode" />
     <property name="label" value="Account State Code" />
     <property name="shortLabel" value="StateCd" />
@@ -448,7 +448,7 @@
   </bean>
   <bean id="Account-accountCreateDate" parent="Account-accountCreateDate-parentBean" />
 
-  <bean id="Account-accountCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Account-accountCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="accountCreateDate" />
     <property name="label" value="Account Create Date" />
     <property name="shortLabel" value="CreateDate" />
@@ -458,7 +458,7 @@
   </bean>
   <bean id="Account-accountEffectiveDate" parent="Account-accountEffectiveDate-parentBean" />
 
-  <bean id="Account-accountEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Account-accountEffectiveDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="accountEffectiveDate" />
     <property name="label" value="Account Effective Date" />
     <property name="shortLabel" value="EffDate" />
@@ -466,7 +466,7 @@
   </bean>
   <bean id="Account-accountExpirationDate" parent="Account-accountExpirationDate-parentBean" />
 
-  <bean id="Account-accountExpirationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Account-accountExpirationDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="accountExpirationDate" />
     <property name="label" value="Account Expiration Date" />
     <property name="shortLabel" value="ExpDate" />
@@ -621,7 +621,7 @@
   </bean>
   <bean id="Account-acctIndirectCostRcvyTypeCd" parent="Account-acctIndirectCostRcvyTypeCd-parentBean" />
 
-  <bean id="Account-acctIndirectCostRcvyTypeCd-parentBean" abstract="true" parent="AttributeReferenceDummy-twoDigitTextCode">
+  <bean id="Account-acctIndirectCostRcvyTypeCd-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="acctIndirectCostRcvyTypeCd" />
     <property name="label" value="Account Indirect Cost Recovery Type Code" />
     <property name="shortLabel" value="IndCstTypCd" />
@@ -640,7 +640,7 @@
   </bean>
   <bean id="Account-acctCustomIndCstRcvyExclCd" parent="Account-acctCustomIndCstRcvyExclCd-parentBean" />
 
-  <bean id="Account-acctCustomIndCstRcvyExclCd-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="Account-acctCustomIndCstRcvyExclCd-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="acctCustomIndCstRcvyExclCd" />
     <property name="label" value="Account Customized Indirect Cost Exclusion Code" />
     <property name="shortLabel" value="IndCstExclCd" />
@@ -686,7 +686,7 @@
   </bean>
   <bean id="Account-accountInFinancialProcessingIndicator" parent="Account-accountInFinancialProcessingIndicator-parentBean" />
 
-  <bean id="Account-accountInFinancialProcessingIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-oneDigitTextCode">
+  <bean id="Account-accountInFinancialProcessingIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
     <property name="name" value="accountInFinancialProcessingIndicator" />
     <property name="label" value="Account In Financial Processing" />
     <property name="shortLabel" value="AcctFinProc" />
@@ -719,7 +719,7 @@
   </bean>
   <bean id="Account-pendingAcctSufficientFundsIndicator" parent="Account-pendingAcctSufficientFundsIndicator-parentBean" />
 
-  <bean id="Account-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="pendingAcctSufficientFundsIndicator" />
     <property name="label" value="Transaction Processing Sufficient Funds Check" />
     <property name="shortLabel" value="TPSuffChk" />
@@ -727,7 +727,7 @@
   </bean>
   <bean id="Account-extrnlFinEncumSufficntFndIndicator" parent="Account-extrnlFinEncumSufficntFndIndicator-parentBean" />
 
-  <bean id="Account-extrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-extrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="extrnlFinEncumSufficntFndIndicator" />
     <property name="label" value="External Encumbrance Sufficient Funds Indicator" />
     <property name="shortLabel" value="ExtEncSuffFndsInd" />
@@ -735,7 +735,7 @@
   </bean>
   <bean id="Account-intrnlFinEncumSufficntFndIndicator" parent="Account-intrnlFinEncumSufficntFndIndicator-parentBean" />
 
-  <bean id="Account-intrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-intrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="intrnlFinEncumSufficntFndIndicator" />
     <property name="label" value="Internal Encumbrance Sufficient Funds Indicator" />
     <property name="shortLabel" value="IntEncSuffFndsInd" />
@@ -743,7 +743,7 @@
   </bean>
   <bean id="Account-finPreencumSufficientFundIndicator" parent="Account-finPreencumSufficientFundIndicator-parentBean" />
 
-  <bean id="Account-finPreencumSufficientFundIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-finPreencumSufficientFundIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="finPreencumSufficientFundIndicator" />
     <property name="label" value="Pre-Encumbrance Sufficient Funds Indicator" />
     <property name="shortLabel" value="PreEncSuffFndsInd" />
@@ -751,7 +751,7 @@
   </bean>
   <bean id="Account-financialObjectivePrsctrlIndicator" parent="Account-financialObjectivePrsctrlIndicator-parentBean" />
 
-  <bean id="Account-financialObjectivePrsctrlIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-financialObjectivePrsctrlIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="financialObjectivePrsctrlIndicator" />
     <property name="label" value="Object Presence Control Indicator" />
     <property name="shortLabel" value="ObjPrsCntrl" />
@@ -767,7 +767,7 @@
   </bean>
   <bean id="Account-accountOffCampusIndicator" parent="Account-accountOffCampusIndicator-parentBean" />
 
-  <bean id="Account-accountOffCampusIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Account-accountOffCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="accountOffCampusIndicator" />
     <property name="label" value="Account Off Campus Indicator" />
     <property name="shortLabel" value="OffCmpsInd" />
@@ -917,11 +917,11 @@
   </bean>
   <bean id="Account-versionNumber" parent="Account-versionNumber-parentBean" />
 
-  <bean id="Account-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Account-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="Account-accountGuideline.accountExpenseGuidelineText" parent="Account-accountGuideline.accountExpenseGuidelineText-parentBean" />
 
-  <bean id="Account-accountGuideline.accountExpenseGuidelineText-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="Account-accountGuideline.accountExpenseGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="accountGuideline.accountExpenseGuidelineText" />
     <property name="label" value="Account Expense Guideline Text" />
     <property name="shortLabel" value="ExpGuideTxt" />
@@ -929,7 +929,7 @@
   </bean>
   <bean id="Account-accountGuideline.accountIncomeGuidelineText" parent="Account-accountGuideline.accountIncomeGuidelineText-parentBean" />
 
-  <bean id="Account-accountGuideline.accountIncomeGuidelineText-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="Account-accountGuideline.accountIncomeGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="accountGuideline.accountIncomeGuidelineText" />
     <property name="label" value="Account Income Guideline Text" />
     <property name="shortLabel" value="IncGuideTxt" />
@@ -937,7 +937,7 @@
   </bean>
   <bean id="Account-accountGuideline.accountPurposeText" parent="Account-accountGuideline.accountPurposeText-parentBean" />
 
-  <bean id="Account-accountGuideline.accountPurposeText-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+  <bean id="Account-accountGuideline.accountPurposeText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="accountGuideline.accountPurposeText" />
     <property name="label" value="Account Purpose Text" />
     <property name="shortLabel" value="AcctPurpTxt" />
@@ -945,7 +945,7 @@
   </bean>
   <bean id="Account-accountGuideline.versionNumber" parent="Account-accountGuideline.versionNumber-parentBean" />
 
-  <bean id="Account-accountGuideline.versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Account-accountGuideline.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="name" value="accountGuideline.versionNumber" />
   </bean>
   <bean id="Account-accountDescription.campusDescription" parent="Account-accountDescription.campusDescription-parentBean" />
@@ -975,7 +975,7 @@
   </bean>
   <bean id="Account-accountDescription.versionNumber" parent="Account-accountDescription.versionNumber-parentBean" />
 
-  <bean id="Account-accountDescription.versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Account-accountDescription.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="name" value="accountDescription.versionNumber" />
   </bean>
   <bean id="Account-accountResponsibilitySection" parent="Account-accountResponsibilitySection-parentBean" />

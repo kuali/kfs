@@ -56,7 +56,7 @@
 
   <bean id="Options-universityFiscalYear" parent="Options-universityFiscalYear-parentBean" />
 
-  <bean id="Options-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="Options-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
@@ -123,7 +123,7 @@
   </bean>
   <bean id="Options-financialBeginBalanceLoadInd" parent="Options-financialBeginBalanceLoadInd-parentBean" />
 
-  <bean id="Options-financialBeginBalanceLoadInd-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="Options-financialBeginBalanceLoadInd-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="financialBeginBalanceLoadInd" />
     <property name="label" value="Beginning Balances Loaded Indicator" />
     <property name="shortLabel" value="Begin Bal. Loaded Ind" />
@@ -133,7 +133,7 @@
   </bean>
   <bean id="Options-budgetCheckingOptionsCode" parent="Options-budgetCheckingOptionsCode-parentBean" />
 
-  <bean id="Options-budgetCheckingOptionsCode-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="Options-budgetCheckingOptionsCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="budgetCheckingOptionsCode" />
     <property name="label" value="Budget Checking Options Code" />
     <property name="shortLabel" value="Budget Option Code" />
@@ -552,7 +552,7 @@
   </bean>
   <bean id="Options-versionNumber" parent="Options-versionNumber-parentBean" />
 
-  <bean id="Options-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Options-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

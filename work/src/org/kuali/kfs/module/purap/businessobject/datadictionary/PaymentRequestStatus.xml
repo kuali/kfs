@@ -63,7 +63,7 @@
   </bean>
   <bean id="PaymentRequestStatus-versionNumber" parent="PaymentRequestStatus-versionNumber-parentBean" />
 
-  <bean id="PaymentRequestStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentRequestStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

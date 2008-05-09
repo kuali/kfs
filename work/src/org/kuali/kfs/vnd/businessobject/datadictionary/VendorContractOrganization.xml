@@ -35,7 +35,7 @@
   </bean>
   <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" parent="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" />
 
-  <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="vendorContractPurchaseOrderLimitAmount" />
     <property name="label" value="APO Amount" />
     <property name="shortLabel" value="APO Amount" />
@@ -43,7 +43,7 @@
   </bean>
   <bean id="VendorContractOrganization-vendorContractExcludeIndicator" parent="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" />
 
-  <bean id="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-yesNoWithBlankIndicator">
+  <bean id="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
     <property name="name" value="vendorContractExcludeIndicator" />
     <property name="label" value="Exclude" />
     <property name="shortLabel" value="Exclude" />
@@ -57,15 +57,15 @@
   </bean>
   <bean id="VendorContractOrganization-newCollectionRecord" parent="VendorContractOrganization-newCollectionRecord-parentBean" />
 
-  <bean id="VendorContractOrganization-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorContractOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorContractOrganization-versionNumber" parent="VendorContractOrganization-versionNumber-parentBean" />
 
-  <bean id="VendorContractOrganization-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorContractOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorContractOrganization-active" parent="VendorContractOrganization-active-parentBean" />
 
-  <bean id="VendorContractOrganization-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorContractOrganization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 </beans>

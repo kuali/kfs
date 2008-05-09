@@ -130,7 +130,7 @@
   </bean>
   <bean id="QuestionType-versionNumber" parent="QuestionType-versionNumber-parentBean" />
 
-  <bean id="QuestionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="QuestionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

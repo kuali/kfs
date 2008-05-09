@@ -1007,6 +1007,6 @@
   </bean>
   <bean id="KualiRoutingFormDocument-versionNumber" parent="KualiRoutingFormDocument-versionNumber-parentBean" />
 
-  <bean id="KualiRoutingFormDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="KualiRoutingFormDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

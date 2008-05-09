@@ -146,7 +146,7 @@
   </bean>
   <bean id="ProcurementCardVendor-versionNumber" parent="ProcurementCardVendor-versionNumber-parentBean" />
 
-  <bean id="ProcurementCardVendor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProcurementCardVendor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ProcurementCardVendor-visaVendorIdentifier" parent="ProcurementCardVendor-visaVendorIdentifier-parentBean" />
 

@@ -119,11 +119,11 @@
   </bean>
   <bean id="PostalZipCode-objectId" parent="PostalZipCode-objectId-parentBean" />
 
-  <bean id="PostalZipCode-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="PostalZipCode-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="PostalZipCode-versionNumber" parent="PostalZipCode-versionNumber-parentBean" />
 
-  <bean id="PostalZipCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PostalZipCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

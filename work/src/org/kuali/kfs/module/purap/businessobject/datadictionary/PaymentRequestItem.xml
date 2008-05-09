@@ -48,11 +48,11 @@
 
   <bean id="PaymentRequestItem-versionNumber" parent="PaymentRequestItem-versionNumber-parentBean" />
 
-  <bean id="PaymentRequestItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PaymentRequestItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="PaymentRequestItem-itemIdentifier" parent="PaymentRequestItem-itemIdentifier-parentBean" />
 
-  <bean id="PaymentRequestItem-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="PaymentRequestItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>
@@ -119,14 +119,14 @@
   </bean>
   <bean id="PaymentRequestItem-extendedPrice" parent="PaymentRequestItem-extendedPrice-parentBean" />
 
-  <bean id="PaymentRequestItem-extendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PaymentRequestItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="extendedPrice" />
     <property name="label" value="Extended Price" />
     <property name="shortLabel" value="Extended Cost" />
   </bean>
   <bean id="PaymentRequestItem-itemUnitPrice" parent="PaymentRequestItem-itemUnitPrice-parentBean" />
 
-  <bean id="PaymentRequestItem-itemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+  <bean id="PaymentRequestItem-itemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="itemUnitPrice" />
     <property name="label" value="Unit Cost" />
     <property name="shortLabel" value="Unit Cost" />
@@ -270,49 +270,49 @@
   </bean>
   <bean id="PaymentRequestItem-purchaseOrderItemUnitPrice" parent="PaymentRequestItem-purchaseOrderItemUnitPrice-parentBean" />
 
-  <bean id="PaymentRequestItem-purchaseOrderItemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+  <bean id="PaymentRequestItem-purchaseOrderItemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="purchaseOrderItemUnitPrice" />
     <property name="label" value="Purchase Order Item Unit Price" />
     <property name="shortLabel" value="PO Unit/Ext Price" />
   </bean>
   <bean id="PaymentRequestItem-originalAmountfromPO" parent="PaymentRequestItem-originalAmountfromPO-parentBean" />
 
-  <bean id="PaymentRequestItem-originalAmountfromPO-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+  <bean id="PaymentRequestItem-originalAmountfromPO-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="originalAmountfromPO" />
     <property name="label" value="Original Amount from Purchase Order" />
     <property name="shortLabel" value="Original Amount from PO" />
   </bean>
   <bean id="PaymentRequestItem-itemOutstandingInvoiceQuantity" parent="PaymentRequestItem-itemOutstandingInvoiceQuantity-parentBean" />
 
-  <bean id="PaymentRequestItem-itemOutstandingInvoiceQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PaymentRequestItem-itemOutstandingInvoiceQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemOutstandingInvoiceQuantity" />
     <property name="label" value="Item Outstanding Invoice Quantity" />
     <property name="shortLabel" value="Open Qty" />
   </bean>
   <bean id="PaymentRequestItem-itemOutstandingInvoiceAmount" parent="PaymentRequestItem-itemOutstandingInvoiceAmount-parentBean" />
 
-  <bean id="PaymentRequestItem-itemOutstandingInvoiceAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestItem-itemOutstandingInvoiceAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemOutstandingInvoiceAmount" />
     <property name="label" value="Item Outstanding Invoiced Amount" />
     <property name="shortLabel" value="Outstanding Invoiced Amount" />
   </bean>
   <bean id="PaymentRequestItem-poOutstandingQuantity" parent="PaymentRequestItem-poOutstandingQuantity-parentBean" />
 
-  <bean id="PaymentRequestItem-poOutstandingQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PaymentRequestItem-poOutstandingQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="poOutstandingQuantity" />
     <property name="label" value="Item Open Quantity" />
     <property name="shortLabel" value="Open Qty" />
   </bean>
   <bean id="PaymentRequestItem-poOutstandingAmount" parent="PaymentRequestItem-poOutstandingAmount-parentBean" />
 
-  <bean id="PaymentRequestItem-poOutstandingAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PaymentRequestItem-poOutstandingAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="poOutstandingAmount" />
     <property name="label" value="Item Outstanding Encumbered Amount" />
     <property name="shortLabel" value="Outstanding Encumbered Amount" />
   </bean>
   <bean id="PaymentRequestItem-itemQuantity" parent="PaymentRequestItem-itemQuantity-parentBean" />
 
-  <bean id="PaymentRequestItem-itemQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PaymentRequestItem-itemQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemQuantity" />
     <property name="label" value="Quantity Invoiced" />
     <property name="shortLabel" value="Qty Invoiced" />

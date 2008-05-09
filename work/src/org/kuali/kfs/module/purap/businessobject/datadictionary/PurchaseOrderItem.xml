@@ -51,11 +51,11 @@
 
   <bean id="PurchaseOrderItem-versionNumber" parent="PurchaseOrderItem-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="PurchaseOrderItem-itemIdentifier" parent="PurchaseOrderItem-itemIdentifier-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="PurchaseOrderItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>
@@ -122,14 +122,14 @@
   </bean>
   <bean id="PurchaseOrderItem-extendedPrice" parent="PurchaseOrderItem-extendedPrice-parentBean" />
 
-  <bean id="PurchaseOrderItem-extendedPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="PurchaseOrderItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="extendedPrice" />
     <property name="label" value="Extended Price" />
     <property name="shortLabel" value="Extended Cost" />
   </bean>
   <bean id="PurchaseOrderItem-itemUnitPrice" parent="PurchaseOrderItem-itemUnitPrice-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemUnitPrice-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemUnitPrice">
+  <bean id="PurchaseOrderItem-itemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="itemUnitPrice" />
     <property name="label" value="Unit Cost" />
     <property name="shortLabel" value="Unit Cost" />
@@ -273,7 +273,7 @@
   </bean>
   <bean id="PurchaseOrderItem-itemQuantity" parent="PurchaseOrderItem-itemQuantity-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PurchaseOrderItem-itemQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemQuantity" />
     <property name="exclusiveMin" value="0" />
   </bean>
@@ -324,33 +324,33 @@
   </bean>
   <bean id="PurchaseOrderItem-itemInvoicedTotalAmount" parent="PurchaseOrderItem-itemInvoicedTotalAmount-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemInvoicedTotalAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PurchaseOrderItem-itemInvoicedTotalAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemInvoicedTotalAmount" />
     <property name="label" value="Item Invoiced Total Amount" />
   </bean>
   <bean id="PurchaseOrderItem-itemInvoicedTotalQuantity" parent="PurchaseOrderItem-itemInvoicedTotalQuantity-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemInvoicedTotalQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PurchaseOrderItem-itemInvoicedTotalQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemInvoicedTotalQuantity" />
     <property name="label" value="Item Invoiced Total Quantity" />
   </bean>
   <bean id="PurchaseOrderItem-itemOutstandingEncumberedQuantity" parent="PurchaseOrderItem-itemOutstandingEncumberedQuantity-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemOutstandingEncumberedQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PurchaseOrderItem-itemOutstandingEncumberedQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemOutstandingEncumberedQuantity" />
     <property name="label" value="Item Outstanding Encumbered Quantity" />
     <property name="shortLabel" value="Outstanding Encumbered Quantity" />
   </bean>
   <bean id="PurchaseOrderItem-itemOutstandingEncumberedAmount" parent="PurchaseOrderItem-itemOutstandingEncumberedAmount-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemOutstandingEncumberedAmount-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemAmount">
+  <bean id="PurchaseOrderItem-itemOutstandingEncumberedAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
     <property name="name" value="itemOutstandingEncumberedAmount" />
     <property name="label" value="Item Outstanding Encumbered Amount" />
     <property name="shortLabel" value="Outstanding Encumbered Amount" />
   </bean>
   <bean id="PurchaseOrderItem-itemReceivedTotalQuantity" parent="PurchaseOrderItem-itemReceivedTotalQuantity-parentBean" />
 
-  <bean id="PurchaseOrderItem-itemReceivedTotalQuantity-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemQuantity">
+  <bean id="PurchaseOrderItem-itemReceivedTotalQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
     <property name="name" value="itemReceivedTotalQuantity" />
     <property name="label" value="Item Received Total Quantity" />
     <property name="shortLabel" value="Received Total Quantity" />

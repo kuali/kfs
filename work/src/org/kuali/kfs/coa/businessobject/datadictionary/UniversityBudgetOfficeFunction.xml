@@ -61,7 +61,7 @@
   </bean>
   <bean id="UniversityBudgetOfficeFunction-versionNumber" parent="UniversityBudgetOfficeFunction-versionNumber-parentBean" />
 
-  <bean id="UniversityBudgetOfficeFunction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="UniversityBudgetOfficeFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

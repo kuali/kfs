@@ -59,7 +59,7 @@
   </bean>
   <bean id="TaxIncomeClassCode-versionNumber" parent="TaxIncomeClassCode-versionNumber-parentBean" />
 
-  <bean id="TaxIncomeClassCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="TaxIncomeClassCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

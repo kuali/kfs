@@ -37,18 +37,18 @@
   </bean>
   <bean id="ProposalResearchRisk-researchRiskTypeIndicator" parent="ProposalResearchRisk-researchRiskTypeIndicator-parentBean" />
 
-  <bean id="ProposalResearchRisk-researchRiskTypeIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="ProposalResearchRisk-researchRiskTypeIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="researchRiskTypeIndicator" />
     <property name="label" value="Required" />
     <property name="shortLabel" value="Required" />
   </bean>
   <bean id="ProposalResearchRisk-newCollectionRecord" parent="ProposalResearchRisk-newCollectionRecord-parentBean" />
 
-  <bean id="ProposalResearchRisk-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="ProposalResearchRisk-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="ProposalResearchRisk-versionNumber" parent="ProposalResearchRisk-versionNumber-parentBean" />
 
-  <bean id="ProposalResearchRisk-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProposalResearchRisk-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" parent="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription-parentBean" />
 

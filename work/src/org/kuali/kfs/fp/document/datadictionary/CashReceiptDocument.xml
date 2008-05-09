@@ -54,7 +54,7 @@
 
   <bean id="CashReceiptDocument-totalCheckAmount" parent="CashReceiptDocument-totalCheckAmount-parentBean" />
 
-  <bean id="CashReceiptDocument-totalCheckAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CashReceiptDocument-totalCheckAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCheckAmount" />
     <property name="label" value="Total Check Amount" />
     <property name="shortLabel" value="Total Check Amount" />
@@ -62,7 +62,7 @@
   </bean>
   <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean" />
 
-  <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCashAmount" />
     <property name="label" value="Total Currency Amount" />
     <property name="shortLabel" value="Total Currency Amount" />
@@ -70,7 +70,7 @@
   </bean>
   <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean" />
 
-  <bean id="CashReceiptDocument-totalCoinAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CashReceiptDocument-totalCoinAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCoinAmount" />
     <property name="label" value="Total Coin Amount" />
     <property name="shortLabel" value="Total Coin Amount" />
@@ -78,7 +78,7 @@
   </bean>
   <bean id="CashReceiptDocument-totalDollarAmount" parent="CashReceiptDocument-totalDollarAmount-parentBean" />
 
-  <bean id="CashReceiptDocument-totalDollarAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CashReceiptDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalDollarAmount" />
     <property name="label" value="Cash Reconciliation Total" />
     <property name="shortLabel" value="Cash Reconciliation Total" />

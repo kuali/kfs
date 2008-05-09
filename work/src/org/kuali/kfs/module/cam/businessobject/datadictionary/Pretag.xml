@@ -119,7 +119,7 @@
   </bean>
   <bean id="Pretag-active" parent="Pretag-active-parentBean" />
 
-  <bean id="Pretag-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Pretag-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="Pretag-chartOfAccountsCode" parent="Pretag-chartOfAccountsCode-parentBean" />
@@ -140,7 +140,7 @@
   </bean>
   <bean id="Pretag-pretagCreateDate" parent="Pretag-pretagCreateDate-parentBean" />
 
-  <bean id="Pretag-pretagCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="Pretag-pretagCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="pretagCreateDate" />
     <property name="label" value="Pretag Create Date" />
     <property name="shortLabel" value="Date" />
@@ -364,7 +364,7 @@
   </bean>
   <bean id="Pretag-versionNumber" parent="Pretag-versionNumber-parentBean" />
 
-  <bean id="Pretag-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Pretag-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

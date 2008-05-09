@@ -179,7 +179,7 @@
   </bean>
   <bean id="BalanceByGeneralLedgerKey-versionNumber" parent="BalanceByGeneralLedgerKey-versionNumber-parentBean" />
 
-  <bean id="BalanceByGeneralLedgerKey-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BalanceByGeneralLedgerKey-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

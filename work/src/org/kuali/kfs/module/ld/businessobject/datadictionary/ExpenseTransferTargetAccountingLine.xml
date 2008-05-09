@@ -75,7 +75,7 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode" parent="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+  <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
     <property name="name" value="payrollEndDateFiscalPeriodCode" />
     <property name="label" value="Payroll End Date Fiscal Period Code" />
     <property name="shortLabel" value="Pay Per" />
@@ -177,7 +177,7 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-sequenceNumber" parent="ExpenseTransferTargetAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="ExpenseTransferTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -192,7 +192,7 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-objectId" parent="ExpenseTransferTargetAccountingLine-objectId-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="ExpenseTransferTargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId" parent="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" />
@@ -226,7 +226,7 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-postingYear" parent="ExpenseTransferTargetAccountingLine-postingYear-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="ExpenseTransferTargetAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -271,7 +271,7 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-amount" parent="ExpenseTransferTargetAccountingLine-amount-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="ExpenseTransferTargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -310,7 +310,7 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-versionNumber" parent="ExpenseTransferTargetAccountingLine-versionNumber-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ExpenseTransferTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-documentNumber" parent="ExpenseTransferTargetAccountingLine-documentNumber-parentBean" />

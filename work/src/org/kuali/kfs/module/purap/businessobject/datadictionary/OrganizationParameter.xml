@@ -39,7 +39,7 @@
   </bean>
   <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit" parent="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" />
 
-  <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="organizationAutomaticPurchaseOrderLimit" />
     <property name="label" value="Organization APO Limit" />
     <property name="shortLabel" value="Organization APO Limit" />
@@ -48,7 +48,7 @@
   </bean>
   <bean id="OrganizationParameter-versionNumber" parent="OrganizationParameter-versionNumber-parentBean" />
 
-  <bean id="OrganizationParameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationParameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

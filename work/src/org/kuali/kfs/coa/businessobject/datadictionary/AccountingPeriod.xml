@@ -106,7 +106,7 @@
   </bean>
   <bean id="AccountingPeriod-universityFiscalPeriodEndDate" parent="AccountingPeriod-universityFiscalPeriodEndDate-parentBean" />
 
-  <bean id="AccountingPeriod-universityFiscalPeriodEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AccountingPeriod-universityFiscalPeriodEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="universityFiscalPeriodEndDate" />
     <property name="label" value="University Fiscal Period End Date" />
     <property name="shortLabel" value="End Date" />
@@ -131,11 +131,11 @@
   </bean>
   <bean id="AccountingPeriod-versionNumber" parent="AccountingPeriod-versionNumber-parentBean" />
 
-  <bean id="AccountingPeriod-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountingPeriod-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AccountingPeriod-objectId" parent="AccountingPeriod-objectId-parentBean" />
 
-  <bean id="AccountingPeriod-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="AccountingPeriod-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

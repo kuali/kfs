@@ -44,22 +44,22 @@
   </bean>
   <bean id="VendorDefaultAddress-vendorCampusCode" parent="VendorDefaultAddress-vendorCampusCode-parentBean" />
 
-  <bean id="VendorDefaultAddress-vendorCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="VendorDefaultAddress-vendorCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="vendorCampusCode" />
     <property name="label" value="Set as campus default for" />
     <property name="required" value="true" />
   </bean>
   <bean id="VendorDefaultAddress-newCollectionRecord" parent="VendorDefaultAddress-newCollectionRecord-parentBean" />
 
-  <bean id="VendorDefaultAddress-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorDefaultAddress-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorDefaultAddress-versionNumber" parent="VendorDefaultAddress-versionNumber-parentBean" />
 
-  <bean id="VendorDefaultAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorDefaultAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorDefaultAddress-active" parent="VendorDefaultAddress-active-parentBean" />
 
-  <bean id="VendorDefaultAddress-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorDefaultAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 </beans>

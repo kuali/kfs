@@ -48,7 +48,7 @@
 
   <bean id="LaborCalculatedSalaryFoundationTracker-universityFiscalYear" parent="LaborCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" />
 
-  <bean id="LaborCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LaborCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -75,7 +75,7 @@
   </bean>
   <bean id="LaborCalculatedSalaryFoundationTracker-versionNumber" parent="LaborCalculatedSalaryFoundationTracker-versionNumber-parentBean" />
 
-  <bean id="LaborCalculatedSalaryFoundationTracker-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LaborCalculatedSalaryFoundationTracker-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="LaborCalculatedSalaryFoundationTracker-csfAmount" parent="LaborCalculatedSalaryFoundationTracker-csfAmount-parentBean" />
 

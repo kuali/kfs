@@ -40,7 +40,7 @@
 
   <bean id="IcrAutomatedEntry-universityFiscalYear" parent="IcrAutomatedEntry-universityFiscalYear-parentBean" />
 
-  <bean id="IcrAutomatedEntry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="IcrAutomatedEntry-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -196,7 +196,7 @@
   </bean>
   <bean id="IcrAutomatedEntry-awardIndrCostRcvyRatePct" parent="IcrAutomatedEntry-awardIndrCostRcvyRatePct-parentBean" />
 
-  <bean id="IcrAutomatedEntry-awardIndrCostRcvyRatePct-parentBean" abstract="true" parent="AttributeReferenceDummy-percent">
+  <bean id="IcrAutomatedEntry-awardIndrCostRcvyRatePct-parentBean" abstract="true" parent="GenericAttributes-percent">
     <property name="name" value="awardIndrCostRcvyRatePct" />
     <property name="label" value="ICR Percent" />
     <property name="shortLabel" value="Rate%" />
@@ -204,7 +204,7 @@
   </bean>
   <bean id="IcrAutomatedEntry-versionNumber" parent="IcrAutomatedEntry-versionNumber-parentBean" />
 
-  <bean id="IcrAutomatedEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="IcrAutomatedEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

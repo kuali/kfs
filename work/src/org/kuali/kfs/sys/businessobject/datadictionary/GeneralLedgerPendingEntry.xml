@@ -55,7 +55,7 @@
 
   <bean id="GeneralLedgerPendingEntry-universityFiscalYear" parent="GeneralLedgerPendingEntry-universityFiscalYear-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="GeneralLedgerPendingEntry-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -93,7 +93,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber" parent="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="GeneralLedgerPendingEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="transactionLedgerEntrySequenceNumber" />
   </bean>
   <bean id="GeneralLedgerPendingEntry-financialBalanceTypeCode" parent="GeneralLedgerPendingEntry-financialBalanceTypeCode-parentBean" />
@@ -105,7 +105,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionDate" parent="GeneralLedgerPendingEntry-transactionDate-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-transactionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="GeneralLedgerPendingEntry-transactionDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="transactionDate" />
     <property name="label" value="Transaction Date" />
     <property name="shortLabel" value="Date" />
@@ -150,7 +150,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionLedgerEntryAmount" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="GeneralLedgerPendingEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionLedgerEntryAmount" />
     <property name="label" value="Transaction Ledger Entry Amount" />
     <property name="shortLabel" value="Amount" />
@@ -205,7 +205,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionEntryOffsetIndicator" parent="GeneralLedgerPendingEntry-transactionEntryOffsetIndicator-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-transactionEntryOffsetIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="GeneralLedgerPendingEntry-transactionEntryOffsetIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="transactionEntryOffsetIndicator" />
     <property name="label" value="Transaction Entry Offset Code" />
     <property name="shortLabel" value="Entry Offset Ind." />
@@ -229,7 +229,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-financialDocumentReversalDate" parent="GeneralLedgerPendingEntry-financialDocumentReversalDate-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="GeneralLedgerPendingEntry-financialDocumentReversalDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="financialDocumentReversalDate" />
     <property name="label" value="Document Reversal Date" />
     <property name="shortLabel" value="Doc. Reversal Date" />
@@ -238,7 +238,7 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-universityFiscalPeriodCode" parent="GeneralLedgerPendingEntry-universityFiscalPeriodCode-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-universityFiscalPeriodCode-parentBean" abstract="true" parent="AttributeReferenceDummy-universityFiscalAccountingPeriod">
+  <bean id="GeneralLedgerPendingEntry-universityFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
     <property name="name" value="universityFiscalPeriodCode" />
     <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Fiscal Period" />
@@ -327,11 +327,11 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-versionNumber" parent="GeneralLedgerPendingEntry-versionNumber-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="GeneralLedgerPendingEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionEntryProcessedTs" parent="GeneralLedgerPendingEntry-transactionEntryProcessedTs-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-transactionEntryProcessedTs-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="GeneralLedgerPendingEntry-transactionEntryProcessedTs-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="transactionEntryProcessedTs" />
     <property name="label" value="Transaction Entry Processed" />
     <property name="shortLabel" value="Entry Processed" />

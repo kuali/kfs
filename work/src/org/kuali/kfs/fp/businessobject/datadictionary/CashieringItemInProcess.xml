@@ -115,7 +115,7 @@
   </bean>
   <bean id="CashieringItemInProcess-itemOpenDate" parent="CashieringItemInProcess-itemOpenDate-parentBean" />
 
-  <bean id="CashieringItemInProcess-itemOpenDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="CashieringItemInProcess-itemOpenDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="itemOpenDate" />
     <property name="label" value="Item Open Date" />
     <property name="shortLabel" value="Date" />
@@ -126,7 +126,7 @@
   </bean>
   <bean id="CashieringItemInProcess-itemClosedDate" parent="CashieringItemInProcess-itemClosedDate-parentBean" />
 
-  <bean id="CashieringItemInProcess-itemClosedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="CashieringItemInProcess-itemClosedDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="itemClosedDate" />
     <property name="label" value="Item Closed Date" />
     <property name="shortLabel" value="Date" />
@@ -169,7 +169,7 @@
   </bean>
   <bean id="CashieringItemInProcess-versionNumber" parent="CashieringItemInProcess-versionNumber-parentBean" />
 
-  <bean id="CashieringItemInProcess-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CashieringItemInProcess-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

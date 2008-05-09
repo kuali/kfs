@@ -42,7 +42,7 @@
   </bean>
   <bean id="CheckBase-checkDate" parent="CheckBase-checkDate-parentBean" />
 
-  <bean id="CheckBase-checkDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="CheckBase-checkDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="checkDate" />
     <property name="label" value="Check Date" />
     <property name="shortLabel" value="Date" />
@@ -93,19 +93,19 @@
   </bean>
   <bean id="CheckBase-financialDocumentDepositLineNumber" parent="CheckBase-financialDocumentDepositLineNumber-parentBean" />
 
-  <bean id="CheckBase-financialDocumentDepositLineNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CheckBase-financialDocumentDepositLineNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentDepositLineNumber" />
     <property name="required" value="false" />
   </bean>
   <bean id="CheckBase-amount" parent="CheckBase-amount-parentBean" />
 
-  <bean id="CheckBase-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CheckBase-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
   </bean>
   <bean id="CheckBase-sequenceId" parent="CheckBase-sequenceId-parentBean" />
 
-  <bean id="CheckBase-sequenceId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CheckBase-sequenceId-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="sequenceId" />
     <property name="required" value="true" />
   </bean>

@@ -102,7 +102,7 @@
   </bean>
   <bean id="NonInvoicedDistribution-versionNumber" parent="NonInvoicedDistribution-versionNumber-parentBean" />
 
-  <bean id="NonInvoicedDistribution-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="NonInvoicedDistribution-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -230,6 +230,6 @@
   </bean>
   <bean id="BudgetConstructionDocument-versionNumber" parent="BudgetConstructionDocument-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

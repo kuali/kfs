@@ -67,12 +67,12 @@
   </bean>
   <bean id="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator" parent="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-  <bean id="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ResearchTypeCode-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
   </bean>
   <bean id="ResearchTypeCode-versionNumber" parent="ResearchTypeCode-versionNumber-parentBean" />
 
-  <bean id="ResearchTypeCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ResearchTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

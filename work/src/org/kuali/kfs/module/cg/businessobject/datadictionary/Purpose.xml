@@ -86,12 +86,12 @@
   </bean>
   <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator" parent="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
 
-  <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
   </bean>
   <bean id="Purpose-versionNumber" parent="Purpose-versionNumber-parentBean" />
 
-  <bean id="Purpose-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Purpose-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

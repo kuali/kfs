@@ -63,7 +63,7 @@
   </bean>
   <bean id="CreditMemoStatus-versionNumber" parent="CreditMemoStatus-versionNumber-parentBean" />
 
-  <bean id="CreditMemoStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="CreditMemoStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -159,7 +159,7 @@
   </bean>
   <bean id="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber" parent="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

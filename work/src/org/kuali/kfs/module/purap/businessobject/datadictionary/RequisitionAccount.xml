@@ -114,7 +114,7 @@
   </bean>
   <bean id="RequisitionAccount-sequenceNumber" parent="RequisitionAccount-sequenceNumber-parentBean" />
 
-  <bean id="RequisitionAccount-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="RequisitionAccount-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -129,7 +129,7 @@
   </bean>
   <bean id="RequisitionAccount-objectId" parent="RequisitionAccount-objectId-parentBean" />
 
-  <bean id="RequisitionAccount-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="RequisitionAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="RequisitionAccount-organizationReferenceId" parent="RequisitionAccount-organizationReferenceId-parentBean" />
@@ -163,7 +163,7 @@
   </bean>
   <bean id="RequisitionAccount-postingYear" parent="RequisitionAccount-postingYear-parentBean" />
 
-  <bean id="RequisitionAccount-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="RequisitionAccount-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -208,7 +208,7 @@
   </bean>
   <bean id="RequisitionAccount-amount" parent="RequisitionAccount-amount-parentBean" />
 
-  <bean id="RequisitionAccount-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="RequisitionAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -247,7 +247,7 @@
   </bean>
   <bean id="RequisitionAccount-versionNumber" parent="RequisitionAccount-versionNumber-parentBean" />
 
-  <bean id="RequisitionAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="RequisitionAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="RequisitionAccount-documentNumber" parent="RequisitionAccount-documentNumber-parentBean" />
@@ -419,7 +419,7 @@
   </bean>
   <bean id="RequisitionAccount-itemIdentifier" parent="RequisitionAccount-itemIdentifier-parentBean" />
 
-  <bean id="RequisitionAccount-itemIdentifier-parentBean" abstract="true" parent="PurApAttributeReferenceDummy-genericItemIdentifier">
+  <bean id="RequisitionAccount-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier" />
     <property name="label" value="Item Identifier" />
   </bean>

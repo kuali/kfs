@@ -105,11 +105,11 @@
   </bean>
   <bean id="ProposalProjectDirector-newCollectionRecord" parent="ProposalProjectDirector-newCollectionRecord-parentBean" />
 
-  <bean id="ProposalProjectDirector-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="ProposalProjectDirector-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="ProposalProjectDirector-versionNumber" parent="ProposalProjectDirector-versionNumber-parentBean" />
 
-  <bean id="ProposalProjectDirector-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProposalProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

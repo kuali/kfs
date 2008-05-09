@@ -73,7 +73,7 @@
 
   <bean id="DuplicateCertificationsReport-universityFiscalYear" parent="DuplicateCertificationsReport-universityFiscalYear-parentBean" />
 
-  <bean id="DuplicateCertificationsReport-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="DuplicateCertificationsReport-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="DuplicateCertificationsReport-effortCertificationReportNumber" parent="DuplicateCertificationsReport-effortCertificationReportNumber-parentBean" />

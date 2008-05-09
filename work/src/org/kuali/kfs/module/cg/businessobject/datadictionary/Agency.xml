@@ -174,7 +174,7 @@
   </bean>
   <bean id="Agency-versionNumber" parent="Agency-versionNumber-parentBean" />
 
-  <bean id="Agency-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Agency-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

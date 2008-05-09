@@ -93,7 +93,7 @@
   </bean>
   <bean id="AuxiliaryVoucherDocument-reversalDate" parent="AuxiliaryVoucherDocument-reversalDate-parentBean" />
 
-  <bean id="AuxiliaryVoucherDocument-reversalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AuxiliaryVoucherDocument-reversalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="reversalDate" />
     <property name="label" value="Reversal Date" />
     <property name="shortLabel" value="Reversal Date" />

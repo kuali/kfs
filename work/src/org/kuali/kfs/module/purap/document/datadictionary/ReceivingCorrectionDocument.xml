@@ -145,13 +145,13 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryBuildingLine1Address" parent="ReceivingCorrectionDocument-deliveryBuildingLine1Address-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="ReceivingCorrectionDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="deliveryBuildingLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryBuildingLine2Address" parent="ReceivingCorrectionDocument-deliveryBuildingLine2Address-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="ReceivingCorrectionDocument-deliveryBuildingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="deliveryBuildingLine2Address" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryBuildingName" parent="ReceivingCorrectionDocument-deliveryBuildingName-parentBean" />
@@ -204,7 +204,7 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryCampusCode" parent="ReceivingCorrectionDocument-deliveryCampusCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-campusCode">
+  <bean id="ReceivingCorrectionDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="deliveryCampusCode" />
     <property name="label" value="Delivery Campus" />
     <property name="shortLabel" value="Delivery Campus" />
@@ -217,13 +217,13 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryCityName" parent="ReceivingCorrectionDocument-deliveryCityName-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="ReceivingCorrectionDocument-deliveryCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="deliveryCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryCountryCode" parent="ReceivingCorrectionDocument-deliveryCountryCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="ReceivingCorrectionDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="deliveryCountryCode" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryInstructionText" parent="ReceivingCorrectionDocument-deliveryInstructionText-parentBean" />
@@ -246,13 +246,13 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryPostalCode" parent="ReceivingCorrectionDocument-deliveryPostalCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="ReceivingCorrectionDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="deliveryPostalCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryRequiredDate" parent="ReceivingCorrectionDocument-deliveryRequiredDate-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryRequiredDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="ReceivingCorrectionDocument-deliveryRequiredDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="deliveryRequiredDate" />
     <property name="label" value="Date Required" />
     <property name="shortLabel" value="Date Required" />
@@ -270,19 +270,19 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryStateCode" parent="ReceivingCorrectionDocument-deliveryStateCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="ReceivingCorrectionDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="deliveryStateCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryToEmailAddress" parent="ReceivingCorrectionDocument-deliveryToEmailAddress-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeReferenceDummy-emailAddress">
+  <bean id="ReceivingCorrectionDocument-deliveryToEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="deliveryToEmailAddress" />
     <property name="required" value="false" />
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryToName" parent="ReceivingCorrectionDocument-deliveryToName-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryToName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-attentionName">
+  <bean id="ReceivingCorrectionDocument-deliveryToName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">
     <property name="name" value="deliveryToName" />
     <property name="label" value="Delivery To" />
     <property name="shortLabel" value="To" />
@@ -290,7 +290,7 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-deliveryToPhoneNumber" parent="ReceivingCorrectionDocument-deliveryToPhoneNumber-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-phoneNumberWithValidation">
+  <bean id="ReceivingCorrectionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber" />
   </bean>
   <bean id="ReceivingCorrectionDocument-shipmentBillOfLadingNumber" parent="ReceivingCorrectionDocument-shipmentBillOfLadingNumber-parentBean" />
@@ -401,39 +401,39 @@
   </bean>
   <bean id="ReceivingCorrectionDocument-vendorCityName" parent="ReceivingCorrectionDocument-vendorCityName-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-vendorCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="ReceivingCorrectionDocument-vendorCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="vendorCityName" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-vendorCountryCode" parent="ReceivingCorrectionDocument-vendorCountryCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="ReceivingCorrectionDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-vendorLine1Address" parent="ReceivingCorrectionDocument-vendorLine1Address-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="ReceivingCorrectionDocument-vendorLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="vendorLine1Address" />
     <property name="required" value="true" />
   </bean>
   <bean id="ReceivingCorrectionDocument-vendorLine2Address" parent="ReceivingCorrectionDocument-vendorLine2Address-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="ReceivingCorrectionDocument-vendorLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="vendorLine2Address" />
   </bean>
   <bean id="ReceivingCorrectionDocument-vendorStateCode" parent="ReceivingCorrectionDocument-vendorStateCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-vendorStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="ReceivingCorrectionDocument-vendorStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="vendorStateCode" />
   </bean>
   <bean id="ReceivingCorrectionDocument-vendorPostalCode" parent="ReceivingCorrectionDocument-vendorPostalCode-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="ReceivingCorrectionDocument-vendorPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorPostalCode" />
   </bean>
   <bean id="ReceivingCorrectionDocument-versionNumber" parent="ReceivingCorrectionDocument-versionNumber-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ReceivingCorrectionDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

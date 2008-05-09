@@ -197,7 +197,7 @@
   </bean>
   <bean id="BudgetConstructionSalaryFunding-versionNumber" parent="BudgetConstructionSalaryFunding-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionSalaryFunding-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionSalaryFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -159,7 +159,7 @@
   </bean>
   <bean id="AssetLocationGlobalDetail-versionNumber" parent="AssetLocationGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="AssetLocationGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetLocationGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -50,7 +50,7 @@
 
   <bean id="CreditCardReceiptDocument-totalCreditCardAmount" parent="CreditCardReceiptDocument-totalCreditCardAmount-parentBean" />
 
-  <bean id="CreditCardReceiptDocument-totalCreditCardAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="CreditCardReceiptDocument-totalCreditCardAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCreditCardAmount" />
     <property name="label" value="Credit Card Receipt Total" />
     <property name="shortLabel" value="Credit Card Receipt Total" />

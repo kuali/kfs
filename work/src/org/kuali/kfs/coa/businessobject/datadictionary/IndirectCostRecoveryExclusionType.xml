@@ -53,7 +53,7 @@
   </bean>
   <bean id="IndirectCostRecoveryExclusionType-versionNumber" parent="IndirectCostRecoveryExclusionType-versionNumber-parentBean" />
 
-  <bean id="IndirectCostRecoveryExclusionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="IndirectCostRecoveryExclusionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

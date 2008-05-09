@@ -273,7 +273,7 @@
   </bean>
   <bean id="BudgetConstructionAccountSelect-versionNumber" parent="BudgetConstructionAccountSelect-versionNumber-parentBean" />
 
-  <bean id="BudgetConstructionAccountSelect-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetConstructionAccountSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

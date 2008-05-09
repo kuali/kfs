@@ -70,7 +70,7 @@
   </bean>
   <bean id="ProjectDirector-personUniversalIdentifier" parent="ProjectDirector-personUniversalIdentifier-parentBean" />
 
-  <bean id="ProjectDirector-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+  <bean id="ProjectDirector-personUniversalIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
     <property name="name" value="personUniversalIdentifier" />
     <property name="label" value="Universal ID" />
     <property name="shortLabel" value="ID" />
@@ -130,7 +130,7 @@
   </bean>
   <bean id="ProjectDirector-versionNumber" parent="ProjectDirector-versionNumber-parentBean" />
 
-  <bean id="ProjectDirector-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

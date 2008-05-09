@@ -77,7 +77,7 @@
   </bean>
   <bean id="ResponsibilityCenter-responsibilityCenterActiveIndicator" parent="ResponsibilityCenter-responsibilityCenterActiveIndicator-parentBean" />
 
-  <bean id="ResponsibilityCenter-responsibilityCenterActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ResponsibilityCenter-responsibilityCenterActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="responsibilityCenterActiveIndicator" />
     <property name="label" value="Responsibility Center Active Indicator" />
     <property name="shortLabel" value="Respons Center Active" />
@@ -85,7 +85,7 @@
   </bean>
   <bean id="ResponsibilityCenter-versionNumber" parent="ResponsibilityCenter-versionNumber-parentBean" />
 
-  <bean id="ResponsibilityCenter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ResponsibilityCenter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

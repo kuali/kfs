@@ -45,7 +45,7 @@
   </bean>
   <bean id="AssetLocationGlobal-versionNumber" parent="AssetLocationGlobal-versionNumber-parentBean" />
 
-  <bean id="AssetLocationGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetLocationGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

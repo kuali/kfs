@@ -172,11 +172,11 @@
   </bean>
   <bean id="Parameter-objectId" parent="Parameter-objectId-parentBean" />
 
-  <bean id="Parameter-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="Parameter-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="Parameter-versionNumber" parent="Parameter-versionNumber-parentBean" />
 
-  <bean id="Parameter-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Parameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

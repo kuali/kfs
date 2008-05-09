@@ -253,7 +253,7 @@
   </bean>
   <bean id="SalarySettingExpansion-versionNumber" parent="SalarySettingExpansion-versionNumber-parentBean" />
 
-  <bean id="SalarySettingExpansion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="SalarySettingExpansion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

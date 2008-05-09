@@ -115,7 +115,7 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-estimatedSellingPrice" parent="AssetRetirementGlobalDetail-estimatedSellingPrice-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-estimatedSellingPrice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AssetRetirementGlobalDetail-estimatedSellingPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="estimatedSellingPrice" />
     <property name="label" value="Estimated Selling Price" />
     <property name="shortLabel" value="Price" />
@@ -125,7 +125,7 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-handlingFeeAmount" parent="AssetRetirementGlobalDetail-handlingFeeAmount-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-handlingFeeAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AssetRetirementGlobalDetail-handlingFeeAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="handlingFeeAmount" />
     <property name="label" value="Handling Fee Amount" />
     <property name="shortLabel" value="Amount" />
@@ -135,7 +135,7 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-preventiveMaintenanceAmount" parent="AssetRetirementGlobalDetail-preventiveMaintenanceAmount-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-preventiveMaintenanceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AssetRetirementGlobalDetail-preventiveMaintenanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="preventiveMaintenanceAmount" />
     <property name="label" value="Preventive Maintenance Amount" />
     <property name="shortLabel" value="Amount" />
@@ -348,7 +348,7 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-newCollectionRecord" parent="AssetRetirementGlobalDetail-newCollectionRecord-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="AssetRetirementGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="AssetRetirementGlobalDetail-asset.organizationOwnerChartOfAccountsCode" parent="AssetRetirementGlobalDetail-asset.organizationOwnerChartOfAccountsCode-parentBean" />
 
@@ -495,7 +495,7 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-versionNumber" parent="AssetRetirementGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetRetirementGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

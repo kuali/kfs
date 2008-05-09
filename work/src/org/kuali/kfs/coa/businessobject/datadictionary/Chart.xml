@@ -149,7 +149,7 @@
   </bean>
   <bean id="Chart-finChartOfAccountActiveIndicator" parent="Chart-finChartOfAccountActiveIndicator-parentBean" />
 
-  <bean id="Chart-finChartOfAccountActiveIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Chart-finChartOfAccountActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="finChartOfAccountActiveIndicator" />
     <property name="label" value="Chart Active Indicator" />
     <property name="shortLabel" value="ChartActive" />
@@ -252,7 +252,7 @@
   </bean>
   <bean id="Chart-versionNumber" parent="Chart-versionNumber-parentBean" />
 
-  <bean id="Chart-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="Chart-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

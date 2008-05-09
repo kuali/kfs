@@ -161,7 +161,7 @@
   </bean>
   <bean id="AccountGlobal-accountStateCode" parent="AccountGlobal-accountStateCode-parentBean" />
 
-  <bean id="AccountGlobal-accountStateCode-parentBean" abstract="true" parent="AttributeReferenceDummy-twoDigitTextCode">
+  <bean id="AccountGlobal-accountStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="accountStateCode" />
     <property name="label" value="Account State Code" />
     <property name="shortLabel" value="StateCd" />
@@ -373,6 +373,6 @@
   </bean>
   <bean id="AccountGlobal-versionNumber" parent="AccountGlobal-versionNumber-parentBean" />
 
-  <bean id="AccountGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

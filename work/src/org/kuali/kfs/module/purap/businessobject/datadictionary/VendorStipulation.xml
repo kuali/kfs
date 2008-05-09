@@ -82,11 +82,11 @@
   </bean>
   <bean id="VendorStipulation-versionNumber" parent="VendorStipulation-versionNumber-parentBean" />
 
-  <bean id="VendorStipulation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorStipulation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorStipulation-active" parent="VendorStipulation-active-parentBean" />
 
-  <bean id="VendorStipulation-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorStipulation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

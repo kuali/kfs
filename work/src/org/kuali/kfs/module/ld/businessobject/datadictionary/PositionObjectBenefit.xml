@@ -30,7 +30,7 @@
 
   <bean id="PositionObjectBenefit-universityFiscalYear" parent="PositionObjectBenefit-universityFiscalYear-parentBean" />
 
-  <bean id="PositionObjectBenefit-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="PositionObjectBenefit-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -49,7 +49,7 @@
   </bean>
   <bean id="PositionObjectBenefit-versionNumber" parent="PositionObjectBenefit-versionNumber-parentBean" />
 
-  <bean id="PositionObjectBenefit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PositionObjectBenefit-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

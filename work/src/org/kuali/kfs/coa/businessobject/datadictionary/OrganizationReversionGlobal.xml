@@ -44,7 +44,7 @@
   </bean>
   <bean id="OrganizationReversionGlobal-universityFiscalYear" parent="OrganizationReversionGlobal-universityFiscalYear-parentBean" />
 
-  <bean id="OrganizationReversionGlobal-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OrganizationReversionGlobal-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -97,6 +97,6 @@
   </bean>
   <bean id="OrganizationReversionGlobal-versionNumber" parent="OrganizationReversionGlobal-versionNumber-parentBean" />
 
-  <bean id="OrganizationReversionGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationReversionGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

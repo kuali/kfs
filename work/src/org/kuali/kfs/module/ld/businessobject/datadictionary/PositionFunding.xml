@@ -66,7 +66,7 @@
 
   <bean id="PositionFunding-universityFiscalYear" parent="PositionFunding-universityFiscalYear-parentBean" />
 
-  <bean id="PositionFunding-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="PositionFunding-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="PositionFunding-chartOfAccountsCode" parent="PositionFunding-chartOfAccountsCode-parentBean" />
@@ -140,7 +140,7 @@
   </bean>
   <bean id="PositionFunding-versionNumber" parent="PositionFunding-versionNumber-parentBean" />
 
-  <bean id="PositionFunding-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PositionFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

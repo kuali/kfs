@@ -59,7 +59,7 @@
   </bean>
   <bean id="TaxControlCode-versionNumber" parent="TaxControlCode-versionNumber-parentBean" />
 
-  <bean id="TaxControlCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="TaxControlCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

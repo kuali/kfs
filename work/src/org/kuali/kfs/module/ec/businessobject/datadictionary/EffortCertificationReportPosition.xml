@@ -40,21 +40,21 @@
   </bean>
   <bean id="EffortCertificationReportPosition-universityFiscalYear" parent="EffortCertificationReportPosition-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationReportPosition-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationReportPosition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="EffortCertificationReportPosition-active" parent="EffortCertificationReportPosition-active-parentBean" />
 
-  <bean id="EffortCertificationReportPosition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="EffortCertificationReportPosition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="EffortCertificationReportPosition-versionNumber" parent="EffortCertificationReportPosition-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationReportPosition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationReportPosition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="EffortCertificationReportPosition-newCollectionRecord" parent="EffortCertificationReportPosition-newCollectionRecord-parentBean" />
 
-  <bean id="EffortCertificationReportPosition-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="EffortCertificationReportPosition-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -122,7 +122,7 @@
   </bean>
   <bean id="EffortCertificationDetailBuild-versionNumber" parent="EffortCertificationDetailBuild-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationDetailBuild-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationDetailBuild-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean" />
 

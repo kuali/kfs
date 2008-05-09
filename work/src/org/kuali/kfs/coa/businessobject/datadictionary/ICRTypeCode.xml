@@ -75,7 +75,7 @@
   </bean>
   <bean id="ICRTypeCode-versionNumber" parent="ICRTypeCode-versionNumber-parentBean" />
 
-  <bean id="ICRTypeCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ICRTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

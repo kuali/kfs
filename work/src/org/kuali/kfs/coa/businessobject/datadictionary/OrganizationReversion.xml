@@ -50,7 +50,7 @@
   </bean>
   <bean id="OrganizationReversion-universityFiscalYear" parent="OrganizationReversion-universityFiscalYear-parentBean" />
 
-  <bean id="OrganizationReversion-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="OrganizationReversion-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
   </bean>
@@ -92,14 +92,14 @@
   </bean>
   <bean id="OrganizationReversion-carryForwardByObjectCodeIndicator" parent="OrganizationReversion-carryForwardByObjectCodeIndicator-parentBean" />
 
-  <bean id="OrganizationReversion-carryForwardByObjectCodeIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="OrganizationReversion-carryForwardByObjectCodeIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="carryForwardByObjectCodeIndicator" />
     <property name="label" value="Carry Forward by Object Code Indicator" />
     <property name="shortLabel" value="CF by Object Code" />
   </bean>
   <bean id="OrganizationReversion-versionNumber" parent="OrganizationReversion-versionNumber-parentBean" />
 
-  <bean id="OrganizationReversion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationReversion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

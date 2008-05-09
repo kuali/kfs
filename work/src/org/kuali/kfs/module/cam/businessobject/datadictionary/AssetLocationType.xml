@@ -66,12 +66,12 @@
   </bean>
   <bean id="AssetLocationType-active" parent="AssetLocationType-active-parentBean" />
 
-  <bean id="AssetLocationType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AssetLocationType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="AssetLocationType-versionNumber" parent="AssetLocationType-versionNumber-parentBean" />
 
-  <bean id="AssetLocationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetLocationType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -73,7 +73,7 @@
   </bean>
   <bean id="DisbursementVoucherDocumentationLocation-versionNumber" parent="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" />
 
-  <bean id="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -489,7 +489,7 @@
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-versionNumber" parent="EquipmentLoanOrReturnDocument-versionNumber-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EquipmentLoanOrReturnDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 <!-- Exported Workflow Properties -->
 

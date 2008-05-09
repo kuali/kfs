@@ -273,7 +273,7 @@
   </bean>
   <bean id="BudgetUser-baseSalary" parent="BudgetUser-baseSalary-parentBean" />
 
-  <bean id="BudgetUser-baseSalary-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="BudgetUser-baseSalary-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="baseSalary" />
   </bean>
   <bean id="BudgetUser-role" parent="BudgetUser-role-parentBean" />
@@ -341,7 +341,7 @@
   </bean>
   <bean id="BudgetUser-user.personUniversalIdentifier" parent="BudgetUser-user.personUniversalIdentifier-parentBean" />
 
-  <bean id="BudgetUser-user.personUniversalIdentifier-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+  <bean id="BudgetUser-user.personUniversalIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
     <property name="name" value="user.personUniversalIdentifier" />
     <property name="label" value="Institution ID" />
     <property name="shortLabel" value="Univ ID" />
@@ -396,7 +396,7 @@
   </bean>
   <bean id="BudgetUser-delete" parent="BudgetUser-delete-parentBean" />
 
-  <bean id="BudgetUser-delete-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="BudgetUser-delete-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="delete" />
   </bean>
 

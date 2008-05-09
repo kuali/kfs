@@ -85,7 +85,7 @@
   </bean>
   <bean id="State-versionNumber" parent="State-versionNumber-parentBean" />
 
-  <bean id="State-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="State-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

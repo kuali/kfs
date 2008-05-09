@@ -132,7 +132,7 @@
   </bean>
   <bean id="AppointmentType-lastUpdate" parent="AppointmentType-lastUpdate-parentBean" />
 
-  <bean id="AppointmentType-lastUpdate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="AppointmentType-lastUpdate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="lastUpdate" />
     <property name="label" value="Last Update Timestamp" />
     <property name="shortLabel" value="Last Update" />
@@ -168,11 +168,11 @@
   </bean>
   <bean id="AppointmentType-versionNumber" parent="AppointmentType-versionNumber-parentBean" />
 
-  <bean id="AppointmentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AppointmentType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AppointmentType-active" parent="AppointmentType-active-parentBean" />
 
-  <bean id="AppointmentType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AppointmentType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 

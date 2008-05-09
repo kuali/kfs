@@ -82,43 +82,43 @@
   </bean>
   <bean id="ReceivingAddress-receivingLine1Address" parent="ReceivingAddress-receivingLine1Address-parentBean" />
 
-  <bean id="ReceivingAddress-receivingLine1Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line1Address">
+  <bean id="ReceivingAddress-receivingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="receivingLine1Address" />
     <property name="label" value="Receiving Line 1 Address" />
   </bean>
   <bean id="ReceivingAddress-receivingLine2Address" parent="ReceivingAddress-receivingLine2Address-parentBean" />
 
-  <bean id="ReceivingAddress-receivingLine2Address-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-line2Address">
+  <bean id="ReceivingAddress-receivingLine2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line2Address">
     <property name="name" value="receivingLine2Address" />
     <property name="label" value="Receiving Line 2 Address" />
   </bean>
   <bean id="ReceivingAddress-receivingCityName" parent="ReceivingAddress-receivingCityName-parentBean" />
 
-  <bean id="ReceivingAddress-receivingCityName-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-cityName">
+  <bean id="ReceivingAddress-receivingCityName-parentBean" abstract="true" parent="VendorGenericAttributes-cityName">
     <property name="name" value="receivingCityName" />
     <property name="label" value="Receiving City Name" />
   </bean>
   <bean id="ReceivingAddress-receivingStateCode" parent="ReceivingAddress-receivingStateCode-parentBean" />
 
-  <bean id="ReceivingAddress-receivingStateCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-stateCode">
+  <bean id="ReceivingAddress-receivingStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="receivingStateCode" />
     <property name="label" value="Receiving State Code" />
   </bean>
   <bean id="ReceivingAddress-receivingPostalCode" parent="ReceivingAddress-receivingPostalCode-parentBean" />
 
-  <bean id="ReceivingAddress-receivingPostalCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-zipCode">
+  <bean id="ReceivingAddress-receivingPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="receivingPostalCode" />
     <property name="label" value="Receiving Postal Code" />
   </bean>
   <bean id="ReceivingAddress-receivingCountryCode" parent="ReceivingAddress-receivingCountryCode-parentBean" />
 
-  <bean id="ReceivingAddress-receivingCountryCode-parentBean" abstract="true" parent="VendorAttributeReferenceDummy-countryCode">
+  <bean id="ReceivingAddress-receivingCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="receivingCountryCode" />
     <property name="label" value="Receiving Country Code" />
   </bean>
   <bean id="ReceivingAddress-useReceivingIndicator" parent="ReceivingAddress-useReceivingIndicator-parentBean" />
 
-  <bean id="ReceivingAddress-useReceivingIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="ReceivingAddress-useReceivingIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="useReceivingIndicator" />
     <property name="label" value="Use Receiving Address Indicator" />
     <property name="shortLabel" value="Use Receiving" />
@@ -127,7 +127,7 @@
   </bean>
   <bean id="ReceivingAddress-defaultIndicator" parent="ReceivingAddress-defaultIndicator-parentBean" />
 
-  <bean id="ReceivingAddress-defaultIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="ReceivingAddress-defaultIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="defaultIndicator" />
     <property name="label" value="Default Indicator" />
     <property name="shortLabel" value="Default" />
@@ -136,12 +136,12 @@
   </bean>
   <bean id="ReceivingAddress-active" parent="ReceivingAddress-active-parentBean" />
 
-  <bean id="ReceivingAddress-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ReceivingAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ReceivingAddress-versionNumber" parent="ReceivingAddress-versionNumber-parentBean" />
 
-  <bean id="ReceivingAddress-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="ReceivingAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

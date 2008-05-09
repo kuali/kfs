@@ -85,12 +85,12 @@
   </bean>
   <bean id="AssetAcquisitionType-active" parent="AssetAcquisitionType-active-parentBean" />
 
-  <bean id="AssetAcquisitionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="AssetAcquisitionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="AssetAcquisitionType-versionNumber" parent="AssetAcquisitionType-versionNumber-parentBean" />
 
-  <bean id="AssetAcquisitionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AssetAcquisitionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

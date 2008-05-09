@@ -37,7 +37,7 @@
   </bean>
   <bean id="VendorShippingSpecialCondition-newCollectionRecord" parent="VendorShippingSpecialCondition-newCollectionRecord-parentBean" />
 
-  <bean id="VendorShippingSpecialCondition-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  <bean id="VendorShippingSpecialCondition-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   <bean id="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" parent="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier-parentBean" />
 
@@ -49,11 +49,11 @@
   </bean>
   <bean id="VendorShippingSpecialCondition-versionNumber" parent="VendorShippingSpecialCondition-versionNumber-parentBean" />
 
-  <bean id="VendorShippingSpecialCondition-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="VendorShippingSpecialCondition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorShippingSpecialCondition-active" parent="VendorShippingSpecialCondition-active-parentBean" />
 
-  <bean id="VendorShippingSpecialCondition-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="VendorShippingSpecialCondition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 </beans>

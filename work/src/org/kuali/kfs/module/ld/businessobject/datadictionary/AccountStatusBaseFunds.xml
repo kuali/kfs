@@ -38,7 +38,7 @@
 
   <bean id="AccountStatusBaseFunds-universityFiscalYear" parent="AccountStatusBaseFunds-universityFiscalYear-parentBean" />
 
-  <bean id="AccountStatusBaseFunds-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="AccountStatusBaseFunds-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -75,7 +75,7 @@
   </bean>
   <bean id="AccountStatusBaseFunds-versionNumber" parent="AccountStatusBaseFunds-versionNumber-parentBean" />
 
-  <bean id="AccountStatusBaseFunds-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="AccountStatusBaseFunds-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AccountStatusBaseFunds-csfAmount" parent="AccountStatusBaseFunds-csfAmount-parentBean" />
 
@@ -83,7 +83,7 @@
   </bean>
   <bean id="AccountStatusBaseFunds-baseCSFVarianceAmount" parent="AccountStatusBaseFunds-baseCSFVarianceAmount-parentBean" />
 
-  <bean id="AccountStatusBaseFunds-baseCSFVarianceAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusBaseFunds-baseCSFVarianceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="baseCSFVarianceAmount" />
     <property name="label" value="Base Budget/CSF Variance" />
     <property name="shortLabel" value="Base Budget/CSF Variance" />
@@ -91,7 +91,7 @@
   </bean>
   <bean id="AccountStatusBaseFunds-baseBudgetAmount" parent="AccountStatusBaseFunds-baseBudgetAmount-parentBean" />
 
-  <bean id="AccountStatusBaseFunds-baseBudgetAmount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="AccountStatusBaseFunds-baseBudgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="baseBudgetAmount" />
     <property name="label" value="Adjusted Base Budget Amount" />
     <property name="shortLabel" value="Base Budget" />

@@ -43,7 +43,7 @@
   </bean>
   <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate" parent="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate-parentBean" />
 
-  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="purchaseOrderQuoteLanguageCreateDate" />
     <property name="label" value="Purchase Order Quote Language Create Date" />
     <property name="shortLabel" value="Date" />
@@ -84,7 +84,7 @@
   </bean>
   <bean id="PurchaseOrderQuoteLanguage-versionNumber" parent="PurchaseOrderQuoteLanguage-versionNumber-parentBean" />
 
-  <bean id="PurchaseOrderQuoteLanguage-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PurchaseOrderQuoteLanguage-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

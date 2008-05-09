@@ -387,7 +387,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-universityFiscalYear" parent="LaborLedgerPendingEntry-universityFiscalYear-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="LaborLedgerPendingEntry-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
@@ -410,7 +410,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-versionNumber" parent="LaborLedgerPendingEntry-versionNumber-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="LaborLedgerPendingEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

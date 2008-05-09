@@ -75,7 +75,7 @@
   </bean>
   <bean id="PositionObjectGroup-versionNumber" parent="PositionObjectGroup-versionNumber-parentBean" />
 
-  <bean id="PositionObjectGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PositionObjectGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

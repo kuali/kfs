@@ -235,7 +235,7 @@
   </bean>
   <bean id="PendingPurchaseOrder-versionNumber" parent="PendingPurchaseOrder-versionNumber-parentBean" />
 
-  <bean id="PendingPurchaseOrder-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="PendingPurchaseOrder-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -80,7 +80,7 @@
   </bean>
   <bean id="OrganizationRoutingModelName-versionNumber" parent="OrganizationRoutingModelName-versionNumber-parentBean" />
 
-  <bean id="OrganizationRoutingModelName-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="OrganizationRoutingModelName-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

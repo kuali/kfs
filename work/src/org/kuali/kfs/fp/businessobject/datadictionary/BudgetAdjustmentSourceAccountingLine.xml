@@ -380,7 +380,7 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-sequenceNumber" parent="BudgetAdjustmentSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-transactionEntrySequenceId">
+  <bean id="BudgetAdjustmentSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>
@@ -395,7 +395,7 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-objectId" parent="BudgetAdjustmentSourceAccountingLine-objectId-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
     <property name="required" value="false" />
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-organizationReferenceId" parent="BudgetAdjustmentSourceAccountingLine-organizationReferenceId-parentBean" />
@@ -429,7 +429,7 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-postingYear" parent="BudgetAdjustmentSourceAccountingLine-postingYear-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-postingYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="BudgetAdjustmentSourceAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
   </bean>
@@ -474,7 +474,7 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-amount" parent="BudgetAdjustmentSourceAccountingLine-amount-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-amount-parentBean" abstract="true" parent="AttributeReferenceDummy-genericAmount">
+  <bean id="BudgetAdjustmentSourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
@@ -513,7 +513,7 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-versionNumber" parent="BudgetAdjustmentSourceAccountingLine-versionNumber-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="BudgetAdjustmentSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
     <property name="required" value="false" />
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-documentNumber" parent="BudgetAdjustmentSourceAccountingLine-documentNumber-parentBean" />

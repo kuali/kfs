@@ -103,7 +103,7 @@
   </bean>
   <bean id="EffortCertificationDocumentBuild-universityFiscalYear" parent="EffortCertificationDocumentBuild-universityFiscalYear-parentBean" />
 
-  <bean id="EffortCertificationDocumentBuild-universityFiscalYear-parentBean" abstract="true" parent="AttributeReferenceDummy-genericFiscalYear">
+  <bean id="EffortCertificationDocumentBuild-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
   </bean>
   <bean id="EffortCertificationDocumentBuild-effortCertificationReportNumber" parent="EffortCertificationDocumentBuild-effortCertificationReportNumber-parentBean" />
@@ -112,7 +112,7 @@
   </bean>
   <bean id="EffortCertificationDocumentBuild-versionNumber" parent="EffortCertificationDocumentBuild-versionNumber-parentBean" />
 
-  <bean id="EffortCertificationDocumentBuild-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  <bean id="EffortCertificationDocumentBuild-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

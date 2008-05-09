@@ -57,9 +57,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      */
     public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
         Collection<BudgetConstructionOrgMonthSummaryReport> reportSet = new ArrayList();
-        // order list
-        List<String> orderList = buildOrderByList();
-        Collection<BudgetConstructionMonthSummary> monthSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionMonthSummary.class, personUserIdentifier, orderList);
+        Collection<BudgetConstructionMonthSummary> monthSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionMonthSummary.class, personUserIdentifier, buildOrderByList());
         // Calculate Total Section
         List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalLevelList = calculateLevelTotal((List) monthSummaryList, monthSummaryList);
         List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalConsList = calculateConsTotal((List) monthSummaryList, monthSummaryList);

@@ -289,8 +289,8 @@
 	<property name="budgetConstructionAccountSummaryReportDao">
 		<ref bean="budgetConstructionAccountSummaryReportDao" />
 	</property>
-	<property name="budgetConstructionOrganizationReportsService">
-		<ref bean="budgetConstructionOrganizationReportsService" />
+	<property name="budgetConstructionReportsServiceHelper">
+		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
@@ -301,9 +301,9 @@
 	<property name="budgetConstructionAccountSummaryReportDao">
 		<ref bean="budgetConstructionAccountSummaryReportDao" />
 	</property>
-	<property name="budgetConstructionOrganizationReportsService">
-		<ref bean="budgetConstructionOrganizationReportsService" />
-	</property>
+	<property name="budgetConstructionReportsServiceHelper">
+		<ref bean="budgetConstructionReportsServiceHelper" />
+    </property>
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
     </property>

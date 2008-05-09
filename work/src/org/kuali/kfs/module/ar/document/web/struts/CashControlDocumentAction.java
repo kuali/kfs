@@ -87,7 +87,6 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward forward = super.execute(mapping, form, request, response);
         CashControlDocumentForm ccForm = (CashControlDocumentForm) form;
         CashControlDocument ccDoc = ccForm.getCashControlDocument();
 
@@ -102,7 +101,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
             ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc));
         }
 
-        // proceed as usual
+        ActionForward forward = super.execute(mapping, form, request, response);
+
         return forward;
     }
 

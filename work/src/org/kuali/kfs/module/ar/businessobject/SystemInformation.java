@@ -20,6 +20,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private String universityName;
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
+	private String universityFederalEmployerIdentificationNumber;
 	private String salesTaxAccountNumber;
 	private String salesTaxFinancialObjectCode;
 	private String discountObjectCode;
@@ -154,6 +155,25 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 		this.processingOrganizationCode = processingOrganizationCode;
 	}
 
+    /**
+     * Gets the universityFederalEmployerIdentificationNumber attribute.
+     * 
+     * @return Returns the universityFederalEmployerIdentificationNumber
+     * 
+     */
+    public String getUniversityFederalEmployerIdentificationNumber() { 
+        return universityFederalEmployerIdentificationNumber;
+    }
+
+    /**
+     * Sets the universityFederalEmployerIdentificationNumber attribute.
+     * 
+     * @param universityFederalEmployerIdentificationNumber The universityFederalEmployerIdentificationNumber to set.
+     * 
+     */
+    public void setUniversityFederalEmployerIdentificationNumber(String universityFederalEmployerIdentificationNumber) {
+        this.universityFederalEmployerIdentificationNumber = universityFederalEmployerIdentificationNumber;
+    }    
 
 	/**
 	 * Gets the salesTaxAccountNumber attribute.

@@ -159,6 +159,12 @@
 		</property>
 	</bean>
 
+	<bean id="purapMassRequisitionStep" class="org.kuali.module.purap.batch.PurapMassRequisitionStep" parent="step">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
 	<bean id="purgeJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

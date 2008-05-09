@@ -37,6 +37,8 @@ public class ArConstants {
     public static final String ERROR_LINE_AMOUNT_CANNOT_BE_ZERO = "error.ar.LineAmountCannotBeZero";
     public static final String ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE = "error.ar.LineAmountCannotBeNegative";
     public static final String ERROR_GLPES_NOT_CREATED = "error.ar.GLPEsNotCreated";
+    public static final String ERROR_CUSTOMER_NUMBER_IS_NOT_VALID = "error.ar.CustomerNumberIsNotValid";
+    public static final String ERROR_CUSTOMER_IS_INACTIVE = "error.ar.CustomerIsInactive";
     public static final String CASH_CONTROL_TOTAL = "ar.CashControlTotal";
 
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
@@ -105,6 +107,7 @@ public class ArConstants {
         public static final String APPLICATION_DOC_STATUS = "status";
         public static final String ORGANIZATION_DOC_NBR = "organizationDocumentNumber";
         public static final String CUSTOMER_PAYMENT_MEDIUM_CODE = "customerPaymentMediumCode";
+        public static final String CUSTOMER_NUMBER = "customerNumber";
     }
 
     public static class CustomerInvoiceDocumentFields {

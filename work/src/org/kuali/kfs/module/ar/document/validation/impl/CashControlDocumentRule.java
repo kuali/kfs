@@ -36,6 +36,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.bo.PaymentMedium;
 import org.kuali.module.ar.document.CashControlDocument;
@@ -44,6 +45,7 @@ import org.kuali.module.ar.rule.AddCashControlDetailRule;
 import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
 import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.lookup.keyvalues.CheckingSavingsValuesFinder;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 /**
@@ -61,7 +63,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
-        
+
         ccDocument.refreshReferenceObject("customerPaymentMedium");
         ccDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
@@ -100,7 +102,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         CashControlDocument cashControlDocument = (CashControlDocument) approveEvent.getDocument();
-        
+
         cashControlDocument.refreshReferenceObject("customerPaymentMedium");
         cashControlDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
@@ -252,13 +254,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         ChartUser user = ValueFinderUtil.getCurrentChartUser();
         String chartCode = user.getChartOfAccountsCode();
         String orgCode = user.getUserOrganizationCode();
-        
+
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartCode);
         criteria.put("organizationCode", orgCode);
         OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
-        if (ObjectUtils.isNull( organizationOptions )) {
+        if (ObjectUtils.isNull(organizationOptions)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
             isValid = false;
         }
@@ -301,8 +303,14 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(cashControlDetail);
         isValid = (errorMap.getErrorCount() == originalErrorCount);
 
-        // validate line amount
+        // validate customer number and line amount
         if (isValid) {
+            String customerNumber = cashControlDetail.getCustomerNumber();
+            // if customer number is not empty check that it is valid and not inactive
+            if (customerNumber != null && !customerNumber.equals("")) {
+                isValid &= checkCustomerNumber(customerNumber);
+                isValid &= checkCustomerIsActive(customerNumber);
+            }
             // check if line amount is valid
             isValid &= checkLineAmount(document, cashControlDetail);
         }
@@ -336,6 +344,57 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
+    }
+
+    /**
+     * This method checks that the customer number is valid and not an inactive customer when it is not empty
+     * 
+     * @param cashControlDetail
+     * @return true if valid, false otherwise
+     */
+    private boolean checkCustomerNumber(String customerNumber) {
+        boolean isValid = true;
+
+        if (customerNumber != null && !customerNumber.equals("")) {
+
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("customerNumber", customerNumber);
+
+            Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
+
+            if (customer == null) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * This method checks if the customer is active
+     * 
+     * @param customerNumber
+     * @return true if customer is active, false otherwise
+     */
+    private boolean checkCustomerIsActive(String customerNumber) {
+        boolean isValid = true;
+
+        if (customerNumber != null && !customerNumber.equals("")) {
+
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("customerNumber", customerNumber);
+
+            Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
+
+            if (customer != null && !customer.isCustomerActiveIndicator()) {
+
+                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArConstants.ERROR_CUSTOMER_IS_INACTIVE);
+                isValid = false;
+            }
+        }
+
+        return isValid;
     }
 
     /**

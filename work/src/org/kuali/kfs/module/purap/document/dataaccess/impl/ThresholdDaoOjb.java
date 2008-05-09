@@ -100,17 +100,16 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
 
         Criteria criteria = new Criteria();
         List<ThresholdField> allFields = ThresholdField.getEnumList();
-        
         for (int i = 0; i < allFields.size(); i++) {
-            Object criteriaValue = criteriaFields.get(allFields.get(i));
-            if (criteriaValue != null){
-                criteria.addEqualTo(allFields.get(i).getName(), criteriaValue);
-            }else{
-                criteria.addIsNull(allFields.get(i).getName());
+            if (allFields.get(i).isPersistedField()){
+                Object criteriaValue = criteriaFields.get(allFields.get(i));
+                if (criteriaValue != null){
+                    criteria.addEqualTo(allFields.get(i).getName(), criteriaValue);
+                }else{
+                     criteria.addIsNull(allFields.get(i).getName());
+                }
             }
-            
         }
-        
         Query query = new QueryByCriteria(Threshold.class, criteria);
         Collection c = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return c;

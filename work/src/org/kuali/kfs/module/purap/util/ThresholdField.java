@@ -32,10 +32,21 @@ public final class ThresholdField extends Enum {
     public static final ThresholdField COMMODITY_CODE = new ThresholdField(PurapPropertyConstants.ITEM_COMMODITY_CODE);
     public static final ThresholdField VENDOR_HEADER_GENERATED_ID = new ThresholdField(PurapPropertyConstants.VENDOR_HEADER_GENERATED_ID);
     public static final ThresholdField VENDOR_DETAIL_ASSIGNED_ID = new ThresholdField(PurapPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID);
-    public static final ThresholdField VENDOR_NUMBER = new ThresholdField(PurapPropertyConstants.VENDOR_NUMBER);
+    public static final ThresholdField VENDOR_NUMBER = new ThresholdField(PurapPropertyConstants.VENDOR_NUMBER,false);
+    
+    /**
+     * Indicates that a field is available in DB or not
+     */
+    private boolean isPersistedField;
     
     private ThresholdField(String name) {
+        this(name,true);
+    }
+    
+    private ThresholdField(String name,
+                           boolean isPersisitedField) {
         super(name);
+        this.isPersistedField = isPersisitedField;
     }
   
     public static ThresholdField getEnum(String thresholdEnum) {
@@ -52,5 +63,9 @@ public final class ThresholdField extends Enum {
   
     public static Iterator iterator() {
       return iterator(ThresholdField.class);
+    }
+
+    public boolean isPersistedField() {
+        return isPersistedField;
     }
 }

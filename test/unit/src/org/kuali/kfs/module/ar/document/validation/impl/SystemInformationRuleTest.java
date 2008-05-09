@@ -44,31 +44,7 @@ public class SystemInformationRuleTest extends MaintenanceRuleTestBase {
         systemInformation.setProcessingOrganizationCode(ORGANIZATION_CODE);
     }
     
-    /**
-     * This method tests if the checkRefundObjectValidCode rule returns true when refundFinancialObjectCode is set to an expense object code
-     */
-    public void testCheckRefundObjectValidCode_True(){
-        
-        systemInformation.setDiscountObjectCode(EXPENSE_OBJECT_CODE);
-        systemInformation.refreshReferenceObject("discountFinancialObject");
-        SystemInformationRule rule = (SystemInformationRule) setupMaintDocRule(newMaintDoc(systemInformation), SystemInformationRule.class);
-        
-        boolean result = rule.checkDiscountObjectValidCode(systemInformation);
-        assertEquals( "When discount object code is " + EXPENSE_OBJECT_CODE + ", checkDiscountObjectValidCode should return true. ", true, result );
-    }
     
-    /**
-     * This method tests if the checkDiscountObjectValidCode rule returns false when refundFinancialObjectCode is set to an income object code
-     */
-    public void testCheckDiscountObjectValidCode_False(){
-        systemInformation.setDiscountObjectCode(INCOME_OBJECT_CODE);
-        systemInformation.refreshReferenceObject("discountFinancialObject");
-        SystemInformationRule rule = (SystemInformationRule) setupMaintDocRule(newMaintDoc(systemInformation), SystemInformationRule.class);
-        
-        boolean result = rule.checkDiscountObjectValidCode(systemInformation);
-        assertEquals( "When discount object code is " + INCOME_OBJECT_CODE + ", checkDiscountObjectValidCode should return false. ", false, result );
-        
-    }
     
     /**
      * This method tests if the checkSalesTaxObjectValidCode rule returns true when salesTaxFinancialObjectCode is set to an income object code

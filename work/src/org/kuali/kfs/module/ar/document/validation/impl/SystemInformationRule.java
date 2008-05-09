@@ -48,7 +48,6 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         boolean success;
         success = checkSalesTaxObjectValidCode(newSystemInformation);
-        success &= checkDiscountObjectValidCode(newSystemInformation);
 
         return success;
     }
@@ -86,31 +85,6 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    /**
-     * 
-     * This method checks that the Discount Object Code is of type Expense
-     * <ul>
-     * <li>EE</li>
-     * <li>ES</li>
-     * <li>EX</li>
-     * </ul>
-     * @return true if it is an expense object
-     */
-    protected boolean checkDiscountObjectValidCode(SystemInformation document) {
-        
-        boolean success = true;
-        Integer universityFiscalYear = document.getUniversityFiscalYear();
-        ObjectCode discountFinancialObject = document.getDiscountFinancialObject();
-        
-        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(discountFinancialObject)) {
-            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(discountFinancialObject.getFinancialObjectTypeCode());
-
-            if (!success) {
-                putFieldError("discountObjectCode",KFSKeyConstants.SystemInformation.DISCOUNT_OBJECT_CODE_INVALID,discountFinancialObject.getCode());
-            }
-        }
-        return success;
-    }
 
     public ObjectTypeService getObjectTypeService() {
         return objectTypeService;

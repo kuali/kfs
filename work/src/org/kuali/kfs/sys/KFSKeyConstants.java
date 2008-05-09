@@ -959,7 +959,6 @@ public class KFSKeyConstants {
     
     public static final class SystemInformation {
         public static final String SALES_TAX_OBJECT_CODE_INVALID = "error.SystemInformation.salesTaxObjectCodeInvalid";
-        public static final String DISCOUNT_OBJECT_CODE_INVALID ="error.SystemInformation.discountObjectCodeInvalid";
     }
     
     //AR Specific Error Codes

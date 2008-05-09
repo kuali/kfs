@@ -61,6 +61,7 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * Contains services relevent to the budget construction import request process
  */
+@Transactional
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
     private BusinessObjectService businessObjectService;
     private ImportRequestDao importRequestDao;

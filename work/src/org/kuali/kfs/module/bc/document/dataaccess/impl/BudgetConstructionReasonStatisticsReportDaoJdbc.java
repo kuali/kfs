@@ -415,7 +415,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
 
         // get a unique session ID   
         String idForSession = (new Guid()).toString();
-
+        cleanReportsReasonStatisticsTable(personUserIdentifier);
         // build the list of constant strings to insert into the SQL
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
@@ -440,7 +440,9 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         }
         
         fetchIndividualDetailForContinuingPeople(personUserIdentifier, idForSession);
-        sumTheDetailRowsToProduceTheReportData (idForSession);
+        sumTheDetailRowsToProduceTheReportData (personUserIdentifier, idForSession);
+        
+        cleanWorkTablesFromThisSession(idForSession);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -454,7 +456,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     public void updateReasonStatisticsReportsWithoutAThreshold(String personUserIdentifier, Integer previousFiscalYear) {
         // get a unique session ID   
         String idForSession = (new Guid()).toString();
-
+        cleanReportsReasonStatisticsTable(personUserIdentifier);
+        
         // build the list of constant strings to insert into the SQL
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
@@ -468,7 +471,9 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         // when we are using a reason code and not a threshold, we want everyone with a reason code, not just continuing people
         // new people have no percent increase, and so would not match any threshold, but should be included under this report option
         getSimpleJdbcTemplate().update(reportReasonStatisticsWithNoThreshold.get(1).getSQL(), idForSession, personUserIdentifier, idForSession);
-        sumTheDetailRowsToProduceTheReportData (idForSession);
+        sumTheDetailRowsToProduceTheReportData (personUserIdentifier, idForSession);
+        
+        cleanWorkTablesFromThisSession(idForSession);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -480,8 +485,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * sum base and request amounts and FTE by organization to produce the data used by the report
      * @param idForSession--the session of the user doing the report
      */
-    private void sumTheDetailRowsToProduceTheReportData (String idForSession) {
-        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(9).getSQL(), idForSession, idForSession);
+    private void sumTheDetailRowsToProduceTheReportData (String personUserIdentifier, String idForSession) {
+        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(9).getSQL(), personUserIdentifier, idForSession);
     }
     
     public void setPersistenceService(PersistenceService persistenceService)

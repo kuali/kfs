@@ -141,26 +141,17 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
             BigDecimal requestedAmount = salaryTotalEntry.getInitialRequestedAmount().divide(salaryTotalEntry.getInitialRequestedFteQuantity());
             orgReasonStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0).intValue()));
         }
-
         orgReasonStatisticsReportEntry.setAppointmentRequestedFteQuantity(salaryTotalEntry.getAppointmentRequestedFteQuantity());
-        if (salaryTotalEntry.getAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-            orgReasonStatisticsReportEntry.setAverageCsfAmount(0);
-            orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(0);
-        }
-        else {
-            BigDecimal averageCsfAmount = salaryTotalEntry.getCsfAmount().divide(salaryTotalEntry.getAppointmentRequestedFteQuantity());
-            BigDecimal averageRequestedAmount = salaryTotalEntry.getAppointmentRequestedAmount().divide(salaryTotalEntry.getAppointmentRequestedFteQuantity());
-            orgReasonStatisticsReportEntry.setAverageCsfAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(averageCsfAmount, 0).intValue()));
-            orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(averageRequestedAmount, 0).intValue()));
-        }
-        orgReasonStatisticsReportEntry.setAverageChange(orgReasonStatisticsReportEntry.getAverageAppointmentRequestedAmount() - orgReasonStatisticsReportEntry.getAverageCsfAmount());
+        orgReasonStatisticsReportEntry.setTotalCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
+        orgReasonStatisticsReportEntry.setTotalAppointmentRequestedAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
 
-        BigDecimal percentChange = BigDecimal.ZERO;
-        if (!orgReasonStatisticsReportEntry.getAverageCsfAmount().equals(0)) {
-            percentChange = new BigDecimal(orgReasonStatisticsReportEntry.getAverageChange()).divide(new BigDecimal(orgReasonStatisticsReportEntry.getAverageCsfAmount()));
-            BudgetConstructionReportHelper.setDecimalDigit(percentChange, 1);
-        }
-        orgReasonStatisticsReportEntry.setPercentChange(percentChange);
+        BigDecimal decimaCsfAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
+        BigDecimal decimalAppointmentRequestedAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
+        orgReasonStatisticsReportEntry.setAverageCsfAmount(BudgetConstructionReportHelper.calculateDivide(decimaCsfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()));
+        orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.calculateDivide(decimalAppointmentRequestedAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()));
+        orgReasonStatisticsReportEntry.setAverageChange(orgReasonStatisticsReportEntry.getAverageAppointmentRequestedAmount().subtract(orgReasonStatisticsReportEntry.getAverageCsfAmount()));
+      
+        orgReasonStatisticsReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(orgReasonStatisticsReportEntry.getAverageChange(), orgReasonStatisticsReportEntry.getAverageCsfAmount()));
 
 
     }

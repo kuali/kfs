@@ -30,16 +30,15 @@
 	<field name="organizationCode" class="java.lang.String"/>
 	<field name="organizationName" class="java.lang.String"/>
 	<field name="objectCodes" class="java.lang.String"/>
-	<field name="appointmentTotalIntendedAmount" class="java.lang.Integer"/>
 	<field name="initialRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalInitialRequestedAmount" class="java.lang.Integer"/>
 	<field name="totalAverageAmount" class="java.lang.Integer"/>
 	<field name="appointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalCsfAmount" class="java.lang.Integer"/>
 	<field name="totalAppointmentRequestedAmount" class="java.lang.Integer"/>
-	<field name="averageCsfAmount" class="java.lang.Integer"/>
-	<field name="averageAppointmentRequestedAmount" class="java.lang.Integer"/>
-	<field name="averageChange" class="java.lang.Integer"/>
+	<field name="averageCsfAmount" class="java.math.BigDecimal"/>
+	<field name="averageAppointmentRequestedAmount" class="java.math.BigDecimal"/>
+	<field name="averageChange" class="java.math.BigDecimal"/>
 	<field name="percentChange" class="java.math.BigDecimal"/>
 
 
@@ -325,10 +324,10 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Objects}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Base}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -342,24 +341,11 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Objects}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.Request}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement
-						x="576"
-						y="65"
-						width="111"
-						height="19"
-						key="staticText-1"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Thresh]]></text>
-				</staticText>
 			</band>
 		</pageHeader>
 		<columnHeader>
@@ -533,7 +519,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{initialRequestedFteQuantity}]]></textFieldExpression>
@@ -550,7 +536,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalInitialRequestedAmount}]]></textFieldExpression>
@@ -567,7 +553,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalAverageAmount}]]></textFieldExpression>
@@ -584,7 +570,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{appointmentRequestedFteQuantity}]]></textFieldExpression>
@@ -601,7 +587,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalAppointmentRequestedAmount}]]></textFieldExpression>
@@ -618,7 +604,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalCsfAmount}]]></textFieldExpression>
@@ -635,10 +621,10 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{averageAppointmentRequestedAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{averageAppointmentRequestedAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -652,10 +638,10 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{averageCsfAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{averageCsfAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -669,10 +655,10 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{averageChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{averageChange}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -703,7 +689,7 @@
 					<bottomPen lineWidth="0.0" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{percentChange}]]></textFieldExpression>

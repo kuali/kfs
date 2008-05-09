@@ -38,32 +38,35 @@ public class BudgetConstructionOrgReasonStatisticsReport {
     private BigDecimal appointmentRequestedFteQuantity;
     private Integer totalCsfAmount;
     private Integer totalAppointmentRequestedAmount;
-    private Integer averageCsfAmount;
-    private Integer averageAppointmentRequestedAmount;
-    private Integer averageChange;
+    private BigDecimal averageCsfAmount;
+    private BigDecimal averageAppointmentRequestedAmount;
+    private BigDecimal averageChange;
     private BigDecimal percentChange;
+    
+    
+    
     public BigDecimal getAppointmentRequestedFteQuantity() {
         return appointmentRequestedFteQuantity;
     }
     public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
         this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
     }
-    public Integer getAverageAppointmentRequestedAmount() {
+    public BigDecimal getAverageAppointmentRequestedAmount() {
         return averageAppointmentRequestedAmount;
     }
-    public void setAverageAppointmentRequestedAmount(Integer averageAppointmentRequestedAmount) {
+    public void setAverageAppointmentRequestedAmount(BigDecimal averageAppointmentRequestedAmount) {
         this.averageAppointmentRequestedAmount = averageAppointmentRequestedAmount;
     }
-    public Integer getAverageChange() {
+    public BigDecimal getAverageChange() {
         return averageChange;
     }
-    public void setAverageChange(Integer averageChange) {
+    public void setAverageChange(BigDecimal averageChange) {
         this.averageChange = averageChange;
     }
-    public Integer getAverageCsfAmount() {
+    public BigDecimal getAverageCsfAmount() {
         return averageCsfAmount;
     }
-    public void setAverageCsfAmount(Integer averageCsfAmount) {
+    public void setAverageCsfAmount(BigDecimal averageCsfAmount) {
         this.averageCsfAmount = averageCsfAmount;
     }
     public String getChartOfAccountDescription() {

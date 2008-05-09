@@ -14,6 +14,7 @@
         <ref bean="SystemInformationMaintenanceDocument-EditSystemInformation" />
         <ref bean="SystemInformationMaintenanceDocument-EditObjectCodes" />
         <ref bean="SystemInformationMaintenanceDocument-EditUniversityClearingAccount" />
+        <ref bean="SystemInformationMaintenanceDocument-EditWireAccount" />
         <ref bean="SystemInformationMaintenanceDocument-EditRemitToInformation" />
       </list>
     </property>
@@ -54,7 +55,16 @@
               p:attributeToHighlightOnFail="universityClearingChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="universityClearingSubAccount"
-              p:attributeToHighlightOnFail="universityClearingSubAccountNumber" />
+              p:attributeToHighlightOnFail="universityClearingSubAccountNumber" />              
+        <bean parent="ReferenceDefinition"
+              p:attributeName="wireAccount"
+              p:attributeToHighlightOnFail="wireAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="wireChartOfAccounts"
+              p:attributeToHighlightOnFail="wireChartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="wireSubAccount"
+              p:attributeToHighlightOnFail="wireSubAccountNumber" />                  
         <bean parent="ReferenceDefinition"
               p:attributeName="universityFiscalYearObject"
               p:attributeToHighlightOnFail="universityFiscalYear" />
@@ -103,9 +113,6 @@
               p:name="universityFiscalYear"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="universityName"
-              p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="processingChartOfAccountCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
@@ -132,8 +139,8 @@
       <list>
 <!--        <bean parent="MaintainableFieldDefinition"-->
 <!--              p:name="salesTaxFinancialObjectCode" />-->
-        <bean parent="MaintainableFieldDefinition"
-              p:name="adjustmentObjectCode" />
+<!--        <bean parent="MaintainableFieldDefinition"-->
+<!--              p:name="adjustmentObjectCode" />-->
         <bean parent="MaintainableFieldDefinition"
               p:name="creditCardObjectCode" />
         <bean parent="MaintainableFieldDefinition"
@@ -161,6 +168,30 @@
       </list>
     </property>
   </bean>
+
+  
+  <bean id="SystemInformationMaintenanceDocument-EditWireAccount" parent="SystemInformationMaintenanceDocument-EditWireAccount-parentBean" />
+
+  <bean id="SystemInformationMaintenanceDocument-EditWireAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Wire Account" />
+    <property name="title" value="Edit Wire Account" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="wireChartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="wireAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="wireSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="wireObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="wireSubObjectCode" />
+      </list>
+    </property>
+  </bean>
+  
+  
   <bean id="SystemInformationMaintenanceDocument-EditRemitToInformation" parent="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean" />
 
   <bean id="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">

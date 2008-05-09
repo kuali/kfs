@@ -30,11 +30,15 @@
         <ref bean="SystemInformation-salesTaxFinancialObjectCode" />
         <ref bean="SystemInformation-universityClearingSubAccountNumber" />
         <ref bean="SystemInformation-universityFiscalYear" />
-        <ref bean="SystemInformation-universityName" />
         <ref bean="SystemInformation-universityClearingChartOfAccountsCode" />
         <ref bean="SystemInformation-universityClearingAccountNumber" />
         <ref bean="SystemInformation-universityClearingObjectCode" />
         <ref bean="SystemInformation-universityClearingSubObjectCode" />
+        <ref bean="SystemInformation-wireSubAccountNumber" />
+        <ref bean="SystemInformation-wireChartOfAccountsCode" />
+        <ref bean="SystemInformation-wireAccountNumber" />
+        <ref bean="SystemInformation-wireObjectCode" />
+        <ref bean="SystemInformation-wireSubObjectCode" />        
         <ref bean="SystemInformation-organizationCheckPayableToName" />
         <ref bean="SystemInformation-organizationRemitToAddressName" />
         <ref bean="SystemInformation-organizationRemitToLine1StreetAddress" />
@@ -258,25 +262,13 @@
     <property name="description" value="universityClearingSubAccountNumber description..." />
   </bean>
   
-  
-  
-  
   <bean id="SystemInformation-universityFiscalYear" parent="SystemInformation-universityFiscalYear-parentBean" />
 
   <bean id="SystemInformation-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="shortLabel" value="University Fiscal Year" />
   </bean>
-  
-  <bean id="SystemInformation-universityName" parent="SystemInformation-universityName-parentBean" />
-  <bean id="SystemInformation-universityName-parentBean" abstract="true" parent="OrganizationOptions-universityName">
-    <property name="name" value="universityName" />
-    <property name="label" value="University Name" />
-  </bean>
-  
-  
-  
-  
+   
   <bean id="SystemInformation-universityClearingChartOfAccountsCode" parent="SystemInformation-universityClearingChartOfAccountsCode-parentBean" />
   <bean id="SystemInformation-universityClearingChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="universityClearingChartOfAccountsCode" />
@@ -302,6 +294,65 @@
     <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="University Clearing Sub Object Code" />
   </bean>
+  
+  
+  
+  
+  
+  
+  <bean id="SystemInformation-wireSubAccountNumber" parent="SystemInformation-wireSubAccountNumber-parentBean" />
+  <bean id="SystemInformation-wireSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireSubAccountNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Account Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="wireSubAccountNumber" />
+    <property name="description" value="wireSubAccountNumber description..." />
+  </bean>
+  
+  <bean id="SystemInformation-wireChartOfAccountsCode" parent="SystemInformation-wireChartOfAccountsCode-parentBean" />
+  <bean id="SystemInformation-wireChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireChartOfAccountsCode" />
+    <property name="label" value="Chart Of Account" />
+    <property name="shortLabel" value="Wire Chart Of Accounts Code" />
+  </bean>
+  
+  <bean id="SystemInformation-wireAccountNumber" parent="SystemInformation-wireAccountNumber-parentBean" />
+  <bean id="SystemInformation-wireAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireAccountNumber" />
+    <property name="label" value="Account Number" />
+  </bean>
+  
+  <bean id="SystemInformation-wireObjectCode" parent="SystemInformation-wireObjectCode-parentBean" />
+  <bean id="SystemInformation-wireObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireObjectCode" />
+    <property name="label" value="Object Code" />
+  </bean>
+  
+  <bean id="SystemInformation-wireSubObjectCode" parent="SystemInformation-wireSubObjectCode-parentBean" />
+  <bean id="SystemInformation-wireSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireSubObjectCode" />
+    <property name="label" value="Sub Object Code" />
+    <property name="shortLabel" value="Wire Sub Object Code" />
+  </bean>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <bean id="SystemInformation-organizationCheckPayableToName" parent="SystemInformation-organizationCheckPayableToName-parentBean" />
 
   <bean id="SystemInformation-organizationCheckPayableToName-parentBean" abstract="true" parent="OrganizationOptions-organizationCheckPayableToName">
@@ -354,11 +405,11 @@
               <bean parent="FieldDefinition"
                     p:attributeName="universityFiscalYear" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universityName" />
-              <bean parent="FieldDefinition"
                     p:attributeName="processingChartOfAccountCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="processingOrganizationCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentInitiatorIdentifier" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="lockboxNumber" />
 <!--              <bean parent="FieldDefinition"-->
@@ -373,8 +424,8 @@
 			<list>                
 <!--              <bean parent="FieldDefinition"-->
 <!--                    p:attributeName="salesTaxFinancialObjectCode" />-->
-              <bean parent="FieldDefinition"
-                    p:attributeName="adjustmentObjectCode" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="adjustmentObjectCode" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="creditCardObjectCode" />   
               <bean parent="FieldDefinition"
@@ -401,10 +452,30 @@
           </property>
         </bean> 
 				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Wire Account" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+			<list>                                              
+              <bean parent="FieldDefinition"
+                    p:attributeName="wireChartOfAccountsCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="wireAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="wireSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="wireObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="wireSubObjectCode" />
+            </list>
+          </property>
+        </bean>     
+				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Remit To Information" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 								<list>                                              
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationCheckPayableToName" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationRemitToAddressName" />
               <bean parent="FieldDefinition"

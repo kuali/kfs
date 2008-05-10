@@ -1,5 +1,5 @@
 <design>
-  <!-- External Kuali dependencies packages (javax, org.apache, etc) -->
+  <!-- Non-kuali packages that all modules can depend on (javax, org.apache, etc) -->
 	<package name="apache" package="org.apache" subpackages="include" needdeclarations="false"/>
 	<package name="displaytag" package="org.displaytag" subpackages="include" needdeclarations="false"/>
 	<package name="edu" package="edu" subpackages="include" needdeclarations="false"/>
@@ -10,25 +10,28 @@
 	<package name="springframework" package="org.springframework" subpackages="include" needdeclarations="false"/>
 	<package name="w3c" package="org.w3c" subpackages="include" needdeclarations="false"/>
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
-	<package name="sax" package="org.xml.sax" subpackages="include" needdeclarations="false"/>
 
-  <!-- Core Kuali packages, from which all dependency begins (theoretically) -->
+  <!-- Core Kuali packages that all optional modules can depend on -->
 	<package name="core" package="org.kuali.core" subpackages="include" needdeclarations="false"/>
 	<package name="chart" package="org.kuali.module.chart" subpackages="include" needdeclarations="false"/>
 	<package name="financial" package="org.kuali.module.financial" subpackages="include" needdeclarations="false"/>
 	<package name="gl" package="org.kuali.module.gl" subpackages="include" needdeclarations="false"/>
 	<package name="kfs" package="org.kuali.kfs" subpackages="include" needdeclarations="false"/>
+	<package name="sax" package="org.xml.sax" subpackages="include" />
 	<package name="pdp" package="org.kuali.module.pdp" subpackages="include" needdeclarations="false">
 		<depends>sax</depends>
 	</package>
 	<package name="vendor" package="org.kuali.module.vendor" subpackages="include" needdeclarations="false"/>
 	<package name="integration" package="org.kuali.module.integration" subpackages="include" needdeclarations="false"/>
   
-  <!-- Module packages, of which all are code independent (theoretically) -->
+  <!-- Optional module packages -->
 	<package name="ar" package="org.kuali.module.ar" subpackages="include"/>
 	<package name="budget" package="org.kuali.module.budget" subpackages="include"/>
 	<package name="cams" package="org.kuali.module.cams" subpackages="include"/>
-	<package name="capitalAssetBuilder" package="org.kuali.module.capitalAssetBuilder" subpackages="include" depends="cams,purap" />
+	<package name="capitalAssetBuilder" package="org.kuali.module.capitalAssetBuilder" subpackages="include">
+		<depends>cams</depends>
+		<depends>purap</depends>
+	</package>
 	<package name="cg" package="org.kuali.module.cg" subpackages="include"/>
 	<package name="effort" package="org.kuali.module.effort" subpackages="include"/>
 	<package name="kra" package="org.kuali.module.kra" subpackages="include"/>

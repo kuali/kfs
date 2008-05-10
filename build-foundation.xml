@@ -20,246 +20,219 @@ are intended for use only by Kuali Foundation developers.
 
 -->
 <project name="imported">
-  <!-- dummy target to keep validation happy -->
-  <target name="init-properties" />
-  <target name="init-property-files" />
-  <target name="dist-local" />
-  <target name="clean" />
-  <target name="make-source" />
+	<!-- dummy target to keep validation happy -->
+	<target name="init-properties" />
+	<target name="init-property-files" />
+	<target name="dist-local" />
+	<target name="clean" />
+	<target name="make-source" />
 
-	<property name="ant.contrib.jar" location="build/ant-contrib-1.0b3.jar"/>
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
 		<classpath>
-			<pathelement location="${ant.contrib.jar}" />
+			<pathelement location="build/foundation/ant-contrib-1.0b3.jar" />
+			<pathelement location="build/foundation/bcel-5.2.jar" />
 		</classpath>
 	</taskdef>    	
 
-
-  <target name="check-modularization" depends="make-source">
-  	<verifydesign design="design.xml">
-      <path>
-	<fileset dir="build/war/WEB-INF/classes/org/kuali/module">
-	  <include name="**/*.class" />
-	</fileset>
-      </path>
-    </verifydesign>
-  </target>
+	<target name="check-modularization" depends="make-source">
+		<verifydesign design="design.xml">
+			<path>
+				<fileset dir="build/war/WEB-INF/classes/org/kuali/module" includes="**/*.class" />
+      		</path>
+    	</verifydesign>
+  	</target>
   
-  <target name="make-javadoc-all" depends="init-properties">
-    
+	<target name="make-javadoc-all" depends="init-properties">
     <!-- delete potential previous temp directories -->
-    <delete dir="${doc.directory}" failonerror="false" />
-    <delete dir="temp" failonerror="false" />
-    
+    	<delete dir="${doc.directory}" failonerror="false" />
+    	<delete dir="temp" failonerror="false" />
     <!-- setup destination directories -->
-    <mkdir dir="${doc.directory}" />
-    <mkdir dir="temp/kfs" />
-    <mkdir dir="temp/rice/core" />
-    <mkdir dir="temp/rice/kew" />
-    <mkdir dir="temp/rice/kns" />
-    <mkdir dir="temp/rice/ksb" />
-    <mkdir dir="temp/rice/shared" />
-    
-    <!-- extract rice javadocs to directories for single extraction unzip on target server-->
-  	<!--
-    <unzip src="../kuali_dependencies/rice-core-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/core" />
-    <unzip src="../kuali_dependencies/rice-kew-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/kew" />
-    <unzip src="../kuali_dependencies/rice-kns-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/kns" />
-    <unzip src="../kuali_dependencies/rice-ksb-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/ksb" />
-    <unzip src="../kuali_dependencies/rice-shared-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/shared" />
-    -->
-  	
+    	<mkdir dir="${doc.directory}" />
+    	<mkdir dir="temp/kfs" />
+    	<mkdir dir="temp/rice/core" />
+    	<mkdir dir="temp/rice/kew" />
+    	<mkdir dir="temp/rice/kns" />
+    	<mkdir dir="temp/rice/ksb" />
+    	<mkdir dir="temp/rice/shared" />
   	<!-- create javadocs from rice project -->
-  	<javadoc destdir="temp/rice/core" packagenames="org.*" sourcepath="${rice.project.directory}/core/src/main/java" />
-  	<javadoc destdir="temp/rice/kew" packagenames="org.*" sourcepath="${rice.project.directory}/kew/src/main/java" />
-  	<javadoc destdir="temp/rice/kns" packagenames="org.*" sourcepath="${rice.project.directory}/kns/src/main/java" />
-  	<javadoc destdir="temp/rice/ksb" packagenames="org.*" sourcepath="${rice.project.directory}/ksb/src/main/java" />
-  	<javadoc destdir="temp/rice/shared" packagenames="org.*" sourcepath="${rice.project.directory}/shared/src/main/java" />
+  		<javadoc destdir="temp/rice/core" packagenames="org.*" sourcepath="${rice.project.directory}/core/src/main/java" />
+  		<javadoc destdir="temp/rice/kew" packagenames="org.*" sourcepath="${rice.project.directory}/kew/src/main/java" />
+  		<javadoc destdir="temp/rice/kns" packagenames="org.*" sourcepath="${rice.project.directory}/kns/src/main/java" />
+  		<javadoc destdir="temp/rice/ksb" packagenames="org.*" sourcepath="${rice.project.directory}/ksb/src/main/java" />
+  		<javadoc destdir="temp/rice/shared" packagenames="org.*" sourcepath="${rice.project.directory}/shared/src/main/java" />
  	
     <!-- create javadoc target for kfs docs -->
-    <javadoc destdir="temp/kfs" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
-      <sourcepath><pathelement location="${source.directory}"/></sourcepath>
-      <classpath refid="compile.source.classpath"/>
-    </javadoc>
+		<javadoc destdir="temp/kfs" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
+      		<sourcepath><pathelement location="${source.directory}"/></sourcepath>
+      		<classpath refid="compile.source.classpath"/>
+    	</javadoc>
     
     <!-- create zip file from javadoc directories -->
-    <zip basedir="temp" destfile="${doc.directory}/kuali-docs.zip" />
+    	<zip basedir="temp" destfile="${doc.directory}/kuali-docs.zip" />
     
     <!-- clear temp directories -->
-    <delete dir="temp" />
-  </target>
+    	<delete dir="temp" />
+	</target>
   
-  <target name="export-dataset">
-    <mkdir dir="temp/${name}-dataset" />
-    <cvs command="export -d ${name}-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${branch}" compressionlevel="6" />
-  </target>
+	<target name="export-dataset">
+		<mkdir dir="temp/${name}-dataset" />
+		<cvs command="export -d ${name}-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${branch}" compressionlevel="6" />
+	</target>
   
-  <target name="package-kfs" depends="init-properties">
+	<target name="package-kfs" depends="init-properties">
     <!-- copy build file to temp dir -->
-    <delete dir="temp" failonerror="false" />
-    <mkdir dir="temp" />
-    
-    <cvspass cvsroot="${release.cvs.root}" password="${release.cvs.password}" />
-    
-    <antcall target="export-dataset">
-      <param name="branch" value="${release.demo.dataset.cvs.tag}" />
-      <param name="name" value="demo" />
-    </antcall>
-    <antcall target="export-dataset">
-      <param name="branch" value="${release.bootstrap.dataset.cvs.tag}" />
-      <param name="name" value="bootstrap" />
-    </antcall>
-    
+    	<delete dir="temp" failonerror="false" />
+    	<mkdir dir="temp" />    
+    	<cvspass cvsroot="${release.cvs.root}" password="${release.cvs.password}" />    
+    	<antcall target="export-dataset">
+      		<param name="branch" value="${release.demo.dataset.cvs.tag}" />
+      		<param name="name" value="demo" />
+    	</antcall>
+    	<antcall target="export-dataset">
+      		<param name="branch" value="${release.bootstrap.dataset.cvs.tag}" />
+      		<param name="name" value="bootstrap" />
+    	</antcall>
     <!-- impex tool -->
-    <mkdir dir="temp/impex" />
-    <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.impex.tool.cvs.module}" failonerror="true" tag="${release.impex.tool.cvs.tag}" compressionlevel="6" />
-    
-    <ant antfile="temp/${release.impex.tool.cvs.module}/impex/build.xml" inheritall="false" target="package-impex-tool" />
-    <unzip src="temp/${release.impex.tool.cvs.module}/db_impex.zip" dest="temp" />
-    <!-- rice -->
-    
-    <mkdir dir="temp/${release.rice.cvs.module}" />
-    <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.rice.cvs.module}" failonerror="true" tag="${release.rice.cvs.tag}" compressionlevel="6" />
-    
-    <mkdir dir="${release.patches.dir}" />
-    
+    	<mkdir dir="temp/impex" />
+    	<cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.impex.tool.cvs.module}" failonerror="true" tag="${release.impex.tool.cvs.tag}" compressionlevel="6" />
+    	<ant antfile="temp/${release.impex.tool.cvs.module}/impex/build.xml" inheritall="false" target="package-impex-tool" />
+    	<unzip src="temp/${release.impex.tool.cvs.module}/db_impex.zip" dest="temp" />
+    <!-- rice -->    
+    	<mkdir dir="temp/${release.rice.cvs.module}" />
+    	<cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.rice.cvs.module}" failonerror="true" tag="${release.rice.cvs.tag}" compressionlevel="6" />    
+    	<mkdir dir="${release.patches.dir}" />    
     <!-- KFS -->
-    <mkdir dir="temp/${release.kfs.cvs.module}" />
-    <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.kfs.cvs.module}" failonerror="true" tag="${release.kfs.cvs.tag}" compressionlevel="6" />
-    
+    	<mkdir dir="temp/${release.kfs.cvs.module}" />
+    	<cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.kfs.cvs.module}" failonerror="true" tag="${release.kfs.cvs.tag}" compressionlevel="6" />
     <!-- remove foundation-only targets import -->
-    <replace file="temp/kuali_project/build.xml">
-      <replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
-    </replace>
-    
+    	<replace file="temp/kuali_project/build.xml">
+      		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
+    	</replace>
     <!-- replace foundation database URLs -->
-    <replace file="temp/kuali_project/build/external/user/kuali-build.properties">
-      <replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
+    	<replace file="temp/kuali_project/build/external/user/kuali-build.properties">
+      		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
-      <replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
+      		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
     		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
     	</replace>
-    
-    <copy file="temp/${release.kfs.cvs.module}/build/README.txt" todir="temp" />
-    
+    	<copy file="temp/${release.kfs.cvs.module}/build/README.txt" todir="temp" />
     <!-- dump a file with the extracted tags -->
-    <echo file="temp/release-details.txt">
-      KFS Tag: ${release.kfs.cvs.tag}
-      Demo Dataset Tag: ${release.demo.dataset.cvs.tag}
-      Bootstrap Dataset Tag: ${release.bootstrap.dataset.cvs.tag}
-      Impex Tag: ${release.impex.tool.cvs.tag}
-      Rice Tag: ${release.rice.cvs.tag}
-    </echo>
+    	<echo file="temp/release-details.txt">
+      		KFS Tag: ${release.kfs.cvs.tag}
+      		Demo Dataset Tag: ${release.demo.dataset.cvs.tag}
+      		Bootstrap Dataset Tag: ${release.bootstrap.dataset.cvs.tag}
+      		Impex Tag: ${release.impex.tool.cvs.tag}
+      		Rice Tag: ${release.rice.cvs.tag}
+    	</echo>
     
     <!-- zip it up -->
-    <zip destfile="${release.zip.name}">
-      <zipfileset dir="temp/${release.kfs.cvs.module}" prefix="financial-system">
-    	<exclude name="build-foundation.xml" />
-    	<exclude name=".apt_generated" />
-    	<exclude name="patches" />
-      </zipfileset>
-      <zipfileset dir="temp/demo-dataset" prefix="demo-data-set">
-        <exclude name=".project" />
-      </zipfileset>
-      <zipfileset dir="temp/bootstrap-dataset" prefix="bootstrap-data-set">
-        <exclude name=".project" />
-      </zipfileset>
-      <zipfileset dir="temp/impex" prefix="database-import-export" />
-      <zipfileset dir="temp/${release.rice.cvs.module}" prefix="rice" />
-      <zipfileset dir="${release.patches.dir}" prefix="patches" />
-      <zipfileset dir="temp" prefix="">
-    	<include name="README.txt" />
-    	<include name="release-details.txt" />
-      </zipfileset>
-    </zip>
-    <delete dir="temp" verbose="false" />
-  </target>
+    	<zip destfile="${release.zip.name}">
+      		<zipfileset dir="temp/${release.kfs.cvs.module}" prefix="financial-system">
+    			<exclude name="build-foundation.xml" />
+    			<exclude name=".apt_generated" />
+    			<exclude name="patches" />
+      		</zipfileset>
+      		<zipfileset dir="temp/demo-dataset" prefix="demo-data-set">
+        		<exclude name=".project" />
+      		</zipfileset>
+      		<zipfileset dir="temp/bootstrap-dataset" prefix="bootstrap-data-set">
+        		<exclude name=".project" />
+      		</zipfileset>
+      		<zipfileset dir="temp/impex" prefix="database-import-export" />
+      		<zipfileset dir="temp/${release.rice.cvs.module}" prefix="rice" />
+      		<zipfileset dir="${release.patches.dir}" prefix="patches" />
+      		<zipfileset dir="temp" prefix="">
+    			<include name="README.txt" />
+    			<include name="release-details.txt" />
+     		</zipfileset>
+    	</zip>
+    	<delete dir="temp" verbose="false" />
+	</target>
   
-  <target name="setup-rice" depends="init-property-files">
-    <condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">
-      <os family="windows"/>
-    </condition>
-    <property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
-    <maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
-    <copy todir="${user.home}/kuali" overwrite="true">
-      <fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
-      <filterset>
-        <filter token="rice-datasource-url" value="${rice.datasource.url}" />
-        <filter token="rice-datasource-username-dev" value="${rice.datasource.username.dev}" />
-        <filter token="rice-datasource-password-dev" value="${rice.datasource.password.dev}" />
-        <filter token="rice-datasource-username-test" value="${rice.datasource.username.test}" />
-        <filter token="rice-datasource-password-test" value="${rice.datasource.password.test}" />
-      </filterset>
-    </copy>
-    <maven goals="clean:clean install source:jar javadoc:jar" options="-U -Dpackaging=jar" />
-    <touch file="${rice.project.directory}/pom.xml" />
-  </target>
+	<target name="setup-rice" depends="init-property-files">
+    	<condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">
+      		<os family="windows"/>
+    	</condition>
+    	<property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
+    	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
+    	<copy todir="${user.home}/kuali" overwrite="true">
+      		<fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
+      		<filterset>
+        		<filter token="rice-datasource-url" value="${rice.datasource.url}" />
+        		<filter token="rice-datasource-username-dev" value="${rice.datasource.username.dev}" />
+        		<filter token="rice-datasource-password-dev" value="${rice.datasource.password.dev}" />
+        		<filter token="rice-datasource-username-test" value="${rice.datasource.username.test}" />
+        		<filter token="rice-datasource-password-test" value="${rice.datasource.password.test}" />
+      		</filterset>
+    	</copy>
+    	<maven goals="clean:clean install source:jar javadoc:jar" options="-U -Dpackaging=jar" />
+    	<touch file="${rice.project.directory}/pom.xml" />
+	</target>
   
-  <target name="update-rice-dev" depends="update-rice-basic,dist-local" />
+	<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
   
-  <target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
+	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
   
-  <target name="update-rice-basic" depends="init-property-files,update-rice-jars,update-rice-web" />
+	<target name="update-rice-basic" depends="init-property-files,update-rice-jars,update-rice-web" />
   
-  <target name="update-rice-jars" depends="init-property-files">
-    <delete>
-      <fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
-    </delete>
-    <maven goals="clean:clean package" />
-    <copy todir="${lib.directory}" flatten="true">
-      <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
-    </copy>
-  </target>
+	<target name="update-rice-jars" depends="init-property-files">
+    	<delete>
+      		<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
+    	</delete>
+    	<maven goals="clean:clean package" />
+    	<copy todir="${lib.directory}" flatten="true">
+      		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
+    	</copy>
+	</target>
   
-  <target name="update-rice-web" depends="init-property-files">
-    <delete>
-      <fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
-    </delete>
-    <zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**,${ksb.application}/**/**" excludes="**/CVS" />
-  </target>
+	<target name="update-rice-web" depends="init-property-files">
+    	<delete>
+      		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
+    	</delete>
+    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**,${ksb.application}/**/**" excludes="**/CVS" />
+	</target>
   
-  <target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-licenses" />
+	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-licenses" />
   
-  <target name="update-rice-kuali-dependencies" depends="init-property-files">
-    <delete>
-      <fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
-    </delete>
-    <maven goals="source:jar javadoc:jar" />
-    <copy todir="${dependencies.project.directory}">
-      <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
-      <chainedmapper>
-        <flattenmapper />
-        <globmapper from="*.jar" to="*.zip" />
-      </chainedmapper>
-    </copy>
-  </target>
+	<target name="update-rice-kuali-dependencies" depends="init-property-files">
+    	<delete>
+      		<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
+    	</delete>
+    	<maven goals="source:jar javadoc:jar" />
+    	<copy todir="${dependencies.project.directory}">
+      		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
+      		<chainedmapper>
+        		<flattenmapper />
+        		<globmapper from="*.jar" to="*.zip" />
+      		</chainedmapper>
+    	</copy>
+	</target>
   
-  <target name="update-rice-licenses" depends="init-property-files">
-    <delete>
-      <fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.licenses.suffix}" />
-    </delete>
-    <zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
-  </target>
+	<target name="update-rice-licenses" depends="init-property-files">
+    	<delete>
+      		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.licenses.suffix}" />
+    	</delete>
+    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
+  	</target>
   
-  <macrodef name="maven">
-    <attribute name="goals" />
-    <attribute name="options" default="--offline" />
-    <sequential>
-      <java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
-        <arg line="@{options} @{goals}"/>
-        <sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
-        <sysproperty key="maven.home" value="${maven.home.directory}"/>
-        <sysproperty key="maven.test.skip" value="true"/>
-        <classpath>
-          <fileset dir="${maven.home.directory}/boot">
-            <include name="classworlds-*.jar"/>
-          </fileset>
-        </classpath>
-      </java>
-    </sequential>
-  </macrodef>
-	
-	
+  	<macrodef name="maven">
+    	<attribute name="goals" />
+    	<attribute name="options" default="--offline" />
+    	<sequential>
+      		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
+        		<arg line="@{options} @{goals}"/>
+        		<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
+        		<sysproperty key="maven.home" value="${maven.home.directory}"/>
+        		<sysproperty key="maven.test.skip" value="true"/>
+        		<classpath>
+          			<fileset dir="${maven.home.directory}/boot">
+            			<include name="classworlds-*.jar"/>
+          			</fileset>
+        		</classpath>
+      		</java>
+    	</sequential>
+  	</macrodef>
+
 	<!-- ================================= 
           target: build-spring-config              
          ================================= -->

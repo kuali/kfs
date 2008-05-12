@@ -60,7 +60,7 @@ public class CustomerTypeRule extends MaintenanceDocumentRuleBase {
      * @param customerType
      * @return true if there is no other customer type in the database with the same description, false otherwise
      */
-    private boolean validateCustomerTypeDescription(CustomerType customerType) {
+    public boolean validateCustomerTypeDescription(CustomerType customerType) {
         boolean success = true;
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         List<CustomerType> dataToValidateList = new ArrayList<CustomerType>(businessObjectService.findAll(CustomerType.class));
@@ -71,7 +71,7 @@ public class CustomerTypeRule extends MaintenanceDocumentRuleBase {
 
         for (CustomerType record : dataToValidateList) {
             if (customerType.getCustomerTypeDescription() != null && customerType.getCustomerTypeDescription().equalsIgnoreCase(record.getCustomerTypeDescription())) {
-                putFieldError("customerTypeDescription", ArConstants.ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE);
+                putFieldError(ArConstants.CUSTOMER_TYPE_DESC, ArConstants.ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE);
                 success = false;
                 break;
             }

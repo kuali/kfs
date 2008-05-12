@@ -169,4 +169,5 @@ public class ArConstants {
     
     //Customer type constants
     public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
+    public static final String CUSTOMER_TYPE_DESC = "customerTypeDescription";
 }

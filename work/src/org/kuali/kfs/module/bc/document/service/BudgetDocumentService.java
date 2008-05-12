@@ -115,6 +115,7 @@ public interface BudgetDocumentService {
      * KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY
      * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER
      * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL
+     * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER
      * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode

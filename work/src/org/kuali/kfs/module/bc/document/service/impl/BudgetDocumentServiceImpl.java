@@ -418,13 +418,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
+        boolean isFiscalOfcOrDelegate = false;
 
         BudgetConstructionHeader bcHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
+        
+        isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());
 
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {
-            if (u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier())) {
+            if (isFiscalOfcOrDelegate) {
                 if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())){
                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
                 } else {
@@ -436,6 +439,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         // drops here if we need to check for org approver access for any doc level
         editMode = this.getOrgApproverAcessMode(bcHeader, u);
+        if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))){
+            
+            // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user level
+            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
+            
+        }
 
 
         return editMode;
@@ -453,8 +462,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, UniversalUser u) {
 
-        // default the edit mode to user not an organization approver
-        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
+        // default the edit mode is just unviewable
+        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
 
         HashMap fieldValues = new HashMap();
         fieldValues.put("universityFiscalYear", bcHeader.getUniversityFiscalYear());
@@ -517,8 +526,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                         }
                     }
                     else {
-                        // user not an approver in this account's hier, see if the user is an org approver somewhere
-                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
+                        // user not an approver in this account's hier, but is an org approver
+                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER;
                     }
                 }
             }

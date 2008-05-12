@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -45,7 +43,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
@@ -154,7 +151,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         budgetConstructionForm.setDocument(budgetConstructionDocument);
-        
+
         // init the benefits calc flags
         budgetConstructionDocument.setBenefitsCalcNeeded(false);
         budgetConstructionDocument.setMonthlyBenefitsCalcNeeded(false);
@@ -209,10 +206,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     budgetDocumentService.calculateBenefitsIfNeeded((BudgetConstructionDocument) docForm.getDocument());
                     docForm.initializePersistedRequestAmounts();
 
-// TODO confirm save and close functionality with SME group
-//                    if (docForm.isPickListMode()){
-//                        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-//                    }
+                    // TODO confirm save and close functionality with SME group
+                    // if (docForm.isPickListMode()){
+                    // GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                    // }
                     GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
@@ -274,7 +271,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         budgetDocumentService.saveDocument(bcDocument);
         budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-        
+
         // TODO may need to move this to generic save method to handle all actions requiring save
         budgetConstructionForm.initializePersistedRequestAmounts();
 
@@ -560,8 +557,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     }
 
     /**
-     * Deletes an existing PendingBudgetConstructionGeneralLedger revenue line if rules passed.
-     * Any associated monthly budget (BudgetConstructionMonthly) is also deleted.
+     * Deletes an existing PendingBudgetConstructionGeneralLedger revenue line if rules passed. Any associated monthly budget
+     * (BudgetConstructionMonthly) is also deleted.
      * 
      * @param mapping
      * @param form
@@ -597,8 +594,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     }
 
     /**
-     * Deletes an existing PendingBudgetConstructionGeneralLedger expenditure line if rules passed
-     * Any associated monthly budget (BudgetConstructionMonthly) is also deleted.
+     * Deletes an existing PendingBudgetConstructionGeneralLedger expenditure line if rules passed Any associated monthly budget
+     * (BudgetConstructionMonthly) is also deleted.
      * 
      * @param mapping
      * @param form
@@ -630,14 +627,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             deletePBGLLine(false, tForm, deleteIndex);
         }
 
-//        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete Expenditure Line");
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete
+        // Expenditure Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * Deletes an existing PendingBudgetConstructionGeneralLedger revenue or expenditure line
-     * along with any associated monthly budget (BudgetConstructionMonthly)
+     * Deletes an existing PendingBudgetConstructionGeneralLedger revenue or expenditure line along with any associated monthly
+     * budget (BudgetConstructionMonthly)
      * 
      * @param isRevenue
      * @param budgetConstructionForm
@@ -800,8 +798,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
         budgetDocumentService.calculateBenefits(bcDocument);
         tForm.initializePersistedRequestAmounts();
-        
-//        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
+
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate
+        // Benefits");
 
         // TODO create form/hidden flag vars (annual and monthly) to maintain state of benefits calc and reset here after
         // calculation is performed

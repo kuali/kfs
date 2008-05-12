@@ -67,11 +67,15 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         ccDocument.refreshReferenceObject("customerPaymentMedium");
         ccDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
-        isValid &= checkUserOrgOptions(ccDocument);
-        isValid &= checkRefDocNumber(ccDocument);
-        isValid &= validateCashControlDetails(ccDocument);
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
 
-        return true;
+        if (errorMap.isEmpty()) {
+            isValid &= checkUserOrgOptions(ccDocument);
+            isValid &= checkRefDocNumber(ccDocument);
+            isValid &= validateCashControlDetails(ccDocument);
+        }
+
+        return isValid;
 
     }
 
@@ -84,11 +88,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CashControlDocument cashControlDocument = (CashControlDocument) document;
 
-        isValid &= checkUserOrgOptions(cashControlDocument);
-        isValid &= checkPaymentMedium(cashControlDocument);
-        isValid &= checkRefDocNumber(cashControlDocument);
-        isValid &= validateCashControlDetails(cashControlDocument);
-        isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
+        if (isValid) {
+            isValid &= checkUserOrgOptions(cashControlDocument);
+            isValid &= checkPaymentMedium(cashControlDocument);
+            isValid &= checkRefDocNumber(cashControlDocument);
+            isValid &= validateCashControlDetails(cashControlDocument);
+            isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
+        }
 
         return isValid;
 
@@ -199,18 +205,25 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         String paymentMedium = document.getCustomerPaymentMediumCode();
         if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(paymentMedium)) {
             String refDocNumber = document.getReferenceFinancialDocumentNumber();
-            if (StringUtils.isBlank(refDocNumber)) {
-                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
-                isValid = false;
-            }
-            else {
-                boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(refDocNumber);
-                if (!docExists) {
-                    GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+            try {
+                Long.parseLong(refDocNumber);
+                if (StringUtils.isBlank(refDocNumber)) {
+                    GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
-
+                else {
+                    boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(refDocNumber);
+                    if (!docExists) {
+                        GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                        isValid = false;
+                    }
+                }
             }
+            catch (NumberFormatException nfe) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                isValid = false;
+            }
+
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;

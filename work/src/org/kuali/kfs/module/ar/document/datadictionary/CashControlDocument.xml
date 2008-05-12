@@ -46,6 +46,9 @@
     <property name="name" value="referenceFinancialDocumentNumber" />
     <property name="label" value="Reference Document Number" />
     <property name="shortLabel" value="Reference Document Number" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
   </bean>
   <bean id="CashControlDocument-customerPaymentMediumCode" parent="CashControlDocument-customerPaymentMediumCode-parentBean" />
 

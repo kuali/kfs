@@ -16,6 +16,7 @@
 package org.kuali.module.budget.dao.jdbc;
 
 import java.util.ArrayList;
+import java.lang.StringBuilder;
 import java.lang.Exception;
 
 import org.kuali.kfs.service.ParameterService;
@@ -37,7 +38,12 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
     ParameterService parameterService;
     
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDaoJdbcBase.class);
-
+    
+    private  String ojbPlatform;
+    private  String ojbOraclePlatform;
+    
+    private  StringBuilder[] oracleSubString = {new StringBuilder("SUBSTR("),new StringBuilder(","),new StringBuilder(","), new StringBuilder(")")};
+    private  StringBuilder[] ansi92SubString = {new StringBuilder("SUBSTRING("),new StringBuilder(" FROM "), new StringBuilder(" FOR "), new StringBuilder(")")};
     
     @RawSQL
     protected void clearTempTableByUnvlId(String tableName, String personUnvlIdColumn, String personUserIdentifier) {
@@ -153,7 +159,54 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         }
         return inString(revenueObjectTypes);
     }
+
+    /**
+     * 
+     * return a substring function that is Oracle-specific if the DB Platform is Oracle, and an ANSI-92 compliant function otherwise
+     * Oracle's syntax is not ANSI-92 compliant 
+     * @param fieldName       = string representing the name of the DB field (possibly qualified)
+     * @param startLocation   = starting location of the substring
+     * @param substringLength = length of the substring
+     * @return the substring function
+     */
+    protected StringBuilder getSqlSubStringFunction(String fieldName, Integer startLocation, Integer substringLength){
+        boolean oracleDB = ojbPlatform.equals(ojbOraclePlatform);
+        StringBuilder subStringer = new StringBuilder(40);
+        String start = startLocation.toString();
+        String span  = substringLength.toString();
+        if (oracleDB)
+        {
+            subStringer.append(oracleSubString[0]);
+            subStringer.append(fieldName);
+            subStringer.append(oracleSubString[1]);
+            subStringer.append(start);
+            subStringer.append(oracleSubString[2]);
+            subStringer.append(span);
+            subStringer.append(oracleSubString[3]);
+        }
+        else
+        {  
+            subStringer.append(ansi92SubString[0]);
+            subStringer.append(fieldName);
+            subStringer.append(ansi92SubString[1]);
+            subStringer.append(start);
+            subStringer.append(ansi92SubString[2]);
+            subStringer.append(span);
+            subStringer.append(ansi92SubString[3]);
+        }
+        return subStringer;
+    }
     
+    
+    public void setOjbPlatform(String ojbPlatform)
+    {
+        this.ojbPlatform = ojbPlatform;
+    }
+    
+    public void setOjbOraclePlatform(String ojbOraclePlatform)
+    {
+        this.ojbOraclePlatform = ojbOraclePlatform;
+    }
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;

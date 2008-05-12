@@ -43,6 +43,7 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
 
         });
         this.asset = new Asset();
+        this.asset.setExpectedReturnDate(new java.sql.Date(new Date().getTime()));
     }
 
     private AssetHeader createAssetHeader(String docNumber, int daysToAdd) {

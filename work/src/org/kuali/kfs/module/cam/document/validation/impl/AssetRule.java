@@ -137,13 +137,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE);
             valid &= false;
         }
-        // check asset type values
-        /**
-         * if (!CamsConstants.ASSET_TYPE_40000.equals(newAsset.getCapitalAssetTypeCode()) &&
-         * !CamsConstants.ASSET_TYPE_1000.equals(newAsset.getCapitalAssetTypeCode())) {
-         * putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE,
-         * CamsKeyConstants.ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION); valid &= false; }
-         */
         return valid;
     }
 

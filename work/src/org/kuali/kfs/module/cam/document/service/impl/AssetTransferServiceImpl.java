@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -485,7 +486,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     private void saveLocationChanges(AssetTransferDocument document, Asset saveAsset) {
         // change inventory date
-        saveAsset.setLastInventoryDate(new Timestamp(new Date().getTime()));
+        saveAsset.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         // save asset location details
         saveAsset.setCampusCode(document.getCampusCode());
         saveAsset.setBuildingCode(document.getBuildingCode());

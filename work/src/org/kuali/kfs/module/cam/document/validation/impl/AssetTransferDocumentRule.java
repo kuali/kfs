@@ -174,28 +174,28 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (StringUtils.isNotBlank(assetTransferDocument.getCampusCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
             if (ObjectUtils.isNull(assetTransferDocument.getCampus())) {
-                putError(CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE);
+                putError(CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetTransferDocument.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING);
             if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) {
-                putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE);
+                putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetTransferDocument.getBuildingCode(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingRoomNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM);
             if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) {
-                putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER);
+                putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetTransferDocument.getBuildingCode(), assetTransferDocument.getBuildingRoomNumber(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getOffCampusStateCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE);
             if (ObjectUtils.isNull(assetTransferDocument.getOffCampusState())) {
-                putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE);
+                putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE, assetTransferDocument.getOffCampusStateCode());
                 valid &= false;
             }
         }

@@ -27,9 +27,7 @@ import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 
 /**
- * 
  * Implements EquipmentLoanInfoService
- * 
  */
 public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
 
@@ -46,25 +44,27 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
 
 
     public void setEquipmentLoanInfo(Asset asset) {
-        List<AssetHeader> assetHeaders = asset.getAssetHeaders();
-        List<EquipmentLoanOrReturnDocument> sortableList = new ArrayList<EquipmentLoanOrReturnDocument>();
+        if (asset.getExpectedReturnDate() != null && asset.getLoanReturnDate() == null) {
+            List<AssetHeader> assetHeaders = asset.getAssetHeaders();
+            List<EquipmentLoanOrReturnDocument> sortableList = new ArrayList<EquipmentLoanOrReturnDocument>();
 
-        for (AssetHeader assetHeader : assetHeaders) {
-            EquipmentLoanOrReturnDocument equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturnDocument();
-            if (equipmentLoanOrReturn != null && assetHeaderService.isDocumentApproved(assetHeader)) {
-                sortableList.add(equipmentLoanOrReturn);
+            for (AssetHeader assetHeader : assetHeaders) {
+                EquipmentLoanOrReturnDocument equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturnDocument();
+                if (equipmentLoanOrReturn != null && assetHeaderService.isDocumentApproved(assetHeader)) {
+                    sortableList.add(equipmentLoanOrReturn);
+                }
             }
-        }
-        Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
-            public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
-                // sort descending based on loan date
-                return o2.getLoanDate().compareTo(o1.getLoanDate());
-            }
-        };
-        Collections.sort(sortableList, comparator);
+            Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
+                public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
+                    // sort descending based on loan date
+                    return o2.getLoanDate().compareTo(o1.getLoanDate());
+                }
+            };
+            Collections.sort(sortableList, comparator);
 
-        if (!sortableList.isEmpty()) {
-            asset.setLoanOrReturnInfo(sortableList.get(0));
+            if (!sortableList.isEmpty()) {
+                asset.setLoanOrReturnInfo(sortableList.get(0));
+            }
         }
     }
 

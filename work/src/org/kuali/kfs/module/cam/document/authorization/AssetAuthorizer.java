@@ -27,6 +27,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -59,7 +60,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         if (document.isNew()) {
             if (newAsset.getCreateDate() == null) {
-                newAsset.setCreateDate(new Date(new java.util.Date().getTime()));
+                newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                 newAsset.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_C);
                 newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
             }

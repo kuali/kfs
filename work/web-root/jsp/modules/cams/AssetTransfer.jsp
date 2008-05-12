@@ -160,10 +160,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" />
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.bo.State" fieldConversions="postalStateCode:document.offCampusStateCode" lookupParameters="document.offCampusStateCode:postalStateCode" />
-				</td>						
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></td>						
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>

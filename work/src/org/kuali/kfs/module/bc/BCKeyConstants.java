@@ -22,6 +22,7 @@ public class BCKeyConstants {
     public static final String MESSAGE_BUDGET_SUCCESSFUL_CLOSE = "message.budget.successfulClose";
     public static final String MESSAGE_BENEFITS_CALCULATED = "message.budget.benefitsCalculated";
     public static final String MESSAGE_BENEFITS_MONTHLY_CALCULATED = "message.budget.benefitsMonthlyCalculated";
+    public static final String ERROR_BUDGET_AUTHORIZATION_DOCUMENT = "error.budget.authorization.document";
     public static final String ERROR_BUDGET_SUBFUND_NOT_SELECTED = "error.budget.subFundNotSelected";
     public static final String ERROR_BUDGET_OBJECT_CODE_NOT_SELECTED = "error.budget.objectCodeNotSelected";
     public static final String ERROR_BUDGET_REASON_CODE_NOT_SELECTED = "error.budget.reasonCodeNotSelected";

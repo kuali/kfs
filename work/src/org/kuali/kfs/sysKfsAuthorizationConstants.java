@@ -46,6 +46,7 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String SYSTEM_VIEW_ONLY = "systemViewOnly";
         public static final String USER_BELOW_DOC_LEVEL = "userBelowDocLevel";
         public static final String USER_NOT_ORG_APPROVER = "userNotOrgApprover";
+        public static final String USER_NOT_IN_ACCOUNT_HIER = "userNotInAccountHier";
     }
 
 }

@@ -873,6 +873,9 @@
 	<reference-descriptor name="equipmentLoanOrReturnDocument" class-ref="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="agencyNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.document.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">

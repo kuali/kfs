@@ -61,6 +61,7 @@
         <ref bean="AssetPaymentDetail-salesTax.financialDocumentGrossSalesAmount" />
         <ref bean="AssetPaymentDetail-salesTax.financialDocumentTaxableSalesAmount" />
         <ref bean="AssetPaymentDetail-salesTax.financialDocumentSaleDate" />
+        <ref bean="AssetPaymentDetail-newCollectionRecord" />
       </list>
     </property>
   </bean>
@@ -694,5 +695,9 @@
     <property name="name" value="salesTax.financialDocumentSaleDate" />
     <property name="label" value="Sale Date" />
     <property name="description" value="Date of Sale" />
+  </bean>
+  <bean id="AssetPaymentDetail-newCollectionRecord" parent="AssetPaymentDetail-newCollectionRecord-parentBean" />
+
+  <bean id="AssetPaymentDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
   </bean>
 </beans>

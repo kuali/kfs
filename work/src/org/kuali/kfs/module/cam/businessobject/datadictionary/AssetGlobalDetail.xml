@@ -30,6 +30,7 @@
         <ref bean="AssetGlobalDetail-serialNumber" />
         <ref bean="AssetGlobalDetail-locationQuantity" />
         <ref bean="AssetGlobalDetail-versionNumber" />
+        <ref bean="AssetGlobalDetail-newCollectionRecord" />
       </list>
     </property>
   </bean>
@@ -247,8 +248,9 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="offCampusCountryCode" />
     <property name="description" value="offCampusCountryCode description..." />
@@ -283,8 +285,10 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kfs.bo.State"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="offCampusStateCode" />
     <property name="description" value="offCampusStateCode description..." />
@@ -381,6 +385,11 @@
   </bean>
   <bean id="AssetGlobalDetail-versionNumber" parent="AssetGlobalDetail-versionNumber-parentBean" />
 
-  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  
+  </bean>
+  <bean id="AssetGlobalDetail-newCollectionRecord" parent="AssetGlobalDetail-newCollectionRecord-parentBean" />
+
+  <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
   </bean>
 </beans>

@@ -1399,10 +1399,8 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.bo.State"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="postalStateCode"
-            p:labelAttribute="postalStateName" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Asset Off Campus State" />
     <property name="description" value="Asset Off Campus State description..." />
@@ -1422,14 +1420,21 @@
     <property name="name" value="offCampusLocation.assetLocationCountryCode" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
+    
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.Country"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="postalCountryCode"
-            p:labelAttribute="postalCountryName" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
+    
+    
+    
     <property name="summary" value="Asset Off Campus Country" />
     <property name="description" value="Asset Off Campus Country description..." />
   </bean>

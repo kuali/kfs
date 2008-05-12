@@ -50,7 +50,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
          * ObjectUtils.getPropertyValue(getBusinessObject(), collectionName); maintCollection.add(addAssetLine);
          */
 
-        // super.addNewLineToCollection(collectionName);
+        //super.addNewLineToCollection(collectionName);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         if ("assetPaymentDetails".equalsIgnoreCase(collectionName)) {
             AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);

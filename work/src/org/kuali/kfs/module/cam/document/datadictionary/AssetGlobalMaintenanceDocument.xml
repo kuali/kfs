@@ -198,6 +198,8 @@
                     p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusCountryCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />       
             </list>
           </property>
           <property name="maintainableCollections" >
@@ -231,7 +233,9 @@
                     <bean parent="MaintainableFieldDefinition"
                           p:name="nationalStockNumber" />
                     <bean parent="MaintainableFieldDefinition"
-                          p:name="versionNumber" /> 
+                          p:name="versionNumber" />
+					<bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />                           
                   </list>
                 </property>
               </bean>
@@ -301,6 +305,8 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />      
             </list>
           </property>
         </bean>

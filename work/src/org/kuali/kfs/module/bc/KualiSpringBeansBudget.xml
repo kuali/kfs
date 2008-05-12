@@ -249,10 +249,19 @@
 	    </property>   
 	</bean>
 	
+	<bean id="oracleIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+    	<property name="staticField"><value>org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory.ORACLE_PLATFORM</value>
+    	</property>
+	</bean>
+	
 	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDaoJdbcBase">
 	    <property name="parameterService">
 	       <ref bean="parameterService"/>
-	    </property>   
+	    </property> 
+	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
+	    <property name="ojbOraclePlatform">
+	    <ref bean="oracleIndicator" />
+	    </property>
 	</bean>
 	
 	<bean id="bcOrganizationSalarySettingSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationSalarySettingSearchDaoJdbc">
@@ -663,5 +672,4 @@
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.ImportRequestDaoOjb">
     </bean>
-    
 </beans>

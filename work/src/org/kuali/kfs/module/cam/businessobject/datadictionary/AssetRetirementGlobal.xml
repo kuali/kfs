@@ -166,10 +166,8 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.bo.State"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="postalStateCode"
-            p:labelAttribute="postalStateName" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementZipCode-parentBean" />
@@ -183,11 +181,8 @@
     <property name="name" value="sharedRetirementInfo.retirementCountryCode" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.Country"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="true"
-            p:keyAttribute="postalCountryCode"
-            p:labelAttribute="postalCountryName" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber" parent="AssetRetirementGlobal-sharedRetirementInfo.retirementPhoneNumber-parentBean" />

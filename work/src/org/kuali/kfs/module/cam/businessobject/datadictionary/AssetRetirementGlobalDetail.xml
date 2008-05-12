@@ -228,8 +228,9 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="retirementCountryCode" />
     <property name="description" value="retirementCountryCode description..." />
@@ -284,8 +285,10 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kfs.bo.State"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="retirementStateCode" />
     <property name="description" value="retirementStateCode description..." />

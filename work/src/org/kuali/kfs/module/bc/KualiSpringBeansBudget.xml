@@ -563,9 +563,14 @@
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
+	
+	<bean id="budgetConstructionDocumentAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc">
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
+	</bean>
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
-	
 	
     <bean id="genesisService" class="org.kuali.module.budget.service.impl.GenesisServiceImpl">
         <property name="genesisDao">

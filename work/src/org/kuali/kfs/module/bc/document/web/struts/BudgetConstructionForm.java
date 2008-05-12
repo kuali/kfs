@@ -23,18 +23,21 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.budget.exceptions.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.SalarySettingService;
 
@@ -114,9 +117,9 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         }
 
     }
-    
-    public void initializePersistedRequestAmounts(){
-        
+
+    public void initializePersistedRequestAmounts() {
+
         BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
 
         Iterator revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
@@ -203,6 +206,30 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
 
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.core.document.authorization.DocumentAuthorizer)
+     */
+    @Override
+    public void populateAuthorizationFields(DocumentAuthorizer documentAuthorizer) {
+        // TODO Auto-generated method stub
+        super.populateAuthorizationFields(documentAuthorizer);
+        if (isFormDocumentInitialized()) {
+            // useDocumentAuthorizer(documentAuthorizer);
+
+            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
+            // correct DocumentAuthorizer
+            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
+            }
+            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
+            }
+            if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
+            }
+        }
     }
 
     public BudgetConstructionDocument getBudgetConstructionDocument() {

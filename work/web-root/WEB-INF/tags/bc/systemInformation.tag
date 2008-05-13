@@ -363,9 +363,12 @@
     	<tr>
           <td colspan="4" class="datacell" nowrap>
             <div align="center">
+            <c:if test="${KualiForm.editingMode['viewOnly']}">
               <html:image property="methodToCall.performAccountPullup.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_pullup.gif" title="Account Pull Up" alt="Account Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+            </c:if>
+            <c:if test="${KualiForm.editingMode['fullEntry']}">
               <html:image property="methodToCall.performAccountPushdown.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_pushdown.gif" title="Account Push Down" alt="Account Push Down" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performReportDump.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_reportdump.gif" title="Account Report/Dump" alt="Account Report/Dump" styleClass="tinybutton"/>
+            </c:if>
             </div>
           </td>
 	    </tr>

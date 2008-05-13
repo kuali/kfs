@@ -25,6 +25,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 
 public class BCConstants extends JstlConstants {
+    
+    // formkey prefix to use for all screens we will store in session
+    public static final String FORMKEY_PREFIX = "BcDoc";
 
     // screen tab error keys
     public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";

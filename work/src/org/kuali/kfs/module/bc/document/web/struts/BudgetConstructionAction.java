@@ -322,7 +322,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
 
         // now add required parameters
         Properties parameters = new Properties();
@@ -405,7 +405,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
@@ -447,7 +447,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);

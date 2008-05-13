@@ -100,8 +100,9 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
-        // TODO need to make a call here to clear out all Objects(forms) stored in GlobalVariables.UserSession
+        // clear out all BC related Objects(forms) stored in GlobalVariables.UserSession
         // to help prevent memory leaks if the user fails to use application control flow
+        GlobalVariables.getUserSession().removeObjectsByPrefix(BCConstants.FORMKEY_PREFIX);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -148,7 +149,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
             }
 
             // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-            parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+            parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
             return new ActionForward(lookupUrl, true);
@@ -220,7 +221,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_SEL_TREE_ACTION, parameters);
         return new ActionForward(lookupUrl, true);

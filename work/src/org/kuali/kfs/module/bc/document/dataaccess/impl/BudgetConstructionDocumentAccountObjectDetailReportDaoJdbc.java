@@ -52,6 +52,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("    a.fin_sub_obj_cd,\n");
         sqlText.append("    a.fin_obj_typ_cd,\n");
         sqlText.append("    l.fin_obj_level_cd,\n");
+        // DB-specific substring format (first character of t.fin_report_sort_cd)
         insertionPoints.add(sqlText.length());
         sqlText.append(",\n");
         sqlText.append("    c.fin_report_sort_cd,\n");
@@ -114,6 +115,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_object_cd = c.fin_object_cd\n");
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_sub_obj_cd = c.fin_sub_obj_cd\n");
         sqlText.append("      and c.pos_csf_fndstat_cd <> '");
+        // CSF code for a leave
         insertionPoints.add(sqlText.length());
         sqlText.append("')\n");
         sqlText.append("WHERE person_unvl_id = ?\n");
@@ -125,7 +127,8 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("      and ld_bcn_bal_by_acct_t.sub_acct_nbr = c1.sub_acct_nbr\n");
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_object_cd = c1.fin_object_cd\n");
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_sub_obj_cd = c1.fin_sub_obj_cd\n");
-        sqlText.append("      and c1.pos_csf_fndstat_cd <> '\n");
+        sqlText.append("      and c1.pos_csf_fndstat_cd <> '");
+        // CSF code for a leave
         insertionPoints.add(sqlText.length());
         sqlText.append("')");
         // update non-leave CSF FTE
@@ -146,6 +149,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_object_cd = c.fin_object_cd\n");
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_sub_obj_cd = c.fin_sub_obj_cd\n");
         sqlText.append("      and c.pos_csf_fndstat_cd = '");
+        // CSF code for a leave
         insertionPoints.add(sqlText.length());
         sqlText.append("')\n");
         sqlText.append("WHERE person_unvl_id = ?\n");
@@ -158,6 +162,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_object_cd = c1.fin_object_cd\n");
         sqlText.append("      and ld_bcn_bal_by_acct_t.fin_sub_obj_cd = c1.fin_sub_obj_cd\n");
         sqlText.append("      and c1.pos_csf_fndstat_cd = '");
+        // CSF code for a leave
         insertionPoints.add(sqlText.length());
         sqlText.append("')");
         // update leave CSF FTE

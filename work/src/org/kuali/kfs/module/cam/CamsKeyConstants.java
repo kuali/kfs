@@ -65,8 +65,7 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
-        public static final String MESSAGE_PAYMENT_WAS_NOT_SAVED="message.payment.cancelledSaved";
-
+        public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED="message.payment.routintCancelled";
     }
 
     public static class Transfer {
@@ -124,5 +123,9 @@ public class CamsKeyConstants {
     public static class AssetLocationGlobal {
         public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.invalid.capital.asset.number";
         public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET = "error.invalid.no.asset.location.detail.line";
+    }
+    
+    public static class AssetBarCodeInventory {
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_BAR_CODE_INVENTORY="message.batchUpload.title.barCodeInventory";
     }
 }

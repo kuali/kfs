@@ -77,34 +77,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
         return super.execute(mapping, form, request, response);
     }
-
-    /**
-     * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     *
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //The edoc is populated right after hitting the return value link.        
-        AssetPaymentDocument assetPaymentDocument = ((AssetPaymentForm) form).getAssetPaymentDocument();
-        Asset asset = new Asset();
-        AssetPayment assetPayment = new AssetPayment();
-        List <AssetPayment> assetPayments = new ArrayList();
-
-        String refreshCaller = ((AssetPaymentForm)form).getRefreshCaller();
-        if (CamsConstants.ASSET_LOOKUPABLE_ID.equals(refreshCaller)) {                        
-            //Getting the list of asset payments.
-            Map<String,Long> fieldValues = new HashMap<String,Long>();
-            fieldValues.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,assetPaymentDocument.getCapitalAssetNumber());
-            assetPayments= (List<AssetPayment>)SpringContext.getBean(BusinessObjectService.class).findMatching(AssetPayment.class, fieldValues);
-
-            //Getting the asset record.
-            asset.setCapitalAssetNumber(assetPaymentDocument.getCapitalAssetNumber());
-            asset = (Asset)SpringContext.getBean(BusinessObjectService.class).retrieve(asset);
-            asset.setAssetPayments(assetPayments);
-            assetPaymentDocument.setAsset(asset);   
-        }
-        return super.refresh(mapping, form, request, response);
-    }*/
     
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -135,7 +107,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override    
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward returnForward;
         AssetPaymentForm apForm     = (AssetPaymentForm) form;
         AssetPaymentDocument apDoc  = apForm.getAssetPaymentDocument();
@@ -151,7 +123,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
                 return returnForward;
             }
         } 
-        return super.save(mapping, form, request, response);
+        return super.route(mapping, form, request, response);
     }
     
     /**
@@ -183,7 +155,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             
             if ((CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION.equals(question)) && 
                  ConfirmationQuestion.NO.equals(buttonClicked)) {
-                GlobalVariables.getMessageList().add(CamsKeyConstants.Payment.MESSAGE_PAYMENT_WAS_NOT_SAVED);
+                GlobalVariables.getMessageList().add(CamsKeyConstants.Payment.MESSAGE_PAYMENT_WAS_NOT_SUBMITTED);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }

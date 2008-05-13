@@ -15,10 +15,10 @@
  */
 package org.kuali.module.cams.document;
 
+import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -36,6 +36,8 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentAccountingLineParser;
@@ -67,7 +69,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public AssetPaymentDocument() {
         super();
         assetPaymentDetail = new ArrayList<AssetPaymentDetail>();
-        asset = new Asset();
+        asset = new Asset();        
     }
 
     /**
@@ -108,56 +110,100 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
-        
+
         if (!(event instanceof SaveDocumentEvent)) { //don't lock until they route
             MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
             AssetService assetService = SpringContext.getBean(AssetService.class);
-            
+
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-            
-            List<MaintenanceLock> maintenanceLocks = new ArrayList();
+
+            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
             maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
     }    
 
-   
-    
+
+
     /**
      * 
      * This method determines whether or not an asset has differents object sub type codes in its documents
      * @return true when the asset has payments with object codes that point to different object sub type codes
      */
     public boolean hasDifferentObjectSubTypes() {
+        List<String> subTypes = new ArrayList<String>();
+        subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+
         List<AssetPayment> assetPayments = this.getAsset().getAssetPayments();
         List<AssetPaymentDetail> assetPaymentDetails_a = this.getSourceAccountingLines();
         List<AssetPaymentDetail> assetPaymentDetails_b = this.getSourceAccountingLines();
-        
+        List<String> validObjectSubTypes;
+
         String objectSubTypeCode=null;
+
+        /* Expected List elements
+           [BD,BF]
+           [CM,CF,CO] 
+           [UC,UF,UO]
+           [LI,LF]
+         */
+
+        //Comparing all the document payments rows against each other 
         for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
+            String currentSubObjectType=assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode();
+
+            validObjectSubTypes = new ArrayList<String>();
+            
+            for(String subType:subTypes) {
+                validObjectSubTypes = Arrays.asList(StringUtils.split(subType,","));
+                if (validObjectSubTypes.contains(currentSubObjectType)) {
+                    break;
+                }
+                validObjectSubTypes = new ArrayList<String>();                
+            }
+            if (validObjectSubTypes.isEmpty())
+                validObjectSubTypes.add(currentSubObjectType);
+
             //Comparing the same asset payment document
             for(AssetPaymentDetail assetPaymentDetail_b:assetPaymentDetails_b){
-                if (!assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode().equals(assetPaymentDetail_b.getObjectCode().getFinancialObjectSubTypeCode())) {
+                if (!validObjectSubTypes.contains(assetPaymentDetail_b.getObjectCode().getFinancialObjectSubTypeCode())) {
                     return true;
                 }
-            }                        
-            //Comparing against the already approved asset payments
-            for(AssetPayment assetPayment:assetPayments){
-                if (!assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode().equals(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode())) {
-                    return true;
+            }               
+        }
+
+        //Comparing against the already approved asset payments
+        for(AssetPayment assetPayment:assetPayments){
+            String currentSubObjectType=assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+
+            validObjectSubTypes = new ArrayList<String>();
+            for(String subType:subTypes) {
+                validObjectSubTypes = Arrays.asList(StringUtils.split(subType,","));
+                if (validObjectSubTypes.contains(currentSubObjectType)) {
+                    break;
                 }
+                validObjectSubTypes = new ArrayList<String>();                                
             }
+            if (validObjectSubTypes.isEmpty())
+                validObjectSubTypes.add(currentSubObjectType);
+
+            //Comparing the same asset payment document
+            for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
+                if (!validObjectSubTypes.contains(assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode())) {
+                    return true;
+                }
+            }               
         }
         return false;
     }
-    
+
     /**
      * 
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
@@ -183,16 +229,16 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         // This is an empty method in order to prevent kuali from generating a gl pending entry record.     
     }
 
-/**
- * 
- * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
- */
+    /**
+     * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+     */
     @Override
     public AccountingLineParser getAccountingLineParser() {
         return new AssetPaymentAccountingLineParser();
     }
-    
-    
+
+
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }

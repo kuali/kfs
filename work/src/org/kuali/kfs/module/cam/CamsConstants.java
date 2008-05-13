@@ -54,6 +54,10 @@ public class CamsConstants {
         public static final String MERGE_SEPARATE_VIEWABLE_FIELDS = "MERGE_SEPARATE_VIEWABLE_FIELDS";
         public static final String MERGE_SEPARATE_EDITABLE_FIELDS = "MERGE_SEPARATE_EDITABLE_FIELDS";
         public static final String DEPARTMENT_EDITABLE_FIELDS = "DEPARTMENT_EDITABLE_FIELDS";
+
+        //Indiana university parameter
+        public static final String OBJECT_SUB_TYPE_GROUPS= "OBJECT_SUB_TYPE_GROUPS";
+        
     }
 
     public static class Report {
@@ -134,7 +138,7 @@ public class CamsConstants {
 	 public static class AssetRetirementReasonCodeGroup {
         // TODO: system parameters??
         public static final String ALLOWED_FOR_ANY_KUALI_USERS = "1;2;;3;4;5;6;7;8;9;A";
-        public static final String ALLOWED_FOR_CM_ASSET_MERGE_SEPARATE_USERS = "M";
+        public static final String ALLOWED_FOR_CM_ASSET_MERGE_SEPARATE_USERS = "M;S";
         public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
         public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F";
         public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";
@@ -193,6 +197,7 @@ public class CamsConstants {
     
     
     public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION="AssetPaymentDifferentObjectSubTypeQuestion";
-    public static final String BAR_CODE_INVENTORY_FILE_TYPE_INDENTIFIER = "capitalAssetsBarCodeInventoryInputFileType";
+    
+    public static final String BAR_CODE_INVENTORY_FILE_TYPE_INDENTIFIER = "assetBarCodeInventoryInputFileType";
     
 }

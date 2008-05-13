@@ -699,5 +699,5 @@
   <bean id="AssetPaymentDetail-newCollectionRecord" parent="AssetPaymentDetail-newCollectionRecord-parentBean" />
 
   <bean id="AssetPaymentDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
-  </bean>
+  </bean>  
 </beans>

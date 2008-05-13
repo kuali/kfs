@@ -45,6 +45,7 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OriginationCodeService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.dao.AssetRetirementDao;
 import org.kuali.module.cams.dao.AssetTransferDao;
@@ -260,6 +261,8 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         }
         return true;
     }
+    
+    
     
     public AssetService getAssetService() {
         if (this.assetService == null) {

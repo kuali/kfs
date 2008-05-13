@@ -243,15 +243,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     }
 
-
-    /*
-     * public Collection<AssetPaymentDetail> getApprovedPaymentDetail(String capitalAssetNumber) { DocumentRouteHeaderValue doc =
-     * null; try { doc =
-     * KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-     * LOG.info("***** DOCUMENT - Approved Date:"+doc.getApprovedDate()); } catch(Exception e) { } }
-     */
-
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

@@ -1399,8 +1399,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.bo.State"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
     </property>
     <property name="summary" value="Asset Off Campus State" />
     <property name="description" value="Asset Off Campus State description..." />
@@ -1429,8 +1428,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
     </property>
     
     

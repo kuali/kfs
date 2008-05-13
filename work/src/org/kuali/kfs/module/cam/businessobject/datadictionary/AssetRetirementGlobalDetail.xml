@@ -229,8 +229,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
     </property>
     <property name="summary" value="retirementCountryCode" />
     <property name="description" value="retirementCountryCode description..." />
@@ -287,8 +286,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.bo.State"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
     </property>
     <property name="summary" value="retirementStateCode" />
     <property name="description" value="retirementStateCode description..." />

@@ -114,8 +114,8 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
     </property>
     <property name="summary" value="borrowerCountryCode" />
     <property name="description" value="borrowerCountryCode description..." />

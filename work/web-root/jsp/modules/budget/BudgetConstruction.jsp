@@ -56,6 +56,8 @@
     <bc:budgetConstructionRevenueLines />
 
     <bc:budgetConstructionExpenditureLines />
+    
+    <bc:budgetConstructionReportDumpLines />
 
 	<kul:notes />
 

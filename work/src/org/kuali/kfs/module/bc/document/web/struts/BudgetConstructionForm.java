@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
@@ -35,6 +37,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
+import org.kuali.module.budget.BudgetConstructionDocumentReportMode;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.exceptions.BudgetConstructionDocumentAuthorizationException;
@@ -47,6 +50,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
+    
+    private List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes; 
 
     private boolean hideDetails = false;
     private boolean pickListClose = false;
@@ -67,6 +72,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         setDocument(new BudgetConstructionDocument());
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+        this.setBudgetConstructionDocumentReportModes(new ArrayList());
 
         LOG.debug("creating BudgetConstructionForm");
     }
@@ -80,6 +86,15 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
 
         super.populate(request);
+        
+        if (this.getBudgetConstructionDocumentReportModes().isEmpty()){
+            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_OBJECT_DETAIL_REPORT);
+            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_FUNDING_DETAIL_REPORT);
+            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_MONTHLY_DETAIL_REPORT);
+            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_ACCOUNT_DUMP);
+            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_FUNDING_DUMP);
+            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_MONTHLY_DUMP);
+        }
 
         // now run through PBGL rev and exp lines
         String methodToCall = this.getMethodToCall();
@@ -493,6 +508,22 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     public void setPickListClose(boolean pickListClose) {
         this.pickListClose = pickListClose;
+    }
+
+    /**
+     * Gets the budgetConstructionDocumentReportModes attribute. 
+     * @return Returns the budgetConstructionDocumentReportModes.
+     */
+    public List<BudgetConstructionDocumentReportMode> getBudgetConstructionDocumentReportModes() {
+        return budgetConstructionDocumentReportModes;
+    }
+
+    /**
+     * Sets the budgetConstructionDocumentReportModes attribute value.
+     * @param budgetConstructionDocumentReportModes The budgetConstructionDocumentReportModes to set.
+     */
+    public void setBudgetConstructionDocumentReportModes(List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes) {
+        this.budgetConstructionDocumentReportModes = budgetConstructionDocumentReportModes;
     }
 
 

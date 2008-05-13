@@ -165,7 +165,6 @@
     <property name="name" value="sharedRetirementInfo.retirementStateCode" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.State"
             p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
     </property>
   </bean>

@@ -133,7 +133,6 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.State"
             p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
     </property>
     <property name="summary" value="borrowerStateCode" />
@@ -188,8 +187,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
     </property>
     <property name="summary" value="borrowerStorageCountryCode" />
     <property name="description" value="borrowerStorageCountryCode description..." />
@@ -225,9 +223,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.State"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
-            p:includeKeyInLabel="false" />
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
     </property>
     <property name="summary" value="borrowerStorageStateCode" />
     <property name="description" value="borrowerStorageStateCode description..." />

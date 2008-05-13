@@ -156,7 +156,6 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.bo.State"
             p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
     </property>
     <property name="summary" value="assetLocationStateCode" />

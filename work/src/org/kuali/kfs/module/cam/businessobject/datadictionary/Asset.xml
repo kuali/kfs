@@ -32,7 +32,7 @@
         <ref bean="Asset-depreciationDateCopy" />
         <ref bean="Asset-capitalAssetInServiceDate" />
         <ref bean="Asset-estimatedFabricationCompletionDate" />
-        <ref bean="Asset-estimatedFabricationLifetimeLimitNumber" />
+        <ref bean="Asset-fabricationEstimatedRetentionYears" />
         <ref bean="Asset-estimatedSellingPrice" />
         <ref bean="Asset-expectedReturnDate" />
         <ref bean="Asset-fabricationEstimatedTotalAmount" />
@@ -367,10 +367,10 @@
     <property name="label" value="Estimated Fabrication Completion Date" />
     <property name="shortLabel" value="Estimated Fabrication Completion Date" />
   </bean>
-  <bean id="Asset-estimatedFabricationLifetimeLimitNumber" parent="Asset-estimatedFabricationLifetimeLimitNumber-parentBean" />
+  <bean id="Asset-fabricationEstimatedRetentionYears" parent="Asset-fabricationEstimatedRetentionYears-parentBean" />
 
-  <bean id="Asset-estimatedFabricationLifetimeLimitNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="estimatedFabricationLifetimeLimitNumber" />
+  <bean id="Asset-fabricationEstimatedRetentionYears-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fabricationEstimatedRetentionYears" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Years expected to retain asset once fabrication is complete" />
     <property name="shortLabel" value="Number" />
@@ -382,8 +382,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="estimatedFabricationLifetimeLimitNumber" />
-    <property name="description" value="estimatedFabricationLifetimeLimitNumber description..." />
+    <property name="summary" value="fabricationEstimatedRetentionYears" />
+    <property name="description" value="fabricationEstimatedRetentionYears description..." />
   </bean>
   <bean id="Asset-estimatedSellingPrice" parent="Asset-estimatedSellingPrice-parentBean" />
 
@@ -1624,7 +1624,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="fabricationEstimatedTotalAmount" />
               <bean parent="FieldDefinition"
-                    p:attributeName="estimatedFabricationLifetimeLimitNumber" />
+                    p:attributeName="fabricationEstimatedRetentionYears" />
             </list>
           </property>
         </bean> 

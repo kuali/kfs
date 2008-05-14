@@ -15,8 +15,8 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -87,7 +87,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private Date depreciationDate;
     private String financialObjectSubTypeCode;
     private Integer fabricationEstimatedRetentionYears;
-    
+
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -123,8 +123,6 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetAcquisitionType acquisitionType;
     private Agency agency;
 
-    // Persisted Fabrication document (part of Asset MD) field
-    private Integer estimatedFabricationLifetimeLimitNumber;
 
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
@@ -1848,7 +1846,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the fabricationEstimatedRetentionYears attribute. 
+     * Gets the fabricationEstimatedRetentionYears attribute.
+     * 
      * @return Returns the fabricationEstimatedRetentionYears.
      */
     public Integer getFabricationEstimatedRetentionYears() {
@@ -1857,29 +1856,13 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the fabricationEstimatedRetentionYears attribute value.
+     * 
      * @param fabricationEstimatedRetentionYears The fabricationEstimatedRetentionYears to set.
      */
     public void setFabricationEstimatedRetentionYears(Integer fabricationEstimatedRetentionYears) {
         this.fabricationEstimatedRetentionYears = fabricationEstimatedRetentionYears;
     }
 
-    /**
-     * Gets the estimatedFabricationLifetimeLimitNumber attribute.
-     * 
-     * @return Returns the estimatedFabricationLifetimeLimitNumber.
-     */
-    public Integer getEstimatedFabricationLifetimeLimitNumber() {
-        return estimatedFabricationLifetimeLimitNumber;
-    }
-
-    /**
-     * Sets the estimatedFabricationLifetimeLimitNumber attribute value.
-     * 
-     * @param estimatedFabricationLifetimeLimitNumber The estimatedFabricationLifetimeLimitNumber to set.
-     */
-    public void setEstimatedFabricationLifetimeLimitNumber(Integer estimatedFabricationLifetimeLimitNumber) {
-        this.estimatedFabricationLifetimeLimitNumber = estimatedFabricationLifetimeLimitNumber;
-    }
 
     public List<AssetRetirementGlobal> getRetirementGlobals() {
         return retirementGlobals;

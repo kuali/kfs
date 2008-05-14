@@ -33,6 +33,7 @@ import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -180,14 +181,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING);
-            if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) {
+            if (ObjectUtils.isNull(assetTransferDocument.getBuilding()) || !assetTransferDocument.getBuilding().isActive()) {
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetTransferDocument.getBuildingCode(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingRoomNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM);
-            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) {
+            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom()) || !assetTransferDocument.getBuildingRoom().isActive()) {
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetTransferDocument.getBuildingCode(), assetTransferDocument.getBuildingRoomNumber(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
@@ -231,12 +232,18 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE);
             valid &= false;
         }
-        else if (getAssetService().isCapitalAsset(asset)) {
+        else if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {
             // for a capital asset, check if plant account is defined
             Org ownerOrg = organizationOwnerAccount.getOrganization();
             Account campusPlantAccount = ownerOrg.getCampusPlantAccount();
             Account organizationPlantAccount = ownerOrg.getOrganizationPlantAccount();
-            boolean assetMovable = getAssetService().isAssetMovable(asset);
+            String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
+            if (finObjectSubTypeCode == null) {
+                AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
+                firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+                finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+            }
+            boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
             if (ObjectUtils.isNull(organizationPlantAccount) && assetMovable) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
                 valid &= false;

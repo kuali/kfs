@@ -16,7 +16,6 @@
 package org.kuali.module.cams;
 
 
-
 /**
  * Constants for cams business object property names.
  */
@@ -69,7 +68,7 @@ public class CamsPropertyConstants {
         public static final String ASSET_LOCATIONS = "assetLocations";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public final static String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
-        public static final String ESTIMATED_FABRICATION_LIFE_LIMIT = "estimatedFabricationLifetimeLimitNumber";
+        public static final String FABRICATION_ESTIMATED_RETENTION_YEARS = "fabricationEstimatedRetentionYears";
         public static final String FINANCIAL_OBJECT_SUB_TYP_CODE = "financialObjectSubTypeCode";
 
         public static class AssetLocation {

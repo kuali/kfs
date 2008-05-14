@@ -15,7 +15,6 @@
  */
 package org.kuali.module.cams.service.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -135,10 +134,16 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     public void createGLPostables(AssetTransferDocument document) {
         // Create GL entries only for capital assets
         Asset asset = document.getAsset();
-        if (getAssetService().isCapitalAsset(asset)) {
+        if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
-            boolean movableAsset = getAssetService().isAssetMovable(asset);
+            String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
+            if (finObjectSubTypeCode == null) {
+                AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
+                firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+                finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+            }
+            boolean movableAsset = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
             if (isGLPostable(document, asset, movableAsset)) {
                 asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
                 List<AssetPayment> assetPayments = asset.getAssetPayments();

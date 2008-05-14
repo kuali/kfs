@@ -16,7 +16,6 @@
 package org.kuali.module.cams.service;
 
 import org.kuali.core.document.MaintenanceLock;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.bo.Asset;
 
 
@@ -72,24 +71,24 @@ public interface AssetService {
      * @return
      */
     boolean isAssetTypeCodeChanged(Asset oldAsset, Asset newAsset);
-    
-    /** 
-     * Test if Depreciable Life Limit is "0"
-     * This method...
+
+    /**
+     * Test if Depreciable Life Limit is "0" This method...
+     * 
      * @param asset
      * @return
      */
     boolean isAssetDepreciableLifeLimitZero(Asset asset);
-    
+
     /**
-     * 
      * Test two capitalAssetNumber equal.
+     * 
      * @param capitalAssetNumber1
      * @param capitalAssetNumber2
      * @return
      */
     boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2);
-    
+
     /**
      * Creates the particular locking representation for this transactional asset document.
      * 
@@ -100,19 +99,31 @@ public interface AssetService {
     public MaintenanceLock generateAssetLock(String documentNumber, Long capitalAssetNumber);
 
     /**
-     * Helper method that will check if an asset is locked. If it is we fail error check and
-     * call another helper message to add appropriate error message to global ErrorMap.
+     * Helper method that will check if an asset is locked. If it is we fail error check and call another helper message to add
+     * appropriate error message to global ErrorMap.
      * 
      * @param documentNumber
      * @param capitalAssetNumber
      * @return boolean True if no lock, false otherwise.
      */
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber);
-    
+
     /**
      * This method calls the service codes to calculate the summary fields for each asset
      * 
      * @param asset
      */
     void setAssetNonPersistentFields(Asset asset);
+
+    /**
+     * This will check the financial object sub type code in system parameters
+     * <li>return TRUE if found in MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES</li>
+     * <li>return FALSE if found in NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES</li>
+     * <li>throw ValidationException if not defined in neither one of them</li>
+     * 
+     * @param financialObjectSubType
+     * @return boolean
+     */
+    public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode);
+
 }

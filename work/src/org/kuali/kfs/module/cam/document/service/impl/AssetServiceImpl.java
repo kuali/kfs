@@ -18,8 +18,10 @@ package org.kuali.module.cams.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceLock;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -28,7 +30,6 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.DocumentLockingService;
 import org.kuali.module.cams.service.PaymentSummaryService;
@@ -119,7 +120,6 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * 
      * @see org.kuali.module.cams.service.AssetService#isCapitalAssetNumberDuplicate(java.lang.Long, java.lang.Long)
      */
     public boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2) {
@@ -150,7 +150,7 @@ public class AssetServiceImpl implements AssetService {
      * @see org.kuali.module.cams.service.AssetService#isAssetLocked(java.lang.String, java.lang.Long)
      */
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
-        List<MaintenanceLock> maintenanceLocks = new ArrayList();
+        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
         String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
         if (StringUtils.isNotEmpty(lockingDocumentId)) {
@@ -161,7 +161,7 @@ public class AssetServiceImpl implements AssetService {
 
         return false;
     }
-    
+
     /**
      * This method calls the service codes to calculate the summary fields for each asset
      * 
@@ -181,5 +181,22 @@ public class AssetServiceImpl implements AssetService {
 
     public void setPaymentSummaryService(PaymentSummaryService paymentSummaryService) {
         this.paymentSummaryService = paymentSummaryService;
+    }
+
+    /**
+     * @see org.kuali.module.cams.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
+     */
+    public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode) {
+        String[] movableFinObjSubTypeCodes = new String[] { "CM", "CF", "C1", "C2", "UC", "UF", "BR", "BY" };
+        String[] nonMovableFinObjSubTypeCodes = new String[] { "AM", "BD", "BF", "BI", "CP", "ES", "IF", "LA", "LE", "LI", "LF", "LR" };
+        if (ArrayUtils.contains(movableFinObjSubTypeCodes, financialObjectSubTypeCode)) {
+            return true;
+        }
+        else if (ArrayUtils.contains(nonMovableFinObjSubTypeCodes, financialObjectSubTypeCode)) {
+            return false;
+        }
+        else {
+            throw new ValidationException("Cound not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
+        }
     }
 }

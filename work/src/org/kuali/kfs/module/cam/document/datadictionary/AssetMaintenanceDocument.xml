@@ -266,7 +266,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="fabricationEstimatedTotalAmount" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="estimatedFabricationLifetimeLimitNumber" />
+              p:name="fabricationEstimatedRetentionYears" />
       </list>
     </property>
   </bean>

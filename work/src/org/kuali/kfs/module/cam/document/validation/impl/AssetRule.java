@@ -129,12 +129,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
 
-        if (newAsset.getEstimatedFabricationLifetimeLimitNumber() == null) {
-            putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED);
+        if (newAsset.getFabricationEstimatedRetentionYears() == null) {
+            putFieldError(CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_RETENTION_YEARS, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_REQUIRED);
             valid &= false;
         }
-        if (newAsset.getEstimatedFabricationLifetimeLimitNumber() != null && newAsset.getEstimatedFabricationLifetimeLimitNumber().intValue() < 0) {
-            putFieldError(CamsPropertyConstants.Asset.ESTIMATED_FABRICATION_LIFE_LIMIT, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE);
+        if (newAsset.getFabricationEstimatedRetentionYears() != null && newAsset.getFabricationEstimatedRetentionYears().intValue() < 0) {
+            putFieldError(CamsPropertyConstants.Asset.FABRICATION_ESTIMATED_RETENTION_YEARS, CamsKeyConstants.ERROR_ESTIMATED_FABRICATION_LIFE_LIMIT_NEGATIVE);
             valid &= false;
         }
         return valid;

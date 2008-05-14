@@ -22,6 +22,7 @@ import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
@@ -99,10 +100,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                 if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(sectionId) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(sectionId) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(sectionId) || CamsConstants.Asset.SECTION_ID_MERGE_HISTORY.equals(sectionId)) {
                     section.setHidden(true);
                 }
-
             }
-            asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
-            asset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         }
         else {
             // asset edit. Hide sections that are only applicable to fabrication request
@@ -145,6 +143,21 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             asset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
         }
         super.saveBusinessObject();
+    }
+
+
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterNew(document, parameters);
+        initializeAttributes(document);
+        document.getNewMaintainableObject().setGenerateDefaultValues(false);
+        if (newAsset.getCreateDate() == null) {
+            newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            newAsset.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_C);
+            newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
+            newAsset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
+            newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+        }
     }
 
 }

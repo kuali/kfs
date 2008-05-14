@@ -18,7 +18,6 @@ package org.kuali.module.cams.document.authorization;
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -27,7 +26,6 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -59,16 +57,10 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         if (document.isNew()) {
-            if (newAsset.getCreateDate() == null) {
-                newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-                newAsset.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_C);
-                newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
-            }
             // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
             // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
             hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);
             hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
-            newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.VENDOR_NAME);
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);

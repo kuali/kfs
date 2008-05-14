@@ -15,15 +15,14 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.AcctType;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.Org;
@@ -42,7 +41,6 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     private ChartService chartService;
     private AccountService accountService;
     private Threshold newThreshold;
-    private ThresholdField fieldToValidate;
     
     public ThresholdRule(){
         chartService = SpringContext.getBean(ChartService.class);
@@ -61,24 +59,23 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     private boolean isValidDocument(Threshold threshold){
         
         boolean valid = isValidThresholdCriteria(threshold);
-        
         if (!valid){
             constructFieldError(threshold);
             return false;
         }
         
         valid = isValidChartCode(threshold);
-        
-        if (fieldToValidate == ThresholdField.CHART_OF_ACCOUNTS_CODE || !valid){
-            return valid;
+        if (valid){
+            valid = isValidSubFund(threshold) &&
+                    isValidCommodityCode(threshold) &&
+                    isValidObjectCode(threshold) &&
+                    isValidOrgCode(threshold) &&
+                    isValidVendorNumber(threshold);
         }
         
-        valid = isValidSubFund(threshold) &&
-                isValidCommodityCode(threshold) &&
-                isValidObjectCode(threshold) &&
-                isValidOrgCode(threshold) &&
-                isValidVendorNumber(threshold);
-        
+        if (valid){
+            valid = !isDuplicateEntry(threshold);
+        }
         return valid;
     }
     
@@ -204,73 +201,76 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
             StringUtils.isBlank(threshold.getFinancialObjectCode()) &&
             StringUtils.isBlank(threshold.getOrganizationCode()) && 
             StringUtils.isBlank(threshold.getVendorNumber())){
-                
-            fieldToValidate = ThresholdField.CHART_OF_ACCOUNTS_CODE;
             return true;
-            
         }else if (StringUtils.isNotBlank(threshold.getAccountTypeCode()) &&
                   StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
                   StringUtils.isBlank(threshold.getPurchasingCommodityCode()) &&
                   StringUtils.isBlank(threshold.getFinancialObjectCode()) &&
                   StringUtils.isBlank(threshold.getOrganizationCode()) && 
                   StringUtils.isBlank(threshold.getVendorNumber())){
-            
-                fieldToValidate = ThresholdField.ACCOUNT_TYPE_CODE;
-                return true;
-            
+                  return true;
         }else if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
                   StringUtils.isNotBlank(threshold.getSubFundGroupCode()) &&
                   StringUtils.isBlank(threshold.getPurchasingCommodityCode()) &&
                   StringUtils.isBlank(threshold.getFinancialObjectCode()) &&
                   StringUtils.isBlank(threshold.getOrganizationCode()) && 
                   StringUtils.isBlank(threshold.getVendorNumber())){
-            
-                  fieldToValidate = ThresholdField.SUBFUND_GROUP_CODE;
                   return true;
-                  
         }else if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
                   StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
                   StringUtils.isNotBlank(threshold.getPurchasingCommodityCode()) &&
                   StringUtils.isBlank(threshold.getFinancialObjectCode()) &&
                   StringUtils.isBlank(threshold.getOrganizationCode()) && 
                   StringUtils.isBlank(threshold.getVendorNumber())){
-            
-                  fieldToValidate = ThresholdField.COMMODITY_CODE;
                   return true;
-                  
         }else if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
                   StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
                   StringUtils.isBlank(threshold.getPurchasingCommodityCode()) &&
                   StringUtils.isNotBlank(threshold.getFinancialObjectCode()) &&
                   StringUtils.isBlank(threshold.getOrganizationCode()) && 
                   StringUtils.isBlank(threshold.getVendorNumber())){
-          
-                  fieldToValidate = ThresholdField.FINANCIAL_OBJECT_CODE;
                   return true;
-                
         }else if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
                   StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
                   StringUtils.isBlank(threshold.getPurchasingCommodityCode()) &&
                   StringUtils.isBlank(threshold.getFinancialObjectCode()) &&
                   StringUtils.isNotBlank(threshold.getOrganizationCode()) && 
                   StringUtils.isBlank(threshold.getVendorNumber())){
-        
-                  fieldToValidate = ThresholdField.ORGANIZATION_CODE;
                   return true;
-              
         }else if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
                   StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
                   StringUtils.isBlank(threshold.getPurchasingCommodityCode()) &&
                   StringUtils.isBlank(threshold.getFinancialObjectCode()) &&
                   StringUtils.isBlank(threshold.getOrganizationCode()) && 
                   StringUtils.isNotBlank(threshold.getVendorNumber())){
-      
-                  fieldToValidate = ThresholdField.VENDOR_HEADER_GENERATED_ID;
                   return true;
         }
-        
         return false;
-        
     }
     
+    private boolean isDuplicateEntry(Threshold newThreshold){
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(ThresholdField.CHART_OF_ACCOUNTS_CODE.getName(), newThreshold.getChartOfAccountsCode());
+        
+        if (StringUtils.isNotBlank(newThreshold.getAccountTypeCode())){
+            fieldValues.put(ThresholdField.ACCOUNT_TYPE_CODE.getName(), newThreshold.getAccountTypeCode());
+        }else if (StringUtils.isNotBlank(newThreshold.getPurchasingCommodityCode())){
+            fieldValues.put(ThresholdField.COMMODITY_CODE.getName(), newThreshold.getPurchasingCommodityCode());
+        }else if (StringUtils.isNotBlank(newThreshold.getFinancialObjectCode())){
+            fieldValues.put(ThresholdField.FINANCIAL_OBJECT_CODE.getName(), newThreshold.getFinancialObjectCode());
+        }else if (StringUtils.isNotBlank(newThreshold.getOrganizationCode())){
+            fieldValues.put(ThresholdField.ORGANIZATION_CODE.getName(), newThreshold.getOrganizationCode());
+        }else if (StringUtils.isNotBlank(newThreshold.getVendorNumber())){
+            fieldValues.put(ThresholdField.VENDOR_HEADER_GENERATED_ID.getName(), newThreshold.getVendorHeaderGeneratedIdentifier());
+            fieldValues.put(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID.getName(), newThreshold.getVendorDetailAssignedIdentifier());
+        }
+        
+        Collection<Threshold> result = (Collection<Threshold>)getBoService().findMatching(Threshold.class, fieldValues);
+        if (result != null && result.size() > 0) {
+            putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
+            return true;
+        }
+        return false;
+    }
 }

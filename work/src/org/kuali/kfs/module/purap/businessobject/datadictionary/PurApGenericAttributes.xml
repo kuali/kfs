@@ -3,6 +3,40 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+<bean id="PurApGenericAttributes" parent="PurApGenericAttributes-parentBean"/>
+
+<bean id="PurApGenericAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
+<property name="businessObjectClass" value="org.kuali.module.purap.bo.PurApGenericAttributes"/>
+
+	<property name="attributes">
+
+	<list>
+<ref bean="PurApGenericAttributes-genericTime"/>
+<ref bean="PurApGenericAttributes-purapDocumentIdentifier"/>
+<ref bean="PurApGenericAttributes-genericItemQuantity"/>
+<ref bean="PurApGenericAttributes-genericItemIdentifier"/>
+<ref bean="PurApGenericAttributes-genericItemUnitPrice"/>
+<ref bean="PurApGenericAttributes-purchaseOrderDocumentCurrentIndicator"/>
+<ref bean="PurApGenericAttributes-receivingDocumentRequiredIndicator"/>
+<ref bean="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator"/>
+<ref bean="PurApGenericAttributes-statusCode"/>
+<ref bean="PurApGenericAttributes-purchaseOrderAutomaticIndicator"/>
+<ref bean="PurApGenericAttributes-organizationCode"/>
+<ref bean="PurApGenericAttributes-chartOfAccountsCode"/>
+<ref bean="PurApGenericAttributes-requisitionIdentifier"/>
+<ref bean="PurApGenericAttributes-contractManager"/>
+<ref bean="PurApGenericAttributes-requisitionStatus"/>
+<ref bean="PurApGenericAttributes-purchaseOrderStatus"/>
+<ref bean="PurApGenericAttributes-paymentRequestStatus"/>
+<ref bean="PurApGenericAttributes-creditMemoStatus"/>
+<ref bean="PurApGenericAttributes-extractedDate"/>
+<ref bean="PurApGenericAttributes-paymentPaidDate"/>
+<ref bean="PurApGenericAttributes-creditMemoPaidTimestamp"/>
+<ref bean="PurApGenericAttributes-genericItemAmount"/>
+</list>
+</property>
+</bean>
 
 <!-- Attribute Definitions -->
 
@@ -235,4 +269,5 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="A generic item amount." />
   </bean>
+
 </beans>

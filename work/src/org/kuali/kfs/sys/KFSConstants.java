@@ -184,7 +184,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String TRANSFER_FUNDS = "TF";
     public static final String[] ENCUMBRANCE_BALANCE_TYPE = new String[] { BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, BALANCE_TYPE_INTERNAL_ENCUMBRANCE, BALANCE_TYPE_PRE_ENCUMBRANCE };
     public static final String LABOR_DISTRIBUTION_ORIGIN_CODE = "LD";
-    public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "KFSAttributeReferenceDummy";
+    public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "GenericAttributes";
     public static final String LABOR_MODIFIED_INQUIRY_ACTION = "laborModifiedInquiry.do";
     public static final String LABOR_A2_BALANCE_TYPE = "A2";
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";

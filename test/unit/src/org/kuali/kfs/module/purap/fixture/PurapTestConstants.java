@@ -113,4 +113,21 @@ public class PurapTestConstants {
         static final Long ASSET_NUMBER_2 = new Long("333222");
         
     }
+    
+    static class Threshold {
+        static final String CHART_CODE = "BA";
+        static final String CHART_CODE_INVALID = "XX";
+        static final String ACCOUNT_TYPE = "AI";
+        static final String SUBACCOUNT_TYPE = "AUXAMB";
+        static final String SUBACCOUNT_TYPE_INVALID = "XXXXXX";
+        static final String COMMODITY_CODE = "812922";
+        static final String COMMODITY_CODE_INVALID = "000000";
+        static final String OBJECT_CODE = "3310";
+        static final String OBJECT_CODE_INVALID = "0000";
+        static final String ORG_CODE = "ACAC";
+        static final String ORG_CODE_INVALID = "XXXX";
+        static final String VENDOR_NUMBER = "1000-0";
+        static final String VENDOR_NUMBER_INVALID = "0000-0";
+        static final KualiDecimal THRESHOLD_AMOUNT = new KualiDecimal(100);
+    }
 }

@@ -231,4 +231,14 @@ public class CamsPropertyConstants {
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
     }
+    
+    public static class EquipmentLoanOrReturnDocument {
+        public static final String LOAN_DATE = "loanDate";
+        public static final String EXPECTED_RETURN_DATE = "expectedReturnDate";
+        public static final String LOAN_RETURN_DATE = "loanReturnDate";
+        public static final String BORROWER_STATE_CODE = "borrowerStateCode";
+        public static final String BORROWER_STAORAGE_STATE_CODE = "borrowerStorageStateCode";
+        public static final String BORROWER_COUNTRY_CODE = "borrowerCountryCode";
+        public static final String BORROWER_STAORAGE_COUNTRY_CODE = "borrowerStorageCountryCode";
+    }
 }

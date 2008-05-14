@@ -55,15 +55,21 @@
                 <td colspan="4" class="tab-subhead">Equipment Loan Information</td>
 			</tr>	
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" /></th>
-				<td class="grid" width="25%">						
+
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerUniversalIdentifier" attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" />		      	
+						
 				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" universalIdFieldName="document.borrowerUniversalIdentifier" userNameFieldName="document.borrowerUniversalUser.personName" label="User" 
 				lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier,document.borrowerUniversalIdentifier:personUniversalIdentifier,document.borrowerUniversalUser.personName:personName" 
 				fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
 				userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" universalId="${KualiForm.document.borrowerUniversalIdentifier}" userName="${KualiForm.document.borrowerUniversalUser.personName}"/>
-				<html:hidden property="document.borrowerUniversalIdentifier" />
+				<html:hidden property="document.borrowerUniversalIdentifier" /> 
 				</td>
+
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}"/></th>
-                <td class="grid" width="25%">
+                <td class="grid" width="25%"> 	                        
+                	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
+                
+<%--
 	               	<c:choose>
 	                    <c:when test="${readOnly}">
 	                        <kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="${readOnly}" />
@@ -72,6 +78,7 @@
 	                        <kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate"/>
 	                    </c:otherwise>
 	                </c:choose>
+--%>
                 </td>                          
 			</tr>
 		    <tr>
@@ -129,13 +136,9 @@
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStateCode}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStateCode" attributeEntry="${eqipAttributes.borrowerStateCode}"/>								
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.bo.State" fieldConversions="postalStateCode:document.borrowerStateCode" lookupParameters="document.borrowerStateCode:postalStateCode" />
                 </td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageStateCode}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageStateCode" attributeEntry="${eqipAttributes.borrowerStorageStateCode}"/>								
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.bo.State" fieldConversions="postalStateCode:document.borrowerStorageStateCode" lookupParameters="document.borrowerStorageStateCode:postalStateCode" />
                 </td>
 			</tr>
 		    <tr>
@@ -147,13 +150,9 @@
 		    <tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerCountryCode}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerCountryCode" attributeEntry="${eqipAttributes.borrowerCountryCode}"/>								
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.bo.Country" fieldConversions="postalCountryCode:document.borrowerCountryCode" lookupParameters="document.borrowerCountryCode:postalCountryCode" />
 				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageCountryCode}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageCountryCode" attributeEntry="${eqipAttributes.borrowerStorageCountryCode}"/>								
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.bo.Country" fieldConversions="postalCountryCode:document.borrowerStorageCountryCode" lookupParameters="document.borrowerStorageCountryCode:postalCountryCode" />
 				</td>
 			</tr>
 		    <tr>

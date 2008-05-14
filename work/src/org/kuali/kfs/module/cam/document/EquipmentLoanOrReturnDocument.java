@@ -40,7 +40,7 @@ import org.kuali.module.chart.bo.Chart;
 
 
 public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
-    
+
     private String documentNumber;
     private String campusTagNumber;
     private String organizationTagNumber;
@@ -72,7 +72,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     private Country borrowerCountry;
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
-    
+
     private AssetHeader assetHeader;
     // Transient attributes
     private transient Asset asset;
@@ -144,7 +144,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
 
     public EquipmentLoanOrReturnDocument() {
         super();
-        
+
     }
 
     public String getCampusTagNumber() {
@@ -301,9 +301,10 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     }
 
     public Date getLoanDate() {
-        if( ObjectUtils.isNotNull( loanDate ) ){
+        if (ObjectUtils.isNotNull(loanDate)) {
             return loanDate;
-        } else {
+        }
+        else {
             return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         }
     }
@@ -343,26 +344,26 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     public void setAssetHeader(AssetHeader assetHeader) {
         this.assetHeader = assetHeader;
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
-        
-        if (!(event instanceof SaveDocumentEvent)) { //don't lock until they route
+
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
             AssetService assetService = SpringContext.getBean(AssetService.class);
-            
+
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-            
+
             List<MaintenanceLock> maintenanceLocks = new ArrayList();
             maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetHeader.getCapitalAssetNumber()));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
@@ -372,11 +373,11 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
 
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             /** @TODO update asset */
-            
+
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -386,6 +387,5 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         return m;
     }
 
-    
-}
 
+}

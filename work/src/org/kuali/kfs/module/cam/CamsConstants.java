@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams;
 
+import org.kuali.core.authorization.AuthorizationConstants.EditMode;
+
 
 /**
  * Global constants for CAMS.
@@ -118,6 +120,8 @@ public class CamsConstants {
 
     public static class AssetLocationTypeCode {
         public static final String OFF_CAMPUS = "O";
+        public static final String BORROWER = "B";
+        public static final String BORROWER_STORAGE = "BS";
     }
 
     public static final String RETIREMENT_REASON_CODE_M = "M";
@@ -199,5 +203,9 @@ public class CamsConstants {
     public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION="AssetPaymentDifferentObjectSubTypeQuestion";
     
     public static final String BAR_CODE_INVENTORY_FILE_TYPE_INDENTIFIER = "assetBarCodeInventoryInputFileType";
-    
+
+    public static class EquipmentLoanOrReturnEditMode extends EditMode {
+        public static final String DISPLAY_NEW_LOAN_TAB ="displayNewLoanTab";  
+    }
+
 }

@@ -56,12 +56,38 @@
         <ref bean="EquipmentLoanOrReturnDocument-organizationTagNumber" />
         <ref bean="EquipmentLoanOrReturnDocument-signatureCode" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" />
+        <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier" />
         <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personName" />
         <ref bean="EquipmentLoanOrReturnDocument-versionNumber" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="borrowerUniversalUser" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="borrowerUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="borrowerUniversalUser.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="borrowerUniversalUser.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
-<!-- Attribute Definitions -->
+  <!-- Attribute Definitions -->
 
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerAddress" parent="EquipmentLoanOrReturnDocument-borrowerAddress-parentBean" />
@@ -73,7 +99,7 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -129,7 +155,7 @@
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="13" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="PhoneNumberValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -166,7 +192,7 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -220,7 +246,7 @@
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="13" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="PhoneNumberValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -256,7 +282,7 @@
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="ZipcodeValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -274,7 +300,7 @@
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="ZipcodeValidationPattern" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -478,6 +504,20 @@
       <bean parent="HiddenControlDefinition" />
     </property>
     <property name="displayLabelAttribute" value="borrowerUniversalUser.personUserIdentifier" />
+ </bean>
+  <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier-parentBean" />
+
+  <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="borrowerUniversalUser.personUserIdentifier" />
+    <property name="label" value="Asset Representative" />
+    <property name="shortLabel" value="UserID" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="borrowerUniversalUser.personName"
+            p:universalIdAttributeName="borrowerUniversalIdentifier"
+            p:userIdAttributeName="borrowerUniversalUser.personUserIdentifier" />
+    </property>
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personName" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personName-parentBean" />
 

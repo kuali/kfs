@@ -128,4 +128,14 @@ public class CamsKeyConstants {
     public static class AssetBarCodeInventory {
         public static final String MESSAGE_BATCH_UPLOAD_TITLE_BAR_CODE_INVENTORY="message.batchUpload.title.barCodeInventory";
     }
+    
+    public static class EquipmentLoanOrReturn {
+        public static final String ERROR_ASSET_CANNOT_BE_LOANED = "error.asset.cannot.be.loaned";
+        public static final String ERROR_INVALID_EXPECTED_RETURN_DATE = "error.invalid.expected.return.date";
+        public static final String ERROR_INVALID_LOAN_RETURN_DATE = "error.invalid.loan.return.date";
+        public static final String ERROR_INVALID_BORROWER_STATE = "error.invalid.borrower.state.code";
+        public static final String ERROR_INVALID_BORROWER_STORAGE_STATE = "error.invalid.borrower.storage.state.code";
+        public static final String ERROR_INVALID_BORROWER_COUNTRY = "error.invalid.borrower.country.code";
+        public static final String ERROR_INVALID_BORROWER_STORAGE_COUNTRY = "error.invalid.borrower.storage.country.code";
+    }
 }

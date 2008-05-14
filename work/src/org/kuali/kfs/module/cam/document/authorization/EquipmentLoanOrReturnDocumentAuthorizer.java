@@ -15,25 +15,43 @@
  */
 package org.kuali.module.cams.document.authorization;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.Map;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cams.rules.AssetTransferDocumentRule;
-import org.kuali.module.cams.service.AssetTransferService;
-import org.kuali.module.cams.web.struts.action.EquipmentLoanOrReturnAction;
+import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
+
 
 /**
  * Uses defaults.
  */
 public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentAuthorizer.class);
+
+    public Map getEditMode(Document document, UniversalUser user) {
+
+        Map<String, String> editModeMap = super.getEditMode(document, user);
+        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
+
+        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getExpectedReturnDate())) {
+            LOG.info("getEditMode: " + "FALSE");
+            editModeMap.put("displayNewLoanTab", "FALSE");
+        }
+        else {
+            editModeMap.put("displayNewLoanTab", "TRUE");
+            // editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB,"TRUE");
+
+            LOG.info("getEditMode: " + "TRUE");
+        }
+
+        return editModeMap;
+    }
+
 
     /**
      * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
@@ -46,19 +64,18 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocume
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        String tagNumber = equipmentLoanOrReturnDocument.getAsset().getCampusTagNumber();
-//      LOG.info("EquipmentLoanOrReturnDocumentAuthorizer: " + tagNumber);
-        // Disable the buttons, if asset is not tagged
-        if (!StringUtils.isNotEmpty(tagNumber)) {
-            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, equipmentLoanOrReturnDocument.getAsset().getCapitalAssetNumber().toString());
+        // Disable the buttons, if asset is not lonable
+
+        if (!SpringContext.getBean(EquipmentLoanOrReturnService.class).canBeLoaned(equipmentLoanOrReturnDocument)) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);
             actionFlags.setCanRoute(false);
             actionFlags.setCanSave(false);
         }
+
         return actionFlags;
     }
-    
+
 
 }

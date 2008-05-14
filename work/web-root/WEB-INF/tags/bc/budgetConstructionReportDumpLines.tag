@@ -17,7 +17,7 @@
 
 <kul:tab tabTitle="Report/Dump" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS}">
 <div class="tab-container" align=center>
-    <table width="50%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
     <tr>
         <td colspan="2" class="subhead">
 		    <span class="subhead-left">Report/Dump</span>
@@ -38,7 +38,7 @@
     <c:forEach items="${KualiForm.budgetConstructionDocumentReportModes}" var="item" varStatus="status" >
         <tr>
             <td class="datacell" nowrap>
-                <div align="left">
+                <div align="right">
                     ${item.reportDesc}
                 </div>
             </td>

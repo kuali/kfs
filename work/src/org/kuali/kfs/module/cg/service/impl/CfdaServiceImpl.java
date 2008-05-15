@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -238,6 +239,9 @@ public class CfdaServiceImpl implements CfdaService {
     }
 
     public Cfda getByPrimaryId(String cfdaNumber) {
+        if ( StringUtils.isBlank(cfdaNumber) ) {
+            return null;
+        }
         return (Cfda) businessObjectService.findByPrimaryKey(Cfda.class, mapPrimaryKeys(cfdaNumber));
     }
 

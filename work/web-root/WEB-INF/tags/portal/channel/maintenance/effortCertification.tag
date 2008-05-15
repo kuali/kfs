@@ -48,7 +48,7 @@
 		</li>
 		
 		<li>
-			<portal:portalLink displayTitle="true" title="Effort Build"
+			<portal:portalLink displayTitle="true" title="Effort Certification Extract Build"
 				url="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDetailBuild&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		

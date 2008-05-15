@@ -241,9 +241,6 @@
 	<reference-descriptor name="acquisitionType" class-ref="org.kuali.module.cams.bo.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="acquisitionTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="agencyNumber" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_DOC_T">
@@ -872,9 +869,6 @@
 	</reference-descriptor>
 	<reference-descriptor name="equipmentLoanOrReturnDocument" class-ref="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="agencyNumber" />
 	</reference-descriptor>
 </class-descriptor>
 

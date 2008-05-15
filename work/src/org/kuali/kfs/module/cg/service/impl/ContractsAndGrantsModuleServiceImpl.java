@@ -27,9 +27,11 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.AccountAwardInformation;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
+import org.kuali.module.cg.service.AgencyService;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.module.integration.bo.ContractsAndGrantsAgency;
 import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
@@ -159,6 +161,21 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
             awardAccounts.add(new AccountAwardInformation((AwardAccount)awardAccountAsObject));
         }
         return awardAccounts;
+    }
+
+    /**
+     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getAgencyByAgencyNumber(java.lang.String)
+     */
+    public ContractsAndGrantsAgency getAgencyByAgencyNumber(String agencyNumber) {
+        return (ContractsAndGrantsAgency)getAgencyService().getByPrimaryId(agencyNumber);
+    }
+    
+    /**
+     * Returns the default implementation of the C&G AgencyService
+     * @return an implementation of AgencyService
+     */
+    public AgencyService getAgencyService() {
+        return SpringContext.getBean(AgencyService.class);
     }
 
     /**

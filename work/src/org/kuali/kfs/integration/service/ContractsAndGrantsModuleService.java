@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.module.integration.bo.ContractsAndGrantsAgency;
 import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
 
 public interface ContractsAndGrantsModuleService {
@@ -54,4 +55,11 @@ public interface ContractsAndGrantsModuleService {
      * @return a List of ContractsAndGrantsAccountAwardInformation records with the award information
      */
     public List<ContractsAndGrantsAccountAwardInformation> getAwardInformationForAccount(String chartOfAccountsCode, String accountNumber);
+    
+    /**
+     * Returns information about a contracts and grants agency based on a given agency number
+     * @param agencyNumber the agency number of the given agency
+     * @return agency information for the agency identified by the given agency number
+     */
+    public ContractsAndGrantsAgency getAgencyByAgencyNumber(String agencyNumber);
 }

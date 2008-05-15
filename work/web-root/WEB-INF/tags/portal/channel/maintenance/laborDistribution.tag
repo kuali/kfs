@@ -39,7 +39,7 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Labor Position Object Code Group"
+				title="Labor Position Object Group Code"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.PositionObjectGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 	</ul>

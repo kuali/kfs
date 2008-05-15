@@ -19,7 +19,7 @@
         <value>positionObjectGroupCode</value>
       </list>
     </property>
-    <property name="label" value="Position Object Group Code Document" />
+    <property name="label" value="Labor Position Object Group Code Maintenance Document" />
     <property name="shortLabel" value="Position Object Group Code Document" />
     <property name="summary" value="Position Object Group Code Document" />
     <property name="description" value="Document used to create or update Position Object Group Objects" />

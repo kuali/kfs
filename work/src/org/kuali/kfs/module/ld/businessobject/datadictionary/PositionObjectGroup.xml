@@ -84,7 +84,7 @@
   <bean id="PositionObjectGroup-inquiryDefinition" parent="PositionObjectGroup-inquiryDefinition-parentBean" />
 
   <bean id="PositionObjectGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Position Object Group Code" />
+    <property name="title" value="Labor Position Object Group Code" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -111,7 +111,7 @@
   <bean id="PositionObjectGroup-lookupDefinition" parent="PositionObjectGroup-lookupDefinition-parentBean" />
 
   <bean id="PositionObjectGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Position Object Group Code" />
+    <property name="title" value="Labor Position Object Group Code" />
     <property name="instructions" value="Look up a Labor Object Group" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

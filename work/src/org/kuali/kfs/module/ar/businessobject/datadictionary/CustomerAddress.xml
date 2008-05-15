@@ -38,19 +38,10 @@
 
   <bean id="CustomerAddress-customerAddressEndDate" parent="CustomerAddress-customerAddressEndDate-parentBean" />
 
-  <bean id="CustomerAddress-customerAddressEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerAddress-customerAddressEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="customerAddressEndDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Customer Address End Date" />
     <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
     <property name="summary" value="customerAddressEndDate" />
     <property name="description" value="customerAddressEndDate description..." />
   </bean>

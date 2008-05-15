@@ -22,8 +22,8 @@ import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.dao.CustomerDao;
 import org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb;
 
-public class CustomerDaoOjb  extends PlatformAwareDaoBaseOjb implements CustomerDao {
-    
+public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerDao {
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
 
     /**
@@ -32,7 +32,14 @@ public class CustomerDaoOjb  extends PlatformAwareDaoBaseOjb implements Customer
     public Customer getByPrimaryId(String customerNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("customerNumber", customerNumber);
-        
+
+        return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
+    }
+
+    public Customer getByName(String customerName) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("customerName", customerName);
+
         return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
     }
 

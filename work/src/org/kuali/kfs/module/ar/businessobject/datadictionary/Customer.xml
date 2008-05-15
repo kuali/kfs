@@ -40,6 +40,20 @@
         <ref bean="Customer-versionNumber" />
       </list>
     </property>
+     <property name="collections" >
+      <list>
+        <bean parent="CollectionDefinition"
+              p:name="customerAddresses"
+              p:label="Customer Addresses"
+              p:shortLabel="Customer Addresses"
+              p:elementLabel="Customer Address" />
+        <bean parent="CollectionDefinition"
+              p:name="customerInternalNotes"
+              p:label="Customer Internal Notes"
+              p:shortLabel="Internal Notes"
+              p:elementLabel="Internal Note" />
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -266,7 +280,9 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="60" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AlphaValidationPattern" 
+            p:allowWhitespace = "true"
+      />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

@@ -119,6 +119,9 @@
 		<property name="customerDao">
 			<ref bean="customerDao" />
 		</property>
+	    <property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
 	</bean>
 	
     <bean id="customerInvoiceDocumentService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentServiceImpl">

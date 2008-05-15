@@ -167,7 +167,11 @@ public class ArConstants {
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
     
-    //Customer type constants
+    // Customer type constants
     public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
     public static final String CUSTOMER_TYPE_DESC = "customerTypeDescription";
+    public static final String MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS = "message.document.customerMaintenance.customerWithSameNameExists";
+    public static final String GENERATE_CUSTOMER_QUESTION_ID = "GenerateCustomerQuestionID";
+    public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
+    public static final String ERROR_AT_LEAST_ONE_ADDRESS = "error.document.customer.addressRequired";
 }

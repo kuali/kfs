@@ -139,6 +139,10 @@
         <orderby name="customerInternalNoteCreateTimestamp" sort="ASC" />
         <inverse-foreignkey field-ref="customerNumber" />
     </collection-descriptor>
+    <collection-descriptor name="customerAddresses" element-class-ref="org.kuali.module.ar.bo.CustomerAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="customerAddressIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="customerNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.NonAppliedHolding" table="AR_NON_APLD_HLDG_T">

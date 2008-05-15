@@ -12,13 +12,16 @@
     <property name="maintainableSections" >
       <list>
         <ref bean="CustomerMaintenanceDocument-EditCustomer" />
+        <ref bean="CustomerMaintenanceDocument-Addresses" />
       </list>
     </property>
+
     <property name="lockingKeys" >
       <list>
         <value>customerNumber</value>
       </list>
     </property>
+
     <property name="label" value="Customer" />
     <property name="shortLabel" value="Customer" />
     <property name="summary" value="Customer Maintenance Document" />
@@ -31,6 +34,7 @@
     </property>
     <property name="documentTypeName" value="CustomerMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerRule" />
+    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.CustomerPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CUS" />
     <property name="authorizations" >
@@ -53,17 +57,20 @@
   <bean id="CustomerMaintenanceDocument-EditCustomer" parent="CustomerMaintenanceDocument-EditCustomer-parentBean" />
 
   <bean id="CustomerMaintenanceDocument-EditCustomer-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Customer" />
-    <property name="title" value="Edit Customer" />
+    <property name="id" value="Customer Maintenance" />
+    <property name="title" value="Customer Maintenance" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="customerNumber"
-              p:required="true" />
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerParentCompanyNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerName" />
+              p:name="customerName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerTypeCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerSocialSecurityNumberIdentifier" />
         <bean parent="MaintainableFieldDefinition"
@@ -98,9 +105,64 @@
               p:name="versionNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerActiveIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerTypeCode" />
+        
       </list>
     </property>
   </bean>
+    
+  <bean id="CustomerMaintenanceDocument-Addresses" parent="CustomerMaintenanceDocument-Addresses-parentBean" />
+
+  <bean id="CustomerMaintenanceDocument-Addresses-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Addresses" />
+    <property name="title" value="Addresses" />
+    <property name="maintainableItems" >
+      <list>
+      <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="customerAddresses" />
+          <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerAddress" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressTypeCode" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressIdentifier"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressName"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerLine1StreetAddress" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerLine2StreetAddress"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerCityName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerStateCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerZipCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerInternationalMailCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerEmailAddress" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressTypeCode" 
+                    p:defaultValue="P"/>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressEndDate" />     
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+        </list>
+        </property>
+        </bean>
+        
 </beans>

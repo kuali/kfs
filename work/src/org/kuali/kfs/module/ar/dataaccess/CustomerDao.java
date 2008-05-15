@@ -26,5 +26,7 @@ public interface CustomerDao {
      * @return
      */
     public Customer getByPrimaryId( String customerNumber );
+    
+    public Customer getByName(String customerName);
 
 }

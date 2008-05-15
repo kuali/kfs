@@ -752,7 +752,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return a CFDA record
      */
     public ContractsAndGrantsCfda getCfda() {
-        if (cfda == null || !cfda.getCfdaNumber().equals(accountCfdaNumber)) {
+        if ((cfda == null || !cfda.getCfdaNumber().equals(accountCfdaNumber)) && !StringUtils.isBlank(accountCfdaNumber) ) {
             cfda = SpringContext.getBean(ContractsAndGrantsModuleService.class).getCfda(accountCfdaNumber);
         }
         return cfda;

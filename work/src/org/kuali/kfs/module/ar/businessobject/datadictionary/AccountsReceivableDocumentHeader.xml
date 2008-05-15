@@ -95,8 +95,8 @@
   <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processingChartOfAccountCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Processing Chart Of Account Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Processing Chart Code" />
+    <property name="shortLabel" value="Chart Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

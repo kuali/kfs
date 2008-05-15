@@ -263,8 +263,8 @@
 
   <bean id="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="billByChartOfAccountCode" />
-    <property name="label" value="Billed By Chart of Accounts Code" />
-    <property name="shortLabel" value="Billed By Chart" />
+    <property name="label" value="Billing Chart Code" />
+    <property name="shortLabel" value="Billing Chart" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
@@ -275,8 +275,8 @@
 
   <bean id="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
     <property name="name" value="billedByOrganizationCode" />
-    <property name="label" value="Billed By Organization Object Code" />
-    <property name="shortLabel" value="Billed By Org Code" />
+    <property name="label" value="Billing Organization Code" />
+    <property name="shortLabel" value="Billing Org Code" />
   </bean>
   <bean id="CustomerInvoiceDocument-customerShipToAddressIdentifier" parent="CustomerInvoiceDocument-customerShipToAddressIdentifier-parentBean" />
 

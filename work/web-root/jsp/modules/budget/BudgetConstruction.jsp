@@ -43,6 +43,10 @@
 	<html-el:hidden name="KualiForm" property="pickListMode" />
 	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.benefitsCalcNeeded" />
 	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.monthlyBenefitsCalcNeeded" />
+	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
+	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
+	<html-el:hidden name="KualiForm" property="accountNumber" />
+	<html-el:hidden name="KualiForm" property="subAccountNumber" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <%--

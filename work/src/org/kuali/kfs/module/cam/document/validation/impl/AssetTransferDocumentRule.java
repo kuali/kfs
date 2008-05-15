@@ -32,6 +32,7 @@ import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.CamsKeyConstants.Transfer;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -153,7 +154,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS);
             if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerChartOfAccounts())) {
-                putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_OWNER_CHART_CODE_INVALID);
+                putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_OWNER_CHART_CODE_INVALID, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode());
                 valid &= false;
             }
         }
@@ -161,7 +162,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
             if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerAccount())) {
-                putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID);
+                putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID, assetTransferDocument.getOrganizationOwnerAccountNumber(), assetTransferDocument.getOrganizationOwnerChartOfAccountsCode());
                 valid &= false;
             }
         }
@@ -208,7 +209,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 assetTransferDocument.setRepresentativeUniversalIdentifier(universalUser.getPersonUniversalIdentifier());
             }
             catch (UserNotFoundException e) {
-                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, CamsKeyConstants.AssetLocation.ERROR_INVALID_USER_AUTH_ID);
+                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, Transfer.ERROR_INVALID_USER_AUTH_ID, assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier());
                 valid &= false;
             }
         }
@@ -229,7 +230,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         Asset asset = assetTransferDocument.getAsset();
         if (organizationOwnerAccount == null || organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator()) {
             // show error if account is not active
-            putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE);
+            putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetTransferDocument.getOrganizationOwnerAccountNumber());
             valid &= false;
         }
         else if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {

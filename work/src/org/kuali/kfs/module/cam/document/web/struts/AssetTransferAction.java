@@ -64,12 +64,13 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
         ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
         AssetTransferForm assetTransferForm = (AssetTransferForm) form;
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) assetTransferForm.getDocument();
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         AssetHeader assetHeader = assetTransferDocument.getAssetHeader();
         Asset asset = assetTransferDocument.getAsset();
 
-        asset = handleRequestFromLookup(request, assetTransferForm, assetTransferDocument, service, asset);
+        asset = handleRequestFromLookup(request, assetTransferForm, assetTransferDocument, businessObjectService, asset);
 
+        // create asset header information
         if (assetTransferDocument.getAsset() != null && (assetTransferDocument.getAssetHeader() == null || assetHeader.getDocumentNumber() == null)) {
             assetHeader = new AssetHeader();
             assetHeader.setDocumentNumber(assetTransferDocument.getDocumentNumber());
@@ -77,7 +78,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
             assetTransferDocument.setAssetHeader(assetHeader);
         }
 
-        asset = handleRequestFromWorkflow(assetTransferForm, assetTransferDocument, service, assetHeader);
+        asset = handleRequestFromWorkflow(assetTransferForm, assetTransferDocument, businessObjectService, assetHeader);
         asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
@@ -96,6 +97,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @return Asset
      */
     private Asset handleRequestFromWorkflow(AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument, BusinessObjectService service, AssetHeader assetHeader) {
+        LOG.debug("Start- Handle request from workflow");
         Asset newAsset = new Asset();
         if (assetTransferForm.getDocId() != null && assetHeader != null) {
             newAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
@@ -124,6 +126,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @return Asset
      */
     private Asset handleRequestFromLookup(HttpServletRequest request, AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument, BusinessObjectService service, Asset asset) {
+        LOG.debug("Start - Handle request from asset lookup screen");
         Asset newAsset = null;
         if (assetTransferForm.getDocId() == null && asset == null) {
             newAsset = new Asset();
@@ -148,6 +151,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Start - Handle route document");
         ActionForward forward = null;
         AssetTransferForm assetTransferForm = (AssetTransferForm) form;
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) assetTransferForm.getDocument();
@@ -189,6 +193,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      */
     private void insertLoanNote(AssetTransferDocument document, AssetTransferForm form) throws Exception {
         if (!form.isLoanNoteAdded()) {
+            LOG.debug("Adding loan note to the document");
             Note newNote = form.getNewNote();
             String propertyName = KNSServiceLocator.getNoteService().extractNoteProperty(newNote);
             PersistableBusinessObject noteParent = (PersistableBusinessObject) ObjectUtils.getPropertyValue(document, propertyName);

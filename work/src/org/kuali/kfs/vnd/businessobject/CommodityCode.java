@@ -18,6 +18,7 @@ package org.kuali.module.vendor.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
@@ -85,8 +86,14 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     }
 
     public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterial() {
-        if (restrictedMaterial == null || !restrictedMaterial.getRestrictedMaterialCode().equals(this.restrictedMaterialCode)) {
-            restrictedMaterial = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getRestrictedMaterialByCode(this.restrictedMaterialCode);
+        if (StringUtils.isBlank(restrictedMaterialCode)) {
+            if (restrictedMaterial != null) {
+                restrictedMaterial = null;
+            }
+        } else {
+            if (restrictedMaterial == null || !restrictedMaterial.getRestrictedMaterialCode().equals(this.restrictedMaterialCode)) {
+                restrictedMaterial = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getRestrictedMaterialByCode(this.restrictedMaterialCode);
+            }
         }
         return restrictedMaterial;
     }

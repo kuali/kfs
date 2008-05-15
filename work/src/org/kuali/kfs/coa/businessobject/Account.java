@@ -45,7 +45,6 @@ import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 
@@ -752,13 +751,20 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return a CFDA record
      */
     public ContractsAndGrantsCfda getCfda() {
-        if ((cfda == null || !cfda.getCfdaNumber().equals(accountCfdaNumber)) && !StringUtils.isBlank(accountCfdaNumber) ) {
-            cfda = SpringContext.getBean(ContractsAndGrantsModuleService.class).getCfda(accountCfdaNumber);
+        if (StringUtils.isBlank(accountCfdaNumber)) {
+            if (cfda != null) {
+                cfda = null;
+            }
+        } else {
+            if (cfda == null || !cfda.getCfdaNumber().equals(accountCfdaNumber)) {
+                cfda = SpringContext.getBean(ContractsAndGrantsModuleService.class).getCfda(accountCfdaNumber);
+            }
         }
         return cfda;
     }
     
     public List getAwards() {
+        // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the pike
         return awards;
     }
     

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -1951,8 +1952,14 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     public ContractsAndGrantsAgency getAgency() {
-        if (agency == null || !agency.getAgencyNumber().equals(this.agencyNumber)) {
-            agency = SpringContext.getBean(ContractsAndGrantsModuleService.class).getAgencyByAgencyNumber(this.agencyNumber);
+        if (StringUtils.isBlank(agencyNumber)) {
+            if (agency != null) {
+                agency = null;
+            }
+        } else {
+            if (agency == null || !agency.getAgencyNumber().equals(this.agencyNumber)) {
+                agency = SpringContext.getBean(ContractsAndGrantsModuleService.class).getAgencyByAgencyNumber(this.agencyNumber);
+            }
         }
         return agency;
     }

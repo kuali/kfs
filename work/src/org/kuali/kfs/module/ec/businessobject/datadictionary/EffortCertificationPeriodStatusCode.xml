@@ -99,7 +99,7 @@
   <bean id="EffortCertificationPeriodStatusCode-lookupDefinition" parent="EffortCertificationPeriodStatusCode-lookupDefinition-parentBean" />
 
   <bean id="EffortCertificationPeriodStatusCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Report Status Code Lookup" />
+    <property name="title" value="Report Period Status Code Lookup" />
     <property name="instructions" value="Look up an Effort Certification Period Status Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

@@ -29,7 +29,7 @@
 		</li>
 		
 		<li>
-			<portal:portalLink displayTitle="true" title="Report Status Code"
+			<portal:portalLink displayTitle="true" title="Report Period Status Code"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		 

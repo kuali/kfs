@@ -19,6 +19,8 @@
 <%@ attribute name="crmPropertyName" required="true"
 	description="Name of form property containing the customer credit memo detail."%>
 <%@ attribute name="cssClass" required="true"%>
+<%@ attribute name="actionMethod" required="true"
+    description="methodToCall value for actionImage"%>
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" /> 
@@ -101,7 +103,7 @@
 	    	alt="Recalculate Credit Memo Line Amounts"
 	        styleClass="tinybutton" />
 	    &nbsp;
-		<html:image property=""
+		<html:image property="methodToCall.${actionMethod}"
 	    	src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
 	    	title="Refresh Credit Memo Line"
 	    	alt="Refresh Credit Memo Line"

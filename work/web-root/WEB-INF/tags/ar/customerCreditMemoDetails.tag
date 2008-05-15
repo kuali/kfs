@@ -45,7 +45,9 @@
 						<ar:customerCreditMemoDetail
 							invPropertyName="document.invoice.sourceAccountingLines[${ctr}]"
 							crmPropertyName="document.creditMemoDetails[${ctr}]" 
-			        		cssClass="datacell" />
+			        		actionMethod="refreshCustomerCreditMemoDetail.line${ctr}"
+			        		cssClass="datacell"
+			        		 />
 			</logic:iterate>
 			<tr>
 				<td class="total-line" colspan="6">

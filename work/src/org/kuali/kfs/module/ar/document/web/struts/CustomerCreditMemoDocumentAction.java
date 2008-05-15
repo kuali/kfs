@@ -23,23 +23,31 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.module.ar.document.PaymentApplicationDocument;
+import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
+import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
+import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentActionBase {
     
     public CustomerCreditMemoDocumentAction() {
-        
         super();
     }
     
@@ -50,7 +58,6 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        
         super.createDocument(kualiDocumentFormBase);
         ((CustomerCreditMemoDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
@@ -102,9 +109,10 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
          Qiestions:
          1. try saving the document, to see if invoice reference is populated automatically
             SpringContext.getBean(DocumentService.class).saveDocument(customerCreditMemoDocument);
+            ? // perform validation of init tab
+            ? SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(creditMemoDocument);
          2. explicitly refresh invoice object
          */
-        customerCreditMemoDocument.refreshReferenceObject("invoice");
         
         // initialize creditMemoDetails
         List<SourceAccountingLine> invoiceDetails = customerCreditMemoDocument.getInvoice().getSourceAccountingLines();
@@ -125,7 +133,34 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
             
             customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
         }
+        //???
+        //SpringContext.getBean(DocumentService.class).saveDocument(customerCreditMemoDocument);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method refreshes a customer credit memo detail
+     * 
+     * @param mapping action mapping
+     * @param form action form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward refreshCustomerCreditMemoDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CustomerCreditMemoDocumentForm customerCreditMemoDocForm = (CustomerCreditMemoDocumentForm) form;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocForm.getDocument();
+        int indexOfLineToRefresh = getSelectedLine(request);
+        
+        /*
+        CustomerInvoiceDetail customerInvoiceDetail = customerCreditMemoDetails.set(indexOfLineToRefresh,customerCreditMemoDetail);
+        customerCreditMemoDocument.setCreditMemoDetails(customerCreditMemoDetails);
+        */
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    
+    
 }

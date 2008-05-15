@@ -20,7 +20,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
     private KualiDecimal invoiceOpenItemAmount; //not in DB
-
     /**
      * Default constructor.
      */
@@ -201,6 +200,10 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
             m.put("referenceInvoiceItemNumber", this.referenceInvoiceItemNumber.toString());
         }
         return m;
+    }
+
+    public void setInvoiceLineTotalAmount(KualiDecimal invoiceLineTotalAmount) {
+        this.invoiceLineTotalAmount = invoiceLineTotalAmount;
     }
 
 }

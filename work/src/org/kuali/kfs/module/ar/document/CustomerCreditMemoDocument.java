@@ -1,20 +1,23 @@
 package org.kuali.module.ar.document;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -26,7 +29,7 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     private String statusCode;
     
     private String documentNumber;
-    private Integer financialDocumentPostingYear;
+    private Integer financialDocumentPostingYear;// there is an inherited property 'postingYear'
     private String financialDocumentReferenceInvoiceNumber;
     
     private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
@@ -42,7 +45,7 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     
     public CustomerCreditMemoDocument(){
         super();
-        creditMemoDetails = new ArrayList<CustomerCreditMemoDetail>();
+        creditMemoDetails = new TypedArrayList(CustomerCreditMemoDetail.class);
     }
 
     /**
@@ -141,6 +144,15 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
      * @return Returns the invoice.
      */
     public CustomerInvoiceDocument getInvoice() {
+
+        /*
+        if(ObjectUtils.isNull(invoice) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) ){
+            invoice = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentByDocumentId(financialDocumentReferenceInvoiceNumber);
+        }*/
+        
+        if(ObjectUtils.isNull(invoice) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) ){
+            refreshReferenceObject("invoice");
+        }        
         return invoice;
     }
 

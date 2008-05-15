@@ -20,8 +20,12 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -29,6 +33,7 @@ import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.purap.PurapAuthorizationConstants;
@@ -41,6 +46,24 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
         setDocument(new CustomerCreditMemoDocument());
         setupServices();
         //setupDefaultValues((CustomerInvoiceDocument)getDocument());
+    }
+    
+    /**
+     * Setup workflow doc in the document.
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        
+        //populate document using request
+        super.populate(request);
+        
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)getDocument();
+        String customerInvoiceNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+        
+        //this will make sure that every action has fully populated invoice
+        if(StringUtils.isNotEmpty(customerInvoiceNumber)){
+            customerCreditMemoDocument.refreshReferenceObject("invoice");
+        }        
     }
 
     private void setupServices() {

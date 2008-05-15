@@ -554,15 +554,5 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
         m.put("invoiceItemCode", this.invoiceItemCode);
 	    return m;
     }
-    
-    /**
-    * This method returns a string so that a customer invoice item code can have a link to view its own
-    * inquiry page after a look up
-    * 
-    * @return the String "View Customer Invoice Item Code"
-    */
-   public String getCustomerInvoiceItemCodeDefaultViewer() {
-       return "View Customer Invoice Item Code";
-   }
 
 }

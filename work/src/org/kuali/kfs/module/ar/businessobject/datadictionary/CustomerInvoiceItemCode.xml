@@ -14,10 +14,9 @@
     <property name="lookupDefinition" >
       <ref bean="CustomerInvoiceItemCode-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="customerInvoiceItemCodeDefaultViewer" />
+    <property name="titleAttribute" value="invoiceItemCode" />
     <property name="attributes" >
       <list>
-        <ref bean="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer" />
         <ref bean="CustomerInvoiceItemCode-active" />
         <ref bean="CustomerInvoiceItemCode-chartOfAccountsCode" />
         <ref bean="CustomerInvoiceItemCode-defaultInvoiceAccountNumber" />
@@ -41,20 +40,6 @@
 
 <!-- Attribute Definitions -->
 
-
-  <bean id="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer" parent="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer-parentBean" />
-
-  <bean id="CustomerInvoiceItemCode-customerInvoiceItemCodeDefaultViewer-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerInvoiceItemCodeDefaultViewer" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="View" />
-    <property name="shortLabel" value="View" />
-    <property name="maxLength" value="50" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-  </bean>
   <bean id="CustomerInvoiceItemCode-active" parent="CustomerInvoiceItemCode-active-parentBean" />
 
   <bean id="CustomerInvoiceItemCode-active-parentBean" abstract="true" parent="AttributeDefinition">
@@ -442,13 +427,11 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="customerInvoiceItemCodeDefaultViewer" />
+              p:attributeName="invoiceItemCode" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemCode" />
         <bean parent="FieldDefinition"
               p:attributeName="invoiceItemDescription" />
         <bean parent="FieldDefinition"

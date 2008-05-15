@@ -16,6 +16,7 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -176,6 +177,54 @@ public class ReceivingLineAction extends ReceivingBaseAction {
 
         ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
         receivingLineDocument.deleteItem(getSelectedLine(request));
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * For each item, it's quantity received value is set to zero. 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearQty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
+
+        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+        
+        for(ReceivingLineItem item : (List <ReceivingLineItem>)receivingLineDocument.getItems()){
+            item.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * For each item, loads total order quantity minus prior received quantity into total received quantity.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward loadQty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
+
+        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+
+        for(ReceivingLineItem item : (List <ReceivingLineItem>)receivingLineDocument.getItems()){            
+            if( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()).isGreaterEqual(KualiDecimal.ZERO)  ){
+                item.setItemReceivedTotalQuantity( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()) );
+            }else{
+                item.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
+            }
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

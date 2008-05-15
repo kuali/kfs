@@ -29,8 +29,13 @@
 		</tr>
 
 		<tr>
-			<td colspan="6" class="subhead"><span class="subhead-left">&nbsp;</span></td>
-			<td colspan="6" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
+			<td colspan="12" class="datacell" align="right" nowrap="nowrap">
+				<div align="right">
+					<c:if test="${KualiForm.ableToShowClearAndLoadQtyButtons}">
+						<html:image property="methodToCall.loadQty" src="${ConfigProperties.externalizable.images.url}tinybutton-loadqtyreceived.gif" alt="load qty received" title="load qty received" styleClass="tinybutton" />
+						<html:image property="methodToCall.clearQty" src="${ConfigProperties.externalizable.images.url}tinybutton-clearqtyreceived.gif" alt="clear qty received" title="clear qty received" styleClass="tinybutton" />
+					</c:if>
+				</div>
 			</td>
 		</tr>
 

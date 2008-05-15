@@ -21,10 +21,14 @@ import java.util.Map;
 
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
@@ -156,6 +160,16 @@ public class ReceivingLineForm extends ReceivingFormBase {
         ReceivingLineItem receivingLineItem = new ReceivingLineItem((ReceivingLineDocument)getDocument());
         newReceivingLineItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
         return receivingLineItem;
+    }
+    
+    /**
+     * Indicates if the clear and load quantity buttons can be shown, according to the
+     * value of a system parameter.
+     *  
+     * @return
+     */
+    public boolean isAbleToShowClearAndLoadQtyButtons(){        
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(ReceivingLineDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
     }
 
 }

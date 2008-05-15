@@ -23,6 +23,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
 
@@ -39,14 +40,10 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocume
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
 
         if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getExpectedReturnDate())) {
-            LOG.info("getEditMode: " + "FALSE");
-            editModeMap.put("displayNewLoanTab", "FALSE");
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
         }
         else {
-            editModeMap.put("displayNewLoanTab", "TRUE");
-            // editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB,"TRUE");
-
-            LOG.info("getEditMode: " + "TRUE");
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
         }
 
         return editModeMap;

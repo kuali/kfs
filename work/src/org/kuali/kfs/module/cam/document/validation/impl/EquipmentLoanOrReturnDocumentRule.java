@@ -20,7 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
@@ -78,52 +77,11 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
     private boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        // check if Borrower and store-at address information are valid
-        valid &= validateAddress(equipmentLoanOrReturnDocument);
         // validate if loan return date and expected loan return date is valid
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
 
         return true;
     }
-
-    /**
-     * This method checks if reference objects exist in the database or not
-     * 
-     * @param assetTransferDocument Transfer document
-     * @return true if all objects exists in db
-     */
-    private boolean validateAddress(EquipmentLoanOrReturnDocument elrDocument) {
-        boolean valid = true;
-
-        if (StringUtils.isNotBlank(elrDocument.getBorrowerStateCode())) {
-            LOG.info("------------------------validateAddress: " + elrDocument.getBorrowerStateCode() + "");
-            // elrDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE);
-            /*
-             * if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStateCode())) {
-             * putError(CamsPropertyConstants.EquipmentLoanOrReturn.BORROWER_STATE_CODE,
-             * CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE); valid &= false; }
-             */
-        }
-        /*
-         * if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
-         * equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE);
-         * if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
-         * putError(CamsPropertyConstants.EquipmentLoanOrReturn.BORROWER_STAORAGE_STATE_CODE,
-         * CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE); valid &= false; } } if
-         * (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerCountryCode())) {
-         * equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturn.BORROWER_COUNTRY_CODE);
-         * if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerCountryCode())) {
-         * putError(CamsPropertyConstants.EquipmentLoanOrReturn.BORROWER_COUNTRY_CODE,
-         * CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_COUNTRY); valid &= false; } } if
-         * (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageCountryCode())) {
-         * equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturn.BORROWER_STAORAGE_COUNTRY_CODE);
-         * if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerStorageCountryCode())) {
-         * putError(CamsPropertyConstants.EquipmentLoanOrReturn.BORROWER_STAORAGE_COUNTRY_CODE,
-         * CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_COUNTRY); valid &= false; } }
-         */
-        return valid;
-    }
-
 
     /**
      * Implementation of the rule that if a document has a recurring payment begin date and end date, the begin date should come

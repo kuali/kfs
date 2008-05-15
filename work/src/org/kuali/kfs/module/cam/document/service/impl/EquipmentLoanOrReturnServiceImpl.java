@@ -37,29 +37,24 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
 
 
     public void processApprovedEquipmentLoanOrReturn(EquipmentLoanOrReturnDocument document) {
-        updateAssetChanges(document);
-        updateAssetLocation(document);
-    }
-
-
-    public void updateAssetChanges(EquipmentLoanOrReturnDocument document) {
         AssetHeader assetHeader = document.getAssetHeader();
         Asset updateAsset = new Asset();
         updateAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
         updateAsset = (Asset) getBusinessObjectService().retrieve(updateAsset);
+        updateAssetChanges(document, updateAsset);
+        updateBorrowerLocation(document, updateAsset);
+        updateStoreAtLocation(document, updateAsset);
+    }
+
+
+    private void updateAssetChanges(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         updateAsset.setLoanDate(document.getLoanDate());
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
         getBusinessObjectService().save(updateAsset);
     }
 
-    public void updateAssetLocation(EquipmentLoanOrReturnDocument document) {
-        updateBorrowerLocation(document);
-        updateStoreAtLocation(document);
 
-    }
-
-    public void updateBorrowerLocation(EquipmentLoanOrReturnDocument document) {
-        Asset updateAsset = document.getAsset();
+    private void updateBorrowerLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation borrowerLocation = new AssetLocation();
         borrowerLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
         borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
@@ -76,13 +71,12 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
             getBusinessObjectService().save(borrowerLocation);
         }
         else {
-            // borrowerLocation = (AssetLocation) getBusinessObjectService().retrieve(borrowerLocation);
-            getBusinessObjectService().delete(updateAsset);
+            borrowerLocation = (AssetLocation) getBusinessObjectService().retrieve(borrowerLocation);
+            getBusinessObjectService().delete(borrowerLocation);
         }
     }
 
-    public void updateStoreAtLocation(EquipmentLoanOrReturnDocument document) {
-        Asset updateAsset = document.getAsset();
+    private void updateStoreAtLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation storeAtLocation = new AssetLocation();
         storeAtLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
         storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);
@@ -100,7 +94,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         }
         else {
             storeAtLocation = (AssetLocation) getBusinessObjectService().retrieve(storeAtLocation);
-            getBusinessObjectService().delete(updateAsset);
+            getBusinessObjectService().delete(storeAtLocation);
         }
     }
 

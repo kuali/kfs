@@ -35,6 +35,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
@@ -372,7 +373,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         super.handleRouteStatusChange();
 
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            /** @TODO update asset */
+            SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
 
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }

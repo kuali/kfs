@@ -17,9 +17,11 @@ package org.kuali.module.cams.web.struts.action;
 
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,12 +43,9 @@ import org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm;
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
-/**
-    public EquipmentLoanOrReturnAction() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-**/
+    /**
+     * public EquipmentLoanOrReturnAction() { super(); // TODO Auto-generated constructor stub }
+     */
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnAction.class);
 
     /**
@@ -77,7 +76,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
 
         asset = handleRequestFromWorkflow(equipmentLoanOrReturnForm, equipmentLoanOrReturnDocument, service, assetHeader);
         asset = equipmentLoanOrReturnDocument.getAsset();
-        
+
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);
@@ -95,11 +94,11 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
      * @param assetHeader Asset header object
      * @return Asset
      */
-    private Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService service, AssetHeader assetHeader) {
+    private Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, AssetHeader assetHeader) {
         Asset newAsset = new Asset();
         if (equipmentLoanOrReturnForm.getDocId() != null && assetHeader != null) {
             newAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
-            newAsset = (Asset) service.retrieve(newAsset);
+            newAsset = (Asset) businessObjectService.retrieve(newAsset);
             equipmentLoanOrReturnDocument.setAsset(newAsset);
         }
         return newAsset;
@@ -115,37 +114,43 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
      * @param asset Asset
      * @return Asset
      */
-    private Asset handleRequestFromLookup(HttpServletRequest request, EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService service, Asset asset) {
+    private Asset handleRequestFromLookup(HttpServletRequest request, EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, Asset asset) {
         Asset newAsset = asset;
-        LOG.info("-------------handleRequestFromLookup: "+ equipmentLoanOrReturnForm.getDocId()+"");
+        LOG.info("-------------handleRequestFromLookup: " + equipmentLoanOrReturnForm.getDocId() + "");
         if (equipmentLoanOrReturnForm.getDocId() == null && asset == null) {
             LOG.info("---------handleRequestFromLookup: equipmentLoanOrReturnForm.getDocId()==null && asset==null");
             newAsset = new Asset();
             HashMap<String, Object> keys = new HashMap<String, Object>();
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
             keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-            newAsset = (Asset) service.findByPrimaryKey(Asset.class, keys);
+            newAsset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, keys);
+
             if (newAsset != null) {
-//??? Need to check for the most current ELR document by ducomentNumber in AssetHeader or documentFinalDate in DocumentHeader 
-                Map assetHeaderMap = new HashMap();
-                assetHeaderMap.put(CAPITAL_ASSET_NUMBER,capitalAssetNumber);
-                Collection<AssetHeader> assetHeaders = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetHeader.class, assetHeaderMap);
+                List<AssetHeader> assetHeaders = newAsset.getAssetHeaders();
+                List<EquipmentLoanOrReturnDocument> equipmentLoanOrReturnList = new ArrayList<EquipmentLoanOrReturnDocument>();
 
                 for (AssetHeader assetHeaderDoc : assetHeaders) {
-                    Map elrMap = new HashMap(); 
-                    elrMap.put(CamsPropertyConstants.AssetHeader.DOCUMENT_NUMBER, assetHeaderDoc.getDocumentNumber());
-                    EquipmentLoanOrReturnDocument elrDoc = (EquipmentLoanOrReturnDocument) service.findByPrimaryKey(EquipmentLoanOrReturnDocument.class, elrMap);
-                    if (ObjectUtils.isNotNull(elrDoc)){
-                        if (ObjectUtils.isNotNull(elrDoc.getLoanDate()) && ObjectUtils.isNull(elrDoc.getLoanReturnDate())){
-                            populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, elrDoc);
-                            LOG.info("find equipmentLoanOrReturnDocument: " + equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier()+"");
-                        }
+                    EquipmentLoanOrReturnDocument elrDoc = assetHeaderDoc.getEquipmentLoanOrReturnDocument();
+                    if ((elrDoc != null) && ObjectUtils.isNull(elrDoc.getLoanReturnDate())) {
+                        equipmentLoanOrReturnList.add(elrDoc);
                     }
                 }
 
+                if (!equipmentLoanOrReturnList.isEmpty()) {
+                    Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
+                        public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
+                            // sort descending based on loan date
+                            return o2.getLoanDate().compareTo(o1.getLoanDate());
+                        }
+                    };
+                    Collections.sort(equipmentLoanOrReturnList, comparator);
+
+                    populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, equipmentLoanOrReturnList.get(0));
+                    LOG.info("=======find equipmentLoanOrReturnDocument: " + equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier() + "");
+                }
                 equipmentLoanOrReturnDocument.setAsset(newAsset);
             }
-        } 
+        }
         return newAsset;
     }
 
@@ -153,7 +158,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         equipmentLoanOrReturnDocument.setLoanDate(elrDoc.getLoanDate());
         equipmentLoanOrReturnDocument.setLoanReturnDate(elrDoc.getLoanReturnDate());
         equipmentLoanOrReturnDocument.setExpectedReturnDate(elrDoc.getExpectedReturnDate());
-        
+
         equipmentLoanOrReturnDocument.setBorrowerUniversalIdentifier(elrDoc.getBorrowerUniversalIdentifier());
         equipmentLoanOrReturnDocument.setBorrowerAddress(elrDoc.getBorrowerAddress());
         equipmentLoanOrReturnDocument.setBorrowerCityName(elrDoc.getBorrowerCityName());
@@ -161,7 +166,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         equipmentLoanOrReturnDocument.setBorrowerZipCode(elrDoc.getBorrowerZipCode());
         equipmentLoanOrReturnDocument.setBorrowerCountryCode(elrDoc.getBorrowerCountryCode());
         equipmentLoanOrReturnDocument.setBorrowerPhoneNumber(elrDoc.getBorrowerPhoneNumber());
-        
+
         equipmentLoanOrReturnDocument.setBorrowerStorageAddress(elrDoc.getBorrowerStorageAddress());
         equipmentLoanOrReturnDocument.setBorrowerStorageCityName(elrDoc.getBorrowerStorageCityName());
         equipmentLoanOrReturnDocument.setBorrowerStorageStateCode(elrDoc.getBorrowerStorageStateCode());

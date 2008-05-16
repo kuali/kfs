@@ -24,7 +24,6 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
@@ -35,10 +34,9 @@ import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.ReceivingService;
 
@@ -309,6 +307,50 @@ public class PurchaseOrderDocumentActionAuthorizer {
      */
     public boolean canCreateReceiving() {        
         return SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(purchaseOrder);
+    }
+    
+    /**
+     * Determines if a Split a PO document can be created from this purchase order.
+     * 
+     * @return  True if a Split a PO document can be created.
+     */
+    public boolean canSplitPo() {
+        // Can't initiate another split during the splitting process.
+        if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
+            return false;
+        }
+        
+        // The PO must be in either "In Process" or "Awaiting Purchasing Review"
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) || (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW))) {
+            // The Requisition Source must not be B2B.
+            if (!purchaseOrder.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+                // The PO must have more than one line item.
+                int lineItems = 0;
+                for( PurchaseOrderItem item : (List<PurchaseOrderItem>)purchaseOrder.getItems()){
+                    if ( item.getItemType().isItemTypeAboveTheLineIndicator() ) {
+                        lineItems++;
+                        if (lineItems > 1) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determines whether the PO is in a status that signifies it has enough information to generate a Split PO.
+     * 
+     * @return  True if the PO can continue to be split.
+     */
+    public boolean canContinuePoSplit() {
+        if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
     private boolean isApUser() {

@@ -127,6 +127,11 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS;
         if (paramValue.equals("Y")) 
             editModeMap.put(editMode, "TRUE");
+        
+        // Set display mode for Split PO.
+        if(poDocument.isPendingSplit()) {
+            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION, "TRUE");
+        }
                        
         return editModeMap;
     }
@@ -159,6 +164,12 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                     flags.setCanFYI(false);
                 }
             }
+        }
+        if (po.isPendingSplit()) {
+            flags.setCanRoute(false);
+            flags.setCanSave(false);
+            flags.setCanReload(false);
+            flags.setCanClose(false);
         }
         if (po.isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
             flags.setCanSave(true);

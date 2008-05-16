@@ -36,6 +36,10 @@
         <c:set var="retransmitMode" value="true" scope="request" />
     </c:if>
     
+    <c:if test="${!empty KualiForm.editingMode['splittingItemSelection']}">
+    	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
+    </c:if>
+    
     <kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
@@ -48,95 +52,105 @@
     <html:hidden property="document.purchaseOrderLastTransmitDate" />
     <html:hidden property="document.contractManagerCode" />
     <html:hidden property="document.purchaseOrderAutomaticIndicator" />
-    
-    <c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
-        <kul:documentOverview editingMode="${KualiForm.editingMode}"
-            includePostingYear="true"
-            fiscalYearReadOnly="true"
-            postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
-
-            <purap:purapDocumentDetail
-                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
-                purchaseOrder="true"
-                detailSectionLabel="Purchase Order Detail" />
-        </kul:documentOverview>
+ 
+	<c:if test="${splittingItemSelectionMode}">
+		<purap:splitPurchaseOrder
+			documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+	        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}" />
     </c:if>
-    <!--  TODO maybe we ought to rename the accountingLineEditingMode to something more generic -->
-    <c:if test="${! empty KualiForm.editingMode['amendmentEntry']}">
-        <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-        <kul:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
-            includePostingYear="true"
-            fiscalYearReadOnly="true"
-            postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
-
-            <purap:purapDocumentDetail
-                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
-                purchaseOrder="true"
-                detailSectionLabel="Purchase Order Detail" />
-        </kul:documentOverview>
-    </c:if>
-    
-    <c:if test="${retransmitMode}" >
-        <purap:purchaseOrderRetransmit 
-            documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
-            itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-            displayPurchaseOrderFields="true" />
-    </c:if>
-    	 		 
-<c:if test="${not retransmitMode}" >
-    <purap:vendor
-        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
-        displayPurchaseOrderFields="true"
-        purchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
-
-    <purap:stipulationsAndInfo
-        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
-
-    <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-        accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
-        camsAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}" 
-        extraHiddenItemFields="documentNumber"/> 
-     
-    <purap:paymentinfo
-        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
-        displayPurchaseOrderFields="true"/>
-
-    <purap:delivery
-        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
-
-    <purap:additional
-        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
-
-    <purap:summaryaccounts
-        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
-	
-	<c:if test="${KualiForm.document.statusCode eq 'INPR' || KualiForm.document.statusCode eq 'QUOT'}">
-	    <purap:quotes
-	        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
-	        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
-	        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+        
+    <c:if test="${not splittingItemSelectionMode}">
+		<c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
+			<kul:documentOverview editingMode="${KualiForm.editingMode}"
+		    	includePostingYear="true"
+		        fiscalYearReadOnly="true"
+		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
+		
+		        <purap:purapDocumentDetail
+		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+		            purchaseOrder="true"
+		            detailSectionLabel="Purchase Order Detail" />
+		    </kul:documentOverview>
+		</c:if>
+		 
+		<!--  TODO maybe we ought to rename the accountingLineEditingMode to something more generic -->
+		<c:if test="${! empty KualiForm.editingMode['amendmentEntry']}">
+		 	<c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
+		    <kul:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
+		    	includePostingYear="true"
+		        fiscalYearReadOnly="true"
+		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
+		
+		        <purap:purapDocumentDetail
+		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+		            purchaseOrder="true"
+		            detailSectionLabel="Purchase Order Detail" />
+		    </kul:documentOverview>
+		</c:if>
+		    	    
+		<c:if test="${retransmitMode}" >
+			<purap:purchaseOrderRetransmit 
+		    	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+		        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
+		        displayPurchaseOrderFields="true" />
+		</c:if>
+	    	 		 
+		<c:if test="${not retransmitMode}" >
+		    <purap:vendor
+		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
+		        displayPurchaseOrderFields="true"
+		        purchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+		
+		    <purap:stipulationsAndInfo
+		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+		
+		    <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
+		        accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
+		        camsAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}" 
+		        extraHiddenItemFields="documentNumber"/> 
+		     
+		    <purap:paymentinfo
+		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
+		        displayPurchaseOrderFields="true"/>
+		
+		    <purap:delivery
+		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+		
+		    <purap:additional
+		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+		
+		    <purap:summaryaccounts
+		        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
+		    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
+			
+			<c:if test="${KualiForm.document.statusCode eq 'INPR' || KualiForm.document.statusCode eq 'QUOT'}">
+			    <purap:quotes
+			        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+			        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
+			        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+			</c:if>
+		
+		    <purap:relatedDocuments
+		            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+		
+		    <purap:paymentHistory
+		            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+		
+		    <gl:generalLedgerPendingEntries />
+		
+		    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true">
+		          <html:messages id="warnings" property="noteWarning" message="true">
+		            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
+		          </html:messages>
+		    </kul:notes> 
+		
+		    <kul:adHocRecipients />
+		
+		    <kul:routeLog />
+		
+		</c:if>
 	</c:if>
-
-    <purap:relatedDocuments
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
-
-    <purap:paymentHistory
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
-
-    <gl:generalLedgerPendingEntries />
-
-    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true">
-          <html:messages id="warnings" property="noteWarning" message="true">
-            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
-          </html:messages>
-    </kul:notes> 
-
-    <kul:adHocRecipients />
-
-    <kul:routeLog />
-
-</c:if>
+	
     <kul:panelFooter />
 
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	

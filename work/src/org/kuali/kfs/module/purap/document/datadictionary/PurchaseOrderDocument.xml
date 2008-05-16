@@ -154,6 +154,7 @@
         <ref bean="PurchaseOrderDocument-requisitionSource" />
         <ref bean="PurchaseOrderDocument-statusChange" />
         <ref bean="PurchaseOrderDocument-internalPurchasingLimit" />
+        <ref bean="PurchaseOrderDocument-copyingNotesWhenSplitting"/>
       </list>
     </property>
   </bean>
@@ -1114,6 +1115,19 @@
     <property name="name" value="internalPurchasingLimit" />
     <property name="label" value="Internal Purchasing Limit" />
     <property name="shortLabel" value="Internal Purchasing Limit" />
+  </bean>
+  
+  <bean id="PurchaseOrderDocument-copyingNotesWhenSplitting" parent="PurchaseOrderDocument-copyingNotesWhenSplitting-parentBean" />
+
+  <bean id="PurchaseOrderDocument-copyingNotesWhenSplitting-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="copyingNotesWhenSplitting" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Copy Notes to New Purchase Order?" />
+    <property name="shortLabel" value="Copy Notes" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->

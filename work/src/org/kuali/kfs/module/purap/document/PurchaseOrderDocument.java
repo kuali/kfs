@@ -138,6 +138,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String retransmitHeader;
     private Integer purchaseOrderQuoteListIdentifier;
     private KualiDecimal internalPurchasingLimit;
+    private boolean pendingSplit = false;
+    private boolean copyingNotesWhenSplitting;
     
     // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
@@ -1288,6 +1290,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return result;
     }
     
+    public boolean isPendingSplit() {
+        return pendingSplit;
+    }
+
+    public void setPendingSplit(boolean pendingSplit) {
+        this.pendingSplit = pendingSplit;
+    }
+    
+    public boolean isCopyingNotesWhenSplitting() {
+        return copyingNotesWhenSplitting;
+    }
+
+    public void setCopyingNotesWhenSplitting(boolean copyingNotesWhenSplitting) {
+        this.copyingNotesWhenSplitting = copyingNotesWhenSplitting;
+    }   
+
     /**
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)

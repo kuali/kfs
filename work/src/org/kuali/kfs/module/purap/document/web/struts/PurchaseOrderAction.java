@@ -231,9 +231,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * For use with a specific set of methods of this class that create new purchase order-derived document types in response to
      * user actions, including <code>closePo</code>, <code>reopenPo</code>, <code>paymentHoldPo</code>,
      * <code>removeHoldPo</code>, <code>amendPo</code>, and <code>voidPo</code>. It employs the question framework to ask
-     * the user for a reponse before creating and routing the new document. The response should consist of a note detailing a
+     * the user for a response before creating and routing the new document. The response should consist of a note detailing a
      * reason, and either yes or no. This method can be better understood if it is noted that it will be gone through twice (via the
-     * question vframework); when each question is originally asked, and again when the yes/no response is processed, for
+     * question framework); when each question is originally asked, and again when the yes/no response is processed, for
      * confirmation.
      * 
      * @param mapping These are boiler-plate.
@@ -321,6 +321,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
                     returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
+                else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
+                    po.setPendingSplit(true);
+                    returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
                 else {
                     if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
                         newStatus = PurchaseOrderStatuses.PENDING_CLOSE;
@@ -334,9 +338,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)) {
                         newStatus = PurchaseOrderStatuses.PENDING_PAYMENT_HOLD;
                     }
-                    else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_REOPEN;
-                    }
                     else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT)) {
                         newStatus = PurchaseOrderStatuses.PENDING_REMOVE_HOLD;
                     }
@@ -348,12 +349,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 if (!GlobalVariables.getErrorMap().isEmpty()) {
                     throw new ValidationException("errors occurred during new PO creation");
                 }
-
+                
                 String previousDocumentId = kualiDocumentFormBase.getDocId();
-                // assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
-                kualiDocumentFormBase.setDocument(po);
-                kualiDocumentFormBase.setDocId(po.getDocumentNumber());
-                kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                if (!documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {                   
+                    // assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
+                    kualiDocumentFormBase.setDocument(po);
+                    kualiDocumentFormBase.setDocId(po.getDocumentNumber());
+                    kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                }
 
                 Note newNote = new Note();
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
@@ -516,6 +519,59 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String operation = "Void ";
 
         return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.VOID_QUESTION, PODocumentsStrings.VOID_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, PODocumentsStrings.VOID_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT, operation);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     * @see org.kuali.module.purap.document.PurchaseOrderSplitDocument
+     */
+    public ActionForward splitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Split PO started");
+        String operation = "Split ";
+
+        // Extract the PO id for the note prefix.
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)poForm.getDocument();
+        String poID = poDocument.getDocumentNumber();
+        String splitPrefix = PODocumentsStrings.SPLIT_NOTE_PREFIX + poID + " : ";
+        
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.SPLIT_QUESTION, PODocumentsStrings.SPLIT_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT, splitPrefix, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT, operation);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward continuePurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        LOG.debug("Continue Purchase Order Split started");
+        
+        //TODO: Implement business rules.
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        
+        String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT;
+        String newStatus = PurchaseOrderStatuses.IN_PROCESS;
+        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), po.getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+        
+        kualiDocumentFormBase.setDocument(po);
+        kualiDocumentFormBase.setDocId(po.getDocumentNumber());
+        kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

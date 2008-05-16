@@ -266,6 +266,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(receivingButton);
         }
         
+        //if (auth.canSplitPo()){
+        //    ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
+        //    extraButtons.add(splitPoButton);
+        //}
+        
+        if (auth.canContinuePoSplit()){
+            ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit");
+            extraButtons.add(continueButton);
+        }
+        
         return extraButtons;
     }        
     
@@ -351,6 +361,18 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         receivingButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_receiving.gif");
         receivingButton.setExtraButtonAltText("Receiving");
         
+        // Split PO button
+        ExtraButton splitPoButton = new ExtraButton();
+        receivingButton.setExtraButtonProperty("methodToCall.splitPo");
+        receivingButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_splitorder.gif");
+        receivingButton.setExtraButtonAltText("Split this PO");
+        
+        // Continue button
+        ExtraButton continueButton = new ExtraButton();
+        continueButton.setExtraButtonProperty("methodToCall.continuePurchaseOrderSplit");
+        continueButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_continue.gif");
+        continueButton.setExtraButtonAltText("Continue");
+        
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
         result.put(printButton.getExtraButtonProperty(), printButton);
@@ -361,6 +383,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(amendButton.getExtraButtonProperty(), amendButton);
         result.put(removeHoldButton.getExtraButtonProperty(), removeHoldButton);
         result.put(receivingButton.getExtraButtonProperty(), receivingButton);
+        result.put(splitPoButton.getExtraButtonProperty(), splitPoButton);
+        result.put(continueButton.getExtraButtonProperty(), continueButton);
         
         return result;
     }

@@ -169,6 +169,7 @@ public class PurapConstants extends JstlConstants {
     public static final String PAYMENT_INFO_ERRORS = "document.paymentInfo";
     public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*,document.purchaseOrderBeginDate,document.purchaseOrderEndDate";
     public static final String CAPITAL_ASSET_TAB_ERRORS = "document.capitalAsset";
+    public static final String SPLIT_PURCHASE_ORDER_TAB_ERRORS = "document.splitPurchaseOrder";
 
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*";
@@ -290,6 +291,7 @@ public class PurapConstants extends JstlConstants {
         public static final String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT = "PurchaseOrderPaymentHoldDocument";
         public static final String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "PurchaseOrderRemoveHoldDocument";
         public static final String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "PurchaseOrderAmendmentDocument";
+        public static final String PURCHASE_ORDER_SPLIT_DOCUMENT = "PurchaseOrderSplitDocument";
     }
 
     public static class PODocumentsStrings {
@@ -317,6 +319,10 @@ public class PurapConstants extends JstlConstants {
         public static final String AMENDMENT_PO_QUESTION = "AmendmentPO";
         public static final String CONFIRM_AMENDMENT_QUESTION = "ConfirmAmendment";
         public static final String AMENDMENT_NOTE_PREFIX = "Note entered while amending a Purchase Order : ";
+        
+        public static final String SPLIT_QUESTION = "POSplit";
+        public static final String SPLIT_CONFIRM = "POSplitConfirm";
+        public static final String SPLIT_NOTE_PREFIX = "Note entered while splitting from Purchase Order ";       
 
         public static final String CONFIRM_AWARD_QUESTION = "POConfirmAward";
         public static final String CONFIRM_AWARD_RETURN = "completeQuote";

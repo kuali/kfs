@@ -9,6 +9,12 @@
   <bean id="ReceivingLineDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Receiving Line" />
     <property name="shortLabel" value="Receiving Line" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="RECEIVING_LINE"
+            p:parameterDetailType="ReceivingLine" />
+    </property>    
     <property name="documentTypeName" value="ReceivingLineDocument" />
     <property name="documentClass" value="org.kuali.module.purap.document.ReceivingLineDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.ReceivingLineDocumentRule" />

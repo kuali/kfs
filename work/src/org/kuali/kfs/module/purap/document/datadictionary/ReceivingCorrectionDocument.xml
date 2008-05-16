@@ -9,6 +9,12 @@
   <bean id="ReceivingCorrectionDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Receiving Correction" />
     <property name="shortLabel" value="Receiving Correction" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-PA"
+            p:parameterName="RECEIVING_CORRECTION"
+            p:parameterDetailType="ReceivingCorrection" />
+    </property>        
     <property name="documentTypeName" value="ReceivingCorrectionDocument" />
     <property name="documentClass" value="org.kuali.module.purap.document.ReceivingCorrectionDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.ReceivingCorrectionDocumentRule" />

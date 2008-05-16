@@ -197,11 +197,21 @@
                 <td align=left valign=middle class="datacell"> 
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingName}" property="document.receivingName" readOnly="true" /><br>
                    	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine1Address}" property="document.receivingLine1Address" readOnly="true" /><br>
-                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine2Address}" property="document.receivingLine2Address" readOnly="true" /><br>
-               		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCityName}" property="document.receivingCityName" readOnly="true" />,&nbsp;
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingStateCode}" property="document.receivingStateCode" readOnly="true" />&nbsp;
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingPostalCode}" property="document.receivingPostalCode" readOnly="true" /><br>
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCountryCode}" property="document.receivingCountryCode" readOnly="true" />
+                   	<c:if test="${!empty document.receivingLine2Address}">                   	
+                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine2Address}" property="document.receivingLine2Address" readOnly="true" /><br>
+                   	</c:if>
+                   	<c:if test="${!empty document.receivingCityName}">                   	
+    	           		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCityName}" property="document.receivingCityName" readOnly="true" />,&nbsp;
+                   	</c:if>
+                   	<c:if test="${!empty document.receivingStateCode}">                   	
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingStateCode}" property="document.receivingStateCode" readOnly="true" />&nbsp;
+                  	</c:if>
+                   	<c:if test="${!empty document.receivingPostalCode}">                   	
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingPostalCode}" property="document.receivingPostalCode" readOnly="true" />
+                   	</c:if>
+                   	<c:if test="${!empty document.receivingCountryCode}">                   	
+	            		<br><kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCountryCode}" property="document.receivingCountryCode" readOnly="true" />
+                   	</c:if>
             	</td>
                 <td align=left valign=middle class="datacell">
                     <c:if test="${fullEntryMode}">

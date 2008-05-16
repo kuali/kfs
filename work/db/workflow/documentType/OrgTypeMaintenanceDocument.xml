@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>OrgTypeMaintenanceDocument</name>
-      <parent>KualiSimpleMaintenanceDocument</parent>
-      <label>Organization Type</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>SY_MAINTAINENANCE_USERS</blanketApproveWorkgroupName>
-      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-      <active>true</active>
-      <routingVersion>1</routingVersion>
-    </documentType>
-  </documentTypes>
-</data>
+<?XML VERSION="1.0" ENCODING="UTF-8"?>
+<DATA XMLNS="NS:WORKFLOW" XMLNS:XSI="HTTP://WWW.W3.ORG/2001/XMLSCHEMA-INSTANCE" XSI:SCHEMALOCATION="NS:WORKFLOW RESOURCE:WORKFLOWDATA">
+  <DOCUMENTTYPES XMLNS="NS:WORKFLOW/DOCUMENTTYPE" XSI:SCHEMALOCATION="NS:WORKFLOW/DOCUMENTTYPE RESOURCE:DOCUMENTTYPE">
+    <DOCUMENTTYPE>
+      <NAME>ORGTYPEMAINTENANCEDOCUMENT</NAME>
+      <PARENT>KUALISIMPLEMAINTENANCEDOCUMENT</PARENT>
+      <LABEL>ORGANIZATION TYPE</LABEL>
+      <POSTPROCESSORNAME>ORG.KUALI.WORKFLOW.POSTPROCESSOR.KUALIPOSTPROCESSOR</POSTPROCESSORNAME>
+      <SUPERUSERWORKGROUPNAME>SY_FUNCTIONAL_SUPER_USERS</SUPERUSERWORKGROUPNAME>
+      <BLANKETAPPROVEWORKGROUPNAME>SY_MAINTENANCE_USERS</BLANKETAPPROVEWORKGROUPNAME>
+      <DOCHANDLER>${APPLICATION.URL}/KR/MAINTENANCE.DO?METHODTOCALL=DOCHANDLER</DOCHANDLER>
+      <ACTIVE>TRUE</ACTIVE>
+      <ROUTINGVERSION>1</ROUTINGVERSION>
+    </DOCUMENTTYPE>
+  </DOCUMENTTYPES>
+</DATA>

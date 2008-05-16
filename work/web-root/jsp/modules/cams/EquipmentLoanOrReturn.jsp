@@ -23,6 +23,8 @@
 	<c:set var="eqipAttributes" value="${DataDictionary.EquipmentLoanOrReturnDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
+	
 	<html:hidden property="document.asset.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.documentNumber" />
@@ -68,50 +70,39 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}"/></th>
                 <td class="grid" width="25%"> 	                        
                 	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
-                
-<%--
-	               	<c:choose>
-	                    <c:when test="${readOnly}">
-	                        <kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="${readOnly}" />
-	                    </c:when>
-	                    <c:otherwise>
-	                        <kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate"/>
-	                    </c:otherwise>
-	                </c:choose>
---%>
                 </td>                          
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.expectedReturnDate}" /></th>
-                <td class="grid" width="25%">
-	               	<c:choose>
-	                    <c:when test="${readOnly}">
-	                        <kul:htmlControlAttribute attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" readOnly="${readOnly}" />
-	                    </c:when>
-	                    <c:otherwise>
-	                        <kul:dateInput attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate"/>
-	                    </c:otherwise>
-	                </c:choose>
-                </td>                          
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>
-                <td class="grid" width="25%">
-	               	<c:choose>
-	                    <c:when test="${readOnly}">
-	                        <kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" readOnly="${readOnly}" />
-	                    </c:when>
-	                    <c:otherwise>
-	                        <kul:dateInput attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate"/>
-	                    </c:otherwise>
-	                </c:choose>
-                </td>                          
-		     </tr>		    
+                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate"/> </td>
+	            <c:choose>
+	                <c:when test="${displayNewLoanTab}">
+						<th class="grid" width="25%" align="right" colspan="2"></th>
+	                </c:when>
+	                <c:otherwise>
+					    <th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>
+			            <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate"/></td> 
+	                </c:otherwise>
+	            </c:choose>
+       		</tr>		    
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.signatureCode}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.signatureCode" attributeEntry="${eqipAttributes.signatureCode}"/></td>								
-				<th class="grid" width="25%" align="right" colspan="2"></th>
+	        	<c:choose>
+	                <c:when test="${displayNewLoanTab}">
+						<th class="grid" width="25%" align="right" colspan="2"></th>
+	                </c:when>
+	            	<c:otherwise>
+						<td class="grid" width="25%" horizontal="true" colspan="2">
+						 	<div align="center">
+				            	<html:image property="methodToCall.performRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpullup.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+    						</div>
+						</td>
+	            	</c:otherwise>
+	            </c:choose>
 			</tr>
-		  </table>   
-	  </kul:tab>
+		</table>   
+	</kul:tab>
 
 	<kul:tab tabTitle="Borrower's Address" defaultOpen="true"> 
 	    <div class="tab-container" align="center">

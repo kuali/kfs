@@ -175,4 +175,14 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         equipmentLoanOrReturnDocument.setBorrowerStoragePhoneNumber(elrDoc.getBorrowerStoragePhoneNumber());
     }
 
+    public ActionForward performRenewLoan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        ActionForward forward = refresh(mapping, form, request, response);
+        LOG.info("=======>performRenewLoan ");
+
+        return forward;
+    }
+
+
 }

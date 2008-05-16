@@ -223,7 +223,7 @@
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="borrowerStorageCountryCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />

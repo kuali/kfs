@@ -197,19 +197,19 @@
                 <td align=left valign=middle class="datacell"> 
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingName}" property="document.receivingName" readOnly="true" /><br>
                    	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine1Address}" property="document.receivingLine1Address" readOnly="true" /><br>
-                   	<c:if test="${!empty document.receivingLine2Address}">                   	
+                   	<c:if test="${! empty KualiForm.document.receivingLine2Address}">                   	
                    		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine2Address}" property="document.receivingLine2Address" readOnly="true" /><br>
                    	</c:if>
-                   	<c:if test="${!empty document.receivingCityName}">                   	
+                   	<c:if test="${! empty KualiForm.document.receivingCityName}">                   	
     	           		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCityName}" property="document.receivingCityName" readOnly="true" />,&nbsp;
                    	</c:if>
-                   	<c:if test="${!empty document.receivingStateCode}">                   	
+                   	<c:if test="${! empty KualiForm.document.receivingStateCode}">                   	
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingStateCode}" property="document.receivingStateCode" readOnly="true" />&nbsp;
                   	</c:if>
-                   	<c:if test="${!empty document.receivingPostalCode}">                   	
+                   	<c:if test="${! empty KualiForm.document.receivingPostalCode}">                   	
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingPostalCode}" property="document.receivingPostalCode" readOnly="true" />
                    	</c:if>
-                   	<c:if test="${!empty document.receivingCountryCode}">                   	
+                   	<c:if test="${! empty KualiForm.document.receivingCountryCode}">                   	
 	            		<br><kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCountryCode}" property="document.receivingCountryCode" readOnly="true" />
                    	</c:if>
             	</td>

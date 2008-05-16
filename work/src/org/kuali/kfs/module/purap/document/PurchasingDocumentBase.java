@@ -253,7 +253,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         else // if no address is found, fill with null
             this.templateReceivingAddress(null);
         */
-        ReceivingAddress address = SpringContext.getBean(ReceivingAddressService.class).findUniqueDefaultByChartOrg(getChartOfAccountsCode(),getOrganizationCode());      
+        String chartCode = getChartOfAccountsCode();
+        String orgCode = getOrganizationCode();
+        ReceivingAddress address = SpringContext.getBean(ReceivingAddressService.class).findUniqueDefaultByChartOrg(chartCode, orgCode);        
+        // if default address for chart/org not found, look for chart default 
+        if (address == null && orgCode != null) {
+            address = SpringContext.getBean(ReceivingAddressService.class).findUniqueDefaultByChartOrg(chartCode, null);
+        }
         this.templateReceivingAddress(address);
     }
     

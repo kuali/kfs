@@ -107,7 +107,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // workaround for purapOjbCollectionHelper - remove when merged into rice
     public boolean allowDeleteAwareCollection = false;
     
-    private final static String PURCHASING_ACCOUNTS_PAYABLE_GL_POSTING_HELPER_BEAN_ID = "purchasingAccountsPayableGeneralLedgerPostingHelper";
 
     /**
      * Default constructor to be overridden.
@@ -761,19 +760,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      *      org.kuali.kfs.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-
         return false;
     }
     
-    /**
-     * Returns an instance of org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl; this will suffice for most purap documents 
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
-     */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(PurchasingAccountsPayableDocumentBase.PURCHASING_ACCOUNTS_PAYABLE_GL_POSTING_HELPER_BEAN_ID);
-    }
-
     public PurApRelatedViews getRelatedViews() {
         if (relatedViews == null) {
             relatedViews = new PurApRelatedViews(this.documentNumber, this.accountsPayablePurchasingDocumentLinkIdentifier);

@@ -532,9 +532,6 @@
 
 	<bean id="purApOjbCollectionHelper" class="org.kuali.module.purap.util.PurApOjbCollectionHelper" />
 	
-	<bean id="purchasingAccountsPayableGeneralLedgerPostingHelper" class="org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl" parent="kfsGenericGeneralLedgerPostingHelper" />
-	
-
 	<bean id="purapRunDateService" class="org.kuali.module.purap.service.impl.PurapRunDateServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService"/>

@@ -17,6 +17,7 @@ import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -123,7 +124,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private ObjSubTyp financialObjectSubType;
     private AssetDepreciationConvention assetDepreciationConvention;
     private AssetAcquisitionType acquisitionType;
-    private ContractsAndGrantsAgency agency;
+    private Agency agency;
 
 
     // Non-persisted attributes:
@@ -1951,18 +1952,12 @@ public class Asset extends PersistableBusinessObjectBase {
         this.acquisitionType = acquisitionType;
     }
 
-    public ContractsAndGrantsAgency getAgency() {
-        if (StringUtils.isBlank(agencyNumber)) {
-            if (agency != null) {
-                agency = null;
-            }
-        } else {
-            if (agency == null || !agency.getAgencyNumber().equals(this.agencyNumber)) {
-                agency = SpringContext.getBean(ContractsAndGrantsModuleService.class).getAgencyByAgencyNumber(this.agencyNumber);
-            }
-        }
+    public Agency getAgency() {
         return agency;
     }
 
+    public void setAgency(Agency agency) {
+        this.agency = agency;
+    }
 
 }

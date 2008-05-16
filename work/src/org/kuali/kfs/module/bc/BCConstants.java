@@ -25,7 +25,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 
 public class BCConstants extends JstlConstants {
-    
+
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
 
@@ -323,7 +323,17 @@ public class BCConstants extends JstlConstants {
         }
     }
     
-    public final static String POSITION_CODE_INACTIVE = "I";
+    public enum SalaryAdjustmentMeasurement {
+        PERCENT("Percent"), AMOUNT("Flat Amount");
+        
+        public String measurement;
+        
+        private SalaryAdjustmentMeasurement(String measurement) {
+            this.measurement = measurement;
+        }
+    }
+    
+    public final static String POSITION_CODE_INACTIVE = "I";   
     public final static String DOCUMENT_TYPE_CODE_ALL = "ALL";
     
 }

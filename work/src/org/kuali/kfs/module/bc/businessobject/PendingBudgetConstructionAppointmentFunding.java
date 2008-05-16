@@ -76,6 +76,9 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason;
 
     private KualiDecimal percentChange;
+    
+    private String adjustmentMeasurement;
+    private KualiDecimal adjustmentAmount;
 
     /**
      * Default constructor.
@@ -806,6 +809,38 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         m.put("positionNumber", this.positionNumber);
         m.put("emplid", this.emplid);
         return m;
+    }
+
+    /**
+     * Gets the adjustmentAmount attribute. 
+     * @return Returns the adjustmentAmount.
+     */
+    public KualiDecimal getAdjustmentAmount() {
+        return adjustmentAmount;
+    }
+
+    /**
+     * Sets the adjustmentAmount attribute value.
+     * @param adjustmentAmount The adjustmentAmount to set.
+     */
+    public void setAdjustmentAmount(KualiDecimal adjustmentAmount) {
+        this.adjustmentAmount = adjustmentAmount;
+    }
+
+    /**
+     * Gets the adjustmentMeasurement attribute. 
+     * @return Returns the adjustmentMeasurement.
+     */
+    public String getAdjustmentMeasurement() {
+        return adjustmentMeasurement;
+    }
+
+    /**
+     * Sets the adjustmentMeasurement attribute value.
+     * @param adjustmentMeasurement The adjustmentMeasurement to set.
+     */
+    public void setAdjustmentMeasurement(String adjustmentMeasurement) {
+        this.adjustmentMeasurement = adjustmentMeasurement;
     }
 
 }

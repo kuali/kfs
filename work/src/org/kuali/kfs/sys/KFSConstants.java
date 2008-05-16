@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.workflow.attribute.RoutingAccount;
@@ -1092,4 +1093,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public final static String MONTHLY_DUMP_FILE_NAME = "monthly_dump.txt";
         public final static String FUNDING_DUMP_FILE_NAME = "funding_dump.txt";
     }
+    
+    public final static KualiInteger ONE_HUNDRED = new KualiInteger(100);
 }

@@ -31,7 +31,7 @@ public interface SalarySettingService {
      * @return
      */
     public boolean isSalarySettingDisabled();
-    
+
     /**
      * determine whehter the given appointment funding can be vacated
      * 
@@ -47,4 +47,18 @@ public interface SalarySettingService {
      * @return a vacant appointment funding
      */
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * adjust the requested salary amount of the given appointment funding by amount
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    public void adjustRequestedSalaryByAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * adjust the requested salary amount of the given appointment funding by percent
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

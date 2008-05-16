@@ -39,7 +39,7 @@
         <ref bean="PendingBudgetConstructionAppointmentFunding-positionSalaryChangeIndicator" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-subAccountNumber" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-universityFiscalYear" />
-        <ref bean="PendingBudgetConstructionAppointmentFunding-versionNumber" />
+        <ref bean="PendingBudgetConstructionAppointmentFunding-versionNumber" />        
       </list>
     </property>
   </bean>
@@ -454,7 +454,7 @@
 
   <bean id="PendingBudgetConstructionAppointmentFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
-
+  
 <!-- Business Object Inquiry Definition -->
 
 

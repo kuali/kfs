@@ -17,15 +17,19 @@ package org.kuali.module.budget.service.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.service.SalarySettingService;
@@ -84,13 +88,60 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         boolean canBeVacant = this.canBeVacant(appointmentFunding);
         if (!canBeVacant) {
-            //return null;
+            return null;
         }
 
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
         this.resetAppointmentFunding(appointmentFunding);
 
         return vacantAppointmentFunding;
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.SalarySettingService#adjustRequestedSalaryByAmount(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void adjustRequestedSalaryByAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        int inputAdjustmentAmount = appointmentFunding.getAdjustmentAmount().intValue();
+
+        KualiInteger adjustmentAmount = new KualiInteger(inputAdjustmentAmount);
+        KualiInteger csfAmount = this.getCsfAmount(appointmentFunding);
+        KualiInteger appointmentRequestedAmount = csfAmount.add(adjustmentAmount);
+
+        appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.SalarySettingService#adjustRequestedSalaryByPercent(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        KualiInteger csfAmount = this.getCsfAmount(appointmentFunding);
+
+        if (csfAmount.isNonZero()) {
+            KualiDecimal percent = appointmentFunding.getAdjustmentAmount();
+            BigDecimal adjustedAmount = csfAmount.multiply(percent).divide(KFSConstants.ONE_HUNDRED);
+            
+            KualiInteger appointmentRequestedAmount = new KualiInteger(adjustedAmount).add(csfAmount);
+            appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
+        }
+    }
+
+    /**
+     * get the csf tracker amount of the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return the csf tracker amount of the given appointment funding if any; otherwise, return zero
+     */
+    private KualiInteger getCsfAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        if (appointmentFunding == null) {
+            return KualiInteger.ZERO;
+        }
+
+        List<BudgetConstructionCalculatedSalaryFoundationTracker> csfTracker = appointmentFunding.getBcnCalculatedSalaryFoundationTracker();
+        if (csfTracker == null || csfTracker.isEmpty()) {
+            return KualiInteger.ZERO;
+        }
+
+        return csfTracker.get(0).getCsfAmount();
     }
 
     /**

@@ -242,4 +242,5 @@
     accountingLine="${accountingLine}"
     detailFields="${detailFields}"
     />
+    <jsp:doBody></jsp:doBody>
 </td>

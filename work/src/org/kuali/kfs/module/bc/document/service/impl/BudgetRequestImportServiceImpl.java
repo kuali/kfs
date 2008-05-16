@@ -400,10 +400,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
                 importRequestDao.save(importLine, true);
             }
-
+            
             pendingEntry.setAccountLineAnnualBalanceAmount(importLine.getAccountLineAnnualBalanceAmount());
-
-
+            pendingEntry.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
         }
         else if (fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
 

@@ -279,7 +279,10 @@
                     p:name="financialObjectCode"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="financialSubObjectCode" />
+                    p:name="financialSubObjectCode" 
+                    p:overrideLookupClass="org.kuali.module.chart.bo.SubObjCd"
+                    p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:accountObjectCode"
+                    />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectCode" />
               <bean parent="MaintainableFieldDefinition"

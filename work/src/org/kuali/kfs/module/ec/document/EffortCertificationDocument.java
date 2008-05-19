@@ -268,7 +268,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalEffortPercent.
      */
     public Integer getTotalEffortPercent() {
-        return EffortCertificationDetail.getTotalEffortPercent(effortCertificationDetailLines);
+        return EffortCertificationDetail.getTotalEffortPercent(this.getEffortCertificationDetailLines());
     }
 
     /**
@@ -277,7 +277,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalOriginalEffortPercent.
      */
     public Integer getTotalOriginalEffortPercent() {
-        return EffortCertificationDetail.getTotalOriginalEffortPercent(effortCertificationDetailLines);
+        return EffortCertificationDetail.getTotalOriginalEffortPercent(this.getEffortCertificationDetailLines());
     }
 
     /**
@@ -286,7 +286,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalPayrollAmount.
      */
     public KualiDecimal getTotalPayrollAmount() {
-        return EffortCertificationDetail.getTotalPayrollAmount(effortCertificationDetailLines);
+        return EffortCertificationDetail.getTotalPayrollAmount(this.getEffortCertificationDetailLines());
     }
 
     /**
@@ -295,7 +295,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the totalOriginalPayrollAmount.
      */
     public KualiDecimal getTotalOriginalPayrollAmount() {
-        return EffortCertificationDetail.getTotalOriginalPayrollAmount(effortCertificationDetailLines);
+        return EffortCertificationDetail.getTotalOriginalPayrollAmount(this.getEffortCertificationDetailLines());
     }
 
     /**

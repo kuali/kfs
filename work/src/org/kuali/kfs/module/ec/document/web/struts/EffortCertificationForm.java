@@ -332,6 +332,8 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
         LOG.info("getFieldInfo(List<EffortCertificationDetail>) start");
 
         List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
+        EffortCertificationDocument document = (EffortCertificationDocument) this.getDocument();
+        KualiDecimal totalOriginalPayrollAmount = document.getTotalOriginalPayrollAmount();
 
         for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.refreshNonUpdateableReferences();
@@ -363,8 +365,9 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
             }
 
-            KualiDecimal totalOriginalPayrollAmount = effortCertificationDocument.getTotalOriginalPayrollAmount();
             KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
+            
+            LOG.info("============> " + totalOriginalPayrollAmount + " : " + originalPayrollAmount);
             String actualOriginalPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalOriginalPayrollAmount, originalPayrollAmount);
             fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualOriginalPercent);
 

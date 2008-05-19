@@ -96,8 +96,8 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
 
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
-            //ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T");
-             ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'KualiPurchaseOrderTransmissionMethodAttribute'");
+            ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T");
+            // ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'KualiPurchaseOrderTransmissionMethodAttribute'");
 
             while (dbAnswer.next()) {
                 String className = dbAnswer.getString("RULE_ATTRIB_CLS_NM");
@@ -168,8 +168,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
     /**
      * This method goes through all of the ruleAttributes in the inputSource and tries to get a label out of the data dictionary.
      */
-    @RelatesTo(JiraIssue.KFSMI765)
-    public void testConfirmLabels() {
+   public void testConfirmLabels() {
         testFailed = false;
 
         // test rule xml attributes
@@ -306,7 +305,6 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
      * programatically to a nonsense value. It then rebuilds the Hash Table and runs confirmLabels() to make sure the labels have
      * changed.
      */
-    @RelatesTo(JiraIssue.KFSMI765)
     public void testLabelSource() {
         DataDictionaryService myDDService = SpringContext.getBean(DataDictionaryService.class);
         XPath xpath = XPathHelper.newXPath();

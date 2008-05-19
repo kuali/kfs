@@ -670,6 +670,9 @@
 		<property name="lockService">
 			<ref bean="lockService" />
 		</property>
+		<property name="budgetDocumentService">
+			<ref bean="budgetDocumentService" />
+		</property>
 		<property name="importRequestDao">
 			<ref bean="importRequestDao" />
 		</property>					

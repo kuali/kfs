@@ -33,6 +33,7 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.RequestImportFileType;
@@ -43,6 +44,7 @@ import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ImportRequestDao;
 import org.kuali.module.budget.service.BenefitsCalculationService;
+import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.service.BudgetRequestImportService;
 import org.kuali.module.budget.service.LockService;
 import org.kuali.module.budget.service.PermissionService;
@@ -68,6 +70,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private PermissionService permissionService;
     private DictionaryValidationService dictionaryValidationService;
     private LockService lockService;
+    private BudgetDocumentService budgetDocumentService;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 
@@ -294,12 +297,15 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
             else {
                 //TODO:use BudgetConstructionDao to find if user is delagate instead of manager
-                if (recordToLoad.getAccount().getAccountFiscalOfficerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier()) || recordToLoad.getAccount().getAccountManagerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier())) {
+                if ( header != null && budgetDocumentService.getAccessMode(budgetYear, recordToLoad.getChartOfAccountsCode(), recordToLoad.getAccountNumber(), recordToLoad.getSubAccountNumber(), user).equals(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) ) {
+                    recordToLoad.setHasAccess(true);
+                }
+                /*if (recordToLoad.getAccount().getAccountFiscalOfficerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier()) || recordToLoad.getAccount().getAccountManagerUser().getPersonUniversalIdentifier().equals(user.getPersonUniversalIdentifier())) {
                     recordToLoad.setHasAccess(true);
                 }
                 else if (header != null && header.getOrganizationLevelCode() != 0 && permissionService.isOrgReviewApprover(user.getPersonUserIdentifier().toLowerCase(), header.getOrganizationLevelChartOfAccountsCode(), header.getOrganizationLevelOrganizationCode())) {
                     recordToLoad.setHasAccess(true);
-                }
+                }*/
                 else {
                     recordToLoad.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT.getErrorCode());
                     errorMessages.add(recordToLoad.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT.getMessage());
@@ -665,5 +671,16 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     public void setLockService(LockService lockService) {
        this.lockService = lockService;
     }
+
+    /**
+     * Sets BudgetDocumentService
+     * 
+     * @param budgetDocumentService
+     */
+    public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
+        this.budgetDocumentService = budgetDocumentService;
+    }
+    
+    
     
 }

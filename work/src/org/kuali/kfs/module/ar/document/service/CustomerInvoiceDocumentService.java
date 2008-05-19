@@ -33,4 +33,10 @@ public interface CustomerInvoiceDocumentService {
      * @param customerInvoiceDocument
      */
     public void setupDefaultValuesForCopiedCustomerInvoiceDocument( CustomerInvoiceDocument customerInvoiceDocument );
+    
+    
+    /**
+     * If the customer number and address identifiers are present, display customer information
+     */
+    public void loadCustomerAddressesForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 }

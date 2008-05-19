@@ -15,13 +15,18 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.ObjectUtils;
@@ -32,10 +37,12 @@ import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.module.ar.rule.event.RecalculateCustomerInvoiceDetaiEvent;
+import org.kuali.module.ar.service.CustomerAddressService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
@@ -97,6 +104,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         CustomerInvoiceDocumentForm form = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         form.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+        SpringContext.getBean(CustomerInvoiceDocumentService.class).loadCustomerAddressesForCustomerInvoiceDocument(form.getCustomerInvoiceDocument());
 
     }
 
@@ -328,5 +336,47 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         // delete line like normal
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
     }
+    
+    /**
+     * This method refresh the ShipToAddress CustomerAddress object
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward refreshBillToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
+        
+        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerBillToAddressIdentifier());
+        if (ObjectUtils.isNotNull(customerBillToAddress)) {
+            customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method refresh the ShipToAddress CustomerAddress object
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward refreshShipToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
+
+        CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerShipToAddressIdentifier());
+        if (ObjectUtils.isNotNull(customerShipToAddress)) {
+            customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }    
 
 }

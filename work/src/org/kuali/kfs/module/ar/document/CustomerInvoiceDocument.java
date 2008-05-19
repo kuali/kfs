@@ -1,19 +1,13 @@
 package org.kuali.module.ar.document;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -23,23 +17,18 @@ import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
-import org.kuali.module.ar.bo.InvoicePaidApplied;
-import org.kuali.module.ar.bo.OrganizationOptions;
-import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -89,7 +78,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     private SubAccount paymentSubAccount;
     private ObjectCode paymentFinancialObject;
     private SubObjCd paymentFinancialSubObject;
-    private ProjectCode paymentProject;    
+    private ProjectCode paymentProject;   
+    
+    private CustomerAddress customerShipToAddress;
+    private CustomerAddress customerBillToAddress;
+    
     
 	/**
 	 * Default constructor.
@@ -1105,5 +1098,21 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         }
         //remove discount line
         getSourceAccountingLines().remove(discountLineIndex);
+    }
+
+    public CustomerAddress getCustomerShipToAddress() {
+        return customerShipToAddress;
+    }
+
+    public void setCustomerShipToAddress(CustomerAddress customerShipToAddress) {
+        this.customerShipToAddress = customerShipToAddress;
+    }
+
+    public CustomerAddress getCustomerBillToAddress() {
+        return customerBillToAddress;
+    }
+
+    public void setCustomerBillToAddress(CustomerAddress customerBillToAddress) {
+        this.customerBillToAddress = customerBillToAddress;
     }
 }

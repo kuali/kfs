@@ -308,6 +308,18 @@
 	<reference-descriptor name="paymentProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentProjectCode" />
 	</reference-descriptor>
+	
+	<!--
+	<reference-descriptor name="shipToAddress" class-ref="org.kuali.module.ar.bo.CustomerAddress" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="customerShipToAddressIdentifier" />
+		<foreignkey field-ref="customerShipToAddressIdentifier" />
+	</reference-descriptor>
+	<reference-descriptor name="billToAddress" class-ref="org.kuali.module.ar.bo.CustomerAddress" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="accountsReceivableDocumentHeader.customerNumber" />
+		<foreignkey field-ref="customerBillToAddressIdentifier" />
+	</reference-descriptor>
+	-->		
+	
     <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -1089,6 +1101,9 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="customerNumber" />
+	</reference-descriptor>	
 	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="invoiceItemNumber" />

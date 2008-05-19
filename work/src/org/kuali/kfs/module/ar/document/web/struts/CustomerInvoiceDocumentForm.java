@@ -17,6 +17,8 @@ package org.kuali.module.ar.web.struts.form;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -31,21 +33,32 @@ import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
-    
-    private CustomerInvoiceDetail newCustomerInvoiceDetail; 
-    
+
+    private CustomerInvoiceDetail newCustomerInvoiceDetail;
+
     /**
-     * Constructs a CustomerInvoiceDocumentForm.java.  Also sets new customer invoice document detail to a newly constructed customer invoice detail. 
+     * Constructs a CustomerInvoiceDocumentForm.java. Also sets new customer invoice document detail to a newly constructed customer
+     * invoice detail.
      */
     public CustomerInvoiceDocumentForm() {
         super();
         setDocument(new CustomerInvoiceDocument());
     }
-    
-    public CustomerInvoiceDocument getCustomerInvoiceDocument( ) {
-        return (CustomerInvoiceDocument)getDocument();
+
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() {
+        return (CustomerInvoiceDocument) getDocument();
+    }
+
+    /**
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        SpringContext.getBean(CustomerInvoiceDocumentService.class).loadCustomerAddressesForCustomerInvoiceDocument(getCustomerInvoiceDocument());
     }
 
     /**
@@ -65,8 +78,8 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         catch (Exception e) {
             throw new InfrastructureException("Unable to create a new customer invoice document accounting line", e);
         }
-    }    
-    
+    }
+
     /**
      * By overriding this method, we can add the invoice total amount to the document header
      * 
@@ -74,10 +87,10 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      */
     @Override
     public KeyLabelPair getAdditionalDocInfo2() {
-        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
-    }    
-    
-    
+        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
+    }
+
+
     /**
      * Configure lookup for Invoice Item Code source accounting line
      * 
@@ -91,8 +104,8 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         forcedLookupOptionalFields.put(ArConstants.CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY, ArConstants.UNIT_OF_MEASURE_PROPERTY + ";" + UnitOfMeasure.class.getName());
 
         return forcedLookupOptionalFields;
-    }    
-    
+    }
+
     /**
      * Make amount and sales tax read only
      * 

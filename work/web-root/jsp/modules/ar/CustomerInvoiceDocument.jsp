@@ -29,7 +29,7 @@
     <ar:customerInvoiceGeneral
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}" />
         
-    <ar:customerInvoiceAddress
+    <ar:customerInvoiceAddresses
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}" />        
      
 	<c:if test="${!empty KualiForm.editingMode['showReceivableFAU']}">

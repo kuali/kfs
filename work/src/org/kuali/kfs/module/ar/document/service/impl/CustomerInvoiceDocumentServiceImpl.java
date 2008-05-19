@@ -29,73 +29,96 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.module.ar.service.CustomerAddressService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.ReceivableAccountingLineService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
-    
+
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ReceivableAccountingLineService receivableAccountingLineService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
-    
+    private CustomerAddressService customerAddressService;
+
     /**
      * Refactor to have all the setters in here.
      * 
      * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#setupDefaultValuesForNewCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
      */
     public void setupDefaultValuesForNewCustomerInvoiceDocument(CustomerInvoiceDocument document) {
-        
+
         setupBasicDefaultValuesForCustomerInvoiceDocument(document);
-        
+
         // set up the default values for the AR DOC Header
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
-        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);        
-        
+        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
         criteria.put("organizationCode", document.getBilledByOrganizationCode());
         OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
-        
-        if( ObjectUtils.isNotNull( organizationOptions ) ){
+
+        if (ObjectUtils.isNotNull(organizationOptions)) {
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
             document.setInvoiceTermsText(organizationOptions.getOrganizationPaymentTermsText());
         }
-        
-        //If document is using receivable option, set receivable accounting line for customer invoice document
+
+        // If document is using receivable option, set receivable accounting line for customer invoice document
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption );
-        if ( isUsingReceivableFAU ){
+        boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        if (isUsingReceivableFAU) {
             receivableAccountingLineService.setReceivableAccountingLineForCustomerInvoiceDocument(document);
         }
-    }    
-    
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#loadCustomerAddressesForCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     */
+    public void loadCustomerAddressesForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
+        // if address identifier is provided, try to refresh customer address data
+        if (ObjectUtils.isNotNull(customerInvoiceDocument.getAccountsReceivableDocumentHeader())) {
+            CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
+            CustomerAddress customerShipToAddress = customerAddressService.getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerShipToAddressIdentifier());
+            CustomerAddress customerBillToAddress = customerAddressService.getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerBillToAddressIdentifier());
+
+            if (ObjectUtils.isNotNull(customerShipToAddress)) {
+                customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+            }
+
+            if (ObjectUtils.isNotNull(customerBillToAddress)) {
+                customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+            }
+        }
+    }
+
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#setupDefaultValuesForCopiedCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
      */
-    public void setupDefaultValuesForCopiedCustomerInvoiceDocument(CustomerInvoiceDocument document){
-        
+    public void setupDefaultValuesForCopiedCustomerInvoiceDocument(CustomerInvoiceDocument document) {
+
         setupBasicDefaultValuesForCustomerInvoiceDocument(document);
-        
-        //Save customer number since it will get overwritten when we retrieve the accounts receivable document header from service
+
+        // Save customer number since it will get overwritten when we retrieve the accounts receivable document header from service
         String customerNumber = document.getAccountsReceivableDocumentHeader().getCustomerNumber();
-        
-        //Set up the default values for the AR DOC Header
+
+        // Set up the default values for the AR DOC Header
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         accountsReceivableDocumentHeader.setCustomerNumber(customerNumber);
-        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);        
+        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
     }
-    
-    private void setupBasicDefaultValuesForCustomerInvoiceDocument( CustomerInvoiceDocument document ){
+
+    private void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        if(currentUser != null) {
+        if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());
         }
@@ -103,23 +126,25 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         document.setWriteoffIndicator(false);
         document.setOpenInvoiceIndicator(true);
     }
-    
+
     /**
      * This method sets due date equal to todays date +30 days by default
+     * 
      * @param dateTimeService
      */
-    private Date getDefaultInvoiceDueDate(){
+    private Date getDefaultInvoiceDueDate() {
         Calendar cal = dateTimeService.getCurrentCalendar();
         cal.add(Calendar.DATE, 30);
         Date sqlDueDate = null;
         try {
-           sqlDueDate =  dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
-        } catch (ParseException e) {
-            //TODO: throw an error here, but don't die
+            sqlDueDate = dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
+        }
+        catch (ParseException e) {
+            // TODO: throw an error here, but don't die
         }
         return sqlDueDate;
-    }       
-    
+    }
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -150,5 +175,13 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
+    }
+
+    public CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
+
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
     }
 }

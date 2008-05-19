@@ -136,8 +136,17 @@
 		</property>		
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>				
+		</property>
+		<property name="customerAddressService">
+			<ref bean="customerAddressService" />
+		</property>									
 	</bean>	
+	
+    <bean id="customerAddressService" class="org.kuali.module.ar.service.impl.CustomerAddressServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>			
+	</bean>		
 	
     <bean id="receivableAccountingLineService" class="org.kuali.module.ar.service.impl.ReceivableAccountingLineServiceImpl">
 		<property name="businessObjectService">

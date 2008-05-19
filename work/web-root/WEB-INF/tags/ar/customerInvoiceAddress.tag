@@ -15,272 +15,152 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for this row's fields." %>
-
+<%@ attribute name="subTitle" required="true" description="Sub Title for Address Sub Section"%>
+<%@ attribute name="lookupFieldConversion" required="true" description="Lookup field conversion for Customer Address Lookup"%>
+<%@ attribute name="refreshAction" required="true" description="Action for refreshing address information"%>		
+<%@ attribute name="customerAddressObject" required="true" description="Property reference for actual address"%>
+<%@ attribute name="customerAddressIdentifierAttributeEntry" required="true" description="Attribute entry for address identifer" type="java.util.Map"%>
+<%@ attribute name="customerAddressIdentifierProperty" required="true" description="Property for address identifer" %>
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
+
+<c:set var="customerAddressAttributes" value="${DataDictionary.CustomerAddress.attributes}" />
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 
-<%-- hidden attribute for document number since it isn't displayed--%>
-<html:hidden property="document.accountsReceivableDocumentHeader.documentNumber" />
+<tr>
+	<td colspan="4" class="subhead">${subTitle}</td>
+</tr>
+<tr>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressIdentifierAttributeEntry}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressIdentifierAttributeEntry}"
+			property="${customerAddressIdentifierProperty}"
+			readOnly="${readOnly}" />
+		<c:if test="${not readOnly}">
+			    &nbsp;
+			    <kul:lookup boClassName="org.kuali.module.ar.bo.CustomerAddress"
+				fieldConversions="${lookupFieldConversion}"
+				lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
+				&nbsp;
+				<html:image property="methodToCall.${refreshAction}"
+					src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
+					title="Refresh Bill to Address" alt="Refresh Bill To Address"
+					styleClass="tinybutton" />
+		</c:if>			
+	</td>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerCityName}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerCityName}"
+			property="${customerAddressObject}.customerCityName"
+			readOnly="true" />
+	</td>
+</tr>
 
-<kul:tab tabTitle="Billing/Shipping" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_ADDRESS}">
-    <div class="tab-container" align=center>	
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">
-            <tr>
-                <td colspan="4" class="subhead">Bill to Address</td>
-            </tr>
+<tr>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerAddressName}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerAddressName}"
+			property="${customerAddressObject}.customerAddressName"
+			readOnly="true" />
+	</td>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerStateCode}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerStateCode}"
+			property="${customerAddressObject}.customerStateCode"
+			readOnly="true" />
+	</td>
+</tr>
 
-            <tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerBillToAddressIdentifier}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerBillToAddressIdentifier}" property="document.customerBillToAddressIdentifier" readOnly="${readOnly}"/>
-                    <c:if test="${not readOnly}">
-	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.ar.bo.CustomerAddress" />
-	                </c:if>
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Country
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                	&nbsp;
-                </td>
-                
-            </tr>      
-            
-            <tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Address Type
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                	&nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	URL
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                	&nbsp;
-                </td>
-            </tr>             
-            
-            <tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Address 1
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                	&nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Fax Number
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                	&nbsp;
-                </td>
-            </tr>      
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Address 2
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                	&nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Email Address
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                	&nbsp;
-                </td>
-            </tr>  
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    City
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                	&nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Set as Default Address
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr> 
-            
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    State
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Active Indicator
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr>     
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Postal Code
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					Attention
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr> 
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Province
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                &nbsp;
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr>                          
-                             
-            <tr>
-                <td colspan="4" class="subhead">Ship To Address</td>
-            </tr>            
-			<tr>		
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerShipToAddressIdentifier}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerShipToAddressIdentifier}" property="document.customerShipToAddressIdentifier" readOnly="${readOnly}"/>
-                    <c:if test="${not readOnly}">
-	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.ar.bo.CustomerAddress" />
-	                </c:if>
-                </td> 
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Country
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-                
-            </tr>      
-            
-            <tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Address Type
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	URL
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr>             
-            
-            <tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Address 1
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Fax Number
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr>      
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Address 2
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Email Address
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr>  
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    City
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Set as Default Address
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr> 
-            
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    State
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                	Active Indicator
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                &nbsp;
-                </td>
-            </tr>     
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Postal Code
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">
-                &nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					Attention
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >
-                </td>
-            </tr> 
-            
-			<tr>
-				<th align=right valign=middle class="bord-l-b"  style="width: 25%;">
-                    Province
-                </th>
-                <td align=left valign=middle class="datacell"  style="width: 25%;">&nbsp;
-                </td>     
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;" >&nbsp;
-                </td>
-            </tr>
-        </table>
-    </div>
-</kul:tab>
+<tr>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerAddressTypeCode}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerAddressTypeCode}"
+			property="${customerAddressObject}.customerAddressTypeCode"
+			readOnly="true" />
+	</td>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerZipCode}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerZipCode}"
+			property="${customerAddressObject}.customerZipCode"
+			readOnly="true" />
+	</td>
+</tr>
+
+<tr>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerLine1StreetAddress}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerLine1StreetAddress}"
+			property="${customerAddressObject}.customerLine1StreetAddress"
+			readOnly="true" />
+	</td>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerInternationalMailCode}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerInternationalMailCode}"
+			property="${customerAddressObject}.customerInternationalMailCode"
+			readOnly="true" />
+	</td>
+</tr>
+
+<tr>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerLine2StreetAddress}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerLine2StreetAddress}"
+			property="${customerAddressObject}.customerLine2StreetAddress"
+			readOnly="true" />
+	</td>
+	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+		<div align="right">
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerEmailAddress}" />
+		</div>
+	</th>
+	<td align=left valign=middle class="datacell" style="width: 25%;">
+		<kul:htmlControlAttribute
+			attributeEntry="${customerAddressAttributes.customerEmailAddress}"
+			property="${customerAddressObject}.customerEmailAddress"
+			readOnly="true" />
+	</td>
+</tr>

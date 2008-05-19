@@ -366,7 +366,7 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
             }
 
             KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
-            
+
             LOG.info("============> " + totalOriginalPayrollAmount + " : " + originalPayrollAmount);
             String actualOriginalPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalOriginalPayrollAmount, originalPayrollAmount);
             fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualOriginalPercent);

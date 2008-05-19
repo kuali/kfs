@@ -102,7 +102,7 @@ public class EffortConstants extends JstlConstants {
     public static final String REQUIRED_IMPORT_FIELDS_ERRORS = "requiredImportFieldError";
     public static final String DOCUMENT_PREFIX = "document.";
 
-    public static final String EFFORT_CERTIFICATION_TAB_ERRORS = "newDetailLine.*,document.effortCertificationDetailLines*";
+    public static final String EFFORT_CERTIFICATION_TAB_ERRORS = "newDetailLine.*,document.effortCertificationDetailLines*,document.summarizedDetailLines*";
 
     public static final String RECREATED_DOCUMENT_MESSAGE_KEY = "message.effort.recreatedDocumentMessage";
 

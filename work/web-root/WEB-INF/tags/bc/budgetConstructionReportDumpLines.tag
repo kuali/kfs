@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Report/Dump" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS}">
+<kul:tabTop tabTitle="Report/Dump" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
     <tr>
@@ -38,13 +38,13 @@
     <c:forEach items="${KualiForm.budgetConstructionDocumentReportModes}" var="item" varStatus="status" >
         <tr>
             <td class="datacell" nowrap>
-                <div align="right">
+                <div align="left">
                     ${item.reportDesc}
                 </div>
             </td>
             <td class="datacell" nowrap>
                 <div align="center">
-                  <html:image property="methodToCall.performReportDump.line${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Run Report/Dump For Line ${status.index}" alt="Run Report/Dump Line ${status.index}" styleClass="tinybutton" />
+                  <html:image property="methodToCall.performReportDump.line${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Run Report/Dump For Line ${status.index}" onclick="excludeSubmitRestriction=true" alt="Run Report/Dump Line ${status.index}" styleClass="tinybutton" />
                 </div>
             </td>
         </tr>
@@ -52,4 +52,4 @@
     </c:forEach>
     </table>
 </div>
-</kul:tab>
+</kul:tabTop>

@@ -61,8 +61,6 @@
 
     <bc:budgetConstructionExpenditureLines />
     
-    <bc:budgetConstructionReportDumpLines />
-
 	<kul:notes />
 
 	<kul:routeLog />

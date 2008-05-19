@@ -369,6 +369,7 @@
             <c:if test="${KualiForm.editingMode['fullEntry']}">
               <html:image property="methodToCall.performAccountPushdown.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_pushdown.gif" title="Account Push Down" alt="Account Push Down" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
             </c:if>
+            <html:image property="methodToCall.performReportDump.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_reportdump.gif" title="Account Report/Dump" alt="Account Report/Dump" styleClass="tinybutton"/>
             </div>
           </td>
 	    </tr>

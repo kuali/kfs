@@ -52,6 +52,7 @@ public class ParameterConstants {
     private static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PA";
     private static final String RESEARCH_ADMINISTRATION_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "RA";
     private static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VN";
+    private static final String CAPITAL_ASSET_BUILDER_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CB";
     private static final String ALL_COMPONENT = "All";
     private static final String DOCUMENT_COMPONENT = "Document";
     private static final String LOOKUP_COMPONENT = "Lookup";
@@ -355,5 +356,25 @@ public class ParameterConstants {
     @NAMESPACE(namespace = VENDOR_NAMESPACE)
     @COMPONENT(component = BATCH_COMPONENT)
     public final class VENDOR_BATCH {
+    }
+    
+    @NAMESPACE(namespace = CAPITAL_ASSET_BUILDER_NAMESPACE)
+    @COMPONENT(component = ALL_COMPONENT)
+    public final class CAPITAL_ASSET_BUILDER_ALL {
+    }
+
+    @NAMESPACE(namespace = CAPITAL_ASSET_BUILDER_NAMESPACE)
+    @COMPONENT(component = DOCUMENT_COMPONENT)
+    public final class CAPITAL_ASSET_BUILDER_DOCUMENT {
+    }
+
+    @NAMESPACE(namespace = CAPITAL_ASSET_BUILDER_NAMESPACE)
+    @COMPONENT(component = LOOKUP_COMPONENT)
+    public final class CAPITAL_ASSET_BUILDER_LOOKUP {
+    }
+
+    @NAMESPACE(namespace = CAPITAL_ASSET_BUILDER_NAMESPACE)
+    @COMPONENT(component = BATCH_COMPONENT)
+    public final class CAPITAL_ASSET_BUILDER_BATCH {
     }
 }

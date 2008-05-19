@@ -296,7 +296,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 recordToLoad.setRequestUpdateErrorCode(temp.getRequestUpdateErrorCode());
             }
             else {
-                //TODO:use BudgetConstructionDao to find if user is delagate instead of manager
                 if ( header != null && budgetDocumentService.getAccessMode(budgetYear, recordToLoad.getChartOfAccountsCode(), recordToLoad.getAccountNumber(), recordToLoad.getSubAccountNumber(), user).equals(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) ) {
                     recordToLoad.setHasAccess(true);
                 }

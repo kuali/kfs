@@ -29,9 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -40,6 +44,8 @@ import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
@@ -116,9 +122,8 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
      */
     private Asset handleRequestFromLookup(HttpServletRequest request, EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, Asset asset) {
         Asset newAsset = asset;
-        LOG.info("-------------handleRequestFromLookup: " + equipmentLoanOrReturnForm.getDocId() + "");
+
         if (equipmentLoanOrReturnForm.getDocId() == null && asset == null) {
-            LOG.info("---------handleRequestFromLookup: equipmentLoanOrReturnForm.getDocId()==null && asset==null");
             newAsset = new Asset();
             HashMap<String, Object> keys = new HashMap<String, Object>();
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
@@ -139,14 +144,13 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
                 if (!equipmentLoanOrReturnList.isEmpty()) {
                     Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
                         public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
-                            // sort descending based on loan date
-                            return o2.getLoanDate().compareTo(o1.getLoanDate());
+                            // sort descending based on DocumentNumber
+                            return o2.getDocumentNumber().compareTo(o1.getDocumentNumber());
                         }
                     };
                     Collections.sort(equipmentLoanOrReturnList, comparator);
 
                     populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, equipmentLoanOrReturnList.get(0));
-                    LOG.info("=======find equipmentLoanOrReturnDocument: " + equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier() + "");
                 }
                 equipmentLoanOrReturnDocument.setAsset(newAsset);
             }
@@ -177,12 +181,71 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
 
     public ActionForward performRenewLoan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        EquipmentLoanOrReturnForm equipmentLoanOrReturnForm = (EquipmentLoanOrReturnForm) form;
+        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) equipmentLoanOrReturnForm.getDocument();
+LOG.info("=======>performRenewLoan response = yes " + equipmentLoanOrReturnDocument.getDocumentNumber());
+        String savedDocumentNumber = equipmentLoanOrReturnDocument.getDocumentNumber();
+        String savedDocumentDescription = equipmentLoanOrReturnDocument.getDocumentHeader().getFinancialDocumentDescription();
+        String savedExplanation = equipmentLoanOrReturnDocument.getDocumentHeader().getExplanation();
+        String savedOrgDocumentNumber = equipmentLoanOrReturnDocument.getDocumentHeader().getOrganizationDocumentNumber();
+        Asset savedAsset = equipmentLoanOrReturnDocument.getAsset();
+        try {
+            SpringContext.getBean(DocumentService.class).saveDocument(equipmentLoanOrReturnDocument);
+            SpringContext.getBean(DocumentService.class).cancelDocument(equipmentLoanOrReturnDocument, "rebew loan");
+        }
+        catch (WorkflowException we) {
+            LOG.error(we);
+            throw new RuntimeException("WorkflowException while creating an EquipmentLoanOrReturnDocument to renew loan.", we);
+        }
 
+
+        // create new doc and poplulate savedDocumentNumber for after blanketApprove doc.
+        EquipmentLoanOrReturnDocument document = (EquipmentLoanOrReturnDocument) SpringContext.getBean(DocumentService.class).getNewDocument(EquipmentLoanOrReturnDocument.class);
+        populateEquipmentLoanOrReturnDocument(document, equipmentLoanOrReturnDocument);
+        document.setAsset(savedAsset);
+        document.setLoanReturnDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+
+        DocumentHeader documentHeader = document.getDocumentHeader();
+        documentHeader.setDocumentNumber(document.getDocumentNumber());
+        documentHeader.setFinancialDocumentDescription(savedDocumentDescription);
+        documentHeader.setExplanation(savedExplanation);
+        documentHeader.setOrganizationDocumentNumber(savedOrgDocumentNumber);
+        documentHeader.setFinancialDocumentTemplateNumber(savedDocumentNumber);
+        LOG.info("1=======>performRenewLoan new doc = " + document.getDocumentNumber());
+        LOG.info("2=======>performRenewLoan new doc = " + documentHeader.getDocumentNumber());
+        LOG.info("3=======>performRenewLoan new doc = " + document.getDocumentNumber());
+
+        AssetHeader assetHeader = new AssetHeader();
+        assetHeader.setDocumentNumber(document.getDocumentNumber());
+        assetHeader.setCapitalAssetNumber(equipmentLoanOrReturnDocument.getAsset().getCapitalAssetNumber());
+        String annotation = "";
+        List<String> adHocRecipients = new ArrayList<String>();
+        adHocRecipients = combineAdHocRecipients(equipmentLoanOrReturnForm);
+/*
+        try {
+
+            SpringContext.getBean(DocumentService.class).blanketApproveDocument(document, annotation, adHocRecipients);
+        }
+        catch (WorkflowException we) {
+            LOG.error(we);
+            throw new RuntimeException(we);
+        }
+
+          Object question = request.getParameter(PurapConstants.QUESTION_INDEX); 
+          Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON); 
+          if (question == null) { 
+              String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CamsConstants.QESTIONS_RENEW_LOAN); 
+              return this.performQuestionWithoutInput(mapping, form, request, response, CamsConstants.QESTIONS_RENEW_LOAN, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
+          } 
+          else if (ConfirmationQuestion.YES.equals(buttonClicked)) { 
+              LOG.info("=======>performRenewLoan response = yes ");
+              equipmentLoanOrReturnDocument.setExpectedReturnDate(null); } 
+              // ActionForward forward = refresh(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+           }
+         */
         ActionForward forward = refresh(mapping, form, request, response);
-        LOG.info("=======>performRenewLoan ");
-
         return forward;
     }
-
 
 }

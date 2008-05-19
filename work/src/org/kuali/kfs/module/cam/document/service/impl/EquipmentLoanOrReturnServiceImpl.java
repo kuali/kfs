@@ -15,10 +15,17 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -29,8 +36,10 @@ import org.kuali.module.cams.rules.EquipmentLoanOrReturnDocumentRule;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnServiceImpl.class);
 
     private AssetService assetService;
     private BusinessObjectService businessObjectService;
@@ -41,24 +50,35 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         Asset updateAsset = new Asset();
         updateAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
         updateAsset = (Asset) getBusinessObjectService().retrieve(updateAsset);
-        updateAssetChanges(document, updateAsset);
-        updateBorrowerLocation(document, updateAsset);
-        updateStoreAtLocation(document, updateAsset);
-    }
-
-
-    private void updateAssetChanges(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         updateAsset.setLoanDate(document.getLoanDate());
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
-        getBusinessObjectService().save(updateAsset);
+
+        updateBorrowerLocation(document, updateAsset);
+//        LOG.info("===>After updateBorrowerLocation()");
+        updateStoreAtLocation(document, updateAsset);
+
+        getBusinessObjectService().save((PersistableBusinessObject) updateAsset);
     }
 
 
     private void updateBorrowerLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
-        AssetLocation borrowerLocation = new AssetLocation();
-        borrowerLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
-        borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
+        
+        AssetLocation borrowerLocation = null;
+        List<AssetLocation> orginalLocations = updateAsset.getAssetLocations();
+        for (AssetLocation assetLocation : orginalLocations) {
+            if (CamsConstants.AssetLocationTypeCode.BORROWER.equals(assetLocation.getAssetLocationTypeCode())) {
+                borrowerLocation = assetLocation;
+                break;
+            }
+        }
+
         if (ObjectUtils.isNull(document.getLoanReturnDate())) {
+           if (borrowerLocation == null) {
+                borrowerLocation = new AssetLocation();
+                borrowerLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
+                borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
+                updateAsset.getAssetLocations().add(borrowerLocation);
+            }
             borrowerLocation.setAssetLocationContactName(document.getBorrowerUniversalUser().getPersonName());
             borrowerLocation.setAssetLocationContactIdentifier(document.getBorrowerUniversalIdentifier());
             borrowerLocation.setAssetLocationInstitutionName(document.getBorrowerUniversalUser().getPrimaryDepartmentCode());
@@ -68,19 +88,33 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
             borrowerLocation.setAssetLocationStateCode(document.getBorrowerStateCode());
             borrowerLocation.setAssetLocationCountryCode(document.getBorrowerCountryCode());
             borrowerLocation.setAssetLocationZipCode(document.getBorrowerZipCode());
-            getBusinessObjectService().save(borrowerLocation);
+            // getBusinessObjectService().save(borrowerLocation);
         }
         else {
-            borrowerLocation = (AssetLocation) getBusinessObjectService().retrieve(borrowerLocation);
-            getBusinessObjectService().delete(borrowerLocation);
+            if (borrowerLocation != null) {
+                updateAsset.getAssetLocations().remove(borrowerLocation);
+//                getBusinessObjectService().delete(borrowerLocation);
+            }
         }
     }
 
     private void updateStoreAtLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
-        AssetLocation storeAtLocation = new AssetLocation();
-        storeAtLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
-        storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);
+        AssetLocation storeAtLocation = null;
+        List<AssetLocation> orginalLocations = updateAsset.getAssetLocations();
+        for (AssetLocation assetLocation : orginalLocations) {
+            if (CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE.equals(assetLocation.getAssetLocationTypeCode())) {
+                storeAtLocation = assetLocation;
+                break;
+            }
+        }
+
         if (ObjectUtils.isNull(document.getLoanReturnDate()) && StringUtils.isNotBlank(document.getBorrowerStorageAddress())) {
+            if (storeAtLocation == null) {
+                storeAtLocation = new AssetLocation();
+                storeAtLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
+                storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);
+                updateAsset.getAssetLocations().add(storeAtLocation);
+            }
             storeAtLocation.setAssetLocationContactName(document.getBorrowerUniversalUser().getPersonName());
             storeAtLocation.setAssetLocationContactIdentifier(document.getBorrowerUniversalIdentifier());
             storeAtLocation.setAssetLocationInstitutionName(document.getBorrowerUniversalUser().getPrimaryDepartmentCode());
@@ -90,11 +124,13 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
             storeAtLocation.setAssetLocationStateCode(document.getBorrowerStorageStateCode());
             storeAtLocation.setAssetLocationCountryCode(document.getBorrowerStorageCountryCode());
             storeAtLocation.setAssetLocationZipCode(document.getBorrowerStorageZipCode());
-            getBusinessObjectService().save(storeAtLocation);
+//            getBusinessObjectService().save((PersistableBusinessObject) storeAtLocation);
         }
         else {
-            storeAtLocation = (AssetLocation) getBusinessObjectService().retrieve(storeAtLocation);
-            getBusinessObjectService().delete(storeAtLocation);
+            if (storeAtLocation != null) {
+               updateAsset.getAssetLocations().remove(storeAtLocation);
+//               getBusinessObjectService().delete((PersistableBusinessObject) storeAtLocation);
+            }
         }
     }
 
@@ -115,6 +151,33 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         return true;
     }
 
+
+    /**
+     * @see org.kuali.module.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String,
+     *      java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
+     */
+    public void createBlanketApproveEquipmentLoanOrReturnDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, EquipmentLoanOrReturnDocument sourceDocument) throws WorkflowException {
+        LOG.info("====>createBlanketApproveEquipmentLoanOrReturnDocument");
+
+
+        EquipmentLoanOrReturnDocument document = (EquipmentLoanOrReturnDocument) getDocumentService().getNewDocument(EquipmentLoanOrReturnDocument.class);
+
+        Asset asset = document.getAsset();
+        AssetHeader assetHeader = new AssetHeader();
+        assetHeader.setDocumentNumber(document.getDocumentNumber());
+        assetHeader.setCapitalAssetNumber(sourceDocument.getAsset().getCapitalAssetNumber());
+        document.setAssetHeader(assetHeader);
+        document.setCampusTagNumber(asset.getCampusTagNumber());
+        document.setOrganizationTagNumber(asset.getOrganizationTagNumber());
+
+        DocumentHeader documentHeader = document.getDocumentHeader();
+        documentHeader.setFinancialDocumentDescription(documentDescription);
+        documentHeader.setExplanation(explanation);
+
+        getDocumentService().blanketApproveDocument(document, annotation, adHocRecipients);
+    }
+
+
     public AssetService getAssetService() {
         return assetService;
     }
@@ -129,6 +192,15 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the documentService attribute.
+     * 
+     * @return Returns the documentService.
+     */
+    public DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
     }
 
 }

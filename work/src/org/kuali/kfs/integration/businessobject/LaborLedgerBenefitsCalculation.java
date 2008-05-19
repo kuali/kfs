@@ -15,14 +15,13 @@
  */
 package org.kuali.module.integration.bo;
 
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiPercent;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.labor.bo.BenefitsType;
 
-
-public interface LaborLedgerBenefitsCalculation {
+public interface LaborLedgerBenefitsCalculation extends PersistableBusinessObject {
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -125,19 +124,19 @@ public interface LaborLedgerBenefitsCalculation {
     public abstract void setChartOfAccounts(Chart chartOfAccounts);
 
     /**
-     * Gets the positionBenefitType attribute.
+     * Gets the laborLedgerBenefitsType attribute.
      * 
-     * @return Returns the positionBenefitType.
+     * @return Returns the laborLedgerBenefitsType.
      */
-    public abstract BenefitsType getPositionBenefitType();
+    public abstract LaborLedgerBenefitsType getLaborLedgerBenefitsType();
 
     /**
-     * Sets the positionBenefitType attribute value.
+     * Sets the laborLedgerBenefitsType attribute value.
      * 
-     * @param positionBenefitType The positionBenefitType to set.
+     * @param laborLedgerBenefitsType The positionBenefitType to set.
      */
     @Deprecated
-    public abstract void setPositionBenefitType(BenefitsType positionBenefitType);
+    public abstract void setLaborLedgerBenefitsType(LaborLedgerBenefitsType laborLedgerBenefitsType);
 
     /**
      * Gets the universityFiscal attribute.

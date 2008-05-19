@@ -59,9 +59,6 @@ import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.StringHelper;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.batch.LaborScrubberStep;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /**
@@ -133,7 +130,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param scrubbedEntry Output transaction (scrubbed version of input transaction)
      * @param universityRunDate Date of scrubber run
      * @return List of Message objects based for warnings or errors that happened when validating the transaction
-     * @see org.kuali.module.gl.service.ScrubberValidator#validateTransaction(org.kuali.module.gl.bo.OriginEntry, org.kuali.module.gl.bo.OriginEntry, org.kuali.module.gl.bo.UniversityDate, boolean)
+     * @see org.kuali.module.gl.service.ScrubberValidator#validateTransaction(org.kuali.module.gl.bo.OriginEntry,
+     *      org.kuali.module.gl.bo.OriginEntry, org.kuali.module.gl.bo.UniversityDate, boolean)
      */
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator) {
         LOG.debug("validateTransaction() started");
@@ -274,7 +272,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     /**
-     * Validates the account of an origin entry 
+     * Validates the account of an origin entry
      * 
      * @param originEntry the origin entry to find the account of
      * @param workingEntry the copy of the entry to move the account over to if it is valid
@@ -598,7 +596,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     /**
-     * Valides the document type of an origin entry 
+     * Valides the document type of an origin entry
+     * 
      * @param originEntry the origin entry to check
      * @param workingEntryInfo the copy of that entry to move good data over to
      * @return a Message if the document type is invalid, otherwise if valid, null
@@ -865,14 +864,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if (originEntryAccountingPeriod == null) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
             }
-            else if (KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntryAccountingPeriod.getUniversityFiscalPeriodStatusCode())) {
-                // KULLAB-510
-                // Scrubber accepts closed fiscal periods for certain Balance Types(A2)
-                String bypassBalanceType = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
-                if (!workingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
-                    return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
-                }
-            }
 
             workingEntry.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
         }
@@ -997,6 +988,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * 
      * This method...
+     * 
      * @param offsetAccountExpirationTime
      * @param runCalendar
      * @return
@@ -1040,6 +1032,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     /**
      * Sets a service that allows origin entries to retrieve references
+     * 
      * @param the implementation of OriginEntryLookupService to set
      * @see org.kuali.module.gl.service.ScrubberValidator#setReferenceLookup(org.kuali.module.gl.service.OriginEntryLookupService)
      */

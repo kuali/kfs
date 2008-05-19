@@ -24,6 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
 import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.bo.LaborLedgerObject;
@@ -159,6 +160,13 @@ public interface LaborModuleService {
     public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass();
 
     /**
+     * Gets the laborLedgerBenefitsTypeClass attribute.
+     * 
+     * @return Returns the laborLedgerBenefitsTypeClass.
+     */
+    public Class<? extends LaborLedgerBenefitsType> getLaborLedgerBenefitsTypeClass();
+
+    /**
      * Gets the expenseTransferSourceAccoutingLineClass attribute.
      * 
      * @return Returns the expenseTransferSourceAccoutingLineClass.
@@ -206,9 +214,10 @@ public interface LaborModuleService {
      * @return true if the lines include lines with labor object codes, false otherwise
      */
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode);
-    
+
     /**
      * Counts the number of entries in a group
+     * 
      * @param the id of an origin entry group
      * @return the count of the entries in that group
      */

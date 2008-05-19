@@ -30,11 +30,13 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.gl.batch.ScrubberStep;
@@ -81,6 +83,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // gl scrubber validation
         errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator);
+        
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
 
@@ -93,6 +96,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         Message err = null;
+        
+        err = this.validateClosedPeriodCode(laborOriginEntry, laborScrubbedEntry, universityRunDate);
+        if(err != null) {
+            errors.add(err);
+        }
 
         err = validatePayrollEndFiscalYear(laborOriginEntry, laborScrubbedEntry, universityRunDate);
         if (err != null) {
@@ -146,6 +154,38 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 persistenceService.retrieveReferenceObject(originEntry, reference);
             }
         }
+    }
+    
+    /**
+     * Validates the closed period code of the origin entry. Scrubber accepts closed fiscal periods for the specified balance type.
+     * 
+     * @param originEntry the origin entry being scrubbed
+     * @param workingEntry the scrubbed version of the origin entry
+     * @param universityRunDate the university date when this scrubber process is being run
+     * @return a Message if an error was encountered, otherwise null
+     */
+    private Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+        LOG.debug("validateClosedPeriodCode() started");
+
+        String periodCode = laborOriginEntry.getUniversityFiscalPeriodCode();
+        if (StringUtils.isBlank(periodCode)) {
+            return null;
+        }
+                
+        // Scrubber accepts closed fiscal periods for A21 Balance
+        AccountingPeriod accountingPeriod = referenceLookup.get().getAccountingPeriod(laborOriginEntry);
+        if (accountingPeriod != null && KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(accountingPeriod.getUniversityFiscalPeriodStatusCode())) {
+            String bypassBalanceType = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
+            
+            if (!laborWorkingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
+                String errorMessage = kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED); 
+                return new Message(errorMessage + " (" + laborOriginEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+            }
+            
+            laborWorkingEntry.setUniversityFiscalPeriodCode(periodCode);
+        }
+
+        return null;
     }
 
     /**

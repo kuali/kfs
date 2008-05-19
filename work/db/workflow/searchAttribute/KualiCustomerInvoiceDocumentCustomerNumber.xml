@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCustomerInvoiceDocumentCustomerNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Customer Invoice Document Customer Number</label>
+      <description>Attribute to identify the Customer Number of the Customer Invoice Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="customerNumber" title="kuali_dd_label(Customer)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/accountsReceivableDocumentHeader/customerNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

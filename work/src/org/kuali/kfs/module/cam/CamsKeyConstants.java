@@ -121,8 +121,12 @@ public class CamsKeyConstants {
     }
 
     public static class AssetLocationGlobal {
-        public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.invalid.capital.asset.number";
-        public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET = "error.invalid.no.asset.location.detail.line";
+        public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.asset.location.invalid.capital.asset.number";
+        public static final String ERROR_INVALID_CAMPUS_CODE = "error.asset.location.invalid.campus.code";
+        public static final String ERROR_INVALID_BUILDING_CODE = "error.asset.location.invalid.building.code";
+        public static final String ERROR_INVALID_ROOM_NUMBER = "error.asset.location.invalid.room.code";
+        public static final String ERROR_DUPLICATE_TAG_NUMBER_FOUND = "error.asset.location.duplicate.tag.number";
+        public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL = "error.asset.location.no.asset.location.detail.line";
     }
     
     public static class AssetBarCodeInventory {

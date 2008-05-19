@@ -51,8 +51,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
     
-    private List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes; 
-
     private boolean hideDetails = false;
     private boolean pickListClose = false;
 
@@ -72,7 +70,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         setDocument(new BudgetConstructionDocument());
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-        this.setBudgetConstructionDocumentReportModes(new ArrayList());
 
         LOG.debug("creating BudgetConstructionForm");
     }
@@ -87,15 +84,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
         super.populate(request);
         
-        if (this.getBudgetConstructionDocumentReportModes().isEmpty()){
-            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_OBJECT_DETAIL_REPORT);
-            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_FUNDING_DETAIL_REPORT);
-            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_MONTHLY_DETAIL_REPORT);
-            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_ACCOUNT_DUMP);
-            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_FUNDING_DUMP);
-            this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_MONTHLY_DUMP);
-        }
-
         // now run through PBGL rev and exp lines
         String methodToCall = this.getMethodToCall();
         BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
@@ -509,22 +497,5 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public void setPickListClose(boolean pickListClose) {
         this.pickListClose = pickListClose;
     }
-
-    /**
-     * Gets the budgetConstructionDocumentReportModes attribute. 
-     * @return Returns the budgetConstructionDocumentReportModes.
-     */
-    public List<BudgetConstructionDocumentReportMode> getBudgetConstructionDocumentReportModes() {
-        return budgetConstructionDocumentReportModes;
-    }
-
-    /**
-     * Sets the budgetConstructionDocumentReportModes attribute value.
-     * @param budgetConstructionDocumentReportModes The budgetConstructionDocumentReportModes to set.
-     */
-    public void setBudgetConstructionDocumentReportModes(List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes) {
-        this.budgetConstructionDocumentReportModes = budgetConstructionDocumentReportModes;
-    }
-
 
 }

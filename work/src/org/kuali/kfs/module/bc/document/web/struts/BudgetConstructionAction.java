@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,12 +38,14 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.ReportGeneration;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
@@ -406,7 +410,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
-
+        
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
@@ -760,9 +764,34 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Report/Dump");
+        BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+        budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+        budgetDocumentService.calculateBenefits(bcDocument);
+        tForm.initializePersistedRequestAmounts();
+        
+        // gets here if rules passed and doc detail gets persisted and refreshed
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
+        parameters.put("documentNumber", tForm.getDocument().getDocumentNumber());
+        parameters.put("universityFiscalYear", tForm.getUniversityFiscalYear().toString());
+        parameters.put("chartOfAccountsCode", tForm.getChartOfAccountsCode());
+        parameters.put("accountNumber", tForm.getAccountNumber());
+        parameters.put("subAccountNumber", tForm.getSubAccountNumber());
+
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportRunner.do", parameters);
+        return new ActionForward(lookupUrl, true);
     }
 
     public ActionForward performPercentChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

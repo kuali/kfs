@@ -420,7 +420,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
         boolean isFiscalOfcOrDelegate = false;
 
-        BudgetConstructionHeader bcHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
         
         isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());

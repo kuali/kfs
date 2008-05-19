@@ -96,6 +96,13 @@
                                     
                                     <th class="infocell" style="text-align: left; width: 10%; white-space: nowrap;">                                    	
                                     	<c:set var="monthlyAmount" value="${fn:replace(column.propertyValue, ',', '')}"/>
+                                    	
+                                    	<!-- restore the negtive number -->
+                                    	<c:if test="${fn:contains(monthlyAmount, '(')}">
+                                    		<c:set var="monthlyAmount" value="${fn:replace(monthlyAmount, '(', '-')}"/>
+                                    		<c:set var="monthlyAmount" value="${fn:replace(monthlyAmount, ')', '')}"/>
+                                    	</c:if>
+                                    	
                                     	<fmt:formatNumber var="amount" value="${monthlyAmount}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="false"/>
                                     	<c:set var="monthlyAmount" value="${fn:replace(amount, '.', '')}"/>
 

@@ -24,6 +24,7 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
 
 /**
  * Labor business object for Benefits Calculation.
@@ -224,5 +225,19 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
         m.put("positionBenefitTypeCode", this.positionBenefitTypeCode);
 
         return m;
+    }
+
+    /**
+     * @see org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation#getLaborLedgerBenefitsType()
+     */
+    public LaborLedgerBenefitsType getLaborLedgerBenefitsType() {
+        return this.getPositionBenefitType();
+    }
+
+    /**
+     * @see org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation#setLaborLedgerBenefitsType(org.kuali.module.labor.bo.LaborLedgerBenefitsType)
+     */
+    public void setLaborLedgerBenefitsType(LaborLedgerBenefitsType laborLedgerBenefitsType) {
+        this.setPositionBenefitType((BenefitsType)laborLedgerBenefitsType);
     }
 }

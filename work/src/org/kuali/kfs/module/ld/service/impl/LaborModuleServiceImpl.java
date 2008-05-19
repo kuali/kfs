@@ -35,6 +35,7 @@ import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
 import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.bo.LaborLedgerObject;
@@ -42,6 +43,7 @@ import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.module.labor.bo.BenefitsCalculation;
+import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.FringeBenefitInformation;
@@ -196,6 +198,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass() {
         return BenefitsCalculation.class;
+    }
+
+    /**
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBenefitsTypeClass()
+     */
+    public Class<? extends LaborLedgerBenefitsType> getLaborLedgerBenefitsTypeClass() {
+        return BenefitsType.class;
     }
 
     /**
@@ -354,9 +363,10 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     public LaborLedgerPendingEntryService getLaborLedgerPendingEntryService() {
         return SpringContext.getBean(LaborLedgerPendingEntryService.class);
     }
-    
+
     /**
      * Returns an instance of the LaborOriginEntryService, for use by services in the module
+     * 
      * @return an instance of an implementation of the LaborOriginEntryService
      */
     public LaborOriginEntryService getLaborOriginEntryService() {

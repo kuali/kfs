@@ -19,11 +19,12 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
 
 /**
  * Labor business object for Benefits Type
  */
-public class BenefitsType extends PersistableBusinessObjectBase {
+public class BenefitsType extends PersistableBusinessObjectBase implements LaborLedgerBenefitsType {
 
     private String positionBenefitTypeCode;
     private String positionBenefitTypeDescription;

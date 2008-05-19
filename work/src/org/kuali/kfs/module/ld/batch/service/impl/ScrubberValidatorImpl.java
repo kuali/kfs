@@ -97,7 +97,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Message err = null;
         
-        err = this.validateClosedPeriodCode(laborOriginEntry, laborScrubbedEntry, universityRunDate);
+        err = this.validateClosedPeriodCode(laborOriginEntry, laborScrubbedEntry);
         if(err != null) {
             errors.add(err);
         }
@@ -161,10 +161,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * 
      * @param originEntry the origin entry being scrubbed
      * @param workingEntry the scrubbed version of the origin entry
-     * @param universityRunDate the university date when this scrubber process is being run
      * @return a Message if an error was encountered, otherwise null
      */
-    private Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+    private Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
         LOG.debug("validateClosedPeriodCode() started");
 
         String periodCode = laborOriginEntry.getUniversityFiscalPeriodCode();

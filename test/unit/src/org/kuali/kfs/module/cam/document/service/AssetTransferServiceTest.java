@@ -71,9 +71,6 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertTrue(this.assetTransferService.isTransferable(document));
     }
 
-    public void testIsTransferable_LockedAsset() throws Exception {
-        // TODO this is pending implementation
-    }
 
     /**
      * Test capital asset with active payments

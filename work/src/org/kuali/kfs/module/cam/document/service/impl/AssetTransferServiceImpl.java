@@ -16,25 +16,20 @@
 package org.kuali.module.cams.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
@@ -49,7 +44,6 @@ import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.rules.AssetTransferDocumentRule;
-import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
@@ -174,7 +168,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                         maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
                     // create new payment info
-                    newPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
+                    newPayment = (AssetPayment) ObjectUtils.deepCopy(assetPayment);
                     newPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     newPayment.setAccountNumber(document.getOrganizationOwnerAccountNumber());
                     newPayment.setChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
@@ -254,14 +248,14 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
                     KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-                    if (accountChargeAmount != null && !accountChargeAmount.equals(KualiDecimal.ZERO)) {
+                    if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
                     }
                     KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
-                    if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KualiDecimal.ZERO)) {
+                    if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.isZero()) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
                     }
-                    if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KualiDecimal.ZERO)) {
+                    if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && !accountChargeAmount.subtract(accPrimaryDepreciationAmount).isZero()) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
 
                     }
@@ -289,14 +283,14 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         for (AssetPayment assetPayment : assetPayments) {
             if (isPaymentEligibleForGLPosting(assetPayment)) {
                 KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-                if (accountChargeAmount != null && !accountChargeAmount.equals(KualiDecimal.ZERO)) {
+                if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
                 }
                 KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
-                if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KualiDecimal.ZERO)) {
+                if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.isZero()) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.ACCUM_DEPRECIATION));
                 }
-                if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KualiDecimal.ZERO)) {
+                if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && !accountChargeAmount.subtract(accPrimaryDepreciationAmount).isZero()) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));
                 }
             }
@@ -338,27 +332,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         return businessObjectService;
     }
 
-
-    /**
-     * Prepares the list of document URLs that can be used to displayed along with error message
-     * 
-     * @param headerNos Pending headers
-     * @return String with list of document view URLS
-     */
-    private String getHeaders(String[] headerNos) {
-        String value = " [";
-        for (int i = 0; i < headerNos.length; i++) {
-            Properties params = new Properties();
-            params.put("command", "displayDocSearchView");
-            params.put("docId", headerNos[i]);
-            value += "<a href=\"" + UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do", params) + "\">" + headerNos[i] + "</a>";
-            if (i < headerNos.length - 1) {
-                value += ", ";
-            }
-        }
-        value += "]";
-        return value;
-    }
 
     public UniversityDateService getUniversityDateService() {
         return universityDateService;
@@ -424,19 +397,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             transferable &= false;
             GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
         }
-        // check if any pending transactions
-        if (transferable) {
-            Collection<AssetHeader> pendingHeaders = SpringContext.getBean(AssetHeaderService.class).findPendingHeadersByAsset(asset, document);
-            if (pendingHeaders != null && !pendingHeaders.isEmpty()) {
-                transferable &= false;
-                String[] headerNos = new String[pendingHeaders.size()];
-                int pos = 0;
-                for (AssetHeader assetHeader : pendingHeaders) {
-                    headerNos[pos] = assetHeader.getDocumentNumber();
-                    pos++;
-                }
-                GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, getHeaders(headerNos));
-            }
+        if (transferable && getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+            transferable &= false;
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
         }
         return transferable;
     }

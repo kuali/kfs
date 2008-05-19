@@ -34,7 +34,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
     }
 
 
-    public void testAdjustPaymentAmounts_test1() throws Exception {
+    public void testAdjustPaymentAmounts_params_false_false() throws Exception {
         AssetPayment assetPayment = AssetPaymentServiceFixture.PAYMENT1.newAssetPayment();
         this.assetPaymentService.adjustPaymentAmounts(assetPayment, false, false);
         assertTrue(assetPayment.getAccountChargeAmount().isPositive());
@@ -43,7 +43,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         assertNotNull(assetPayment.getPeriod11Depreciation1Amount());
     }
 
-    public void testAdjustPaymentAmounts_test2() throws Exception {
+    public void testAdjustPaymentAmounts_params_true_true() throws Exception {
         AssetPayment assetPayment = AssetPaymentServiceFixture.PAYMENT1.newAssetPayment();
         this.assetPaymentService.adjustPaymentAmounts(assetPayment, true, true);
         assertTrue(assetPayment.getAccountChargeAmount().isNegative());

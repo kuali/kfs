@@ -32,6 +32,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingLineRuleHelperService;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -97,7 +98,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (detailLine.isNewLineIndicator() && !EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            Account account = detailLine.getAccount();
+            Account continuation = account.getContinuationAccount();
+            
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber());            
             return false;
         }
 

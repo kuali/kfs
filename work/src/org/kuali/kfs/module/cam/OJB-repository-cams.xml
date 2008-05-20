@@ -964,7 +964,7 @@
 	<field-descriptor name="borrowerStorageCountryCode" column="AST_BORWRSTRCNT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="borrowerStoragePhoneNumber" column="AST_BORWRSTRPH_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
-	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />

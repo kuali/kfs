@@ -29,6 +29,8 @@ public class CamsConstants {
     public static final String TRANSFER_PAYMENT_CODE_N = "N";
     public static final String TRANSFER_PAYMENT_CODE_Y = "Y";
     public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
+    public static final String QUESTION_INDEX = "questionIndex";
+    public static final String QESTIONS_RENEW_LOAN = "question.cams.renewLoan";
 
     public static class AssetActions {
         public static final String LOAN = "loan";
@@ -206,6 +208,8 @@ public class CamsConstants {
 
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
         public static final String DISPLAY_NEW_LOAN_TAB ="displayNewLoanTab";  
+        public static final String DISPLAY_RENEW_LOAN_TAB ="displayRenewLoanTab";  
+        public static final String DISPLAY_VIEW_ONLY_TAB ="viewOnly";  
     }
 
 }

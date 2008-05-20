@@ -42,6 +42,7 @@
         <ref bean="PurchaseOrderItem-itemOutstandingEncumberedAmount" />
         <ref bean="PurchaseOrderItem-itemReceivedTotalQuantity" />
         <ref bean="PurchaseOrderItem-itemSelectedForRetransmitIndicator" />
+        <ref bean="PurchaseOrderItem-movingToSplit" />
       </list>
     </property>
   </bean>
@@ -367,6 +368,19 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
+  
+  <bean id="PurchaseOrderItem-movingToSplit" parent="PurchaseOrderItem-movingToSplit-parentBean" />
+
+  <bean id="PurchaseOrderItem-movingToSplit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="movingToSplit" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Move to Split?" />
+    <property name="shortLabel" value="Move to Split?" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>  
 
 <!-- Business Object Inquiry Definition -->
 

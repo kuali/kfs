@@ -1155,9 +1155,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * Returns true if this Purchase Order contains unpaid items in the Payment Request or Credie Memo.
+     * Returns true if this Purchase Order contains unpaid items in the Payment Request or Credit Memo.
      * 
-     * @return true if this Purchase Order contains unpaid items in the Payment Request or Credie Memo.
+     * @return true if this Purchase Order contains unpaid items in the Payment Request or Credit Memo.
      */
     public boolean getContainsUnpaidPaymentRequestsOrCreditMemos() {
         if (getRelatedViews().getRelatedPaymentRequestViews() != null) {
@@ -1181,6 +1181,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     }
                 }
             }// endfor
+        }
+        return false;
+    }
+    
+    public boolean getAdditionalChargesExist() {
+        List<PurchaseOrderItem> items = this.getItems();
+        for( PurchaseOrderItem item : items ) {
+            if (item.getItemType().isItemTypeBelowTheLineIndicator() && (!KualiDecimal.ZERO.equals(item.getExtendedPrice()))) {
+                return true;
+            }
         }
         return false;
     }

@@ -322,7 +322,9 @@ public class PurapConstants extends JstlConstants {
         
         public static final String SPLIT_QUESTION = "POSplit";
         public static final String SPLIT_CONFIRM = "POSplitConfirm";
-        public static final String SPLIT_NOTE_PREFIX = "Note entered while splitting from Purchase Order ";       
+        public static final String SPLIT_NOTE_PREFIX = "Note entered while splitting from Purchase Order ";
+        public static final String SPLIT_ADDL_CHARGES_WARNING_LABEL = "WARNING";
+        public static final String SPLIT_ADDL_CHARGES_WARNING = "* ADDITIONAL CHARGES EXIST *";
 
         public static final String CONFIRM_AWARD_QUESTION = "POConfirmAward";
         public static final String CONFIRM_AWARD_RETURN = "completeQuote";

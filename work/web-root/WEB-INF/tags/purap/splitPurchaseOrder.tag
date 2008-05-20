@@ -20,7 +20,7 @@
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for item's fields." %>
               
-<c:set var="additionalChargesExist" value="true" />
+<c:set var="additionalChargesExist" value="${KualiForm.document.additionalChargesExist}" />
               
 <kul:tabTop tabTitle="Split a PO" defaultOpen="true" tabErrorKey="${PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS}">
 
@@ -43,10 +43,10 @@
             <c:if test="${additionalChargesExist}">
 	            <tr>
 	            	<th align=right valign=middle class="bord-l-b" width="50%">
-	            		<div align="right">WARNING</div>
+	            		<div align="right"><c:out value="${PurapConstants.PODocumentsStrings.SPLIT_ADDL_CHARGES_WARNING_LABEL}"/></div>
 	            	</th>
 	            	<td align=left valign=middle class="datacell" width="50%">
-	            		* ADDITIONAL CHARGES EXIST *
+	            		<c:out value="${PurapConstants.PODocumentsStrings.SPLIT_ADDL_CHARGES_WARNING}"/>
 	            	</td>
 	            </tr>
 	        </c:if>
@@ -58,14 +58,80 @@
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Splitting Item Selection">
         	<tr>
-        		<th>&nbsp;</th>
-        		<th>&nbsp;</th>
+        		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.movingToSplit}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
+				<kul:htmlAttributeHeaderCell literalLabel="Item Type" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
         	</tr>
-        	<!-- Iterate here.  -->
-        	<tr>
-        		<td>&nbsp;</td>
-        		<td>&nbsp;</td>
-        	</tr>
+        	<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
+        		<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
+		        	<tr>
+		        		<td class="datacell">
+		        			<div align="center">
+			        			<kul:htmlControlAttribute
+								    attributeEntry="${itemAttributes.movingToSplit}"
+								    property="document.item[${ctr}].movingToSplit" readOnly="false" />
+							</div>
+		        		</td>
+		        		<td class="datacell">
+		        			<div align="center">
+		        				&nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp;
+		        			</div>
+		        		</td>
+						<td class="datacell">
+						    <kul:htmlControlAttribute
+							    attributeEntry="${itemAttributes.itemTypeCode}"
+							    property="document.item[${ctr}].itemTypeCode"
+							    extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription" readOnly="true" />
+						</td>
+						<td class="datacell">
+						    <kul:htmlControlAttribute
+							    attributeEntry="${itemAttributes.itemQuantity}"
+							    property="document.item[${ctr}].itemQuantity" readOnly="true" />
+						</td>
+						<td class="datacell">
+						    <kul:htmlControlAttribute
+							    attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"
+							    property="document.item[${ctr}].itemUnitOfMeasureCode" readOnly="true" />
+					    </td>
+						<td class="datacell">
+						    <kul:htmlControlAttribute
+							    attributeEntry="${itemAttributes.itemCatalogNumber}"
+							    property="document.item[${ctr}].itemCatalogNumber" readOnly="true" />
+					    </td>
+					    <td class="datacell">
+					    	<kul:htmlControlAttribute 
+	                            attributeEntry="${itemAttributes.commodityCode}" 
+	                            property="document.item[${ctr}].purchasingCommodityCode" readOnly="true"/>
+	                    </td>
+						<td class="datacell">
+							 <kul:htmlControlAttribute
+							    attributeEntry="${itemAttributes.itemDescription}"
+							    property="document.item[${ctr}].itemDescription" readOnly="true" />
+						</td>
+						<td class="datacell">
+						    <div align="right">
+						        <kul:htmlControlAttribute
+							        attributeEntry="${itemAttributes.itemUnitPrice}"
+							        property="document.item[${ctr}].itemUnitPrice" readOnly="true" />
+							</div>
+						</td>
+						<td class="datacell">
+						    <div align="right">
+						        <kul:htmlControlAttribute
+							        attributeEntry="${itemAttributes.extendedPrice}"
+							        property="document.item[${ctr}].extendedPrice" readOnly="true" />
+						    </div>
+						</td>					 
+		        	</tr>
+		        </c:if>
+	        </logic:iterate>
         </table>
     </div>
     

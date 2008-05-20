@@ -51,6 +51,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     
     // Not persisted to DB
     private boolean itemSelectedForRetransmitIndicator;
+    private boolean movingToSplit;
 
     /**
      * Default constructor.
@@ -205,26 +206,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
     }
 
-    /**
-     * Gets the capitalAssetManagementSystemNumber attribute. 
-     * @return Returns the capitalAssetManagementSystemNumber.
-     */
     public Integer getCapitalAssetManagementSystemNumber() {
         return capitalAssetManagementSystemNumber;
     }
 
-    /**
-     * Sets the capitalAssetManagementSystemNumber attribute value.
-     * @param capitalAssetManagementSystemNumber The capitalAssetManagementSystemNumber to set.
-     */
     public void setCapitalAssetManagementSystemNumber(Integer capitalAssetManagementSystemNumber) {
         this.capitalAssetManagementSystemNumber = capitalAssetManagementSystemNumber;
     }
 
-    /**
-     * Gets the capitalAssetManagementSystem attribute. 
-     * @return Returns the capitalAssetManagementSystem.
-     */
     public RequisitionCapitalAssetSystem getCapitalAssetManagementSystem() {
         return capitalAssetManagementSystem;
     }
@@ -236,6 +225,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      */
     public void setCapitalAssetManagementSystem(RequisitionCapitalAssetSystem capitalAssetManagementSystem) {
         this.capitalAssetManagementSystem = capitalAssetManagementSystem;
+    }
+    
+    public boolean isMovingToSplit() {
+        return movingToSplit;
+    }
+
+    public void setMovingToSplit(boolean movingToSplit) {
+        this.movingToSplit = movingToSplit;
     }
 
     /**

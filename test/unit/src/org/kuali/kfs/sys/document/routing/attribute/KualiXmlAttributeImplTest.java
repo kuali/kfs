@@ -48,8 +48,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -97,7 +95,8 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
             ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T");
-            // ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'KualiPurchaseOrderTransmissionMethodAttribute'");
+            // ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM =
+            // 'SystemParameterRoutingAttribute'");
 
             while (dbAnswer.next()) {
                 String className = dbAnswer.getString("RULE_ATTRIB_CLS_NM");
@@ -168,7 +167,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
     /**
      * This method goes through all of the ruleAttributes in the inputSource and tries to get a label out of the data dictionary.
      */
-   public void testConfirmLabels() {
+    public void testConfirmLabels() {
         testFailed = false;
 
         // test rule xml attributes

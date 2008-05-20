@@ -2,20 +2,20 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
-      <name>KualiModuleUserAttribute</name>
+      <name>LockboxAttribute</name>
       <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
-      <label>Module User Routing</label>
-      <description>Module User Routing</description>
+      <label>Payment Method Routing</label>
+      <description>Payment Method Routing</description>
       <type>RuleXmlAttribute</type>
       <routingConfig>
-        <fieldDef name="moduleCode" title="kuali_dd_label(GenericAttributes)" workflowType="ALL">
+        <fieldDef name="lockboxNumber" title="kuali_dd_label(SystemInformation)" workflowType="ALL">
           <display>
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="moduleCode" draw="true" service="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable(null)" />
+          <quickfinder appliesTo="lockboxNumber" draw="true" service="workflow-org.kuali.module.ar.bo.SystemInformation-Lookupable(workflow-lockboxNumber:lockboxNumber)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//businessObject/changedModuleCodes/string') = wf:ruledata('moduleCode')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/lockboxNumber') = wf:ruledata('lockboxNumber')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>

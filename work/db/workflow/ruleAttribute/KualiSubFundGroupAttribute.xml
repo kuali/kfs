@@ -8,7 +8,7 @@
       <description>SubFund Group Both Accounting Lines Routing</description>
       <type>RuleXmlAttribute</type>
       <routingConfig>
-        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="RULE">
+        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="ALL">
           <display>
             <type>text</type>
           </display>

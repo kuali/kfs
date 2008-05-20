@@ -8,7 +8,7 @@
       <description>System Parameter Routing</description>
       <type>RuleXmlAttribute</type>
       <routingConfig>
-        <fieldDef name="routingAttributeTitle" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
+        <fieldDef name="routingAttributeTitle" title="kuali_dd_label(GenericAttributes)" workflowType="RULE">
           <display>
             <type>text</type>
           </display>

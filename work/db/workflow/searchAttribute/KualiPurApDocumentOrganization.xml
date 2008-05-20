@@ -34,7 +34,7 @@
             <xpathexpression>wf:xstreamsafe('//document/organizationCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
-        <fieldDef name="purapDocumentOrgDisplayValue" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="purapDocumentOrgDisplayValue" title="kuali_dd_label(PurApGenericAttributes)">
           <display>
             <type>text</type>
           </display>

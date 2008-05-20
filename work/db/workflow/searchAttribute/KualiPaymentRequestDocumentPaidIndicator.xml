@@ -8,7 +8,7 @@
       <description>Attribute to identify the Paid Indicator of the Payment Request Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="paymentRequestPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="paymentRequestPaidIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />

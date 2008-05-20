@@ -8,7 +8,7 @@
       <description>Attribute to identify the Purchase Order Status of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="purchaseOrderDocumentIncompleteStatuses" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="purchaseOrderDocumentIncompleteStatuses" title="kuali_dd_label(PurApGenericAttributes)">
           <display>
             <type>checkbox_present</type>
           </display>

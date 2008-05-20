@@ -8,7 +8,7 @@
       <description>Attribute to use to search by proposal and award document types</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="searchType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+        <fieldDef name="searchType" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>multibox</type>
             <values selected="true">kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder)</values>

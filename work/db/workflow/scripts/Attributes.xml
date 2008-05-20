@@ -92,7 +92,7 @@
       <description>Attribute for adding a document header financial document total amount range search to a Kuali document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="documentTotalAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+        <fieldDef name="documentTotalAmount" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>text</type>
             <parameters name="displayFormatPattern">#,##0.00</parameters>
@@ -259,7 +259,7 @@
             <xpathexpression>wf:xstreamsafe('//document/organizationCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
-        <fieldDef name="purapDocumentOrgDisplayValue" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="purapDocumentOrgDisplayValue" title="kuali_dd_label(PurApGenericAttributes)">
           <display>
             <type>text</type>
           </display>
@@ -431,7 +431,7 @@
       <description>Attribute to identify the Purchase Order Status of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="purchaseOrderDocumentIncompleteStatuses" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="purchaseOrderDocumentIncompleteStatuses" title="kuali_dd_label(PurApGenericAttributes)">
           <display>
             <type>checkbox_present</type>
           </display>
@@ -452,7 +452,7 @@
       <description>Attribute to identify the Current Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="purchaseOrderDocumentCurrentIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="purchaseOrderDocumentCurrentIndicator" title="kuali_dd_label(PurApGenericAttributes)">
           <display>
             <type>checkbox_present</type>
           </display>
@@ -607,7 +607,7 @@
       <description>Attribute to identify the Vendor ID of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="purchaseOrderDocumentVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+        <fieldDef name="purchaseOrderDocumentVendorId" title="kuali_dd_label(VendorGenericAttributes)">
           <display>
             <type>text</type>
           </display>
@@ -872,7 +872,7 @@
       <description>Attribute to use to search by proposal and award document types</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="searchType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+        <fieldDef name="searchType" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>multibox</type>
             <values selected="true">kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder)</values>
@@ -954,7 +954,7 @@
       <description>Attribute to identify which type of search results should be returned for a Purchasing or Accounts Payable document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="displayType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+        <fieldDef name="displayType" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>radio</type>
             <values selected="true" title="Document Specific Data">document_info</values>
@@ -980,7 +980,7 @@
       <description>Module User Routing</description>
       <type>RuleXmlAttribute</type>
       <routingConfig>
-        <fieldDef name="moduleCode" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="ALL">
+        <fieldDef name="moduleCode" title="kuali_dd_label(GenericAttributes)" workflowType="ALL">
           <display>
             <type>text</type>
           </display>
@@ -1186,7 +1186,7 @@
       <description>Attribute to identify the Vendor ID of the Payment Request Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="paymentRequestVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+        <fieldDef name="paymentRequestVendorId" title="kuali_dd_label(VendorGenericAttributes)">
           <display>
             <type>text</type>
           </display>
@@ -1329,7 +1329,7 @@
       <description>Attribute to identify the Extracted Indicator of the Payment Request Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="paymentRequestExtractedIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="paymentRequestExtractedIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />
@@ -1392,7 +1392,7 @@
       <description>Attribute to identify the Paid Indicator of the Payment Request Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="paymentRequestPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="paymentRequestPaidIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />
@@ -1557,7 +1557,7 @@
       <description>Attribute to identify the Vendor ID of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="creditMemoVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+        <fieldDef name="creditMemoVendorId" title="kuali_dd_label(VendorGenericAttributes)">
           <display>
             <type>text</type>
           </display>
@@ -1679,7 +1679,7 @@
       <description>Attribute to identify the Extracted Indicator of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="creditMemoExtractedIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="creditMemoExtractedIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />
@@ -1722,7 +1722,7 @@
       <description>Attribute to identify the Paid Indicator of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="creditMemoPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="creditMemoPaidIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />
@@ -1766,7 +1766,7 @@
       <description>SubFund Group Both Accounting Lines Routing</description>
       <type>RuleXmlAttribute</type>
       <routingConfig>
-        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="RULE">
+        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="ALL">
           <display>
             <type>text</type>
           </display>
@@ -1785,7 +1785,7 @@
       <description>System Parameter Routing</description>
       <type>RuleXmlAttribute</type>
       <routingConfig>
-        <fieldDef name="routingAttributeTitle" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
+        <fieldDef name="routingAttributeTitle" title="kuali_dd_label(GenericAttributes)" workflowType="RULE">
           <display>
             <type>text</type>
           </display>
@@ -2014,6 +2014,53 @@
       </searchingConfig>
     </ruleAttribute>
     <ruleAttribute>
+      <name>RemoveReplaceWorkgroupTypeRoutingAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.RemoveReplaceWorkgroupTypeRoutingAttribute</className>
+      <label>RemoveReplaceWorkgroupTypeRoutingAttribute</label>
+      <description>An attribute for routing workgroups that have been changed via the Remove/Replace User document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>RemoveReplaceRuleRoutingAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.RemoveReplaceRuleRoutingAttribute</className>
+      <label>RemoveReplaceRuleRoutingAttribute</label>
+      <description>An attribute for routing rules that have been changed via the Remove/Replace User document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPDAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiPDAttribute</className>
+      <label>Project Director Routing</label>
+      <description>Effort Reporting Project Director Routing</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurApCommodityCodeAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiPurApCommodityCodeAttribute</className>
+      <label>Kuali PurAp Commodity Code Attribute</label>
+      <description>Commodity Code Routing Attribute for Kuali Documents</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>LockboxAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Payment Method Routing</label>
+      <description>Payment Method Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="lockboxNumber" title="kuali_dd_label(SystemInformation)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="lockboxNumber" draw="true" service="workflow-org.kuali.module.ar.bo.SystemInformation-Lookupable(workflow-lockboxNumber:lockboxNumber)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/lockboxNumber') = wf:ruledata('lockboxNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
       <name>KualiInitiatorCampusAttribute</name>
       <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
       <label>Initiator Campus Code Routing</label>
@@ -2131,6 +2178,13 @@
       </searchingConfig>
     </ruleAttribute>
     <ruleAttribute>
+      <name>KualiReportingChartAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiReportingChartAttribute</className>
+      <label>Chart Reporting</label>
+      <description>Chart Both Accounting Lines Reporting</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
       <name>KualiVendorDocumentTypeAttribute</name>
       <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
       <label>Vendor Document Vendor Type Routing</label>
@@ -2228,7 +2282,7 @@
             <xpathexpression>wf:xstreamsafe('//document/purchaseOrderTransmissionMethodCode') = wf:ruledata('purchaseOrderTransmissionMthdCd')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
-        <fieldDef name="purchaseOrderAutomaticIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)" workflowType="ALL">
+        <fieldDef name="purchaseOrderAutomaticIndicator" title="kuali_dd_label(PurApGenericAttributes)" workflowType="ALL">
           <display>
             <type>select</type>
             <values selected="true" title=" " />

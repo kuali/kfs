@@ -8,7 +8,7 @@
       <description>Attribute to identify the Extracted Indicator of the Payment Request Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="paymentRequestExtractedIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="paymentRequestExtractedIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />

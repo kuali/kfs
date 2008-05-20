@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>RemoveReplaceWorkgroupTypeRoutingAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.RemoveReplaceWorkgroupTypeRoutingAttribute</className>
+      <label>RemoveReplaceWorkgroupTypeRoutingAttribute</label>
+      <description>An attribute for routing workgroups that have been changed via the Remove/Replace User document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

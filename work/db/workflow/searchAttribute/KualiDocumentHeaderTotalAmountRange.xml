@@ -8,7 +8,7 @@
       <description>Attribute for adding a document header financial document total amount range search to a Kuali document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="documentTotalAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+        <fieldDef name="documentTotalAmount" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>text</type>
             <parameters name="displayFormatPattern">#,##0.00</parameters>

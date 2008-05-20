@@ -8,7 +8,7 @@
       <description>Attribute to identify which type of search results should be returned for a Purchasing or Accounts Payable document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="displayType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+        <fieldDef name="displayType" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>radio</type>
             <values selected="true" title="Document Specific Data">document_info</values>

@@ -8,7 +8,7 @@
       <description>Attribute to identify the Vendor ID of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="purchaseOrderDocumentVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+        <fieldDef name="purchaseOrderDocumentVendorId" title="kuali_dd_label(VendorGenericAttributes)">
           <display>
             <type>text</type>
           </display>

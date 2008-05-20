@@ -18,7 +18,7 @@
             <xpathexpression>wf:xstreamsafe('//document/purchaseOrderTransmissionMethodCode') = wf:ruledata('purchaseOrderTransmissionMthdCd')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
-        <fieldDef name="purchaseOrderAutomaticIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)" workflowType="ALL">
+        <fieldDef name="purchaseOrderAutomaticIndicator" title="kuali_dd_label(PurApGenericAttributes)" workflowType="ALL">
           <display>
             <type>select</type>
             <values selected="true" title=" " />

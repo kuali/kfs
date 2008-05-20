@@ -8,7 +8,7 @@
       <description>Attribute to identify the Paid Indicator of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="creditMemoPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+        <fieldDef name="creditMemoPaidIndicator" title="kuali_dd_short_label(PurApGenericAttributes)">
           <display>
             <type>select</type>
             <values selected="true" title="" />

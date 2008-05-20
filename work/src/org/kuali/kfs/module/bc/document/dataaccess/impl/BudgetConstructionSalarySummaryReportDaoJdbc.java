@@ -338,10 +338,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * @param idForSession--the session which requested the report
      */
     private void clearThresholdWorkTables(String idForSession) {
-        this.clearTempTableByUnvlId("LD_BCN_BUILD_SALSUMM01_MT", "SESID", idForSession);
-        this.clearTempTableByUnvlId("LD_BCN_BUILD_SALSUMM02_MT", "SESID", idForSession);
-        this.clearTempTableByUnvlId("LD_BCN_BUILD_SALSUMM03_MT", "SESID", idForSession);
-        this.clearTempTableByUnvlId("LD_BCN_BUILD_SALSUMM04_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM01_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM02_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM03_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM04_MT", "SESID", idForSession);
     }
     
     /**

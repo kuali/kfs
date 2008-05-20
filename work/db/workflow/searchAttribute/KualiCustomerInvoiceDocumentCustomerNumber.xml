@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiCustomerInvoiceDocumentCustomerNumber</name>
-      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+ 	  <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
       <label>Kuali Customer Invoice Document Customer Number</label>
       <description>Attribute to identify the Customer Number of the Customer Invoice Document</description>
       <type>SearchableXmlAttribute</type>

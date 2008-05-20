@@ -50,4 +50,11 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * @see org.kuali.module.ar.service.CustomerAddressService#customerAddressExists(java.lang.String, java.lang.Integer)
+     */
+    public boolean customerAddressExists(String customerNumber, Integer customerAddressIdentifier) {
+        return ObjectUtils.isNotNull(getByPrimaryKey(customerNumber, customerAddressIdentifier));
+    }
+
 }

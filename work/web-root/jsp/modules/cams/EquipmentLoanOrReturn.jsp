@@ -24,6 +24,7 @@
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
+	<c:set var="displayRenewLoanTab" value="${KualiForm.editingMode['displayRenewLoanTab']}" scope="request"/>
 	
 	<html:hidden property="document.asset.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.capitalAssetNumber" />
@@ -93,11 +94,26 @@
 						<th class="grid" width="25%" align="right" colspan="2"></th>
 	                </c:when>
 	            	<c:otherwise>
-						<td class="grid" width="25%" horizontal="true" colspan="2">
-						 	<div align="center">
-				            	<html:image property="methodToCall.performRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpullup.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-    						</div>
-						</td>
+			        	<c:choose>
+
+		                <c:when test="${displayRenewLoanTab}">
+							<td class="grid" width="25%" horizontal="true" colspan="2">
+							 	<div align="center">
+							 		Are you sure you want to Renew?
+					            	<html:image property="methodToCall.okRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_applytrans.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+					            	<html:image property="methodToCall.cancelRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_back.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+	 	   						</div>
+							</td>
+		                </c:when>
+		            	<c:otherwise>
+							<td class="grid" width="25%" horizontal="true" colspan="2">
+							 	<div align="center">
+					            	<html:image property="methodToCall.performRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpullup.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+	    						</div>
+							</td>
+		            	</c:otherwise>
+			        	</c:choose>
+
 	            	</c:otherwise>
 	            </c:choose>
 			</tr>

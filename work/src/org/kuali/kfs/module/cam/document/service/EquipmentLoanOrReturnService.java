@@ -21,22 +21,21 @@ public interface EquipmentLoanOrReturnService {
 
     
     /**
-     * Checks if asset payment is federally funder or not
+     * Checks if asset can be Loaned
      * 
-     * @param assetPayment Payment record
-     * @return True if financial object sub type code indicates federal contribution
+     * @param equipmentLoanOrReturn record
+     * @return True if the asset can be loaned
      */
     boolean canBeLoaned(EquipmentLoanOrReturnDocument document);    
+
+
     /**
      * This method is called when the work flow document is reached its final approval
      * <ol>
      * <li>Gets the latest asset details from DB</li>
      * <li>Save asset owner data</li>
-     * <li>Save location changes </li>
-     * <li>Save organization changes</li>
-     * <li>Create offset payments</li>
-     * <li>Create new payments</li>
-     * <li>Update original payments</li>
+     * <li>Save borrower's location changes </li>
+     * <li>Save store at location changes</li>
      * </ol>
      */
     void processApprovedEquipmentLoanOrReturn(EquipmentLoanOrReturnDocument document);

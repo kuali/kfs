@@ -476,7 +476,16 @@
     <property name="description" value="organizationTagNumber description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-signatureCode" parent="EquipmentLoanOrReturnDocument-signatureCode-parentBean" />
-
+  
+  <bean id="EquipmentLoanOrReturnDocument-signatureCode-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="signatureCode" />
+    <property name="label" value="Signature on File?" />
+    <property name="shortLabel" value="Code" />
+    <property name="summary" value="signatureCode" />
+    <property name="description" value="signatureCode description..." />
+  </bean>
+  
+<!-- Exported Workflow Properties 
   <bean id="EquipmentLoanOrReturnDocument-signatureCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="signatureCode" />
     <property name="forceUppercase" value="true" />
@@ -493,6 +502,7 @@
     <property name="summary" value="signatureCode" />
     <property name="description" value="signatureCode description..." />
   </bean>
+  -->
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" />
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">

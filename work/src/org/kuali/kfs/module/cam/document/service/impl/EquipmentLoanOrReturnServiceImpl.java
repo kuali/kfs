@@ -44,7 +44,15 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     private AssetService assetService;
     private BusinessObjectService businessObjectService;
 
-
+    /**
+     * This method is called when the work flow document is reached its final approval
+     * <ol>
+     * <li>Gets the latest asset details from DB</li>
+     * <li>Save asset owner data</li>
+     * <li>Save borrower's location changes </li>
+     * <li>Save store at location changes</li>
+     * </ol>
+     */
     public void processApprovedEquipmentLoanOrReturn(EquipmentLoanOrReturnDocument document) {
         AssetHeader assetHeader = document.getAssetHeader();
         Asset updateAsset = new Asset();
@@ -135,10 +143,10 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     }
 
     /**
-     * Checks if asset payment is federally funder or not
+     * Checks if asset can be Loaned
      * 
-     * @param assetPayment Payment record
-     * @return True if financial object sub type code indicates federal contribution
+     * @param equipmentLoanOrReturn record
+     * @return True if the asset can be loaned
      */
     public boolean canBeLoaned(EquipmentLoanOrReturnDocument document) {
         Asset asset = document.getAsset();
@@ -150,8 +158,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         }
         return true;
     }
-
-
+    
     /**
      * @see org.kuali.module.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String,
      *      java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)

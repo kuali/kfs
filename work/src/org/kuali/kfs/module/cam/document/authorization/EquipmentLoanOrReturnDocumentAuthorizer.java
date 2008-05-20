@@ -46,6 +46,14 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocume
             editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
         }
 
+        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RENEW_LOAN_TAB, "TRUE");
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_VIEW_ONLY_TAB, "TRUE");
+        }
+        else {
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RENEW_LOAN_TAB, "FALSE");
+        }
+
         return editModeMap;
     }
 
@@ -67,6 +75,16 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocume
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);
+            actionFlags.setCanRoute(false);
+            actionFlags.setCanSave(false);
+        }
+
+        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
+            actionFlags.setCanAdHocRoute(false);
+            actionFlags.setCanApprove(false);
+            actionFlags.setCanBlanketApprove(false);
+            actionFlags.setCanClose(false);
+            actionFlags.setCanCancel(false);
             actionFlags.setCanRoute(false);
             actionFlags.setCanSave(false);
         }

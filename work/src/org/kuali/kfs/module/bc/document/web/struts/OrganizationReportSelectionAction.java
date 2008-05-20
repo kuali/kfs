@@ -61,6 +61,7 @@ import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportServi
 import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionPositionFundingDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionReasonStatisticsReportService;
+import org.kuali.module.budget.service.BudgetConstructionReasonSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionSalaryStatisticsReportService;
 import org.kuali.module.budget.service.BudgetConstructionSalarySummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
@@ -68,7 +69,6 @@ import org.kuali.module.budget.service.BudgetConstructionSynchronizationProblems
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.util.ReportControlListBuildHelper;
 import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
-import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 
 /**
  * Struts Action Class for the Organization Report Selection Screen.
@@ -298,7 +298,10 @@ public class OrganizationReportSelectionAction extends KualiAction {
                 SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).updateSalaryStatisticsReport(personUserIdentifier, universityFiscalYear);
                 reportData = SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
                 break;
-                
+            case REASON_SUMMARY_REPORT:
+                SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).updateReasonSummaryReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
+                reportData = SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;    
             case REASON_STATISTICS_REPORT:
                 SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
                 reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);

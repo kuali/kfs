@@ -58,6 +58,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         Asset updateAsset = new Asset();
         updateAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
         updateAsset = (Asset) getBusinessObjectService().retrieve(updateAsset);
+        updateAsset.setExpectedReturnDate(document.getExpectedReturnDate());
         updateAsset.setLoanDate(document.getLoanDate());
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
 

@@ -67,7 +67,19 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     private String getLoanUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
-        return "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>";
+        String url;
+        
+        if (getAssetService().isAssetLoaned(asset)) {
+            url = CamsConstants.AssetActions.LOAN + "&nbsp;["
+            + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RENEW + "</a>"
+            + "&nbsp;|&nbsp;"
+            + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RETURN + "</a>"
+            + "]";
+        } else {
+            url = "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>";
+        }
+        
+        return url;
     }
 
     private String getTransferUrl(BusinessObject bo) {

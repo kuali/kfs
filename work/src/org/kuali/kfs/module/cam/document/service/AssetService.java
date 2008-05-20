@@ -32,6 +32,11 @@ public interface AssetService {
     boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset);
 
     /**
+     * @return if the asset is on loan or not
+     */
+    boolean isAssetLoaned(Asset asset);
+    
+    /**
      * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
      * the asset created in the current fiscal year
      * 

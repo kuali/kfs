@@ -34,6 +34,8 @@ public class CamsConstants {
 
     public static class AssetActions {
         public static final String LOAN = "loan";
+        public static final String LOAN_RETURN = "return";
+        public static final String LOAN_RENEW = "renew";
         public static final String MERGE = "merge";
         public static final String PAYMENT = "payment";
         public static final String RETIRE = "retire";

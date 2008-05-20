@@ -74,6 +74,13 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
+     * @see org.kuali.module.cams.service.AssetService#isAssetLoaned(org.kuali.module.cams.bo.Asset)
+     */
+    public boolean isAssetLoaned(Asset asset) {
+        return ObjectUtils.isNotNull(asset.getExpectedReturnDate()) && ObjectUtils.isNull(asset.getLoanReturnDate());
+    }
+    
+    /**
      * @see org.kuali.module.cams.service.AssetService#isAssetTaggedInPriorFiscalYear(org.kuali.module.cams.bo.Asset)
      */
     public boolean isAssetTaggedInPriorFiscalYear(Asset asset) {

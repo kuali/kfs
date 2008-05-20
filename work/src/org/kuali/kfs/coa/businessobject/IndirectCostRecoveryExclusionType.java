@@ -29,6 +29,8 @@ public class IndirectCostRecoveryExclusionType extends PersistableBusinessObject
     private String accountIndirectCostRecoveryTypeCode;
     private String chartOfAccountsCode;
     private String financialObjectCode;
+    private boolean active; 
+    
     private Chart chart;
     private ICRTypeCode indirectCostRecoveryType;
     private ObjectCode objectCodeCurrent;
@@ -93,6 +95,21 @@ public class IndirectCostRecoveryExclusionType extends PersistableBusinessObject
         this.financialObjectCode = financialObjectCode;
     }
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     /**
      * Gets the chart attribute.

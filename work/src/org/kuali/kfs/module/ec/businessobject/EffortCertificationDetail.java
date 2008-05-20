@@ -66,8 +66,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String overrideCode = AccountingLineOverride.CODE.NONE;
 
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
-    private KualiDecimal persistedPayrollAmount; // holds last saved updated payroll amount so business rule can check if it has
-    // been updated at the route level
+    
+    // holds last saved updated payroll amount so business rule can check if it has been updated at the route level
+    private KualiDecimal persistedPayrollAmount;
+    private Integer persistedEffortPercent;
 
     private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
@@ -721,6 +723,22 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return totalEffortPercent;
     }
+    
+    /**
+     * calculate the total persised effort percent of the given detail lines
+     * 
+     * @param the given detail lines
+     * @return Returns the total persisted effort percent
+     */
+    public static Integer getTotalPersistedEffortPercent(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        Integer totalEffortPercent = 0;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalEffortPercent += detailLine.getPersistedEffortPercent();
+        }
+
+        return totalEffortPercent;
+    }
 
     /**
      * calculate the total original effort percent of the given detail lines
@@ -749,6 +767,22 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
             totalPayrollAmount = totalPayrollAmount.add(detailLine.getEffortCertificationPayrollAmount());
+        }
+
+        return totalPayrollAmount;
+    }
+    
+    /**
+     * calculate the total payroll amount of the given detail lines
+     * 
+     * @param the given detail lines
+     * @return Returns the total original payroll amount
+     */
+    public static KualiDecimal getTotalPersistedPayrollAmount(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        KualiDecimal totalPayrollAmount = KualiDecimal.ZERO;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalPayrollAmount = totalPayrollAmount.add(detailLine.getPersistedPayrollAmount());
         }
 
         return totalPayrollAmount;
@@ -830,5 +864,21 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         String objectCode = detailLine.getFinancialObjectCode();
 
         return laborModuleService.calculateFringeBenefit(fiscalYear, chartOfAccountsCode, objectCode, payrollAmount);
+    }
+
+    /**
+     * Gets the persistedEffortPercent attribute. 
+     * @return Returns the persistedEffortPercent.
+     */
+    public Integer getPersistedEffortPercent() {
+        return persistedEffortPercent;
+    }
+
+    /**
+     * Sets the persistedEffortPercent attribute value.
+     * @param persistedEffortPercent The persistedEffortPercent to set.
+     */
+    public void setPersistedEffortPercent(Integer persistedEffortPercent) {
+        this.persistedEffortPercent = persistedEffortPercent;
     }
 }

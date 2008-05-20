@@ -22,7 +22,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
      * Default constructor.
      */
     public EffortCertificationReportPosition() {
-
+        super();
     }
 
     /**

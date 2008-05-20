@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +104,9 @@ public class CertificationReportAction extends EffortCertificationAction {
             if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(newDetailLine)) {
                 EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
             }
-            detailLines.add(newDetailLine);
+
+            this.resetPersistedFields(newDetailLine);
+            detailLines.add(newDetailLine);            
             certificationReportForm.setNewDetailLine(certificationReportForm.createNewDetailLine());
         }
         else {
@@ -141,12 +144,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
 
-        EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.retrieve(lineToRevert);
-
-        detailLines.remove(lineToRevertIndex);
-        detailLines.add(lineToRevertIndex, revertedLine);
+        this.revertDetaiLine(detailLines, lineToRevertIndex);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -162,20 +160,6 @@ public class CertificationReportAction extends EffortCertificationAction {
         if (this.isSummarizeDetailLinesRendered(certificationReportForm)) {
             this.refreshDetailLineGroupMap(certificationReportForm);
         }
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /*CertificationReportForm certificationReportForm = (CertificationReportForm) form;
-        if (this.isSummarizeDetailLinesRendered(certificationReportForm)) {
-            this.recalculateAllDetailLines(certificationReportForm);
-        }*/
-
-        return super.approve(mapping, form, request, response);
     }
 
     /**
@@ -203,6 +187,9 @@ public class CertificationReportAction extends EffortCertificationAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         refresh(mapping, form, request, response);
+        
+        CertificationReportForm certificationReportForm = (CertificationReportForm) form;
+        this.updateDetailLinesFromSummaryLines(certificationReportForm);
 
         return super.execute(mapping, form, request, response);
     }
@@ -246,7 +233,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         this.updateDetailLineGroup(detailLineGroup, lineToRecalculate, totalPayrollAmount);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
+    }  
 
     /**
      * add a new detail line and make a corresponding update on the underlying detail lines 
@@ -287,10 +274,22 @@ public class CertificationReportAction extends EffortCertificationAction {
      * revert a detail line in summarized detail lines and make a corresponding update on the underlying detail lines 
      */
     public ActionForward revertSummarizedDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = this.revert(mapping, form, request, response);
-
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
-        this.refreshDetailLineGroupMap(certificationReportForm);
+        
+        List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
+        int lineToRevertIndex = this.getSelectedLine(request);
+        EffortCertificationDetail lineToRevert = summarizedDetailLines.get(lineToRevertIndex);
+        
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines(), EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+        DetailLineGroup detailLineGroup = this.getDetailLineGroupByDetailLine(detailLineGroupMap, lineToRevert);
+        List<EffortCertificationDetail> detailLinesInGroup = detailLineGroup.getDetailLines();
+        
+        List<EffortCertificationDetail> detailLines = certificationReportForm.getDetailLines();
+        for(EffortCertificationDetail detailLine : detailLinesInGroup) {
+            this.revertDetaiLine(detailLines, detailLine);
+        }
+        
+        this.refreshDetailLineGroupMap(certificationReportForm);        
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -348,6 +347,25 @@ public class CertificationReportAction extends EffortCertificationAction {
             this.updateDetailLineGroup(detailLineGroup, detailLine, totalPayrollAmount);
         }
     }
+    
+    /**
+     * recalculate all detail lines with the information in summarized detail lines
+     * 
+     * @param certificationReportForm the given action form
+     */
+    private void updateDetailLinesFromSummaryLines(CertificationReportForm certificationReportForm) {
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines(), EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) certificationReportForm.getDocument();
+        KualiDecimal totalPayrollAmount = effortDocument.getTotalOriginalPayrollAmount();
+
+        List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
+        for (EffortCertificationDetail detailLine : summarizedDetailLines) {
+            // rebuild the detail line groups from the detail lines of the current document
+            DetailLineGroup detailLineGroup = this.getDetailLineGroupByDetailLine(detailLineGroupMap, detailLine);
+            this.updateDetailLineGroup(detailLineGroup, detailLine, totalPayrollAmount);
+        }
+    }
 
     /**
      * update detail line group with the the information in the given detail line
@@ -361,10 +379,8 @@ public class CertificationReportAction extends EffortCertificationAction {
         summaryLine.setEffortCertificationUpdatedOverallPercent(detailLine.getEffortCertificationUpdatedOverallPercent());
         summaryLine.setEffortCertificationPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
 
-        detailLineGroup.updateDelegateDetailLineEffort();
-
-        EffortCertificationDetail delegateDetailLine = detailLineGroup.getDelegateDetailLine();
-        delegateDetailLine.recalculatePayrollAmount(totalPayrollAmount);
+        detailLineGroup.updateDetailLineEffortPercent();
+        detailLineGroup.updateDetailLinePayrollAmount();
     }
     
     /**
@@ -391,7 +407,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     /**
      * rebuild the detail line group map from the detail lines of the current document
      */
-    private void refreshDetailLineGroupMap(CertificationReportForm certificationReportForm) {
+    private Map<String, DetailLineGroup> refreshDetailLineGroupMap(CertificationReportForm certificationReportForm) {
         LOG.info("refreshDetailLineGroupMap() started");
 
         List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
@@ -408,5 +424,32 @@ public class CertificationReportAction extends EffortCertificationAction {
 
             summarizedDetailLines.add(sumaryline);
         }
+        
+        return detailLineGroupMap;
+    }
+    
+    private void revertDetaiLine(List<EffortCertificationDetail> detailLines, EffortCertificationDetail lineToRevert) {
+        int lineToRevertIndex = detailLines.lastIndexOf(lineToRevert);
+        
+        this.revertDetaiLine(detailLines, lineToRevertIndex);
+    }
+    
+    private void revertDetaiLine(List<EffortCertificationDetail> detailLines, int lineToRevertIndex) {
+        EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.retrieve(lineToRevert);
+        this.resetPersistedFields(revertedLine);
+          
+        detailLines.remove(lineToRevertIndex);
+        detailLines.add(lineToRevertIndex, revertedLine);
+    }
+    
+    private void resetPersistedFields(EffortCertificationDetail detailLine) {       
+        int persistedEffortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
+        detailLine.setPersistedEffortPercent(new Integer(persistedEffortPercent));
+        
+        BigDecimal persistedPayrollAmount = detailLine.getEffortCertificationPayrollAmount().bigDecimalValue();
+        detailLine.setPersistedPayrollAmount(new KualiDecimal(persistedPayrollAmount));
     }
 }

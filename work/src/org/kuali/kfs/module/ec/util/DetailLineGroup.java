@@ -16,12 +16,17 @@
 package org.kuali.module.effort.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
+import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 
 /**
@@ -69,6 +74,65 @@ public class DetailLineGroup {
             delegateDetailLine.setEffortCertificationUpdatedOverallPercent(effortPercent);
         }
     }
+    
+    /**
+     * update the effort percents of the detail lines if the effort on the summary line has been changed
+     */
+    public void updateDetailLineEffortPercent() {
+        int totalDifference = this.getEffortPercentChanged();
+
+        List<EffortCertificationDetail> detailLines = this.getDetailLines();
+        DynamicCollectionComparator.sort(detailLines, SortOrder.DESC, EffortPropertyConstants.PERSISED_PAYROLL_AMOUNT);
+        for(EffortCertificationDetail detailLine: detailLines) {
+            detailLine.setEffortCertificationUpdatedOverallPercent(detailLine.getPersistedEffortPercent());
+        }
+        
+        for(EffortCertificationDetail detailLine: detailLines) {
+            if(totalDifference == 0) {
+                break;
+            }
+            
+            int currentPercent = detailLine.getPersistedEffortPercent();            
+            int currentDifference = currentPercent + totalDifference;
+            boolean needUpdateMultipleLines = (currentDifference < 0);   
+            
+            int effortPercent = needUpdateMultipleLines ? 0 : currentDifference;
+            detailLine.setEffortCertificationUpdatedOverallPercent(effortPercent);
+            
+            totalDifference = needUpdateMultipleLines ? currentDifference : 0;
+        }     
+    }
+    
+    /**
+     * update the payroll amounts of the detail lines if the payroll amount on the summary line has been changed
+     */
+    public void updateDetailLinePayrollAmount() {
+        KualiDecimal totalDifference = this.getPayrollAmountChanged();
+        if(totalDifference.isZero()) {
+            return;
+        }
+
+        List<EffortCertificationDetail> detailLines = this.getDetailLines();
+        DynamicCollectionComparator.sort(detailLines, SortOrder.DESC, EffortPropertyConstants.PERSISED_PAYROLL_AMOUNT);
+        for(EffortCertificationDetail detailLine: detailLines) {
+            detailLine.setEffortCertificationPayrollAmount(detailLine.getPersistedPayrollAmount());
+        }
+        
+        for(EffortCertificationDetail detailLine: detailLines) {
+            if(totalDifference.isZero()) {
+                break;
+            }
+            
+            KualiDecimal currentAmount = detailLine.getPersistedPayrollAmount();            
+            KualiDecimal currentDifference = currentAmount.add(totalDifference);
+            boolean needUpdateMultipleLines = currentDifference.isNegative();   
+            
+            KualiDecimal payrollAmount = needUpdateMultipleLines ? KualiDecimal.ZERO : currentDifference;
+            detailLine.setEffortCertificationPayrollAmount(payrollAmount);
+            
+            totalDifference = needUpdateMultipleLines ? currentDifference : KualiDecimal.ZERO;
+        }     
+    }
 
     /**
      * group the given detail lines by the key fields
@@ -99,13 +163,25 @@ public class DetailLineGroup {
     /**
      * get the difference between the updated effort amount and the current effort amount
      * 
-     * @return the difference between the updated effort amount and the original effort amount
+     * @return the difference between the updated effort amount and the current effort amount
      */
     private Integer getEffortPercentChanged() {
-        Integer currentEffortPercent = EffortCertificationDetail.getTotalEffortPercent(detailLines);
+        Integer currentEffortPercent = EffortCertificationDetail.getTotalPersistedEffortPercent(detailLines);
         Integer updatedEffortPercent = summaryDetailLine.getEffortCertificationUpdatedOverallPercent();
 
         return updatedEffortPercent - currentEffortPercent;
+    }
+    
+    /**
+     * get the difference between the updated payroll amount and the current payroll amount
+     * 
+     * @return the difference between the updated payroll amount and the current payroll amount
+     */
+    private KualiDecimal getPayrollAmountChanged() {
+        KualiDecimal currentAmount = EffortCertificationDetail.getTotalPersistedPayrollAmount(detailLines);
+        KualiDecimal updatedAmount = summaryDetailLine.getEffortCertificationPayrollAmount();
+
+        return updatedAmount.subtract(currentAmount);
     }
 
     /**

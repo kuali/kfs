@@ -573,6 +573,9 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
         // capture each line's salary amount before route level modification for later rule validation
         for (EffortCertificationDetail detailLine : this.getEffortCertificationDetailLines()) {
             detailLine.setPersistedPayrollAmount(new KualiDecimal(detailLine.getEffortCertificationPayrollAmount().bigDecimalValue()));
+            
+            int effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
+            detailLine.setPersistedEffortPercent(new Integer(effortPercent));
         }
 
         // calculate original fringe benefits for each line

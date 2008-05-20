@@ -23,11 +23,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -104,10 +107,10 @@ public class LaborModuleServiceImpl implements LaborModuleService {
             return;
         }
 
+        WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) getDocumentService().getNewDocument(SalaryExpenseTransferDocument.class);
 
         document.setEmplid(sourceAccountingLines.get(0).getEmplid());
-
         document.setSourceAccountingLines(sourceAccountingLines);
         document.setTargetAccountingLines(targetAccountingLines);
 
@@ -115,7 +118,21 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         documentHeader.setFinancialDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
 
-        getDocumentService().blanketApproveDocument(document, annotation, adHocRecipients);
+        document.prepareForSave();
+        document.populateDocumentForRouting();
+
+        String documentTitle = document.getDocumentTitle();
+        if (StringUtils.isNotBlank(documentTitle)) {
+            document.getDocumentHeader().getWorkflowDocument().setTitle(documentTitle);
+        }
+
+        String organizationDocumentNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
+        if (StringUtils.isNotBlank(organizationDocumentNumber)) {
+            document.getDocumentHeader().getWorkflowDocument().setAppDocId(organizationDocumentNumber);
+        }
+
+        workflowDocumentService.blanketApprove(document.getDocumentHeader().getWorkflowDocument(), annotation, adHocRecipients);
+        GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
     }
 
     /**

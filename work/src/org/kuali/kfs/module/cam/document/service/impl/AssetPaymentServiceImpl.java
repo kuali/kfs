@@ -129,57 +129,59 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
         Integer maxSequenceNo = this.getMaxSequenceNumber(document.getAsset().getCapitalAssetNumber());
 
-        // Creating a new payment record for each asset payment detail.
-        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
-            AssetPayment assetPayment = new AssetPayment();
-            assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
-            assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
-            assetPayment.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
-            assetPayment.setAccountNumber(assetPaymentDetail.getAccountNumber());
-            assetPayment.setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
-            assetPayment.setFinancialObjectCode(assetPaymentDetail.getFinancialObjectCode());
-            assetPayment.setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
-            assetPayment.setFinancialSystemOriginationCode(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode());
-            assetPayment.setFinancialDocumentTypeCode(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
-            assetPayment.setDocumentNumber(document.getDocumentNumber());
-            assetPayment.setFinancialDocumentPostingYear(assetPaymentDetail.getFinancialDocumentPostingYear());
-            assetPayment.setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
-            assetPayment.setFinancialDocumentPostingDate(assetPaymentDetail.getPaymentApplicationDate());
-            assetPayment.setProjectCode(assetPaymentDetail.getProjectCode());
-            assetPayment.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
-            assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount());
-            assetPayment.setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
-            assetPayment.setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
-            assetPayment.setAccumulatedPrimaryDepreciationAmount(new KualiDecimal(0));
-            assetPayment.setPreviousYearPrimaryDepreciationAmount(new KualiDecimal(0));
-            
-            assetPayment.setAccumulatedSecondaryDepreciationAmount(new KualiDecimal(0));
-            assetPayment.setPreviousYearSecondaryDepreciationAmount(new KualiDecimal(0));
-            assetPayment.setSecondaryDepreciationBaseAmount(new KualiDecimal(0));
-            assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
+        try {
+            // Creating a new payment record for each asset payment detail.
+            for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
+                AssetPayment assetPayment = new AssetPayment();
+                assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
+                assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
+                assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
+                assetPayment.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
+                assetPayment.setAccountNumber(assetPaymentDetail.getAccountNumber());
+                assetPayment.setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
+                assetPayment.setFinancialObjectCode(assetPaymentDetail.getFinancialObjectCode());
+                assetPayment.setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
+                assetPayment.setFinancialSystemOriginationCode(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode());
+                assetPayment.setFinancialDocumentTypeCode(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
+                assetPayment.setDocumentNumber(document.getDocumentNumber());
+                assetPayment.setFinancialDocumentPostingYear(assetPaymentDetail.getFinancialDocumentPostingYear());
+                assetPayment.setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
+                assetPayment.setFinancialDocumentPostingDate(assetPaymentDetail.getPaymentApplicationDate());
+                assetPayment.setProjectCode(assetPaymentDetail.getProjectCode());
+                assetPayment.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
+                assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount());
+                assetPayment.setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
+                assetPayment.setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
 
-            KualiDecimal baseAmount = new KualiDecimal(0);
+                /*assetPayment.setAccumulatedPrimaryDepreciationAmount(new KualiDecimal(0));
+                assetPayment.setPreviousYearPrimaryDepreciationAmount(new KualiDecimal(0));            
+                assetPayment.setAccumulatedSecondaryDepreciationAmount(new KualiDecimal(0));
+                assetPayment.setPreviousYearSecondaryDepreciationAmount(new KualiDecimal(0));
+                assetPayment.setSecondaryDepreciationBaseAmount(new KualiDecimal(0));*/
+                
 
-            // If the object sub type is not in the list of federally owned object sub types, then...
-            ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+                KualiDecimal baseAmount = new KualiDecimal(0);
 
-            // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
-            // federally owned one
-            if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
-                baseAmount = assetPaymentDetail.getAmount();
-            }
-            assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
-            
-            
-            // Resetting each period field its value with zeros
-            PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
+                // If the object sub type is not in the list of federally owned object sub types, then...
+                ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+
+                // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
+                // federally owned one
+                if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
+                    baseAmount = assetPaymentDetail.getAmount();
+                }
+                assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
+
+                // Resetting each period field its value with nulls
+                this.adjustPaymentAmounts(assetPayment, false, true);
+
+                /*PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 Method readMethod = propertyDescriptor.getReadMethod();
                 if (readMethod != null && propertyDescriptor.getPropertyType() != null && propertyDescriptor.getPropertyType().isAssignableFrom(KualiDecimal.class)) {
                     Method writeMethod = propertyDescriptor.getWriteMethod();
                     if (writeMethod != null) {
                         if (Pattern.matches(CamsConstants.SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
-                            Object[] nullVal = new Object[] { null };
                             try {
                                 writeMethod.invoke(assetPayment, new KualiDecimal(0));
                             }
@@ -189,10 +191,13 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                         }
                     }
                 }
-            }
+            }*/
 
-            // add new payment
-            assetPayments.add(assetPayment);
+                // add new payment
+                assetPayments.add(assetPayment);
+            }
+        } catch(Exception e) {
+            throw new RuntimeException(e);            
         }
         // Finally, saving all the asset payment records.
         this.getBusinessObjectService().save(assetPayments);
@@ -211,7 +216,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
-
 
     /**
      * @see org.kuali.module.cams.service.AssetPaymentService#adjustPaymentAmounts(org.kuali.module.cams.bo.AssetPayment, boolean,

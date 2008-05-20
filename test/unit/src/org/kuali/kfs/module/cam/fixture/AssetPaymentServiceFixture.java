@@ -16,12 +16,18 @@
 package org.kuali.module.cams.fixture;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
+import org.kuali.module.cams.bo.AssetPaymentDetail;
+import org.kuali.module.cams.document.AssetPaymentDocument;
 
 public enum AssetPaymentServiceFixture {
     PAYMENT1(1);
+;
     private int testDataPos;
 
     private static Properties properties;
@@ -47,5 +53,30 @@ public enum AssetPaymentServiceFixture {
         String fieldNames = properties.getProperty("assetPayment.fieldNames");
         AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
         return assetPayment;
+    }
+    
+    @SuppressWarnings("deprecation")
+    public AssetPaymentDocument newAssetPaymentDocument() {
+        AssetPaymentDocument assetPaymentDocument = new AssetPaymentDocument();        
+        List<AssetPaymentDetail> assetPaymentDetails = new ArrayList<AssetPaymentDetail>();        
+        
+        String fieldNames   = properties.getProperty("assetPaymentDetail.fieldNames");        
+        String deliminator  = properties.getProperty("deliminator");
+        Integer dataRows    = new Integer(properties.getProperty("assetPaymentDetail.numOfData"));                
+        String propertyKey="";
+        
+        for(int i=1;i<=dataRows.intValue();i++) {
+            propertyKey = "assetPaymentDetail.testData" + i;
+            AssetPaymentDetail assetPaymentDetail = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPaymentDetail.class, properties, propertyKey, fieldNames, deliminator);
+            assetPaymentDetails.add(assetPaymentDetail);
+        }
+        // Getting asset data
+        propertyKey = "asset.testData";        
+        fieldNames  = properties.getProperty("asset.fieldNames");
+        Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator); 
+
+        assetPaymentDocument.setAssetPaymentDetail(assetPaymentDetails);
+        assetPaymentDocument.setAsset(asset);
+        return assetPaymentDocument;
     }
 }

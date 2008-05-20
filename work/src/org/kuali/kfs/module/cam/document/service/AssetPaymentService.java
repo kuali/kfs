@@ -70,13 +70,4 @@ public interface AssetPaymentService {
      */
     public void adjustPaymentAmounts(AssetPayment assetPayment, boolean reverseAmount, boolean nullPeriodDepreciation) throws IllegalAccessException, InvocationTargetException;
 
-    /**
-     * Checks whether an asset is eligible for payments. Such criteria is based on the rule that assets with pending Retirement or
-     * transfer documents should not be processed with a payment
-     * 
-     * @param capitalAssetNumber
-     * @return boolean public boolean isAssetEligibleForPayment(Long capitalAssetNumber);
-     */
-
-
 }

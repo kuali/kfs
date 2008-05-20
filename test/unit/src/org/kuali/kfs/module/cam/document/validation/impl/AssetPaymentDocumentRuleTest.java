@@ -41,7 +41,11 @@ public class AssetPaymentDocumentRuleTest extends KualiTestBase {
     }
 
     
-    public void testValidateAssetEligibilityForPayment() {
+    /**
+     * 
+     * Testing the method that checks that the posted date exists in the university date table
+     */
+    public void testValidatePostedDate() {
         java.sql.Date testDate;
         Calendar cal= Calendar.getInstance();
         
@@ -54,8 +58,12 @@ public class AssetPaymentDocumentRuleTest extends KualiTestBase {
         assertFalse(this.rule.validatePostedDate(testDate));
     }
         
-    public void testvalidateFiscalPeriod() {
-        
+    /**
+     * 
+     * Validates the existance of a valid fiscal year and fiscal month in the university date table
+     * 
+     */
+    public void testValidateFiscalPeriod() {        
         assertTrue(rule.validateFiscalPeriod(2008,"01"));
         assertFalse(rule.validateFiscalPeriod(2999,"01"));
     }

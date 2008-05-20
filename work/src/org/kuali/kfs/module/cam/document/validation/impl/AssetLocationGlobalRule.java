@@ -82,7 +82,6 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validateBuildingRoomNumber(detail);
                 success &= hasDuplicateTagNumber(detail);
             }
-            LOG.info("LEO - processCustomRouteDocumentBusinessRules OUT LOOP.");
         }
 
         return success & super.processCustomRouteDocumentBusinessRules(documentCopy);

@@ -72,9 +72,6 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
         
         boolean isValid = validateFormData(budgetConstructionImportForm);
         
-        String basePath;
-        String lookupUrl;
-        
         if (!isValid) {
             //TODO: add path to constants
             return mapping.findForward("import_export");
@@ -91,7 +88,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
             return null;
         }
 
-        List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear);
+        List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear, personUniversalIdentifier);
 
         List<String> messageList = new ArrayList<String>();
         if (!dataValidationErrorList.isEmpty()) {

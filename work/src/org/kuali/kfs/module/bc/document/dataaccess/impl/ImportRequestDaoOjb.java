@@ -103,9 +103,10 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
      * 
      * @see org.kuali.module.budget.dao.ImportRequestDao#findAllNonErrorCodeRecords()
      */
-    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords() {
+    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String personUniversalIdentifier) {
         Criteria criteria = new Criteria();
         criteria.addIsNull("requestUpdateErrorCode");
+        criteria.addEqualToColumn("personUniversalIdentifier", personUniversalIdentifier);
         
         List<BudgetConstructionRequestMove> records = new ArrayList<BudgetConstructionRequestMove>(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionRequestMove.class, criteria)));
         

@@ -40,7 +40,7 @@ public interface ImportRequestDao {
      * 
      * @return List<BudgetConstructionRequestMove>
      */
-    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords();
+    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String personUniversalIdentifier);
     
     /**
      * Save or update business object based on isUpdate

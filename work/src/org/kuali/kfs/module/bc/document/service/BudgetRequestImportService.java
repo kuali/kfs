@@ -61,7 +61,7 @@ public interface BudgetRequestImportService {
      * @return true if no data validation errors were found. false otherwise
      * 
      */
-    public List<String> validateData(Integer budgetYear);
+    public List<String> validateData(Integer budgetYear, String personUniversalIdentifier);
     
     /**
      * Loads all budget request records that do not have error codes

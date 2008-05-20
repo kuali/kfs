@@ -322,6 +322,13 @@
     <field-descriptor name="receivingDocumentRequiredIndicator" column="RCVNG_DOC_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="paymentRequestPositiveApprovalIndicator" column="PMT_RQST_PSTV_APRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/> 
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -551,6 +558,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/> 
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -779,6 +793,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1009,6 +1030,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1239,6 +1267,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1470,6 +1505,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1700,6 +1742,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1929,6 +1978,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -2159,6 +2215,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -2389,6 +2452,13 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">

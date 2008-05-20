@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Country;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -18,13 +19,16 @@ public class CustomerAddress extends PersistableBusinessObjectBase {
 	private String customerCityName;
 	private String customerStateCode;
 	private String customerZipCode;
-	private String customerInternationalMailCode;
+    private String customerCountryCode;
+    private String customerAddressInternationalProvinceName;
+    private String customerInternationalMailCode;
 	private String customerEmailAddress;
 	private String customerAddressTypeCode;
 	private Date customerAddressEndDate;
 
 	private CustomerAddressType customerAddressType;
     private Customer customer;
+    private Country customerCountry;
     
 	/**
 	 * Default constructor.
@@ -179,7 +183,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase {
 		this.customerStateCode = customerStateCode;
 	}
 
-
 	/**
 	 * Gets the customerZipCode attribute.
 	 * 
@@ -200,8 +203,39 @@ public class CustomerAddress extends PersistableBusinessObjectBase {
 		this.customerZipCode = customerZipCode;
 	}
 
-
 	/**
+     * Gets the customerAddressInternationalProvinceName attribute. 
+     * @return Returns the customerAddressInternationalProvinceName.
+     */
+    public String getCustomerAddressInternationalProvinceName() {
+        return customerAddressInternationalProvinceName;
+    }
+
+    /**
+     * Sets the customerAddressInternationalProvinceName attribute value.
+     * @param customerAddressInternationalProvinceName The customerAddressInternationalProvinceName to set.
+     */
+    public void setCustomerAddressInternationalProvinceName(String customerAddressInternationalProvinceName) {
+        this.customerAddressInternationalProvinceName = customerAddressInternationalProvinceName;
+    }
+
+    /**
+     * Gets the customerCountryCode attribute. 
+     * @return Returns the customerCountryCode.
+     */
+    public String getCustomerCountryCode() {
+        return customerCountryCode;
+    }
+
+    /**
+     * Sets the customerCountryCode attribute value.
+     * @param customerCountryCode The customerCountryCode to set.
+     */
+    public void setCustomerCountryCode(String customerCountryCode) {
+        this.customerCountryCode = customerCountryCode;
+    }
+
+    /**
 	 * Gets the customerInternationalMailCode attribute.
 	 * 
 	 * @return Returns the customerInternationalMailCode
@@ -220,7 +254,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase {
 	public void setCustomerInternationalMailCode(String customerInternationalMailCode) {
 		this.customerInternationalMailCode = customerInternationalMailCode;
 	}
-
 
 	/**
 	 * Gets the customerEmailAddress attribute.
@@ -322,6 +355,23 @@ public class CustomerAddress extends PersistableBusinessObjectBase {
     }    
     
 	/**
+     * Gets the customerCountry attribute. 
+     * @return Returns the customerCountry.
+     */
+    public Country getCustomerCountry() {
+        return customerCountry;
+    }
+
+    /**
+     * Sets the customerCountry attribute value.
+     * @param customerCountry The customerCountry to set.
+     * @deprecated
+     */
+    public void setCustomerCountry(Country customerCountry) {
+        this.customerCountry = customerCountry;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

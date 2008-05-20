@@ -426,6 +426,8 @@
 	<field-descriptor name="customerCityName" column="CUST_CITY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerStateCode" column="CUST_STATE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerZipCode" column="CUST_ZIP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="customerCountryCode" column="CUST_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="customerAddressInternationalProvinceName" column="CUST_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerInternationalMailCode" column="CUST_INTL_MAIL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR"/>
@@ -437,6 +439,9 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
+    <reference-descriptor name="customerCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="customerCountryCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.CustomerInternalNote" table="AR_CUST_INT_NOTE_T">

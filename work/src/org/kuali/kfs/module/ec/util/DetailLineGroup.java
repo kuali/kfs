@@ -209,12 +209,18 @@ public class DetailLineGroup {
 
         Integer effortPercent = EffortCertificationDetail.getTotalEffortPercent(detailLines);
         summaryDetailLine.setEffortCertificationUpdatedOverallPercent(effortPercent);
+        
+        Integer persistedEffortPercent = EffortCertificationDetail.getTotalPersistedEffortPercent(detailLines);
+        summaryDetailLine.setPersistedEffortPercent(persistedEffortPercent);
 
         KualiDecimal originalPayrollAmount = EffortCertificationDetail.getTotalOriginalPayrollAmount(detailLines);
         summaryDetailLine.setEffortCertificationOriginalPayrollAmount(originalPayrollAmount);
 
         KualiDecimal payrollAmount = EffortCertificationDetail.getTotalPayrollAmount(detailLines);
         summaryDetailLine.setEffortCertificationPayrollAmount(payrollAmount);
+        
+        KualiDecimal persistedPayrollAmount = EffortCertificationDetail.getTotalPersistedPayrollAmount(detailLines);
+        summaryDetailLine.setPersistedPayrollAmount(persistedPayrollAmount);
     }
 
     /**

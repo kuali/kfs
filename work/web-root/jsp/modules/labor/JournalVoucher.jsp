@@ -77,9 +77,6 @@
 						<NOSCRIPT><html:submit value="refresh"
 							alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
-						<kul:lookup
-							boClassName="org.kuali.module.chart.bo.AccountingPeriod"
-							fieldLabel="${journalVoucherAttributes.accountingPeriod.label}" />
 					</c:if></td>
 				</tr>
 				<tr>

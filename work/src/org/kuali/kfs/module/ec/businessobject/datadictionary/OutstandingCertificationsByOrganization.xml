@@ -41,10 +41,6 @@
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="employee.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
-              <bean parent="SupportAttributeDefinition"
                     p:sourceName="employee.personName"
                     p:targetName="personName" />
             </list>

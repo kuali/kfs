@@ -27,7 +27,7 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="universityFiscalYear"
+                    p:sourceName="options.universityFiscalYear"
                     p:targetName="universityFiscalYear" />
             </list>
           </property>
@@ -50,7 +50,7 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="chartOfAccountsCode"
+                    p:sourceName="chart.chartOfAccountsCode"
                     p:targetName="chartOfAccountsCode" />
             </list>
           </property>
@@ -60,10 +60,10 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organizationCode"
+                    p:sourceName="organization.organizationCode"
                     p:targetName="organizationCode" />
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="chartOfAccountsCode"
+                    p:sourceName="organization.chartOfAccountsCode"
                     p:targetName="chartOfAccountsCode" />
             </list>
           </property>

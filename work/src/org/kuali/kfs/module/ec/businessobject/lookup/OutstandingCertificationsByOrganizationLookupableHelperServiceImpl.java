@@ -36,5 +36,13 @@ public class OutstandingCertificationsByOrganizationLookupableHelperServiceImpl 
 
         return super.getSearchResults(fieldValues);
     }
+    
+    /**
+     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsUnbounded(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> arg0) {
+        return getSearchResults(arg0);
+    }
 
 }

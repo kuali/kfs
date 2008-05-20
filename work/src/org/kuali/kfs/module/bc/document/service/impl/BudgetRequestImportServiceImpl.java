@@ -63,7 +63,6 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * Contains services relevent to the budget construction import request process
  */
-
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
     private BusinessObjectService businessObjectService;
     private ImportRequestDao importRequestDao;
@@ -178,7 +177,6 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List<String> errorMessages = new ArrayList<String>();
 
         Map<String, BudgetConstructionHeader> retrievedHeaders = new HashMap<String, BudgetConstructionHeader>();
-        Map<String, Account> retrievedAccounts = new HashMap<String, Account>();
         
         for (BudgetConstructionRequestMove record : dataToValidateList) {
             record.refresh();
@@ -405,7 +403,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
                 importRequestDao.save(importLine, true);
             }
-            
+
             pendingEntry.setAccountLineAnnualBalanceAmount(importLine.getAccountLineAnnualBalanceAmount());
             pendingEntry.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
         }
@@ -670,7 +668,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     public void setLockService(LockService lockService) {
        this.lockService = lockService;
     }
-
+    
     /**
      * Sets BudgetDocumentService
      * 
@@ -678,8 +676,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
-    }
-    
+}
     
     
 }

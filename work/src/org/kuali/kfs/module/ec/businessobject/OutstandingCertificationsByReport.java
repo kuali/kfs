@@ -19,9 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
@@ -29,7 +28,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.effort.EffortPropertyConstants;
 
-public class OutstandingCertificationsByReport extends TransientBusinessObjectBase {
+public class OutstandingCertificationsByReport extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String effortCertificationReportNumber;

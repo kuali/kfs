@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
 import org.kuali.kfs.context.SpringContext;
@@ -81,7 +82,8 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
             }
             
         }
-        return returnResults;
+        
+        return new CollectionIncomplete(returnResults, new Long(0));
     }
     
     /**

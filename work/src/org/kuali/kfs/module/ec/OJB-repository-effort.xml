@@ -342,4 +342,29 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.effort.bo.OutstandingCertificationsByReport" table="FOO">
+	<field-descriptor name="universityFiscalYear" column="FOO" jdbc-type="INTEGER" primarykey="true"/>
+	<field-descriptor name="effortCertificationReportNumber" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FOO" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationCode" column="FOO" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	
+    <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="effortCertificationReportNumber" />
+    </reference-descriptor>
+  
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="organizationCode" />
+    </reference-descriptor>
+</class-descriptor>
+
 </descriptor-repository>

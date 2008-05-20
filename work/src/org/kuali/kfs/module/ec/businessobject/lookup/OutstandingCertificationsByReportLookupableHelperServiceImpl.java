@@ -22,14 +22,14 @@ import java.util.Map;
 
 import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.OutstandingCertificationsByReport;
 import org.kuali.module.effort.bo.OutstandingCertificationsByOrganization;
+import org.kuali.module.effort.bo.OutstandingCertificationsByReport;
 
 /**
  * Searches for documents that are not approved.
@@ -86,7 +86,15 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
         
-        return returnResults;
+        return new CollectionIncomplete(returnResults, new Long(0));
+    }
+    
+    /**
+     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsUnbounded(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> arg0) {
+        return getSearchResults(arg0);
     }
 
     @Override

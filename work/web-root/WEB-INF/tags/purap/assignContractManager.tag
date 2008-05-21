@@ -95,6 +95,7 @@
 		                </td>
 		                <td align=left valign=middle class="datacell">                         
                             <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].purchasingCommodityCode" attributeEntry="${requisitionAttributes.items[0].purchasingCommodityCode}" readOnly="true" />
+                            <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionAttributes.items[0].commodityCode.commodityDescription}" readOnly="true" />
                         </td>                       
 		                <td align=left valign=middle class="datacell">		                    
 		                    <c:choose>

@@ -415,7 +415,22 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        return ((AssetGlpeSourceDetail) postable).isDebit();
+        AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
+        boolean isDebit = false;
+        // If source org
+        if (srcDetail.isSource()) {
+            if ((srcDetail.isCapitalization() && srcDetail.getAmount().isNegative()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isPositive()) || (srcDetail.isOffset() && srcDetail.getAmount().isPositive())) {
+                isDebit = true;
+            }
+        }
+        // If target and amount is positive then true
+        if (!srcDetail.isSource()) {
+            if ((srcDetail.isCapitalization() && srcDetail.getAmount().isPositive()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isNegative()) || (srcDetail.isOffset() && srcDetail.getAmount().isNegative())) {
+                isDebit = true;
+            }
+        }
+        return isDebit;
+
     }
 
 

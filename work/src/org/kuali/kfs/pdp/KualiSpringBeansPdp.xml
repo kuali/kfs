@@ -407,12 +407,4 @@
 	        <ref bean="pdpPayeeAchAccountLookupableHelperService" />
 	    </property>
 	</bean>
-	<bean id="pdAchLookupableHelperService" parent="lookupableHelperService"   class="org.kuali.module.pdp.lookup.AchLookupableHelperService" singleton="false" />
-	
-	<bean id="pdAchLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
-		<property name="lookupableHelperService">
-			<ref bean="pdAchLookupableHelperService" />
-		</property>
-	</bean>
-	
 </beans>

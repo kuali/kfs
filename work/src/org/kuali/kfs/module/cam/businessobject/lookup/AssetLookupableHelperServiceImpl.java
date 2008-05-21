@@ -71,12 +71,13 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         
         if (getAssetService().isAssetLoaned(asset)) {
             url = CamsConstants.AssetActions.LOAN + "&nbsp;["
-            + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RENEW + "</a>"
-            + "&nbsp;|&nbsp;"
-            + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RETURN + "</a>"
-            + "]";
+                + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RENEW + "</a>"
+                + "&nbsp;|&nbsp;"
+                + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RETURN + "</a>"
+                + "]";
         } else {
-            url = "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>";
+            url = "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>"
+            + "&nbsp;[" + CamsConstants.AssetActions.LOAN_RENEW + "&nbsp;|&nbsp;" + CamsConstants.AssetActions.LOAN_RETURN + "]";
         }
         
         return url;

@@ -18,6 +18,7 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiPercent;
 
 /**
@@ -26,7 +27,7 @@ import org.kuali.core.util.KualiPercent;
 public class BudgetConstructionReportThresholdSettings extends TransientBusinessObjectBase {
     private boolean lockThreshold;
     private boolean useThreshold;
-    private KualiPercent thresholdPercent;
+    private KualiDecimal thresholdPercent;
     private boolean useGreaterThanOperator;
 
     /**
@@ -59,7 +60,7 @@ public class BudgetConstructionReportThresholdSettings extends TransientBusiness
      * 
      * @return Returns the thresholdPercent.
      */
-    public KualiPercent getThresholdPercent() {
+    public KualiDecimal getThresholdPercent() {
         return thresholdPercent;
     }
 
@@ -68,7 +69,7 @@ public class BudgetConstructionReportThresholdSettings extends TransientBusiness
      * 
      * @param thresholdPercent The thresholdPercent to set.
      */
-    public void setThresholdPercent(KualiPercent thresholdPercent) {
+    public void setThresholdPercent(KualiDecimal thresholdPercent) {
         this.thresholdPercent = thresholdPercent;
     }
 

@@ -30,7 +30,7 @@ public interface BudgetConstructionSalarySummaryReportService {
     
     
     
-    public Collection<BudgetConstructionOrgSalarySummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgSalarySummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
     
     
 }

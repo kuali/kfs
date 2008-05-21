@@ -204,6 +204,10 @@ public class BCConstants extends JstlConstants {
         public final static String UNDF = "UnDf";
         public final static String YES = "Y";
         public final static String NO = "N";
+        public final static String THRESHOLD = "Threshold: ";
+        public final static String THRESHOLD_GREATER = "greater then or equal to ";
+        public final static String THRESHOLD_LESS = "less than or equal to ";
+        public final static String PERCENT = "%";
         // selection screen
         public final static String NONE_SELECTION_TITLE = "";
         public final static String SUB_FUND_SELECTION_TITLE = "Sub-Fund List Selection";

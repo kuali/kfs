@@ -73,7 +73,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
     }
 
-    public Collection<BudgetConstructionOrgSalarySummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgSalarySummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection<BudgetConstructionOrgSalarySummaryReport> reportSet = new ArrayList();
 
         BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry;
@@ -124,7 +124,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionSalaryFunding salaryFundingEntry : salarySummaryList) {
             BudgetConstructionSalarySocialSecurityNumber budgetSsnEntry = (BudgetConstructionSalarySocialSecurityNumber) budgetSsnMap.get(salaryFundingEntry);
             orgSalarySummaryReportEntry = new BudgetConstructionOrgSalarySummaryReport();
-            buildReportsHeader(universityFiscalYear, objectCodes, orgSalarySummaryReportEntry, salaryFundingEntry, budgetSsnEntry);
+            buildReportsHeader(universityFiscalYear, objectCodes, orgSalarySummaryReportEntry, salaryFundingEntry, budgetSsnEntry, budgetConstructionReportThresholdSettings);
             buildReportsBody(universityFiscalYear, orgSalarySummaryReportEntry, salaryFundingEntry, budgetSsnEntry);
             buildReportsTotal(orgSalarySummaryReportEntry, salaryFundingEntry, salarySummaryTotalPerson, salarySummaryTotalOrg, budgetSsnMap);
             reportSet.add(orgSalarySummaryReportEntry);
@@ -139,7 +139,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      * 
      * @param BudgetConstructionObjectDump bcod
      */
-    public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN) {
+    public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         String chartDesc = salaryFundingEntry.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = bcSSN.getOrganization().getOrganizationName();
 
@@ -169,6 +169,14 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         orgSalarySummaryReportEntry.setFinancialObjectCode(salaryFundingEntry.getFinancialObjectCode());
 
         orgSalarySummaryReportEntry.setObjectCodes(objectCodes);
+        
+        if(budgetConstructionReportThresholdSettings.isUseThreshold()){
+            if(budgetConstructionReportThresholdSettings.isUseGreaterThanOperator()){
+                orgSalarySummaryReportEntry.setThreshold(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_GREATER + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
+            } else {
+                orgSalarySummaryReportEntry.setThreshold(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_LESS + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
+            }
+        }
     }
 
 

@@ -292,7 +292,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
                 break;
             case SALARY_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).updateSalarySummaryReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionSalarySummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier, budgetConstructionReportThresholdSettings);
                 break;
             case SALARY_STATISTICS_REPORT:
                 SpringContext.getBean(BudgetConstructionSalaryStatisticsReportService.class).updateSalaryStatisticsReport(personUserIdentifier, universityFiscalYear);

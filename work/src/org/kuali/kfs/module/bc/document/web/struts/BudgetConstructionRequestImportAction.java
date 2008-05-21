@@ -49,9 +49,8 @@ import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportFo
 public class BudgetConstructionRequestImportAction extends BudgetConstructionImportExportAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRequestImportAction.class);
     
-    @Override
-    public ActionForward execute(ActionMapping arg0, ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
-        super.execute(arg0, arg1, arg2, arg3);
+    public ActionForward start(ActionMapping arg0, ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+        //super.execute(arg0, arg1, arg2, arg3);
         return arg0.findForward("import_export");
     }
 

@@ -241,7 +241,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        String lookupUrl = basePath + "/" + "budgetBudgetConstructionRequestImport.do?universityFiscalYear=" + budgetConstructionSelectionForm.getUniversityFiscalYear();
+        String lookupUrl = basePath + "/" + "budgetBudgetConstructionRequestImport.do?universityFiscalYear=" + budgetConstructionSelectionForm.getUniversityFiscalYear() + "&methodToCall=start";
         
         return new ActionForward(lookupUrl, true);
         

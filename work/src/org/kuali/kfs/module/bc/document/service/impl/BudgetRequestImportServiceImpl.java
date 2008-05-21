@@ -403,11 +403,12 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 for (BudgetConstructionMonthly monthlyRecord : monthlyRecords) {
                     businessObjectService.delete(monthlyRecord);
                 }
-
+                
                 importRequestDao.save(importLine, true);
             }
 
             pendingEntry.setAccountLineAnnualBalanceAmount(importLine.getAccountLineAnnualBalanceAmount());
+            this.businessObjectService.save(pendingEntry);
         }
         else if (fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
             
@@ -442,7 +443,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             
             //if entry already exists, use existing entry
             BudgetConstructionMonthly retrievedMonthlyEntry = (BudgetConstructionMonthly) businessObjectService.retrieve(monthlyEntry);
-            if (retrievedPendingEntry != null) {
+            if (retrievedMonthlyEntry != null) {
                 monthlyEntry = retrievedMonthlyEntry;
                 monthlyEntry.getPendingBudgetConstructionGeneralLedger().setAccountLineAnnualBalanceAmount(annualAmount);
             }
@@ -464,6 +465,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             monthlyEntry.setFinancialDocumentMonth11LineAmount(importLine.getFinancialDocumentMonth11LineAmount());
             monthlyEntry.setFinancialDocumentMonth12LineAmount(importLine.getFinancialDocumentMonth12LineAmount());
             
+            this.businessObjectService.save(pendingEntry);
             this.businessObjectService.save(monthlyEntry);
             
             /*Long versionNumber = importRequestDao.getBudgetConstructionMonthlyVersionNumber(monthlyEntry);
@@ -485,7 +487,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             importRequestDao.save(pendingEntry, false);
         }*/
         
-        this.businessObjectService.save(pendingEntry);
+        
         
         return errorMessage;
     }

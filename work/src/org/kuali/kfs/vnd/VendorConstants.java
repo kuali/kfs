@@ -59,6 +59,7 @@ public class VendorConstants {
     }
 
     public static class AddressTypes {
+        public static final String QUOTE = "QT";
         public static final String PURCHASE_ORDER = "PO";
         public static final String REMIT = "RM";
     }

@@ -111,7 +111,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             document.templateAlternateVendor(refreshVendorDetail);
         }
 
-        // Handling lookups for quote vendor search that is specific to Purchase Order.
+        // Handling lookups for quote list that is specific to Purchase Order.
         if (request.getParameter("document.purchaseOrderQuoteListIdentifier") != null) {
             // do a lookup and add all the vendors!
             Integer poQuoteListIdentifier = document.getPurchaseOrderQuoteListIdentifier();
@@ -126,7 +126,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
                 newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
                 for (VendorAddress address : newVendor.getVendorAddresses()) {
-                    if (AddressTypes.PURCHASE_ORDER.equals(address.getVendorAddressTypeCode())) {
+                    if (AddressTypes.QUOTE.equals(address.getVendorAddressTypeCode())) {
                         newPOVendorQuote.setVendorCityName(address.getVendorCityName());
                         newPOVendorQuote.setVendorCountryCode(address.getVendorCountryCode());
                         newPOVendorQuote.setVendorLine1Address(address.getVendorLine1Address());
@@ -167,9 +167,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             newPOVendorQuote.setVendorName(newVendor.getVendorName());
             newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
             newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
+            newPOVendorQuote.setVendorNumber(newVendor.getVendorNumber());
             newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
             for (VendorAddress address : newVendor.getVendorAddresses()) {
-                if (AddressTypes.PURCHASE_ORDER.equals(address.getVendorAddressTypeCode())) {
+                if (AddressTypes.QUOTE.equals(address.getVendorAddressTypeCode())) {
                     newPOVendorQuote.setVendorCityName(address.getVendorCityName());
                     newPOVendorQuote.setVendorCountryCode(address.getVendorCountryCode());
                     newPOVendorQuote.setVendorLine1Address(address.getVendorLine1Address());
@@ -180,23 +181,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }
 
-            String tmpPhoneNumber = null;
             for (VendorPhoneNumber phone : newVendor.getVendorPhoneNumbers()) {
-                if (VendorConstants.PhoneTypes.PO.equals(phone.getVendorPhoneTypeCode())) {
-                    newPOVendorQuote.setVendorPhoneNumber(phone.getVendorPhoneNumber());
-                }
                 if (VendorConstants.PhoneTypes.FAX.equals(phone.getVendorPhoneTypeCode())) {
                     newPOVendorQuote.setVendorFaxNumber(phone.getVendorPhoneNumber());
+                } else if (StringUtils.isEmpty(newPOVendorQuote.getVendorPhoneNumber())) { 
+                    newPOVendorQuote.setVendorPhoneNumber(phone.getVendorPhoneNumber());
                 }
-                if (VendorConstants.PhoneTypes.PHONE.equals(phone.getVendorPhoneTypeCode())) {
-                    tmpPhoneNumber = phone.getVendorPhoneNumber();
-                }
-            }
-            if (StringUtils.isEmpty(newPOVendorQuote.getVendorPhoneNumber()) && !StringUtils.isEmpty(tmpPhoneNumber)) {
-                newPOVendorQuote.setVendorPhoneNumber(tmpPhoneNumber);
             }
 
-            document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
+            poForm.setNewPurchaseOrderVendorQuote(newPOVendorQuote);
         }
 
         String newStipulation = request.getParameter(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION);

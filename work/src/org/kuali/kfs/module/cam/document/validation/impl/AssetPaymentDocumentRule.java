@@ -121,23 +121,23 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      * @param capitalAssetNumber
      * @return boolean
      */
-    private boolean validateAssetEligibilityForPayment(Long capitalAssetNumber) {
+    public boolean validateAssetEligibilityForPayment(Long capitalAssetNumber) {
         boolean isValid = true;
-        Iterator<String> pendingTransferDocuments = SpringContext.getBean(AssetTransferDao.class).getAssetPendingTransferDocuments(capitalAssetNumber);
-        Iterator<String> pendingRetirementDocuments = SpringContext.getBean(AssetRetirementDao.class).getAssetPendingRetirementDocuments(capitalAssetNumber);
+        List<String>pendingDocuments = new ArrayList<String>();
+        List<String> pendingTransferDocuments = SpringContext.getBean(AssetTransferDao.class).getAssetPendingTransferDocuments(capitalAssetNumber);
+        List<String> pendingRetirementDocuments = SpringContext.getBean(AssetRetirementDao.class).getAssetPendingRetirementDocuments(capitalAssetNumber);
 
-        List<String> pendingDocuments = new ArrayList<String>();
-        while (pendingTransferDocuments.hasNext()) {
-            pendingDocuments.add(pendingTransferDocuments.next());
+        for(String docNumber:pendingTransferDocuments) {
+            pendingDocuments.add(docNumber);
         }
 
-        while (pendingRetirementDocuments.hasNext()) {
-            pendingDocuments.add(pendingTransferDocuments.next());
+        for(String docNumber:pendingRetirementDocuments) {
+            pendingDocuments.add(docNumber);
         }
-
+        
         if (!pendingDocuments.isEmpty()) {
             // This error will appear at the bottom of the page in the other error section.
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING, "Document number(s):" + pendingDocuments.toString());
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX+"documentNumber", CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING, "Document number(s):" + pendingDocuments.toString());
             isValid = false;
         }
         return isValid;
@@ -151,7 +151,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      * @param expenditureFinancialDocumentTypeCode
      * @return boolean
      */
-    private boolean validateDocumentType(String expenditureFinancialDocumentTypeCode) {
+    public boolean validateDocumentType(String expenditureFinancialDocumentTypeCode) {
         boolean result = true;
         String label;
         if (!StringUtils.isBlank(expenditureFinancialDocumentTypeCode)) {
@@ -263,7 +263,11 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     }
     
     
-    
+    /**
+     * 
+     * This method returns the assetService bean 
+     * @return AssetService
+     */
     public AssetService getAssetService() {
         if (this.assetService == null) {
             this.assetService = SpringContext.getBean(AssetService.class);

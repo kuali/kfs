@@ -218,9 +218,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         //Update asset payment table with the approved asset detail records.
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
+
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
         
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
     }

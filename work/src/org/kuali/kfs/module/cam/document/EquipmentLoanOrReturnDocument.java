@@ -377,9 +377,11 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
+
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }
         
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }
     }

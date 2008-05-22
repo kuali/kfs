@@ -140,6 +140,7 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         // TODO this needs to call service methods that implements the BC security model
+        // TODO instead the form should call the verson of this method that passes in the editmode map, actions are based on that
         // return super.getDocumentActionFlags(document, user);
         LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
 
@@ -154,5 +155,29 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
         return flags;
     }
 
+    /**
+     * This version uses editModeMap to set the action flags
+     * 
+     * @param document
+     * @param user
+     * @param editModeMap
+     * @return
+     */
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user, Map editModeMap) {
+        
+        LOG.debug("calling editMode version of BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
+
+        DocumentActionFlags flags = new DocumentActionFlags(); // all flags default to false
+
+        flags.setCanClose(true);
+        if (editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+            flags.setCanSave(true);
+        }
+
+        // TODO is this needed for BC??
+        setAnnotateFlag(flags);
+
+        return flags;
+    }
 
 }

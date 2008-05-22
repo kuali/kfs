@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -29,7 +28,6 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
@@ -37,7 +35,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.BudgetConstructionDocumentReportMode;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.exceptions.BudgetConstructionDocumentAuthorizationException;
@@ -117,6 +114,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
             populatePBGLLines();
 
             setDocTypeName(discoverDocumentTypeName());
+            
         }
 
     }

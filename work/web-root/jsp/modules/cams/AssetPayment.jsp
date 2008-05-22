@@ -54,11 +54,6 @@
         </div>
 	  </kul:tab>
 	     
-
-	<!--isOptionalFieldsInNewRow="false"		
-		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
-		extraSourceRowFields="expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"
-	-->        
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
@@ -68,8 +63,6 @@
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
 	</fin:accountingLines>
 
-	
-				
 	<cams:assetPaymentHeader defaultTabHide="true" />
 	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />

@@ -48,6 +48,11 @@ import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
+/**
+ * 
+ * Capital assets document class for the asset payment document
+ * 
+ */
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
@@ -99,16 +104,22 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void addSourceAccountingLine(SourceAccountingLine line) {
         Calendar calendar = new GregorianCalendar();
         java.sql.Date systemDate = new java.sql.Date(calendar.getTime().getTime());
+
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+
+        //Assigning the line number to the just added accounting line
         assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
+        assetPaymentDetail.setSequenceNumber(this.getNextSourceLineNumber());
+        
+        //Assigning the system date to a field is not being edited on the screen.
         assetPaymentDetail.setPaymentApplicationDate(systemDate);
 
         line = (SourceAccountingLine) assetPaymentDetail;
 
         this.sourceAccountingLines.add(line);
-        this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);
+        this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
     }
 
@@ -136,7 +147,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     /**
      * 
      * This method determines whether or not an asset has differents object sub type codes in its documents
-     * @return true when the asset has payments with object codes that point to different object sub type codes
+     * @return  true when the asset has payments with object codes that point to different object sub type codes
      */
     public boolean hasDifferentObjectSubTypes() {
         List<String> subTypes = new ArrayList<String>();
@@ -213,7 +224,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
 
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();        
         
         //Update asset payment table with the approved asset detail records.
         if (workflowDocument.stateIsProcessed()) {

@@ -30,11 +30,15 @@ import org.kuali.module.cams.dao.AssetPaymentDao;
 
 public class AssetPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements AssetPaymentDao {
 
+    /**
+     * 
+     * @see org.kuali.module.cams.dao.AssetPaymentDao#getMaxSquenceNumber(java.lang.Long)
+     */
     public Integer getMaxSquenceNumber(Long capitalAssetNumber) {
         Criteria criteria = new Criteria();
-
         criteria.addEqualTo(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AssetPayment.class, criteria);
+        
         query.setAttributes(new String[] { "max(" + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER + ")" });
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Integer maxSequenceNumber = Integer.valueOf(0);

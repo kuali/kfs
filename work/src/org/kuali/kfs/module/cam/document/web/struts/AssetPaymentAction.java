@@ -78,6 +78,10 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         return super.execute(mapping, form, request, response);
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
@@ -86,8 +90,11 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         String capitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
 
+        //Retrieving the asset data object for the selected asset. 
         Asset asset = assetPaymentDocument.getAsset();
-        asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentForm, assetPaymentDocument, asset);
+        
+        //asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentForm, assetPaymentDocument, asset);
+        asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentDocument);
 
         //Populating the hidden fields in the assetPayment.jsp
         assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());
@@ -114,7 +121,8 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         apDoc.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);        
         if (apDoc.hasDifferentObjectSubTypes()) {
-            // it's not in "balance"
+            //Verifying that the asset payments have the same object sub types. If it isn't the case then we need to 
+            //confirmation from the user before submitting the payment.
             returnForward = processDifferentObjectSubTypeConfirmationQuestion(mapping, form, request, response);
     
             // if not null, then the question component either has control of the flow and needs to ask its questions
@@ -164,14 +172,14 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     
     /**
      * 
-     * This method...
+     * This method retrieves the asset records for a selected asset number
      * @param capitalAssetNumber
      * @param assetPaymentForm
      * @param assetPaymentDocument
      * @param asset
-     * @return
+     * @return Asset 
      */
-    private Asset handleRequestFromLookup(String capitalAssetNumber, AssetPaymentForm assetPaymentForm, AssetPaymentDocument assetPaymentDocument, Asset asset) {
+    private Asset handleRequestFromLookup(String capitalAssetNumber, AssetPaymentDocument assetPaymentDocument) {
         Asset newAsset = new Asset();
         HashMap<String, Object> keys = new HashMap<String, Object>();
         keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber.toString());
@@ -182,36 +190,10 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         }
         return newAsset;
     }
-    
-        
-    /**
-     * This action executes a call to upload CSV accounting line values as SourceAccountingLines for a given transactional document.
-     * The "uploadAccountingLines()" method handles the multi-part request.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    @Override
-    public ActionForward uploadSourceLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
-        // call method that sourceform and destination list
-        uploadAccountingLines(true, form);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
 
     /**
-     * This method determines whether we are uploading source or target lines, and then calls uploadAccountingLines directly on the
-     * document object. This method handles retrieving the actual upload file as an input stream into the document.
      * 
-     * @param isSource
-     * @param form
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#uploadAccountingLines(boolean, org.apache.struts.action.ActionForm)
      */
     @Override
     protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {

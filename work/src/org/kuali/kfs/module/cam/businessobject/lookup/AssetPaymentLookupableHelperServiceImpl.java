@@ -42,8 +42,8 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
     public String getActionUrls(BusinessObject businessObject) {
         AssetPayment assetPayment = (AssetPayment) businessObject;
         
-        // Same thing but we're mainting assets, not asset payments.
-        Map<String, Object> primaryKeys = new HashMap();
+        // Same thing but we're maintaining assets, not asset payments.
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetPayment.getCapitalAssetNumber());
         Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, primaryKeys);
         assetLookupableHelperService.setBusinessObjectClass(Asset.class);

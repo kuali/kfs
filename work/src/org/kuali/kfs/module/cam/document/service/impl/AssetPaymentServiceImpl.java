@@ -35,8 +35,6 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.dao.AssetPaymentDao;
-import org.kuali.module.cams.dao.AssetRetirementDao;
-import org.kuali.module.cams.dao.AssetTransferDao;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
@@ -57,8 +55,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private ObjectCodeService objectCodeService;
     private AssetRetirementService assetRetirementService;
     private AssetService assetService;
-    private AssetTransferDao assetTransferDao;
-    private AssetRetirementDao assetRetirementDao;
 
     /**
      * @see org.kuali.module.cams.service.AssetPaymentService#getMaxSequenceNumber(org.kuali.module.cams.bo.AssetPayment)
@@ -107,10 +103,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
 
     /**
+     * 
      * This method updates the total cost amount of the asset by adding the total cost of the new asset payments
      * 
-     * @param asset bo that needs to updated
+     * @param asset bo where the update will occur
      * @param subTotal amount of the new asset payment detail records
+     * 
      */
     private void updateAssetTotalCost(Asset asset, KualiDecimal subTotal) {
         KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount());
@@ -153,13 +151,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 assetPayment.setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
                 assetPayment.setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
 
-                /*assetPayment.setAccumulatedPrimaryDepreciationAmount(new KualiDecimal(0));
-                assetPayment.setPreviousYearPrimaryDepreciationAmount(new KualiDecimal(0));            
-                assetPayment.setAccumulatedSecondaryDepreciationAmount(new KualiDecimal(0));
-                assetPayment.setPreviousYearSecondaryDepreciationAmount(new KualiDecimal(0));
-                assetPayment.setSecondaryDepreciationBaseAmount(new KualiDecimal(0));*/
-                
-
                 KualiDecimal baseAmount = new KualiDecimal(0);
 
                 // If the object sub type is not in the list of federally owned object sub types, then...
@@ -175,29 +166,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 // Resetting each period field its value with nulls
                 this.adjustPaymentAmounts(assetPayment, false, true);
 
-                /*PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
-            for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-                Method readMethod = propertyDescriptor.getReadMethod();
-                if (readMethod != null && propertyDescriptor.getPropertyType() != null && propertyDescriptor.getPropertyType().isAssignableFrom(KualiDecimal.class)) {
-                    Method writeMethod = propertyDescriptor.getWriteMethod();
-                    if (writeMethod != null) {
-                        if (Pattern.matches(CamsConstants.SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
-                            try {
-                                writeMethod.invoke(assetPayment, new KualiDecimal(0));
-                            }
-                            catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    }
-                }
-            }*/
-
                 // add new payment
                 assetPayments.add(assetPayment);
             }
-        } catch(Exception e) {
-            throw new RuntimeException(e);            
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
         // Finally, saving all the asset payment records.
         this.getBusinessObjectService().save(assetPayments);
@@ -244,7 +218,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             }
         }
         LOG.debug("Finished - adjustAmounts()");
-
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -304,21 +277,5 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
-    }
-
-    public AssetTransferDao getAssetTransferDao() {
-        return assetTransferDao;
-    }
-
-    public void setAssetTransferDao(AssetTransferDao assetTransferDao) {
-        this.assetTransferDao = assetTransferDao;
-    }
-
-    public AssetRetirementDao getAssetRetirementDao() {
-        return assetRetirementDao;
-    }
-
-    public void setAssetRetirementDao(AssetRetirementDao assetRetirementDao) {
-        this.assetRetirementDao = assetRetirementDao;
     }
 }

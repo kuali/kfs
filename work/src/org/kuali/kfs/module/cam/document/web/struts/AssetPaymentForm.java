@@ -44,10 +44,10 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
     String capitalAssetNumber = "";
 
-/**
- * 
- * Constructs a AssetPaymentForm.java.
- */
+    /**
+     * 
+     * Constructs a AssetPaymentForm.java.
+     */
     public AssetPaymentForm() {
         super();
         setDocument(new AssetPaymentDocument());
@@ -55,29 +55,31 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
     /**
      * 
-     * This method gets the asset payment document 
+     * This method gets the asset payment document
+     * 
      * @return AssetPaymentDocument
      */
     public AssetPaymentDocument getAssetPaymentDocument() {
         return (AssetPaymentDocument) getDocument();
     }
-       
-/**
- * 
- * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
- */
+
+    /**
+     * 
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
+     */
     @Override
-    public Map<String,String> getForcedLookupOptionalFields() {
-        Map<String,String> forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
+    public Map<String, String> getForcedLookupOptionalFields() {
+        Map<String, String> forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
         forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE + ";" + DocumentType.class.getName());
-        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE+ ";" + OriginationCode.class.getName());
-        
+        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE + ";" + OriginationCode.class.getName());
+
         return forcedLookupOptionalFields;
     }
 
     /**
      * 
      * This method sets the asset# selected
+     * 
      * @param capitalAssetNumber
      */
     public void setCapitalAssetNumber(String capitalAssetNumber) {
@@ -87,6 +89,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     /**
      * 
      * gets the asset# that was previously selected
+     * 
      * @return
      */
     public String getCapitalAssetNumber() {
@@ -99,6 +102,8 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
      */
     @Override
     public SourceAccountingLine getNewSourceLine() {
+        
+        //Getting the workflow document number created for the asset payment document.
         String worflowDocumentNumber = "";
         try {
             if (GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()) != null)
@@ -110,35 +115,41 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
         AssetPaymentDetail newSourceLine = (AssetPaymentDetail) super.getNewSourceLine();
 
+        //Getting the document type code in order set it as default in the new source accounting line.
         String documentTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(AssetPaymentDocument.class);
-
+        
+        //Setting default document type.
         if (newSourceLine.getExpenditureFinancialDocumentTypeCode() == null || newSourceLine.getExpenditureFinancialDocumentTypeCode().trim().equals("")) {
             newSourceLine.setExpenditureFinancialDocumentTypeCode(documentTypeCode);
         }
+        
+        //Setting the default asset payment row document number.
         newSourceLine.setExpenditureFinancialDocumentNumber(worflowDocumentNumber);
+        
         return (SourceAccountingLine) newSourceLine;
     }
 
     /**
      * 
-     * This method stores in a Map the total amounts that need to be display on the asset payment screen and that will be passed as 
+     * This method stores in a Map the total amounts that need to be display on the asset payment screen and that will be passed as
      * parameter to the accountingLine.tag in order to display them.
      * 
      * @return LinkedHashMap
      */
-    public LinkedHashMap<String, String> getAssetPaymentTotals()  {
+    public LinkedHashMap<String, String> getAssetPaymentTotals() {
         LinkedHashMap<String, String> totals = new LinkedHashMap<String, String>();
         CurrencyFormatter cf = new CurrencyFormatter();
 
-        DocumentRouteHeaderValue doc = null; 
+        DocumentRouteHeaderValue doc = null;
         try {
             doc = KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        } catch(Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException("Unable to retrieve workflow document.");
         }
 
         KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getAsset().getTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getAsset().getTotalCostAmount());
-        
+
         totals.put("Total", (String) cf.format(this.getAssetPaymentDocument().getSourceTotal()));
         totals.put("Previous cost", (String) cf.format(assetTotalCost));
         totals.put("New total", (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(assetTotalCost)));

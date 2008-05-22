@@ -23,7 +23,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +44,6 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OriginationCodeService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.dao.AssetRetirementDao;
 import org.kuali.module.cams.dao.AssetTransferDao;
@@ -54,41 +52,47 @@ import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 
+/**
+ * Business rule(s) applicable to Asset Payment.
+ */
 public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentRule.class);
 
-    private AssetService assetService;
-    
+    private static AssetService assetService;
+
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) document;
-        
+
         if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * This method was overrided because the asset payment only uses source and not target lines. Not gl pending entries are needed.
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) document;
-        
+
         if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             return false;
         }
-        
+        // Validating the asset payment document has at least one accounting line.
         boolean valid = this.isSourceAccountingLinesRequiredNumberForRoutingMet(assetPaymentDocument);
+
+        // Validating that the asset is not in any pending transfer or a retirement document.
         valid &= validateAssetEligibilityForPayment(assetPaymentDocument.getAsset().getCapitalAssetNumber());
+
         return valid;
     }
-    
+
     /**
      * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
@@ -105,9 +109,9 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         // Validating document type code
         result &= this.validateDocumentType(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
 
-        //Validating origination code
+        // Validating origination code
         result &= validateOriginationCode(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode());
-        
+
         // Validating posting date which must exists in the university date table
         result &= this.validatePostedDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
 
@@ -116,28 +120,27 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
 
     /**
      * 
-     * Checks the asset has pending transfer and/or retirement documents
+     * Checks the asset has pending transfer and/or retirement documents. If so, then the asset cannot have an asset payment.
      * 
      * @param capitalAssetNumber
      * @return boolean
      */
     public boolean validateAssetEligibilityForPayment(Long capitalAssetNumber) {
         boolean isValid = true;
-        List<String>pendingDocuments = new ArrayList<String>();
+        List<String> pendingDocuments = new ArrayList<String>();
+
+        // Getting the list of possible asset transfers where the same asset number in the payment was used.
         List<String> pendingTransferDocuments = SpringContext.getBean(AssetTransferDao.class).getAssetPendingTransferDocuments(capitalAssetNumber);
+
+        // Getting the list of possible asset retirements where the same asset number in the payment was used.
         List<String> pendingRetirementDocuments = SpringContext.getBean(AssetRetirementDao.class).getAssetPendingRetirementDocuments(capitalAssetNumber);
 
-        for(String docNumber:pendingTransferDocuments) {
-            pendingDocuments.add(docNumber);
-        }
+        pendingDocuments.addAll(pendingTransferDocuments);
+        pendingDocuments.addAll(pendingRetirementDocuments);
 
-        for(String docNumber:pendingRetirementDocuments) {
-            pendingDocuments.add(docNumber);
-        }
-        
         if (!pendingDocuments.isEmpty()) {
             // This error will appear at the bottom of the page in the other error section.
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX+"documentNumber", CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING, "Document number(s):" + pendingDocuments.toString());
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING, "Document number(s):" + pendingDocuments.toString());
             isValid = false;
         }
         return isValid;
@@ -171,10 +174,10 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     /**
      * 
      * Validates that origination code exists
-     *  
+     * 
      * @param originationCode
      * @return boolean
-     */    
+     */
     private boolean validateOriginationCode(String originationCode) {
         boolean result = true;
         if (!StringUtils.isBlank(originationCode)) {
@@ -184,7 +187,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
                 result = false;
             }
         }
-        return result;        
+        return result;
     }
 
     /**
@@ -201,6 +204,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         Map<String, Object> keyToFind = new HashMap<String, Object>();
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, fiscalMonth);
+        
         if (SpringContext.getBean(BusinessObjectService.class).countMatching(UniversityDate.class, keyToFind) == 0) {
             String labelFiscalYear = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
             String labelFiscalMonth = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
@@ -228,6 +232,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         boolean result = true;
         Map<String, Object> keyToFind = new HashMap<String, Object>();
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, postedDate);
+        
         if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
@@ -245,7 +250,8 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
 
     /**
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
      */
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
@@ -261,21 +267,19 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         }
         return true;
     }
-    
-    
+
+
     /**
      * 
-     * This method returns the assetService bean 
+     * This method returns the assetService bean
+     * 
      * @return AssetService
      */
     public AssetService getAssetService() {
-        if (this.assetService == null) {
-            this.assetService = SpringContext.getBean(AssetService.class);
+        if (assetService == null) {
+            assetService = SpringContext.getBean(AssetService.class);
         }
         return assetService;
     }
 
-    public void setAssetService(AssetService assetService) {
-        this.assetService = assetService;
-    }
 }

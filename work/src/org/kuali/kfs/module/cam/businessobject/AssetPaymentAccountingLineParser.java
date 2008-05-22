@@ -51,17 +51,12 @@ public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {
         super();
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return selectFormat();
-    }
-
-    /**
-     * chooses line format based on balance type code
-     * 
-     * @return String []
-     */
-    private String[] selectFormat() {
         return LINE_FORMAT;
     }
 }

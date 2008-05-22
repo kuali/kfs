@@ -20,7 +20,7 @@ import org.kuali.module.cams.bo.AssetPayment;
 
 public interface AssetPaymentDao {
     /**
-     * This method gets the maximum of asset payment sequence number column from database and sets the value
+     * This method gets the maximum asset payment sequence number column from database and sets the value
      * 
      * @param capitalAssetNumber
      * @return max payment number

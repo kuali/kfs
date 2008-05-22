@@ -23,7 +23,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
+import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
@@ -37,6 +40,7 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.exceptions.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.SalarySettingService;
@@ -211,13 +215,14 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.core.document.authorization.DocumentAuthorizer)
+     * 
+     * Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
      */
     @Override
     public void populateAuthorizationFields(DocumentAuthorizer documentAuthorizer) {
-        // TODO Auto-generated method stub
+
         super.populateAuthorizationFields(documentAuthorizer);
         if (isFormDocumentInitialized()) {
-            // useDocumentAuthorizer(documentAuthorizer);
 
             // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
             // correct DocumentAuthorizer
@@ -231,6 +236,23 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
             }
         }
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.core.document.authorization.DocumentAuthorizer)
+     * 
+     * Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags
+     * This uses the BC security model to setup the authorization state
+     */
+    @Override
+    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
+        BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+
+        setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
+        
+        // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
+        setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));
     }
 
     public BudgetConstructionDocument getBudgetConstructionDocument() {

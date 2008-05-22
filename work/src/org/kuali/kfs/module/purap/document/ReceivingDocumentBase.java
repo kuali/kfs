@@ -33,6 +33,7 @@ import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
+import org.kuali.module.purap.util.PurApRelatedViews;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.rice.resourceloader.ServiceLocator;
 import org.springframework.ui.velocity.SpringResourceLoader;
@@ -88,6 +89,8 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
     private Integer purchaseOrderIdentifier;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private transient PurchaseOrderDocument purchaseOrderDocument;
+
+    private transient PurApRelatedViews relatedViews;
 
     public ReceivingDocumentBase(){
         super();           
@@ -925,6 +928,17 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
             }
             this.purchaseOrderDocument = purchaseOrderDocument;
         }
+    }
+
+    public PurApRelatedViews getRelatedViews() {
+        if (relatedViews == null) {
+            relatedViews = new PurApRelatedViews(this.documentNumber, this.accountsPayablePurchasingDocumentLinkIdentifier);
+        }
+        return relatedViews;
+    }
+
+    public void setRelatedViews(PurApRelatedViews relatedViews) {
+        this.relatedViews = relatedViews;
     }
 
     public void initiateDocument(){

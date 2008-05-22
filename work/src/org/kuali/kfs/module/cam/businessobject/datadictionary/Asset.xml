@@ -1009,14 +1009,14 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Land County" />
     <property name="shortLabel" value="landCountyName" />
-    <property name="maxLength" value="4" />
+    <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="4" />
+            p:size="22" />
     </property>
     <property name="summary" value="landCountyName" />
     <property name="description" value="Land country name." />
@@ -1028,14 +1028,14 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Land Acreage" />
     <property name="shortLabel" value="landAcreageSize" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="9" />
     </property>
     <property name="summary" value="landAcreageSize" />
     <property name="description" value="Land acreage size." />
@@ -1047,14 +1047,14 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Land Parcel Number" />
     <property name="shortLabel" value="landParcelNumber" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="30" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="32" />
     </property>
     <property name="summary" value="landParcelNumber" />
     <property name="description" value="Land parcel number." />

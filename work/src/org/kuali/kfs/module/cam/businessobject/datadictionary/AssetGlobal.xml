@@ -226,13 +226,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Land County Name" />
     <property name="shortLabel" value="Country" />
-    <property name="maxLength" value="22" />
+    <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="20" />
+            p:size="22" />
     </property>
     <property name="summary" value="landCountyName" />
     <property name="description" value="landCountyName description..." />
@@ -244,13 +244,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Land Acreage" />
     <property name="shortLabel" value="Acreage" />
-    <property name="maxLength" value="9" />
+    <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="7" />
+            p:size="9" />
     </property>
     <property name="summary" value="landAcreageSize" />
     <property name="description" value="landAcreageSize description..." />
@@ -262,13 +262,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Land Parcel Number" />
     <property name="shortLabel" value="Parcel" />
-    <property name="maxLength" value="32" />
+    <property name="maxLength" value="30" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="30" />
+            p:size="32" />
     </property>
     <property name="summary" value="landParcelNumber" />
     <property name="description" value="landParcelNumber description..." />

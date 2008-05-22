@@ -283,6 +283,7 @@
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
+    	<property name="assetObjectCodeService" ref="assetObjectCodeService" />
     </bean>
     
     <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.impl.CamsGeneralLedgerPendingEntryGenerationProcessImpl">

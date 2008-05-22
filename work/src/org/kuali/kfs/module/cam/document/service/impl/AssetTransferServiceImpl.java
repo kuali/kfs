@@ -17,20 +17,16 @@ package org.kuali.module.cams.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -44,6 +40,7 @@ import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.rules.AssetTransferDocumentRule;
+import org.kuali.module.cams.service.AssetObjectCodeService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
@@ -62,6 +59,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
     private AssetPaymentService assetPaymentService;
+    private AssetObjectCodeService assetObjectCodeService;
 
 
     /**
@@ -88,7 +86,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             organizationOwnerChartOfAccountsCode = document.getOrganizationOwnerChartOfAccountsCode();
         }
         postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
-        AssetObjectCode assetObjectCode = findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment);
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment);
 
         postable.setDocumentNumber(document.getDocumentNumber());
         if (AmountCategory.CAPITALIZATION.equals(amountCategory)) {
@@ -295,26 +293,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 }
             }
         }
-    }
-
-
-    /**
-     * Retrieves the asset object code from database for a given Chart code and payment record
-     * 
-     * @param chartOfAccountsCode Charts of Accounts code
-     * @param assetPayment Current Payment Record
-     * @return AssetObjectCode
-     */
-    private AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, AssetPayment assetPayment) {
-        Map<String, Object> pkKeys = new HashMap<String, Object>();
-        pkKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityDateService().getCurrentFiscalYear());
-        pkKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        pkKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-        AssetObjectCode assetObjectCode = (AssetObjectCode) getBusinessObjectService().findByPrimaryKey(AssetObjectCode.class, pkKeys);
-        if (ObjectUtils.isNull(assetObjectCode)) {
-            throw new ReferentialIntegrityException("Asset object code is not defined for this organizationOwnerChartOfAccountsCode=" + chartOfAccountsCode + ", financialObjectSubTypeCode=" + assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() + " for current fiscal year  " + getUniversityDateService().getCurrentFiscalYear());
-        }
-        return assetObjectCode;
     }
 
 
@@ -537,4 +515,11 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         }
     }
 
+    public AssetObjectCodeService getAssetObjectCodeService() {
+        return assetObjectCodeService;
+    }
+
+    public void setAssetObjectCodeService(AssetObjectCodeService assetObjectCodeService) {
+        this.assetObjectCodeService = assetObjectCodeService;
+    }
 }

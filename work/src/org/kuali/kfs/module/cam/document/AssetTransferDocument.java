@@ -411,13 +411,12 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
-
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
         }
 
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
-        }    
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
+        }
     }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {

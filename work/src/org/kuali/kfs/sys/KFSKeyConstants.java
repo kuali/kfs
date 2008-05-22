@@ -736,6 +736,7 @@ public class KFSKeyConstants {
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED = "error.batchUpload.save.noFileSetIdentifier";
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE = "error.batchUpload.save.noFileSelected.for.file.type";
     public static final String ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR = "error.batchUpload.save.fileSaveError";
+    public static final String ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR = "error.batchUpload.validation.fileSaveError";
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE = "error.batchUpload.delete.noFileSelected";
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DOWNLOAD = "error.batchUpload.download.noFileSelected";
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_TYPE_SELECTED_DOWNLOAD = "error.batchUpload.download.noFileTypeSelected";

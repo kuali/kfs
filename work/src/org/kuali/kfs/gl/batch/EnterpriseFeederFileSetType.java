@@ -30,6 +30,7 @@ import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.batch.BatchInputFileSetType;
@@ -260,5 +261,12 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
         }
 
         return extractedFileUserIdentifiers;
+    }
+
+    public void process(Map<String, File> typeToFiles) {
+    }
+
+    public boolean validate(Map<String, File> typeToFiles) {
+        return true;
     }
 }

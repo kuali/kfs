@@ -984,9 +984,12 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorInputFileType";
     public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER = "enterpriseFeederFileSetType";
 
-    // next 3 variables for the enterprise feeder batch upload
+    // next 2 variables for the enterprise feeder batch upload
     public static final String DATA_FILE_TYPE = "DATA";
     public static final String RECON_FILE_TYPE = "RECON";
+    
+    // next variable used by the batch upload framework
+    public static final String DONE_FILE_TYPE = "DONE_FILE";
     
     public static final class WorkflowConstants {
         public static final String GET_GENERIC_ACCOUNTS_PREFIX = "//routingInfo/"+RoutingData.class.getName()+"/routingTypes[string='";

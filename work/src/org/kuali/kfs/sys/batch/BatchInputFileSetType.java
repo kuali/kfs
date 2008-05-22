@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * Declares methods that must be implemented for batch input file set type classes, which provides functionaliy needed to manage
@@ -99,4 +100,29 @@ public interface BatchInputFileSetType extends BatchInputType {
      * @return a set of file user identifiers
      */
     public Set<String> extractFileUserIdentifiers(UniversalUser user, List<File> files);
+    
+    /**
+     * Runs validation upon uploaded files.  Note the files passed in the Map may be located in a temporary directory rather than the
+     * directory returned by {@link #getDirectoryPath(String)}
+     * 
+     * If validation fails, the implementation is responsible for adding error messages to the {@link KFSConstants#GLOBAL_ERRORS} property
+     * string in the ErrorMap
+     * 
+     * @param typeToFiles a map consisting of file type Strings (see {@link #getFileTypes()}) to file mappings
+     * 
+     * @return true if validation succeeds, false otherwise
+     */
+    public boolean validate(Map<String, File> typeToFiles);
+    
+    
+    /**
+     * This method will invoke some processing on this file
+     * 
+     * There is no error handling provided by the framework.  All error reporting must be done by the implementation of this method
+     * 
+     * @param typeToFiles a map consisting of file type Strings (see {@link #getFileTypes()}) to file mappings
+     *        Note that the map may contain the file handle for {@link KFSConstants#DONE_FILE_TYPE} for the done file,
+     *        if it was created 
+     */
+    public void process(Map<String, File> typeToFiles);
 }

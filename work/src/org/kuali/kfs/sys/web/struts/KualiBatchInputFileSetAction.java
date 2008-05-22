@@ -37,6 +37,7 @@ import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
@@ -98,9 +99,6 @@ public class KualiBatchInputFileSetAction extends KualiAction {
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BatchUpload batchUpload = ((KualiBatchInputFileSetForm) form).getBatchUpload();
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
-        if (batchType.isSupportsDoneFileCreation()) {
-
-        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -149,6 +147,11 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, new String[] { e.getMessage() });
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        catch (ValidationException e) {
+            LOG.error("Error occured while trying to validate file set.", e);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);

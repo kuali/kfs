@@ -144,7 +144,11 @@
 	
 	<bean id="batchInputFileService" class="org.kuali.kfs.service.impl.BatchInputFileServiceImpl" />
 	
-	<bean id="batchInputFileSetService" class="org.kuali.kfs.service.impl.BatchInputFileSetServiceImpl" />
+	<bean id="batchInputFileSetService" class="org.kuali.kfs.service.impl.BatchInputFileSetServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
 	<!-- end btch framework -->
 	
 	<!--  begin core batch jobs -->

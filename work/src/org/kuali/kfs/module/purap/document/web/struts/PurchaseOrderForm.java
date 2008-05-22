@@ -363,9 +363,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         // Split PO button
         ExtraButton splitPoButton = new ExtraButton();
-        receivingButton.setExtraButtonProperty("methodToCall.splitPo");
-        receivingButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_splitorder.gif");
-        receivingButton.setExtraButtonAltText("Split this PO");
+        splitPoButton.setExtraButtonProperty("methodToCall.splitPo");
+        splitPoButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_splitorder.gif");
+        splitPoButton.setExtraButtonAltText("Split this PO");
         
         // Continue button
         ExtraButton continueButton = new ExtraButton();

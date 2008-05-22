@@ -64,7 +64,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
      * @return
      * @throws Exception
      */
-    public ActionForward importFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionRequestImportForm budgetConstructionImportForm = (BudgetConstructionRequestImportForm) form;
         BudgetRequestImportService budgetRequestImportService = SpringContext.getBean(BudgetRequestImportService.class);
         Integer budgetYear = budgetConstructionImportForm.getUniversityFiscalYear();
@@ -117,7 +117,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
      * @return
      * @throws Exception
      */
-    public ActionForward cancelImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         String lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
         

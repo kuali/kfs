@@ -42,8 +42,6 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
         setFileType(BCConstants.RequestImportFileType.ANNUAL.toString());
         this.setTitle("BC Request Import Tool");
         this.setOperatingMode("requestImport");
-        /*setFieldDelimiter(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator());
-        setTextFieldDelimiter(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter());*/
     }
     
     /**
@@ -99,6 +97,10 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
      */
     public void setFileType(String fileType) {
         this.budgetConstructionRequestImport.setFileType(fileType);
+    }
+    
+    public String getHtmlFormAction() {
+        return "budgetBudgetConstructionRequestImport";
     }
     
     /**

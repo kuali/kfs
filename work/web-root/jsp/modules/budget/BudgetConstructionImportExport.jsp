@@ -17,7 +17,7 @@
 <c:set var="budgetAttributes" value="${DataDictionary.BudgetConstructionRequestImport.attributes}" />
 
 <kul:page showDocumentInfo="false"
-    htmlFormAction="budgetBudgetConstructionRequestImport" renderMultipart="true"
+    htmlFormAction="${KualiForm.htmlFormAction}" renderMultipart="true"
     docTitle="${KualiForm.title}"
     transactionalDocument="false">
  <script type="text/javascript">
@@ -54,8 +54,8 @@
 				<tr>
 					<td class="grid" class="infoline" colspan="2">
 						<div align="center">
-							<html:image property="methodToCall.importFile" src="static/images/buttonsmall_reqimport.gif" title="Import File" alt="Import File" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
-							<html:image property="methodToCall.cancelImport" src="kr/static/images/buttonsmall_close.gif" title="Close Window" alt="Close Window" styleClass="tinybutton" />
+							<html:image property="methodToCall.submit" src="kr/static/images/buttonsmall_submit.gif" title="Import File" alt="Import File" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
+							<html:image property="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" title="Close Window" alt="Close Window" styleClass="tinybutton" />
 						</div>
 					</td>
 				</tr>

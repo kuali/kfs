@@ -30,6 +30,7 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.MaintenanceDocumentService;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
@@ -212,10 +213,14 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
 
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
         //Update asset payment table with the approved asset detail records.
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
-
+        }
+        
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
     }

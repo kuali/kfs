@@ -29,6 +29,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
@@ -372,9 +373,13 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
 
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
+        if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
-
+        }
+        
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }
     }

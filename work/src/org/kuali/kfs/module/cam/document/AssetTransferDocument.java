@@ -29,6 +29,7 @@ import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
@@ -407,11 +408,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
 
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
-
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
         }
+
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
+        }    
     }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {

@@ -132,12 +132,15 @@
 
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerExpenditureLines}" var="item" varStatus="status" >
 
-            <c:choose>
+<%--
                 <c:when test="${!readOnly && empty item.laborObject || (!empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode != 'F')}">
-                    <c:set var="lineIsEditable" value="true" />
+--%>
+            <c:choose>
+                <c:when test="${readOnly || (!empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')}">
+                    <c:set var="lineIsEditable" value="false" />
                 </c:when>
                 <c:otherwise>
-                    <c:set var="lineIsEditable" value="false" />
+                    <c:set var="lineIsEditable" value="true" />
                 </c:otherwise>
             </c:choose>
 

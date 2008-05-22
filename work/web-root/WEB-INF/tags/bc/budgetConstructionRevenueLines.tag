@@ -129,11 +129,11 @@
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenueLines}" var="item" varStatus="status" >
 
              <c:choose>
-                <c:when test="${!readOnly}">
-                    <c:set var="lineIsEditable" value="true" />
+                <c:when test="${readOnly}">
+                    <c:set var="lineIsEditable" value="false" />
                 </c:when>
                 <c:otherwise>
-                    <c:set var="lineIsEditable" value="false" />
+                    <c:set var="lineIsEditable" value="true" />
                 </c:otherwise>
             </c:choose>
  
@@ -202,7 +202,7 @@
                   attributes="${pbglRevenueAttributes}"
                   field="accountLineAnnualBalanceAmount"
                   fieldAlign="right"
-                  readOnly="false"
+                  readOnly="${!lineIsEditable}"
                   rowSpan="1" dataFieldCssClass="amount" />
 
               <c:set var="fieldTrailerValue" value="" />
@@ -223,12 +223,14 @@
 
               <td class="datacell"" nowrap><div align=center>
 				  <c:choose>
-					<c:when test="${!readOnly && empty item.budgetConstructionMonthly[0]}" > 
-                      <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+					<c:when test="${empty item.budgetConstructionMonthly[0]}" > 
+                      <c:if test="${lineIsEditable}">
+						<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+                      </c:if>
 					</c:when> 
 					<c:otherwise> 
                       <c:choose>
-                        <c:when test="${!readOnly}">
+                        <c:when test="${lineIsEditable}">
                           <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                         </c:when> 
                         <c:otherwise> 

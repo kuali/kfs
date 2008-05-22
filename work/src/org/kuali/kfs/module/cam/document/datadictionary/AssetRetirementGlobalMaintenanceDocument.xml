@@ -51,6 +51,7 @@
         </bean>
       </list>
     </property>
+    <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenanceGlpe.jsp"></property>
   </bean>
 
 <!-- Maintenance Section Definitions -->

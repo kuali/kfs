@@ -119,8 +119,8 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         Options options = optionsService.getOptions(universityFiscalYear);
 
-        List<String> balanceTypeCodes = balanceTypeService.getEncumbranceBalanceTypes( universityFiscalYear );
-            
+        List<String> balanceTypeCodes = balanceTypeService.getEncumbranceBalanceTypes(universityFiscalYear);
+
 
         return generalLedgerPendingEntryDao.getTransactionSummary(universityFiscalYear, chartOfAccountsCode, accountNumber, objectTypes, balanceTypeCodes, sufficientFundsObjectCode, isDebit, isYearEnd);
     }
@@ -225,16 +225,16 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         GeneralLedgerPendingEntryGenerationProcess postingHelper = poster.getGeneralLedgerPostingHelper();
         List<GeneralLedgerPendingEntry> entries;
-        for (GeneralLedgerPendingEntrySourceDetail postable: poster.getGeneralLedgerPostables()) {
+        for (GeneralLedgerPendingEntrySourceDetail postable : poster.getGeneralLedgerPostables()) {
             success &= postingHelper.generateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
             sequenceHelper.increment();
         }
-        
+
         // doc specific pending entries generation
         success = poster.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         return success;
     }
-    
+
     /**
      * This populates an empty GeneralLedgerPendingEntry explicitEntry object instance with default values.
      * 
@@ -246,7 +246,13 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
-        explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(poster.getClass()));
+        // explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(poster.getClass()));
+        if (poster.getFinancialDocumentTypeCode() == null) {
+            explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(poster.getClass()));
+        }
+        else {
+            explicitEntry.setFinancialDocumentTypeCode(poster.getFinancialDocumentTypeCode());
+        }
         explicitEntry.setVersionNumber(new Long(1));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
@@ -290,7 +296,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
     }
-    
+
     /**
      * This populates an GeneralLedgerPendingEntry offsetEntry object instance with values that differ from the values supplied in
      * the explicit entry that it was cloned from. Note that the entries do not contain BOs now.
@@ -379,7 +385,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         LOG.debug("flexOffsetAccountIfNecessary(OffsetAccount, GeneralLedgerPendingEntry) - end");
     }
-    
+
     /**
      * Helper method that determines the offset entry's financial object type code.
      * 
@@ -443,7 +449,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         }
 
     }
-    
+
     /**
      * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
      * posted as a side-effect if the given BankAccount has not defined the necessary bank offset relations.
@@ -671,7 +677,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved);
     }
-    
+
     /**
      * A helper method that checks the intended target value for null and empty strings. If the intended target value is not null or
      * an empty string, it returns that value, ohterwise, it returns a backup value.
@@ -716,4 +722,6 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
+
+
 }

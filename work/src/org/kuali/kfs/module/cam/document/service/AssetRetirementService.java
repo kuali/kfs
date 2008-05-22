@@ -21,6 +21,8 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.document.AssetTransferDocument;
+import org.kuali.module.cams.gl.CamsGlPosterBase;
 
 
 /**
@@ -75,4 +77,9 @@ public interface AssetRetirementService {
      * @return
      */
     boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, boolean addErrorPath);
+    
+    /**
+     * Creates GL Postables 
+     */
+    void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGlPosterBase assetRetirementGlPoster);
 }

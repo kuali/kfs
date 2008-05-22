@@ -270,7 +270,7 @@
     	<property name="assetService" ref="assetService" />    	
     </bean>
      
-     <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
+    <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
     	<property name="parameterService" ref="parameterService" />
     	<property name="documentLockingService" ref="documentLockingService" />
     	<property name="paymentSummaryService" ref="paymentSummaryService" />
@@ -292,10 +292,19 @@
 	<bean id="assetRetirementDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetRetirementDaoOjb"/>
 	    
     <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl">
+    	<property name="universityDateService" ref="universityDateService" />
+    	<property name="assetObjectCodeService" ref="assetObjectCodeService"></property>
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="assetPaymentService" ref="assetPaymentService" />
     </bean>
 
     <bean id="documentLockingService" class="org.kuali.module.cams.service.impl.DocumentLockingServiceImpl">
     	<property name="maintenanceDocumentDao"><ref bean="maintenanceDocumentDao" /></property>
+    </bean>
+    
+    <bean id="assetObjectCodeService" class="org.kuali.module.cams.service.impl.AssetObjectCodeServiceImpl">
+    	<property name="universityDateService" ref="universityDateService" />
+    	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
     <bean id="equipmentLoanOrReturnService" class="org.kuali.module.cams.service.impl.EquipmentLoanOrReturnServiceImpl" >

@@ -13,8 +13,11 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.gl.AssetRetirementGlPoster;
+import org.kuali.module.cams.gl.CamsGlPosterBase;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.PaymentSummaryService;
@@ -39,6 +42,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     // non-persistent relation
     private AssetRetirementGlobalDetail sharedRetirementInfo;
 
+    private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
+
 
     public AssetRetirementGlobalDetail getSharedRetirementInfo() {
         return sharedRetirementInfo;
@@ -55,6 +60,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      */
     public AssetRetirementGlobal() {
         this.assetRetirementGlobalDetails = new TypedArrayList(AssetRetirementGlobalDetail.class);
+        this.generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
     }
 
 
@@ -85,9 +91,9 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     @Override
     public List buildListOfDeletionAwareLists() {
         List<List> managedList = super.buildListOfDeletionAwareLists();
-        
+
         managedList.add(getAssetRetirementGlobalDetails());
-        
+
         return managedList;
     }
 
@@ -154,11 +160,11 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
             totalCostAmount = totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(sourceAsset));
             salvageAmount = salvageAmount.add(sourceAsset.getSalvageAmount());
 
-            retirementService.generateOffsetPaymentsForEachSource(sourceAsset, persistables,detail.getDocumentNumber());
-            maxTargetSequenceNo = retirementService.generateNewPaymentForTarget(mergedTargetCapitalAsset, sourceAsset, persistables, maxTargetSequenceNo,detail.getDocumentNumber());
+            retirementService.generateOffsetPaymentsForEachSource(sourceAsset, persistables, detail.getDocumentNumber());
+            maxTargetSequenceNo = retirementService.generateNewPaymentForTarget(mergedTargetCapitalAsset, sourceAsset, persistables, maxTargetSequenceNo, detail.getDocumentNumber());
 
         }
-        
+
         // update merget target asset
         mergedTargetCapitalAsset.setTotalCostAmount(totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(mergedTargetCapitalAsset)));
         mergedTargetCapitalAsset.setSalvageAmount(salvageAmount.add(mergedTargetCapitalAsset.getSalvageAmount()));
@@ -342,6 +348,16 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     public void setAssetRetirementGlobalDetails(List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails) {
         this.assetRetirementGlobalDetails = assetRetirementGlobalDetails;
+    }
+
+
+    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
+        return generalLedgerPendingEntries;
+    }
+
+
+    public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> glPendingEntries) {
+        this.generalLedgerPendingEntries = glPendingEntries;
     }
 
 

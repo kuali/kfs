@@ -526,4 +526,9 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         this.electronicPaymentClaims = electronicPaymentClaims;
     }
 
+    public String getFinancialDocumentTypeCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

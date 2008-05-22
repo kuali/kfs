@@ -173,5 +173,7 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
         setAccountingPeriod(retrieveCurrentAccountingPeriod());
     }
     
-    
+    public String getFinancialDocumentTypeCode() {
+        return null;
+    }
 }

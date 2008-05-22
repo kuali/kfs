@@ -106,4 +106,6 @@ public interface GeneralLedgerPendingEntrySource {
      * @return KualiDecimal The amount that will be used to populate the GLPE.
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable);
+    
+    public String getFinancialDocumentTypeCode();
 }

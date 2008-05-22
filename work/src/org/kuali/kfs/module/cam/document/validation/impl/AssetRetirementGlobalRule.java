@@ -26,12 +26,14 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.gl.AssetRetirementGlPoster;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.AssetService;
 
@@ -79,7 +81,20 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         setupConvenienceObjects();
         valid &= assetRetirementValidation(assetRetirementGlobal);
 
-        return valid & super.processCustomSaveDocumentBusinessRules(document);
+        if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            // create poster
+            AssetRetirementGlPoster assetRetirementGlPoster = new AssetRetirementGlPoster(document.getDocumentHeader());
+            // create postables
+            assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster);
+            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetRetirementGlPoster)) {
+                assetRetirementGlobal.setGeneralLedgerPendingEntries(assetRetirementGlPoster.getPendingEntries());
+            }
+            else {
+                assetRetirementGlPoster.getPendingEntries().clear();
+            }
+        }
+
+        return valid;
     }
 
 

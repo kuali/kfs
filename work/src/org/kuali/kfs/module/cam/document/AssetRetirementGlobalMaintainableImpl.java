@@ -19,25 +19,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.gl.AssetRetirementGlPoster;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
@@ -103,7 +105,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
         // Setup default asset retirement date. <defaultValueFinderClass> defined in DD can NOT work at this point.
         AssetRetirementGlobal assetRetirementGlobal = ((AssetRetirementGlobal) getBusinessObject());
-        assetRetirementGlobal.setRetirementDate(DateUtils.convertToSqlDate(new java.util.Date()));
+        java.sql.Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        assetRetirementGlobal.setRetirementDate(currentDate);
     }
 
     /**
@@ -176,7 +179,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         assetRetirementGlobal.setAssetRetirementGlobalDetails(newAssetRetirementGlobalDetails);
 
         super.prepareGlobalsForSave();
-
     }
 
     /**
@@ -217,16 +219,36 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
         if (KFSConstants.MULTIPLE_VALUE.equalsIgnoreCase(refreshCaller)) {
             assetRetirementService.checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobalDetails, new Integer(1), true);
-            // Set non-persistent values in multiple lookup result collection. So the screen can show them when return from multiple lookup.
+            // Set non-persistent values in multiple lookup result collection. So the screen can show them when return from multiple
+            // lookup.
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
                 assetService.setAssetNonPersistentFields(assetRetirementGlobalDetail.getAsset());
             }
         }
         else if (CamsConstants.ASSET_LOOKUPABLE_ID.equalsIgnoreCase(refreshCaller)) {
-            // Set non-persistent values in the result from asset lookup. So the screen can show them when return from sigle asset lookup.
+            // Set non-persistent values in the result from asset lookup. So the screen can show them when return from sigle asset
+            // lookup.
             AssetRetirementGlobalDetail newDetail = (AssetRetirementGlobalDetail) newCollectionLines.get(CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS);
             assetService.setAssetNonPersistentFields(newDetail.getAsset());
         }
+
+    }
+
+    @Override
+    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+        super.handleRouteStatusChange(documentHeader);
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+        assetRetirementGlobal.refreshReferenceObject("generalLedgerPendingEntries");
+        new AssetRetirementGlPoster(documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
+    }
+
+    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
+        return ((AssetRetirementGlobal) getBusinessObject()).getGeneralLedgerPendingEntries();
+    }
+
+    public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> list) {
+        // TODO
+        // do nothing now
 
     }
 }

@@ -24,6 +24,7 @@ import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
@@ -50,16 +51,16 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
          * ObjectUtils.getPropertyValue(getBusinessObject(), collectionName); maintCollection.add(addAssetLine);
          */
 
-        //super.addNewLineToCollection(collectionName);
+        // super.addNewLineToCollection(collectionName);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        if ("assetPaymentDetails".equalsIgnoreCase(collectionName)) {
+        if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equalsIgnoreCase(collectionName)) {
             AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
             if (assetPaymentDetail != null) {
                 assetPaymentDetail.setFinancialDocumentLineNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             }
         }
         int pos = assetGlobal.getAssetSharedDetails().size() - 1;
-        if (pos > -1 && ("assetSharedDetails[" + pos + "].assetGlobalUniqueDetails").equalsIgnoreCase(collectionName)) {
+        if (pos > -1 && (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + pos + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equalsIgnoreCase(collectionName)) {
             AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
             if (assetGlobalDetail != null) {
                 assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
@@ -83,7 +84,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             StringBuffer lockRep = new StringBuffer();
 
             lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockRep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockRep.append(detail.getCapitalAssetNumber());
 
             maintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
@@ -101,41 +102,33 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
         AssetGlobalDetail newAssetGlobalDetail = null;
-        if (assetSharedDetails != null){
-            assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber()); 
-        }
-        
-        for (AssetGlobalDetail locationDetail : assetSharedDetails) {
-            List<AssetGlobalDetail> assetGlobalUniqueDetails = locationDetail.getAssetGlobalUniqueDetails();
+        if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
+            assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber());
 
-            for (AssetGlobalDetail detail : assetGlobalUniqueDetails) {
+            for (AssetGlobalDetail locationDetail : assetSharedDetails) {
+                List<AssetGlobalDetail> assetGlobalUniqueDetails = locationDetail.getAssetGlobalUniqueDetails();
 
-                // read from location and set it to detail
-                detail.setCampusCode(locationDetail.getCampusCode());
-                detail.setBuildingCode(locationDetail.getBuildingCode());
-                detail.setBuildingRoomNumber(locationDetail.getBuildingRoomNumber());
-                detail.setBuildingSubRoomNumber(locationDetail.getBuildingSubRoomNumber());
-                detail.setOffCampusName(locationDetail.getOffCampusName());
-                detail.setOffCampusAddress(locationDetail.getOffCampusAddress());
-                detail.setOffCampusCityName(locationDetail.getOffCampusCityName());
-                detail.setOffCampusStateCode(locationDetail.getOffCampusStateCode());
-                detail.setOffCampusCountryCode(locationDetail.getOffCampusCountryCode());
-                detail.setOffCampusZipCode(locationDetail.getOffCampusZipCode());
-                newDetails.add(detail);
-
-                /*
-                 * Alternate way, using deepcopy: newAssetGlobalDetail = (AssetGlobalDetail) ObjectUtils.deepCopy(locationDetail);
-                 * newAssetGlobalDetail.setVersionNumber(detail.getVersionNumber());
-                 * newAssetGlobalDetail.setOrganizationInventoryName(detail.getOrganizationInventoryName());
-                 * newAssetGlobalDetail.setSerialNumber(detail.getSerialNumber());
-                 * newAssetGlobalDetail.setOrganizationAssetTypeIdentifier(detail.getOrganizationAssetTypeIdentifier());
-                 * newAssetGlobalDetail.setGovernmentTagNumber(detail.getGovernmentTagNumber());
-                 * newAssetGlobalDetail.setCampusTagNumber(detail.getCampusTagNumber());
-                 * newAssetGlobalDetail.setNationalStockNumber(detail.getNationalStockNumber());
-                 * newDetails.add(newAssetGlobalDetail);
-                 */
+                for (AssetGlobalDetail detail : assetGlobalUniqueDetails) {
+                    // read from location and set it to detail
+                    detail.setCampusCode(locationDetail.getCampusCode());
+                    detail.setBuildingCode(locationDetail.getBuildingCode());
+                    detail.setBuildingRoomNumber(locationDetail.getBuildingRoomNumber());
+                    detail.setBuildingSubRoomNumber(locationDetail.getBuildingSubRoomNumber());
+                    detail.setOffCampusName(locationDetail.getOffCampusName());
+                    detail.setOffCampusAddress(locationDetail.getOffCampusAddress());
+                    detail.setOffCampusCityName(locationDetail.getOffCampusCityName());
+                    detail.setOffCampusStateCode(locationDetail.getOffCampusStateCode());
+                    detail.setOffCampusCountryCode(locationDetail.getOffCampusCountryCode());
+                    detail.setOffCampusZipCode(locationDetail.getOffCampusZipCode());
+                    newDetails.add(detail);
+                }
             }
         }
+        // Perform following steps for capital assets
+        // 1. Determine the asset financial object sub type code based on the first payment record
+        // 2. Determine the depreciation convention using asset financial object sub type code
+        // 3. Compute the in-service date and depreciation date
+
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setAssetGlobalDetails(newDetails);
 

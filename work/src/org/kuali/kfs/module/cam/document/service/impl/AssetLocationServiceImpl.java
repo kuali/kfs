@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -145,8 +144,8 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     /**
      * Convenience method to append the path prefix
      */
-    private TypedArrayList putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
-        return GlobalVariables.getErrorMap().putError(fieldMap.get(field), errorKey, errorParameters);
+    private void putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
+        GlobalVariables.getErrorMap().putError(fieldMap.get(field), errorKey, errorParameters);
     }
 
     private boolean validateOnCampusLocation(Map<LocationField, String> fieldMap, AssetType assetType, String campusCode, String buildingCode, String buildingRoomNumber, String subRoomNumber) {

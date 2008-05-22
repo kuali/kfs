@@ -51,6 +51,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private List<AssetGlobalDetail> assetGlobalDetails;
     private List<AssetGlobalDetail> assetSharedDetails;
     private List<AssetPaymentDetail> assetPaymentDetails;
+    private AssetAcquisitionType acquisitionType;
 
 
     /**
@@ -628,9 +629,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
                 assetPayment.setFinancialDocumentPostingYear(payment.getFinancialDocumentPostingYear());
                 assetPayment.setFinancialDocumentPostingPeriodCode(payment.getFinancialDocumentPostingPeriodCode());
-//                assetPayment.setAccountChargeAmount(payment.getAccountChargeAmount().divide(new KualiDecimal(assetGlobalDetails.size())));
+                // assetPayment.setAccountChargeAmount(payment.getAccountChargeAmount().divide(new
+                // KualiDecimal(assetGlobalDetails.size())));
                 assetPayment.setAccountChargeAmount(payment.getAmount().divide(new KualiDecimal(assetGlobalDetails.size())));
-               // assetPayment.setVersionNumber(1L);
+                // assetPayment.setVersionNumber(1L);
                 persistables.add(assetPayment);
             }
         }
@@ -642,11 +644,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         return true;
     }
 
-    @Override
-    public void prepareForWorkflow() {
-        // TODO Auto-generated method stub
-        super.prepareForWorkflow();
-    }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return getAssetGlobalDetails();
@@ -676,9 +673,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        /** TODO Why is the following necessary for assetHeader but not assetGlobalDetail? */
         assetHeader.setDocumentNumber(documentNumber);
-
         super.beforeUpdate(persistenceBroker);
     }
 
@@ -687,17 +682,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        /** TODO Why is the following necessary for assetHeader but not assetGlobalDetail? */
         assetHeader.setDocumentNumber(documentNumber);
-
         super.beforeInsert(persistenceBroker);
     }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+    protected LinkedHashMap<String, String> toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
     }
@@ -734,6 +727,14 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     public void setAssetSharedDetails(List<AssetGlobalDetail> assetSharedDetails) {
         this.assetSharedDetails = assetSharedDetails;
+    }
+
+    public AssetAcquisitionType getAcquisitionType() {
+        return acquisitionType;
+    }
+
+    public void setAcquisitionType(AssetAcquisitionType acquisitionType) {
+        this.acquisitionType = acquisitionType;
     }
 
 

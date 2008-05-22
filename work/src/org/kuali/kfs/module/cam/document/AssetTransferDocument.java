@@ -84,7 +84,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
 
     // Transient attributes
-    private transient Asset asset;
+    private Asset asset;
 
 
     public AssetTransferDocument() {

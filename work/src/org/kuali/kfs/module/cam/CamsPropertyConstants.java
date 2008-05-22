@@ -87,6 +87,8 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String DOCUMENT_HEADER = "documentHeader";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+        public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
+        public static final String ORGANIZATION_OWNER_CHART = "organizationOwnerChartOfAccounts";
     }
 
     public static class AssetObject {
@@ -231,7 +233,7 @@ public class CamsPropertyConstants {
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
     }
-    
+
     public static class EquipmentLoanOrReturnDocument {
         public static final String LOAN_DATE = "loanDate";
         public static final String EXPECTED_RETURN_DATE = "expectedReturnDate";
@@ -240,5 +242,39 @@ public class CamsPropertyConstants {
         public static final String BORROWER_STAORAGE_STATE_CODE = "borrowerStorageStateCode";
         public static final String BORROWER_COUNTRY_CODE = "borrowerCountryCode";
         public static final String BORROWER_STAORAGE_COUNTRY_CODE = "borrowerStorageCountryCode";
+    }
+
+    public static class AssetGlobal {
+        public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
+        public static final String ASSET_SHARED_DETAILS = "assetSharedDetails";
+        public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "assetHeader.organizationOwnerAccountNumber";
+        public static final String VENDOR_NAME = "vendorName";
+        public static final String MFR_NAME = "manufacturerName";
+        public static final String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
+        public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "assetHeader.organizationOwnerChartOfAccountsCode";
+        public static final String ORGANIZATION_OWNER_ACCT_NUMBER = "assetHeader.organizationOwnerAccountNumber";
+        public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
+        public static final String ASSET_PAYMENT_DETAILS = "assetPaymentDetails";
+    }
+
+    public static class AssetGlobalDetail {
+        public static final String VERSION_NUM = "versionNumber";
+        public static final String CAMPUS = "campus";
+        public static final String BUILDING = "building";
+        public static final String BUILDING_ROOM = "buildingRoom";
+        public static final String OFF_CAMPUS_STATE = "offCampusState";
+        public static String CAMPUS_CODE = "campusCode";
+        public static String BUILDING_CODE = "buildingCode";
+        public static String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+        public static String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
+        public static String OFF_CAMPUS_NAME = "offCampusName";
+        public static String OFF_CAMPUS_ADDRESS = "offCampusAddress";
+        public static String OFF_CAMPUS_CITY_NAME = "offCampusCityName";
+        public static String OFF_CAMPUS_STATE_CODE = "offCampusStateCode";
+        public static String OFF_CAMPUS_ZIP_CODE = "offCampusZipCode";
+        public static String OFF_CAMPUS_COUNTRY_CODE = "offCampusCountryCode";
+        public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
+        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
+
     }
 }

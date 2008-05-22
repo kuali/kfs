@@ -291,6 +291,10 @@
 	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.module.cams.bo.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
+	<reference-descriptor name="acquisitionType" class-ref="org.kuali.module.cams.bo.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="acquisitionTypeCode" />
+	</reference-descriptor>
+	
 	
 </class-descriptor>
 
@@ -872,6 +876,9 @@
 	</reference-descriptor>
 	<reference-descriptor name="equipmentLoanOrReturnDocument" class-ref="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="agencyNumber" />
 	</reference-descriptor>
 </class-descriptor>
 

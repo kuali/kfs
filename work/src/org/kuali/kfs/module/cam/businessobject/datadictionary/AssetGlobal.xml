@@ -14,6 +14,7 @@
         <ref bean="AssetGlobal-assetHeader.organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetGlobal-assetHeader.organizationOwnerAccountNumber" />
         <ref bean="AssetGlobal-assetHeader.agencyNumber" />
+        <ref bean="AssetGlobal-assetHeader.versionNumber" />
         <ref bean="AssetGlobal-acquisitionTypeCode" />
         <ref bean="AssetGlobal-inventoryStatusCode" />
         <ref bean="AssetGlobal-conditionCode" />
@@ -83,6 +84,16 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetHeader.agency" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="assetHeader.agencyNumber"
+                    p:targetName="agencyNumber" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
@@ -105,6 +116,11 @@
   <bean id="AssetGlobal-assetHeader.agencyNumber-parentBean" abstract="true" parent="AssetHeader-agencyNumber">
     <property name="name" value="assetHeader.agencyNumber" />
   </bean>
+   <bean id="AssetGlobal-assetHeader.versionNumber" parent="AssetGlobal-assetHeader.versionNumber-parentBean" />
+
+  <bean id="AssetGlobal-assetHeader.versionNumber-parentBean" abstract="true" parent="AssetHeader-versionNumber">
+    <property name="name" value="assetHeader.versionNumber" />
+  </bean>
   <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
 
   <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
@@ -117,6 +133,11 @@
 
   <bean id="AssetGlobal-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
     <property name="name" value="conditionCode" />
+    <property name="control">
+    	<bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.cams.lookup.valuefinder.AssetConditionValuesFinder"
+            />
+    </property>
   </bean>
   <bean id="AssetGlobal-capitalAssetDescription" parent="AssetGlobal-capitalAssetDescription-parentBean" />
 

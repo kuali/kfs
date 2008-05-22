@@ -65,7 +65,7 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
-        public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED="message.payment.routintCancelled";
+        public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED = "message.payment.routintCancelled";
     }
 
     public static class Transfer {
@@ -103,7 +103,7 @@ public class CamsKeyConstants {
         public static final String ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED = "error.location.oncampus.not.permitted";
         public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.room.number.not.permitted";
         public static final String ERROR_ONCAMPUS_SUB_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.sub.room.number.not.permitted";
-        public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";
+        public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";        
     }
 
     public static class Retirement {
@@ -128,11 +128,11 @@ public class CamsKeyConstants {
         public static final String ERROR_DUPLICATE_TAG_NUMBER_FOUND = "error.asset.location.duplicate.tag.number";
         public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL = "error.asset.location.no.asset.location.detail.line";
     }
-    
+
     public static class AssetBarCodeInventory {
-        public static final String MESSAGE_BATCH_UPLOAD_TITLE_BAR_CODE_INVENTORY="message.batchUpload.title.barCodeInventory";
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_BAR_CODE_INVENTORY = "message.batchUpload.title.barCodeInventory";
     }
-    
+
     public static class EquipmentLoanOrReturn {
         public static final String ERROR_ASSET_CANNOT_BE_LOANED = "error.asset.cannot.be.loaned";
         public static final String ERROR_INVALID_EXPECTED_RETURN_DATE = "error.invalid.expected.return.date";
@@ -141,5 +141,19 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_BORROWER_STORAGE_STATE = "error.invalid.borrower.storage.state.code";
         public static final String ERROR_INVALID_BORROWER_COUNTRY = "error.invalid.borrower.country.code";
         public static final String ERROR_INVALID_BORROWER_STORAGE_COUNTRY = "error.invalid.borrower.storage.country.code";
+    }
+
+    public static class AssetGlobal {
+
+        public static final String ERROR_INVENTORY_STATUS_REQUIRED = "error.asset.inventory.status.code.required";
+        public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.asset.owner.account.not.active";
+        public static final String MIN_ONE_ASSET_REQUIRED = "error.document.min.one.asset.required";
+        public static final String ERROR_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
+        public static final String ERROR_MFR_NAME_REQUIRED = "error.capital.asset.manufacturer.name.required";
+        public static final String ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED = "error.acquisition.code.not.allowed";
+        public static final String ERROR_INVENTORY_STATUS_CODE_INVALID = "error.asset.inventory.status.code.invalid";
+        public static final String ERROR_OWNER_CHART_INVALID = "error.asset.owner.chart.code.invalid";
+        public static final String ERROR_OWNER_ACCT_NUMBER_INVALID = "error.asset.owner.account.number.invalid";
+        public static final String ERROR_CAMPUS_TAG_NUMBER_DUPLICATE = "error.asset.campus.tag.number.duplicate";
     }
 }

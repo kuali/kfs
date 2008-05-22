@@ -30,6 +30,12 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="capitalAssetType"
               p:attributeToHighlightOnFail="capitalAssetTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="acquisitionType"
+              p:attributeToHighlightOnFail="acquisitionTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="assetHeader.agency"
+              p:attributeToHighlightOnFail="assetHeader.agencyNumber" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -42,7 +48,7 @@
     <property name="summary" value="Global Asset Maintenance Document" />
     <property name="description" value="Document used to create or update global asset document." />
     <property name="documentTypeName" value="AssetGlobalMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GAA" />
     <property name="webScriptFiles" >
@@ -85,7 +91,7 @@
               p:webUILeaveFieldFunction="accountNameLookup" />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetHeader.agencyNumber"
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
               p:required="true" />
@@ -103,10 +109,10 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorName"
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerName"
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerModelNumber" />
         <bean parent="MaintainableFieldDefinition"
@@ -121,14 +127,17 @@
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="lastInventoryDate"
-              p:required="true"
+              p:required="false"
+              p:readOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="createDate"
-              p:required="true"
+              p:required="false"
+              p:readOnly="true"
               p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetInServiceDate"
+              p:required="false"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetDepreciationDate"
@@ -144,16 +153,15 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentNextLineNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.versionNumber"
-              p:readOnly="true" />
+              p:name="assetHeader.versionNumber" />
       </list>
     </property>
   </bean>
   <bean id="AssetGlobalMaintenanceDocument-CampusLocation" parent="AssetGlobalMaintenanceDocument-CampusLocation-parentBean" />
 
   <bean id="AssetGlobalMaintenanceDocument-CampusLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Campus Location" />
-    <property name="title" value="Campus Location" />
+    <property name="id" value="Location Information" />
+    <property name="title" value="Location" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -175,12 +183,13 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="buildingCode"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="buildingRoomNumber"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="buildingSubRoomNumber" />
+                    p:name="buildingSubRoomNumber" 
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusName"
                     p:required="false" />
@@ -199,7 +208,9 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusCountryCode" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />       
+                    p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />       
             </list>
           </property>
           <property name="maintainableCollections" >

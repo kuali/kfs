@@ -268,6 +268,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         typeToStreamMap = null;
         
         if (!inputType.validate(typeToTempFiles)) {
+            deleteTempFiles(typeToTempFiles);
             LOG.error("Upload file validation failed for user " + user.getPersonName() + " identifier " + fileUserIdentifier);
             throw new ValidationException("File validation failed");
         }
@@ -276,28 +277,28 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
 
         Map<String, String> typeToFileNames = new LinkedHashMap<String, String>();
         Map<String, File> typeToFiles = new LinkedHashMap<String, File>();
-        for (String fileType : inputType.getFileTypes()) {
-            File tempFile = typeToTempFiles.get(fileType);
-            String saveFileName = inputType.getDirectoryPath(fileType) + 
-                    File.separator + tempFile.getName();
-            try {
-                InputStream fileContents = new FileInputStream(tempFile);
-                File fileToSave = new File(saveFileName);
-
-                copyInputStreamToFile(fileContents, fileToSave, buf);
-                fileContents.close();
-                typeToFileNames.put(fileType, saveFileName);
-                typeToFiles.put(fileType, fileToSave);
-            }
-            catch (IOException e) {
-                LOG.error("unable to save contents to file " + saveFileName, e);
-                throw new RuntimeException("errors encountered while writing file " + saveFileName, e);
-            }
-            finally {
-                if (tempFile.exists()) {
-                    tempFile.delete();
+        try {
+            for (String fileType : inputType.getFileTypes()) {
+                File tempFile = typeToTempFiles.get(fileType);
+                String saveFileName = inputType.getDirectoryPath(fileType) + 
+                        File.separator + tempFile.getName();
+                try {
+                    InputStream fileContents = new FileInputStream(tempFile);
+                    File fileToSave = new File(saveFileName);
+    
+                    copyInputStreamToFile(fileContents, fileToSave, buf);
+                    fileContents.close();
+                    typeToFileNames.put(fileType, saveFileName);
+                    typeToFiles.put(fileType, fileToSave);
+                }
+                catch (IOException e) {
+                    LOG.error("unable to save contents to file " + saveFileName, e);
+                    throw new RuntimeException("errors encountered while writing file " + saveFileName, e);
                 }
             }
+        }
+        finally {
+            deleteTempFiles(typeToTempFiles);
         }
 
         if (!suppressDoneFileCreation && inputType.isSupportsDoneFileCreation()) {
@@ -413,5 +414,16 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
+    protected void deleteTempFiles(Map<String, File> typeToTempFiles) {
+        for (File tempFile : typeToTempFiles.values()) {
+            if (tempFile.exists()) {
+                boolean deletionSuccessful = tempFile.delete();
+                if (!deletionSuccessful) {
+                    LOG.error("Unable to delete file (possibly due to unclosed InputStream or Reader on the file): " + tempFile.getAbsolutePath());
+                }
+            }
+        }
     }
 }

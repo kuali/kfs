@@ -41,5 +41,13 @@
 			viewList="document.relatedViews.relatedCreditMemoViews"
 			documentTypeLabel="Credit Memo" /> 
 
+		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+			viewList="document.relatedViews.relatedReceivingLineViews"
+			documentTypeLabel="Receiving Line" /> 
+
+		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+			viewList="document.relatedViews.relatedReceivingCorrectionViews"
+			documentTypeLabel="Receiving Correction" /> 
+
     </div>
 </kul:tab>

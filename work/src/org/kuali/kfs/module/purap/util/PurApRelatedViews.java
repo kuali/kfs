@@ -23,6 +23,8 @@ import org.kuali.module.purap.bo.AbstractRelatedView;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.ReceivingCorrectionView;
+import org.kuali.module.purap.bo.ReceivingLineView;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.service.PurapService;
 
@@ -35,6 +37,9 @@ public class PurApRelatedViews {
     private transient List<PaymentRequestView> paymentHistoryPaymentRequestViews;
     private transient List<CreditMemoView> relatedCreditMemoViews;
     private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
+
+    private transient List<ReceivingLineView> relatedReceivingLineViews;
+    private transient List<ReceivingCorrectionView> relatedReceivingCorrectionViews;
 
     public PurApRelatedViews(String documentNumber, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         super();
@@ -55,7 +60,7 @@ public class PurApRelatedViews {
         }
         return relatedList;
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
@@ -106,6 +111,22 @@ public class PurApRelatedViews {
     public List<CreditMemoView> getPaymentHistoryCreditMemoViews() {
         paymentHistoryCreditMemoViews = updateRelatedView(CreditMemoView.class, paymentHistoryCreditMemoViews, false);
         return paymentHistoryCreditMemoViews;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
+     */
+    public List<ReceivingLineView> getRelatedReceivingLineViews() {
+        relatedReceivingLineViews = updateRelatedView(ReceivingLineView.class, relatedReceivingLineViews, true);
+        return relatedReceivingLineViews;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
+     */
+    public List<ReceivingCorrectionView> getRelatedReceivingCorrectionViews() {
+        relatedReceivingCorrectionViews = updateRelatedView(ReceivingCorrectionView.class, relatedReceivingCorrectionViews, true);
+        return relatedReceivingCorrectionViews;
     }
 
 }

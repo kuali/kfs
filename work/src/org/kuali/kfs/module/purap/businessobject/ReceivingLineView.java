@@ -22,15 +22,15 @@ import org.kuali.core.bo.Note;
 /**
  * Requisition View Business Object.
  */
-public class RequisitionView extends AbstractRelatedView {
-    private Integer requisitionIdentifier;
+public class ReceivingLineView extends AbstractRelatedView {
+    private Integer purchaseOrderId;
 
-    public Integer getRequisitionIdentifier() {
-        return requisitionIdentifier;
+    public Integer getPurchaseOrderId() {
+        return purchaseOrderId;
     }
 
-    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
-        this.requisitionIdentifier = requisitionIdentifier;
+    public void setPurchaseOrderId(Integer purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
     }
 
     /**

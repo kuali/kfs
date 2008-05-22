@@ -154,6 +154,11 @@ public class PaymentRequestView extends AbstractRelatedView {
         return super.getPurapDocumentIdentifier();
     }
 
+    @Override
+    public String getDocumentIdentifierString() {
+        return super.getDocumentIdentifierString();
+    }
+
     /**
      * @see org.kuali.module.purap.bo.AbstractRelatedView#getNotes()
      */

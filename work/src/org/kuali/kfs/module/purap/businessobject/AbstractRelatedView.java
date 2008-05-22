@@ -49,6 +49,14 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         return purapDocumentIdentifier;
     }
 
+    public String getDocumentIdentifierString() {
+        if (purapDocumentIdentifier != null) {
+            return purapDocumentIdentifier.toString();
+        } else {
+            return documentNumber;
+        }
+    }
+    
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }

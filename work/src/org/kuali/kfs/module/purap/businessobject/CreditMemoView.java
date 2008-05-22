@@ -156,6 +156,11 @@ public class CreditMemoView extends AbstractRelatedView {
     }
 
     @Override
+    public String getDocumentIdentifierString() {
+        return super.getDocumentIdentifierString();
+    }
+
+    @Override
     public List<Note> getNotes() {
         return super.getNotes();
     }

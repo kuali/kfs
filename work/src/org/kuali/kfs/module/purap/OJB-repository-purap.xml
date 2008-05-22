@@ -3353,6 +3353,20 @@
     </collection-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.purap.bo.ReceivingLineView" table="PUR_RCVNG_LN_T">
+    <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="purchaseOrderId" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.ReceivingCorrectionView" table="PUR_RCVNG_COR_T">
+    <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="receivingLineDocumentIdentifier" column="RCVNG_LN_FDOC_NBR" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.purap.bo.RequisitionView" table="PUR_REQS_V">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purapDocumentIdentifier" column="REQS_ID" primarykey="true" jdbc-type="INTEGER"/>

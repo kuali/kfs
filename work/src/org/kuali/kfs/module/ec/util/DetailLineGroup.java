@@ -83,6 +83,8 @@ public class DetailLineGroup {
 
         List<EffortCertificationDetail> detailLines = this.getDetailLines();
         DynamicCollectionComparator.sort(detailLines, SortOrder.DESC, EffortPropertyConstants.PERSISED_PAYROLL_AMOUNT);
+        
+        // restore the intial effort percents before update the detail lines 
         for(EffortCertificationDetail detailLine: detailLines) {
             detailLine.setEffortCertificationUpdatedOverallPercent(detailLine.getPersistedEffortPercent());
         }
@@ -114,6 +116,8 @@ public class DetailLineGroup {
 
         List<EffortCertificationDetail> detailLines = this.getDetailLines();
         DynamicCollectionComparator.sort(detailLines, SortOrder.DESC, EffortPropertyConstants.PERSISED_PAYROLL_AMOUNT);
+        
+        // restore the intial payroll amounts before update the detail lines 
         for(EffortCertificationDetail detailLine: detailLines) {
             detailLine.setEffortCertificationPayrollAmount(detailLine.getPersistedPayrollAmount());
         }

@@ -234,9 +234,8 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#deleteLedgerBalancesPriorToYear(java.lang.Integer, java.lang.String)
      */
-    public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountCodes) {
-        // TODO Auto-generated method stub
-        
+    public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
+        laborLedgerBalanceDao.deleteLedgerBalancesPriorToYear(fiscalYear, chartOfAccountsCode);
     }
 
     /**

@@ -15,8 +15,6 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,14 +36,13 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.ReportGeneration;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
@@ -75,8 +72,24 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        return super.execute(mapping, form, request, response);
-    }
+        ActionForward forward = super.execute(mapping, form, request, response);
+
+        // apprise user of granted access
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)) {
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
+            }
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)){
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
+            }
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)){
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
+            }
+        }
+
+        return forward;
+   }
 
     /**
      * gwp - no call to super, need to work through command we will use randall - This method might be unnecessary, but putting it

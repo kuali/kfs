@@ -143,6 +143,7 @@
         <ref bean="PurchaseOrderDocument-purchaseOrderLastTransmitDate" />
         <ref bean="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteDueDate" />
+        <ref bean="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" />
         <ref bean="PurchaseOrderDocument-purchaseOrderQuoteVendorNoteText" />
         <ref bean="PurchaseOrderDocument-vendorHeaderGeneratedIdentifier" />
@@ -1011,7 +1012,25 @@
             p:size="9" />
     </property>
   </bean>
+  <bean id="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate" parent="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate-parentBean" />
+
+  <bean id="PurchaseOrderDocument-purchaseOrderQuoteInitializationDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderQuoteInitializationDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Quote Init Date" />
+    <property name="shortLabel" value="Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>
+
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" parent="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean" />
+
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderQuoteTypeCode" />

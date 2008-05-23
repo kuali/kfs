@@ -46,17 +46,26 @@
 		</tr>
         <tr>
              <th align=right valign=middle class="bord-l-b">
+                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteInitializationDate}" /></div>
+             </th>
+             <td align=left valign=middle class="datacell">
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteInitializationDate}" property="document.purchaseOrderQuoteInitializationDate" 
+                 readOnly="true" />
+             </td>
+             <th align=right valign=middle class="bord-l-b" rowspan="3">
+                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" /></div>
+             </th>
+             <td align=left valign=middle class="datacell" rowspan="3" colspan="2">
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" 
+                 readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" />
+             </td>
+        </tr>
+        <tr>
+             <th align=right valign=middle class="bord-l-b">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" /></div>
              </th>
              <td align=left valign=middle class="datacell">
                  <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" property="document.purchaseOrderQuoteDueDate" 
-                 readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" />
-             </td>
-             <th align=right valign=middle class="bord-l-b" rowspan="2">
-                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" /></div>
-             </th>
-             <td align=left valign=middle class="datacell" rowspan="2" colspan="2">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" 
                  readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" />
              </td>
         </tr>

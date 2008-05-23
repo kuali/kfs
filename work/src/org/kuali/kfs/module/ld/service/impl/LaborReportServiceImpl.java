@@ -267,7 +267,7 @@ public class LaborReportServiceImpl implements LaborReportService {
         List summary = buildScrubberReportSummary(scrubberReport);
 
         TransactionReport transactionReport = new TransactionReport();
-        transactionReport.generateReport(tranKeys, scrubberReportErrors, summary, runDate, "Labor Scrubber Report ", "labor_scrubber_errors", reportsDirectory);
+        transactionReport.generateReport(tranKeys, scrubberReportErrors, summary, runDate, "Labor Scrubber Report ", "labor_scrubber_errors_", reportsDirectory);
     }
 
     /**

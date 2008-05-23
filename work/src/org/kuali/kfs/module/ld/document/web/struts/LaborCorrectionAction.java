@@ -20,6 +20,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -437,13 +439,19 @@ public class LaborCorrectionAction extends CorrectionAction {
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#manualEdit(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
     public ActionForward manualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
         laborCorrectionForm.clearLaborEntryForManualEdit();
+        
+        laborCorrectionForm.clearEntryForManualEdit();
+        laborCorrectionForm.setEditableFlag(true);
+        laborCorrectionForm.setManualEditFlag(false);
 
-        return super.manualEdit(mapping, form, request, response);
+        document.addCorrectionChangeGroup(new CorrectionChangeGroup());
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -471,6 +479,13 @@ public class LaborCorrectionAction extends CorrectionAction {
                 laborCorrectionForm.setLaborEntryTransactionLedgerEntryAmount(CorrectionDocumentUtils.convertToString(element.getTransactionLedgerEntryAmount(), "KualiDecimal"));
                 laborCorrectionForm.setLaborEntryTransactionLedgerEntrySequenceNumber(CorrectionDocumentUtils.convertToString(element.getTransactionLedgerEntrySequenceNumber(), "Integer"));
                 laborCorrectionForm.setLaborEntryUniversityFiscalYear(CorrectionDocumentUtils.convertToString(element.getUniversityFiscalYear(), "Integer"));
+                
+                laborCorrectionForm.setLaborEntryTransactionPostingDate(CorrectionDocumentUtils.convertToString(element.getTransactionPostingDate(), "Date"));
+                laborCorrectionForm.setLaborEntryPayPeriodEndDate(CorrectionDocumentUtils.convertToString(element.getPayPeriodEndDate(), "Date"));
+                laborCorrectionForm.setLaborEntryTransactionTotalHours(CorrectionDocumentUtils.convertToString(element.getTransactionTotalHours(), "KualiDecimal"));
+                laborCorrectionForm.setLaborEntryPayrollEndDateFiscalYear(CorrectionDocumentUtils.convertToString(element.getPayrollEndDateFiscalYear(), "Integer"));
+                laborCorrectionForm.setLaborEntryEmployeeRecord(CorrectionDocumentUtils.convertToString(element.getEmployeeRecord(), "Integer"));
+                
                 break;
             }
         }
@@ -521,7 +536,26 @@ public class LaborCorrectionAction extends CorrectionAction {
             else if (KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR.equals(fieldName)) {
                 fieldValue = laborCorrectionForm.getLaborEntryUniversityFiscalYear();
             }
-
+            
+            // for Labor Specified fields
+            else if (KFSPropertyConstants.TRANSACTION_POSTING_DATE.equals(fieldName)) {
+                fieldValue = laborCorrectionForm.getLaborEntryTransactionPostingDate();
+            }
+            else if (KFSPropertyConstants.PAY_PERIOD_END_DATE.equals(fieldName)) {
+                fieldValue = laborCorrectionForm.getLaborEntryPayPeriodEndDate();
+            }
+            else if (KFSPropertyConstants.TRANSACTION_TOTAL_HOURS.equals(fieldName)) {
+                fieldValue = laborCorrectionForm.getLaborEntryTransactionTotalHours();
+            }
+            else if (KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR.equals(fieldName)) {
+                fieldValue = laborCorrectionForm.getLaborEntryPayrollEndDateFiscalYear();
+            }
+            
+            else if (KFSPropertyConstants.EMPLOYEE_RECORD.equals(fieldName)) {
+                fieldValue = laborCorrectionForm.getLaborEntryEmployeeRecord();
+            }
+            
+            
             // Now check that the data is valid
             if (!StringUtils.isEmpty(fieldValue)) {
                 if (!loeff.isValidValue(fieldName, fieldValue)) {

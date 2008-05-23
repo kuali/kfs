@@ -63,10 +63,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private BusinessObjectService businessObjectService;
 
     /**
-     * Returns URL
-     * 
-     * @param bo
-     * @param propertyName
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override

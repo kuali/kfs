@@ -112,9 +112,6 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
             parameters.put(KFSConstants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
-
-            // add more customized parameters into the current parameter map
-            addMoreParameters(parameters, attributeName);
         }
         else if (persistenceStructureService.isPersistable(inquiryBusinessObjectClass)) {
             keys = persistenceStructureService.listPrimaryKeyFieldNames(inquiryBusinessObjectClass);
@@ -158,6 +155,11 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
                 if (keyName != null)
                     parameters.put(keyName, keyValue);
             }
+        }
+        
+        // add more customized parameters into the current parameter map
+        if (isUserDefinedAttribute) {
+            addMoreParameters(parameters, attributeName);
         }
 
         return UrlFactory.parameterizeUrl(baseUrl, parameters);

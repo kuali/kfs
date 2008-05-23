@@ -86,4 +86,5 @@ public class LaborPropertyConstants {
     public static final String POSITION_BENEFIT_TYPE_CODE = "positionBenefitTypeCode";
     public static final String FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE = "financialObjectFringeOrSalaryCode";
     public static final String POSITION_OBJECT_GROUP_CODE = "positionObjectGroupCode";
+    public static final String OUTSTANDING_ENCUMBRANCE = "outstandingEncum";
 }

@@ -274,7 +274,7 @@ public class LaborPendingEntryConverter {
         pendingEntry.setEmplid(accountingLine.getEmplid());
         pendingEntry.setPayrollEndDateFiscalYear(accountingLine.getPayrollEndDateFiscalYear());
         pendingEntry.setPayrollEndDateFiscalPeriodCode(accountingLine.getPayrollEndDateFiscalPeriodCode());
-        pendingEntry.setTransactionTotalHours(accountingLine.getPayrollTotalHours());
+        pendingEntry.setTransactionTotalHours(new KualiDecimal(accountingLine.getPayrollTotalHours()));
         pendingEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
 
         return pendingEntry;

@@ -36,8 +36,8 @@ public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements 
         // SQL to update account dump table from control list and sub-fund selections
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO ld_bcn_acct_dump_t\n");
-        sqlText.append("SELECT ?, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_subfund_pick_t pick \n");
+        sqlText.append("SELECT ?, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr, ctrl.ver_nbr \n");
+        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append("AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append("AND pick.sub_fund_grp_cd = ctrl.sel_sub_fund_grp \n");
@@ -58,11 +58,11 @@ public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements 
     /**
      * @see org.kuali.module.budget.dao.ReportDumpDao#updateAccountDump(java.lang.String)
      */
-    public void updateAccountDump(String personUserIdentifier) {
-        cleanAccountDump(personUserIdentifier);
+    public void updateAccountDump(String personUniversalIdentifier) {
+        cleanAccountDump(personUniversalIdentifier);
         
         // rebuild account dump table
-        getSimpleJdbcTemplate().update(updateAccountDump, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateAccountDump, personUniversalIdentifier, personUniversalIdentifier);
     }
 
 }

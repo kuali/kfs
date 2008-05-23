@@ -163,11 +163,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (newVendorHeaderGeneratedIdentifier != null && newVendorDetailAssignedIdentifier != null) {
             // retrieve this vendor from DB and add it to the end of the list
             VendorDetail newVendor = SpringContext.getBean(VendorService.class).getVendorDetail(Integer.parseInt(newVendorHeaderGeneratedIdentifier), Integer.parseInt(newVendorDetailAssignedIdentifier));
-            PurchaseOrderVendorQuote newPOVendorQuote = new PurchaseOrderVendorQuote();
-            newPOVendorQuote.setVendorName(newVendor.getVendorName());
-            newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
-            newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
-            newPOVendorQuote.setVendorNumber(newVendor.getVendorNumber());
+            PurchaseOrderVendorQuote newPOVendorQuote = poForm.getNewPurchaseOrderVendorQuote();
             newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
             for (VendorAddress address : newVendor.getVendorAddresses()) {
                 if (AddressTypes.QUOTE.equals(address.getVendorAddressTypeCode())) {
@@ -186,6 +182,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     newPOVendorQuote.setVendorFaxNumber(phone.getVendorPhoneNumber());
                 } else if (StringUtils.isEmpty(newPOVendorQuote.getVendorPhoneNumber())) { 
                     newPOVendorQuote.setVendorPhoneNumber(phone.getVendorPhoneNumber());
+                    break;
                 }
             }
 

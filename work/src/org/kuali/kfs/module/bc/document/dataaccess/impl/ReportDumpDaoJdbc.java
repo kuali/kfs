@@ -15,7 +15,10 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
+import java.util.List;
+
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.module.budget.bo.BudgetConstructionAccountDump;
 import org.kuali.module.budget.dao.ReportDumpDao;
 
 /**

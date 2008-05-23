@@ -35,7 +35,7 @@
 		        	<th class="grid" align="right" colspan="1"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.fileName}" noColon="false" /></th>
 		            <td class="grid"><html:file property="file" /></td>
 		       	</tr>
-		        <c:if test="${KualiForm.operatingMode == 'requestImport'}">  
+		        <c:if test="${KualiForm.reportMode == 'requestImport'}">  
 					<tr>
 			        	<th class="grid" align="right" colspan="1"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.fileType}" noColon="false" /></th>
 			            <td class="grid"><kul:htmlControlAttribute attributeEntry="${budgetAttributes.fileType}" property="fileType" readOnly="false" /></td>

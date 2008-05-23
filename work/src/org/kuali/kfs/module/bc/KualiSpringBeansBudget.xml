@@ -695,4 +695,16 @@
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.ImportRequestDaoOjb">
     </bean>
+    
+    <bean id="reportDumpService" class="org.kuali.module.budget.service.impl.ReportDumpServiceImpl" >
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+		<property name="reportDumpDao">
+			<ref bean="reportDumpDao" />
+		</property>					
+	</bean>
+	
+	<bean id="reportDumpDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.ReportDumpDaoJdbc">
+    </bean>
 </beans>

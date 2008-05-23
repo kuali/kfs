@@ -27,7 +27,7 @@ public class BudgetConstructionImportExportForm extends KualiForm {
     private String otherFieldDelimiter;
     private String otherTextFieldDelimiter;
     private String title;
-    private String operatingMode;
+    private String reportMode;
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
     private Integer universityFiscalYear;
     
@@ -168,8 +168,8 @@ public class BudgetConstructionImportExportForm extends KualiForm {
      * 
      * @return
      */
-    public String getOperatingMode() {
-        return operatingMode;
+    public String getReportMode() {
+        return reportMode;
     }
     
     /**
@@ -177,8 +177,8 @@ public class BudgetConstructionImportExportForm extends KualiForm {
      * 
      * @param operatingMode
      */
-    public void setOperatingMode(String operatingMode) {
-        this.operatingMode = operatingMode;
+    public void setReportMode(String reportMode) {
+        this.reportMode = reportMode;
     }
     
     

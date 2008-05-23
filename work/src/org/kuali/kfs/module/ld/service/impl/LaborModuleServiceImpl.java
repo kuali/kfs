@@ -31,7 +31,6 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -46,6 +45,7 @@ import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
@@ -76,7 +76,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborModuleServiceImpl.class);
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(org.kuali.kfs.bo.LaborLedgerObject,
+     * @see org.kuali.module.integration.service.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.module.integration.bo.LaborLedgerObject,
      *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
@@ -84,8 +84,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String,
-     *      org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.module.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
@@ -132,15 +131,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
             document.getDocumentHeader().getWorkflowDocument().setAppDocId(organizationDocumentNumber);
         }
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(document);
-        
+        this.getBusinessObjectService().save(document);
+
         workflowDocumentService.blanketApprove(document.getDocumentHeader().getWorkflowDocument(), annotation, adHocRecipients);
         GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
+     * @see org.kuali.module.integration.service.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
         String documentTypeCode = getDocumentTypeService().getDocumentTypeCodeByClass(SalaryExpenseTransferDocument.class);
@@ -157,7 +155,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.effort.service.LaborEffortCertificationService#findEmployeesWithPayType(java.util.Map, java.util.List,
+     * @see org.kuali.module.integration.service.LaborModuleService#findEmployeesWithPayType(java.util.Map, java.util.List,
      *      java.util.Map)
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
@@ -165,16 +163,16 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List,
-     *      java.util.Map)
+     * @see org.kuali.module.integration.service.LaborModuleService#isEmployeeWithPayType(java.lang.String, java.util.Map,
+     *      java.util.List, java.util.Map)
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         return getLaborLedgerEntryService().isEmployeeWithPayType(emplid, payPeriods, balanceTypes, earnCodePayGroupMap);
     }
 
     /**
-     * @see org.kuali.module.effort.service.LaborEffortCertificationService#findLedgerBalances(java.util.Map, java.util.Map,
-     *      java.util.Set, java.util.List, java.util.List)
+     * @see org.kuali.module.integration.service.LaborModuleService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
+     *      java.util.List, java.util.List)
      */
     public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
         Collection<LaborLedgerBalance> LaborLedgerBalances = new ArrayList<LaborLedgerBalance>();
@@ -187,28 +185,45 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceClass()
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroup(java.lang.String)
+     */
+    public LaborLedgerPositionObjectGroup getLaborLedgerPositionObjectGroup(String positionObjectGroupCode) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(LaborPropertyConstants.POSITION_OBJECT_GROUP_CODE, positionObjectGroupCode);
+
+        return (LaborLedgerPositionObjectGroup) getBusinessObjectService().findByPrimaryKey(PositionObjectGroup.class, primaryKeys);
+    }
+
+    /**
+     * @see org.kuali.module.integration.service.LaborModuleService#doesLaborLedgerPositionObjectGroupExist(java.lang.String)
+     */
+    public boolean doesLaborLedgerPositionObjectGroupExist(String positionObjectGroupCode) {
+        return this.getLaborLedgerPositionObjectGroup(positionObjectGroupCode) != null;
+    }
+
+    /**
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBalanceClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass() {
         return LedgerBalance.class;
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerEntryClass()
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerEntryClass()
      */
     public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass() {
         return LedgerEntry.class;
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerObjectClass()
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerObjectClass()
      */
     public Class<? extends LaborLedgerObject> getLaborLedgerObjectClass() {
         return LaborObject.class;
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
      */
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
         return PositionObjectBenefit.class;
@@ -229,14 +244,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
      */
     public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass() {
         return PositionObjectGroup.class;
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass() {
         return LedgerBalanceForEffortCertification.class;
@@ -250,9 +265,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * Gets the expenseTransferSourceAccountingLineClass attribute.
-     * 
-     * @return Returns the expenseTransferSourceAccountingLineClass.
+     * @see org.kuali.module.integration.service.LaborModuleService#getExpenseTransferSourceAccountingLineClass()
      */
     public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferSourceAccountingLineClass() {
         return ExpenseTransferSourceAccountingLine.class;
@@ -316,7 +329,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the laborBenefitsCalculationService attribute.
      * 
-     * @return Returns the laborBenefitsCalculationService.
+     * @return an implementation of the laborBenefitsCalculationService.
      */
     public LaborBenefitsCalculationService getLaborBenefitsCalculationService() {
         return SpringContext.getBean(LaborBenefitsCalculationService.class);
@@ -325,7 +338,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the laborLedgerEntryService attribute.
      * 
-     * @return Returns the laborLedgerEntryService.
+     * @return an implementation of the laborLedgerEntryService.
      */
     public LaborLedgerEntryService getLaborLedgerEntryService() {
         return SpringContext.getBean(LaborLedgerEntryService.class);
@@ -334,7 +347,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the laborLedgerBalanceService attribute.
      * 
-     * @return Returns the laborLedgerBalanceService.
+     * @return an implementation of the laborLedgerBalanceService.
      */
     public LaborLedgerBalanceService getLaborLedgerBalanceService() {
         return SpringContext.getBean(LaborLedgerBalanceService.class);
@@ -343,7 +356,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the documentService attribute.
      * 
-     * @return Returns the documentService.
+     * @return an implementation of the documentService.
      */
     public DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
@@ -352,7 +365,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the documentTypeService attribute.
      * 
-     * @return Returns the documentTypeService.
+     * @return an implementation of the documentTypeService.
      */
     public DocumentTypeService getDocumentTypeService() {
         return SpringContext.getBean(DocumentTypeService.class);
@@ -361,7 +374,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the universityDateService attribute.
      * 
-     * @return Returns the universityDateService.
+     * @return an implementation of the universityDateService.
      */
     public UniversityDateService getUniversityDateService() {
         return SpringContext.getBean(UniversityDateService.class);
@@ -370,7 +383,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * Gets the businessObjectService attribute.
      * 
-     * @return Returns the businessObjectService.
+     * @return an implementation of the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);

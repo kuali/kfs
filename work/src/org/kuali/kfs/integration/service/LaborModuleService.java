@@ -222,4 +222,18 @@ public interface LaborModuleService {
      * @return the count of the entries in that group
      */
     public Integer getLaborOriginEntryGroupCount(Integer groupId);
+    
+    /**
+     * Retrieves Labor Ledger position object group information, based on a position object group code
+     * @param positionObjectGroupCode the code to find position object group information for
+     * @return information about the correct LaborLedgerPositionObjectGroup or null if nothing was found
+     */
+    public LaborLedgerPositionObjectGroup getLaborLedgerPositionObjectGroup(String positionObjectGroupCode);
+    
+    /**
+     * Determines where a Labor Ledger postion object group with the given code actually exists.
+     * @param positionObjectGroupCode the code of the position object group to check for existence
+     * @return true if the position object group exists, false otherwise
+     */
+    public boolean doesLaborLedgerPositionObjectGroupExist(String positionObjectGroupCode);
 }

@@ -45,11 +45,6 @@
               p:attributeName="effortCertificationReportType"
               p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="effortCertificationReportTypeCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="positionObjectGroup"
-              p:collection="effortCertificationReportPositions"
-              p:activeIndicatorAttributeName="rowActiveIndicator"
-              p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
       </list>
     </property>
     <property name="lockingKeys" >

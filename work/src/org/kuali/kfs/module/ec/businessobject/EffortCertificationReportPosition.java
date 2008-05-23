@@ -2,10 +2,12 @@ package org.kuali.module.effort.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
-import org.kuali.module.labor.bo.PositionObjectGroup;
+import org.kuali.module.integration.service.LaborModuleService;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
@@ -16,7 +18,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     private String effortCertificationReportPositionObjectGroupCode;
     private boolean active;
 
-    private PositionObjectGroup positionObjectGroup;
+    private LaborLedgerPositionObjectGroup positionObjectGroup;
 
     /**
      * Default constructor.
@@ -102,18 +104,17 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
      * 
      * @return
      */
-    public PositionObjectGroup getPositionObjectGroup() {
+    public LaborLedgerPositionObjectGroup getPositionObjectGroup() {
+        if (StringUtils.isBlank(effortCertificationReportPositionObjectGroupCode)) {
+            if (positionObjectGroup != null) {
+                positionObjectGroup = null;
+            }
+        } else {
+            if (positionObjectGroup == null || !positionObjectGroup.getPositionObjectGroupCode().equals(effortCertificationReportPositionObjectGroupCode)) {
+                positionObjectGroup = SpringContext.getBean(LaborModuleService.class).getLaborLedgerPositionObjectGroup(effortCertificationReportPositionObjectGroupCode);
+            }
+        }
         return positionObjectGroup;
-    }
-
-    /**
-     * sets the positionObjectGroup This method...
-     * 
-     * @param positionObjectGroup
-     */
-    @Deprecated
-    public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
-        this.positionObjectGroup = positionObjectGroup;
     }
 
     /**

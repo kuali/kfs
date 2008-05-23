@@ -901,6 +901,8 @@ public class KFSPropertyConstants {
     public static final String PAYEE_TAX_CTRL_MDFY_DT = "payeeTaxCtrlMdfyDt";
     public static final String PAYEE_W9_COMPLETE_CODE = "payeeW9CompleteCode";
     public static final String PAYEE_ZIP_CODE = "payeeZipCode";
+    public static final String PAYROLL_END_DATE_FISCAL_YEAR = "payrollEndDateFiscalYear"; 
+    public static final String PAY_PERIOD_END_DATE = "payPeriodEndDate";
     public static final String PENDING_ACCT_SUFFICIENT_FUNDS_INDICATOR = "pendingAcctSufficientFundsIndicator";
     public static final String PENDING_ENTRY_OPTION = "pendingEntryOption";
     public static final String PER_DIEM_COUNTRY_NAME = "perDiemCountryName";
@@ -1095,11 +1097,13 @@ public class KFSPropertyConstants {
     public static final String TRANSACTION_ENTRIES = "transactionEntries";
     public static final String TRANSACTION_ENTRY_OFFSET_INDICATOR = "transactionEntryOffsetIndicator";
     public static final String TRANSACTION_ENTRY_PROCESSED_TS = "transactionEntryProcessedTs";
+    public static final String TRANSACTION_ENTRY_PROCESSED_TIMESTAMP = "transactionEntryProcessedTimestamp";
     public static final String TRANSACTION_ENTRY_SEQUENCE_ID = "transactionEntrySequenceId";
     public static final String TRANSACTION_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
     public static final String TRANSACTION_LEDGER_ENTRY_DESC = "transactionLedgerEntryDescription";
     public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
+    public static final String TRANSACTION_TOTAL_HOURS = "transactionTotalHours";
     public static final String TRANSMISSION_DATE = "transmissionDate";
     public static final String TRN_ENTRY_LEDGER_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TWO_DIGIT_TEXT_CODE = KNSPropertyConstants.TWO_DIGIT_TEXT_CODE;

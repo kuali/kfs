@@ -198,7 +198,6 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
         if (fieldName.equals("financialDocumentReversalDate")) {
             return "Date";
         }
-
         if (fieldName.equals("transactionPostingDate")) {
             return "Date";
         }
@@ -211,13 +210,15 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
         if (fieldName.equals("payrollEndDateFiscalYear")) {
             return "Integer";
         }
+        if (fieldName.equals("transactionEntryProcessedTimestamp")) {
+            return "Date";
+        }
         if (fieldName.equals("employeeRecord")) {
             return "Integer";
         }
         if (fieldName.equals("transactionDateTimeStamp")) {
             return "Date";
         }
-
         return "String";
     }
 

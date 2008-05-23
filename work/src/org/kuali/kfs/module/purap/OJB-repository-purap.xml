@@ -66,6 +66,9 @@
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
+    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderItem" table="PUR_PO_ITM_T">
@@ -2898,6 +2901,9 @@
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
+    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PaymentRequestItem" table="AP_PMT_RQST_ITM_T">
@@ -2976,6 +2982,9 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
+    </reference-descriptor>
+    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -3608,6 +3617,9 @@
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
+    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="projectCode" />
     </reference-descriptor>
 </class-descriptor>
 

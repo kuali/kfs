@@ -81,6 +81,8 @@ public enum PurApAccountingLineFixture {
         line.setItemIdentifier(this.itemIdentifier);
         line.setAccountLinePercent(this.accountLinePercent);
         line.setAlternateAmountForGLEntryCreation(this.alternateAmountForGLEntryCreation);
+        //setting object type to null (regardless of previous value) since we never use this
+        line.setObjectTypeCode(null);
         line.refreshNonUpdateableReferences();
         return line;
     }

@@ -31,16 +31,14 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchasingItemBase;
-import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 import org.kuali.module.purap.rule.ImportPurchasingAccountsPayableItemRule;
 
@@ -49,7 +47,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Business rule(s) applicable to Purchasing Accounts Payable Documents.
  */
-public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule, ImportPurchasingAccountsPayableItemRule {
+public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule, ImportPurchasingAccountsPayableItemRule {
 
     /**
      * Overrides the method in PurapAccountingDocumentRuleBase to perform processValidation for PurchasingAccountsPayableDocument.

@@ -28,7 +28,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
@@ -67,8 +66,8 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     private String positionLockUserIdentifier;
 
     private Options universityFiscal;
-    private List pendingBudgetConstructionAppointmentFunding;
-    private List budgetConstructionPositionSelect;
+    private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
+    private List<BudgetConstructionPositionSelect> budgetConstructionPositionSelect;
     private ResponsibilityCenter responsibilityCenter;
     private UniversalUser positionLockUser;
 
@@ -76,9 +75,8 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public BudgetConstructionPosition() {
-        budgetConstructionPositionSelect = new ArrayList();
-        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
-
+        budgetConstructionPositionSelect = new ArrayList<BudgetConstructionPositionSelect>();
+        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
     }
 
 
@@ -100,7 +98,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         }
     }
 
-
     /**
      * Gets the positionNumber attribute.
      * 
@@ -118,7 +115,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionNumber(String positionNumber) {
         this.positionNumber = positionNumber;
     }
-
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -138,7 +134,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.universityFiscalYear = universityFiscalYear;
     }
 
-
     /**
      * Gets the positionEffectiveDate attribute.
      * 
@@ -156,7 +151,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionEffectiveDate(Date positionEffectiveDate) {
         this.positionEffectiveDate = positionEffectiveDate;
     }
-
 
     /**
      * Gets the positionEffectiveStatus attribute.
@@ -248,7 +242,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.positionStandardHoursDefault = positionStandardHoursDefault;
     }
 
-
     /**
      * Gets the positionRegularTemporary attribute.
      * 
@@ -266,7 +259,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionRegularTemporary(String positionRegularTemporary) {
         this.positionRegularTemporary = positionRegularTemporary;
     }
-
 
     /**
      * Gets the positionFullTimeEquivalency attribute.
@@ -286,7 +278,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.positionFullTimeEquivalency = positionFullTimeEquivalency;
     }
 
-
     /**
      * Gets the iuNormalWorkMonths attribute.
      * 
@@ -304,7 +295,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setIuNormalWorkMonths(Integer iuNormalWorkMonths) {
         this.iuNormalWorkMonths = iuNormalWorkMonths;
     }
-
 
     /**
      * Gets the iuPayMonths attribute.
@@ -324,7 +314,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.iuPayMonths = iuPayMonths;
     }
 
-
     /**
      * Gets the positionDescription attribute.
      * 
@@ -342,7 +331,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionDescription(String positionDescription) {
         this.positionDescription = positionDescription;
     }
-
 
     /**
      * Gets the setidDepartment attribute.
@@ -362,7 +350,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.setidDepartment = setidDepartment;
     }
 
-
     /**
      * Gets the positionDepartmentIdentifier attribute.
      * 
@@ -380,7 +367,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionDepartmentIdentifier(String positionDepartmentIdentifier) {
         this.positionDepartmentIdentifier = positionDepartmentIdentifier;
     }
-
 
     /**
      * Gets the responsibilityCenterCode attribute.
@@ -400,7 +386,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.responsibilityCenterCode = responsibilityCenterCode;
     }
 
-
     /**
      * Gets the positionUnionCode attribute.
      * 
@@ -418,7 +403,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionUnionCode(String positionUnionCode) {
         this.positionUnionCode = positionUnionCode;
     }
-
 
     /**
      * Gets the positionSalaryPlanDefault attribute.
@@ -438,7 +422,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.positionSalaryPlanDefault = positionSalaryPlanDefault;
     }
 
-
     /**
      * Gets the positionGradeDefault attribute.
      * 
@@ -456,7 +439,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setPositionGradeDefault(String positionGradeDefault) {
         this.positionGradeDefault = positionGradeDefault;
     }
-
 
     /**
      * Gets the setidJobCode attribute.
@@ -476,7 +458,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.setidJobCode = setidJobCode;
     }
 
-
     /**
      * Gets the jobCode attribute.
      * 
@@ -494,7 +475,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setJobCode(String jobCode) {
         this.jobCode = jobCode;
     }
-
 
     /**
      * Gets the jobCodeDescription attribute.
@@ -514,7 +494,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.jobCodeDescription = jobCodeDescription;
     }
 
-
     /**
      * Gets the setidSalary attribute.
      * 
@@ -532,7 +511,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     public void setSetidSalary(String setidSalary) {
         this.setidSalary = setidSalary;
     }
-
 
     /**
      * Gets the iuDefaultObjectCode attribute.
@@ -552,7 +530,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.iuDefaultObjectCode = iuDefaultObjectCode;
     }
 
-
     /**
      * Gets the iuPositionType attribute.
      * 
@@ -571,7 +548,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.iuPositionType = iuPositionType;
     }
 
-
     /**
      * Gets the positionLockUserIdentifier attribute.
      * 
@@ -588,45 +564,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      */
     public void setPositionLockUserIdentifier(String positionLockUserIdentifier) {
         this.positionLockUserIdentifier = positionLockUserIdentifier;
-    }
-
-
-    /**
-     * Gets the pendingBudgetConstructionAppointmentFunding list.
-     * 
-     * @return Returns the pendingBudgetConstructionAppointmentFunding list
-     */
-    public List getPendingBudgetConstructionAppointmentFunding() {
-        return pendingBudgetConstructionAppointmentFunding;
-    }
-
-    /**
-     * Sets the pendingBudgetConstructionAppointmentFunding list.
-     * 
-     * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding list to set.
-     * @deprecated
-     */
-    public void setPendingBudgetConstructionAppointmentFunding(List pendingBudgetConstructionAppointmentFunding) {
-        this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
-    }
-
-    /**
-     * Gets the budgetConstructionPositionSelect list.
-     * 
-     * @return Returns the budgetConstructionPositionSelect list
-     */
-    public List getBudgetConstructionPositionSelect() {
-        return budgetConstructionPositionSelect;
-    }
-
-    /**
-     * Sets the budgetConstructionPositionSelect list.
-     * 
-     * @param budgetConstructionPositionSelect The budgetConstructionPositionSelect list to set.
-     * @deprecated
-     */
-    public void setBudgetConstructionPositionSelect(List budgetConstructionPositionSelect) {
-        this.budgetConstructionPositionSelect = budgetConstructionPositionSelect;
     }
 
     /**
@@ -654,7 +591,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * @return Returns the positionLockUser
      */
     public UniversalUser getPositionLockUser() {
-        if (positionLockUserIdentifier != null){
+        if (positionLockUserIdentifier != null) {
             positionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
         }
         return positionLockUser;
@@ -725,7 +662,50 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         return m;
     }
 
+    /**
+     * determine whether the current budget position is effective
+     * 
+     * @return true if the current budget position is effective; otherwise, false
+     */
     public boolean isEffective() {
         return !BCConstants.POSITION_CODE_INACTIVE.equals(this.getPositionEffectiveStatus());
+    }
+
+    /**
+     * Gets the pendingBudgetConstructionAppointmentFunding attribute.
+     * 
+     * @return Returns the pendingBudgetConstructionAppointmentFunding.
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFunding() {
+        return pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
+     * 
+     * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
+     */
+    @Deprecated
+    public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
+        this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * Gets the budgetConstructionPositionSelect attribute.
+     * 
+     * @return Returns the budgetConstructionPositionSelect.
+     */
+    public List<BudgetConstructionPositionSelect> getBudgetConstructionPositionSelect() {
+        return budgetConstructionPositionSelect;
+    }
+
+    /**
+     * Sets the budgetConstructionPositionSelect attribute value.
+     * 
+     * @param budgetConstructionPositionSelect The budgetConstructionPositionSelect to set.
+     */
+    @Deprecated
+    public void setBudgetConstructionPositionSelect(List<BudgetConstructionPositionSelect> budgetConstructionPositionSelect) {
+        this.budgetConstructionPositionSelect = budgetConstructionPositionSelect;
     }
 }

@@ -365,13 +365,13 @@
                 	        <td><html:text property="laborEntryForManualEdit.referenceFinancialDocumentNumber" size="9"/></td>
                     	    <td><html:text property="laborEntryFinancialDocumentReversalDate" size="8"/></td>
                             <td><html:text property="laborEntryForManualEdit.transactionEncumbranceUpdateCode" size="13"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.transactionPostingDate" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.payPeriodEndDate" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.transactionTotalHours" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.payrollEndDateFiscalYear" size="14"/></td>
+	                        <td><html:text property="laborEntryTransactionPostingDate" size="14"/></td>
+	                        <td><html:text property="laborEntryPayPeriodEndDate" size="14"/></td>
+	                        <td><html:text property="laborEntryTransactionTotalHours" size="14"/></td>
+	                        <td><html:text property="laborEntryPayrollEndDateFiscalYear" size="14"/></td>
 	                        <td><html:text property="laborEntryForManualEdit.payrollEndDateFiscalPeriodCode" size="14"/></td>
 	                        <td><html:text property="laborEntryForManualEdit.emplid" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.employeeRecord" size="14"/></td>
+	                        <td><html:text property="laborEntryEmployeeRecord" size="14"/></td>
 	                        <td><html:text property="laborEntryForManualEdit.earnCode" size="14"/></td>
 	                        <td><html:text property="laborEntryForManualEdit.payGroup" size="14"/></td>
 	                        <td><html:text property="laborEntryForManualEdit.salaryAdministrationPlan" size="14"/></td>

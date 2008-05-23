@@ -16,6 +16,8 @@
 
 package org.kuali.module.labor.web.struts.form;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.web.ui.Column;
@@ -38,6 +40,22 @@ public class LaborCorrectionForm extends CorrectionForm {
     private String laborEntryTransactionDate;
     private String laborEntryTransactionLedgerEntrySequenceNumber;
     private String laborEntryTransactionLedgerEntryAmount;
+    
+    private String laborEntryTransactionPostingDate;
+    private String laborEntryPayPeriodEndDate;
+    private String laborEntryTransactionTotalHours;
+    private String laborEntryPayrollEndDateFiscalYear;
+    private String laborEntryEmployeeRecord;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Constructs a LaborCorrectionForm instance.
@@ -72,6 +90,14 @@ public class LaborCorrectionForm extends CorrectionForm {
         setLaborEntryTransactionLedgerEntryAmount("");
         setLaborEntryTransactionLedgerEntrySequenceNumber("");
         setLaborEntryUniversityFiscalYear("");
+        
+        setLaborEntryTransactionPostingDate("");
+        setLaborEntryPayPeriodEndDate("");
+        setLaborEntryTransactionTotalHours("");
+        setLaborEntryPayrollEndDateFiscalYear("");
+        setLaborEntryEmployeeRecord("");
+        
+        
         setLaborEntryForManualEdit(loe);
     }
 
@@ -111,6 +137,14 @@ public class LaborCorrectionForm extends CorrectionForm {
         laborEntryForManualEdit.setFieldValue("transactionLedgerEntryAmount", getLaborEntryTransactionLedgerEntryAmount());
         laborEntryForManualEdit.setFieldValue("transactionDate", getLaborEntryTransactionDate());
         laborEntryForManualEdit.setFieldValue("financialDocumentReversalDate", getLaborEntryFinancialDocumentReversalDate());
+        
+        
+        laborEntryForManualEdit.setFieldValue("transactionPostingDate", getLaborEntryTransactionPostingDate());
+        laborEntryForManualEdit.setFieldValue("payPeriodEndDate", getLaborEntryPayPeriodEndDate());
+        laborEntryForManualEdit.setFieldValue("transactionTotalHours", getLaborEntryTransactionTotalHours());
+        laborEntryForManualEdit.setFieldValue("payrollEndDateFiscalYear", getLaborEntryPayrollEndDateFiscalYear());
+        laborEntryForManualEdit.setFieldValue("employeeRecord", getLaborEntryEmployeeRecord());
+        
     }
 
     /**
@@ -220,4 +254,46 @@ public class LaborCorrectionForm extends CorrectionForm {
     public List<Column> getTableRenderColumnMetadata() {
         return SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
+
+    public String getLaborEntryEmployeeRecord() {
+        return laborEntryEmployeeRecord;
+    }
+
+    public void setLaborEntryEmployeeRecord(String laborEntryEmployeeRecord) {
+        this.laborEntryEmployeeRecord = laborEntryEmployeeRecord;
+    }
+
+    public String getLaborEntryPayPeriodEndDate() {
+        return laborEntryPayPeriodEndDate;
+    }
+
+    public void setLaborEntryPayPeriodEndDate(String laborEntryPayPeriodEndDate) {
+        this.laborEntryPayPeriodEndDate = laborEntryPayPeriodEndDate;
+    }
+
+    public String getLaborEntryPayrollEndDateFiscalYear() {
+        return laborEntryPayrollEndDateFiscalYear;
+    }
+
+    public void setLaborEntryPayrollEndDateFiscalYear(String laborEntryPayrollEndDateFiscalYear) {
+        this.laborEntryPayrollEndDateFiscalYear = laborEntryPayrollEndDateFiscalYear;
+    }
+
+    public String getLaborEntryTransactionPostingDate() {
+        return laborEntryTransactionPostingDate;
+    }
+
+    public void setLaborEntryTransactionPostingDate(String laborEntryTransactionPostingDate) {
+        this.laborEntryTransactionPostingDate = laborEntryTransactionPostingDate;
+    }
+
+    public String getLaborEntryTransactionTotalHours() {
+        return laborEntryTransactionTotalHours;
+    }
+
+    public void setLaborEntryTransactionTotalHours(String laborEntryTransactionTotalHours) {
+        this.laborEntryTransactionTotalHours = laborEntryTransactionTotalHours;
+    }
+
+
 }

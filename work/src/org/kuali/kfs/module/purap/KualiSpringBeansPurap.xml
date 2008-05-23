@@ -302,6 +302,9 @@
         </property>  
 	</bean>
 			
+	<bean id="faxService" class="org.kuali.module.purap.service.impl.MockFaxServiceImpl">
+	</bean>
+			
 	<bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

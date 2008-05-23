@@ -36,6 +36,7 @@ public class PurchaseOrderVendorQuoteTransmitTypeValuesFinder extends KeyValuesB
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         keyValues.add(new KeyLabelPair(PurapConstants.QuoteTransmitTypes.PRINT, "Print"));
+        keyValues.add(new KeyLabelPair(PurapConstants.QuoteTransmitTypes.FAX, "Fax"));
         return keyValues;
     }
 }

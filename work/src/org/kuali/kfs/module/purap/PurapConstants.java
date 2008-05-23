@@ -58,6 +58,7 @@ public class PurapConstants extends JstlConstants {
 
     public static class QuoteTransmitTypes {
         public static final String PRINT = "PRINT";
+        public static final String FAX = "FAX";
     }
 
         public static class QuoteStatusCode {

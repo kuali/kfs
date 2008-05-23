@@ -70,6 +70,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RestrictedMaterial;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.service.FaxService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
@@ -839,6 +840,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             vendorQuote.setTransmitPrintDisplayed(true);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(po);
         }
+        else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
+            // call fax service
+            FaxService faxService = SpringContext.getBean(FaxService.class);
+            if (faxService.faxPO(po)) {
+                vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(po);
+            }
+        }
         else {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
         }
@@ -1339,9 +1348,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorFaxNumber(awardedQuote.getVendorFaxNumber());
 
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
             }
         }
-        SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

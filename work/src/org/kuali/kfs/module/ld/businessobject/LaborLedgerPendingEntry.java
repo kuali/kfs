@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -33,7 +34,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
-    private BigDecimal transactionTotalHours;
+    private KualiDecimal transactionTotalHours;
     private Integer payrollEndDateFiscalYear;
     private String payrollEndDateFiscalPeriodCode;
     private String emplid;
@@ -123,7 +124,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      * 
      * @return Returns the transactionTotalHours
      */
-    public BigDecimal getTransactionTotalHours() {
+    public KualiDecimal getTransactionTotalHours() {
         return transactionTotalHours;
     }
 
@@ -132,7 +133,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      * 
      * @param transactionTotalHours The transactionTotalHours to set.
      */
-    public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
+    public void setTransactionTotalHours(KualiDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
     }
 

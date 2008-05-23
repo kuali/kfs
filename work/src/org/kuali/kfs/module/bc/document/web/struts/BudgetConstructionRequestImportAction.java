@@ -162,31 +162,4 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
         return isValid;
     }
     
-    /**
-     * Returns the field separator
-     * 
-     * @param form
-     * @return
-     */
-    /*private String getFieldSeparator(BudgetConstructionRequestImportForm form) {
-        String separator = form.getFieldDelimiter();
-        
-        if ( separator.equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) separator = form.getOtherFieldDelimiter();
-        if ( separator.endsWith(BCConstants.RequestImportFieldSeparator.TAB.toString()) ) separator = BCConstants.RequestImportFieldSeparator.TAB.getSeparator();
-        
-        return separator;
-    }*/
-    
-    /**
-     * Returns the text field delimiter
-     * 
-     * @param form
-     * @return
-     */
-    /*private String getTextFieldDelimiter(BudgetConstructionRequestImportForm form) {
-        String delimiter = form.getTextFieldDelimiter();
-        if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) delimiter = form.getOtherTextFieldDelimiter();
-        
-        return delimiter;
-    }*/
 }

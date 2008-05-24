@@ -137,7 +137,13 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
         // This code is only executed when the final approval occurs
         if (workflowDoc.stateIsProcessed()) {
-            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null) {
+            /**
+             * This id and versionNumber null check is needed here since those fields are always null
+             * for a fresh maintenance doc. - KULPURAP-2488          
+             */
+            if (vendorDetail.isVendorParentIndicator() && 
+                vendorDetail.getVendorHeaderGeneratedIdentifier() != null &&
+                vendorDetail.getVersionNumber() != null) {
                 VendorDetail previousParent = SpringContext.getBean(VendorService.class).getParentVendor(vendorDetail.getVendorHeaderGeneratedIdentifier());
                 //We'll only need to do the following if the previousParent is not the same as the current vendorDetail, because the
                 //following lines are for vendor parent indicator changes.

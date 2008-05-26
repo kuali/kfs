@@ -257,25 +257,19 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
             if (isSameLevelSummaryEntry(levelSummary, consTotal.getBcls())) {
                 orgLevelSummaryReportEntry.setTotalConsolidationDescription(levelSummary.getFinancialConsolidationObject().getFinConsolidationObjectName());
 
+                
                 // The total part shouldn't have null value, so just checking '0'
-                if (!consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfLeaveFteQuantity(consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity().setScale(2).toString());
-                }
-                if (!consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity().setScale(2).toString());
-                }
+                orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity(), 2).toString());
+                orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity(), 2).toString());
                 orgLevelSummaryReportEntry.setTotalConsolidationFinancialBeginningBalanceLineAmount(consTotal.getTotalConsolidationFinancialBeginningBalanceLineAmount());
-
-                if (!consTotal.getTotalConsolidationAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedCsfFteQuantity(consTotal.getTotalConsolidationAppointmentRequestedCsfFteQuantity().setScale(2).toString());
-                }
-                if (!consTotal.getTotalConsolidationAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedFteQuantity(consTotal.getTotalConsolidationAppointmentRequestedFteQuantity().setScale(2).toString());
-                }
+                orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationAppointmentRequestedCsfFteQuantity(), 2).toString());
+                orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationAppointmentRequestedFteQuantity(), 2).toString());
                 orgLevelSummaryReportEntry.setTotalConsolidationAccountLineAnnualBalanceAmount(consTotal.getTotalConsolidationAccountLineAnnualBalanceAmount());
 
                 orgLevelSummaryReportEntry.setTotalConsolidationAmountChange(consTotal.getTotalConsolidationAmountChange());
                 orgLevelSummaryReportEntry.setTotalConsolidationPercentChange(consTotal.getTotalConsolidationPercentChange());
+                
+                //BudgetConstructionReportHelper.calculatePercent
 
             }
         }
@@ -337,32 +331,6 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
                 orgLevelSummaryReportEntry.setDifferencePercentChange(total.getDifferencePercentChange());
             }
         }
-
-
-        /*
-         * orgLevelSummaryReportEntry.setTotalRevenueAmountChange(orgLevelSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgLevelSummaryReportEntry.getTotalRevenueBaseAmount()));
-         * if (!orgLevelSummaryReportEntry.getTotalRevenueBaseAmount().equals(BigDecimal.ZERO)) {
-         * orgLevelSummaryReportEntry.setTotalRevenuePercentChange(orgLevelSummaryReportEntry.getTotalRevenueAmountChange().divide(orgLevelSummaryReportEntry.getTotalRevenueBaseAmount(),
-         * 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100))); }
-         * orgLevelSummaryReportEntry.setTotalGrossAmountChange(orgLevelSummaryReportEntry.getTotalGrossReqAmount().subtract(orgLevelSummaryReportEntry.getTotalGrossBaseAmount()));
-         * if (!orgLevelSummaryReportEntry.getTotalGrossBaseAmount().equals(BigDecimal.ZERO)) {
-         * orgLevelSummaryReportEntry.setTotalGrossPercentChange(orgLevelSummaryReportEntry.getTotalGrossAmountChange().divide(orgLevelSummaryReportEntry.getTotalGrossBaseAmount(),
-         * 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100))); }
-         * orgLevelSummaryReportEntry.setTotalTransferAmountChange(orgLevelSummaryReportEntry.getTotalTransferInReqAmount().subtract(orgLevelSummaryReportEntry.getTotalTransferInBaseAmount()));
-         * if (!orgLevelSummaryReportEntry.getTotalTransferInBaseAmount().equals(BigDecimal.ZERO)) {
-         * orgLevelSummaryReportEntry.setTotalTransferInPercentChange(orgLevelSummaryReportEntry.getTotalTransferAmountChange().divide(orgLevelSummaryReportEntry.getTotalTransferInBaseAmount(),
-         * 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100))); }
-         * orgLevelSummaryReportEntry.setTotalNetTransferAmountChange(orgLevelSummaryReportEntry.getTotalNetTransferReqAmount().subtract(orgLevelSummaryReportEntry.getTotalNetTransferBaseAmount()));
-         * if (!orgLevelSummaryReportEntry.getTotalNetTransferBaseAmount().equals(BigDecimal.ZERO)) {
-         * orgLevelSummaryReportEntry.setTotalNetTransferPercentChange(orgLevelSummaryReportEntry.getTotalNetTransferAmountChange().divide(orgLevelSummaryReportEntry.getTotalNetTransferBaseAmount(),
-         * 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100))); }
-         * orgLevelSummaryReportEntry.setRevExpDifferenceBaseAmount(orgLevelSummaryReportEntry.getTotalRevenueBaseAmount().subtract(orgLevelSummaryReportEntry.getTotalNetTransferBaseAmount()));
-         * orgLevelSummaryReportEntry.setRevExpDifferenceReqAmount(orgLevelSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgLevelSummaryReportEntry.getTotalNetTransferReqAmount()));
-         * orgLevelSummaryReportEntry.setRevExpDifferenceAmountChange(orgLevelSummaryReportEntry.getRevExpDifferenceReqAmount().subtract(orgLevelSummaryReportEntry.getRevExpDifferenceBaseAmount()));
-         * if (!orgLevelSummaryReportEntry.getRevExpDifferenceBaseAmount().equals(BigDecimal.ZERO)) {
-         * orgLevelSummaryReportEntry.setRevExpDifferencePercentChange(orgLevelSummaryReportEntry.getRevExpDifferenceAmountChange().divide(orgLevelSummaryReportEntry.getRevExpDifferenceBaseAmount(),
-         * 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100))); }
-         */
     }
 
 

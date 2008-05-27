@@ -18,9 +18,11 @@
 	description="Name of form property containing the customer invoice source accounting line."%>
 <%@ attribute name="crmPropertyName" required="true"
 	description="Name of form property containing the customer credit memo detail."%>
-<%@ attribute name="cssClass" required="true"%>
-<%@ attribute name="actionMethod" required="true"
+<%@ attribute name="refreshMethod" required="true"
     description="methodToCall value for actionImage"%>
+<%@ attribute name="recalculateMethod" required="true"
+    description="methodToCall value for actionImage"%>
+<%@ attribute name="cssClass" required="true"%>
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" /> 
@@ -30,8 +32,9 @@
 	<td class="${cssClass}" style="text-align:right" rowspan="4" >
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.referenceInvoiceItemNumber}"
-			property="${invPropertyName}.sequenceNumber"
+			property="${crmPropertyName}.referenceInvoiceItemNumber"
 			readOnly="true" />
+			
 	<!--  Quantity -->	
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
@@ -97,13 +100,13 @@
 
 	<!--  Actions -->
 	<td rowspan="4"><div align="center" class="middle" >
-		<html:image property=""
+		<html:image property="methodToCall.${recalculateMethod}"
 	    	src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 	    	title="Recalculate Credit Memo Line Amounts"
 	    	alt="Recalculate Credit Memo Line Amounts"
 	        styleClass="tinybutton" />
 	    &nbsp;
-		<html:image property="methodToCall.${actionMethod}"
+		<html:image property="methodToCall.${refreshMethod}"
 	    	src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
 	    	title="Refresh Credit Memo Line"
 	    	alt="Refresh Credit Memo Line"

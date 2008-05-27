@@ -133,9 +133,9 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
      * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
      */
     public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
-        if (financialDocumentReferenceInvoiceNumber != null) {
+        if (financialDocumentReferenceInvoiceNumber != null)
             financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber.toUpperCase();
-        }
+
         this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
     }
     
@@ -143,16 +143,10 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
      * Gets the invoice attribute. 
      * @return Returns the invoice.
      */
-    public CustomerInvoiceDocument getInvoice() {
-
-        /*
-        if(ObjectUtils.isNull(invoice) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) ){
-            invoice = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentByDocumentId(financialDocumentReferenceInvoiceNumber);
-        }*/
-        
-        if(ObjectUtils.isNull(invoice) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) ){
+    public CustomerInvoiceDocument getInvoice() {        
+        if(ObjectUtils.isNull(invoice) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) )
             refreshReferenceObject("invoice");
-        }        
+               
         return invoice;
     }
 

@@ -97,7 +97,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-	</bean>	
+	</bean>
+	
+	<bean id="customerCreditMemoDetailService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDetailServiceImpl"/>
 	
 	<bean id="invoicePaidAppliedService" class="org.kuali.module.ar.service.impl.InvoicePaidAppliedServiceImpl">
 		<property name="universityDateService">

@@ -15,6 +15,7 @@
  */
 package org.kuali.module.ar.service;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
@@ -78,7 +79,24 @@ public interface CustomerInvoiceDetailService {
      * @return
      */
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear( CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument );
+ 
+    /**
+     * This method returns a customer invoice detail for the current year
+     * 
+     * @param documentNumber
+     * @param sequenceNumber
+     * @return
+     */    
+    public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber,Integer sequenceNumber);
     
+    /**
+     * This method returns a customer invoice detail open item amount
+     * 
+     * @param documentNumber
+     * @param invoiceItemCode
+     * @return
+     */  
+    public KualiDecimal getOpenAmount(String documentNumber,Integer invoiceItemNumber);
     
     /**
      * This method is used to recalculate a customer invoice detail based on updated values

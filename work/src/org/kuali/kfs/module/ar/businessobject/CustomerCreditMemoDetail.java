@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -204,6 +205,26 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
 
     public void setInvoiceLineTotalAmount(KualiDecimal invoiceLineTotalAmount) {
         this.invoiceLineTotalAmount = invoiceLineTotalAmount;
+    }
+    
+    public void recalculateBasedOnEnteredItemQty(KualiDecimal invTaxPercent, KualiDecimal invItemUnitPrice) {
+        if (ObjectUtils.isNull(invTaxPercent))
+            invTaxPercent = KualiDecimal.ZERO;
+
+        creditMemoItemTotalAmount = new KualiDecimal(creditMemoItemQuantity.multiply(invItemUnitPrice.bigDecimalValue()));
+        
+        creditMemoItemTaxAmount = creditMemoItemTotalAmount.multiply(invTaxPercent);
+        creditMemoLineTotalAmount = creditMemoItemTotalAmount.add(creditMemoItemTaxAmount);
+    }
+
+    public void recalculateBasedOnEnteredItemAmount(KualiDecimal invTaxPercent, KualiDecimal invItemUnitPrice) {
+        if (ObjectUtils.isNull(invTaxPercent))
+            invTaxPercent = KualiDecimal.ZERO;
+        
+        creditMemoItemQuantity = creditMemoItemTotalAmount.divide(invItemUnitPrice).bigDecimalValue();
+        
+        creditMemoItemTaxAmount = creditMemoItemTotalAmount.multiply(invTaxPercent);
+        creditMemoLineTotalAmount = creditMemoItemTotalAmount.add(creditMemoItemTaxAmount);
     }
 
 }

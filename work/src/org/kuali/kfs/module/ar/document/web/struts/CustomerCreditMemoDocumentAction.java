@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -31,17 +31,13 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
+import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDetailEvent;
+import org.kuali.module.ar.service.CustomerCreditMemoDetailService;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
-import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -93,32 +89,19 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      * @return An ActionForward
      */
     public ActionForward continueCreditMemo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerCreditMemoDetail customerCreditMemoDetail;
+        KualiDecimal invItemTaxAmount, openInvoiceAmount;
+        String docNumber;
+        Integer itemLineNumber;
         
         CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
-
-        /*
-         1. perform validation of init tab: check if invoice ref. number is valid
-         2. check if there is already an open customer credit memo for the referenced invoice
-            (only one customer credit memo is allowed per invoice)
-        */
-
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        
         customerCreditMemoDocument.setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
-        
-        /*
-         Qiestions:
-         1. try saving the document, to see if invoice reference is populated automatically
-            SpringContext.getBean(DocumentService.class).saveDocument(customerCreditMemoDocument);
-            ? // perform validation of init tab
-            ? SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(creditMemoDocument);
-         2. explicitly refresh invoice object
-         */
-        
-        // initialize creditMemoDetails
+
+        // populate customer credit memo details based on the given invoice
         List<SourceAccountingLine> invoiceDetails = customerCreditMemoDocument.getInvoice().getSourceAccountingLines();
-        CustomerCreditMemoDetail customerCreditMemoDetail;
-        KualiDecimal invItemTaxAmount;
-        
         for( SourceAccountingLine invoiceDetail : invoiceDetails ){
             customerCreditMemoDetail = new CustomerCreditMemoDetail();
             
@@ -128,17 +111,60 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
                 invItemTaxAmount = KualiDecimal.ZERO;
                 ((CustomerInvoiceDetail)invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
             }
-            
             customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
+            
+            docNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
+            customerCreditMemoDetail.setDocumentNumber(docNumber);
+            
+            itemLineNumber = ((CustomerInvoiceDetail)invoiceDetail).getSequenceNumber();
+            customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
+            
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(docNumber,itemLineNumber);
+            customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
             
             customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
         }
-        //???
-        //SpringContext.getBean(DocumentService.class).saveDocument(customerCreditMemoDocument);
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Based on user input this method recalculates a customer credit memo detail
+     * 
+     * @param mapping action mapping
+     * @param form action form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward recalculateCustomerCreditMemoDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocumentForm.getDocument();
+        
+        int indexOfLineToRecalculate = getSelectedLine(request);
+        CustomerCreditMemoDetail customerCreditMemoDetail = customerCreditMemoDocument.getCreditMemoDetails().get(indexOfLineToRecalculate);
+     
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME + "[" + indexOfLineToRecalculate + "]";
+
+        boolean rulePassed = true;
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDetailEvent(errorPath, customerCreditMemoDocumentForm.getDocument(), customerCreditMemoDetail));
+        if (rulePassed) {
+            
+            String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+            CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
+            
+            Integer lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
+            CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,lineNumber);
+            
+            KualiDecimal invItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
+
+            CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
+            customerCreditMemoDetailService.recalculateCustomerCreditMemoDetail(customerCreditMemoDetail,customerCreditMemoDocument,invItemUnitPrice);
+        }    
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     /**
      * This method refreshes a customer credit memo detail
      * 
@@ -155,10 +181,12 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocForm.getDocument();
         int indexOfLineToRefresh = getSelectedLine(request);
         
-        /*
-        CustomerInvoiceDetail customerInvoiceDetail = customerCreditMemoDetails.set(indexOfLineToRefresh,customerCreditMemoDetail);
-        customerCreditMemoDocument.setCreditMemoDetails(customerCreditMemoDetails);
-        */
+        CustomerCreditMemoDetail customerCreditMemoDetail = customerCreditMemoDocument.getCreditMemoDetails().get(indexOfLineToRefresh);
+        
+        customerCreditMemoDetail.setCreditMemoItemQuantity(null);
+        customerCreditMemoDetail.setCreditMemoItemTotalAmount(null);
+        customerCreditMemoDetail.setCreditMemoItemTaxAmount(KualiDecimal.ZERO);
+        customerCreditMemoDetail.setCreditMemoLineTotalAmount(KualiDecimal.ZERO);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    

@@ -44,8 +44,6 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
     public CustomerCreditMemoDocumentForm() {
         super();
         setDocument(new CustomerCreditMemoDocument());
-        setupServices();
-        //setupDefaultValues((CustomerInvoiceDocument)getDocument());
     }
     
     /**
@@ -66,73 +64,6 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
         }        
     }
 
-    private void setupServices() {
-        setDateTimeService(SpringContext.getBean(DateTimeService.class));
-
-    }
-
-    /**
-     * 
-     * This method sets up the default values for this document
-     */
-    private void setupDefaultValues(CustomerInvoiceDocument document) {
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        if(currentUser != null) {
-            //Billing chart = user's chart
-            document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
-
-            //Billing org = user's org
-            document.setBilledByOrganizationCode(currentUser.getOrganizationCode());
-        }
-
-        Date today = dateTimeService.getCurrentSqlDate();
-
-        //Invoice create date = current date
-        document.setBillingDate(today);
-
-        //Invoice due date = current date + 30 days
-        Calendar cal = dateTimeService.getCurrentCalendar();
-        cal.add(Calendar.DATE, 30);
-        java.util.Date dueDate = cal.getTime();
-        Date sqlDueDate = null;
-        try {
-            sqlDueDate =  dateTimeService.convertToSqlDate(dueDate.toString());
-        } catch (ParseException e) {
-            //TODO: throw an error here, but don't die
-        }
-        if(sqlDueDate != null) {
-            document.setInvoiceDueDate(sqlDueDate);
-        }
-
-        //Write-off Indicator = 'Y'
-        document.setWriteoffIndicator(true);
-
-        //Print Invoice Indicator = "Y"
-//        document.setPrintInvoiceIndicator(true);
-
-        //Processing Chart = Processing Chart retrieved from Billing Org options
-        //convert this into some kind of service maybe?
-        //document.getAccountsReceivableDocumentHeader().setProcessingChartOfAccountCode(processingChartOfAccountCode);
-
-        //Processing Org = Processing Org retrieved from Billing Org Options
-        //document.getAccountsReceivableDocumentHeader().setProcessingOrganizationCode(processingOrganizationCode);
-
-        //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
-        //can't find this one
-
-        //Payment Terms Text = Payment Terms Text retrieved from Billing Org Options
-        //document.setInvoiceTermsText(invoiceTermsText);
-
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-    
     /**
      * Build additional customer credit memo specific buttons and set extraButtons list.
      * 

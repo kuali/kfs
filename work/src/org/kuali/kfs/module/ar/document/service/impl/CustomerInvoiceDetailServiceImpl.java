@@ -16,6 +16,7 @@
 package org.kuali.module.ar.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,12 +25,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
+import org.kuali.module.ar.bo.InvoicePaidApplied;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
@@ -221,5 +221,31 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         this.businessObjectService = businessObjectService;
     }
 
+    public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber,Integer sequenceNumber) {
+        Map criteria = new HashMap();
+        criteria.put("documentNumber", documentNumber);
+        criteria.put("sequenceNumber", sequenceNumber);
+
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)businessObjectService.findByPrimaryKey(CustomerInvoiceDetail.class, criteria);
+
+        return customerInvoiceDetail;       
+    }
+    
+    public KualiDecimal getOpenAmount(String documentNumber,Integer invoiceItemNumber) {
+        KualiDecimal openInvoiceAmount = KualiDecimal.ZERO;
+        KualiDecimal appliedAmount;
+        
+        Map criteria = new HashMap();
+        criteria.put("documentNumber", documentNumber);
+        criteria.put("invoiceItemNumber", invoiceItemNumber);
+        
+        Collection<InvoicePaidApplied> results = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+        for( InvoicePaidApplied invoicePaidApplied : results ){
+            appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
+            if (ObjectUtils.isNotNull(appliedAmount))
+                openInvoiceAmount.add(appliedAmount);
+        }
+        return openInvoiceAmount;
+    }
 
 }

@@ -24,6 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.testobject.SimpleAddress;
@@ -241,6 +242,17 @@ public class ObjectUtilTest extends TestCase {
         for (int i = 0; i < value.length; i++) {
             String tempvalue = expected[i];
             KualiDecimal expectedValue = tempvalue != null ? new KualiDecimal(expected[i]) : null;
+            assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
+        }
+    }
+    
+    public void testValueOfKualiInteger() throws Exception {
+        String type = "KualiInteger";
+        String[] value = { "-100", "0", "100", "100.00", "", "bad value" };
+        String[] expected = { "-100", "0", "100", null, null, null };
+        for (int i = 0; i < value.length; i++) {
+            String tempvalue = expected[i];
+            KualiInteger expectedValue = tempvalue != null ? new KualiInteger(expected[i]) : null;
             assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
         }
     }

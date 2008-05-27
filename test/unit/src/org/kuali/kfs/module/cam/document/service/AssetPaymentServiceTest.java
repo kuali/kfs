@@ -76,7 +76,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         assertFalse(assetPayment.getPeriod11Depreciation1Amount() instanceof KualiDecimal);
     }
 
-    public void testAdjustPaymentAmounts_fase_true() throws Exception {
+    public void testAdjustPaymentAmounts_false_true() throws Exception {
         AssetPayment assetPayment = AssetPaymentServiceFixture.PAYMENT1.newAssetPayment();
         this.assetPaymentService.adjustPaymentAmounts(assetPayment, false, true);
         assertTrue(assetPayment.getAccountChargeAmount().isPositive());

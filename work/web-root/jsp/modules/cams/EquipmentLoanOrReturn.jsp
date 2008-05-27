@@ -24,32 +24,32 @@
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
-	<c:set var="displayRenewLoanTab" value="${KualiForm.editingMode['displayRenewLoanTab']}" scope="request"/>
 	
 	<html:hidden property="document.asset.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.documentNumber" />
-	<html:hidden property="document.assetHeader.versionNumber" />
+	<html:hidden property="document.assetHeader.versionNumber" />	
+	<html:hidden property="document.borrowerUniversalIdentifier" /> 
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<kul:tab tabTitle="Asset" defaultOpen="true"> 
 	    <div class="tab-container" align="center">
-	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-	      	<tr>
-				<td class="tab-subhead"  width="100%" colspan="2">Asset Information</td>
-			</tr>	
-		     <tr>
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
-		      	<td class="grid" width="75%"><kul:htmlControlAttribute property="document.asset.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}"/>  </td>
-		     </tr>
-		      <tr>
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" /></th>
-		      	<td class="grid" width="75%"><kul:htmlControlAttribute property="document.asset.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>		      	
-		     </tr>		    
-		  </table>   
-        </div>
-	  </kul:tab>
+	      	<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+	      		<tr>
+					<td class="tab-subhead"  width="100%" colspan="2">Asset Information</td>
+				</tr>	
+		     	<tr>
+		      		<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
+		      		<td class="grid" width="75%"><kul:htmlControlAttribute property="document.asset.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}"/>  </td>
+		     	</tr>
+		      	<tr>
+		      		<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" /></th>
+		      		<td class="grid" width="75%"><kul:htmlControlAttribute property="document.asset.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>		      	
+		     	</tr>		    
+		 	</table>   
+      	</div>
+	</kul:tab>
 
 	<kul:tab tabTitle="Equipment Loan" defaultOpen="true"> 
 	    <div class="tab-container" align="center">
@@ -58,14 +58,14 @@
                 <td colspan="4" class="tab-subhead">Equipment Loan Information</td>
 			</tr>	
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" /></th>
-
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerUniversalIdentifier" attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" />		      	
-						
+		      	<td class="grid" width="25%">
 				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" universalIdFieldName="document.borrowerUniversalIdentifier" userNameFieldName="document.borrowerUniversalUser.personName" label="User" 
 				lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier,document.borrowerUniversalIdentifier:personUniversalIdentifier,document.borrowerUniversalUser.personName:personName" 
 				fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
 				userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" universalId="${KualiForm.document.borrowerUniversalIdentifier}" userName="${KualiForm.document.borrowerUniversalUser.personName}"/>
-				<html:hidden property="document.borrowerUniversalIdentifier" /> 
+		      	<kul:htmlControlAttribute property="document.borrowerUniversalUser.personName" attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" />		      	
+
+
 				</td>
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}"/></th>
@@ -89,33 +89,7 @@
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.signatureCode}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.signatureCode" attributeEntry="${eqipAttributes.signatureCode}"/></td>								
-	        	<c:choose>
-	                <c:when test="${displayNewLoanTab}">
-						<th class="grid" width="25%" align="right" colspan="2"></th>
-	                </c:when>
-	            	<c:otherwise>
-			        	<c:choose>
-
-		                <c:when test="${displayRenewLoanTab}">
-							<td class="grid" width="25%" horizontal="true" colspan="2">
-							 	<div align="center">
-							 		Are you sure you want to Renew?
-					            	<html:image property="methodToCall.okRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_applytrans.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-					            	<html:image property="methodToCall.cancelRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_back.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-	 	   						</div>
-							</td>
-		                </c:when>
-		            	<c:otherwise>
-							<td class="grid" width="25%" horizontal="true" colspan="2">
-							 	<div align="center">
-					            	<html:image property="methodToCall.performRenewLoan" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpullup.gif" title="Renew Loan" alt="Renew Loan" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-	    						</div>
-							</td>
-		            	</c:otherwise>
-			        	</c:choose>
-
-	            	</c:otherwise>
-	            </c:choose>
+				<td class="grid" width="25%" colspan="2"></td>
 			</tr>
 		</table>   
 	</kul:tab>
@@ -127,7 +101,6 @@
 				<td class="tab-subhead"  width="50%" colspan="2">Borrower</td>
 				<td class="tab-subhead"  width="50%" colspan="2">Stored at</td>				
 			</tr>	
-
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerAddress}"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerAddress" attributeEntry="${eqipAttributes.borrowerAddress}"/></td>								

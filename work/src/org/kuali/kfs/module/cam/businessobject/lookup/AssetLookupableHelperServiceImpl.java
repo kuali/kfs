@@ -15,10 +15,6 @@
  */
 package org.kuali.module.cams.lookup;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.KFSConstants;
@@ -31,7 +27,7 @@ import org.kuali.module.cams.service.AssetService;
  */
 public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     AssetService assetService;
-    
+
     /**
      * Custom action urls for Asset.
      * 
@@ -68,18 +64,18 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private String getLoanUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
         String url;
-        
+
         if (getAssetService().isAssetLoaned(asset)) {
-            url = CamsConstants.AssetActions.LOAN + "&nbsp;["
-                + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RENEW + "</a>"
-                + "&nbsp;|&nbsp;"
-                + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RETURN + "</a>"
-                + "]";
+            url = CamsConstants.AssetActions.LOAN + "&nbsp;[" 
+            + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&loanType=renew&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RENEW + "</a>" 
+            + "&nbsp;|&nbsp;" 
+            + "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&loanType=return&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN_RETURN + "</a>" 
+            + "]";
         } else {
-            url = "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>"
+            url = "<a href=\"../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&loanType=loan&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.LOAN + "</a>" 
             + "&nbsp;[" + CamsConstants.AssetActions.LOAN_RENEW + "&nbsp;|&nbsp;" + CamsConstants.AssetActions.LOAN_RETURN + "]";
         }
-        
+
         return url;
     }
 
@@ -92,7 +88,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         Asset asset = (Asset) bo;
         String anchor = CamsConstants.AssetActions.PAYMENT;
 
-        //Only active capital assets will have the payment link.
+        // Only active capital assets will have the payment link.
         if (getAssetService().isCapitalAsset(asset) && !getAssetService().isAssetRetired(asset))
             anchor = "<a href=\"../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.PAYMENT + "</a>";
 

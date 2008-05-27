@@ -20,12 +20,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -43,6 +43,8 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     private DateTimeService dateTimeService;
 
     /**
+     * Does not fail on rules failure
+     * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -53,7 +55,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             return false;
         }
 
-        boolean valid = processValidation(equipmentLoanOrReturnDocument);
+        // boolean valid = processValidation(equipmentLoanOrReturnDocument);
 
         return true;
     }
@@ -71,25 +73,26 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
         boolean valid = processValidation(equipmentLoanOrReturnDocument);
 
-        return true;
+        return valid;
     }
 
 
     private boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        // validate if loan return date and expected loan return date is valid
+        // validate if both loan return date and expected loan return date are valid
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
+        valid &= validBorrowerId(equipmentLoanOrReturnDocument);
 
-        return true;
+        return valid;
     }
 
+
     /**
-     * Implementation of the rule that if a document has a recurring payment begin date and end date, the begin date should come
-     * before the end date. In EPIC, we needed to play around with this order if the fiscal year is the next fiscal year, since we
-     * were dealing just with month and day, but we don't need to do that here; we're dealing with the whole Date object.
+     * Implementation of the rule that if a document has a valid expect loan date and loan return date, the both dates should come
+     * before the 2 years limit.
      * 
-     * @param purDocument the purchasing document to be validated
-     * @return boolean false if the begin date is not before the end date.
+     * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
+     * @return boolean false if the expect loan date or loan return date is not before the 2 years limit.
      */
     private boolean validateLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
@@ -121,7 +124,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     private Date CalculateMaxLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         Date maxDate = null;
         String sLoanDate = new SimpleDateFormat(DATEFORMAT).format(equipmentLoanOrReturnDocument.getLoanDate());
-        // String sLoanDate = dateTimeService.toDateString(equipmentLoanOrReturnDocument.getLoanDate()) +"";
         int sMaxLoanYear = Integer.parseInt(sLoanDate.substring(6, 10));
         sMaxLoanYear += 2;
         String maxLoanDate = sLoanDate.substring(0, 6) + sMaxLoanYear;
@@ -135,14 +137,27 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         return maxDate;
     }
 
-
     /**
-     * Convenience method to append the path prefix
+     * Implementation of the rule that if borrower id is valid
+     * 
+     * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
+     * @return boolean false if the borrower id does not exist.
      */
-    public TypedArrayList putError(String propertyName, String errorKey, String... errorParameters) {
-        return GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
+    private boolean validBorrowerId(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+        LOG.info("borrower id= " + equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier() + "");
+        boolean valid = true;
+        if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_INDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
+            valid = false;
+        }
+        return valid;
     }
 
+    /**
+     * Convenience method to append the path prefix public TypedArrayList putError(String propertyName, String errorKey, String...
+     * errorParameters) { return GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + propertyName, errorKey,
+     * errorParameters); }
+     */
     public AssetService getAssetService() {
         if (this.assetService == null) {
             this.assetService = SpringContext.getBean(AssetService.class);

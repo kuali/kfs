@@ -33,5 +33,9 @@
         <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=PurchaseOrderDocument'/></li>
         <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=RequisitionDocument'/></li>
      </ul>
+ 	<strong>Accounts Receivable</strong><br/>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.url}/DocumentSearch.do?criteria.docTypeFullName=CustomerInvoiceDocument'/></li>
+     </ul>
     </div>
 <channel:portalChannelBottom />

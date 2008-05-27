@@ -54,12 +54,12 @@ public class ReportRunnerAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ReportRunnerForm reportRunnerForm = (ReportRunnerForm) form;
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Called by the close button on the reportrunner.jsp
      * 
@@ -93,10 +93,11 @@ public class ReportRunnerAction extends KualiAction {
         String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
+
     /**
-     * Runs the reports or dump selected by the user using the BudgetConstructionDocumentReportMode to help
-     * determine the various objects needed to actually build the report data and render the report.
-     *  
+     * Runs the reports or dump selected by the user using the BudgetConstructionDocumentReportMode to help determine the various
+     * objects needed to actually build the report data and render the report.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -105,30 +106,46 @@ public class ReportRunnerAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ReportRunnerForm reportRunnerForm = (ReportRunnerForm) form;
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-    
+
         int selectIndex = this.getSelectedLine(request);
         String reportModeName = reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).getReportModeName();
-        
-        //TODO add calls to services here.  We need the build/clean for the account object detail report mt table and method(s)
+
+        // TODO add calls to services here. We need the build/clean for the account object detail report mt table and method(s)
         // to call the account object, funding, monthly reports
         // and method to call the dump screen for the account,funding and month dump.
 
+        switch (selectIndex) {
+            case 0: {
+            }
+
+            
+            case 1: {
+            }
+            
+            
+            case 2: {
+                
+                
+            }
+        }
+
+
         // for report dumps foward to dump action to display formatting screen
-//        if (reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).dump) {
-//            String dumpUrl = this.buildReportDumpForwardURL(reportRunnerForm, mapping, reportModeName);
-//            return new ActionForward(dumpUrl, true);
-//        }
-        
-        //TODO call method to build mt and/or render the report
+        // if (reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).dump) {
+        // String dumpUrl = this.buildReportDumpForwardURL(reportRunnerForm, mapping, reportModeName);
+        // return new ActionForward(dumpUrl, true);
+        // }
+
+        // TODO call method to build mt and/or render the report
         // stuff below is just to test output works.
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write("we are running report: ".getBytes());
         baos.write(reportModeName.getBytes());
-        WebUtils.saveMimeOutputStreamAsFile(response,ReportGeneration.TEXT_MIME_TYPE, baos,"tgary.txt");
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
         return null;
     }
 
@@ -146,7 +163,7 @@ public class ReportRunnerAction extends KualiAction {
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
 
-        //TODO may need another parm to indicate this is a Budget Document dump, not Organization dump.
+        // TODO may need another parm to indicate this is a Budget Document dump, not Organization dump.
         // no driving mt table to dump multiple accounts, just one account (document) here
 
         return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_DUMP_ACTION, parameters);

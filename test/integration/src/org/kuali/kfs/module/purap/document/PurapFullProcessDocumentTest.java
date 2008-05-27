@@ -15,31 +15,25 @@
  */
 package org.kuali.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.GHATTEN;
 import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
-import static org.kuali.test.fixtures.UserNameFixture.STROUD;
+import static org.kuali.test.fixtures.UserNameFixture.GHATTEN;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.fixtures.UserNameFixture.PARKE;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+import static org.kuali.test.fixtures.UserNameFixture.STROUD;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.impl.DocumentServiceImpl;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.fixtures.AssignContractManagerDocumentFixture;
 import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -94,13 +88,13 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         
         // 2. based on the PO document number, create the Amend PO doc and let it go final (with philips?)
         changeCurrentUser(PARKE);
-        PurchaseOrderAmendmentDocument amendDoc = (PurchaseOrderAmendmentDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poDoc.getPurchaseOrderRestrictedMaterials(), poDoc.getPurchaseOrderRestrictionStatusHistories(), poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
+        PurchaseOrderAmendmentDocument amendDoc = (PurchaseOrderAmendmentDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
         documentService.routeDocument(amendDoc, "Test routing as PARKE", null);
         WorkflowTestUtils.waitForStatusChange(amendDoc.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 
         // 5. use the PO number to create a Close PO and have it go final
         changeCurrentUser(PARKE);
-        PurchaseOrderCloseDocument closeDoc = (PurchaseOrderCloseDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poDoc.getPurchaseOrderRestrictedMaterials(), poDoc.getPurchaseOrderRestrictionStatusHistories(), poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PurchaseOrderStatuses.PENDING_CLOSE);
+        PurchaseOrderCloseDocument closeDoc = (PurchaseOrderCloseDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PurchaseOrderStatuses.PENDING_CLOSE);
         documentService.routeDocument(closeDoc, "Test routing as PARKE", null);
         WorkflowTestUtils.waitForStatusChange(closeDoc.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 

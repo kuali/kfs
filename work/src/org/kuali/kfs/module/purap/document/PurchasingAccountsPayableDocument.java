@@ -219,17 +219,5 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public Integer getVendorAddressGeneratedIdentifier();
 
     public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
-    
-    /**
-     * Loops through each of the most recent PurchaseOrderRestrictionStatusHistory
-     * to check whether the current user belongs to the workgroup that is authorized
-     * to view the full description and catalog number of the items on the document
-     * if the PurchaseOrderRestrictionStatusHistory has restrictionIndicator set to
-     * true. If the user does not belong to the authorized workgroup, we'll have
-     * to set the item description of each items on the document to the default
-     * description of the restricted material type as defined in the Restricted
-     * Material maintenance document and set the catalog number of each item
-     * to null.
-     */
-    public void hideRestrictedMaterials();
+
 }

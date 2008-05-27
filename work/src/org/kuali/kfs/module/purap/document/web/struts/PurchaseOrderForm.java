@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -33,10 +32,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.RestrictedMaterial;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
 
@@ -59,9 +56,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
 
-    // Restricted Materials.
-    private List<RestrictedMaterial> maintRestrictedMaterials;
-    
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -279,20 +273,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return extraButtons;
     }        
     
-    /**
-     * Determines whether the current user is authorized
-     * to see the Restricted Material tab on the Purchase 
-     * Order tabbed page.
-     * 
-     * @return boolean true if the user is authorized and false otherwise.
-     */
-    public boolean isCanViewRestrictedMaterialTab() {
-        if (auth == null) {
-            PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-            auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
-        }
-        return auth.isUserAuthorizedForRestrictedMaterials();
-    }
     
     /**
      * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.
@@ -409,21 +389,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             note.refreshReferenceObject("attachment");
         }
         
-    }
-    
-    public List<RestrictedMaterial> getMaintRestrictedMaterials() {
-        return maintRestrictedMaterials;
-    }
-
-    public void setMaintRestrictedMaterials(List<RestrictedMaterial> maintRestrictedMaterials) {
-        this.maintRestrictedMaterials = maintRestrictedMaterials;
-    }
-
-    public RestrictedMaterial getMaintRestrictedMaterial(int i) {
-        if (maintRestrictedMaterials != null && maintRestrictedMaterials.size() > i) {
-            return (RestrictedMaterial)maintRestrictedMaterials.get(i);
-        }
-        return null;
     }
 
     public PurchaseOrderDocumentActionAuthorizer getAuth() {

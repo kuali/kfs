@@ -83,7 +83,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         ActionForward forward = super.execute(mapping, form, request, response);
         PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase)form;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
-        document.hideRestrictedMaterials();
         return forward;
     }
     

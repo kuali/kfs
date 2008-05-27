@@ -17,7 +17,6 @@ package org.kuali.module.purap.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,11 +62,8 @@ import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
-import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
-import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.RestrictedMaterial;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.service.FaxService;
@@ -309,7 +305,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 String newStatus = null;
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                     newStatus = PurchaseOrderStatuses.AMENDMENT;
-                    po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
+                    po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
                     returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
                 else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
@@ -335,7 +331,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
                         newStatus = PurchaseOrderStatuses.PENDING_RETRANSMIT;
                     }
-                    po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+                    po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
                 }
                 if (!GlobalVariables.getErrorMap().isEmpty()) {
                     throw new ValidationException("errors occurred during new PO creation");
@@ -556,7 +552,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT;
         String newStatus = PurchaseOrderStatuses.IN_PROCESS;
-        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), po.getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
         
         kualiDocumentFormBase.setDocument(po);
         kualiDocumentFormBase.setDocId(po.getDocumentNumber());
@@ -927,7 +923,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
-            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getPurchaseOrderRestrictedMaterials(), po.getPurchaseOrderRestrictionStatusHistories(), kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.PENDING_RETRANSMIT);
+            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.PENDING_RETRANSMIT);
         }
 
         kualiDocumentFormBase.setDocument(po);
@@ -1462,164 +1458,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         return super.save(mapping, form, request, response);
     }
-
-    /**
-     * Overrides the method in PurchasingAccountsPayableActionBase to perform some
-     * steps for restricted material.
-     * 
-     * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
-
-        handlingRestrictedMaterialsBeforeSuperExecute( poForm );
-
-        ActionForward forward =  super.execute(mapping, form, request, response);
-
-        poForm = (PurchaseOrderForm) form;
-        
-        handlingRestrictedMaterialsForRenderingAfterSuperExecute( poForm );
-
-        poForm.getPurchaseOrderDocument().hideRestrictedMaterials();
-        return forward;
-    }
-    
-    /**
-     * Performs all the necessary steps for preparing restricted materials.
-     * 
-     * @param poForm
-     */
-    private void handlingRestrictedMaterialsBeforeSuperExecute(PurchaseOrderForm poForm) {
-        //Get all active restricted materials from the database and set it to the PurchaseOrderForm.
-        if (poForm.getMaintRestrictedMaterials() == null) {
-            Map<String, String> criteria = new HashMap();
-            criteria.put("active", "Y");
-            poForm.setMaintRestrictedMaterials((List)SpringContext.getBean(BusinessObjectService.class).findMatching(RestrictedMaterial.class, criteria));
-        }
-        
-        PurchaseOrderDocument poDocument = poForm.getPurchaseOrderDocument();
-        //This refresh is needed so that we don't have to use the status histories from the hidden parameters because
-        //otherwise the timestamp would lose all of its hour, minutes and seconds if we use the hidden parameters values.
-        poDocument.refreshReferenceObject("purchaseOrderRestrictionStatusHistories");
-        List<PurchaseOrderRestrictionStatusHistory> histories = poDocument.getPurchaseOrderRestrictionStatusHistories();
-        
-        //Compare the most recent histories with the PurchaseOrderRestrictedMaterials list. If there are any changes,
-        //then we'll need to create new histories and add the new histories to the PurchaseOrderRestrictionStatusHistories
-        //list. If there aren't any changes, we don't need to add any new histories.
-        if (needToAddNewHistories(poDocument)) {
-            for (PurchaseOrderRestrictedMaterial porm : poForm.getPurchaseOrderDocument().getPurchaseOrderRestrictedMaterials()) {
-                if (porm.getRestrictedMaterial().isSelected()) {
-                    //have to create a new history with restriction indicator set to true and add it to the list
-                    PurchaseOrderRestrictionStatusHistory newHistory = new PurchaseOrderRestrictionStatusHistory(poForm.getPurchaseOrderDocument(), porm, true);
-                    histories.add(0, newHistory);
-                }
-                else {
-                    //have to create a new history with restriction indicator set to false and add it to the list
-                    PurchaseOrderRestrictionStatusHistory newHistory = new PurchaseOrderRestrictionStatusHistory(poForm.getPurchaseOrderDocument(), porm, false);
-                    histories.add(0, newHistory);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Determines whether we need to create and add new restriction status histories to the document.
-     * 
-     * @param po  The PurchaseOrderDocument that we'll use to determine whether we need to add
-     *            new restriction status histories.
-     * @return    boolean true if we need to add new restriction status histories and false otherwise.
-     */
-    private boolean needToAddNewHistories(PurchaseOrderDocument po) {
-        List<PurchaseOrderRestrictionStatusHistory> mostRecentHistories = po.getMostRecentPurchaseOrderRestrictionStatusHistory();
-
-        if ( po.getPurchaseOrderRestrictionStatusHistories().size() == 0 || (po.getPurchaseOrderRestrictedMaterials().size() != mostRecentHistories.size()) ){
-            return true;
-        }
-        else {
-            for (PurchaseOrderRestrictionStatusHistory history : mostRecentHistories) {
-                boolean isRestricted = history.getRestrictionIndicator();
-                for (PurchaseOrderRestrictedMaterial porm : po.getPurchaseOrderRestrictedMaterials()) {
-                    if ( porm.getRestrictedMaterialCode().equals(history.getRestrictionCode()) && 
-                         porm.getRestrictedMaterial().isSelected() != isRestricted )  {
-                             return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Performs all the necessary steps for rendering restricted materials after
-     * calling the execute method from the superclass.
-     * 
-     * @param poForm The form containing the purchase order document whose
-     *               restricted materials to be rendered.
-     */
-    private void handlingRestrictedMaterialsForRenderingAfterSuperExecute(PurchaseOrderForm poForm) {
-        PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
-        //Need this in case the purchaseOrderRestrictedMaterials of the po does not currently contain the particular restricted material.
-        populatePurchaseOrderRestrictedMaterialsFromMaintRestrictedMaterials(poForm);
-        
-        if (po.getPurchaseOrderRestrictedMaterials().size() > 0) {
-            List<PurchaseOrderRestrictedMaterial> copyOfPurchaseOrderRestrictedMaterials = new ArrayList();
-            for (PurchaseOrderRestrictedMaterial porm : po.getPurchaseOrderRestrictedMaterials()) {
-                copyOfPurchaseOrderRestrictedMaterials.add(porm);
-            }
-            for (PurchaseOrderRestrictedMaterial porm : copyOfPurchaseOrderRestrictedMaterials) {
-                boolean toBeIncluded = checkWithRestrictionStatusHistory(po,porm);
-                if (toBeIncluded) {
-                    int index = po.getPurchaseOrderRestrictedMaterials().indexOf(porm);
-                    po.getPurchaseOrderRestrictedMaterials().get(index).getRestrictedMaterial().setSelected(true);
-                }
-            }
-        }
-        else {
-            //If currently there is no purchaseOrderRestrictedMaterials, then we have to populate from
-            //the maintRestrictedMaterials in the form. The checkboxes would just be empty (selected = false).
-            populatePurchaseOrderRestrictedMaterialsFromMaintRestrictedMaterials(poForm);
-        }
-    }
-    
-    /**
-     * Checks whether the purchase order restricted material that we passed in the input parameter
-     * has already existed and is currently marked as selected.
-     * 
-     * @param po    The PurchaseOrderDocument whose restricted materials to be verified.
-     * @param porm  The PurchaseOrderRestrictedMaterial to be verified whether it has existed and is selected.
-     * @return boolean true if the purchase order restricted material in the input parameter has already
-     *         existed and is currently marked as selected.
-     */
-    private boolean checkWithRestrictionStatusHistory(PurchaseOrderDocument po, PurchaseOrderRestrictedMaterial porm) {
-        if (po.getPurchaseOrderRestrictionStatusHistories().size() > 0) {
-            for (PurchaseOrderRestrictionStatusHistory history : po.getMostRecentPurchaseOrderRestrictionStatusHistory()) {
-                if (porm.getRestrictedMaterialCode().equals(history.getRestrictionCode())) {
-                    if (history.getRestrictionIndicator()) {
-                        return true;
-                    }
-                }   
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Populates the purchase order restricted material list of the PO from the
-     * list of restricted materials from the PurchaseOrderForm if it hasn't existed yet.
-     * 
-     * @param poForm  The PurchaseOrderFormed to be used to obtain a list of restricted materials.
-     */
-    private void populatePurchaseOrderRestrictedMaterialsFromMaintRestrictedMaterials(PurchaseOrderForm poForm) {
-        PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
-        for (RestrictedMaterial rm : poForm.getMaintRestrictedMaterials()) {
-            int index = po.indexOfThisRestrictedMaterial(rm.getRestrictedMaterialCode());
-            if (index == -1) {
-                PurchaseOrderRestrictedMaterial porm = new PurchaseOrderRestrictedMaterial(po, rm.getRestrictedMaterialCode());
-                po.getPurchaseOrderRestrictedMaterials().add(porm);
-            }
-        }
-    }
     
     /**
      * Obtains confirmation and records reasons for the manual status changes which can take place before the purchase order has
@@ -1745,24 +1583,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         form.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         po.setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(po));
        
-    }
-    
-    /**
-     * 
-     * Called when the user clicks on the save button in the Restricted Material tab. It will
-     * save the entire purchase order document to the database.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward savePurchaseOrderRestrictedMaterial(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchaseOrderDocument po = ((PurchaseOrderForm)form).getPurchaseOrderDocument();
-        SpringContext.getBean(PurchaseOrderService.class).savePurchaseOrderRestrictedMaterial(po);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

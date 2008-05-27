@@ -22,8 +22,6 @@ import java.util.List;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
-import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
-import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -70,7 +68,7 @@ public interface PurchaseOrderService {
      *        document is created.
      * @return The resulting new purchase order change document created by this method.
      */
-    public PurchaseOrderDocument createAndSavePotentialChangeDocument(List<PurchaseOrderRestrictedMaterial> poRestrictedMaterials, List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories, String documentNumber, String docType, String newDocumentStatusCode);
+    public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
 
     /**
      * Creates and routes the purchase order change document (for example, PurchaseOrderCloseDocument) based on an existing purchase
@@ -87,7 +85,7 @@ public interface PurchaseOrderService {
      *        document is created.
      * @return The resulting new purchase order change document created by this method.
      */
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(List<PurchaseOrderRestrictedMaterial> poRestrictedMaterials, List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories, String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
 
     /**
      * Obtains the internal purchasing dollar limit amount for a purchase order document.
@@ -243,14 +241,6 @@ public interface PurchaseOrderService {
      */
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission);
 
-    /**
-     * Saves the PurchaseOrderDocument to the database without calling the
-     * saveDocument from documentService to save the restricted material changes.
-     * 
-     * @param po The PurchaseOrderDocument to be saved.
-     */
-    public void savePurchaseOrderRestrictedMaterial(PurchaseOrderDocument po);
-    
     /**
      * Performs a threshold check on the purchase order to determine if any attribute on the purchase order
      * falls within a defined threshold. This check is only perfromed if the receiving required flag is set to N.

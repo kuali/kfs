@@ -566,7 +566,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
         if (cmDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getPurchaseOrderRestrictedMaterials(), cmDocument.getPurchaseOrderDocument().getPurchaseOrderRestrictionStatusHistories(), cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE);
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE);
         }
     }
 

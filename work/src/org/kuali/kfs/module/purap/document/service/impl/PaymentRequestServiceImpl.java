@@ -44,7 +44,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -1124,7 +1123,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            purchaseOrderService.createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getPurchaseOrderRestrictedMaterials(), preqDocument.getPurchaseOrderDocument().getPurchaseOrderRestrictionStatusHistories(), preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
         }
     }
 

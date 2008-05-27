@@ -35,7 +35,6 @@ import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeD
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.ReceivingService;
@@ -119,22 +118,8 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * @return boolean true if the retransmit button can be displayed.
      */
     public boolean canRetransmit() {
-        if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || (purchaseOrder.getPurchaseOrderAutomaticIndicator() && !containsRestrictedMaterial()))) {
+        if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || (purchaseOrder.getPurchaseOrderAutomaticIndicator()))) {
             return true;
-        }
-        return false;
-    }
-
-    /**
-     * Determines whether the purchase order document contains at least one restricted material.
-     * 
-     * @return boolean true if the purchase order has at least one restricted material.
-     */
-    private boolean containsRestrictedMaterial() {
-        for (PurchaseOrderRestrictionStatusHistory history : purchaseOrder.getMostRecentPurchaseOrderRestrictionStatusHistory()) {
-            if (history.getRestrictionIndicator().booleanValue()) {
-                return true;
-            }
         }
         return false;
     }
@@ -371,17 +356,6 @@ public class PurchaseOrderDocumentActionAuthorizer {
 
     private boolean isApprover() {
         return approver;
-    }
-
-    /**
-     * Determines whether the current user is authorized
-     * to see the Restricted Material tab on the Purchase 
-     * Order tabbed page.
-     * 
-     * @return boolean true if the user is authorized and false otherwise.
-     */
-    public boolean isUserAuthorizedForRestrictedMaterials() {
-        return isUserAuthorized;
     }
 
 }

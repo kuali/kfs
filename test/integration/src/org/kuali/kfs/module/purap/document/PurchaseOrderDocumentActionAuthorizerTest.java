@@ -89,7 +89,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
-        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getPurchaseOrderRestrictedMaterials(), poDocument.getPurchaseOrderRestrictionStatusHistories(), poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
+        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
         poRetransmitDocument.setStatusCode("CGIN");
         PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode);
         assertTrue(auth.canPrintRetransmit());
@@ -114,7 +114,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
-        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getPurchaseOrderRestrictedMaterials(), poDocument.getPurchaseOrderRestrictionStatusHistories(), poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
+        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
         poRetransmitDocument.setStatusCode("CGIN");
         poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
         changeCurrentUser(RORENFRO);

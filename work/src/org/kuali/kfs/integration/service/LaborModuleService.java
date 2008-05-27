@@ -30,6 +30,7 @@ import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -186,6 +187,27 @@ public interface LaborModuleService {
      * @return Returns the laborLedgerBalanceForEffortCertificationClass.
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass();
+
+
+    /**
+     * retrieves a specific LaborLedgerObject from the database using primary key
+     * 
+     * @param fiscalYear
+     * @param chartOfAccountsCode
+     * @param objectCode
+     * @return
+     */
+    public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
+
+    /**
+     * Retrieves LaborLedgerPositionObjectBenefits for a LaborLedgerObject key
+     * 
+     * @param fiscalYear
+     * @param chartOfAccountsCode
+     * @param objectCode
+     * @return
+     */
+    public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
     /**
      * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.

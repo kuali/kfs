@@ -258,6 +258,18 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerObject(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
+
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        return (LaborLedgerObject) getBusinessObjectService().findByPrimaryKey(getLaborLedgerObjectClass(),searchCriteria);
+    }
+
+    /**
      * @see org.kuali.module.integration.service.LaborModuleService#hasPendingLaborLedgerEntry(java.lang.String, java.lang.String)
      */
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber) {
@@ -292,6 +304,19 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         return fringeBenefitInformationRecords;
     }
 
+    /**
+     * @see org.kuali.module.integration.service.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode){
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+
+        return getBusinessObjectService().findMatching(PositionObjectBenefit.class, searchCriteria);
+    }
+    
     /**
      * @see org.kuali.module.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer,
      *      java.util.List)

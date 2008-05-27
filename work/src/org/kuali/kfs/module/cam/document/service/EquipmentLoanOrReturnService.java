@@ -19,21 +19,11 @@ import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 
 public interface EquipmentLoanOrReturnService {
 
-    
-    /**
-     * Checks if asset can be Loaned
-     * 
-     * @param equipmentLoanOrReturn record
-     * @return True if the asset can be loaned
-     */
-    boolean canBeLoaned(EquipmentLoanOrReturnDocument document);    
-
-
     /**
      * This method is called when the work flow document is reached its final approval
      * <ol>
-     * <li>Gets the latest asset details from DB</li>
-     * <li>Save asset owner data</li>
+     * <li>Gets the latest equipmentLoaOrReturn details from DB</li>
+     * <li>Save asset data</li>
      * <li>Save borrower's location changes </li>
      * <li>Save store at location changes</li>
      * </ol>

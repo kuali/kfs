@@ -118,7 +118,7 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -210,7 +210,7 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -477,7 +477,7 @@
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-signatureCode" parent="EquipmentLoanOrReturnDocument-signatureCode-parentBean" />
   
-  <bean id="EquipmentLoanOrReturnDocument-signatureCode-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="EquipmentLoanOrReturnDocument-signatureCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="signatureCode" />
     <property name="label" value="Signature on File?" />
     <property name="shortLabel" value="Code" />
@@ -485,24 +485,6 @@
     <property name="description" value="signatureCode description..." />
   </bean>
   
-<!-- Exported Workflow Properties 
-  <bean id="EquipmentLoanOrReturnDocument-signatureCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="signatureCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Signature on File?" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-    <property name="summary" value="signatureCode" />
-    <property name="description" value="signatureCode description..." />
-  </bean>
-  -->
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" />
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
@@ -521,7 +503,7 @@
     <property name="name" value="borrowerUniversalUser.personUserIdentifier" />
     <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="UserID" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
             p:personNameAttributeName="borrowerUniversalUser.personName"
@@ -535,7 +517,7 @@
     <property name="name" value="borrowerUniversalUser.personName" />
     <property name="label" value="Borrowed Person Name" />
     <property name="shortLabel" value="Borrowed Person Name" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-versionNumber" parent="EquipmentLoanOrReturnDocument-versionNumber-parentBean" />
 

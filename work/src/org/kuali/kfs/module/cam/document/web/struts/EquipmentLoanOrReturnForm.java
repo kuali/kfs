@@ -15,17 +15,13 @@
  */
 package org.kuali.module.cams.web.struts.form;
 
-import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
@@ -33,6 +29,7 @@ import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 public class EquipmentLoanOrReturnForm extends KualiTransactionalDocumentFormBase {
 
     private EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument;
+
     /**
      * Constructs a AdvanceDepositForm.java.
      */
@@ -60,31 +57,7 @@ public class EquipmentLoanOrReturnForm extends KualiTransactionalDocumentFormBas
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-//        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
-//        performCustomForceUpperCase(dataDictionaryService);
-
-    }
-
-    private void performCustomForceUpperCase(DataDictionaryService dataDictionaryService) {
-        EquipmentLoanOrReturnDocument bo = getEquipmentLoanOrReturnDocument();
-        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(EquipmentLoanOrReturnDocument.class);
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            Class<?> propertyType = propertyDescriptor.getPropertyType();
-            if (propertyType != null && propertyType.isAssignableFrom(String.class)) {
-                String propertyName = propertyDescriptor.getName();
-                String currValue = (String) ObjectUtils.getPropertyValue(bo, propertyName);
-                if (currValue != null && dataDictionaryService.isAttributeDefined(EquipmentLoanOrReturnDocument.class, propertyName).booleanValue() && dataDictionaryService.getAttributeForceUppercase(EquipmentLoanOrReturnDocument.class, propertyName).booleanValue()) {
-                    try {
-                        PropertyUtils.setProperty(bo, propertyName, currValue.toUpperCase());
-                    }
-                    catch (Exception e) {
-                        throw new RuntimeException("Error while performing uppercase on field " + propertyName, e);
-                    }
-
-                }
-            }
-        }
     }
 
 }

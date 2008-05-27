@@ -309,7 +309,6 @@
     </bean>
 
     <bean id="equipmentLoanOrReturnService" class="org.kuali.module.cams.service.impl.EquipmentLoanOrReturnServiceImpl" >
-    	<property name="assetService" ref="assetService" />
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 

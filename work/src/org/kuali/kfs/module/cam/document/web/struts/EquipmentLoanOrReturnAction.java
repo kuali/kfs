@@ -17,11 +17,7 @@ package org.kuali.module.cams.web.struts.action;
 
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,20 +27,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
@@ -121,45 +114,24 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
      */
     private Asset handleRequestFromLookup(HttpServletRequest request, EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, Asset asset) {
         Asset newAsset = asset;
-        boolean aRenewLoan = false;
-
         if (equipmentLoanOrReturnForm.getDocId() == null && asset == null) {
             newAsset = new Asset();
             HashMap<String, Object> keys = new HashMap<String, Object>();
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
-LOG.info("=======>handleRequestFromLookup =  " + capitalAssetNumber);
-            if (isRenew(capitalAssetNumber)){
-                aRenewLoan = true;
-                capitalAssetNumber = capitalAssetNumber.substring(5);
-LOG.info("=======>handleRequestFromLookup newLoan capitalAssetNumber=  " + capitalAssetNumber);
-            }
             keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber);
             newAsset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, keys);
 
+
             if (newAsset != null) {
-                List<AssetHeader> assetHeaders = newAsset.getAssetHeaders();
-                List<EquipmentLoanOrReturnDocument> equipmentLoanOrReturnList = new ArrayList<EquipmentLoanOrReturnDocument>();
-
-                for (AssetHeader assetHeaderDoc : assetHeaders) {
-                    EquipmentLoanOrReturnDocument elrDoc = assetHeaderDoc.getEquipmentLoanOrReturnDocument();
-                    if ((elrDoc != null) && ObjectUtils.isNull(elrDoc.getLoanReturnDate())) {
-                        equipmentLoanOrReturnList.add(elrDoc);
-                    }
+                if (!request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN)) {
+                    populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, newAsset);
                 }
-
-                if (!equipmentLoanOrReturnList.isEmpty()) {
-                    Comparator<EquipmentLoanOrReturnDocument> comparator = new Comparator<EquipmentLoanOrReturnDocument>() {
-                        public int compare(EquipmentLoanOrReturnDocument o1, EquipmentLoanOrReturnDocument o2) {
-                            // sort descending based on DocumentNumber
-                            return o2.getDocumentNumber().compareTo(o1.getDocumentNumber());
-                        }
-                    };
-                    Collections.sort(equipmentLoanOrReturnList, comparator);
-
-                    populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, equipmentLoanOrReturnList.get(0));
-                }
-                if (aRenewLoan) {
+                if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RETURN)) {
                     equipmentLoanOrReturnDocument.setLoanReturnDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                }
+                if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RENEW)) {
+                    equipmentLoanOrReturnDocument.setLoanDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                    equipmentLoanOrReturnDocument.setExpectedReturnDate(null);
                 }
                 equipmentLoanOrReturnDocument.setAsset(newAsset);
             }
@@ -167,71 +139,38 @@ LOG.info("=======>handleRequestFromLookup newLoan capitalAssetNumber=  " + capit
         return newAsset;
     }
 
-    private void populateEquipmentLoanOrReturnDocument(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, EquipmentLoanOrReturnDocument elrDoc) {
-        equipmentLoanOrReturnDocument.setLoanDate(elrDoc.getLoanDate());
-        equipmentLoanOrReturnDocument.setLoanReturnDate(elrDoc.getLoanReturnDate());
-        equipmentLoanOrReturnDocument.setExpectedReturnDate(elrDoc.getExpectedReturnDate());
+    private void populateEquipmentLoanOrReturnDocument(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, Asset newAsset) {
+        equipmentLoanOrReturnDocument.setLoanDate(newAsset.getLoanDate());
+        equipmentLoanOrReturnDocument.setLoanReturnDate(newAsset.getLoanReturnDate());
+        equipmentLoanOrReturnDocument.setExpectedReturnDate(newAsset.getExpectedReturnDate());
+        equipmentLoanOrReturnDocument.setSignatureCode(newAsset.isSignatureCode());
 
-        equipmentLoanOrReturnDocument.setBorrowerUniversalIdentifier(elrDoc.getBorrowerUniversalIdentifier());
-        equipmentLoanOrReturnDocument.setBorrowerAddress(elrDoc.getBorrowerAddress());
-        equipmentLoanOrReturnDocument.setBorrowerCityName(elrDoc.getBorrowerCityName());
-        equipmentLoanOrReturnDocument.setBorrowerStateCode(elrDoc.getBorrowerStateCode());
-        equipmentLoanOrReturnDocument.setBorrowerZipCode(elrDoc.getBorrowerZipCode());
-        equipmentLoanOrReturnDocument.setBorrowerCountryCode(elrDoc.getBorrowerCountryCode());
-        equipmentLoanOrReturnDocument.setBorrowerPhoneNumber(elrDoc.getBorrowerPhoneNumber());
-
-        equipmentLoanOrReturnDocument.setBorrowerStorageAddress(elrDoc.getBorrowerStorageAddress());
-        equipmentLoanOrReturnDocument.setBorrowerStorageCityName(elrDoc.getBorrowerStorageCityName());
-        equipmentLoanOrReturnDocument.setBorrowerStorageStateCode(elrDoc.getBorrowerStorageStateCode());
-        equipmentLoanOrReturnDocument.setBorrowerStorageZipCode(elrDoc.getBorrowerStorageZipCode());
-        equipmentLoanOrReturnDocument.setBorrowerStorageCountryCode(elrDoc.getBorrowerStorageCountryCode());
-        equipmentLoanOrReturnDocument.setBorrowerStoragePhoneNumber(elrDoc.getBorrowerStoragePhoneNumber());
-    }
-
-    
-    public ActionForward performRenewLoan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        EquipmentLoanOrReturnForm equipmentLoanOrReturnForm = (EquipmentLoanOrReturnForm) form;
-        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) equipmentLoanOrReturnForm.getDocument();
-
-        String savedDocumentNumber = equipmentLoanOrReturnDocument.getDocumentNumber();
-        String savedDocumentDescription = equipmentLoanOrReturnDocument.getDocumentHeader().getFinancialDocumentDescription();
-        String savedExplanation = equipmentLoanOrReturnDocument.getDocumentHeader().getExplanation();
-        String savedOrgDocumentNumber = equipmentLoanOrReturnDocument.getDocumentHeader().getOrganizationDocumentNumber();
-        Asset savedAsset = equipmentLoanOrReturnDocument.getAsset();
-        try {
-            SpringContext.getBean(DocumentService.class).saveDocument(equipmentLoanOrReturnDocument);
-        }
-        catch (WorkflowException we) {
-            LOG.error(we);
-            throw new RuntimeException("WorkflowException while creating an EquipmentLoanOrReturnDocument to renew loan.", we);
+        AssetLocation borrowerLocation = new AssetLocation();
+        borrowerLocation.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+        borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
+        borrowerLocation = (AssetLocation) SpringContext.getBean(BusinessObjectService.class).retrieve(borrowerLocation);
+        if (borrowerLocation != null) {
+            equipmentLoanOrReturnDocument.setBorrowerUniversalIdentifier(borrowerLocation.getAssetLocationContactIdentifier());
+            equipmentLoanOrReturnDocument.setBorrowerAddress(borrowerLocation.getAssetLocationStreetAddress());
+            equipmentLoanOrReturnDocument.setBorrowerCityName(borrowerLocation.getAssetLocationCityName());
+            equipmentLoanOrReturnDocument.setBorrowerStateCode(borrowerLocation.getAssetLocationStateCode());
+            equipmentLoanOrReturnDocument.setBorrowerZipCode(borrowerLocation.getAssetLocationZipCode());
+            equipmentLoanOrReturnDocument.setBorrowerCountryCode(borrowerLocation.getAssetLocationCountryCode());
+            equipmentLoanOrReturnDocument.setBorrowerPhoneNumber(borrowerLocation.getAssetLocationPhoneNumber());
         }
 
-        String newURL = "camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&capitalAssetNumber=Renew" + equipmentLoanOrReturnDocument.getAsset().getCapitalAssetNumber().toString();
-
-        return new ActionForward(newURL, true);
-    }
-    
-    public ActionForward okRenewLoan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//TODO  blanket approval doc and reload document 'A'
-            
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public ActionForward cancelRenewLoan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//          TODO  disgard document 'B' and reload document 'A'
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-        /**
-     * Checks if it is a renew asset
-     * 
-     * @param request parameter 
-     * @return True if it is a renew asset
-     */
-    public boolean isRenew(String requesttParameter) {
-        if ((requesttParameter.length() >= 9)&& (requesttParameter.substring(0,5).equals("Renew"))) return true;
-        else return false;
+        AssetLocation storeAtLocation = new AssetLocation();
+        storeAtLocation.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+        storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);
+        storeAtLocation = (AssetLocation) SpringContext.getBean(BusinessObjectService.class).retrieve(storeAtLocation);
+        if (storeAtLocation != null) {
+            equipmentLoanOrReturnDocument.setBorrowerStorageAddress(storeAtLocation.getAssetLocationStreetAddress());
+            equipmentLoanOrReturnDocument.setBorrowerStorageCityName(storeAtLocation.getAssetLocationCityName());
+            equipmentLoanOrReturnDocument.setBorrowerStorageStateCode(storeAtLocation.getAssetLocationStateCode());
+            equipmentLoanOrReturnDocument.setBorrowerStorageZipCode(storeAtLocation.getAssetLocationZipCode());
+            equipmentLoanOrReturnDocument.setBorrowerStorageCountryCode(storeAtLocation.getAssetLocationCountryCode());
+            equipmentLoanOrReturnDocument.setBorrowerStoragePhoneNumber(storeAtLocation.getAssetLocationPhoneNumber());
+        }
     }
 
 }

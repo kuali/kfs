@@ -65,7 +65,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     private String borrowerStorageCountryCode;
     private String borrowerStoragePhoneNumber;
     private Integer insuranceCode;
-    private String signatureCode;
+    private boolean signatureCode;
 
     private Chart insuranceChartOfAccounts;
     private Account insuranceChargeAccount;
@@ -331,14 +331,6 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         this.organizationTagNumber = organizationTagNumber;
     }
 
-    public String getSignatureCode() {
-        return signatureCode;
-    }
-
-    public void setSignatureCode(String signatureCode) {
-        this.signatureCode = signatureCode;
-    }
-
     public AssetHeader getAssetHeader() {
         return assetHeader;
     }
@@ -393,6 +385,14 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+    public boolean isSignatureCode() {
+        return signatureCode;
+    }
+
+    public void setSignatureCode(boolean signatureCode) {
+        this.signatureCode = signatureCode;
     }
 
 

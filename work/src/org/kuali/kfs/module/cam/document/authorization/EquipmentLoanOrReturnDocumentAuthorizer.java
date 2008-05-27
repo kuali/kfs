@@ -19,13 +19,10 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
 
 
 /**
@@ -46,51 +43,7 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocume
             editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
         }
 
-        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RENEW_LOAN_TAB, "TRUE");
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_VIEW_ONLY_TAB, "TRUE");
-        }
-        else {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RENEW_LOAN_TAB, "FALSE");
-        }
-
         return editModeMap;
     }
-
-
-    /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser) This method determines if user can continue with transfer action or not, following
-     *      conditions are checked to decide
-     *      <li>Check if asset is active and not retired</li>
-     *      <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
-     */
-    @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        // Disable the buttons, if asset is not lonable
-
-        if (!SpringContext.getBean(EquipmentLoanOrReturnService.class).canBeLoaned(equipmentLoanOrReturnDocument)) {
-            actionFlags.setCanAdHocRoute(false);
-            actionFlags.setCanApprove(false);
-            actionFlags.setCanBlanketApprove(false);
-            actionFlags.setCanRoute(false);
-            actionFlags.setCanSave(false);
-        }
-
-        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
-            actionFlags.setCanAdHocRoute(false);
-            actionFlags.setCanApprove(false);
-            actionFlags.setCanBlanketApprove(false);
-            actionFlags.setCanClose(false);
-            actionFlags.setCanCancel(false);
-            actionFlags.setCanRoute(false);
-            actionFlags.setCanSave(false);
-        }
-
-        return actionFlags;
-    }
-
 
 }

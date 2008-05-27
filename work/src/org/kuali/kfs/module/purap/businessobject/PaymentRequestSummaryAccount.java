@@ -16,6 +16,7 @@
 package org.kuali.module.purap.bo;
 
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
@@ -24,9 +25,11 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
 
     private Integer purapDocumentIdentifier;
-
+    private String postingPeriodCode;
+    
     private PaymentRequestDocument paymentRequest;
-
+    private AccountingPeriod financialDocumentPostingPeriod;
+    
     /**
      * Default constructor.
      */
@@ -82,4 +85,37 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
+    /**
+     * Gets the postingPeriodCode attribute. 
+     * @return Returns the postingPeriodCode.
+     */
+    public String getPostingPeriodCode() {
+        return postingPeriodCode;
+    }
+
+    /**
+     * Sets the postingPeriodCode attribute value.
+     * @param postingPeriodCode The postingPeriodCode to set.
+     */
+    public void setPostingPeriodCode(String postingPeriodCode) {
+        this.postingPeriodCode = postingPeriodCode;
+    }
+
+    /**
+     * Gets the financialDocumentPostingPeriod attribute. 
+     * @return Returns the financialDocumentPostingPeriod.
+     */
+    public AccountingPeriod getFinancialDocumentPostingPeriod() {
+        return financialDocumentPostingPeriod;
+    }
+
+    /**
+     * Sets the financialDocumentPostingPeriod attribute value.
+     * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
+     * @deprecated
+     */
+    public void setFinancialDocumentPostingPeriod(AccountingPeriod financialDocumentPostingPeriod) {
+        this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
+    }
+    
 }

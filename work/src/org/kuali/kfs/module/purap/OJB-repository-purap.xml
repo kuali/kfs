@@ -680,7 +680,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderCloseDocument" table="PUR_PO_T">
@@ -905,7 +905,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderReopenDocument" table="PUR_PO_T">
@@ -1130,7 +1130,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderAmendmentDocument" table="PUR_PO_T">
@@ -1581,7 +1581,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderPaymentHoldDocument" table="PUR_PO_T">
@@ -2031,7 +2031,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderRetransmitDocument" table="PUR_PO_T">
@@ -2481,7 +2481,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PaymentRequestDocument" table="AP_PMT_RQST_T">
@@ -3613,6 +3613,8 @@
     <field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="disencumberedAmount" column="DISENC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
+	<field-descriptor name="postingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
     <reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>
@@ -3638,6 +3640,10 @@
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
+	<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="postingYear" />
+		<foreignkey field-ref="postingPeriodCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.ReceivingLineDocument" table="PUR_RCVNG_LN_T">

@@ -25,14 +25,10 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -60,7 +56,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private PurapService purapService;
     private RequisitionDao requisitionDao;
     private KualiRuleService ruleService;
-
+    private ParameterService parameterService;
 
 
     /**
@@ -186,7 +182,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         
         //These are needed for commodity codes. They are put in here so that
         //we don't have to loop through items too many times.
-        String purchaseOrderRequiresCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        String purchaseOrderRequiresCommodityCode = parameterService.getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
         
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
@@ -295,5 +291,9 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setRuleService(KualiRuleService ruleService) {
         this.ruleService = ruleService;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

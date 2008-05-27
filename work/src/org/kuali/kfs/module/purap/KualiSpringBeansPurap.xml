@@ -144,6 +144,7 @@
 		<property name="requisitionDao" ref="requisitionDao"/>
     	<property name="purapService" ref="purapService"/>
     	<property name="ruleService" ref="kualiRuleService"/>
+    	<property name="parameterService" ref="parameterService"/>
 	</bean>
 
     <bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">

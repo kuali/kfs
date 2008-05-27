@@ -254,6 +254,11 @@
     	</property>
 	</bean>
 	
+	<bean id="mySqlIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+    	<property name="staticField"><value>org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory.MY_SQL_PLATFORM</value>
+    	</property>
+	</bean>
+	
 	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDaoJdbcBase">
 	    <property name="parameterService">
 	       <ref bean="parameterService"/>
@@ -603,6 +608,9 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
+        <property name="laborModuleService">
+            <ref bean="laborModuleService" />
+        </property>
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>
@@ -707,4 +715,15 @@
 	
 	<bean id="reportDumpDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.ReportDumpDaoJdbc">
     </bean>
+
+	<bean id="budgetConstructionBatchHelperDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionBatchHelperDaoOjb">
+	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
+	    <property name="ojbOraclePlatform">
+	    <ref bean="oracleIndicator" />
+	    </property>
+	    <property name="ojbMySqlPlatform">
+	    <ref bean="mySqlIndicator" />
+	    </property>
+	</bean>
+
 </beans>

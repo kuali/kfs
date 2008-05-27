@@ -432,7 +432,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             csfAmount = resCsfAmount;
             amountChange = salaryAmount - csfAmount;
             if (csfAmount != 0){
-                percentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((amountChange / csfAmount) * 100), 0);
+                percentChange = BudgetConstructionReportHelper.calculatePercent(amountChange,  csfAmount);
             }
             if (curToInt != 0 && curToInt != -1 && curToInt != salaryAmount.intValue() || curFteInt != 0 && curFteInt != -1.00 && curFteInt != salaryFte.doubleValue()){
                 tiFlag = BCConstants.Report.PLUS;
@@ -513,7 +513,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             }
             conAveragechange = conAverageRequestAmount - conAverageBaseAmount;
             if (conAverageBaseAmount != 0) {
-                conPercentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((conAveragechange / conAverageBaseAmount) * 100), 1);
+                conPercentChange = BudgetConstructionReportHelper.calculatePercent(conAveragechange, conAverageBaseAmount);
             }
             budgetConstructionOrgSalarySummaryReportTotal.setBudgetConstructionSalaryFunding(totalOrgEntry);
             budgetConstructionOrgSalarySummaryReportTotal.setNewFte(newFte);

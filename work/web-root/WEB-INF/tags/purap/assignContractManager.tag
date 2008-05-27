@@ -94,9 +94,12 @@
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].itemDescription" attributeEntry="${requisitionAttributes.items[0].itemDescription}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">                         
-                            <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].purchasingCommodityCode" attributeEntry="${requisitionAttributes.items[0].purchasingCommodityCode}" readOnly="true" />
-                            <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionAttributes.items[0].commodityCode.commodityDescription}" readOnly="true" />
-                        </td>                       
+                        <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].purchasingCommodityCode" attributeEntry="${requisitionAttributes.items[0].purchasingCommodityCode}" readOnly="true" />
+                        <c:if test="${! empty KualiForm.document.assignContractManagerDetails[ctr].requisition.items[0].commodityCode.commodityDescription}">
+                    	  	&nbsp;-&nbsp;
+                    			<kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionAttributes.items[0].commodityCode.commodityDescription}" readOnly="true" />
+                        </c:if>
+                    </td>                       
 		                <td align=left valign=middle class="datacell">		                    
 		                    <c:choose>
 								<c:when test="${!empty acmDetail.requisition.items[0].sourceAccountingLines}">

@@ -141,7 +141,7 @@ public class ObjectUtil {
         if (type.equals("Integer")) {
             realPropertyValue = isInteger(propertyValue) ? Integer.valueOf(propertyValue) : null;
         }
-        if (type.equals("KualiInteger")) {
+        else if (type.equals("KualiInteger")) {
             realPropertyValue = isInteger(propertyValue) ? new KualiInteger(propertyValue) : null;
         }
         else if (type.equalsIgnoreCase("Boolean")) {

@@ -33,12 +33,10 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     private BigDecimal totalConsolidationAppointmentRequestedFteQuantity;
     private Integer totalConsolidationAccountLineAnnualBalanceAmount;
     private Integer totalConsolidationAmountChange;
-    private BigDecimal totalConsolidationPercentChange;
 
     private Integer grossFinancialBeginningBalanceLineAmount;
     private Integer grossAccountLineAnnualBalanceAmount;
     private Integer grossAmountChange;
-    private BigDecimal grossPercentChange;
 
     private BigDecimal typePositionCsfLeaveFteQuantity;
     private BigDecimal typePositionCsfFullTimeEmploymentQuantity;
@@ -47,22 +45,19 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     private BigDecimal typeAppointmentRequestedFteQuantity;
     private Integer typeAccountLineAnnualBalanceAmount;
     private Integer typeAmountChange;
-    private BigDecimal typePercentChange;
 
     private Integer revenueFinancialBeginningBalanceLineAmount;
     private Integer revenueAccountLineAnnualBalanceAmount;
     private Integer revenueAmountChange;
-    private BigDecimal revenuePercentChange;
 
     private Integer expenditureFinancialBeginningBalanceLineAmount;
     private Integer expenditureAccountLineAnnualBalanceAmount;
     private Integer expenditureAmountChange;
-    private BigDecimal expenditurePercentChange;
 
     private Integer differenceFinancialBeginningBalanceLineAmount;
     private Integer differenceAccountLineAnnualBalanceAmount;
     private Integer differenceAmountChange;
-    private BigDecimal differencePercentChange;
+
     public BudgetConstructionLevelSummary getBcls() {
         return bcls;
     }
@@ -87,12 +82,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setDifferenceFinancialBeginningBalanceLineAmount(Integer differenceFinancialBeginningBalanceLineAmount) {
         this.differenceFinancialBeginningBalanceLineAmount = differenceFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getDifferencePercentChange() {
-        return differencePercentChange;
-    }
-    public void setDifferencePercentChange(BigDecimal differencePercentChange) {
-        this.differencePercentChange = differencePercentChange;
-    }
     public Integer getExpenditureAccountLineAnnualBalanceAmount() {
         return expenditureAccountLineAnnualBalanceAmount;
     }
@@ -110,12 +99,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     }
     public void setExpenditureFinancialBeginningBalanceLineAmount(Integer expenditureFinancialBeginningBalanceLineAmount) {
         this.expenditureFinancialBeginningBalanceLineAmount = expenditureFinancialBeginningBalanceLineAmount;
-    }
-    public BigDecimal getExpenditurePercentChange() {
-        return expenditurePercentChange;
-    }
-    public void setExpenditurePercentChange(BigDecimal expenditurePercentChange) {
-        this.expenditurePercentChange = expenditurePercentChange;
     }
     public Integer getGrossAccountLineAnnualBalanceAmount() {
         return grossAccountLineAnnualBalanceAmount;
@@ -147,12 +130,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setRevenueFinancialBeginningBalanceLineAmount(Integer revenueFinancialBeginningBalanceLineAmount) {
         this.revenueFinancialBeginningBalanceLineAmount = revenueFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getRevenuePercentChange() {
-        return revenuePercentChange;
-    }
-    public void setRevenuePercentChange(BigDecimal revenuePercentChange) {
-        this.revenuePercentChange = revenuePercentChange;
-    }
     public Integer getTotalConsolidationAccountLineAnnualBalanceAmount() {
         return totalConsolidationAccountLineAnnualBalanceAmount;
     }
@@ -182,12 +159,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     }
     public void setTotalConsolidationFinancialBeginningBalanceLineAmount(Integer totalConsolidationFinancialBeginningBalanceLineAmount) {
         this.totalConsolidationFinancialBeginningBalanceLineAmount = totalConsolidationFinancialBeginningBalanceLineAmount;
-    }
-    public BigDecimal getTotalConsolidationPercentChange() {
-        return totalConsolidationPercentChange;
-    }
-    public void setTotalConsolidationPercentChange(BigDecimal totalConsolidationPercentChange) {
-        this.totalConsolidationPercentChange = totalConsolidationPercentChange;
     }
     public BigDecimal getTotalConsolidationPositionCsfFullTimeEmploymentQuantity() {
         return totalConsolidationPositionCsfFullTimeEmploymentQuantity;
@@ -231,12 +202,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setTypeFinancialBeginningBalanceLineAmount(Integer typeFinancialBeginningBalanceLineAmount) {
         this.typeFinancialBeginningBalanceLineAmount = typeFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getTypePercentChange() {
-        return typePercentChange;
-    }
-    public void setTypePercentChange(BigDecimal typePercentChange) {
-        this.typePercentChange = typePercentChange;
-    }
     public BigDecimal getTypePositionCsfFullTimeEmploymentQuantity() {
         return typePositionCsfFullTimeEmploymentQuantity;
     }
@@ -255,11 +220,4 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setGrossAmountChange(Integer grossAmountChange) {
         this.grossAmountChange = grossAmountChange;
     }
-    public BigDecimal getGrossPercentChange() {
-        return grossPercentChange;
-    }
-    public void setGrossPercentChange(BigDecimal grossPercentChange) {
-        this.grossPercentChange = grossPercentChange;
-    }
-
 }

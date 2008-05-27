@@ -49,21 +49,5 @@ public interface ImportRequestDao {
      * @param isUpadate
      */
     public void save(BusinessObject businessObject, boolean isUpdate);
-    
-    /**
-     * Gets the version number
-     * 
-     * @param businessObject
-     * @return
-     */
-    public Long getPendingBudgetConstructionGeneralLedgerVersionNumber(PendingBudgetConstructionGeneralLedger pendingEntry);
-    
-    /**
-     * Gets the version number
-     * 
-     * @param businessObject
-     * @return
-     */
-    public Long getBudgetConstructionMonthlyVersionNumber(BudgetConstructionMonthly monthlyEntry);
-    
+   
 }

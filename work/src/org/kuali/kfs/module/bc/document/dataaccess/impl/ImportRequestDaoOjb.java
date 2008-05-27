@@ -34,66 +34,7 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ImportRequestDao;
 
 public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements ImportRequestDao {
-    
-   /**
-    * 
-    * @see org.kuali.module.budget.dao.ImportRequestDao#getBudgetConstructionMonthlyVersionNumber(org.kuali.module.budget.bo.BudgetConstructionMonthly)
-    */
-    public Long getBudgetConstructionMonthlyVersionNumber(BudgetConstructionMonthly pendingEntry) {
-        Long versionNumber = null;             
-        
-        Criteria criteriaID = new Criteria();          
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, pendingEntry.getUniversityFiscalYear());          
-        criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, pendingEntry.getChartOfAccountsCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, pendingEntry.getAccountNumber());          
-        criteriaID.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, pendingEntry.getSubAccountNumber());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, pendingEntry.getFinancialObjectCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, pendingEntry.getFinancialSubObjectCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, pendingEntry.getFinancialBalanceTypeCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, pendingEntry.getFinancialObjectTypeCode());             
-        criteriaID.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, pendingEntry.getDocumentNumber());  
-        
-        String[] queryAttr = {KFSPropertyConstants.VERSION_NUMBER};             
-        ReportQueryByCriteria queryID = new ReportQueryByCriteria(BudgetConstructionMonthly.class, queryAttr, criteriaID, true);             
-        Iterator results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);             
-        
-        if (results.hasNext()) {            
-            BigDecimal temp = (BigDecimal) ((Object[])results.next()) [0];      
-            versionNumber = new Long (temp.toString());     
-        }             
-        return versionNumber;  
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.budget.dao.ImportRequestDao#getPendingBudgetConstructionGeneralLedgerVersionNumber(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
-     */
-    public Long getPendingBudgetConstructionGeneralLedgerVersionNumber(PendingBudgetConstructionGeneralLedger pendingEntry) {
-        Long versionNumber = null;             
-        
-        Criteria criteriaID = new Criteria();          
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, pendingEntry.getUniversityFiscalYear());          
-        criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, pendingEntry.getChartOfAccountsCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, pendingEntry.getAccountNumber());          
-        criteriaID.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, pendingEntry.getSubAccountNumber());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, pendingEntry.getFinancialObjectCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, pendingEntry.getFinancialSubObjectCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, pendingEntry.getFinancialBalanceTypeCode());          
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, pendingEntry.getFinancialObjectTypeCode());             
-        criteriaID.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, pendingEntry.getDocumentNumber());  
-        
-        String[] queryAttr = {KFSPropertyConstants.VERSION_NUMBER};             
-        ReportQueryByCriteria queryID = new ReportQueryByCriteria(PendingBudgetConstructionGeneralLedger.class, queryAttr, criteriaID, true);             
-        Iterator results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);             
-        
-        if (results.hasNext()) {            
-            BigDecimal temp = (BigDecimal) ((Object[])results.next()) [0];   
-            versionNumber = new Long (temp.toString());
-        }             
-        return versionNumber;  
-    }
-
-
+   
     public void save(BusinessObject businessObject, boolean isUpdate) {
         getPersistenceBroker(true).store(businessObject, isUpdate ? ObjectModification.UPDATE : ObjectModification.INSERT); 
     }

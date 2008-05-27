@@ -70,6 +70,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private String offCampusStateCode;
     private String offCampusZipCode;
     private boolean interdepartmentalSalesIndicator;
+    private Long capitalAssetNumber;
     private UniversalUser assetRepresentative;
 
     private AssetHeader assetHeader;
@@ -380,6 +381,22 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public String getTransferOfFundsFinancialDocumentNumber() {
         return transferOfFundsFinancialDocumentNumber;
+    }
+
+    /**
+     * Gets the capitalAssetNumber attribute. 
+     * @return Returns the capitalAssetNumber.
+     */
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
+
+    /**
+     * Sets the capitalAssetNumber attribute value.
+     * @param capitalAssetNumber The capitalAssetNumber to set.
+     */
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
     }
 
     /**

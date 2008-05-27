@@ -39,7 +39,8 @@ public class EquipmentLoanOrReturn extends PersistableBusinessObjectBase {
     private String borrowerStoragePhoneNumber;
     private Integer insuranceCode;
     private String signatureCode;
-
+    private Long capitalAssetNumber;
+    
     private DocumentHeader documentHeader;
     private Chart insuranceChartOfAccounts;
     private Account insuranceChargeAccount;
@@ -48,7 +49,8 @@ public class EquipmentLoanOrReturn extends PersistableBusinessObjectBase {
     private Country borrowerCountry;
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
-
+    private Asset asset;
+    
     /**
      * Default constructor.
      */
@@ -538,6 +540,21 @@ public class EquipmentLoanOrReturn extends PersistableBusinessObjectBase {
         this.signatureCode = signatureCode;
     }
 
+    /**
+     * Gets the capitalAssetNumber attribute. 
+     * @return Returns the capitalAssetNumber.
+     */
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
+
+    /**
+     * Sets the capitalAssetNumber attribute value.
+     * @param capitalAssetNumber The capitalAssetNumber to set.
+     */
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
 
     /**
      * Gets the documentHeader attribute.
@@ -675,6 +692,23 @@ public class EquipmentLoanOrReturn extends PersistableBusinessObjectBase {
         this.borrowerStorageState = borrowerStorageState;
     }
 
+    /**
+     * Gets the asset attribute. 
+     * @return Returns the asset.
+     */
+    public Asset getAsset() {
+        return asset;
+    }
+
+    /**
+     * Sets the asset attribute value.
+     * @param asset The asset to set.
+     * @deprecated
+     */
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }    
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

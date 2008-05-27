@@ -13,6 +13,8 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -40,8 +42,12 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Date createDate;
     private Date capitalAssetInServiceDate;
     private Date capitalAssetDepreciationDate;
-    private Integer financialDocumentNextLineNumber;
-
+    private String representativeUniversalIdentifier;
+    private String organizationOwnerChartOfAccountsCode;
+    private String organizationOwnerAccountNumber;
+    private String agencyNumber;
+    private Integer financialDocumentNextLineNumber;    
+    
     // Not Presisted
     private Date lastInventoryDate;
     private AssetHeader assetHeader;
@@ -52,7 +58,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private List<AssetGlobalDetail> assetSharedDetails;
     private List<AssetPaymentDetail> assetPaymentDetails;
     private AssetAcquisitionType acquisitionType;
-
+    private Chart organizationOwnerChartOfAccounts;
+    private Account organizationOwnerAccount;
 
     /**
      * Default constructor.
@@ -462,6 +469,70 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
+     * Gets the agencyNumber attribute. 
+     * @return Returns the agencyNumber.
+     */
+    public String getAgencyNumber() {
+        return agencyNumber;
+    }
+
+    /**
+     * Sets the agencyNumber attribute value.
+     * @param agencyNumber The agencyNumber to set.
+     */
+    public void setAgencyNumber(String agencyNumber) {
+        this.agencyNumber = agencyNumber;
+    }
+
+    /**
+     * Gets the organizationOwnerAccountNumber attribute. 
+     * @return Returns the organizationOwnerAccountNumber.
+     */
+    public String getOrganizationOwnerAccountNumber() {
+        return organizationOwnerAccountNumber;
+    }
+
+    /**
+     * Sets the organizationOwnerAccountNumber attribute value.
+     * @param organizationOwnerAccountNumber The organizationOwnerAccountNumber to set.
+     */
+    public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
+        this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
+    }
+
+    /**
+     * Gets the organizationOwnerChartOfAccountsCode attribute. 
+     * @return Returns the organizationOwnerChartOfAccountsCode.
+     */
+    public String getOrganizationOwnerChartOfAccountsCode() {
+        return organizationOwnerChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the organizationOwnerChartOfAccountsCode attribute value.
+     * @param organizationOwnerChartOfAccountsCode The organizationOwnerChartOfAccountsCode to set.
+     */
+    public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
+        this.organizationOwnerChartOfAccountsCode = organizationOwnerChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the representativeUniversalIdentifier attribute. 
+     * @return Returns the representativeUniversalIdentifier.
+     */
+    public String getRepresentativeUniversalIdentifier() {
+        return representativeUniversalIdentifier;
+    }
+
+    /**
+     * Sets the representativeUniversalIdentifier attribute value.
+     * @param representativeUniversalIdentifier The representativeUniversalIdentifier to set.
+     */
+    public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
+        this.representativeUniversalIdentifier = representativeUniversalIdentifier;
+    }
+
+    /**
      * Gets the assetCondition attribute.
      * 
      * @return Returns the assetCondition.
@@ -518,6 +589,39 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.inventoryStatus = inventoryStatus;
     }
 
+    /**
+     * Gets the organizationOwnerAccount attribute. 
+     * @return Returns the organizationOwnerAccount.
+     */
+    public Account getOrganizationOwnerAccount() {
+        return organizationOwnerAccount;
+    }
+
+    /**
+     * Sets the organizationOwnerAccount attribute value.
+     * @param organizationOwnerAccount The organizationOwnerAccount to set.
+     * @deprecated
+     */
+    public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
+        this.organizationOwnerAccount = organizationOwnerAccount;
+    }
+
+    /**
+     * Gets the organizationOwnerChartOfAccounts attribute. 
+     * @return Returns the organizationOwnerChartOfAccounts.
+     */
+    public Chart getOrganizationOwnerChartOfAccounts() {
+        return organizationOwnerChartOfAccounts;
+    }
+
+    /**
+     * Sets the organizationOwnerChartOfAccounts attribute value.
+     * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
+        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
+    }
 
     /**
      * Gets the assetHeader attribute.

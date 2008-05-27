@@ -271,6 +271,11 @@
 	<field-descriptor name="createDate" column="CPTLAST_CRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="capitalAssetDepreciationDate" column="CPTL_AST_DEPR_DT" jdbc-type="DATE"/>
+	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/> 
+
 	<reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -294,7 +299,13 @@
 	<reference-descriptor name="acquisitionType" class-ref="org.kuali.module.cams.bo.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="acquisitionTypeCode" />
 	</reference-descriptor>
-	
+	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		<foreignkey field-ref="organizationOwnerAccountNumber" />
+	</reference-descriptor>	
 	
 </class-descriptor>
 
@@ -903,7 +914,8 @@
 	<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="interdepartmentalSalesIndicator" column="AST_INTRDPTSALE_CD" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
+	
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
@@ -939,6 +951,9 @@
     <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
     <!-- General ledger entries  -->
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
@@ -972,6 +987,7 @@
 	<field-descriptor name="borrowerStoragePhoneNumber" column="AST_BORWRSTRPH_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
@@ -998,6 +1014,9 @@
     <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.ComponentRepairHistory" table="CM_CACMP_RPRHIST_T">
@@ -1172,6 +1191,21 @@
 	</reference-descriptor>
 	<reference-descriptor name="assetRetirementGlobal" class-ref="org.kuali.module.cams.bo.AssetRetirementGlobal" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.PaymentDocument" table="CM_AST_PMT_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
+	<field-descriptor name="previousTotalCostAmount" column="CPTLAST_PREV_TOT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

@@ -96,7 +96,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      */
     public DetailSalarySettingForm() {
         super();
-        
+
         setEditingMode(new HashMap<String, String>());
     }
 
@@ -153,7 +153,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
 
         this.populateBCAFLines();
     }
-    
+
     /**
      * This zeros totals displayed on the detail salary setting screen
      */
@@ -177,22 +177,30 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
      */
     protected abstract void populateBCAFLines();
-    
+
     /**
-     * Gets the budgetConstructionDetail attribute. 
+     * Gets the budgetConstructionDetail attribute.
+     * 
      * @return Returns the budgetConstructionDetail.
      */
     public abstract BudgetConstructionDetail getBudgetConstructionDetail();
+    
+    /**
+     * get the refresh caller name of the current form
+     * 
+     * @return the refresh caller name of the current form
+     */
+    public abstract String getRefreshCallerName();
 
     /**
      * Populates the dependent fields of objects contained within the BCAF line
      */
     protected void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         appointmentFunding.refreshNonUpdateableReferences();
-        
+
         this.addBCAFLineToTotals(appointmentFunding);
     }
-    
+
     /**
      * add the given appointment funding to the totals
      * 
@@ -205,28 +213,28 @@ public abstract class DetailSalarySettingForm extends KualiForm {
             if (csfAmount != null) {
                 setBcsfCsfAmountTotal(getBcsfCsfAmountTotal().add(csfAmount));
             }
-                        
+
             BigDecimal csfTimePercent = csfTrackers.get(0).getCsfTimePercent();
             if (csfTimePercent != null) {
                 setBcsfCsfTimePercentTotal(getBcsfCsfTimePercentTotal().add(csfTimePercent));
             }
-            
+
             BigDecimal csfFteTotal = csfTrackers.get(0).getCsfFullTimeEmploymentQuantity();
             if (csfFteTotal != null) {
                 setBcsfCsfFullTimeEmploymentQuantityTotal(getBcsfCsfFullTimeEmploymentQuantityTotal().add(csfFteTotal));
             }
         }
-        
+
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         if (requestedAmount != null) {
             setBcafAppointmentRequestedAmountTotal(getBcafAppointmentRequestedAmountTotal().add(requestedAmount));
         }
-        
+
         BigDecimal requestedTimePercent = appointmentFunding.getAppointmentRequestedTimePercent();
         if (requestedTimePercent != null) {
             setBcafAppointmentRequestedTimePercentTotal(getBcafAppointmentRequestedTimePercentTotal().add(requestedTimePercent));
         }
-        
+
         BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
         if (requestedFteQuantity != null) {
             setBcafAppointmentRequestedFteQuantityTotal(getBcafAppointmentRequestedFteQuantityTotal().add(requestedFteQuantity));
@@ -236,20 +244,21 @@ public abstract class DetailSalarySettingForm extends KualiForm {
         if (requestedCsfAmount != null) {
             setBcafAppointmentRequestedCsfAmountTotal(getBcafAppointmentRequestedCsfAmountTotal().add(requestedCsfAmount));
         }
-        
+
         BigDecimal requestedCsfTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent();
         if (requestedCsfTimePercent != null) {
             setBcafAppointmentRequestedCsfTimePercentTotal(getBcafAppointmentRequestedCsfTimePercentTotal().add(requestedCsfTimePercent));
         }
-        
+
         BigDecimal requestedCsfFteQuantity = appointmentFunding.getAppointmentRequestedCsfFteQuantity();
         if (requestedCsfFteQuantity != null) {
             setBcafAppointmentRequestedCsfFteQuantityTotal(getBcafAppointmentRequestedCsfFteQuantityTotal().add(requestedCsfFteQuantity));
         }
     }
-    
+
     /**
      * calculate the standard working hours through the given time percent
+     * 
      * @param timePercent the given time percent
      * @return the standard working hour calculated from the given time percent
      */

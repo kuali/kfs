@@ -17,6 +17,7 @@ package org.kuali.module.budget.web.struts.form;
 
 import java.util.List;
 
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionDetail;
 import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
@@ -71,5 +72,13 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     @Override
     public BudgetConstructionDetail getBudgetConstructionDetail() {
         return this.getBudgetConstructionIntendedIncumbent();
+    }
+
+    /**
+     * @see org.kuali.module.budget.web.struts.form.DetailSalarySettingForm#getRefreshCallerName()
+     */
+    @Override
+    public String getRefreshCallerName() {
+        return BCConstants.INCUMBENT_SALARY_SETTING_REFRESH_CALLER;
     }
 }

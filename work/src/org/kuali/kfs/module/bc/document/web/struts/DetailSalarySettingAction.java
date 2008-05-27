@@ -15,11 +15,6 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +27,7 @@ import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
@@ -43,20 +36,19 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.DetailSalarySettingForm;
 import org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm;
-import org.kuali.module.budget.web.struts.form.PositionSalarySettingForm;
 
 /**
  * the base struts action for the salary setting
  */
 public abstract class DetailSalarySettingAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
-    
+
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -85,11 +77,11 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        
+
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
         if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(currentUser, bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            
+
             throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
         }
     }
@@ -97,23 +89,11 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     /**
      * This action loads the data for the expansion screen based on the passed in url parameters
      */
-    public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public abstract ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-        IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
-        // use the passed url parms to get the record from DB
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("emplid", incumbentSalarySettingForm.getEmplid());
-
-        BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = (BudgetConstructionIntendedIncumbent) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, fieldValues);
-        if (budgetConstructionIntendedIncumbent == null) {
-            // TODO this is an RI error need to report it
-        }
-        incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
-        incumbentSalarySettingForm.populateBCAFLines();
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
+    /**
+     * save the information in the current form into underlying data store
+     */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         IncumbentSalarySettingForm tForm = (IncumbentSalarySettingForm) form;
@@ -122,35 +102,38 @@ public abstract class DetailSalarySettingAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * close the salary setting and return to the caller
+     */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // TODO need prompt to save? added
-        IncumbentSalarySettingForm tForm = (IncumbentSalarySettingForm) form;
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
-        if (tForm.isBudgetByAccountMode()) {
+        if (salarySettingForm.isBudgetByAccountMode()) {
             return returnToCaller(mapping, form, request, response);
         }
         else {
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-            tForm.setOrgSalSetClose(true);
+            salarySettingForm.setOrgSalSetClose(true);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
 
+    /**
+     * return to the caller screen
+     */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO this will eventually be spit out into close and save methods, with close calling this method
-
-        IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
-        BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = incumbentSalarySettingForm.getBudgetConstructionIntendedIncumbent();
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
         // TODO validate and store changes
 
         // setup the return parms for the document and anchor
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, incumbentSalarySettingForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, incumbentSalarySettingForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.INCUMBENT_SALARY_SETTING_REFRESH_CALLER);
+        parameters.put(KFSConstants.DOC_FORM_KEY, salarySettingForm.getReturnFormKey());
+        parameters.put(KFSConstants.ANCHOR, salarySettingForm.getReturnAnchor());
+        parameters.put(KFSConstants.REFRESH_CALLER, salarySettingForm.getRefreshCallerName());
 
         String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
@@ -162,8 +145,8 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
-        IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
         // Do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be lookupable or reasoncode??
         // need to look at optmistic locking problems since we will be storing the values in the form before hand
@@ -178,8 +161,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
         // returning from account lookup sets refreshcaller to accountLookupable, due to setting in account.xml
         // if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
         if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))) {
-            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionPosition", "budgetConstructionDuration" }));
-            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(incumbentSalarySettingForm.getNewBCAFLine(), REFRESH_FIELDS);
+            salarySettingForm.getNewBCAFLine().refreshNonUpdateableReferences();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -192,7 +174,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         salarySettingForm.setHideDetails(false);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -203,7 +185,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         salarySettingForm.setHideDetails(true);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -211,19 +193,18 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      * This action adds an appointment funding line to the set of existing funding lines
      */
     public ActionForward insertBCAFLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;        
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Salary Setting Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * This action creates a new funding line based on the selected line and sets the emplid to vacant then marks the selected line
      * delete.
      */
     public ActionForward performVacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Vacate Salary Setting Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

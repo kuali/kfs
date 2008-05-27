@@ -170,10 +170,35 @@
           <property name="summaryTitle" value="Asset Location" />
           <property name="summaryFields" >
             <list>
+               <bean parent="MaintainableFieldDefinition"
+                    p:name="campusCode"
+                    p:required="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="campusCode" />
+                    p:name="buildingCode"
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="buildingCode" />
+                    p:name="buildingRoomNumber"
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="buildingSubRoomNumber" 
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusName"
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusAddress"
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusCityName"
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusStateCode"
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusZipCode"
+                    p:required="false" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="offCampusCountryCode" />
             </list>
           </property>
           <property name="maintainableFields" >
@@ -207,6 +232,10 @@
                     p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="offCampusCountryCode" />
+               <bean parent="MaintainableFieldDefinition"
+                    p:name="locationQuantity"
+                    p:required="true"
+                     />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"
@@ -246,7 +275,8 @@
                     <bean parent="MaintainableFieldDefinition"
                           p:name="versionNumber" />
 					<bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />                           
+                    	  p:name="newCollectionRecord"
+                    	  p:defaultValue="true" />                           
                   </list>
                 </property>
               </bean>

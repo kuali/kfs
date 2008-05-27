@@ -22,7 +22,8 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 
 public class AssetConditionValuesFinder extends KeyValuesBase {
-
+    // The list is hard coded to achieve this specific order of display
+    // Bad thing is when new record is added to database it wont reflect here
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("E", "E - Excellent"));

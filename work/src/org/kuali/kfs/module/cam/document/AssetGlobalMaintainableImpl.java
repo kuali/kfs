@@ -18,12 +18,16 @@ package org.kuali.module.cams.maintenance;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
@@ -45,28 +49,45 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        /*
-         * AssetGlobalDetail addAssetLine = (AssetGlobalDetail) newCollectionLines.get(collectionName);
-         * addAssetLine.setNewCollectionRecord(true); Collection maintCollection = (Collection)
-         * ObjectUtils.getPropertyValue(getBusinessObject(), collectionName); maintCollection.add(addAssetLine);
-         */
-
-        // super.addNewLineToCollection(collectionName);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equalsIgnoreCase(collectionName)) {
-            AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
-            if (assetPaymentDetail != null) {
-                assetPaymentDetail.setFinancialDocumentLineNumber(assetGlobal.incrementFinancialDocumentLineNumber());
-            }
+            handAssetPaymentsCollection(collectionName, assetGlobal);
         }
+        if (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS.equalsIgnoreCase(collectionName)) {
+            handleAssetSharedDetailsCollection(collectionName);
+        }
+
         int pos = assetGlobal.getAssetSharedDetails().size() - 1;
         if (pos > -1 && (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + pos + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equalsIgnoreCase(collectionName)) {
-            AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
-            if (assetGlobalDetail != null) {
-                assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-            }
+            handleAssetUniqueCollection(collectionName);
         }
         super.addNewLineToCollection(collectionName);
+    }
+
+    private void handleAssetUniqueCollection(String collectionName) {
+        AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
+        if (assetGlobalDetail != null) {
+            assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+        }
+    }
+
+    private void handleAssetSharedDetailsCollection(String collectionName) {
+        AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
+        Integer locationQuantity = assetGlobalDetail.getLocationQuantity();
+        while (locationQuantity != null && locationQuantity > 0) {
+            AssetGlobalDetail newAssetUnique = new AssetGlobalDetail();
+            newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+            assetGlobalDetail.getAssetGlobalUniqueDetails().add(newAssetUnique);
+            newAssetUnique.setNewCollectionRecord(true);
+            locationQuantity--;
+        }
+    }
+
+    private void handAssetPaymentsCollection(String collectionName, AssetGlobal assetGlobal) {
+        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
+        if (assetPaymentDetail != null) {
+            assetPaymentDetail.setFinancialDocumentLineNumber(assetGlobal.incrementFinancialDocumentLineNumber());
+        }
     }
 
     /**
@@ -102,6 +123,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
         AssetGlobalDetail newAssetGlobalDetail = null;
+        // clear existing entries
+        clearExistingEntries(assetGlobal);
         if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
             assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber());
 
@@ -128,11 +151,16 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         // 1. Determine the asset financial object sub type code based on the first payment record
         // 2. Determine the depreciation convention using asset financial object sub type code
         // 3. Compute the in-service date and depreciation date
-
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setAssetGlobalDetails(newDetails);
+    }
 
-
+    private void clearExistingEntries(AssetGlobal assetGlobal) {
+        LOG.debug("Clearing Global Details, before saving new state");
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, assetGlobal.getDocumentNumber());
+        boService.deleteMatching(AssetGlobalDetail.class, params);
     }
 
 
@@ -153,6 +181,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 locationMap.put(key, currLocationDetail);
             }
             currLocationDetail.getAssetGlobalUniqueDetails().add(copyValue);
+            currLocationDetail.setLocationQuantity(currLocationDetail.getAssetGlobalUniqueDetails().size());
         }
         assetGlobal.getAssetSharedDetails().clear();
         assetGlobal.getAssetSharedDetails().addAll(locationMap.values());
@@ -160,16 +189,30 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     private String generateLocationKey(AssetGlobalDetail location) {
         StringBuilder builder = new StringBuilder();
-        builder.append(location.getCampusCode() == null ? "" : location.getCampusCode().toLowerCase().trim());
-        builder.append(location.getBuildingCode() == null ? "" : location.getBuildingCode().toLowerCase().trim());
-        builder.append(location.getBuildingRoomNumber() == null ? "" : location.getBuildingRoomNumber().toLowerCase().trim());
-        builder.append(location.getBuildingSubRoomNumber() == null ? "" : location.getBuildingSubRoomNumber().toLowerCase().trim());
-        builder.append(location.getOffCampusName() == null ? "" : location.getOffCampusName().toLowerCase().trim());
-        builder.append(location.getOffCampusAddress() == null ? "" : location.getOffCampusAddress().toLowerCase().trim());
-        builder.append(location.getOffCampusCityName() == null ? "" : location.getOffCampusCityName().toLowerCase().trim());
-        builder.append(location.getOffCampusStateCode() == null ? "" : location.getOffCampusStateCode().toLowerCase().trim());
-        builder.append(location.getOffCampusCountryCode() == null ? "" : location.getOffCampusCountryCode().toLowerCase().trim());
-        builder.append(location.getOffCampusZipCode() == null ? "" : location.getOffCampusZipCode().toLowerCase().trim());
+        builder.append(location.getCampusCode() == null ? "" : location.getCampusCode().trim().toLowerCase());
+        builder.append(location.getBuildingCode() == null ? "" : location.getBuildingCode().trim().toLowerCase());
+        builder.append(location.getBuildingRoomNumber() == null ? "" : location.getBuildingRoomNumber().trim().toLowerCase());
+        builder.append(location.getBuildingSubRoomNumber() == null ? "" : location.getBuildingSubRoomNumber().trim().toLowerCase());
+        builder.append(location.getOffCampusName() == null ? "" : location.getOffCampusName().trim().toLowerCase());
+        builder.append(location.getOffCampusAddress() == null ? "" : location.getOffCampusAddress().trim().toLowerCase());
+        builder.append(location.getOffCampusCityName() == null ? "" : location.getOffCampusCityName().trim().toLowerCase());
+        builder.append(location.getOffCampusStateCode() == null ? "" : location.getOffCampusStateCode().trim().toLowerCase());
+        builder.append(location.getOffCampusZipCode() == null ? "" : location.getOffCampusZipCode().trim().toLowerCase());
+        builder.append(location.getOffCampusCountryCode() == null ? "" : location.getOffCampusCountryCode().trim().toLowerCase());
         return builder.toString();
+    }
+
+    @Override
+    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterPost(document, parameters);
+        // adjust the quantity
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
+        if (!assetSharedDetails.isEmpty()) {
+            for (AssetGlobalDetail assetGlobalDetail : assetSharedDetails) {
+                assetGlobalDetail.setLocationQuantity(assetGlobalDetail.getAssetGlobalUniqueDetails().size());
+            }
+
+        }
     }
 }

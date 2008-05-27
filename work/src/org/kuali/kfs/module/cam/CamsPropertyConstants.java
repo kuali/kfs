@@ -275,6 +275,7 @@ public class CamsPropertyConstants {
         public static String OFF_CAMPUS_COUNTRY_CODE = "offCampusCountryCode";
         public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
+        public static final String DOCUMENT_NUMBER = "documentNumber";
 
     }
 }

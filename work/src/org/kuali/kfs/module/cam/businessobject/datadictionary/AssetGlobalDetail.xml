@@ -367,8 +367,8 @@
   <bean id="AssetGlobalDetail-locationQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="locationQuantity" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Location Quantity" />
-    <property name="shortLabel" value="qty" />
+    <property name="label" value="Quantity Of Assets To Be Created" />
+    <property name="shortLabel" value="Qty" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

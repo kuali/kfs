@@ -521,13 +521,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     public LaborLedgerObject getLaborObject() {
         if (laborObject == null) {
-            Map pkeys = new HashMap();
-            pkeys.put("universityFiscalYear", getUniversityFiscalYear());
-            pkeys.put("chartOfAccountsCode", getChartOfAccountsCode());
-            pkeys.put("financialObjectCode", getFinancialObjectCode());
-            
-            setLaborObject((LaborLedgerObject) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SpringContext.getBean(LaborModuleService.class).getLaborLedgerObjectClass(), pkeys));
-
+            setLaborObject(SpringContext.getBean(LaborModuleService.class).retrieveLaborLedgerObject(getUniversityFiscalYear(), getChartOfAccountsCode(), getFinancialObjectCode()));
         }
         return laborObject;
     }
@@ -548,13 +542,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     public List<LaborLedgerPositionObjectBenefit> getPositionObjectBenefit() {
         if (positionObjectBenefit == null) {
-            Map fieldValues = new HashMap();
-            fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-            fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-            fieldValues.put("financialObjectCode", getFinancialObjectCode());
-
-            setPositionObjectBenefit((List<LaborLedgerPositionObjectBenefit>) SpringContext.getBean(BusinessObjectService.class).findMatching(SpringContext.getBean(LaborModuleService.class).getLaborLedgerPositionObjectBenefitClass(), fieldValues));
-
+            setPositionObjectBenefit((List<LaborLedgerPositionObjectBenefit>) SpringContext.getBean(LaborModuleService.class).retrieveLaborPositionObjectBenefits(getUniversityFiscalYear(), getChartOfAccountsCode(), getFinancialObjectCode()));
         }
         return positionObjectBenefit;
     }

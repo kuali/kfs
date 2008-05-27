@@ -113,6 +113,7 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
             }
             customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
             
+            // TODO: this is not right
             docNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
             customerCreditMemoDetail.setDocumentNumber(docNumber);
             

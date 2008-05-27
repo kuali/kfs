@@ -16,8 +16,10 @@
 package org.kuali.module.budget.dao.jdbc;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.lang.StringBuilder;
 import java.lang.Exception;
+import java.sql.Date;
 
 import org.kuali.kfs.service.ParameterService;
 
@@ -44,6 +46,7 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
     
     private  StringBuilder[] oracleSubString = {new StringBuilder("SUBSTR("),new StringBuilder(","),new StringBuilder(","), new StringBuilder(")")};
     private  StringBuilder[] ansi92SubString = {new StringBuilder("SUBSTRING("),new StringBuilder(" FROM "), new StringBuilder(" FOR "), new StringBuilder(")")};
+    private  String          dateFetcher     = new String("SELECT MIN(UNIV_DT) FROM SH_UNIV_DATE_T WHERE (UNIV_FISCAL_YR = ?)");
     
     @RawSQL
     protected void clearTempTableByUnvlId(String tableName, String personUnvlIdColumn, String personUserIdentifier) {
@@ -87,7 +90,7 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @return an empty string if the IN list will be empty
      */
     @RawSQL
-    private String inString (ArrayList<String> inListValues)
+    protected String inString (List<String> inListValues)
     {
         // the delimiter for strings in the DB is assumed to be a single quote.
         // this is the ANSI-92 standard.
@@ -112,6 +115,17 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         inBuilder.append("')");
         
         return inBuilder.toString();
+    }
+    
+    /**
+     * 
+     * given a fiscal year, get the first day of that fiscal year
+     * @param universityFiscalYear = fiscal year (must be in the table)
+     * @return the date on which the fiscal year passed as a parameter starts
+     */
+    protected Date getFiscalYearStartDate(Integer universityFiscalYear)
+    {
+        return getSimpleJdbcTemplate().queryForObject(dateFetcher, Date.class, universityFiscalYear);
     }
 
     /**

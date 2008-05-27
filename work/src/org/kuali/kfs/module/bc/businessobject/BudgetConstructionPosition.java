@@ -33,10 +33,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
-/**
- * 
- */
-public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
+
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements BudgetConstructionDetail{
 
     private String positionNumber;
     private Integer universityFiscalYear;
@@ -79,7 +77,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
     }
 
-
     /**
      * Computes the positionFullTimeEquivalency attribute.
      * 
@@ -87,14 +84,14 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      */
     public static BigDecimal getCalculatedBCPositionFTE(BigDecimal positionStandardHoursDefault, Integer iuNormalWorkMonths, Integer iuPayMonths) {
         if (iuPayMonths > 0) {
-            BigDecimal temp1 = positionStandardHoursDefault.divide(new BigDecimal(40), 4, KualiDecimal.ROUND_BEHAVIOR);
+            BigDecimal temp1 = positionStandardHoursDefault.divide(BCConstants.STANDARD_WEEKLY_WORK_HOUR, 4, KualiDecimal.ROUND_BEHAVIOR);
             BigDecimal temp2 = new BigDecimal(iuNormalWorkMonths).divide(new BigDecimal(iuPayMonths), 4, KualiDecimal.ROUND_BEHAVIOR);
             BigDecimal result = temp1.multiply(temp2);
             result = result.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
             return result;
         }
         else {
-            return BigDecimal.valueOf(0.0);
+            return BigDecimal.ZERO;
         }
     }
 

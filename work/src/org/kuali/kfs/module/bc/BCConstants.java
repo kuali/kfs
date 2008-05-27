@@ -15,11 +15,13 @@
  */
 package org.kuali.module.budget;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.core.JstlConstants;
+import org.kuali.core.util.KualiDecimal;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -342,4 +344,7 @@ public class BCConstants extends JstlConstants {
 
     public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
     
+    public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
+    public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL = STANDARD_WEEKLY_WORK_HOUR.divide(ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
 }

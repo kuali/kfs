@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationType;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
@@ -44,27 +45,63 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.module.budget.web.struts.form.DetailSalarySettingForm;
 import org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm;
+import org.kuali.module.budget.web.struts.form.PositionSalarySettingForm;
 
+/**
+ * the base struts action for the salary setting
+ */
+public abstract class DetailSalarySettingAction extends KualiAction {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
 
-public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingAction.class);
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+
+        // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
+        // since BC sets locks up front, but need to verify this
+
+        // TODO form.populateAuthorizationFields(budgetConstructionDocumentAuthorizer) would normally happen here
+        // but each line needs to be authorized, so need to figure out how to implement this
+
+        // TODO should probably use service locator and call
+        // DocumentAuthorizer documentAuthorizer =
+        // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
+        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
+        salarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
+
+        return forward;
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     */
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
+        
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(currentUser, bcAuthorizationType)) {
+            LOG.error("User not authorized to use this action: " + this.getClass().getName());
+            
+            throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
+        }
+    }
 
     /**
      * This action loads the data for the expansion screen based on the passed in url parameters
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
         // use the passed url parms to get the record from DB
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("emplid", incumbentSalarySettingForm.getEmplid());
 
         BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = (BudgetConstructionIntendedIncumbent) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, fieldValues);
@@ -144,6 +181,70 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionPosition", "budgetConstructionDuration" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(incumbentSalarySettingForm.getNewBCAFLine(), REFRESH_FIELDS);
         }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show
+     * all of the descriptions and labels for each of the pbgl line values.
+     */
+    public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+        salarySettingForm.setHideDetails(false);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action toggles the value of the hide field in the user interface to "hide" so that when the page is rendered, the UI
+     * displays values without all of the descriptions and labels for each of the pbgl lines.
+     */
+    public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+        salarySettingForm.setHideDetails(true);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action adds an appointment funding line to the set of existing funding lines
+     */
+    public ActionForward insertBCAFLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;        
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Salary Setting Line");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This action creates a new funding line based on the selected line and sets the emplid to vacant then marks the selected line
+     * delete.
+     */
+    public ActionForward performVacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Vacate Salary Setting Line");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action sets the request amount using the CSF amount adjusted by a percent or flat rate
+     */
+    public ActionForward performPercentAdjustmentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Percent Adjustment For Salary Setting Line");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This displays the reason code screen for the selected funding line
+     */
+    public ActionForward performReasonAnnotation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Reason Annotation For Salary Setting Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

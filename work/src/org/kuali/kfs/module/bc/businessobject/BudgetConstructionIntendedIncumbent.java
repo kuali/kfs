@@ -23,12 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
 
-/**
- * 
- */
-public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase {
+public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements BudgetConstructionDetail {
 
     private String emplid;
     private String personName;
@@ -37,16 +33,15 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     private String grade;
     private String iuClassificationLevel;
 
-    private List budgetConstructionSalarySocialSecurity;
-    private List pendingBudgetConstructionAppointmentFunding;
+    private List<BudgetConstructionSalarySocialSecurityNumber> budgetConstructionSalarySocialSecurity;
+    private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
 
     /**
      * Default constructor.
      */
     public BudgetConstructionIntendedIncumbent() {
-        budgetConstructionSalarySocialSecurity = new ArrayList();
-        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
-
+        budgetConstructionSalarySocialSecurity = new ArrayList<BudgetConstructionSalarySocialSecurityNumber>();
+        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
     }
 
     /**
@@ -162,12 +157,13 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
         this.iuClassificationLevel = iuClassificationLevel;
     }
 
+
     /**
      * Gets the budgetConstructionSalarySocialSecurity attribute.
      * 
      * @return Returns the budgetConstructionSalarySocialSecurity.
      */
-    public List getBudgetConstructionSalarySocialSecurity() {
+    public List<BudgetConstructionSalarySocialSecurityNumber> getBudgetConstructionSalarySocialSecurity() {
         return budgetConstructionSalarySocialSecurity;
     }
 
@@ -176,7 +172,8 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      * 
      * @param budgetConstructionSalarySocialSecurity The budgetConstructionSalarySocialSecurity to set.
      */
-    public void setBudgetConstructionSalarySocialSecurity(List budgetConstructionSalarySocialSecurity) {
+    @Deprecated
+    public void setBudgetConstructionSalarySocialSecurity(List<BudgetConstructionSalarySocialSecurityNumber> budgetConstructionSalarySocialSecurity) {
         this.budgetConstructionSalarySocialSecurity = budgetConstructionSalarySocialSecurity;
     }
 
@@ -185,7 +182,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      * 
      * @return Returns the pendingBudgetConstructionAppointmentFunding.
      */
-    public List getPendingBudgetConstructionAppointmentFunding() {
+    public List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFunding() {
         return pendingBudgetConstructionAppointmentFunding;
     }
 
@@ -193,9 +190,9 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
      * 
      * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
-     * @deprecated
      */
-    public void setPendingBudgetConstructionAppointmentFunding(List pendingBudgetConstructionAppointmentFunding) {
+    @Deprecated
+    public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
     }
 
@@ -231,6 +228,4 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
         m.put("emplid", this.emplid);
         return m;
     }
-
-
 }

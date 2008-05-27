@@ -452,18 +452,16 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
         line.setPositionNumber(bcPosn.getPositionNumber());
         line.setAppointmentFundingDeleteIndicator(false);
         line.setAppointmentFundingMonth(bcPosn.getIuNormalWorkMonths());
-        line.setAppointmentRequestedAmount(new KualiInteger(0));
+        line.setAppointmentRequestedAmount(KualiInteger.ZERO);
         line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
-        line.setAppointmentRequestedCsfAmount(new KualiInteger(BigDecimal.ZERO));
+        line.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
         line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-        line.setAppointmentTotalIntendedAmount(new KualiInteger(BigDecimal.ZERO));
+        line.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
         line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR));
-
-
     }
 
     /**

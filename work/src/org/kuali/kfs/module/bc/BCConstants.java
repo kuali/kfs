@@ -339,5 +339,7 @@ public class BCConstants extends JstlConstants {
     
     public final static String POSITION_CODE_INACTIVE = "I";   
     public final static String DOCUMENT_TYPE_CODE_ALL = "ALL";
+
+    public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
     
 }

@@ -37,6 +37,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 
 /**
  * This class provides a set of facilities that can be used to manipulate objects, for example, object population
@@ -140,6 +141,9 @@ public class ObjectUtil {
         if (type.equals("Integer")) {
             realPropertyValue = isInteger(propertyValue) ? Integer.valueOf(propertyValue) : null;
         }
+        if (type.equals("KualiInteger")) {
+            realPropertyValue = isInteger(propertyValue) ? new KualiInteger(propertyValue) : null;
+        }
         else if (type.equalsIgnoreCase("Boolean")) {
             realPropertyValue = Boolean.valueOf(propertyValue);
         }
@@ -183,6 +187,11 @@ public class ObjectUtil {
         return value != null && value.matches(pattern);
     }
 
+    /**
+     * convert the given string into a date
+     * @param value the given string
+     * @return a date converted from the given string
+     */
     public static Date formatDate(String value) {
         Date formattedDate = null;
 
@@ -195,6 +204,11 @@ public class ObjectUtil {
         return formattedDate;
     }
 
+    /**
+     * convert the given string into a timestamp object if the string is in the valid format of timestamp 
+     * @param value the given string
+     * @return a timestamp converted from the given string
+     */
     public static Timestamp formatTimeStamp(String value) {
         Timestamp formattedTimestamp = null;
 

@@ -34,7 +34,6 @@ import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.AssetRetirementReason;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.fixture.AssetTransferFixture;
 import org.kuali.test.ConfigureContext;
@@ -49,26 +48,6 @@ public class AssetTransferServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         assetTransferService = SpringContext.getBean(AssetTransferService.class);
-    }
-
-    @SuppressWarnings("deprecation")
-    public void testIsTransferable_RetiredAsset() throws Exception {
-        assertNotNull(assetTransferService);
-        AssetTransferDocument document = new AssetTransferDocument();
-        Asset newAsset = AssetTransferFixture.RETIRED_ASSET.newAsset();
-        AssetRetirementReason reason = new AssetRetirementReason();
-        reason.setRetirementReasonCode(newAsset.getRetirementReasonCode());
-        reason.setRetirementReasonName("Test Retired");
-        newAsset.setRetirementReason(reason);
-        document.setAsset(newAsset);
-        assertFalse(this.assetTransferService.isTransferable(document));
-    }
-
-    public void testIsTransferable_Success() throws Exception {
-        assertNotNull(assetTransferService);
-        AssetTransferDocument document = AssetTransferFixture.ASSET_TRANSFER.newAssetTransferDocument();
-        document.setAsset(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset());
-        assertTrue(this.assetTransferService.isTransferable(document));
     }
 
 

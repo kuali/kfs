@@ -24,12 +24,10 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
@@ -39,7 +37,6 @@ import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.rules.AssetTransferDocumentRule;
 import org.kuali.module.cams.service.AssetObjectCodeService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
@@ -362,24 +359,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
         // Payment transfer code is not "Y", Financial Object Code is active for the Payment and is not a Federal Contribution
         return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && getAssetPaymentService().isPaymentFinancialObjectActive(assetPayment) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
-    }
-
-
-    /**
-     * @see org.kuali.module.cams.service.AssetTransferService#isTransferable(org.kuali.module.cams.document.AssetTransferDocument)
-     */
-    public boolean isTransferable(AssetTransferDocument document) {
-        Asset asset = document.getAsset();
-        boolean transferable = true;
-        if (assetService.isAssetRetired(asset)) {
-            transferable &= false;
-            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
-        }
-        if (transferable && getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
-            transferable &= false;
-            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
-        }
-        return transferable;
     }
 
 

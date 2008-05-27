@@ -60,11 +60,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-
-        if (getAssetService().isAssetLocked(assetTransferDocument.getDocumentNumber(), assetTransferDocument.getAssetHeader().getCapitalAssetNumber())) {
-            return false;
-        }
-
         if (checkReferencesExist(assetTransferDocument)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
             if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
@@ -81,13 +76,17 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-
-        if (getAssetService().isAssetLocked(assetTransferDocument.getDocumentNumber(), assetTransferDocument.getAssetHeader().getCapitalAssetNumber())) {
-            return false;
+        Asset asset = assetTransferDocument.getAsset();
+        boolean valid = true;
+        if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
+        }
+        if (valid && SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
         }
 
-        boolean valid = true;
-        valid &= SpringContext.getBean(AssetTransferService.class).isTransferable(assetTransferDocument);
         valid &= applyRules(document);
         return valid;
     }

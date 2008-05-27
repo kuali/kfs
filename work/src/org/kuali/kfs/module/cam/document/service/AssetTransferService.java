@@ -38,10 +38,4 @@ public interface AssetTransferService {
     void createGLPostables(AssetTransferDocument document);
 
 
-    /**
-     * Validates if asset can be transferred or not
-     * <li>Checks for any active documents working on this asset, returns false if any pending documents for asset is found</li>
-     * <li>Checks if asset is active or not, returns false when not active</li>
-     */
-    boolean isTransferable(AssetTransferDocument document);
 }

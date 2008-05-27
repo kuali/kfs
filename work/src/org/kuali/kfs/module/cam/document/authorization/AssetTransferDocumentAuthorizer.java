@@ -19,8 +19,13 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
+import org.kuali.module.cams.rules.AssetTransferDocumentRule;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
 
 public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
@@ -41,8 +46,18 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
+        Asset asset = assetTransferDocument.getAsset();
+        boolean transferable = true;
+        if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
+            transferable &= false;
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
+        }
+        if (transferable && SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+            transferable &= false;
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
+        }
         // Disable the buttons, if not transferable
-        if (!SpringContext.getBean(AssetTransferService.class).isTransferable(assetTransferDocument)) {
+        if (!transferable) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);

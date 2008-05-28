@@ -1093,6 +1093,7 @@
         </bean>
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.module.vendor.maintenance.VendorInquirable" />    
   </bean>
 
 <!-- Business Object Lookup Definition -->

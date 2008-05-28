@@ -122,6 +122,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
                 newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
                 newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
+                boolean foundAddress = false;
                 for (VendorAddress address : newVendor.getVendorAddresses()) {
                     if (AddressTypes.QUOTE.equals(address.getVendorAddressTypeCode())) {
                         newPOVendorQuote.setVendorCityName(address.getVendorCityName());
@@ -130,10 +131,19 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         newPOVendorQuote.setVendorLine2Address(address.getVendorLine2Address());
                         newPOVendorQuote.setVendorPostalCode(address.getVendorZipCode());
                         newPOVendorQuote.setVendorStateCode(address.getVendorStateCode());
+                        foundAddress = true;
                         break;
                     }
                 }
-
+                if (!foundAddress) {
+                    newPOVendorQuote.setVendorCityName(newVendor.getDefaultAddressCity());
+                    newPOVendorQuote.setVendorCountryCode(newVendor.getDefaultAddressCountryCode());
+                    newPOVendorQuote.setVendorLine1Address(newVendor.getDefaultAddressLine1());
+                    newPOVendorQuote.setVendorLine2Address(newVendor.getDefaultAddressLine2());
+                    newPOVendorQuote.setVendorPostalCode(newVendor.getDefaultAddressPostalCode());
+                    newPOVendorQuote.setVendorStateCode(newVendor.getDefaultAddressStateCode());
+                }
+                
                 String tmpPhoneNumber = null;
                 for (VendorPhoneNumber phone : newVendor.getVendorPhoneNumbers()) {
                     if (VendorConstants.PhoneTypes.PO.equals(phone.getVendorPhoneTypeCode())) {

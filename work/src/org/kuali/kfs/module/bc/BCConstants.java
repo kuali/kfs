@@ -89,6 +89,12 @@ public class BCConstants extends JstlConstants {
         }
     }
     
+    // type of month spread delete used in rules checking when deleting monthly spreads
+    public enum MonthSpreadDeleteType {
+        NONE, REVENUE, EXPENDITURE
+    }
+    
+    // the reason a document (account) is allowed only salary setting lines
     public enum AccountSalarySettingOnlyCause {
         MISSING_PARAM, NONE, FUND, SUBFUND, FUND_AND_SUBFUND 
     }

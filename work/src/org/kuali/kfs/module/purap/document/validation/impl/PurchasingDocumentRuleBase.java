@@ -802,7 +802,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item, boolean apoCheck) {
         PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        return validateItemCapitalAsset(purDocument, purchasingItem, false);
+        //FIXME CAMS - hiding this validation for now until the CAMS tab is created (hjs)
+//        return validateItemCapitalAsset(purDocument, purchasingItem, false);
+        return true;
     }
     
     /**
@@ -819,7 +821,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateItemCapitalAssetWithWarnings(PurchasingAccountsPayableDocument purapDocument, PurApItem item) {
         PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        return validateItemCapitalAsset(purDocument, purchasingItem, true);
+        //FIXME CAMS - hiding this validation for now until the CAMS tab is created (hjs)
+//        return validateItemCapitalAsset(purDocument, purchasingItem, true);
+        return true;
     }
     
     /**

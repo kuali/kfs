@@ -17,6 +17,7 @@ package org.kuali.module.budget.service;
 
 import java.util.Collection;
 
+import org.kuali.module.budget.bo.BudgetConstructionAccountMonthlyDetailReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgObjectSummaryReport;
 
 /**
@@ -24,14 +25,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgObjectSummaryReport;
  */
 public interface BudgetConstructionAccountMonthlyDetailReportService {
 
-    /**
-     * updates account summary table.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void updateObjectSummaryReport(String personUserIdentifier);
-
+    
     /**
      * 
      * builds BudgetConstructionLevelSummaryReports
@@ -40,6 +34,6 @@ public interface BudgetConstructionAccountMonthlyDetailReportService {
      * @param accountSummaryList
      * @return Collection
      */
-    public Collection<BudgetConstructionOrgObjectSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionAccountMonthlyDetailReport> buildReports(String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     
 }

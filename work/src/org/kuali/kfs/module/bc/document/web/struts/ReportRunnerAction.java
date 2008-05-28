@@ -16,11 +16,18 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRParameter;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -34,15 +41,17 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ReportGeneration;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ReportGenerationService;
 import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BudgetConstructionDocumentReportMode;
+import org.kuali.module.budget.service.BudgetConstructionAccountMonthlyDetailReportService;
+import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
 import org.kuali.module.budget.web.struts.form.ReportRunnerForm;
 
 /**
  * Action class to display document reports and dumps menu
  */
 public class ReportRunnerAction extends KualiAction {
-
+    
     /**
      * Handles any special onetime setup when called from another screen action
      * 
@@ -116,22 +125,59 @@ public class ReportRunnerAction extends KualiAction {
         // TODO add calls to services here. We need the build/clean for the account object detail report mt table and method(s)
         // to call the account object, funding, monthly reports
         // and method to call the dump screen for the account,funding and month dump.
-
+        
+        Collection reportSet = new ArrayList();
+        String jasperFileName;
         switch (selectIndex) {
+            
             case 0: {
+                jasperFileName = "";
             }
 
             
             case 1: {
+                jasperFileName = "";
             }
             
             
             case 2: {
+                jasperFileName = "BudgetAccountMonthlyDetail";
+                reportSet = SpringContext.getBean(BudgetConstructionAccountMonthlyDetailReportService.class).buildReports(reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 
+                ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
+                Map<String, Object> reportData = new HashMap<String, Object>();
+                reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
                 
+                SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
+                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
             }
+            case 3:{
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                baos.write("we are running report: ".getBytes());
+                baos.write(reportModeName.getBytes());
+                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+            }
+                
+            case 4: {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                baos.write("we are running report: ".getBytes());
+                baos.write(reportModeName.getBytes());
+                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+            }
+                
+            case 5: {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                baos.write("we are running report: ".getBytes());
+                baos.write(reportModeName.getBytes());
+                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+            }
+                
         }
 
+        
+        
 
         // for report dumps foward to dump action to display formatting screen
         // if (reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).dump) {
@@ -142,10 +188,7 @@ public class ReportRunnerAction extends KualiAction {
         // TODO call method to build mt and/or render the report
         // stuff below is just to test output works.
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write("we are running report: ".getBytes());
-        baos.write(reportModeName.getBytes());
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+        
         return null;
     }
 

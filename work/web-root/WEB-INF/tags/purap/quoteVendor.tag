@@ -106,7 +106,7 @@
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCityName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCityName" 
-                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
+                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" /> / 
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorStateCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorStateCode" 
                 readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
             </td>
@@ -119,7 +119,7 @@
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPostalCode" 
-                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
+                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" /> / 
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCountryCode" 
                 readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
             </td>
@@ -180,8 +180,9 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatusCode" 
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatus.statusDescription" 
                 readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
+                <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatusCode" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" />

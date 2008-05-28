@@ -39,6 +39,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -50,9 +51,12 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.validation.AccountingLineValueAllowedValidation;
+import org.kuali.kfs.validation.Validation;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
+import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
@@ -113,11 +117,11 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
 
     public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
+        testAddAccountingLineRule_IsObjectTypeAllowed(getInvalidObjectTypeSourceLine(), false);
     }
 
     public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectTypeAllowed(getValidObjectTypeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
@@ -135,11 +139,11 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, AccountingLineFixture.LINE17.createSourceAccountingLine(), false);
+        testAddAccountingLine_IsObjectSubTypeAllowed(AccountingLineFixture.LINE17.createSourceAccountingLine(), false);
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
+        testAddAccountingLine_IsObjectSubTypeAllowed(AccountingLineFixture.LINE2.createTargetAccountingLine(), true);
     }
 
     public void testProcessSaveDocument_Valid() throws Exception {
@@ -351,4 +355,27 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         assertEquals(new Integer(1), new Integer(testCal.get(java.util.Calendar.DAY_OF_MONTH)));
     }
 
+    private void testAddAccountingLineRule_IsObjectTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        AuxiliaryVoucherDocument document = createDocument();
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectTypeAllowed-DefaultValidation"); 
+        if (validation == null) throw new IllegalStateException("No object type value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(accountingLine);
+        result = validation.validate(null);
+        assertEquals(expected, result);
+    }
+    
+    private void testAddAccountingLine_IsObjectSubTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        AuxiliaryVoucherDocument document = createDocument();
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
+        if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(accountingLine);
+        result = validation.validate(null);
+        assertEquals(expected, result);
+    }
 }

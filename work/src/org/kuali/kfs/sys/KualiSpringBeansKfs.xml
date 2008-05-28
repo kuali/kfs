@@ -398,4 +398,7 @@
 			<ref bean="universalUserService" />
 		</property>	
 	</bean>
+	
+	<import resource="validation/configuration/KfsValidation.xml" />
+	
 </beans>

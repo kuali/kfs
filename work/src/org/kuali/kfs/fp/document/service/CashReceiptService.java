@@ -83,4 +83,12 @@ public interface CashReceiptService {
      * @param crDoc The cash receipt document with cash details to add to the cash drawer.
      */
     public void addCashDetailsToCashDrawer(CashReceiptDocument crDoc);
+    
+    /**
+     * Checks whether the CashReceiptDocument's cash totals are invalid, generating global errors if so.
+     * 
+     * @param cashReceiptDocument submitted cash receipt document
+     * @return true if CashReceiptDocument's cash totals are valid
+     */
+    public abstract boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument);
 }

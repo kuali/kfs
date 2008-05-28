@@ -33,7 +33,6 @@ import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rule.AccountingLineRule;
 import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
-import org.kuali.module.financial.rules.CashReceiptFamilyRule;
 
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
@@ -107,7 +106,6 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      */
     @Override
     public KualiDecimal getSourceTotal() {
-        CashReceiptFamilyRule crFamilyRule = (CashReceiptFamilyRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(this, AccountingLineRule.class);
         KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();

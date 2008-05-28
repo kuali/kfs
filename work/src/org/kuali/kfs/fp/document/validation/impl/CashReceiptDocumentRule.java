@@ -39,6 +39,7 @@ import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.rule.AddCheckRule;
 import org.kuali.module.financial.rule.DeleteCheckRule;
 import org.kuali.module.financial.rule.UpdateCheckRule;
+import org.kuali.module.financial.service.CashReceiptService;
 
 
 /**
@@ -60,7 +61,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
 
         if (isValid) {
             isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
-            isValid &= !CashReceiptDocumentRuleUtil.areCashTotalsInvalid((CashReceiptDocument) document);
+            isValid &= !SpringContext.getBean(CashReceiptService.class).areCashTotalsInvalid((CashReceiptDocument) document);
             isValid &= validateAccountAndObjectCodeAllLines((CashReceiptFamilyBase) document);
         }
 

@@ -230,6 +230,7 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 	</bean>
 	
 	<bean id="procurementCardDocumentJob" parent="scheduledJobDescriptor">
@@ -314,7 +315,10 @@
 		</property>
 	</bean>
 
-	<bean id="cashReceiptCoverSheetService" class="org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl"></bean>
+	<bean id="cashReceiptCoverSheetService" class="org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="documentTypeService" ref="documentTypeService" />
+	</bean>
 
 	<bean id="budgetAdjustmentLaborBenefitsService" class="org.kuali.module.financial.service.impl.BudgetAdjustmentLaborBenefitsServiceImpl">
 		<property name="businessObjectService">
@@ -403,4 +407,17 @@
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>
 	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.financial.service.impl.YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl" parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" />
+	
+	<bean id="transferOfFundsService" class="org.kuali.module.financial.service.impl.TransferOfFundsServiceImpl">
+		<property name="parameterService"><ref bean="parameterService" /></property>
+	</bean>
+	
+	<!-- validations -->
+	<import resource="document/validation/configuration/FinancialValidation.xml" />
+	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
+	<import resource="document/validation/configuration/BudgetAdjustmentValidation.xml" />
+	<import resource="document/validation/configuration/TransferOfFundsValidation.xml" />
+	<import resource="document/validation/configuration/AuxiliaryVoucherValidation.xml" />
+	<import resource="document/validation/configuration/CashReceiptValidation.xml" />
+	
 </beans>

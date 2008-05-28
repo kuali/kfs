@@ -15,6 +15,8 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,12 +32,17 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -44,6 +51,7 @@ import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.dao.CashManagementDao;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashReceiptService;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +71,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     private CashDrawerService cashDrawerService;
     private ParameterService parameterService;
     private KualiGroupService kualiGroupService;
+    private DictionaryValidationService dictionaryValidationService;
 
     /**
      * This method uses the campus code provided to determine the cash receipt verification unit.  The verification unit
@@ -330,6 +339,59 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         }
         return drawer;
     }
+    
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.module.financial.document.CashReceiptDocument)
+     */
+    public boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument) {
+        String documentEntryName = cashReceiptDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
+
+        boolean isInvalid = isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCheckAmount(), documentEntryName, KFSPropertyConstants.TOTAL_CHECK_AMOUNT);
+        isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCashAmount(), documentEntryName, KFSPropertyConstants.TOTAL_CASH_AMOUNT);
+        isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCoinAmount(), documentEntryName, KFSPropertyConstants.TOTAL_COIN_AMOUNT);
+
+        isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalDollarAmount(), documentEntryName, KFSPropertyConstants.SUM_TOTAL_AMOUNT);
+
+        return isInvalid;
+    }
+
+    /**
+     * Puts an error message in the error map for that property if the amount is negative.
+     * 
+     * @param cashReceiptDocument submitted cash receipt document
+     * @param totalAmount total amount (cash total, check total, etc)
+     * @param documentEntryName document type
+     * @param propertyName property type (i.e totalCashAmount, totalCheckAmount, etc)
+     * @return true if the totalAmount is an invalid value
+     */
+    protected boolean isTotalInvalid(CashReceiptFamilyBase cashReceiptDocument, KualiDecimal totalAmount, String documentEntryName, String propertyName) {
+        boolean isInvalid = false;
+        String errorProperty = DOCUMENT_ERROR_PREFIX + propertyName;
+
+        if (totalAmount != null) {
+            DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
+            String errorLabel = dds.getAttributeLabel(documentEntryName, propertyName);
+
+            if (totalAmount.isNegative()) {
+                GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_NEGATIVE_TOTAL, errorLabel);
+
+                isInvalid = true;
+            }
+            else {
+                int precount = GlobalVariables.getErrorMap().size();
+
+                getDictionaryValidationService().validateDocumentAttribute(cashReceiptDocument, propertyName, DOCUMENT_ERROR_PREFIX);
+
+                // replace generic error message, if any, with something more readable
+                GlobalVariables.getErrorMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
+
+                int postcount = GlobalVariables.getErrorMap().size();
+                isInvalid = (postcount > precount);
+            }
+        }
+
+        return isInvalid;
+    }
 
     // injection-molding
     /**
@@ -443,5 +505,19 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         this.parameterService = parameterService;
     }
     
-    
+    /**
+     * Gets the dictionaryValidationService attribute. 
+     * @return Returns the dictionaryValidationService.
+     */
+    public DictionaryValidationService getDictionaryValidationService() {
+        return dictionaryValidationService;
+    }
+
+    /**
+     * Sets the dictionaryValidationService attribute value.
+     * @param dictionaryValidationService The dictionaryValidationService to set.
+     */
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
 }

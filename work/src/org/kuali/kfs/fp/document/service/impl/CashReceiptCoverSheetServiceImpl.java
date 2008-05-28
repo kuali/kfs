@@ -20,15 +20,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.rules.CashReceiptDocumentRule;
+import org.kuali.module.financial.document.authorization.CashReceiptDocumentAuthorizer;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 
 import com.lowagie.text.Document;
@@ -47,6 +46,9 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetService {
     private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);
+    
+    private DataDictionaryService dataDictionaryService;
+    private DocumentTypeService documentTypeService;
 
     public static final String CR_COVERSHEET_TEMPLATE_NM = "CashReceiptCoverSheetTemplate.pdf";
 
@@ -109,9 +111,31 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @see org.kuali.module.financial.rules.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.module.financial.document.CashReceiptFamilyBase)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
-        CashReceiptDocumentRule rule = (CashReceiptDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(crDoc, CashReceiptDocumentRule.class);
+        CashReceiptDocumentAuthorizer authorizer = getCashReceiptDocumentAuthorizer(crDoc);
 
-        return rule.isCoverSheetPrintable(crDoc);
+        return authorizer.isCoverSheetPrintable(crDoc);
+    }
+    
+    /**
+     * Gets the class of the CR's doc authorizer from the data dictionary and then returns an instance of that authorizer
+     * @param crDoc the document to authorize
+     * @return an instance of the proper authorization class
+     */
+    protected CashReceiptDocumentAuthorizer getCashReceiptDocumentAuthorizer(CashReceiptDocument crDoc) {
+        CashReceiptDocumentAuthorizer docAuthorizer = null;
+        
+        try {
+            Class documentAuthorizerClass = getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocumentTypeService().getDocumentTypeNameByClass(crDoc.getClass())).getDocumentAuthorizerClass();
+            docAuthorizer = (CashReceiptDocumentAuthorizer)documentAuthorizerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException(ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException(iae);
+        }
+        
+        return docAuthorizer;
     }
 
     /**
@@ -355,6 +379,38 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
         retval.setFontAndSize(getTextFont(), 8);
 
         return retval;
+    }
+
+    /**
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Gets the documentTypeService attribute. 
+     * @return Returns the documentTypeService.
+     */
+    public DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 }
 

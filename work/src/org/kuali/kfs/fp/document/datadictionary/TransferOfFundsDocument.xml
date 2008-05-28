@@ -24,7 +24,7 @@
     </property>
     <property name="documentTypeName" value="TransferOfFundsDocument" />
     <property name="documentClass" value="org.kuali.module.financial.document.TransferOfFundsDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.TransferOfFundsDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="TF" />
     <property name="allowsCopy" value="true" />
@@ -43,6 +43,7 @@
         </bean>
       </list>
     </property>
+    <property name="validationMap" ref="TransferOfFundsDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -72,4 +73,44 @@
       </list>
     </property>
   </bean>
+  
+  <!-- Validations -->
+  
+  <bean id="TransferOfFundsDocument-validations" parent="TransferOfFundsDocument-validations-parentBean" />
+  
+  <bean id="TransferOfFundsDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>TransferOfFunds-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>TransferOfFunds-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>TransferOfFunds-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>TransferOfFunds-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>TransferOfFunds-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>TransferOfFunds-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>TransferOfFunds-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

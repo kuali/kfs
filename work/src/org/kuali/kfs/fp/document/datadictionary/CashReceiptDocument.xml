@@ -19,7 +19,7 @@
     </property>
     <property name="documentTypeName" value="CashReceiptDocument" />
     <property name="documentClass" value="org.kuali.module.financial.document.CashReceiptDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.CashReceiptDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.CashReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CR" />
     <property name="allowsCopy" value="true" />
@@ -47,6 +47,7 @@
         <ref bean="CashReceiptDocument-documentNumber" />
       </list>
     </property>
+    <property name="validationMap" ref="CashReceiptDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -110,6 +111,57 @@
           </property>
         </bean>
       </list>
+    </property>
+  </bean>
+  
+  <!-- validations -->
+  
+  <bean id="CashReceiptDocument-validations" parent="CashReceiptDocument-validations-parentBean" />
+  
+  <bean id="CashReceiptDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>CashReceipt-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedSaveDocumentEvent</value></key>
+				<value>CashReceipt-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>CashReceipt-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>CashReceipt-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>CashReceipt-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>CashReceipt-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>CashReceipt-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>CashReceipt-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.module.financial.rule.event.AttributedAddCheckEvent</value></key>
+				<value>CashReceipt-addCheckValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.module.financial.rule.event.AttributedUpdateCheckEvent</value></key>
+				<value>CashReceipt-updateCheckValidation</value>
+			</entry>
+    	</map>
     </property>
   </bean>
 </beans>

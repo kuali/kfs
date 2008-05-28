@@ -23,7 +23,7 @@
     </property>
     <property name="documentTypeName" value="BudgetAdjustmentDocument" />
     <property name="documentClass" value="org.kuali.module.financial.document.BudgetAdjustmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.BudgetAdjustmentDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.module.financial.rules.BudgetAdjustmentDocumentPreRules" />
     <property name="documentTypeCode" value="BA" />
@@ -50,6 +50,7 @@
         <ref bean="BudgetAdjustmentDocument-postingYear" />
       </list>
     </property>
+    <property name="validationMap" ref="BudgetAdjustmentDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -107,7 +108,6 @@
 
 <!-- Exported Workflow Properties -->
 
-
   <bean id="BudgetAdjustmentDocument-workflowProperties" parent="BudgetAdjustmentDocument-workflowProperties-parentBean" />
 
   <bean id="BudgetAdjustmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
@@ -130,6 +130,45 @@
           </property>
         </bean>
       </list>
+    </property>
+  </bean>
+  
+  <!-- validations -->
+  
+  <bean id="BudgetAdjustmentDocument-validations" parent="BudgetAdjustmentDocument-validations-parentBean" />
+  
+  <bean id="BudgetAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>BudgetAdjustment-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>BudgetAdjustment-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>BudgetAdjustment-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>BudgetAdjustment-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>BudgetAdjustment-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>BudgetAdjustment-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>BudgetAdjustment-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
     </property>
   </bean>
 </beans>

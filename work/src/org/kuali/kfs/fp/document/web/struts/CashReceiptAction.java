@@ -45,7 +45,6 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rule.event.AddCheckEvent;
 import org.kuali.module.financial.rule.event.DeleteCheckEvent;
 import org.kuali.module.financial.rule.event.UpdateCheckEvent;
-import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.web.struts.form.CashReceiptForm;
@@ -80,7 +79,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
             }
 
             // generate errors for negative cash totals (especially for the recalculate button)
-            CashReceiptDocumentRuleUtil.areCashTotalsInvalid(cdoc);
+            SpringContext.getBean(CashReceiptService.class).areCashTotalsInvalid(cdoc);
         }
 
         // proceed as usual

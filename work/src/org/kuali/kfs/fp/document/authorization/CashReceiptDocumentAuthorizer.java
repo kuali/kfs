@@ -28,12 +28,14 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.util.Timer;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashReceiptService;
 
@@ -128,5 +130,18 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
             // TODO: customize message indicating the required unitName using DocumentInitiationAuthorizationException
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
         }
+    }
+    
+    /**
+     * Method used by <code>{@link org.kuali.module.financial.service.CashReceiptCoverSheetService}</code> to determine of the
+     * <code>{@link CashReceiptDocument}</code> validates business rules for generating a cover page. <br/> <br/> Rule is the
+     * <code>{@link Document}</code> must be ENROUTE.
+     * 
+     * @param document submitted cash receipt document
+     * @return true if state is not cancelled, initiated, disapproved, saved, or exception
+     */
+    public boolean isCoverSheetPrintable(CashReceiptFamilyBase document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }
 }

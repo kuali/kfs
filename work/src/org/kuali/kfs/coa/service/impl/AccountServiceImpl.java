@@ -21,8 +21,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.spring.Cached;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
 import org.kuali.module.chart.service.AccountService;
@@ -120,6 +125,43 @@ public class AccountServiceImpl implements AccountService {
             accountList.add(accountIter.next());
         }
         return accountList.iterator();
+    }
+
+    /**
+     * @see org.kuali.module.chart.service.AccountService#accountIsAccessible(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.module.chart.bo.ChartUser)
+     */
+    public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, ChartUser user) {
+        LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
+
+        boolean isAccessible = false;
+
+        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            isAccessible = true;
+        }
+        else {
+            if (workflowDocument.stateIsEnroute()) {
+                String chartCode = accountingLine.getChartOfAccountsCode();
+                String accountNumber = accountingLine.getAccountNumber();
+
+                // if a document is enroute, user can only refer to for accounts for which they are responsible
+                isAccessible = user.isResponsibleForAccount(chartCode, accountNumber);
+            }
+            else {
+                if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {
+                    isAccessible = false;
+                }
+                else {
+                    if (workflowDocument.stateIsException() && user.getUniversalUser().isWorkflowExceptionUser()) {
+                        isAccessible = true;
+                    }
+                }
+            }
+        }
+
+        LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - end");
+        return isAccessible;
     }
 
     /**

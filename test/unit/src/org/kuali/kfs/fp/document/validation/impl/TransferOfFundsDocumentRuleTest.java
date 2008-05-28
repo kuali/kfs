@@ -16,10 +16,7 @@
 package org.kuali.module.financial.rules;
 
 
-import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
-import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
-import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
@@ -46,6 +43,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapCo
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -60,6 +58,8 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.validation.AccountingLineValueAllowedValidation;
+import org.kuali.kfs.validation.Validation;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.ConfigureContext;
@@ -379,19 +379,19 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
+        testAddAccountingLineRule_IsObjectTypeAllowed(getInvalidObjectTypeSourceLine(), false);
     }
 
     public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectTypeAllowed(getValidObjectTypeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectCodeAllowed(getValidObjectCodeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_InvalidObjectCode() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false);
+        testAddAccountingLineRule_IsObjectCodeAllowed(getInvalidObjectCodeSourceLine(), false);
     }
 
     public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
@@ -416,11 +416,11 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false);
+        testAddAccountingLine_IsObjectSubTypeAllowed(getInvalidObjectSubTypeTargetLine(), false);
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
+        testAddAccountingLine_IsObjectSubTypeAllowed(getValidObjectSubTypeTargetLine(), true);
     }
 
     public void testProcessSaveDocument_Valid() throws Exception {
@@ -596,5 +596,50 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         retval.addSourceAccountingLine((SourceAccountingLine) makeObjectTypeAndSubTypeValid(getValidObjectCodeSourceLine()));
         retval.addTargetAccountingLine(getValidObjectSubTypeTargetLine());
         return retval;
+    }
+    
+    private boolean testAddAccountingLineRule_IsObjectCodeAllowed(AccountingLine accountingLine, boolean expected) throws Exception {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        TransferOfFundsDocument document = createDocument();
+        
+        // do general validation
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectCodeAllowed-DefaultValidation"); 
+        if (validation == null) throw new IllegalStateException("No object code value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(accountingLine);
+        result = validation.validate(null);
+        // do TF version validation
+        validation = (AccountingLineValueAllowedValidation)validations.get("TransferOfFunds-objectCodeValueAllowedValidation"); 
+        if (validation == null) throw new IllegalStateException("No TF specific object code value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(accountingLine);
+        result = validation.validate(null);
+        
+        return result;
+    }
+    
+    private void testAddAccountingLineRule_IsObjectTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        TransferOfFundsDocument document = createDocument();
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectTypeAllowed-DefaultValidation"); 
+        if (validation == null) throw new IllegalStateException("No object type value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(accountingLine);
+        result = validation.validate(null);
+        assertEquals(expected, result);
+    }
+    
+    private void testAddAccountingLine_IsObjectSubTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        TransferOfFundsDocument document = createDocument();
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("TransferOfFunds-objectSubTypeValueAllowedValidation");
+        if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
+        validation.setAccountingDocumentForValidation(document);
+        validation.setAccountingLineForValidation(accountingLine);
+        result = validation.validate(null);
+        assertEquals(expected, result);
     }
 }

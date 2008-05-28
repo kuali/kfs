@@ -389,41 +389,49 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         BusinessObjectEntry accountingLineEntry = dd.getBusinessObjectEntry(SourceAccountingLine.class.getName());
 
         // retrieve accounting line objects to validate
+        accountingLine.refreshReferenceObject("chart");
         Chart chart = accountingLine.getChart();
+        accountingLine.refreshReferenceObject("account");
         Account account = accountingLine.getAccount();
-        SubAccount subAccount = accountingLine.getSubAccount();
+        accountingLine.refreshReferenceObject("objectCode");
         ObjectCode objectCode = accountingLine.getObjectCode();
-        SubObjCd subObjectCode = accountingLine.getSubObjectCode();
-        ProjectCode projectCode = accountingLine.getProject();
-        ObjectType objectTypeCode = accountingLine.getObjectType();
-        OriginationCode referenceOrigin = accountingLine.getReferenceOrigin();
-        DocumentType referenceType = accountingLine.getReferenceType();
-
 
         boolean valid = true;
         valid &= isValidChart(chart, dd);
         valid &= isValidAccount(account, dd);
         // sub account is not required
         if (StringUtils.isNotBlank(accountingLine.getSubAccountNumber())) {
+            accountingLine.refreshReferenceObject("subAccount");
+            SubAccount subAccount = accountingLine.getSubAccount();
             valid &= isValidSubAccount(subAccount, dd);
         }
         valid &= isValidObjectCode(objectCode, dd);
         // sub object is not required
         if (StringUtils.isNotBlank(accountingLine.getFinancialSubObjectCode())) {
+            accountingLine.refreshReferenceObject("subObjectCode");
+            SubObjCd subObjectCode = accountingLine.getSubObjectCode();
             valid &= isValidSubObjectCode(subObjectCode, dd);
         }
         // project code is not required
         if (StringUtils.isNotBlank(accountingLine.getProjectCode())) {
+            accountingLine.refreshReferenceObject("project");
+            ProjectCode projectCode = accountingLine.getProject();
             valid &= isValidProjectCode(projectCode, dd);
         }
         // object type code is not required to be entered
         if (StringUtils.isNotBlank(accountingLine.getObjectTypeCode())) {
+            accountingLine.refreshReferenceObject("objectType");
+            ObjectType objectTypeCode = accountingLine.getObjectType();
             valid &= isValidObjectTypeCode(objectTypeCode, dd);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceOriginCode())) {
+            accountingLine.refreshReferenceObject("referenceOrigin");
+            OriginationCode referenceOrigin = accountingLine.getReferenceOrigin();
             valid &= isValidReferenceOriginCode(referenceOrigin, accountingLineEntry);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
+            accountingLine.refreshReferenceObject("referenceType");
+            DocumentType referenceType = accountingLine.getReferenceType();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());

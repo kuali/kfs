@@ -20,7 +20,7 @@
     </property>
     <property name="documentTypeName" value="InternalBillingDocument" />
     <property name="documentClass" value="org.kuali.module.financial.document.InternalBillingDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.InternalBillingDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IB" />
     <property name="allowsCopy" value="true" />
@@ -39,6 +39,7 @@
         </bean>
       </list>
     </property>
+    <property name="validationMap" ref="InternalBillingDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -66,6 +67,45 @@
           </property>
         </bean>
       </list>
+    </property>
+  </bean>
+  
+  <!-- Validations -->
+  
+  <bean id="InternalBillingDocument-validations" parent="InternalBillingDocument-validations-parentBean" />
+  
+  <bean id="InternalBillingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>InternalBilling-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>InternalBilling-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>InternalBilling-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>InternalBilling-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>InternalBilling-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>InternalBilling-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>InternalBilling-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
     </property>
   </bean>
 </beans>

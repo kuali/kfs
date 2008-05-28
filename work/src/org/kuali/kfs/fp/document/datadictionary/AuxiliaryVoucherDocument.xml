@@ -20,7 +20,7 @@
     </property>
     <property name="documentTypeName" value="AuxiliaryVoucherDocument" />
     <property name="documentClass" value="org.kuali.module.financial.document.AuxiliaryVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="AV" />
     <property name="allowsCopy" value="true" />
@@ -46,6 +46,7 @@
         <ref bean="AuxiliaryVoucherDocument-reversalDate" />
       </list>
     </property>
+    <property name="validationMap" ref="AuxiliaryVoucherDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -124,4 +125,44 @@
       </list>
     </property>
   </bean>
+  
+  <!-- validations -->
+  
+  <bean id="AuxiliaryVoucherDocument-validations" parent="AuxiliaryVoucherDocument-validations-parentBean" />
+  
+  <bean id="AuxiliaryVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>AuxiliaryVoucher-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>AuxiliaryVoucher-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>AuxiliaryVoucher-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>AuxiliaryVoucher-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>AuxiliaryVoucher-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>AuxiliaryVoucher-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>AuxiliaryVoucher-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

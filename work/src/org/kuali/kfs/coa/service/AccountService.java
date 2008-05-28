@@ -19,7 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Delegate;
 
 
@@ -88,4 +91,13 @@ public interface AccountService {
      * @return iterator of all accounts
      */
     public Iterator getAllAccounts();
+    
+    /**
+     * Given an accounting document, an accounting line, and a ChartUser, determines whether the given accounting line can be edited by the user, based on the account
+     * @param financialDocument the document containing the accounting line to check
+     * @param accountingLine the accounting line to check for accessibility
+     * @param user the chart user who may or may not have accessible accounting lines on the document
+     * @return true if the given accountingLine refers to an account which allows it to be added, deleted, or updated
+     */
+    public abstract boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, ChartUser user);
 }

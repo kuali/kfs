@@ -174,6 +174,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
+        // TODO - add KFS wrappers of Rice Events to list
         if (event instanceof RouteDocumentEvent || event instanceof ApproveDocumentEvent) {
             // generate general ledger pending entries should be called prior to sufficient funds checking
             List<SufficientFundsItem> sfItems = checkSufficientFunds();

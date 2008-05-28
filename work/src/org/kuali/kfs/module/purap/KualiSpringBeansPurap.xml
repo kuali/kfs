@@ -152,6 +152,11 @@
         <property name="dateTimeService" ref="dateTimeService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="documentService" ref="documentService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="vendorService" ref="vendorService"/>
+        <property name="persistenceService" ref="persistenceService"/>
+        <property name="purchaseOrderService" ref="purchaseOrderService"/>
+        <property name="noteService" ref="noteService"/>
     </bean>
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">
@@ -216,9 +221,6 @@
 		<property name="paymentRequestDao">
 			<ref bean="paymentRequestDao" />
 		</property>
-        <property name="purchaseOrderService">
-            <ref bean="purchaseOrderService" />
-        </property>
         <property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -247,6 +249,15 @@
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>        
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>     
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>             
+        <!-- property name="accountsPayableService">
+            <ref bean="accountsPayableService" />
+        </property -->
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.CreditMemoDaoOjb" />

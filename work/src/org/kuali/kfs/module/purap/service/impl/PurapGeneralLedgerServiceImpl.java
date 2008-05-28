@@ -1282,7 +1282,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      */
     private void savePaymentRequestSummaryAccounts(List<SourceAccountingLine> sourceLines, Integer purapDocumentIdentifier) {
         LOG.debug("savePaymentRequestSummaryAccounts() started");
-        paymentRequestService.deleteSummaryAccounts(purapDocumentIdentifier);
+        purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier);
         List<PaymentRequestSummaryAccount> summaryAccounts = new ArrayList();
         for (SourceAccountingLine account : sourceLines) {
             summaryAccounts.add(new PaymentRequestSummaryAccount(account, purapDocumentIdentifier));

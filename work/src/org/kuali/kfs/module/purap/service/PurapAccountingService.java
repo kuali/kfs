@@ -165,4 +165,11 @@ public interface PurapAccountingService {
     public void updateItemAccountAmounts(PurApItem item);
 
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item);
+    
+    /**
+     * Deletes the payment request summary accounts by purapDocumentIdentifier
+     * 
+     * @param purapDocumentIdentifier  The purapDocumentIdentifier of the payment request document whose summary accounts are to be deleted.
+     */
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
 }

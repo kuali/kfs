@@ -172,4 +172,6 @@ public interface PurapService {
      * @param document The purchase order document to be saved.
      */
     public void saveDocumentNoValidation(Document document);
+    
+    public PurchaseOrderService getPurchaseOrderService();
 }

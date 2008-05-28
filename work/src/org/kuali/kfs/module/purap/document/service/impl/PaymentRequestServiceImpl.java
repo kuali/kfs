@@ -79,7 +79,6 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.VendorGroupingHelper;
@@ -104,7 +103,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private NoteService noteService;
     private PurapService purapService;
     private PaymentRequestDao paymentRequestDao;
-    private PurchaseOrderService purchaseOrderService;
     private ParameterService parameterService;
     private KualiConfigurationService configurationService;
     private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
@@ -112,6 +110,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private BusinessObjectService businessObjectService;
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     private WorkflowDocumentService workflowDocumentService;
+    private AccountsPayableService accountsPayableService;
+    private VendorService vendorService;
+    private DataDictionaryService dataDictionaryService;
     
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -141,10 +142,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.paymentRequestDao = paymentRequestDao;
     }
 
-    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
-        this.purchaseOrderService = purchaseOrderService;
-    }
-
     public void setNegativePaymentRequestApprovalLimitService(NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService) {
         this.negativePaymentRequestApprovalLimitService = negativePaymentRequestApprovalLimitService;
     }
@@ -163,6 +160,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService){
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
+        this.accountsPayableService = accountsPayableService;
+    }
+    
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     /**
@@ -685,7 +694,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // set discountItem and add to items
                 // this is probably not the best way of doing it but should work for now if we start excluding discount from below
                 // we will need to manually add
-                SpringContext.getBean(PurapService.class).addBelowLineItems(paymentRequestDocument);
+                purapService.addBelowLineItems(paymentRequestDocument);
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
             // discount item should no longer be null, update if necessary
@@ -730,7 +739,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     private void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
         // update the account amounts before doing any distribution
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
+        purapAccountingService.updateAccountAmounts(paymentRequestDocument);
 
         for (PaymentRequestItem item : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
@@ -747,9 +756,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
                     totalAmount = paymentRequestDocument.getGrandTotal();
 
-                    summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
+                    summaryAccounts = purapAccountingService.generateSummary(paymentRequestDocument.getItems());
 
-                    distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+                    distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
 
                 }
                 else {
@@ -763,9 +772,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     }
                     else {
                         totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
-                        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
-                        summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
-                        distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
+                        purapAccountingService.updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
+                        summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
+                        distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
                     }
 
                 }
@@ -830,7 +839,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         boolean canHold = false;
 
-        String accountsPayableGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
 
         /*
          * The user is an approver of the document, The user is a member of the Accounts Payable group
@@ -850,7 +859,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         boolean canRemoveHold = false;
 
-        String accountsPayableSupervisorGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
 
         /*
          * The user is the person who put the preq on hold The user is a member of the AP Supervisor group
@@ -946,7 +955,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
-        String accountsPayableSupervisorGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
 
         /*
          * The user is the person who requested a cancel on the preq The user is a member of the AP Supervisor group
@@ -970,7 +979,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             Note cancelNote = documentService.createNoteFromDocument(paymentRequest, note);
             documentService.addNoteToDocument(paymentRequest, cancelNote);
-            SpringContext.getBean(NoteService.class).save(cancelNote);
+            noteService.save(cancelNote);
         }
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
@@ -999,7 +1008,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             Note resetNote = documentService.createNoteFromDocument(paymentRequest, noteText);
             documentService.addNoteToDocument(paymentRequest, resetNote);
-            SpringContext.getBean(NoteService.class).save(resetNote);
+            noteService.save(resetNote);
         }
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
@@ -1048,7 +1057,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         descr.append(" Vendor: ");
         descr.append(StringUtils.trimToEmpty(vendorName));
 
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength >= descr.length()) {
             return descr.toString();
         }
@@ -1074,13 +1083,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-    }
-
-    /**
-     * @see org.kuali.module.purap.service.PaymentRequestService#deleteSummaryAccounts(java.lang.Integer)
-     */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
-        paymentRequestDao.deleteSummaryAccounts(purapDocumentIdentifier);
     }
 
     /**
@@ -1123,7 +1125,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            purchaseOrderService.createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
+            purapService.getPurchaseOrderService().createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
         }
     }
 
@@ -1218,8 +1220,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId) {
-        
-        VendorService vendorService = SpringContext.getBean(VendorService.class);
         
         VendorDetail primaryVendor = vendorService.getVendorDetail(
                 preq.getOriginalVendorHeaderGeneratedIdentifier(), preq.getOriginalVendorDetailAssignedIdentifier());

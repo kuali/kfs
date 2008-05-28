@@ -356,22 +356,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
 
-    /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#deleteSummaryAccounts(java.lang.Integer)
-     */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
-        LOG.debug("deleteSummaryAccounts() started");
-
-        if (purapDocumentIdentifier != null) {
-            Criteria criteria = new Criteria();
-            criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
-
-            getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(PaymentRequestSummaryAccount.class, criteria));
-            getPersistenceBrokerTemplate().clearCache();
-        }
-    }
-
-    
     public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId){
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
                 

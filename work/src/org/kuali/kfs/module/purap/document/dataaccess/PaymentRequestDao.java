@@ -115,13 +115,6 @@ public interface PaymentRequestDao {
     public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
 
     /**
-     * Deletes the summary accounts by purap document id.
-     * 
-     * @param purapDocumentIdentifier - purap document id
-     */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
-
-    /**
      * Retrieves a list of potentially active payment requests for a purchase order by
      * status code. Active being defined as being enroute and before final. The issue
      * is that a status of vendor_tax_review may not mean that it's in review, but could be

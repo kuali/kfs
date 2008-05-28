@@ -617,6 +617,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PurapAccountingService#deleteSummaryAccounts(java.lang.Integer)
+     */
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
+        purApAccountingDao.deleteSummaryAccounts(purapDocumentIdentifier);
+    }
+    
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item) {
         return purApAccountingDao.getAccountingLinesForItem(item);
     }

@@ -309,13 +309,6 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit);
 
     /**
-     * Deletes the payment request summary accounts by purapDocumentIdentifier
-     * 
-     * @param purapDocumentIdentifier  The purapDocumentIdentifier of the payment request document whose summary accounts are to be deleted.
-     */
-    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
-
-    /**
      * Mark a payment request as being paid and set the payment request's paid date as the processDate.
      * 
      * @param pr           The payment request document to be marked as paid and paid date to be set.

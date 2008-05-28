@@ -32,4 +32,11 @@ public interface PurApAccountingDao {
      */
     public List getAccountingLinesForItem(PurApItem item);
 
+    /**
+     * Deletes the summary accounts by purap document id.
+     * 
+     * @param purapDocumentIdentifier - purap document id
+     */
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
+    
 }

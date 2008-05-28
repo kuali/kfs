@@ -32,7 +32,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>kualiUniversalGroup</value>
+              <value>LD_EFFORT_ADMINISTRATORS</value>
             </set>
           </property>
         </bean>

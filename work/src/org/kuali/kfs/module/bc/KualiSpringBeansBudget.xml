@@ -504,6 +504,16 @@
     </bean>
     
     
+    <bean id="BudgetConstructionAccountMonthlyDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountMonthlyDetailReportServiceImpl">
+	<property name="budgetConstructionReportsServiceHelper">
+		<ref bean="budgetConstructionReportsServiceHelper" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+	</bean>
+    
+    
     
     <bean id="budgetParameterService" class="org.kuali.module.budget.service.impl.BudgetParameterServiceImpl">
     <property name="parameterService">

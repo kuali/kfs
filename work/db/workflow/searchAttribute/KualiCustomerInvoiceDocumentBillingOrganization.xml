@@ -2,22 +2,20 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
-      <name>KualiCustomerInvoiceDocumentAccount</name>
+      <name>KualiCustomerInvoiceDocumentBillingOrganization</name>
       <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
-      <label>Kuali Customer Invoice Document Account</label>
-      <description>Attribute to identify the Account of the Customer Invoice Document</description>
+      <label>Kuali Customer Invoice Document Billing Organization</label>
+      <description>Attribute to identify the Billing Organization of the Customer Invoice Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="accountNumber" title="kuali_dd_label(Account)">
+        <fieldDef name="organizationCode" title="kuali_dd_label(Org)">
           <display>
             <type>text</type>
           </display>
-          <visibility>
-            <column visible="false" />
-          </visibility>
           <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
           <fieldEvaluation>
-			<xpathexpression>wf:xstreamsafe('//document/sourceAccountingLines/org.kuali.module.ar.bo.CustomerInvoiceDetail/accountNumber')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/billedByOrganization/organizationCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

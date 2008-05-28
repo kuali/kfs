@@ -42,16 +42,20 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
+import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.module.budget.rule.event.DeletePendingBudgetGeneralLedgerLineEvent;
+import org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
 
@@ -77,19 +81,19 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // apprise user of granted access
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)) {
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
             }
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)){
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
             }
-            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)){
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
             }
         }
 
         return forward;
-   }
+    }
 
     /**
      * gwp - no call to super, need to work through command we will use randall - This method might be unnecessary, but putting it
@@ -423,7 +427,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
-        
+
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
@@ -434,11 +438,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // TODO do validate, save, etc first then goto the SalarySetting screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
-        // TODO for now just save
-        documentService.updateDocument(bcDocument);
+        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
+            // TODO for now just save eventually should validate and save like reports
+            documentService.updateDocument(bcDocument);
+
+
+        }
         PendingBudgetConstructionGeneralLedger pbglLine;
         pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
 
@@ -779,12 +787,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
 
-        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+        if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-        budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-        budgetDocumentService.calculateBenefits(bcDocument);
-        tForm.initializePersistedRequestAmounts();
-        
+            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+            tForm.initializePersistedRequestAmounts();
+
+        }
+
         // gets here if rules passed and doc detail gets persisted and refreshed
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
@@ -802,7 +813,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
-        
+
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportRunner.do", parameters);
         return new ActionForward(lookupUrl, true);
     }
@@ -815,37 +826,95 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward performMonthSpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Month Spread");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    public ActionForward performRevMonthSpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return this.performMonthSpread(mapping, form, request, response, true);
     }
 
-    public ActionForward performMonthDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Month Delete");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    public ActionForward performExpMonthSpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return this.performMonthSpread(mapping, form, request, response, false);
     }
 
-    public ActionForward performCalculateBenfits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward performMonthSpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean isRevenue) throws Exception {
 
+        // need to validate, save and calc benefits first
+        // this is different than client/server model - need to always keep DB consistent
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) tForm.getDocument();
+        BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
+
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
         budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-        budgetDocumentService.calculateBenefits(bcDocument);
+        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         tForm.initializePersistedRequestAmounts();
 
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate
-        // Benefits");
+        BudgetConstructionMonthlyBudgetsCreateDeleteService monthlyBudgetService = SpringContext.getBean(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
 
-        // TODO create form/hidden flag vars (annual and monthly) to maintain state of benefits calc and reset here after
-        // calculation is performed
+        if (isRevenue) {
+            monthlyBudgetService.spreadBudgetConstructionMonthlyBudgetsRevenue(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber());
+        }
+        else {
+            // service returns true if benefit eligible monthly lines exist
+            if (monthlyBudgetService.spreadBudgetConstructionMonthlyBudgetsExpenditure(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber())) {
+                bcDocument.setMonthlyBenefitsCalcNeeded(true);
+                budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+            }
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward performRevMonthDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return this.performMonthDelete(mapping, form, request, response, true);
+    }
+
+    public ActionForward performExpMonthDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return this.performMonthDelete(mapping, form, request, response, false);
+    }
+
+    public ActionForward performMonthDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean isRevenue) throws Exception {
+
+        // need to validate, save and calc benefits first
+        // this is different than client/server model - need to always keep DB consistent
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
+
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+        
+        if (isRevenue){
+            budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
+        }
+        else {
+            budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
+        }
+        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+        tForm.initializePersistedRequestAmounts();
+
+        BudgetConstructionMonthlyBudgetsCreateDeleteService monthlyBudgetService = SpringContext.getBean(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
+
+        if (isRevenue) {
+            monthlyBudgetService.deleteBudgetConstructionMonthlyBudgetsRevenue(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber());
+        }
+        else {
+            monthlyBudgetService.deleteBudgetConstructionMonthlyBudgetsExpenditure(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward performCalculateBenefits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) tForm.getDocument();
+
+        // allow benecalc if account is not salary only and benefits calc not disabled
+        if (!tForm.isBenefitsCalculationDisabled() && !bcDocument.isSalarySettingOnly()) {
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            budgetDocumentService.calculateBenefits(bcDocument);
+            tForm.initializePersistedRequestAmounts();
+
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

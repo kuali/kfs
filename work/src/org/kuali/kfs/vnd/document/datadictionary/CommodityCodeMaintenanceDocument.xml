@@ -79,9 +79,11 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="commodityContractManagers" />
           <property name="businessObjectClass" value="org.kuali.module.vendor.bo.CommodityContractManager" />
-          <property name="summaryTitle" value="Contract Managers" />
           <property name="maintainableFields" >
             <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="purchasingCommodityCode"
+                    p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="campusCode"
                     p:required="true" />

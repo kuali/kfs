@@ -33,6 +33,7 @@
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 <c:set var="salsetDisabled" value="${KualiForm.salarySettingDisabled}" />
 <c:set var="benecalcDisabled" value="${KualiForm.benefitsCalculationDisabled}" />
+<c:set var="salarySettingOnly" value="${KualiForm.document.salarySettingOnly}" />
 
 
 <kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
@@ -265,7 +266,7 @@
                      <br>
                      <html:image property="methodToCall.performSalarySetting.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-salarysetting.gif" title="Perform Salary Setting For ${status.index}" alt="Perform Salary Setting For Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
-                   <c:if test="${!empty item.positionObjectBenefit[0] && !benecalcDisabled}">
+                   <c:if test="${!empty item.positionObjectBenefit[0] && !benecalcDisabled && !salarySettingOnly}">
                      <br>
                      <html:image property="methodToCall.performShowBenefits.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-showbenefits.gif" title="Show Benefits For ${status.index}" alt="Show Benefits For Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
@@ -301,10 +302,10 @@
               <td colspan="8" class="datacell" nowrap>
                 <div align="center">
                   <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <c:if test="${!benecalcDisabled}">
-                      <html:image property="methodToCall.performCalculateBenfits.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_calcbenefits.gif" title="Calculate Benefits" alt="Calculate Benefits" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.performExpMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performExpMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <c:if test="${!benecalcDisabled && !salarySettingOnly}">
+                      <html:image property="methodToCall.performCalculateBenefits.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_calcbenefits.gif" title="Calculate Benefits" alt="Calculate Benefits" styleClass="tinybutton"/>
                   </c:if>
                 </div>
               </td>

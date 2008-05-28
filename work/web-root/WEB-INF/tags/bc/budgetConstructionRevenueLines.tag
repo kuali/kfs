@@ -285,8 +285,8 @@
               <td colspan="8" class="datacell" nowrap>
                 <div align="center">
                   <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.performRevMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performRevMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
                 </div>
               </td>
 	        </tr>

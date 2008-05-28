@@ -33,7 +33,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     private BigDecimal totalObjectAppointmentRequestedFteQuantity;
     private Integer totalObjectAccountLineAnnualBalanceAmount;
     private Integer totalObjectAmountChange;
-    private BigDecimal totalObjectPercentChange;
     
     private BigDecimal totalLevelPositionCsfLeaveFteQuantity;
     private BigDecimal totalLevelPositionFullTimeEquivalencyQuantity;
@@ -42,12 +41,10 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     private BigDecimal totalLevelAppointmentRequestedFteQuantity;
     private Integer totalLevelAccountLineAnnualBalanceAmount;
     private Integer totalLevelAmountChange;
-    private BigDecimal totalLevelPercentChange;
 
     private Integer grossFinancialBeginningBalanceLineAmount;
     private Integer grossAccountLineAnnualBalanceAmount;
     private Integer grossAmountChange;
-    private BigDecimal grossPercentChange;
 
     private BigDecimal typePositionCsfLeaveFteQuantity;
     private BigDecimal typePositionFullTimeEquivalencyQuantity;
@@ -56,39 +53,32 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     private BigDecimal typeAppointmentRequestedFteQuantity;
     private Integer typeAccountLineAnnualBalanceAmount;
     private Integer typeAmountChange;
-    private BigDecimal typePercentChange;
 
     //subFund total
     private Integer subFundRevenueFinancialBeginningBalanceLineAmount;
     private Integer subFundRevenueAccountLineAnnualBalanceAmount;
     private Integer subFundRevenueAmountChange;
-    private BigDecimal subFundRevenuePercentChange;
     
     private Integer subFundExpenditureFinancialBeginningBalanceLineAmount;
     private Integer subFundExpenditureAccountLineAnnualBalanceAmount;
     private Integer subFundExpenditureAmountChange;
-    private BigDecimal subFundExpenditurePercentChange;
     
     private Integer subFundDifferenceFinancialBeginningBalanceLineAmount;
     private Integer subFundDifferenceAccountLineAnnualBalanceAmount;
     private Integer subFundDifferenceAmountChange;
-    private BigDecimal subFundDifferencePercentChange;
     
     //account total
     private Integer accountRevenueFinancialBeginningBalanceLineAmount;
     private Integer accountRevenueAccountLineAnnualBalanceAmount;
     private Integer accountRevenueAmountChange;
-    private BigDecimal accountRevenuePercentChange;
     
     private Integer accountExpenditureFinancialBeginningBalanceLineAmount;
     private Integer accountExpenditureAccountLineAnnualBalanceAmount;
     private Integer accountExpenditureAmountChange;
-    private BigDecimal accountExpenditurePercentChange;
     
     private Integer accountDifferenceFinancialBeginningBalanceLineAmount;
     private Integer accountDifferenceAccountLineAnnualBalanceAmount;
     private Integer accountDifferenceAmountChange;
-    private BigDecimal accountDifferencePercentChange;
     
    
     
@@ -134,12 +124,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     public void setTypeFinancialBeginningBalanceLineAmount(Integer typeFinancialBeginningBalanceLineAmount) {
         this.typeFinancialBeginningBalanceLineAmount = typeFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getTypePercentChange() {
-        return typePercentChange;
-    }
-    public void setTypePercentChange(BigDecimal typePercentChange) {
-        this.typePercentChange = typePercentChange;
-    }
     public BigDecimal getTypePositionFullTimeEquivalencyQuantity() {
         return typePositionFullTimeEquivalencyQuantity;
     }
@@ -157,12 +141,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     }
     public void setGrossAmountChange(Integer grossAmountChange) {
         this.grossAmountChange = grossAmountChange;
-    }
-    public BigDecimal getGrossPercentChange() {
-        return grossPercentChange;
-    }
-    public void setGrossPercentChange(BigDecimal grossPercentChange) {
-        this.grossPercentChange = grossPercentChange;
     }
     public Integer getTotalLevelAccountLineAnnualBalanceAmount() {
         return totalLevelAccountLineAnnualBalanceAmount;
@@ -193,12 +171,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     }
     public void setTotalLevelFinancialBeginningBalanceLineAmount(Integer totalLevelFinancialBeginningBalanceLineAmount) {
         this.totalLevelFinancialBeginningBalanceLineAmount = totalLevelFinancialBeginningBalanceLineAmount;
-    }
-    public BigDecimal getTotalLevelPercentChange() {
-        return totalLevelPercentChange;
-    }
-    public void setTotalLevelPercentChange(BigDecimal totalLevelPercentChange) {
-        this.totalLevelPercentChange = totalLevelPercentChange;
     }
     public BigDecimal getTotalLevelPositionFullTimeEquivalencyQuantity() {
         return totalLevelPositionFullTimeEquivalencyQuantity;
@@ -248,12 +220,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     public void setTotalObjectFinancialBeginningBalanceLineAmount(Integer totalObjectFinancialBeginningBalanceLineAmount) {
         this.totalObjectFinancialBeginningBalanceLineAmount = totalObjectFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getTotalObjectPercentChange() {
-        return totalObjectPercentChange;
-    }
-    public void setTotalObjectPercentChange(BigDecimal totalObjectPercentChange) {
-        this.totalObjectPercentChange = totalObjectPercentChange;
-    }
     public BigDecimal getTotalObjectPositionFullTimeEquivalencyQuantity() {
         return totalObjectPositionFullTimeEquivalencyQuantity;
     }
@@ -284,12 +250,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     public void setAccountDifferenceFinancialBeginningBalanceLineAmount(Integer accountDifferenceFinancialBeginningBalanceLineAmount) {
         this.accountDifferenceFinancialBeginningBalanceLineAmount = accountDifferenceFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getAccountDifferencePercentChange() {
-        return accountDifferencePercentChange;
-    }
-    public void setAccountDifferencePercentChange(BigDecimal accountDifferencePercentChange) {
-        this.accountDifferencePercentChange = accountDifferencePercentChange;
-    }
     public Integer getAccountExpenditureAccountLineAnnualBalanceAmount() {
         return accountExpenditureAccountLineAnnualBalanceAmount;
     }
@@ -307,12 +267,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     }
     public void setAccountExpenditureFinancialBeginningBalanceLineAmount(Integer accountExpenditureFinancialBeginningBalanceLineAmount) {
         this.accountExpenditureFinancialBeginningBalanceLineAmount = accountExpenditureFinancialBeginningBalanceLineAmount;
-    }
-    public BigDecimal getAccountExpenditurePercentChange() {
-        return accountExpenditurePercentChange;
-    }
-    public void setAccountExpenditurePercentChange(BigDecimal accountExpenditurePercentChange) {
-        this.accountExpenditurePercentChange = accountExpenditurePercentChange;
     }
     public Integer getAccountRevenueAccountLineAnnualBalanceAmount() {
         return accountRevenueAccountLineAnnualBalanceAmount;
@@ -332,12 +286,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     public void setAccountRevenueFinancialBeginningBalanceLineAmount(Integer accountRevenueFinancialBeginningBalanceLineAmount) {
         this.accountRevenueFinancialBeginningBalanceLineAmount = accountRevenueFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getAccountRevenuePercentChange() {
-        return accountRevenuePercentChange;
-    }
-    public void setAccountRevenuePercentChange(BigDecimal accountRevenuePercentChange) {
-        this.accountRevenuePercentChange = accountRevenuePercentChange;
-    }
     public Integer getSubFundDifferenceAccountLineAnnualBalanceAmount() {
         return subFundDifferenceAccountLineAnnualBalanceAmount;
     }
@@ -355,12 +303,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     }
     public void setSubFundDifferenceFinancialBeginningBalanceLineAmount(Integer subFundDifferenceFinancialBeginningBalanceLineAmount) {
         this.subFundDifferenceFinancialBeginningBalanceLineAmount = subFundDifferenceFinancialBeginningBalanceLineAmount;
-    }
-    public BigDecimal getSubFundDifferencePercentChange() {
-        return subFundDifferencePercentChange;
-    }
-    public void setSubFundDifferencePercentChange(BigDecimal subFundDifferencePercentChange) {
-        this.subFundDifferencePercentChange = subFundDifferencePercentChange;
     }
     public Integer getSubFundExpenditureAccountLineAnnualBalanceAmount() {
         return subFundExpenditureAccountLineAnnualBalanceAmount;
@@ -380,12 +322,6 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     public void setSubFundExpenditureFinancialBeginningBalanceLineAmount(Integer subFundExpenditureFinancialBeginningBalanceLineAmount) {
         this.subFundExpenditureFinancialBeginningBalanceLineAmount = subFundExpenditureFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getSubFundExpenditurePercentChange() {
-        return subFundExpenditurePercentChange;
-    }
-    public void setSubFundExpenditurePercentChange(BigDecimal subFundExpenditurePercentChange) {
-        this.subFundExpenditurePercentChange = subFundExpenditurePercentChange;
-    }
     public Integer getSubFundRevenueAccountLineAnnualBalanceAmount() {
         return subFundRevenueAccountLineAnnualBalanceAmount;
     }
@@ -404,11 +340,4 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     public void setSubFundRevenueFinancialBeginningBalanceLineAmount(Integer subFundRevenueFinancialBeginningBalanceLineAmount) {
         this.subFundRevenueFinancialBeginningBalanceLineAmount = subFundRevenueFinancialBeginningBalanceLineAmount;
     }
-    public BigDecimal getSubFundRevenuePercentChange() {
-        return subFundRevenuePercentChange;
-    }
-    public void setSubFundRevenuePercentChange(BigDecimal subFundRevenuePercentChange) {
-        this.subFundRevenuePercentChange = subFundRevenuePercentChange;
-    }
-
 }

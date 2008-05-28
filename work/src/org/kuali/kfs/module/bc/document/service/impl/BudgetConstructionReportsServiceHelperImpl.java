@@ -53,6 +53,11 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(clazz, searchCriteria, orderList);
     }
     
+    public Collection getDataForBuildingReports(Class clazz, Map searchCriteria, List<String> orderList){
+        
+        return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(clazz, searchCriteria, orderList);
+    }
+    
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode){
         
         Map searchCriteria = new HashMap();

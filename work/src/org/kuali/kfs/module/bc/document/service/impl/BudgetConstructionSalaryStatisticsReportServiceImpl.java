@@ -124,13 +124,9 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
 
     public void buildReportsBody(BudgetConstructionOrgSalaryStatisticsReport orgSalaryStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry) {
         orgSalaryStatisticsReportEntry.setInitialRequestedFteQuantity(salaryTotalEntry.getInitialRequestedFteQuantity());
-        if (salaryTotalEntry.getInitialRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-            orgSalaryStatisticsReportEntry.setTotalInitialRequestedAmount(0);
-        }
-        else {
-            BigDecimal requestedAmount = salaryTotalEntry.getInitialRequestedAmount().divide(salaryTotalEntry.getInitialRequestedFteQuantity());
-            orgSalaryStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0).intValue()));
-        }
+        BigDecimal requestedAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
+        orgSalaryStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0).intValue()));
+        
         orgSalaryStatisticsReportEntry.setAppointmentRequestedFteQuantity(salaryTotalEntry.getAppointmentRequestedFteQuantity());
         orgSalaryStatisticsReportEntry.setTotalCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
         orgSalaryStatisticsReportEntry.setTotalAppointmentRequestedAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));

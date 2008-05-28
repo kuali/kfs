@@ -32,6 +32,8 @@ public interface BudgetConstructionReportsServiceHelper {
 
     public Collection getDataForBuildingReports(Class clazz, String personUserIdentifier, List<String> orderList);
     
+    public Collection getDataForBuildingReports(Class clazz, Map searchCriteria, List<String> orderList);
+    
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
         
     public String getSelectedObjectCodes (String personUserIdentifier);

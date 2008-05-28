@@ -40,6 +40,6 @@ public interface BudgetConstructionReasonStatisticsReportService {
      * @param universityFiscalYear
      * @param accountFundingDetailList
      */
-    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
     
 }

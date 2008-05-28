@@ -300,11 +300,11 @@ public class OrganizationReportSelectionAction extends KualiAction {
                 break;
             case REASON_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).updateReasonSummaryReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier, budgetConstructionReportThresholdSettings);
                 break;    
             case REASON_STATISTICS_REPORT:
                 SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(personUserIdentifier, universityFiscalYear, budgetConstructionReportThresholdSettings);
-                reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, personUserIdentifier, budgetConstructionReportThresholdSettings);
                 break;
                 
             case TWOPLG_LIST_REPORT:

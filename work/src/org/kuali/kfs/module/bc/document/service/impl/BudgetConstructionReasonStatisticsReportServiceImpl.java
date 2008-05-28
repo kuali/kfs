@@ -26,6 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
 import org.kuali.module.budget.bo.BudgetConstructionOrgReasonStatisticsReport;
@@ -63,7 +64,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
     }
 
-    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection<BudgetConstructionOrgReasonStatisticsReport> reportSet = new ArrayList();
 
 
@@ -87,7 +88,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         // build reports
         for (BudgetConstructionSalaryTotal reasonStatisticsEntry : reasonStatisticsList) {
             orgReasonStatisticsReportEntry = new BudgetConstructionOrgReasonStatisticsReport();
-            buildReportsHeader(universityFiscalYear, objectCodes, orgReasonStatisticsReportEntry, reasonStatisticsEntry);
+            buildReportsHeader(universityFiscalYear, objectCodes, orgReasonStatisticsReportEntry, reasonStatisticsEntry, budgetConstructionReportThresholdSettings);
             buildReportsBody(orgReasonStatisticsReportEntry, reasonStatisticsEntry);
             reportSet.add(orgReasonStatisticsReportEntry);
         }
@@ -99,7 +100,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      * 
      * @param BudgetConstructionObjectDump bcod
      */
-    public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry) {
+    public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
 
         // set fiscal year
         Integer prevFiscalyear = universityFiscalYear - 1;
@@ -129,6 +130,15 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         }
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgReasonStatisticsReportEntry.setObjectCodes(objectCodes);
+        
+        if(budgetConstructionReportThresholdSettings.isUseThreshold()){
+            if(budgetConstructionReportThresholdSettings.isUseGreaterThanOperator()){
+                orgReasonStatisticsReportEntry.setThreshold(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_GREATER + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
+            } else {
+                orgReasonStatisticsReportEntry.setThreshold(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_LESS + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
+            }
+        }
+        
     }
 
 

@@ -317,7 +317,7 @@
 					<reportElement
 						x="9"
 						y="0"
-						width="63"
+						width="86"
 						height="12"
 						key="textField-219"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -332,7 +332,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="72"
+						x="95"
 						y="0"
 						width="42"
 						height="12"
@@ -349,7 +349,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="115"
+						x="138"
 						y="0"
 						width="153"
 						height="12"
@@ -1920,7 +1920,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{iuClassificationLevel}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="204"
 						y="12"

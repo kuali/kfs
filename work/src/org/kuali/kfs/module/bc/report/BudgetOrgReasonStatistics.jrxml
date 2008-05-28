@@ -364,6 +364,24 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{threshold}]]></textFieldExpression>
 				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="250"
+						y="127"
+						width="104"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="353"
+						y="127"
+						width="104"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 			</band>
 		</pageHeader>
 		<columnHeader>
@@ -741,7 +759,7 @@
 					<reportElement
 						x="9"
 						y="12"
-						width="213"
+						width="247"
 						height="12"
 						key="textField-74"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -756,7 +774,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="222"
+						x="261"
 						y="12"
 						width="125"
 						height="12"
@@ -796,7 +814,7 @@
 					<reportElement
 						x="10"
 						y="12"
-						width="213"
+						width="247"
 						height="12"
 						key="textField-75"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -811,7 +829,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="223"
+						x="261"
 						y="12"
 						width="125"
 						height="12"

@@ -33,8 +33,10 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.service.BudgetParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -80,6 +82,9 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     // is involved in the benefits calculation - ie exists in 
     private boolean isBenefitsCalcNeeded;
     private boolean isMonthlyBenefitsCalcNeeded;
+    
+    private boolean isSalarySettingOnly;
+    private AccountSalarySettingOnlyCause accountSalarySettingOnlyCause; 
 
 
     public BudgetConstructionDocument() {
@@ -695,6 +700,47 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void setMonthlyBenefitsCalcNeeded(boolean isMonthlyBenefitsCalcNeeded) {
         this.isMonthlyBenefitsCalcNeeded = isMonthlyBenefitsCalcNeeded;
+    }
+
+    /**
+     * Gets the isSalarySettingOnly attribute. 
+     * @return Returns the isSalarySettingOnly.
+     */
+    public boolean isSalarySettingOnly() {
+        if (this.getAccountSalarySettingOnlyCause() == AccountSalarySettingOnlyCause.MISSING_PARAM || this.getAccountSalarySettingOnlyCause() == AccountSalarySettingOnlyCause.NONE){
+            isSalarySettingOnly = false;
+        } else {
+            isSalarySettingOnly = true;
+        }
+        return isSalarySettingOnly;
+    }
+
+    /**
+     * Sets the isSalarySettingOnly attribute value.
+     * @param isSalarySettingOnly The isSalarySettingOnly to set.
+     */
+    public void setSalarySettingOnly(boolean isSalarySettingOnly) {
+        this.isSalarySettingOnly = isSalarySettingOnly;
+    }
+
+    /**
+     * Gets the accountSalarySettingOnlyCause attribute. 
+     * @return Returns the accountSalarySettingOnlyCause.
+     */
+    public AccountSalarySettingOnlyCause getAccountSalarySettingOnlyCause() {
+        if (accountSalarySettingOnlyCause == null){
+            accountSalarySettingOnlyCause = SpringContext.getBean(BudgetParameterService.class).isSalarySettingOnlyAccount(this);
+        }
+            
+        return accountSalarySettingOnlyCause;
+    }
+
+    /**
+     * Sets the accountSalarySettingOnlyCause attribute value.
+     * @param accountSalarySettingOnlyCause The accountSalarySettingOnlyCause to set.
+     */
+    public void setAccountSalarySettingOnlyCause(AccountSalarySettingOnlyCause accountSalarySettingOnlyCause) {
+        this.accountSalarySettingOnlyCause = accountSalarySettingOnlyCause;
     }
 
     /**

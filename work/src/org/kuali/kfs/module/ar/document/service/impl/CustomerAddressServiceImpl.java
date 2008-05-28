@@ -20,17 +20,23 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.CustomerAddress;
+import org.kuali.module.ar.dao.CustomerAddressDao;
 import org.kuali.module.ar.service.CustomerAddressService;
 
 public class CustomerAddressServiceImpl implements CustomerAddressService {
+    private CustomerAddressDao customerAddressDao;
 
     private BusinessObjectService businessObjectService;
-    
+    private SequenceAccessorService sequenceAccessorService;
+
+    private static final String CUST_ADDR_ID_SEQ = "CUST_ADDR_ID_SEQ";
+
     public CustomerAddress getByPrimaryKey(String customerNumber, Integer customerAddressIdentifier) {
-        
+
         CustomerAddress customerAddress = null;
         if (StringUtils.isNotBlank(customerNumber) && ObjectUtils.isNotNull(customerAddressIdentifier)) {
             Map criteria = new HashMap();
@@ -38,7 +44,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
             criteria.put("customerAddressIdentifier", customerAddressIdentifier);
 
             customerAddress = (CustomerAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CustomerAddress.class, criteria);
-        }        
+        }
         return customerAddress;
     }
 
@@ -55,6 +61,35 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
      */
     public boolean customerAddressExists(String customerNumber, Integer customerAddressIdentifier) {
         return ObjectUtils.isNotNull(getByPrimaryKey(customerNumber, customerAddressIdentifier));
+    }
+
+    public Integer getMaxSquenceNumber(String customerNumber) {
+
+        return customerAddressDao.getMaxSquenceNumber(customerNumber);
+    }
+
+    public CustomerAddressDao getCustomerAddressDao() {
+        return customerAddressDao;
+    }
+
+    public void setCustomerAddressDao(CustomerAddressDao customerAddressDao) {
+        this.customerAddressDao = customerAddressDao;
+    }
+
+    public Integer getNextCustomerAddressIdentifier() {
+
+        Long nextCustomerAddressIdentifier = sequenceAccessorService.getNextAvailableSequenceNumber(CUST_ADDR_ID_SEQ);
+
+        return nextCustomerAddressIdentifier.intValue();
+
+    }
+
+    public SequenceAccessorService getSequenceAccessorService() {
+        return sequenceAccessorService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
 
 }

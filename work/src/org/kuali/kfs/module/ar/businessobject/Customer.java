@@ -458,6 +458,7 @@ public class Customer extends PersistableBusinessObjectBase {
 
     /**
      * Sets the customerInternalNotes attribute value.
+     * 
      * @param customerInternalNotes The customerInternalNotes to set.
      */
     public void setCustomerInternalNotes(List<CustomerInternalNote> customerInternalNotes) {
@@ -483,6 +484,7 @@ public class Customer extends PersistableBusinessObjectBase {
 
     /**
      * This method gets customerAddresses
+     * 
      * @return customerAddresses
      */
     public List<CustomerAddress> getCustomerAddresses() {
@@ -491,6 +493,7 @@ public class Customer extends PersistableBusinessObjectBase {
 
     /**
      * This method sets customerAddresses
+     * 
      * @param customerAddresses
      */
     public void setCustomerAddresses(List<CustomerAddress> customerAddresses) {

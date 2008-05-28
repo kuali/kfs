@@ -28,6 +28,8 @@
         <ref bean="CustomerAddress-customerNumber" />
         <ref bean="CustomerAddress-customerStateCode" />
         <ref bean="CustomerAddress-customerZipCode" />
+        <ref bean="CustomerAddress-customerCountryCode" />
+        <ref bean="CustomerAddress-customerAddressInternationalProvinceName" />
         <ref bean="CustomerAddress-versionNumber" />
       </list>
     </property>
@@ -57,8 +59,7 @@
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+      <bean parent="HiddenControlDefinition" />
     </property>
     <property name="summary" value="customerAddressIdentifier" />
     <property name="description" value="customerAddressIdentifier description..." />
@@ -86,15 +87,16 @@
   <bean id="CustomerAddress-customerAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerAddressTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Address Type Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Customer Address Type" />
+    <property name="shortLabel" value="Type" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.CustomerAddressTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="customerAddressTypeCode" />
     <property name="description" value="customerAddressTypeCode description..." />
@@ -243,6 +245,47 @@
     <property name="summary" value="customerZipCode" />
     <property name="description" value="customerZipCode description..." />
   </bean>
+  
+  <bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
+
+  <bean id="CustomerAddress-customerCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryNotRestrictedValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="customerCountryCode" />
+    <property name="description" value="customerCountryCode description..." />
+  </bean>
+  
+   <bean id="CustomerAddress-customerAddressInternationalProvinceName" parent="CustomerAddress-customerAddressInternationalProvinceName-parentBean" />
+    
+   <bean id="CustomerAddress-customerAddressInternationalProvinceName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerAddressInternationalProvinceName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Province Name" />
+    <property name="shortLabel" value="Province" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+    <property name="summary" value="customerAddressInternationalProvinceName" />
+    <property name="description" value="customerAddressInternationalProvinceName description..." />
+  </bean>
+  
   <bean id="CustomerAddress-versionNumber" parent="CustomerAddress-versionNumber-parentBean" />
 
   <bean id="CustomerAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -359,6 +402,10 @@
               p:attributeName="customerStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="customerZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerCountryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerAddressInternationalProvinceName" />
       </list>
     </property>
   </bean>

@@ -15,8 +15,8 @@
  */
 package org.kuali.module.ar.service.impl;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.dao.CustomerDao;
 import org.kuali.module.ar.service.CustomerService;
@@ -27,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDao customerDao;
     private SequenceAccessorService sequenceAccessorService;
+    private BusinessObjectService businessObjectService;
     private static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
 
     /**
@@ -57,6 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method gets the sequenceAccessorService
+     * 
      * @return the sequenceAccessorService
      */
     public SequenceAccessorService getSequenceAccessorService() {
@@ -65,17 +67,26 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method sets the sequenceAccessorService
+     * 
      * @param sequenceAccessorService
      */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
-    
+
     /**
      * @see org.kuali.module.ar.service.CustomerService#getCustomerByName(java.lang.String)
      */
     public Customer getCustomerByName(String customerName) {
         return customerDao.getByName(customerName);
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

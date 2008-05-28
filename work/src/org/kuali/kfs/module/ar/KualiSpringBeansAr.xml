@@ -69,6 +69,7 @@
 
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerDaoOjb" />
+	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerAddressDaoOjb" />
 	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.SystemInformationDaoOjb" />
 	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.LockboxDaoOjb" />
 	
@@ -97,7 +98,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-	</bean>
+	</bean>	
 	
 	<bean id="customerCreditMemoDetailService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDetailServiceImpl"/>
 	
@@ -138,7 +139,7 @@
 		</property>		
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>
+		</property>				
 		<property name="customerAddressService">
 			<ref bean="customerAddressService" />
 		</property>									
@@ -147,7 +148,13 @@
     <bean id="customerAddressService" class="org.kuali.module.ar.service.impl.CustomerAddressServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>			
+		</property>	
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+        <property name="customerAddressDao">
+			<ref bean="customerAddressDao" />
+		</property>		
 	</bean>		
 	
     <bean id="receivableAccountingLineService" class="org.kuali.module.ar.service.impl.ReceivableAccountingLineServiceImpl">

@@ -21,22 +21,26 @@ public interface CustomerService {
 
     /**
      * Return customer by customerNumber
+     * 
      * @param customerNumber
      * @return
      */
     public Customer getByPrimaryKey(String customerNumber);
-    
+
     /**
      * This method builds the new customer number
+     * 
      * @param newCustomer the new customer
      * @return the new customer number
      */
     public String getNextCustomerNumber(Customer newCustomer);
-    
+
     /**
      * This method gets a customer given his name
+     * 
      * @param customerName
      * @return the customer with the given name
      */
     public Customer getCustomerByName(String customerName);
+
 }

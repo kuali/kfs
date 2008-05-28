@@ -71,7 +71,7 @@ public class CustomerTypeRule extends MaintenanceDocumentRuleBase {
 
         for (CustomerType record : dataToValidateList) {
             if (customerType.getCustomerTypeDescription() != null && customerType.getCustomerTypeDescription().equalsIgnoreCase(record.getCustomerTypeDescription())) {
-                putFieldError(ArConstants.CUSTOMER_TYPE_DESC, ArConstants.ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE);
+                putFieldError(ArConstants.CustomerTypeFields.CUSTOMER_TYPE_DESC, ArConstants.CustomerTypeConstants.ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE);
                 success = false;
                 break;
             }

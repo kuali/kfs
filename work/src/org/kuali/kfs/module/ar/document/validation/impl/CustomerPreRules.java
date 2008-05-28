@@ -40,17 +40,18 @@ public class CustomerPreRules extends PreRulesContinuationBase {
 
     /**
      * This method checks if there is another customer with the same name and generates yes/no question
+     * 
      * @param document the maintenance document
      * @return
      */
     private boolean conditionallyAskQuestion(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         Customer newCostomer = (Customer) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        boolean shouldAskQuestion = checkIfOtherCustomerSameName(newCostomer);
+        boolean shouldAskQuestion = maintenanceDocument.isNew() && checkIfOtherCustomerSameName(newCostomer);
 
         if (shouldAskQuestion) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
-            boolean confirm = super.askOrAnalyzeYesNoQuestion(ArConstants.GENERATE_CUSTOMER_QUESTION_ID, questionText);
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
+            boolean confirm = super.askOrAnalyzeYesNoQuestion(ArConstants.CustomerConstants.GENERATE_CUSTOMER_QUESTION_ID, questionText);
             if (!confirm) {
                 super.abortRulesCheck();
             }
@@ -60,6 +61,7 @@ public class CustomerPreRules extends PreRulesContinuationBase {
 
     /**
      * This method checks if a customer with the same name already exists
+     * 
      * @param newCustomer
      * @return true if exists, false otherwise
      */
@@ -68,7 +70,7 @@ public class CustomerPreRules extends PreRulesContinuationBase {
         Customer customer = SpringContext.getBean(CustomerService.class).getCustomerByName(newCustomer.getCustomerName());
         if (ObjectUtils.isNotNull(customer)) {
             exists = true;
-            GlobalVariables.getMessageList().add(ArConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
+            GlobalVariables.getMessageList().add(ArConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
         }
         return exists;
     }

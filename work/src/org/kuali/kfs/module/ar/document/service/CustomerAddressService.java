@@ -18,20 +18,24 @@ package org.kuali.module.ar.service;
 import org.kuali.module.ar.bo.CustomerAddress;
 
 public interface CustomerAddressService {
-    
+
     /**
      * This method returns a customer address by primary key
+     * 
      * @param customerNumber
      * @param customerAddressIdentifier
      * @return
      */
-    public CustomerAddress getByPrimaryKey( String customerNumber, Integer customerAddressIdentifier );    
-    
+    public CustomerAddress getByPrimaryKey(String customerNumber, Integer customerAddressIdentifier);
+
     /**
      * This method returns true if customer address exists
+     * 
      * @param customerNumber
      * @param customerAddressIdentifier
      * @return
      */
-    public boolean customerAddressExists( String customerNumber, Integer customerAddressIdentifier );
+    public boolean customerAddressExists(String customerNumber, Integer customerAddressIdentifier);
+
+    public Integer getNextCustomerAddressIdentifier();
 }

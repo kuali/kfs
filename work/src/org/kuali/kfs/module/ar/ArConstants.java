@@ -56,7 +56,7 @@ public class ArConstants {
     public static final String CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID = "customerInvoiceDocumentGeneralLedgerPostingHelper";
 
     public static final String CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT = "EA"; //TODO: System parameter?
-    
+
     // Customer Credit Memo errors:
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT = "error.document.customerCreditMemoDocument.invalidDataInput";
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO = "error.document.customerCreditMemoDocument.invalidCustomerCreditMemoItemQuantity";
@@ -88,7 +88,7 @@ public class ArConstants {
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE = "error.document.customerInvoiceDocument.invalidPaymentObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_OBJECT_CODE = "error.document.customerInvoiceDocument.invalidPaymentSubObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_PROJECT_CODE = "error.document.customerInvoiceDocument.invalidPaymentProjectCode";
-    
+
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER = "error.document.customerInvoiceDocument.invalidShipToAddressIdentifier";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER = "error.document.customerInvoiceDocument.invalidBillToAddressIdentifier";
 
@@ -119,7 +119,7 @@ public class ArConstants {
         public static final String CUSTOMER_PAYMENT_MEDIUM_CODE = "customerPaymentMediumCode";
         public static final String CUSTOMER_NUMBER = "customerNumber";
     }
-    
+
     public static class CustomerCreditMemoDocumentFields {
         public static final String CREDIT_MEMO_ITEM_QUANTITY = "creditMemoItemQuantity";
         public static final String CREDIT_MEMO_ITEM_TOTAL_AMOUNT = "creditMemoItemTotalAmount";
@@ -180,7 +180,7 @@ public class ArConstants {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
     }
-    
+
     public static class CustomerCreditMemoConstants {
         public static final String CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY = "qty";
         public static final String CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT = "itemAmount";
@@ -191,12 +191,29 @@ public class ArConstants {
     public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
+
+    public static class CustomerFields {
+        public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
+        public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
+        public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
+        public static final String CUSTOMER_ADDRESS_NUMBER = "customerNumber";
+    }
+
+    public static class CustomerConstants {
+        public static final String MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS = "message.document.customerMaintenance.customerWithSameNameExists";
+        public static final String GENERATE_CUSTOMER_QUESTION_ID = "GenerateCustomerQuestionID";
+        public static final String ERROR_AT_LEAST_ONE_ADDRESS = "error.document.customer.addressRequired";
+        public static final String ERROR_ONLY_ONE_PRIMARY_ADDRESS = "error.document.customer.oneAndOnlyOnePrimaryAddressRequired";
+        public static final String CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY = "P";
+        public static final String CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE = "A";
+    }
+
+    public static class CustomerTypeFields {
+        public static final String CUSTOMER_TYPE_DESC = "customerTypeDescription";
+    }
+
+    public static class CustomerTypeConstants {
+        public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
+    }
     
-    // Customer type constants
-    public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
-    public static final String CUSTOMER_TYPE_DESC = "customerTypeDescription";
-    public static final String MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS = "message.document.customerMaintenance.customerWithSameNameExists";
-    public static final String GENERATE_CUSTOMER_QUESTION_ID = "GenerateCustomerQuestionID";
-    public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
-    public static final String ERROR_AT_LEAST_ONE_ADDRESS = "error.document.customer.addressRequired";
 }

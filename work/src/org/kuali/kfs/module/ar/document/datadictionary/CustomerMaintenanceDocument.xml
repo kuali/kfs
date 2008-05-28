@@ -8,11 +8,12 @@
 
   <bean id="CustomerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.module.ar.bo.Customer" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.module.ar.maintenance.CustomerMaintenableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="CustomerMaintenanceDocument-EditCustomer" />
         <ref bean="CustomerMaintenanceDocument-Addresses" />
+        <ref bean="CustomerMaintenanceDocument-InternalNotes" />
       </list>
     </property>
 
@@ -35,7 +36,7 @@
     <property name="documentTypeName" value="CustomerMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerRule" />
     <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.CustomerPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CustomerAuthorizer" />
     <property name="documentTypeCode" value="CUS" />
     <property name="authorizations" >
       <list>
@@ -72,6 +73,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="customerTypeCode" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="customerRecordAddDate"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="customerSocialSecurityNumberIdentifier" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerFederalIdentifierNumber" />
@@ -96,16 +100,16 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="customerBirthDate" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerAddressChangeDate" />
+              p:name="customerActiveIndicator"
+              p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerLastActivityDate" />
+              p:name="customerLastActivityDate"
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerRecordAddDate" />
+              p:name="customerAddressChangeDate"
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerActiveIndicator" />
-        
       </list>
     </property>
   </bean>
@@ -132,15 +136,15 @@
             <list>
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressIdentifier"
-                    p:required="true" />
+                    p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressName"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerLine1StreetAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerLine2StreetAddress"
+                    p:name="customerLine1StreetAddress"
                     p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerLine2StreetAddress" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerCityName" />
               <bean parent="MaintainableFieldDefinition"
@@ -152,10 +156,14 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerEmailAddress" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressTypeCode" 
-                    p:defaultValue="P"/>
+                    p:name="customerAddressTypeCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressEndDate" />     
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerCountryCode"
+                    p:required="true" /> 
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressInternationalProvinceName" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
@@ -165,4 +173,33 @@
         </property>
         </bean>
         
+        <bean id="CustomerMaintenanceDocument-InternalNotes" parent="CustomerMaintenanceDocument-InternalNotes-parentBean" />
+
+  <bean id="CustomerMaintenanceDocument-InternalNotes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="InternalNotes" />
+    <property name="title" value="Internal Notes" />
+    <property name="maintainableItems" >
+      <list>
+      <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="customerInternalNotes" />
+          <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerInternalNote" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerInternalNoteText" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerInternalNoteText"
+                    p:required="true" />   
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+        </list>
+        </property>
+        </bean>
 </beans>

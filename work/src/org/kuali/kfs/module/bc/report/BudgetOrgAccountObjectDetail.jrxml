@@ -165,9 +165,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="13"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-126"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -267,9 +267,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="26"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-132"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -352,9 +352,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="51"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-137"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -552,9 +552,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="13"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-168"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -654,9 +654,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="26"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-174"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -739,9 +739,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="51"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-179"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -945,9 +945,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="1"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-104"
 						isRemoveLineWhenBlank="true">
@@ -1079,9 +1079,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="14"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-115"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1260,9 +1260,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="0"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-146"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1444,9 +1444,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="0"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-157"
 						isRemoveLineWhenBlank="true">
@@ -2356,9 +2356,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="711"
+						x="684"
 						y="0"
-						width="26"
+						width="53"
 						height="12"
 						key="textField-12"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -2530,7 +2530,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgLevelSummary}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgAccountObjectSummary}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2568,7 +2568,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgLevelSummary}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgAccountObjectSummary}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

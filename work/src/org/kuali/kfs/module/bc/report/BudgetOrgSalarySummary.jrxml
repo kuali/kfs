@@ -2062,7 +2062,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgAccountFundingDetail}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgSalarySummary}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2117,7 +2117,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgAccountFundingDetail}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgSalarySummary}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

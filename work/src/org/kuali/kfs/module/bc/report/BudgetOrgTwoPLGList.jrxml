@@ -528,7 +528,7 @@
 					<reportElement
 						x="9"
 						y="2"
-						width="159"
+						width="213"
 						height="13"
 						key="textField-84"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -539,13 +539,13 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgSubFundSummary}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgList2PLG}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="168"
+						x="222"
 						y="2"
-						width="65"
+						width="125"
 						height="13"
 						key="textField-55"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -566,7 +566,7 @@
 					<reportElement
 						x="9"
 						y="2"
-						width="158"
+						width="213"
 						height="13"
 						key="textField-83"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -577,13 +577,13 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgSubFundSummary}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{footer.orgList2PLG}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="168"
+						x="222"
 						y="2"
-						width="65"
+						width="125"
 						height="13"
 						key="textField-56"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

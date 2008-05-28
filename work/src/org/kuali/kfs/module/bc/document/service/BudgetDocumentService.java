@@ -20,6 +20,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
+import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
@@ -62,6 +63,19 @@ public interface BudgetDocumentService {
      * @throws ValidationException
      */
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument budgetConstructionDocument) throws ValidationException;
+    
+    /**
+     * Performs all actions needed to validate and save a Budget Construction document to the database only.
+     * Whether or not the monthly RI check is performed during validation is controled using doMonthRICheck.
+     * Passing in false is a case used by the monthlySpread deletion functionality.  No need to perform monthly RI
+     * check if the action is to remove all the records
+     * 
+     * @param bcDoc
+     * @param doMonthRICheck
+     * @return
+     * @throws ValidationException
+     */
+    public Document saveDocumentNoWorkFlow(BudgetConstructionDocument bcDoc, MonthSpreadDeleteType monthSpreadDeleteType, boolean doMonthRICheck) throws ValidationException;
     
     /**
      * Checks if annual and/or monthly benefits need calculated and calls the associated calculation method

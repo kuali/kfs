@@ -53,12 +53,14 @@ import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.bo.SalarySettingExpansion;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.AddPendingBudgetGeneralLedgerLineRule;
+import org.kuali.module.budget.rule.DeleteMonthlySpreadRule;
 import org.kuali.module.budget.rule.DeletePendingBudgetGeneralLedgerLineRule;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.BudgetDocumentService;
@@ -69,7 +71,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 
-public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger> {
+public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRules.class);
 
     // some services used here - other service refs are from parent classes
@@ -116,13 +118,33 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
 
         if (isValid) {
             // TODO may need to add doc or bcdoc to error path?
-            isValid &= processSaveBudgetDocumentRules((BudgetConstructionDocument) document);
+            isValid &= processSaveBudgetDocumentRules((BudgetConstructionDocument) document, MonthSpreadDeleteType.NONE);
         }
 
         // no custom save rules since we are overriding and doing what we want here already
 
         LOG.debug("processSaveDocument(Document) - end");
         return isValid;
+    }
+    
+    public boolean processDeleteMonthlySpreadRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType){
+        LOG.debug("processDeleteRevenueMonthlySpreadRules(Document) - start");
+
+        boolean isValid = true;
+
+        // run through the attributes recursively and check dd stuff
+        isValid &= isDocumentAttributesValid(budgetConstructionDocument, true);
+
+        if (isValid) {
+            // TODO may need to add doc or bcdoc to error path?
+            isValid &= processSaveBudgetDocumentRules(budgetConstructionDocument, monthSpreadDeleteType);
+        }
+
+        // no custom save rules since we are overriding and doing what we want here already
+
+        LOG.debug("processDeleteRevenueMonthlySpreadRules(Document) - end");
+        return isValid;
+        
     }
 
     /**
@@ -133,9 +155,11 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.module.budget.rule.SaveBudgetDocumentRule#processSaveBudgetDocumentRules(D)
      */
-    public boolean processSaveBudgetDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
+    public boolean processSaveBudgetDocumentRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
 
         ErrorMap errors = GlobalVariables.getErrorMap();
+        boolean doRevMonthRICheck = true;
+        boolean doExpMonthRICheck = true;
         boolean isValid = true;
         int originalErrorCount;
         int currentErrorCount;
@@ -158,12 +182,22 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         // budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
         errors.addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
+        
+        if (monthSpreadDeleteType == MonthSpreadDeleteType.REVENUE){
+            doRevMonthRICheck = false;
+            doExpMonthRICheck = true;
+        } else {
+            if (monthSpreadDeleteType == MonthSpreadDeleteType.EXPENDITURE){
+                doRevMonthRICheck = true;
+                doExpMonthRICheck = false;
+            }
+        }
 
         // iterate and validate revenue lines
-        isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, true);
+        isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, true, doRevMonthRICheck);
 
         // iterate and validate expenditure lines
-        isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, false);
+        isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, false, doExpMonthRICheck);
 
         errors.removeFromErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
 
@@ -308,7 +342,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
      * @param isRevenue
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isRevenue) {
+    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isRevenue, boolean doMonthRICheck) {
 
         boolean isValid = true;
         boolean isReqAmountValid;
@@ -365,28 +399,30 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
 
                 // check monthly for all rows
-                if (element.getBudgetConstructionMonthly() != null && !element.getBudgetConstructionMonthly().isEmpty()) {
+                if (doMonthRICheck){
+                    if (element.getBudgetConstructionMonthly() != null && !element.getBudgetConstructionMonthly().isEmpty()) {
 
-                    BudgetConstructionMonthly budgetConstructionMonthly = element.getBudgetConstructionMonthly().get(0);
-                    if (budgetConstructionMonthly != null) {
-                        KualiInteger monthSum = KualiInteger.ZERO; 
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth2LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth3LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth4LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth5LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth6LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth7LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth8LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth9LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth10LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth11LineAmount());
-                        monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth12LineAmount());
-                        
-                        if (!monthSum.equals(element.getAccountLineAnnualBalanceAmount())){
-                            isValid &= false;
-                            String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
-                            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL, pkeyVal, monthSum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
+                        BudgetConstructionMonthly budgetConstructionMonthly = element.getBudgetConstructionMonthly().get(0);
+                        if (budgetConstructionMonthly != null) {
+                            KualiInteger monthSum = KualiInteger.ZERO; 
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth2LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth3LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth4LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth5LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth6LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth7LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth8LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth9LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth10LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth11LineAmount());
+                            monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth12LineAmount());
+                            
+                            if (!monthSum.equals(element.getAccountLineAnnualBalanceAmount())){
+                                isValid &= false;
+                                String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
+                                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL, pkeyVal, monthSum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
+                            }
                         }
                     }
                 }

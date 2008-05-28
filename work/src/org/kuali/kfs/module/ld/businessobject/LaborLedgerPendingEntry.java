@@ -34,7 +34,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
-    private KualiDecimal transactionTotalHours;
+    private BigDecimal transactionTotalHours;
     private Integer payrollEndDateFiscalYear;
     private String payrollEndDateFiscalPeriodCode;
     private String emplid;
@@ -124,7 +124,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      * 
      * @return Returns the transactionTotalHours
      */
-    public KualiDecimal getTransactionTotalHours() {
+    public BigDecimal getTransactionTotalHours() {
         return transactionTotalHours;
     }
 
@@ -133,7 +133,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      * 
      * @param transactionTotalHours The transactionTotalHours to set.
      */
-    public void setTransactionTotalHours(KualiDecimal transactionTotalHours) {
+    public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
     }
 

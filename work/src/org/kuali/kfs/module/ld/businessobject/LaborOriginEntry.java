@@ -45,7 +45,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
-    private KualiDecimal transactionTotalHours;
+    private BigDecimal transactionTotalHours;
     private Integer payrollEndDateFiscalYear;
     private String payrollEndDateFiscalPeriodCode;
     private String financialDocumentApprovedCode;
@@ -205,7 +205,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @return Returns the transactionTotalHours
      */
-    public KualiDecimal getTransactionTotalHours() {
+    public BigDecimal getTransactionTotalHours() {
         return transactionTotalHours;
     }
 
@@ -214,7 +214,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param transactionTotalHours The transactionTotalHours to set.
      */
-    public void setTransactionTotalHours(KualiDecimal transactionTotalHours) {
+    public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
     }
 
@@ -845,7 +845,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         }
         else {
             try {
-                setTransactionTotalHours(new KualiDecimal(getValue(line, 213, 222)));
+                setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
             }
             catch (NumberFormatException e) {
                 GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Total Hours" });
@@ -1205,7 +1205,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         }
         else if ("transactionTotalHours".equals(fieldName)) {
             if (StringUtils.isNotBlank(fieldValue)) {
-                setTransactionTotalHours(new KualiDecimal(fieldValue));
+                setTransactionTotalHours(new BigDecimal(fieldValue));
             }
             else {
                 clearTransactionTotalHours();

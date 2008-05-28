@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.util;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -274,7 +275,7 @@ public class LaborPendingEntryConverter {
         pendingEntry.setEmplid(accountingLine.getEmplid());
         pendingEntry.setPayrollEndDateFiscalYear(accountingLine.getPayrollEndDateFiscalYear());
         pendingEntry.setPayrollEndDateFiscalPeriodCode(accountingLine.getPayrollEndDateFiscalPeriodCode());
-        pendingEntry.setTransactionTotalHours(new KualiDecimal(accountingLine.getPayrollTotalHours()));
+        pendingEntry.setTransactionTotalHours(accountingLine.getPayrollTotalHours());
         pendingEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
 
         return pendingEntry;

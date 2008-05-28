@@ -16,6 +16,7 @@
 package org.kuali.kfs.context;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +38,8 @@ import org.kuali.kfs.service.impl.KualiCodeServiceImpl;
 import org.kuali.kfs.service.impl.OptionsServiceImpl;
 import org.kuali.kfs.service.impl.OriginationCodeServiceImpl;
 import org.kuali.module.budget.service.impl.BudgetRequestImportServiceImpl;
-import org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl;
 import org.kuali.module.cg.service.impl.CgUserServiceImpl;
+import org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl;
 import org.kuali.module.chart.service.impl.A21SubAccountServiceImpl;
 import org.kuali.module.chart.service.impl.AccountServiceImpl;
 import org.kuali.module.chart.service.impl.BalanceTypServiceImpl;
@@ -196,10 +197,30 @@ public class TransactionalAnnotationTest extends KualiTestBase {
     }
 
     private boolean isClassAnnotated(String beanName, Class beanClass) {
-        if (beanClass.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
+        boolean hasClassAnnotation = false;
+        if (shouldHaveTransaction(beanClass)){
+            if (beanClass.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
+                hasClassAnnotation = true;
+            }
+            if (beanClass.getAnnotation(org.kuali.kfs.annotation.NonTransactional.class) != null){
+                hasClassAnnotation =  true;
+            }
+
+
+            boolean hasMethodAnnotation;
+            for( Method beanMethod : beanClass.getDeclaredMethods()){
+                hasMethodAnnotation = false;
+                if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) hasMethodAnnotation = true;
+                if (beanMethod.getAnnotation(org.kuali.kfs.annotation.NonTransactional.class) != null) hasMethodAnnotation = true;
+                if (hasMethodAnnotation == false && hasClassAnnotation == false) return false; 
+                if (hasMethodAnnotation == true && hasClassAnnotation == true)return false;
+
+            }
             return true;
         }
-        return !shouldHaveTransaction(beanClass);
+        return true;
+
+        //return !shouldHaveTransaction(beanClass);
     }
 
     /*

@@ -190,28 +190,6 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     }
 
     /**
-     * changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show all of the
-     * descriptions and labels for each of the pbgl line values.
-     */
-    public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        salarySettingForm.setHideDetails(false);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * toggles the value of the hide field in the user interface to "hide" so that when the page is rendered, the UI displays values
-     * without all of the descriptions and labels for each of the pbgl lines.
-     */
-    public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        salarySettingForm.setHideDetails(true);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * adds an appointment funding line to the set of existing funding lines
      */
     public ActionForward insertSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

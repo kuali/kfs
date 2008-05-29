@@ -44,9 +44,6 @@ public abstract class DetailSalarySettingForm extends KualiForm {
     
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
-    // TODO probably need to push these and some url parms to new superclass BCExpansionForm??
-    private boolean hideDetails = false;
-
     // TODO not sure editingMode is valid here since context is account,subaccount (document)
     // maybe bcdoc needs to have an editingMode map and an ojb ref to bcdoc added in bcaf?
     protected Map<String, String> editingMode;
@@ -503,24 +500,6 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      */
     public void setNewBCAFLine(PendingBudgetConstructionAppointmentFunding newBCAFLine) {
         this.newBCAFLine = newBCAFLine;
-    }
-
-    /**
-     * Gets the hideDetails attribute.
-     * 
-     * @return Returns the hideDetails.
-     */
-    public boolean isHideDetails() {
-        return hideDetails;
-    }
-
-    /**
-     * Sets the hideDetails attribute value.
-     * 
-     * @param hideDetails The hideDetails to set.
-     */
-    public void setHideDetails(boolean hideDetails) {
-        this.hideDetails = hideDetails;
     }
 
     /**

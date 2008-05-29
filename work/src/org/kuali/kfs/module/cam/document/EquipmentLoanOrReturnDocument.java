@@ -34,9 +34,9 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
+import org.kuali.module.cams.service.impl.EquipmentLoanOrReturnServiceImpl;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
@@ -66,6 +66,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     private String borrowerStoragePhoneNumber;
     private Integer insuranceCode;
     private boolean signatureCode;
+    private Long capitalAssetNumber;
 
     private Chart insuranceChartOfAccounts;
     private Account insuranceChargeAccount;
@@ -74,10 +75,8 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     private Country borrowerCountry;
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
+    private Asset asset;
 
-    private AssetHeader assetHeader;
-    // Transient attributes
-    private transient Asset asset;
 
     public Asset getAsset() {
         return asset;
@@ -331,17 +330,6 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         this.organizationTagNumber = organizationTagNumber;
     }
 
-    public AssetHeader getAssetHeader() {
-        return assetHeader;
-    }
-
-    public void setAssetHeader(AssetHeader assetHeader) {
-        this.assetHeader = assetHeader;
-    }
-
-    /**
-     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
-     */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
@@ -353,7 +341,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
 
             List<MaintenanceLock> maintenanceLocks = new ArrayList();
-            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetHeader.getCapitalAssetNumber()));
+            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
     }
@@ -366,15 +354,15 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
         super.handleRouteStatusChange();
 
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        
+
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
 
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
         }
-        
+
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(assetHeader.getDocumentNumber());
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
     }
 
@@ -393,6 +381,14 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
 
     public void setSignatureCode(boolean signatureCode) {
         this.signatureCode = signatureCode;
+    }
+
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
+
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
     }
 
 

@@ -21,7 +21,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
@@ -42,15 +41,16 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
      * </ol>
      */
     public void processApprovedEquipmentLoanOrReturn(EquipmentLoanOrReturnDocument document) {
-        AssetHeader assetHeader = document.getAssetHeader();
         Asset updateAsset = new Asset();
-        updateAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
+        updateAsset.setCapitalAssetNumber(document.getCapitalAssetNumber());
         updateAsset = (Asset) getBusinessObjectService().retrieve(updateAsset);
         updateAsset.setExpectedReturnDate(document.getExpectedReturnDate());
         updateAsset.setLoanDate(document.getLoanDate());
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
         updateAsset.setSignatureCode(document.isSignatureCode());
-
+        /*
+         * if (document.isSignatureCode()){ updateAsset.setSignatureCode("T"); } else { updateAsset.setSignatureCode("F"); }
+         */
         updateBorrowerLocation(document, updateAsset);
         updateStoreAtLocation(document, updateAsset);
 

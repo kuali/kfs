@@ -32,7 +32,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 import org.kuali.module.cams.service.AssetLocationService;
@@ -58,21 +57,10 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         EquipmentLoanOrReturnForm equipmentLoanOrReturnForm = (EquipmentLoanOrReturnForm) form;
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) equipmentLoanOrReturnForm.getDocument();
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-
-        AssetHeader assetHeader = equipmentLoanOrReturnDocument.getAssetHeader();
         Asset asset = equipmentLoanOrReturnDocument.getAsset();
         asset = handleRequestFromLookup(request, equipmentLoanOrReturnForm, equipmentLoanOrReturnDocument, service, asset);
 
-        if (equipmentLoanOrReturnDocument.getAsset() != null && (equipmentLoanOrReturnDocument.getAssetHeader() == null || assetHeader.getDocumentNumber() == null)) {
-            assetHeader = new AssetHeader();
-            assetHeader.setDocumentNumber(equipmentLoanOrReturnDocument.getDocumentNumber());
-            assetHeader.setCapitalAssetNumber(equipmentLoanOrReturnDocument.getAsset().getCapitalAssetNumber());
-            equipmentLoanOrReturnDocument.setAssetHeader(assetHeader);
-            equipmentLoanOrReturnDocument.setCampusTagNumber(asset.getCampusTagNumber());
-            equipmentLoanOrReturnDocument.setOrganizationTagNumber(asset.getOrganizationTagNumber());
-        }
-
-        asset = handleRequestFromWorkflow(equipmentLoanOrReturnForm, equipmentLoanOrReturnDocument, service, assetHeader);
+        asset = handleRequestFromWorkflow(equipmentLoanOrReturnForm, equipmentLoanOrReturnDocument, service);
         asset = equipmentLoanOrReturnDocument.getAsset();
 
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
@@ -89,13 +77,12 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
      * @param assetTransferForm Form
      * @param assetTransferDocument Document
      * @param service BusinessObjectService
-     * @param assetHeader Asset header object
      * @return Asset
      */
-    private Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, AssetHeader assetHeader) {
+    private Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService) {
         Asset newAsset = new Asset();
-        if (equipmentLoanOrReturnForm.getDocId() != null && assetHeader != null) {
-            newAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
+        if (equipmentLoanOrReturnForm.getDocId() != null) {
+            newAsset.setCapitalAssetNumber(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
             newAsset = (Asset) businessObjectService.retrieve(newAsset);
             equipmentLoanOrReturnDocument.setAsset(newAsset);
         }
@@ -133,6 +120,9 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
                     equipmentLoanOrReturnDocument.setLoanDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                     equipmentLoanOrReturnDocument.setExpectedReturnDate(null);
                 }
+                equipmentLoanOrReturnDocument.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
+                equipmentLoanOrReturnDocument.setCampusTagNumber(newAsset.getCampusTagNumber());
+                equipmentLoanOrReturnDocument.setOrganizationTagNumber(newAsset.getOrganizationTagNumber());
                 equipmentLoanOrReturnDocument.setAsset(newAsset);
             }
         }
@@ -144,7 +134,10 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         equipmentLoanOrReturnDocument.setLoanReturnDate(newAsset.getLoanReturnDate());
         equipmentLoanOrReturnDocument.setExpectedReturnDate(newAsset.getExpectedReturnDate());
         equipmentLoanOrReturnDocument.setSignatureCode(newAsset.isSignatureCode());
-
+        /*
+         * if (newAsset.getSignatureCode().equals("T")) { equipmentLoanOrReturnDocument.setSignatureCode(true); } else {
+         * equipmentLoanOrReturnDocument.setSignatureCode(false); }
+         */
         AssetLocation borrowerLocation = new AssetLocation();
         borrowerLocation.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
         borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);

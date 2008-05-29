@@ -536,8 +536,6 @@
             <list>
               <bean parent="WorkflowProperty"
                     p:path="documentHeader" />
-              <bean parent="WorkflowProperty"
-                    p:path="assetHeader" />
             </list>
           </property>
         </bean>

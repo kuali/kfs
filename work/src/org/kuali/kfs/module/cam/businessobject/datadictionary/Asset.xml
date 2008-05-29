@@ -835,19 +835,11 @@
   </bean>
   <bean id="Asset-signatureCode" parent="Asset-signatureCode-parentBean" />
 
-  <bean id="Asset-signatureCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-signatureCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="signatureCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Signature Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
     <property name="summary" value="signatureCode" />
     <property name="description" value="signatureCode description..." />
   </bean>  

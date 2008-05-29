@@ -127,7 +127,7 @@
 	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_IUPD_CASE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
@@ -1010,9 +1010,6 @@
     </reference-descriptor>
     <reference-descriptor name="borrowerStorageCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="borrowerStorageCountryCode" />
-    </reference-descriptor>
-    <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-		<foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />

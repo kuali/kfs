@@ -1134,14 +1134,23 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setInventoryScannedCode(String inventoryScannedCode) {
         this.inventoryScannedCode = inventoryScannedCode;
     }
+    
+    /**
+     * Gets the signatureCode attribute.
+     * 
+     * @return Returns the signatureCode
+     */   
+    public boolean isSignatureCode() {
+        return signatureCode;
+    }
 
     /**
      * Sets the signatureCode attribute.
      * 
      * @param signatureCode The signatureCode to set.
      */
-    public void setSignatureCode(boolean b) {
-        this.signatureCode = b;
+    public void setSignatureCode(boolean signatureCode) {
+        this.signatureCode = signatureCode;
     }
 
     /**
@@ -1950,9 +1959,5 @@ public class Asset extends PersistableBusinessObjectBase {
         this.agency = agency;
     }
 
-    public boolean isSignatureCode() {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
 }

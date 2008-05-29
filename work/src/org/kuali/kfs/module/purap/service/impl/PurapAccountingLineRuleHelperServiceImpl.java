@@ -17,8 +17,9 @@ package org.kuali.module.purap.service.impl;
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl;
+import org.kuali.module.purap.service.PurapAccountingLineRuleHelperService;
 
-public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl {
+public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl implements PurapAccountingLineRuleHelperService{
 
     /**
      * @see org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.bo.AccountingLine, java.lang.String)

@@ -32,6 +32,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -41,6 +42,7 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 import org.kuali.module.purap.rule.ImportPurchasingAccountsPayableItemRule;
+import org.kuali.module.purap.service.PurapAccountingLineRuleHelperService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -511,5 +513,10 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         }
 
         return true;
+    }
+
+    @Override
+    protected AccountingLineRuleHelperService getAccountingLineRuleHelperService() {
+        return SpringContext.getBean(PurapAccountingLineRuleHelperService.class);
     }
 }

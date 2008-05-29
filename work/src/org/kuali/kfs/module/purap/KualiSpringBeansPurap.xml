@@ -62,8 +62,8 @@
 		</property>
 	</bean>
 
-	<!--  override -->
-    <bean id="accountingLineRuleHelperService" class="org.kuali.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">
+	<!--  override accounting service -->
+    <bean id="purapAccountingLineRuleHelperService" class="org.kuali.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>
 	<!--  end override -->

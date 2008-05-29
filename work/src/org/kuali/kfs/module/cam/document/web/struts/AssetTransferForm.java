@@ -33,7 +33,6 @@ public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
     public AssetTransferForm() {
         super();
         setDocument(new AssetTransferDocument());
-        // If this is not done, when document description error is there, message comes back with read-only mode
         Map<String, String> editModeMap = new HashMap<String, String>();
         editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
         setEditingMode(editModeMap);

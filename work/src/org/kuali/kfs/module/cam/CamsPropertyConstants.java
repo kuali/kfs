@@ -189,6 +189,7 @@ public class CamsPropertyConstants {
         public static final String TRANSFER_FUND_FINANCIAL_DOC = "transferOfFundsFinancialDocument";
         public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM = "transferOfFundsFinancialDocumentNumber";
         public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
+        public static final String ASSET = "asset";
     }
 
     public static class AssetComponent {
@@ -277,6 +278,12 @@ public class CamsPropertyConstants {
         public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
+
+    }
+
+    public static class AssetDepreciationConvention {
+
+        public static final String FINANCIAL_OBJECT_SUB_TYPE_CODE = "financialObjectSubTypeCode";
 
     }
 }

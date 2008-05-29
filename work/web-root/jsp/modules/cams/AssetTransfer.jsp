@@ -20,11 +20,9 @@
 	<c:set var="assetOrgAttributes" value="${DataDictionary.AssetOrganization.attributes}" />
 	<html:hidden property="loanNoteAdded" />
 	<html:hidden property="document.asset.capitalAssetNumber" />
+	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.asset.expectedReturnDate" />
 	<html:hidden property="document.asset.loanReturnDate" />
-	<html:hidden property="document.assetHeader.capitalAssetNumber" />
-	<html:hidden property="document.assetHeader.documentNumber" />
-	<html:hidden property="document.assetHeader.versionNumber" />
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<kul:tab tabTitle="Asset" defaultOpen="true"> 
@@ -36,7 +34,7 @@
 		     <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
 		      	<td class="grid" width="75%" colspan="3">
-		      		<kul:htmlControlAttribute property="document.asset.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" />
+		      		<kul:htmlControlAttribute property="document.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" />
 				</td>		      	
 		     </tr>
 		      <tr>

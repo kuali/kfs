@@ -39,9 +39,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
@@ -51,8 +51,6 @@ import org.kuali.module.financial.document.TransferOfFundsDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
-    public static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
-    public final static String CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "camsGeneralLedgerPendingEntryGenerationProcess";
     private String representativeUniversalIdentifier;
     private String campusCode;
     private String buildingCode;
@@ -72,8 +70,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private boolean interdepartmentalSalesIndicator;
     private Long capitalAssetNumber;
     private UniversalUser assetRepresentative;
-
-    private AssetHeader assetHeader;
     private Campus campus;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -84,8 +80,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private Room buildingRoom;
     private transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
     private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
-
-    // Transient attributes
     private Asset asset;
 
 
@@ -96,15 +90,26 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
 
     }
 
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         return false;
     }
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -112,10 +117,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public Asset getAsset() {
         return asset;
-    }
-
-    public AssetHeader getAssetHeader() {
-        return assetHeader;
     }
 
 
@@ -209,6 +210,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return documentNumber;
     }
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount();
     }
@@ -218,10 +222,13 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
+     */
     public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        LOG.debug("getGeneralLedgerPostingHelper() " + CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+        LOG.debug("getGeneralLedgerPostingHelper() " + CamsConstants.CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
         Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+        return glPostingHelpers.get(CamsConstants.CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
 
     /**
@@ -384,7 +391,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * Gets the capitalAssetNumber attribute. 
+     * Gets the capitalAssetNumber attribute.
+     * 
      * @return Returns the capitalAssetNumber.
      */
     public Long getCapitalAssetNumber() {
@@ -393,6 +401,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     /**
      * Sets the capitalAssetNumber attribute value.
+     * 
      * @param capitalAssetNumber The capitalAssetNumber to set.
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
@@ -413,7 +422,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
 
             List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetHeader.getCapitalAssetNumber()));
+            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, getCapitalAssetNumber()));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
     }
@@ -439,13 +448,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
         boolean isDebit = false;
-        // If source org
+        // For source account, debit line when capitalization amount is negative or accumulated depreciation is positive or offset
+        // amount is positive
         if (srcDetail.isSource()) {
             if ((srcDetail.isCapitalization() && srcDetail.getAmount().isNegative()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isPositive()) || (srcDetail.isOffset() && srcDetail.getAmount().isPositive())) {
                 isDebit = true;
             }
         }
-        // If target and amount is positive then true
+        // For target account, debit line when capitalization is positive or accumulated depreciation is negative or offset amount
+        // is negative
         if (!srcDetail.isSource()) {
             if ((srcDetail.isCapitalization() && srcDetail.getAmount().isPositive()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isNegative()) || (srcDetail.isOffset() && srcDetail.getAmount().isNegative())) {
                 isDebit = true;
@@ -468,10 +479,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public void setAsset(Asset asset) {
         this.asset = asset;
-    }
-
-    public void setAssetHeader(AssetHeader assetHeader) {
-        this.assetHeader = assetHeader;
     }
 
 
@@ -768,6 +775,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return m;
     }
 
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
+     */
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
         List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);

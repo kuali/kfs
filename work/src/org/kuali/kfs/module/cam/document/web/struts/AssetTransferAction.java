@@ -17,8 +17,6 @@ package org.kuali.module.cams.web.struts.action;
 
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,7 +31,6 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
@@ -43,7 +40,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.PaymentSummaryService;
@@ -64,22 +60,9 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
         ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
         AssetTransferForm assetTransferForm = (AssetTransferForm) form;
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) assetTransferForm.getDocument();
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        AssetHeader assetHeader = assetTransferDocument.getAssetHeader();
+        handleRequestFromLookup(request, assetTransferForm, assetTransferDocument);
+        handleRequestFromWorkflow(assetTransferForm, assetTransferDocument);
         Asset asset = assetTransferDocument.getAsset();
-
-        asset = handleRequestFromLookup(request, assetTransferForm, assetTransferDocument, businessObjectService, asset);
-
-        // create asset header information
-        if (assetTransferDocument.getAsset() != null && (assetTransferDocument.getAssetHeader() == null || assetHeader.getDocumentNumber() == null)) {
-            assetHeader = new AssetHeader();
-            assetHeader.setDocumentNumber(assetTransferDocument.getDocumentNumber());
-            assetHeader.setCapitalAssetNumber(assetTransferDocument.getAsset().getCapitalAssetNumber());
-            assetTransferDocument.setAssetHeader(assetHeader);
-        }
-
-        asset = handleRequestFromWorkflow(assetTransferForm, assetTransferDocument, businessObjectService, assetHeader);
-        asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);
@@ -96,23 +79,19 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @param assetHeader Asset header object
      * @return Asset
      */
-    private Asset handleRequestFromWorkflow(AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument, BusinessObjectService service, AssetHeader assetHeader) {
+    private void handleRequestFromWorkflow(AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {
         LOG.debug("Start- Handle request from workflow");
-        Asset newAsset = new Asset();
-        if (assetTransferForm.getDocId() != null && assetHeader != null) {
-            newAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
-            newAsset = (Asset) service.retrieve(newAsset);
-            assetTransferDocument.setAsset(newAsset);
+        if (assetTransferForm.getDocId() != null) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
             UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
             try {
                 UniversalUser universalUser = universalUserService.getUniversalUser(assetTransferDocument.getRepresentativeUniversalIdentifier());
                 assetTransferDocument.setAssetRepresentative(universalUser);
             }
             catch (UserNotFoundException e) {
-                LOG.info("UniversalUserService returned with UserNotFoundException for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
+                LOG.error("UniversalUserService returned with UserNotFoundException for uuid " + assetTransferDocument.getRepresentativeUniversalIdentifier());
             }
         }
-        return newAsset;
     }
 
     /**
@@ -125,20 +104,13 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @param asset Asset
      * @return Asset
      */
-    private Asset handleRequestFromLookup(HttpServletRequest request, AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument, BusinessObjectService service, Asset asset) {
+    private void handleRequestFromLookup(HttpServletRequest request, AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {
         LOG.debug("Start - Handle request from asset lookup screen");
-        Asset newAsset = null;
-        if (assetTransferForm.getDocId() == null && asset == null) {
-            newAsset = new Asset();
-            HashMap<String, Object> keys = new HashMap<String, Object>();
+        if (assetTransferForm.getDocId() == null) {
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
-            keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-            newAsset = (Asset) service.findByPrimaryKey(Asset.class, keys);
-            if (newAsset != null) {
-                assetTransferDocument.setAsset(newAsset);
-            }
+            assetTransferDocument.setCapitalAssetNumber(Long.valueOf(capitalAssetNumber));
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
         }
-        return newAsset;
     }
 
 

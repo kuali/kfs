@@ -30,6 +30,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.CamsKeyConstants.Transfer;
@@ -47,9 +48,19 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
 
-    public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
-    public static final String DOCUMENT_PATH = "document";
-    public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
+    private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
+    static {
+        LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE);
+        LOCATION_FIELD_MAP.put(LocationField.BUILDING_CODE, CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE);
+        LOCATION_FIELD_MAP.put(LocationField.ROOM_NUMBER, CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER);
+        LOCATION_FIELD_MAP.put(LocationField.SUB_ROOM_NUMBER, CamsPropertyConstants.AssetTransferDocument.BUILDING_SUB_ROOM_NUMBER);
+        LOCATION_FIELD_MAP.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ADDRESS);
+        LOCATION_FIELD_MAP.put(LocationField.CITY_NAME, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_CITY);
+        LOCATION_FIELD_MAP.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE);
+        LOCATION_FIELD_MAP.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ZIP);
+        LOCATION_FIELD_MAP.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetTransferDocument.LOCATION_TAB);
+    }
+
     private UniversityDateService universityDateService;
     private AssetPaymentService assetPaymentService;
     private AssetService assetService;
@@ -63,7 +74,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (checkReferencesExist(assetTransferDocument)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
             if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
-                throw new ValidationException("general ledger GLPE generation failed");
+                throw new ValidationException("General Ledger GLPE generation failed");
             }
             return true;
         }
@@ -80,14 +91,15 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         boolean valid = true;
         if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
             valid &= false;
-            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
+            GlobalVariables.getErrorMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
         }
         if (valid && SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             valid &= false;
-            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
+            GlobalVariables.getErrorMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
         }
-
-        valid &= applyRules(document);
+        if (valid) {
+            valid &= applyRules(document);
+        }
         return valid;
     }
 
@@ -121,23 +133,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @return true is location information is valid for the asset type
      */
     private boolean validateLocation(AssetTransferDocument assetTransferDocument) {
-        Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
-        fieldMap.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE);
-        fieldMap.put(LocationField.BUILDING_CODE, CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE);
-        fieldMap.put(LocationField.ROOM_NUMBER, CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER);
-        fieldMap.put(LocationField.SUB_ROOM_NUMBER, CamsPropertyConstants.AssetTransferDocument.BUILDING_SUB_ROOM_NUMBER);
-        fieldMap.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ADDRESS);
-        fieldMap.put(LocationField.CITY_NAME, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_CITY);
-        fieldMap.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE);
-        fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ZIP);
-        fieldMap.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetTransferDocument.LOCATION_TAB);
-        GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_PATH);
-
+        GlobalVariables.getErrorMap().addToErrorPath(CamsConstants.DOCUMENT_PATH);
         Asset asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         boolean isCapitalAsset = SpringContext.getBean(AssetService.class).isCapitalAsset(asset);
-        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(fieldMap, assetTransferDocument, isCapitalAsset, asset.getCapitalAssetType());
-        GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_PATH);
+        boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetTransferDocument, isCapitalAsset, asset.getCapitalAssetType());
+        GlobalVariables.getErrorMap().removeFromErrorPath(CamsConstants.DOCUMENT_PATH);
         return valid;
     }
 
@@ -244,11 +245,11 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
             }
             boolean assetMovable = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
-            if (ObjectUtils.isNull(organizationPlantAccount) && assetMovable) {
+            if (assetMovable && ObjectUtils.isNull(organizationPlantAccount)) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
                 valid &= false;
             }
-            if (ObjectUtils.isNull(campusPlantAccount) && !assetMovable) {
+            if (!assetMovable && ObjectUtils.isNull(campusPlantAccount)) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_CAMPUS_PLANT_FUND_UNKNOWN);
                 valid &= false;
             }
@@ -260,7 +261,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * Convenience method to append the path prefix
      */
     public TypedArrayList putError(String propertyName, String errorKey, String... errorParameters) {
-        return GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
+        return GlobalVariables.getErrorMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 
     public UniversityDateService getUniversityDateService() {

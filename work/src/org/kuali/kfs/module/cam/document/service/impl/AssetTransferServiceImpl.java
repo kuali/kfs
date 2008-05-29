@@ -31,7 +31,6 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetOrganization;
@@ -41,15 +40,55 @@ import org.kuali.module.cams.service.AssetObjectCodeService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
+import org.kuali.module.cams.util.ObjectValueUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
-    private static enum AmountCategory {
-        EXPENSE, CAPITALIZATION, ACCUM_DEPRECIATION, OFFSET_AMOUNT;
+    private static class AmountCategory {
+
+        private AmountCategory() {
+            super();
+        }
+
+        static AmountCategory CAPITALIZATION = new AmountCategory() {
+            public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
+                postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost");
+                postable.setAmount(assetPayment.getAccountChargeAmount());
+                postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
+                postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
+                postable.setCapitalization(true);
+            };
+
+        };
+        static AmountCategory ACCUM_DEPRECIATION = new AmountCategory() {
+            public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
+                postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " accumulated depreciation");
+                postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
+                postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
+                postable.setObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObject());
+                postable.setAccumulatedDepreciation(true);
+            };
+
+        };
+        static AmountCategory OFFSET_AMOUNT = new AmountCategory() {
+            public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
+                postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " offset amount");
+                postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
+                postable.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+                postable.setObjectCode(offsetDefinition.getFinancialObject());
+                postable.setOffset(true);
+            };
+
+        };
+
+        void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
+            throw new UnsupportedOperationException();
+        }
     }
+
 
     private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
     private AssetService assetService;
@@ -69,7 +108,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @return GL Postable source detail
      */
     private AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource, AmountCategory amountCategory) {
-        LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + amountCategory.name() + ")");
+        LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + ")");
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
         postable.setSource(isSource);
         postable.setAccount(plantAccount);
@@ -83,37 +122,16 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             organizationOwnerChartOfAccountsCode = document.getOrganizationOwnerChartOfAccountsCode();
         }
         postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
-        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment);
-
         postable.setDocumentNumber(document.getDocumentNumber());
-        if (AmountCategory.CAPITALIZATION.equals(amountCategory)) {
-            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost");
-            postable.setAmount(assetPayment.getAccountChargeAmount());
-            postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
-            postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
-            postable.setCapitalization(true);
-        }
-        else if (AmountCategory.ACCUM_DEPRECIATION.equals(amountCategory)) {
-            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " accumulated depreciation");
-            postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
-            postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
-            postable.setObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObject());
-            postable.setAccumulatedDepreciation(true);
-        }
-        else if (AmountCategory.OFFSET_AMOUNT.equals(amountCategory)) {
-            OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " offset amount");
-            postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
-            postable.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-            postable.setObjectCode(offsetDefinition.getFinancialObject());
-            postable.setOffset(true);
-        }
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
         postable.setProjectCode(assetPayment.getProjectCode());
         postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
-        LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + amountCategory.name() + ")");
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment);
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);
+        LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
         return postable;
     }
 
@@ -163,13 +181,15 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                         maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
                     // create new payment info
-                    newPayment = (AssetPayment) ObjectUtils.deepCopy(assetPayment);
+                    // newPayment = (AssetPayment) ObjectUtils.deepCopy(assetPayment);
+                    newPayment = new AssetPayment();
+                    ObjectValueUtils.copySimpleProperties(assetPayment, newPayment);
                     newPayment.setPaymentSequenceNumber(++maxSequenceNo);
                     newPayment.setAccountNumber(document.getOrganizationOwnerAccountNumber());
                     newPayment.setChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
                     newPayment.setSubAccountNumber(null);
                     newPayment.setDocumentNumber(document.getDocumentNumber());
-                    newPayment.setFinancialDocumentTypeCode(AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
+                    newPayment.setFinancialDocumentTypeCode(CamsConstants.ASSET_TRANSFER_DOCTYPE_CD);
                     newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
                     newPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     newPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
@@ -203,9 +223,11 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     if (maxSequenceNo == null) {
                         maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment.getCapitalAssetNumber());
                     }
-                    AssetPayment offsetPayment = (AssetPayment) ObjectUtils.deepCopy(assetPayment);
+                    // AssetPayment offsetPayment = (AssetPayment) ObjectUtils.deepCopy(assetPayment);
+                    AssetPayment offsetPayment = new AssetPayment();
+                    ObjectValueUtils.copySimpleProperties(assetPayment, offsetPayment);
                     offsetPayment.setDocumentNumber(document.getDocumentNumber());
-                    offsetPayment.setFinancialDocumentTypeCode(AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD);
+                    offsetPayment.setFinancialDocumentTypeCode(CamsConstants.ASSET_TRANSFER_DOCTYPE_CD);
                     offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
                     offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
@@ -231,6 +253,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     private void createSourceGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
         Account srcPlantAcct = null;
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
 
         if (movableAsset) {
             srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
@@ -366,11 +389,10 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @see org.kuali.module.cams.service.AssetTransferService#saveApprovedChanges(org.kuali.module.cams.document.AssetTransferDocument)
      */
     public void saveApprovedChanges(AssetTransferDocument document) {
-        AssetHeader assetHeader = document.getAssetHeader();
         // save new asset location details to asset table, inventory date
         List<PersistableBusinessObject> persistableObjects = new ArrayList<PersistableBusinessObject>();
         Asset saveAsset = new Asset();
-        saveAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
+        saveAsset.setCapitalAssetNumber(document.getCapitalAssetNumber());
         saveAsset = (Asset) getBusinessObjectService().retrieve(saveAsset);
         saveAssetOwnerData(document, saveAsset);
         saveLocationChanges(document, saveAsset);

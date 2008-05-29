@@ -18,18 +18,23 @@
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="colCount" value="12"/>
+
+<c:if test="${KualiForm.stateFinal}">
+	<c:set var="colCount" value="10"/>
+</c:if>
 
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<tr>
-			<td colspan="12" class="subhead">
-			    <span class="subhead-left">Receive Items</span>
+			<td colspan="${colCount}" class="subhead">
+			    <span class="subhead-left">Receiving Line Items</span>
 			</td>
 		</tr>
 
 		<tr>
-			<td colspan="12" class="datacell" align="right" nowrap="nowrap">
+			<td colspan="${colCount}" class="datacell" align="right" nowrap="nowrap">
 				<div align="right">
 					<c:if test="${KualiForm.ableToShowClearAndLoadQtyButtons}">
 						<html:image property="methodToCall.loadQty" src="${ConfigProperties.externalizable.images.url}tinybutton-loadqtyreceived.gif" alt="load qty received" title="load qty received" styleClass="tinybutton" />
@@ -44,9 +49,13 @@
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOrderedQuantity}" />						
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />			
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />	
+
+			<c:if test="${KualiForm.stateFinal == false}">
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" />		
+			</c:if>
+
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReturnedTotalQuantity}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" />
@@ -69,12 +78,17 @@
 			<td class="infoline">
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newReceivingLineItemLine.itemUnitOfMeasureCode" />
 		    </td>
+
+			<c:if test="${KualiForm.stateFinal == false}">
+
 			<td class="infoline">
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" property="newReceivingLineItemLine.itemReceivedPriorQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
 				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" property="newReceivingLineItemLine.itemReceivedToBeQuantity" readOnly="${true}"/>
 			</td>
+			</c:if>
+			
 			<td class="infoline">
 				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newReceivingLineItemLine.itemReceivedTotalQuantity" />
 			</td>
@@ -129,7 +143,7 @@
 			<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 		<tr>
-			<td colspan="12" class="tab-subhead" style="border-right: none;">				 
+			<td colspan="${colCount}" class="tab-subhead" style="border-right: none;">				 
 		    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			    <html:image
 				    property="methodToCall.toggleTab.tab${tabKey}"
@@ -154,12 +168,12 @@
 		</c:if>
 
 		<tr>			
-				<td class="infoline" nowrap="nowrap">
-						<html:hidden property="document.item[${ctr}].itemTypeCode" />
-					    <html:hidden property="document.item[${ctr}].receivingLineItemIdentifier" />
-					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
-					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
-					</td>		
+			<td class="infoline" nowrap="nowrap">
+					<html:hidden property="document.item[${ctr}].itemTypeCode" />
+				    <html:hidden property="document.item[${ctr}].receivingLineItemIdentifier" />
+				    <html:hidden property="document.item[${ctr}].versionNumber" /> 
+				    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
+			</td>		
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
@@ -185,6 +199,8 @@
 				    property="document.item[${ctr}].itemUnitOfMeasureCode"
 				    readOnly="${true}" />
 		    </td>
+
+			<c:if test="${KualiForm.stateFinal == false}">
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReceivedPriorQuantity}"
@@ -197,6 +213,8 @@
 				    property="document.item[${ctr}].itemReceivedToBeQuantity"
 				    readOnly="${true}" />
 			</td>
+			</c:if>
+			
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReceivedTotalQuantity}"

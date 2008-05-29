@@ -22,4 +22,8 @@ public class ReceivingFormBase extends KualiTransactionalDocumentFormBase {
     public ReceivingFormBase(){
         super();
     }
+    
+    public boolean isStateFinal(){        
+        return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
+    }
 }

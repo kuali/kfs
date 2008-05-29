@@ -24,7 +24,7 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<tr>
 			<td colspan="12" class="subhead">
-			    <span class="subhead-left">Receive Items</span>
+			    <span class="subhead-left">Receiving Correction Items</span>
 			</td>
 		</tr>
 

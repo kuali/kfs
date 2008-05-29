@@ -221,18 +221,9 @@
 				    property="document.item[${ctr}].itemReasonAddedCode"
 				    readOnly="${not (fullEntryMode) or itemLine.itemLineNumber != null}" />
 			</td>
-
-			<c:if test="${(fullEntryMode or (itemLine.itemLineNumber == null))}">
 			<td class="infoline">
-			    <div align="center">
-			        <html:image
-				        property="methodToCall.deleteItem.line${ctr}"
-				        src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
-				        alt="Delete Item ${ctr+1}" title="Delete Item ${ctr+1}"
-				        styleClass="tinybutton" />
-				</div>
+			    &nbsp;
 			</td>
-			</c:if>
 		</tr>
 
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

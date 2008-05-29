@@ -15,13 +15,18 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.List;
+
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.PurapEnterableItem;
+import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.service.ReceivingService;
@@ -38,10 +43,22 @@ public class ReceivingCorrectionDocumentRule extends DocumentRuleBase {
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
         valid &= canCreateReceivingCorrectionDocument(receivingCorrectionDocument);
+        valid &= isReceivingDetailsAvailable(receivingCorrectionDocument);
         
         return valid;
     }
 
+    private boolean isReceivingDetailsAvailable(ReceivingCorrectionDocument receivingCorrectionDocument){
+        for (ReceivingLineItem item : (List<ReceivingLineItem>) receivingCorrectionDocument.getItems()) {
+            if (!((PurapEnterableItem)item).isConsideredEntered()) {
+                String[] parameters = new String[] { item.getItemLineNumber().toString() };
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED,parameters);
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Determines if it is valid to create a receiving correction document.  Only one
      * receiving correction document can be active at any time per receiving line document.

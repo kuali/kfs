@@ -163,25 +163,6 @@ public class ReceivingLineAction extends ReceivingBaseAction {
     }
 
     /**
-     * Delete an item from the document.
-     * 
-     * @param mapping An ActionMapping
-     * @param form An ActionForm
-     * @param request The HttpServletRequest
-     * @param response The HttpServletResponse
-     * @throws Exception
-     * @return An ActionForward
-     */
-    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
-
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
-        receivingLineDocument.deleteItem(getSelectedLine(request));
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * For each item, it's quantity received value is set to zero. 
      * 
      * @param mapping

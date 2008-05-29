@@ -252,6 +252,7 @@ public class PurapKeyConstants {
 
     // Receiving Line
     public static final String ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO = "errors.receivingLine.documentActiveForPo";
+    public static final String ERROR_RECEIVING_LINEITEM_REQUIRED = "errors.receiving.lineitem.required";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_PREFIX = "message.duplicate.receivingLine.prefix";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_SUFFIX = "message.duplicate.receivingLine.suffix";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_VENDOR_DATE = "message.duplicate.receivngLine.vendorDate";
@@ -259,7 +260,7 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_BILL_OF_LADING_NUMBER = "message.duplicate.receivingLine.billOfLadingNumber";
     public static final String MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT = "message.receiving.lineitem.return";
     public static final String MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT = "message.receiving.lineitem.damage";
-
+    
     //Threshold
     public static final String THRESHOLD_FIELD_INVALID = "errors.threshold.field.invalid";
     public static final String INVALID_THRESHOLD_CRITERIA = "errors.threshold.criteria.invalid";

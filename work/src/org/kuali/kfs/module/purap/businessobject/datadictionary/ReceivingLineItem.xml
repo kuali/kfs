@@ -30,7 +30,7 @@
         <ref bean="ReceivingLineItem-itemTypeCode" />
         <ref bean="ReceivingLineItem-itemUnitOfMeasureCode" />
         <ref bean="ReceivingLineItem-purchaseOrderIdentifier" />
-        <ref bean="ReceivingLineItem-receivingLineItemIdentifier" />
+        <ref bean="ReceivingLineItem-receivingItemIdentifier" />
         <ref bean="ReceivingLineItem-versionNumber" />
       </list>
     </property>
@@ -248,10 +248,10 @@
     <property name="summary" value="purchaseOrderIdentifier" />
     <property name="description" value="purchaseOrderIdentifier description..." />
   </bean>
-  <bean id="ReceivingLineItem-receivingLineItemIdentifier" parent="ReceivingLineItem-receivingLineItemIdentifier-parentBean" />
+  <bean id="ReceivingLineItem-receivingItemIdentifier" parent="ReceivingLineItem-receivingItemIdentifier-parentBean" />
 
-  <bean id="ReceivingLineItem-receivingLineItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="receivingLineItemIdentifier" />
+  <bean id="ReceivingLineItem-receivingItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingItemIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Receiving Line Item Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -263,8 +263,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="receivingLineItemIdentifier" />
-    <property name="description" value="receivingLineItemIdentifier description..." />
+    <property name="summary" value="receivingItemIdentifier" />
+    <property name="description" value="receivingItemIdentifier description..." />
   </bean>
   <bean id="ReceivingLineItem-versionNumber" parent="ReceivingLineItem-versionNumber-parentBean" />
 
@@ -310,7 +310,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="receivingLineItemIdentifier" />
+                    p:attributeName="receivingItemIdentifier" />
             </list>
           </property>
         </bean>
@@ -357,7 +357,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="receivingLineItemIdentifier" />
+              p:attributeName="receivingItemIdentifier" />
       </list>
     </property>
     <property name="resultFields" >
@@ -387,7 +387,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="receivingLineItemIdentifier" />
+              p:attributeName="receivingItemIdentifier" />
       </list>
     </property>
   </bean>

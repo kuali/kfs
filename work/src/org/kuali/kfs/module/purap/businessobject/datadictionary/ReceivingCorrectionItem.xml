@@ -18,9 +18,9 @@
       <list>
         <ref bean="ReceivingCorrectionItem-documentNumber" />
         <ref bean="ReceivingCorrectionItem-itemCatalogNumber" />
-        <ref bean="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity" />
-        <ref bean="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity" />
-        <ref bean="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemDamagedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemReceivedTotalQuantity" />
+        <ref bean="ReceivingCorrectionItem-itemReturnedTotalQuantity" />
         <ref bean="ReceivingCorrectionItem-itemDescription" />
         <ref bean="ReceivingCorrectionItem-itemLineNumber" />
         <ref bean="ReceivingCorrectionItem-itemOriginalDamagedTotalQuantity" />
@@ -30,7 +30,7 @@
         <ref bean="ReceivingCorrectionItem-itemTypeCode" />
         <ref bean="ReceivingCorrectionItem-itemUnitOfMeasureCode" />
         <ref bean="ReceivingCorrectionItem-purchaseOrderIdentifier" />
-        <ref bean="ReceivingCorrectionItem-receivingCorrectionItemIdentifier" />
+        <ref bean="ReceivingCorrectionItem-receivingItemIdentifier" />
         <ref bean="ReceivingCorrectionItem-versionNumber" />
       </list>
     </property>
@@ -75,10 +75,10 @@
     <property name="summary" value="itemCatalogNumber" />
     <property name="description" value="itemCatalogNumber description..." />
   </bean>
-  <bean id="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity" parent="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity-parentBean" />
+  <bean id="ReceivingCorrectionItem-itemDamagedTotalQuantity" parent="ReceivingCorrectionItem-itemDamagedTotalQuantity-parentBean" />
 
-  <bean id="ReceivingCorrectionItem-itemCorrectedDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCorrectedDamagedTotalQuantity" />
+  <bean id="ReceivingCorrectionItem-itemDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDamagedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Corrected Damaged Total Quantity" />
     <property name="shortLabel" value="Correct Qty Damaged" />
@@ -90,13 +90,13 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemCorrectedDamagedTotalQuantity" />
-    <property name="description" value="itemCorrectedDamagedTotalQuantity description..." />
+    <property name="summary" value="itemDamagedTotalQuantity" />
+    <property name="description" value="itemDamagedTotalQuantity description..." />
   </bean>
-  <bean id="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity" parent="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity-parentBean" />
+  <bean id="ReceivingCorrectionItem-itemReceivedTotalQuantity" parent="ReceivingCorrectionItem-itemReceivedTotalQuantity-parentBean" />
 
-  <bean id="ReceivingCorrectionItem-itemCorrectedReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCorrectedReceivedTotalQuantity" />
+  <bean id="ReceivingCorrectionItem-itemReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemReceivedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Corrected Received Total Quantity" />
     <property name="shortLabel" value="Correct Qty Received" />
@@ -108,13 +108,13 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemCorrectedReceivedTotalQuantity" />
-    <property name="description" value="itemCorrectedReceivedTotalQuantity description..." />
+    <property name="summary" value="itemReceivedTotalQuantity" />
+    <property name="description" value="itemReceivedTotalQuantity description..." />
   </bean>
-  <bean id="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity" parent="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity-parentBean" />
+  <bean id="ReceivingCorrectionItem-itemReturnedTotalQuantity" parent="ReceivingCorrectionItem-itemReturnedTotalQuantity-parentBean" />
 
-  <bean id="ReceivingCorrectionItem-itemCorrectedReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCorrectedReturnedTotalQuantity" />
+  <bean id="ReceivingCorrectionItem-itemReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemReturnedTotalQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Corrected Returned Total Quantity" />
     <property name="shortLabel" value="Correct Qty Returned" />
@@ -126,8 +126,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="itemCorrectedReturnedTotalQuantity" />
-    <property name="description" value="itemCorrectedReturnedTotalQuantity description..." />
+    <property name="summary" value="itemReturnedTotalQuantity" />
+    <property name="description" value="itemReturnedTotalQuantity description..." />
   </bean>
   <bean id="ReceivingCorrectionItem-itemDescription" parent="ReceivingCorrectionItem-itemDescription-parentBean" />
 
@@ -293,10 +293,10 @@
     <property name="summary" value="purchaseOrderIdentifier" />
     <property name="description" value="purchaseOrderIdentifier description..." />
   </bean>
-  <bean id="ReceivingCorrectionItem-receivingCorrectionItemIdentifier" parent="ReceivingCorrectionItem-receivingCorrectionItemIdentifier-parentBean" />
+  <bean id="ReceivingCorrectionItem-receivingItemIdentifier" parent="ReceivingCorrectionItem-receivingItemIdentifier-parentBean" />
 
-  <bean id="ReceivingCorrectionItem-receivingCorrectionItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="receivingCorrectionItemIdentifier" />
+  <bean id="ReceivingCorrectionItem-receivingItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingItemIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Receiving Correction Item Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -308,8 +308,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="receivingCorrectionItemIdentifier" />
-    <property name="description" value="receivingCorrectionItemIdentifier description..." />
+    <property name="summary" value="receivingItemIdentifier" />
+    <property name="description" value="receivingItemIdentifier description..." />
   </bean>
   <bean id="ReceivingCorrectionItem-versionNumber" parent="ReceivingCorrectionItem-versionNumber-parentBean" />
 
@@ -335,11 +335,11 @@
               <bean parent="FieldDefinition"
                     p:attributeName="itemCatalogNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="itemCorrectedDamagedTotalQuantity" />
+                    p:attributeName="itemDamagedTotalQuantity" />
               <bean parent="FieldDefinition"
-                    p:attributeName="itemCorrectedReceivedTotalQuantity" />
+                    p:attributeName="itemReceivedTotalQuantity" />
               <bean parent="FieldDefinition"
-                    p:attributeName="itemCorrectedReturnedTotalQuantity" />
+                    p:attributeName="itemReturnedTotalQuantity" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemDescription" />
               <bean parent="FieldDefinition"
@@ -359,7 +359,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="receivingCorrectionItemIdentifier" />
+                    p:attributeName="receivingItemIdentifier" />
             </list>
           </property>
         </bean>
@@ -386,11 +386,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="itemCatalogNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemCorrectedDamagedTotalQuantity" />
+              p:attributeName="itemDamagedTotalQuantity" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemCorrectedReceivedTotalQuantity" />
+              p:attributeName="itemReceivedTotalQuantity" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemCorrectedReturnedTotalQuantity" />
+              p:attributeName="itemReturnedTotalQuantity" />
         <bean parent="FieldDefinition"
               p:attributeName="itemDescription" />
         <bean parent="FieldDefinition"
@@ -410,7 +410,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="receivingCorrectionItemIdentifier" />
+              p:attributeName="receivingItemIdentifier" />
       </list>
     </property>
     <property name="resultFields" >
@@ -420,11 +420,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="itemCatalogNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemCorrectedDamagedTotalQuantity" />
+              p:attributeName="itemDamagedTotalQuantity" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemCorrectedReceivedTotalQuantity" />
+              p:attributeName="itemReceivedTotalQuantity" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemCorrectedReturnedTotalQuantity" />
+              p:attributeName="itemReturnedTotalQuantity" />
         <bean parent="FieldDefinition"
               p:attributeName="itemDescription" />
         <bean parent="FieldDefinition"
@@ -444,7 +444,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="receivingCorrectionItemIdentifier" />
+              p:attributeName="receivingItemIdentifier" />
       </list>
     </property>
   </bean>

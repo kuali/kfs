@@ -29,6 +29,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -162,7 +163,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateAccount() {
         boolean valid = true;
         Account organizationOwnerAccount = newAsset.getOrganizationOwnerAccount();
-        if (organizationOwnerAccount != null && (organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator())) {
+        if (ObjectUtils.isNull(organizationOwnerAccount) || organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator()) {
             // Account is not active
             putFieldError(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INACTIVE);
             valid &= false;

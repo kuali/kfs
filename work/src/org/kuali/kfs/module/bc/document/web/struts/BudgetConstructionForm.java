@@ -88,7 +88,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         // now run through PBGL rev and exp lines
         String methodToCall = this.getMethodToCall();
         BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
-        bcDoc.zeroTotals();
         if (StringUtils.isNotBlank(methodToCall)) {
             if (methodToCall.equals(BCConstants.INSERT_REVENUE_LINE_METHOD)) {
                 PendingBudgetConstructionGeneralLedger revLine = getNewRevenueLine();
@@ -145,8 +144,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     public void populatePBGLLines() {
 
-        // TODO add pbgl totaling here??
         BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
+        bcDoc.zeroTotals();
 
         Iterator revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
         while (revenueLines.hasNext()) {

@@ -35,6 +35,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
@@ -567,7 +568,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // TODO create and init a decorator if determined to be needed
         // is this needed??
-        BudgetConstructionDocument tdoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+        BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
         // null subobj must be set to dashes
         if (StringUtils.isBlank(line.getFinancialSubObjectCode())) {
@@ -575,8 +576,27 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // add the line in the proper order - assumes already exists check is done in rules
-        tdoc.addPBGLLine(line, isRevenue);
+        bcDoc.addPBGLLine(line, isRevenue);
 
+        // adjust totals
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
+            if (isRevenue) {
+                bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
+            }
+            else {
+                bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
+            }
+        }
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
+            if (isRevenue) {
+                bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().add(line.getFinancialBeginningBalanceLineAmount()));
+            }
+            else {
+                bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().add(line.getFinancialBeginningBalanceLineAmount()));
+            }
+        }
+
+        
         // TODO add the decorator, if determined to be needed
 
     }
@@ -612,7 +632,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         if (rulePassed) {
-            deletePBGLLine(true, tForm, deleteIndex);
+            deletePBGLLine(true, tForm, deleteIndex, revLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -649,7 +669,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         if (rulePassed) {
-            deletePBGLLine(false, tForm, deleteIndex);
+            deletePBGLLine(false, tForm, deleteIndex, expLine);
         }
 
         // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete
@@ -666,14 +686,36 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm
      * @param deleteIndex
      */
-    protected void deletePBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, int deleteIndex) {
+    protected void deletePBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, int deleteIndex, PendingBudgetConstructionGeneralLedger line) {
 
+        BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
+
+        // adjust totals
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
+            if (isRevenue) {
+                bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
+            }
+            else {
+                bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
+            }
+        }
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
+            if (isRevenue) {
+                bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
+            }
+            else {
+                bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
+            }
+        }
+        
+        // remove the line
         if (isRevenue) {
-            budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
+            bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
         }
         else {
-            budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines().remove(deleteIndex);
+            bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().remove(deleteIndex);
         }
+
     }
 
     /*
@@ -794,6 +836,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             tForm.initializePersistedRequestAmounts();
 
+            // repop and refresh refs - esp monthly so jsp can properly display state
+            tForm.populatePBGLLines();
         }
 
         // gets here if rules passed and doc detail gets persisted and refreshed
@@ -859,6 +903,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             }
         }
+        
+        // repop and refresh refs - esp monthly so jsp can properly display state
+        tForm.populatePBGLLines();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -898,6 +945,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             monthlyBudgetService.deleteBudgetConstructionMonthlyBudgetsExpenditure(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber());
         }
 
+        // repop and refresh refs - esp monthly so jsp can properly display state
+        tForm.populatePBGLLines();
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -913,6 +963,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
             budgetDocumentService.calculateBenefits(bcDocument);
             tForm.initializePersistedRequestAmounts();
+
+            // repop and refresh refs - esp monthly so jsp can properly display state
+            tForm.populatePBGLLines();
 
         }
 

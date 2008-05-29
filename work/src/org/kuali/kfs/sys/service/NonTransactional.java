@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 /** 
  * This annotation is effectively a marker.  Beans which access data should 
  * either be Transactional or not.  To ensure that the developer has considered
- * this when writing service beans, the mehtods of the service must be 
+ * this when writing service beans, the public mehtods of the service must be 
  * annotated as either Transactional or NonTransactional.  If the class is 
  * annotated, then it is assumed that all of the methods have that annotation
  * and no method internal to the class should have a Transactional/NonTransactional

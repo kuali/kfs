@@ -146,7 +146,8 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerLine2StreetAddress" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerCityName" />
+                    p:name="customerCityName"
+                    p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerStateCode" />
               <bean parent="MaintainableFieldDefinition"

@@ -271,7 +271,7 @@
    <bean id="CustomerAddress-customerAddressInternationalProvinceName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerAddressInternationalProvinceName" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Province Name" />
+    <property name="label" value="Customer International Province Name" />
     <property name="shortLabel" value="Province" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >

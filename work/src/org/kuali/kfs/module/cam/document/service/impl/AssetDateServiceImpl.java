@@ -16,15 +16,15 @@
 package org.kuali.module.cams.service.impl;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
-import org.kuali.core.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetDepreciationConvention;
+import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.service.AssetDateService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -56,52 +56,44 @@ public class AssetDateServiceImpl implements AssetDateService {
             newAsset.setCapitalAssetInServiceDate(null);
         }
         else if (assetService.isInServiceDateChanged(oldAsset, newAsset) || assetService.isFinancialObjectSubTypeCodeChanged(oldAsset, newAsset)) {
-            newAsset.setDepreciationDate(calculateNewDepreciationDate(newAsset));
+            newAsset.setDepreciationDate(computeDepreciationDate(newAsset.getCapitalAssetType(), newAsset.getAssetDepreciationConvention(), newAsset.getCapitalAssetInServiceDate()));
         }
     }
 
 
     /**
-     * Calculate new depreciationDate based on the rules.
-     * 
-     * @param asset
-     * @return
+     * @see org.kuali.module.cams.service.AssetDateService#computeDepreciationDate(org.kuali.module.cams.bo.AssetType,
+     *      org.kuali.module.cams.bo.AssetDepreciationConvention, java.sql.Date)
      */
-    private java.sql.Date calculateNewDepreciationDate(Asset asset) {
-        if (assetService.isAssetDepreciableLifeLimitZero(asset)) {
-            return null;
-        }
-
-        AssetDepreciationConvention depreciationConvention = asset.getAssetDepreciationConvention();
-
-        if (depreciationConvention == null || CamsConstants.DepreciationConvention.CREATE_DATE.equalsIgnoreCase(depreciationConvention.getDepreciationConventionCode())) {
-            // No depreciation convention or "Create Date" convention
-            return asset.getCapitalAssetInServiceDate();
-        }
-        else {
-            Integer fiscalYear = universityDateService.getFiscalYear(asset.getCapitalAssetInServiceDate());
-            if (fiscalYear == null) {
-                return null;
-            }
-            
-            Date newInServiceFiscalYearStartDate = new java.sql.Date(universityDateService.getFirstDateOfFiscalYear(fiscalYear).getTime());
-            String conventionCode = depreciationConvention.getDepreciationConventionCode();
-            
-            if (CamsConstants.DepreciationConvention.FULL_YEAR.equalsIgnoreCase(conventionCode)) {
-                // Full year depreciation convention
-                return new java.sql.Date(newInServiceFiscalYearStartDate.getTime());
-            }
-            else if (CamsConstants.DepreciationConvention.HALF_YEAR.equalsIgnoreCase(conventionCode)) {
-                // Half year depreciation convention
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(newInServiceFiscalYearStartDate);
-                calendar.add(Calendar.MONTH, 6);
-                return new java.sql.Date(calendar.getTimeInMillis());
+    public java.sql.Date computeDepreciationDate(AssetType assetType, AssetDepreciationConvention depreciationConvention, java.sql.Date inServiceDate) {
+        java.sql.Date depreciationDate = null;
+        if (assetType.getDepreciableLifeLimit().intValue() != 0) {
+            if (depreciationConvention == null || CamsConstants.DepreciationConvention.CREATE_DATE.equalsIgnoreCase(depreciationConvention.getDepreciationConventionCode())) {
+                depreciationDate = inServiceDate;
             }
             else {
-                return null;
+                Integer fiscalYear = universityDateService.getFiscalYear(inServiceDate);
+                if (fiscalYear == null) {
+                    throw new ValidationException("University Fiscal year is not defined for date - " + inServiceDate);
+                }
+
+                java.sql.Date newInServiceFiscalYearStartDate = new java.sql.Date(universityDateService.getFirstDateOfFiscalYear(fiscalYear).getTime());
+                String conventionCode = depreciationConvention.getDepreciationConventionCode();
+
+                if (CamsConstants.DepreciationConvention.FULL_YEAR.equalsIgnoreCase(conventionCode)) {
+                    depreciationDate = newInServiceFiscalYearStartDate;
+                }
+                else if (CamsConstants.DepreciationConvention.HALF_YEAR.equalsIgnoreCase(conventionCode)) {
+                    // Half year depreciation convention
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(newInServiceFiscalYearStartDate);
+                    calendar.add(Calendar.MONTH, 6);
+                    depreciationDate = new java.sql.Date(calendar.getTimeInMillis());
+                }
+
             }
         }
+        return depreciationDate;
     }
 
     public AssetService getAssetService() {

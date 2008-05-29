@@ -30,7 +30,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
@@ -202,11 +201,8 @@ public class AssetTransferServiceTest extends KualiTestBase {
             asset.getAssetPayments().add(payment1);
             asset.getAssetPayments().add(payment2);
         }
-        AssetHeader assetHeader = new AssetHeader();
-        assetHeader.setCapitalAssetNumber(asset.getCapitalAssetNumber());
-        assetHeader.setDocumentNumber(document.getDocumentNumber());
         document.setAsset(asset);
-        document.setAssetHeader(assetHeader);
+        document.setCapitalAssetNumber(asset.getCapitalAssetNumber());
         return document;
     }
 
@@ -231,6 +227,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
             asset.getAssetPayments().add(payment2);
         }
         document.setAsset(asset);
+        document.setCapitalAssetNumber(asset.getCapitalAssetNumber());
         return document;
     }
 

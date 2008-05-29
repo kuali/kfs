@@ -168,11 +168,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= false;
             }
         }
-        if (StringUtils.isNotBlank(assetGlobal.getInventoryStatusCode()) && isStatusCodeRetired(assetGlobal.getInventoryStatusCode())) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { assetGlobal.getInventoryStatusCode() });
+        String statusCode = assetGlobal.getInventoryStatusCode();
+        if (StringUtils.isNotBlank(statusCode) && (CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(statusCode) || isStatusCodeRetired(statusCode))) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { statusCode });
             success &= false;
         }
-        assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         return success;
     }
 

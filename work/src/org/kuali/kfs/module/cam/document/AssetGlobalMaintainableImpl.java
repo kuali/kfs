@@ -15,6 +15,7 @@
  */
 package org.kuali.module.cams.maintenance;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,16 +25,22 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetDepreciationConvention;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
+import org.kuali.module.cams.service.AssetDateService;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.service.ObjectCodeService;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
@@ -147,12 +154,27 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 }
             }
         }
-        // Perform following steps for capital assets
-        // 1. Determine the asset financial object sub type code based on the first payment record
-        // 2. Determine the depreciation convention using asset financial object sub type code
-        // 3. Compute the in-service date and depreciation date
+        computeDepreciationDate(assetGlobal);
         assetGlobal.getAssetGlobalDetails().clear();
+        assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAssetGlobalDetails(newDetails);
+    }
+
+    private void computeDepreciationDate(AssetGlobal assetGlobal) {
+        Date inServiceDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        assetGlobal.setCapitalAssetInServiceDate(inServiceDate);
+
+        List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
+        if (assetPaymentDetails != null && !assetPaymentDetails.isEmpty()) {
+            LOG.debug("Compute depreciation date based on asset type, depreciation convention and in-service date");
+            AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
+            ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(firstAssetPaymentDetail.getFinancialDocumentPostingYear(), firstAssetPaymentDetail.getChartOfAccountsCode(), firstAssetPaymentDetail.getFinancialObjectCode());
+            Map<String, String> primaryKeys = new HashMap<String, String>();
+            primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, objectCode.getFinancialObjectSubTypeCode());
+            AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
+            Date depreciationDate = SpringContext.getBean(AssetDateService.class).computeDepreciationDate(assetGlobal.getCapitalAssetType(), depreciationConvention, inServiceDate);
+            assetGlobal.setCapitalAssetDepreciationDate(depreciationDate);
+        }
     }
 
     private void clearExistingEntries(AssetGlobal assetGlobal) {

@@ -16,6 +16,8 @@
 package org.kuali.module.cams.service;
 
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetDepreciationConvention;
+import org.kuali.module.cams.bo.AssetType;
 
 public interface AssetDateService {
 
@@ -28,5 +30,15 @@ public interface AssetDateService {
      * In Asset Edit, DepreciationDate shall be updated whenever In-service Date changed.
      */
     void checkAndUpdateDepreciationDate(Asset copyAsset, Asset newAsset);
-    
+
+    /**
+     * This method computes the depreciation date based on input parameters
+     * 
+     * @param assetType Asset Type Object
+     * @param depreciationConvention Depreciation Convention for the asset
+     * @param inServiceDate Current in-service date value
+     * @return Computed Asset Depreciation Date
+     */
+    java.sql.Date computeDepreciationDate(AssetType assetType, AssetDepreciationConvention depreciationConvention, java.sql.Date inServiceDate);
+
 }

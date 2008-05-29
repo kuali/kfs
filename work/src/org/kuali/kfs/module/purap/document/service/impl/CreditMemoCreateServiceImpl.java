@@ -27,7 +27,6 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.CreditMemoItem;
@@ -58,14 +57,19 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoServiceImpl.class);
     private VendorService vendorService;
     private CreditMemoService creditMemoService;
-
+    private AccountsPayableService accountsPayableService;
+    private PurapService purapService;
+    private PurchaseOrderService purchaseOrderService;
+    private PaymentRequestService paymentRequestService;
+    private DataDictionaryService dataDictionaryService;
+    
     /**
      * @see org.kuali.module.purap.service.CreditMemoCreateService#populateDocumentAfterInit(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void populateDocumentAfterInit(CreditMemoDocument cmDocument) {
 
         // make a call to search for expired/closed accounts
-        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList(cmDocument);
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = accountsPayableService.getExpiredOrClosedAccountList(cmDocument);
 
         if (cmDocument.isSourceDocumentPaymentRequest()) {
             populateDocumentFromPreq(cmDocument, expiredOrClosedAccountList);
@@ -81,7 +85,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
         // write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the
         // top of the document
-        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountNote(cmDocument, expiredOrClosedAccountList);
+        accountsPayableService.generateExpiredOrClosedAccountNote(cmDocument, expiredOrClosedAccountList);
 
         // set indicator so a message is displayed for accounts that were replaced due to expired/closed status
         if (!expiredOrClosedAccountList.isEmpty()) {
@@ -96,7 +100,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @param cmDocument - Credit Memo Document to Populate
      */
     protected void populateDocumentFromPreq(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
-        PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
+        PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
         cmDocument.getDocumentHeader().setOrganizationDocumentNumber(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         cmDocument.setPaymentRequestDocument(paymentRequestDocument);
         cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
@@ -135,7 +139,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
 
         // add below the line items
-        SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
+        purapService.addBelowLineItems(cmDocument);
     }
 
     /**
@@ -144,7 +148,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @param cmDocument - Credit Memo Document to Populate
      */
     protected void populateDocumentFromPO(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
-        PurchaseOrderDocument purchaseOrderDocument = (SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier()));
+        PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
         cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
         cmDocument.getDocumentHeader().setOrganizationDocumentNumber(purchaseOrderDocument.getDocumentHeader().getOrganizationDocumentNumber());
 
@@ -187,7 +191,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
 
         // add below the line items
-        SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
+        purapService.addBelowLineItems(cmDocument);
     }
 
     /**
@@ -199,7 +203,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         Integer vendorHeaderId = VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber());
         Integer vendorDetailId = VendorUtils.getVendorDetailId(cmDocument.getVendorNumber());
 
-        VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderId, vendorDetailId);
+        VendorDetail vendorDetail = vendorService.getVendorDetail(vendorHeaderId, vendorDetailId);
         cmDocument.setVendorDetail(vendorDetail);
 
         cmDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
@@ -220,7 +224,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.templateVendorAddress(vendorAddress);
 
         // add below the line items
-        SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
+        purapService.addBelowLineItems(cmDocument);
     }
 
     /**
@@ -293,7 +297,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
 
         // trim description if longer than whats specified in the data dictionary
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }
@@ -308,4 +312,26 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
+
+    public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
+        this.accountsPayableService = accountsPayableService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+
+    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
+        this.purchaseOrderService = purchaseOrderService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+    
+    
 }

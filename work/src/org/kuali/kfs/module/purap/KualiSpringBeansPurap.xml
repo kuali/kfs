@@ -297,12 +297,18 @@
         <property name="purapService">
             <ref bean="purapService" />
         </property>	      
-         <property name="paymentRequestService">
+        <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>	
          <property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>	
+        <property name="purapAccountingService">
+            <ref bean="purapAccountingService" />
+        </property>    
+        <property name="accountsPayableService">
+            <ref bean="accountsPayableService" />
+        </property>              
     </bean>
     
 	<bean id="creditMemoCreateService" class="org.kuali.module.purap.service.impl.CreditMemoCreateServiceImpl">
@@ -312,6 +318,21 @@
         <property name="vendorService">
             <ref bean="vendorService" />
         </property>
+        <property name="accountsPayableService">
+            <ref bean="accountsPayableService" />
+        </property>  
+         <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>          
+        <property name="purapService">
+            <ref bean="purapService" />
+        </property>                
+        <property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>      
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>             
     </bean>
 	
 	<bean id="printService" class="org.kuali.module.purap.service.impl.PrintServiceImpl">

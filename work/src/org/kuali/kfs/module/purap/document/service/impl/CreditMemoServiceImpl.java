@@ -37,7 +37,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -88,7 +87,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private PurapGeneralLedgerService purapGeneralLedgerService;
     private PaymentRequestService paymentRequestService;
     private PurchaseOrderService purchaseOrderService;
-
+    private PurapAccountingService purapAccountingService;
+    private AccountsPayableService accountsPayableService;
+    
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
      */
@@ -98,15 +99,11 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         return creditMemoDao.getCreditMemosToExtract(chartCode);
     }
 
-    
-    
     public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
         LOG.debug("getCreditMemosToExtractByVendor() started");
 
         return creditMemoDao.getCreditMemosToExtractByVendor(chartCode,vendor);
     }
-
-
 
     public Set<VendorGroupingHelper> getVendorsOnCreditMemosToExtract(String chartCode) {
         LOG.debug("getVendorsOnCreditMemosToExtract() started");
@@ -119,8 +116,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
         return vendors;
     }
-
-
 
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#creditMemoDuplicateMessages(org.kuali.module.purap.document.CreditMemoDocument)
@@ -224,9 +219,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
                 totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();
                 // this should do nothing on preq which is fine
-                SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
-                summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
-                distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);
+                purapAccountingService.updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
+                summaryAccounts = purapAccountingService.generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);
 
                 if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
                     item.setSourceAccountingLines(distributedAccounts);
@@ -473,7 +468,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             throw new RuntimeException(e.getMessage());
         }
 
-        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(cmDocument, "");
+        accountsPayableService.cancelAccountsPayableDocument(cmDocument, "");
         LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedCreditMemo() ended");
 
@@ -543,6 +538,18 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         this.purchaseOrderService = purchaseOrderService;
     }
 
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
+    }
+
+    public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
+        this.accountsPayableService = accountsPayableService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     /**
      * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed(org.kuali.module.purap.document.AccountsPayableDocument)
      */
@@ -566,7 +573,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
         if (cmDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE);
+            purchaseOrderService.createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE);
         }
     }
 
@@ -579,10 +586,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         cm.setCreditMemoPaidTimestamp(new Timestamp(processDate.getTime()));
         saveDocumentWithoutValidation(cm);
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     /**
@@ -613,7 +616,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDocument) {
         CreditMemoDocument creditMemo = (CreditMemoDocument)apDocument;
-        SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
+        purapGeneralLedgerService.generateEntriesCreateCreditMemo(creditMemo);
     }
 
     /**

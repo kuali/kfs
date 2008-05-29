@@ -24,11 +24,9 @@
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
-	
-	<html:hidden property="document.asset.capitalAssetNumber" />
-	<html:hidden property="document.assetHeader.capitalAssetNumber" />
-	<html:hidden property="document.assetHeader.documentNumber" />
-	<html:hidden property="document.assetHeader.versionNumber" />	
+	<html:hidden property="document.capitalAssetNumber" />
+	<html:hidden property="document.documentNumber" />
+	<html:hidden property="document.versionNumber" />	
 	<html:hidden property="document.borrowerUniversalIdentifier" /> 
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 

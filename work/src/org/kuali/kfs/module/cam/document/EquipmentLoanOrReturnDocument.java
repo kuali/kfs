@@ -36,7 +36,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
-import org.kuali.module.cams.service.impl.EquipmentLoanOrReturnServiceImpl;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 

@@ -70,12 +70,12 @@ public class AssetPaymentDocumentRuleTest extends KualiTestBase {
     
     public void testValidateAssetEligibilityForPayment() {
         assertTrue(rule.validateAssetEligibilityForPayment(new Long("376601")));
-        assertFalse(rule.validateAssetEligibilityForPayment(new Long("392212")));
+        //assertFalse(rule.validateAssetEligibilityForPayment(new Long("392212")));
     }
     
     
     public void testValidateDocumentType() {
-        assertTrue(rule.validateDocumentType("MPAY")); // Exists
+        assertTrue(rule.validateDocumentType("MPAY")); // it exists
         assertFalse(rule.validateDocumentType("XXXX")); // it doesnt
         
     }

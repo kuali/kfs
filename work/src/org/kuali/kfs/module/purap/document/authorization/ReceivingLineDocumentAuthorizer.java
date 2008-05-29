@@ -101,40 +101,4 @@ public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthor
         return editModeMap;
     }
 
-    /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
-     */
-    @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
-            flags.setCanBlanketApprove(true);
-        }
-        
-        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) document;
-        
-        if (workflowDocument.stateIsInitiated()) {
-            flags.setCanSave(false);
-            flags.setCanClose(true);
-            flags.setCanCancel(false);
-            flags.setCanDisapprove(false);
-        }
-        else {
-            flags.setCanDisapprove(false);
-            //flags.setCanApprove(false);
-            flags.setCanCancel(true);
-            flags.setCanSave(true);
-            //temporary TODO: figure out how to make sure this work without forcing
-            flags.setCanRoute(true);
-        }
-        
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-
-        return flags;
-    }
-
 }

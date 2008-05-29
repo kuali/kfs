@@ -122,7 +122,7 @@ public class PurapPropertyConstants {
     public static final String CREDIT_MEMO_AMOUNT = "creditMemoAmount";
 
     // RECEIVING LINE DOCUMENT
-    public static final String RECEIVING_LINE_DOCUMENT_NUMBER = "documentNumber";
+    public static final String RECEIVING_LINE_DOCUMENT_NUMBER = "receivingLineDocumentNumber";
     public static final String SHIPMENT_RECEIVED_DATE = "shipmentReceivedDate";
     public static final String SHIPMENT_PACKING_SLIP_NUMBER = "shipmentPackingSlipNumber";
     public static final String SHIPMENT_BILL_OF_LADING_NUMBER = "shipmentBillOfLadingNumber";

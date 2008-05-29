@@ -107,6 +107,8 @@
 		<tr>				
 			<td class="infoline" nowrap="nowrap">
 			    <html:hidden property="document.item[${ctr}].receivingCorrectionItemIdentifier" /> 
+				<html:hidden property="document.item[${ctr}].itemTypeCode" />
+			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
 
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemLineNumber}"

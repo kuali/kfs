@@ -200,8 +200,15 @@ public class ReceivingServiceImpl implements ReceivingService {
     public boolean canCreateReceivingCorrectionDocument(ReceivingLineDocument rl, String receivingCorrectionDocNumber) throws RuntimeException {
 
         boolean canCreate = false;
+        KualiWorkflowDocument workflowDocument = null;
         
-        if( rl.getDocumentHeader().getWorkflowDocument().stateIsFinal() &&
+        try{
+            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rl.getDocumentNumber()), GlobalVariables.getUserSession().getUniversalUser());
+        }catch(WorkflowException we){
+            throw new RuntimeException(we);
+        }
+
+        if( workflowDocument.stateIsFinal() &&
             !isReceivingCorrectionDocumentInProcessForReceivingLine(rl.getDocumentNumber(), receivingCorrectionDocNumber)){            
             canCreate = true;
         }
@@ -361,21 +368,24 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param receivingDocument receiving document
      */
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
-        //delete unentered items
-        purapService.deleteUnenteredItems(receivingDocument);
-                
-        //this should get newest po
-        PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
-        
-        updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
-        
-        spawnPoAmendmentForUnorderedItems(receivingDocument, poDoc);
-        
-        //TODO: custom doc specific service hook here for correction to do it's receiving doc update
 
-        //TODO: po save
-        
-        //TODO: FYI on damaged items
+        if(receivingDocument instanceof ReceivingLineDocument){
+            //delete unentered items
+            purapService.deleteUnenteredItems(receivingDocument);
+                    
+            //this should get newest po
+            PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
+            
+            updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
+            
+            spawnPoAmendmentForUnorderedItems(receivingDocument, poDoc);
+            
+            //TODO: custom doc specific service hook here for correction to do it's receiving doc update
+    
+            //TODO: po save
+            
+            //TODO: FYI on damaged items
+        }
         
         //TODO: save receiving 
         purapService.saveDocumentNoValidation(receivingDocument);

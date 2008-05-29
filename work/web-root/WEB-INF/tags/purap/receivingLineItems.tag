@@ -157,7 +157,6 @@
 				<td class="infoline" nowrap="nowrap">
 						<html:hidden property="document.item[${ctr}].itemTypeCode" />
 					    <html:hidden property="document.item[${ctr}].receivingLineItemIdentifier" />
-					    <html:hidden property="document.item[${ctr}].itemTypeCode" />
 					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
 					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
 					</td>		

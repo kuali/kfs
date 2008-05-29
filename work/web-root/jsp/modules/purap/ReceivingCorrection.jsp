@@ -22,7 +22,6 @@
 
     <kul:hiddenDocumentFields isTransactionalDocument="false" />
         
-	<html:hidden property="document.purchaseOrderIdentifier" />
 	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
 	<html:hidden property="document.receivingLineDocumentNumber" />
 

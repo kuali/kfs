@@ -560,7 +560,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             // Perform the standard accounting line rule checking - checks activity
             // of each attribute in addition to existence
-            valid &= SpringContext.getBean(AccountingLineRuleHelperService.class).validateAccountingLine(accountingLine);
+            valid &= getAccountingLineRuleHelperService().validateAccountingLine(accountingLine);
 
             if (valid) { // the following checks assume existence, so if the above method failed, we don't want to call these
                 Class documentClass = getAccountingLineDocumentClass(financialDocument);
@@ -595,6 +595,14 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         LOG.debug("leaving processAccountingLine");
 
         return valid;
+    }
+    
+    /**
+     * Returns the default version of the AccountingLineRuleHelperService
+     * @return the default implementation of the AccountingLineRuleHelperService
+     */
+    protected AccountingLineRuleHelperService getAccountingLineRuleHelperService() {
+        return SpringContext.getBean(AccountingLineRuleHelperService.class);
     }
 
 

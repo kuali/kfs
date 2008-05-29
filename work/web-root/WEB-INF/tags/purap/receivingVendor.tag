@@ -27,7 +27,7 @@
 		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>
-                <td colspan="4" class="subhead">Vendor Address</td>
+                <td colspan="4" class="subhead">Vendor Address${KualiForm.editingMode['lockVendorEntry']}</td>
             </tr>
 
             <tr>

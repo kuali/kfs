@@ -25,6 +25,7 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.ObjectUtils;
@@ -46,7 +47,7 @@ import org.kuali.module.purap.service.PurapService;
 /**
  * Document Authorizer for the PREQ document.
  */
-public class ReceivingCorrectionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+public class ReceivingCorrectionDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
@@ -54,7 +55,7 @@ public class ReceivingCorrectionDocumentAuthorizer extends AccountingDocumentAut
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
         try {
             return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
         }
@@ -68,8 +69,8 @@ public class ReceivingCorrectionDocumentAuthorizer extends AccountingDocumentAut
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+    public Map getEditMode(Document document, UniversalUser user) {
+        Map editModeMap = super.getEditMode(document, user);
 
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;        
 
@@ -80,7 +81,6 @@ public class ReceivingCorrectionDocumentAuthorizer extends AccountingDocumentAut
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             // only allow full entry if status allows it
 
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;

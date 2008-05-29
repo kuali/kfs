@@ -27,7 +27,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>kualiUniversalGroup</value>
+              <value>PA_PUR_USERS</value>
             </set>
           </property>
         </bean>

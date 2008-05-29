@@ -39,7 +39,7 @@ public class ReceivingCorrectionAction extends ReceivingBaseAction {
         rcDoc.initiateDocument();
         
         //populate and save Receiving Line Document from Purchase Order        
-        SpringContext.getBean(ReceivingService.class).populateAndSaveReceivingCorrectionDocument(rcDoc);
+        SpringContext.getBean(ReceivingService.class).populateReceivingCorrectionDocument(rcDoc);
 
     }
 

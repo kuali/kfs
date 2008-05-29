@@ -148,17 +148,10 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.ReceivingService#populateAndSaveReceivingCorrectionDocument(org.kuali.module.purap.document.ReceivingCorrectionDocument)
+     * @see org.kuali.module.purap.service.ReceivingService#populateReceivingCorrectionDocument(org.kuali.module.purap.document.ReceivingCorrectionDocument)
      */
-    public void populateAndSaveReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc) throws WorkflowException {
-        try {            
-            documentService.saveDocument(rcDoc, ContinuePurapEvent.class);
-        }
-        catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + rcDoc.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
-            //LOG.error(errorMsg, we);
-            throw new RuntimeException(errorMsg, we);
-        }
+    public void populateReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc)  {
+            populateReceivingCorrectionFromReceivingLine(rcDoc);
     }
 
     /**

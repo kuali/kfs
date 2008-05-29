@@ -50,13 +50,11 @@ public interface ReceivingService {
     public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
 
     /**
-     * A save is done passing the continue purap event so as to call a populate within
-     * prepare for save. 
+     * Populates the receiving correction document. 
      *
      * @param rcDoc
-     * @throws WorkflowException
      */
-    public void populateAndSaveReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc) throws WorkflowException;
+    public void populateReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc);
 
     /**
      * Determines if a receiving line document can be created at the time the user requests it.

@@ -20,12 +20,15 @@
     htmlFormAction="purapReceivingCorrection" renderMultipart="true"
     showTabButtons="true">
 
+    <kul:hiddenDocumentFields isTransactionalDocument="false" />
+        
 	<html:hidden property="document.purchaseOrderIdentifier" />
 	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
-	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.vendorDetailAssignedIdentifier" />
-	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
+	<html:hidden property="document.receivingLineDocumentNumber" />
+
+    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+    	<c:set var="fullEntryMode" value="true" scope="request" />
+    </c:if>
     		    
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

@@ -3753,6 +3753,17 @@
     <reference-descriptor name="receivingLineDocument" class-ref="org.kuali.module.purap.document.ReceivingLineDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="receivingLineDocumentNumber" />
     </reference-descriptor>
+
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.ReceivingCorrectionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
+    </collection-descriptor>
+
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>

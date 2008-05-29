@@ -41,6 +41,7 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
         
         //populate receiving line document from purchase order
         this.setPurchaseOrderIdentifier( rlDoc.getPurchaseOrderIdentifier() );
+        this.getDocumentHeader().setFinancialDocumentDescription( rlDoc.getDocumentHeader().getFinancialDocumentDescription());
         this.getDocumentHeader().setOrganizationDocumentNumber( rlDoc.getDocumentHeader().getOrganizationDocumentNumber() );
         this.setAccountsPayablePurchasingDocumentLinkIdentifier( rlDoc.getAccountsPayablePurchasingDocumentLinkIdentifier() );        
         this.setReceivingLineDocumentNumber(rlDoc.getDocumentNumber());
@@ -50,20 +51,8 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
             this.getItems().add(new ReceivingCorrectionItem(rli, this));            
         }
         
-        this.refreshNonUpdateableReferences();
     }
     
-    @Override
-    public void prepareForSave(KualiDocumentEvent event) {
-
-        // first populate, then call super
-        if (event instanceof ContinuePurapEvent) {
-            SpringContext.getBean(ReceivingService.class).populateReceivingCorrectionFromReceivingLine(this);
-        }
-        
-        super.prepareForSave(event);
-    }
-
     /**
      * Gets the receivingLineDocumentNumber attribute.
      * 
@@ -89,6 +78,10 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
      * @return Returns the receivingLineDocument.
      */
     public ReceivingLineDocument getReceivingLineDocument() {
+        if(receivingLineDocument == null){
+            this.refreshReferenceObject("receivingLineDocument");
+        }
+        
         return receivingLineDocument;
     }
 

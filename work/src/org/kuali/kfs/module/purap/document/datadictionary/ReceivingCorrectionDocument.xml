@@ -27,7 +27,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>PA_AP_USERS</value>
+              <value>PA_PUR_USERS</value>
             </set>
           </property>
         </bean>
@@ -342,13 +342,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Date" />
     <property name="shortLabel" value="Vendor Date" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="9" />
+            p:size="10" />
     </property>
     <property name="summary" value="shipmentReceivedDate" />
     <property name="description" value="shipmentReceivedDate description..." />

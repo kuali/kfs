@@ -175,6 +175,8 @@
         <property name="purapAccountingService" ref="purapAccountingService"/>
         <property name="purchaseOrderService" ref="purchaseOrderService"/>
         <property name="universityDateService" ref="universityDateService"/>
+        <property name="objectCodeService" ref="objectCodeService"/>
+        <property name="subObjectCodeService" ref="subObjectCodeService"/>
     </bean>
     
 	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">

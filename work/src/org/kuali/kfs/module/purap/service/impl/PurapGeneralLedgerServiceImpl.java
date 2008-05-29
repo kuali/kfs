@@ -42,9 +42,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.service.ObjectCodeService;
@@ -84,7 +83,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private PurapAccountingService purapAccountingService;
     private PurchaseOrderService purchaseOrderService;
     private UniversityDateService universityDateService;
-
+    private ObjectCodeService objectCodeService;
+    private SubObjectCodeService subObjectCodeService;
+    
     /**
      * @see org.kuali.module.purap.service.PurapGeneralLedgerService#customizeGeneralLedgerPendingEntry(org.kuali.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry, java.lang.Integer, java.lang.String,
@@ -108,12 +109,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         }
 
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
+        ObjectCode objectCode = objectCodeService.getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
         if (ObjectUtils.isNotNull(objectCode)) {
             explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         }
 
-        SubObjCd subObjectCode = SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), 
+        SubObjCd subObjectCode = subObjectCodeService.getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), 
                 explicitEntry.getAccountNumber(), explicitEntry.getFinancialObjectCode(), explicitEntry.getFinancialSubObjectCode());
         if (ObjectUtils.isNotNull(subObjectCode)) {
             explicitEntry.setFinancialSubObjectCode(subObjectCode.getFinancialSubObjectCode());
@@ -484,14 +485,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        PurchaseOrderDocument oldPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(po.getPurapDocumentIdentifier());
+        PurchaseOrderDocument oldPO = purchaseOrderService.getCurrentPurchaseOrder(po.getPurapDocumentIdentifier());
 
         if (oldPO == null) {
             throw new IllegalArgumentException("Current Purchase Order not found - poId = " + oldPO.getPurapDocumentIdentifier());
         }
 
-        List newAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly());
-        List oldAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotalsUsingAlternateAmount(oldPO.getItemsActiveOnlySetupAlternateAmount());
+        List newAccounts = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly());
+        List oldAccounts = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(oldPO.getItemsActiveOnlySetupAlternateAmount());
 
         Map combination = new HashMap();
 
@@ -1423,4 +1424,13 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
+
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    public void setSubObjectCodeService(SubObjectCodeService subObjectCodeService) {
+        this.subObjectCodeService = subObjectCodeService;
+    }
+    
 }

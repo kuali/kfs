@@ -228,7 +228,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         // check if account is active
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
         Asset asset = assetTransferDocument.getAsset();
-        if (ObjectUtils.isNull(organizationOwnerAccount) || organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator()) {
+        if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator())) {
             // show error if account is not active
             putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetTransferDocument.getOrganizationOwnerAccountNumber());
             valid &= false;

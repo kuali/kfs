@@ -19,7 +19,7 @@
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 
-<kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+<kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<tr>

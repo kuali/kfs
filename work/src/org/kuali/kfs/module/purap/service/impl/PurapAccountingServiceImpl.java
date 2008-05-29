@@ -26,7 +26,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurApSummaryItem;
@@ -38,7 +37,6 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.PurApObjectUtils;
 import org.kuali.module.purap.util.SummaryAccount;
-import org.springframework.transaction.annotation.Transactional;
 /**
  * 
  * Contains a number of helper methods to deal with accounts on Purchasing Accounts Payable Documents
@@ -63,6 +61,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     // Spring injection
     PurApAccountingDao purApAccountingDao;
 
+    private PurapService purapService;
+    
     /**
      * 
      * gets the lowest possible number for rounding, it works for ROUND_HALF_UP
@@ -572,7 +572,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         // the percent at fiscal approve
         // don't update if past the AP review level
-        if ((document instanceof PaymentRequestDocument) && SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
+        if ((document instanceof PaymentRequestDocument) && purapService.isFullDocumentEntryCompleted(document)) {
             return;
         }
         for (PurApItem item : document.getItems()) {
@@ -637,5 +637,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         this.purApAccountingDao = purApAccountingDao;
     }
 
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
 
 }

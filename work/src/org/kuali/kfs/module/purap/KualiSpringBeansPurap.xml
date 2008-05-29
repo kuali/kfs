@@ -179,6 +179,7 @@
     
 	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">
 		<property name="purApAccountingDao" ref="purApAccountingDao"/>
+		<property name="purapService" ref="purapService"/>
 	</bean>
 
     <bean id="accountsPayableService" class="org.kuali.module.purap.service.impl.AccountsPayableServiceImpl">
@@ -197,6 +198,15 @@
     	<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>        
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>   
+        <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>    
+        <property name="accountService">
+            <ref bean="accountService" />
+        </property>                
     </bean>
 
     <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +29,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.Account;
@@ -43,7 +41,6 @@ import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLineBase;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -52,7 +49,6 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
@@ -69,7 +65,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     private DocumentService documentService;
     private PurapService purapService;
     private ParameterService parameterService;
-
+    private DateTimeService dateTimeService;
+    private PurchaseOrderService purchaseOrderService;
+    private AccountService accountService;
+    
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -88,6 +87,18 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
+        this.purchaseOrderService = purchaseOrderService;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     /**
@@ -196,7 +207,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         // if a note was created, add it to the document
         if (sb.toString().length() > 0) {
             try {
-                DocumentService documentService = SpringContext.getBean(DocumentService.class);
                 Note resetNote = documentService.createNoteFromDocument(document, sb.toString());
                 documentService.addNoteToDocument(document, resetNote);
             }
@@ -229,14 +239,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
         if (po != null) {
             // get list of active accounts
-            PurapAccountingService pas = SpringContext.getBean(PurapAccountingService.class);
-            List<SourceAccountingLine> accountList = pas.generateSummary(po.getItemsActiveOnly());            
+            List<SourceAccountingLine> accountList = purapAccountingService.generateSummary(po.getItemsActiveOnly());            
 
             // loop through accounts
             for (SourceAccountingLine poAccountingLine : accountList) {
 
-                AccountService as = SpringContext.getBean(AccountService.class);
-                Account account = as.getByPrimaryId(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber());
+                Account account = accountService.getByPrimaryId(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber());
 
                 entry = new ExpiredOrClosedAccountEntry();
 
@@ -245,7 +253,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 if (account.isAccountClosedIndicator()) {
 
                     // 1. if the account is closed, get the continuation account and add it to the list
-                    Account continuationAccount = as.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
 
                     if (continuationAccount == null) {
                         replaceAcct = new ExpiredOrClosedAccount();
@@ -269,10 +277,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     // account and add it to the list
                 }
                 else if (account.isExpired()) {
-                    Account continuationAccount = as.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
 
                     // if account is C&G and expired then add to list.
-                    if ((account.isForContractsAndGrants() && SpringContext.getBean(DateTimeService.class).dateDiff(account.getAccountExpirationDate(), SpringContext.getBean(DateTimeService.class).getCurrentDate(), true) > 90)) {
+                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > 90)) {
 
                         if (continuationAccount == null) {
                             replaceAcct = new ExpiredOrClosedAccount();
@@ -358,7 +366,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         // eliminate unentered items
         purapService.deleteUnenteredItems(apDocument);
         // change accounts from percents to dollars
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDocument);
+        purapAccountingService.updateAccountAmounts(apDocument);
         // do GL entries for document creation
         accountsPayableDocumentSpecificService.generateGLEntriesCreateAccountsPayableDocument(apDocument);
         // save the document
@@ -391,7 +399,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
             }
             else if (cm.isSourceDocumentPurchaseOrder()) {
-                PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());
+                PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());
                 List<PurchaseOrderItem> poItems = po.getItems();
                 List<CreditMemoItem> cmItems = cm.getItems();
                 // iterate through the above the line poItems to find matching
@@ -433,7 +441,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
 
             // get a fresh purchase order
-            PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());
+            PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());
             PaymentRequestDocument preq = (PaymentRequestDocument) apDocument;
 
             List<PurchaseOrderItem> poItems = po.getItems();

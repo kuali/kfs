@@ -171,7 +171,6 @@
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="kualiRuleService" ref="kualiRuleService"/>
-        <property name="paymentRequestService" ref="paymentRequestService"/>
         <property name="purapAccountingService" ref="purapAccountingService"/>
         <property name="purchaseOrderService" ref="purchaseOrderService"/>
         <property name="universityDateService" ref="universityDateService"/>

@@ -64,7 +64,6 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -79,7 +78,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private KualiConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
-    private PaymentRequestService paymentRequestService;
     private PurapAccountingService purapAccountingService;
     private PurchaseOrderService purchaseOrderService;
     private UniversityDateService universityDateService;
@@ -1415,10 +1413,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
-    }
-
-    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
-        this.paymentRequestService = paymentRequestService;
     }
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {

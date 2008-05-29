@@ -53,7 +53,7 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
      * @return Returns the budgetConstructionPosition.
      */
     public BudgetConstructionPosition getBudgetConstructionPosition() {
-        return budgetConstructionPosition;
+        return this.budgetConstructionPosition;
     }
 
     /**
@@ -70,7 +70,7 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
      */
     @Override
     public BudgetConstructionDetail getBudgetConstructionDetail() {
-        return this.getBudgetConstructionPosition();
+        return this.budgetConstructionPosition;
     }
 
     /**

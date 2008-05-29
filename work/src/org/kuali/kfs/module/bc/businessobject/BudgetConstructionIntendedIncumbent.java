@@ -16,13 +16,14 @@
 
 package org.kuali.module.budget.bo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSPropertyConstants;
 
 public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements BudgetConstructionDetail {
 
@@ -40,8 +41,8 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      * Default constructor.
      */
     public BudgetConstructionIntendedIncumbent() {
-        budgetConstructionSalarySocialSecurity = new ArrayList<BudgetConstructionSalarySocialSecurityNumber>();
-        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        budgetConstructionSalarySocialSecurity = new TypedArrayList(BudgetConstructionSalarySocialSecurityNumber.class);
+        pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
     }
 
     /**
@@ -225,7 +226,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("emplid", this.emplid);
+        m.put(KFSPropertyConstants.EMPLID, this.emplid);
         return m;
     }
 }

@@ -365,7 +365,7 @@
                 horizontal="true" />
             <td class="infoline" nowrap>
                 <div align="center"><span class=nobord">
-                <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
+                <html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
                 </span></div>
             </td>
 
@@ -374,6 +374,8 @@
 --%>
         </tr>
         </c:if>
+        
+        Lenght: ${fn:length(KualiForm.budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding)}
 
         <%-- normal datalines --%>
         <c:forEach items="${KualiForm.budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding}" var="item" varStatus="status">
@@ -685,7 +687,7 @@
                   <html:image property="methodToCall.performReasonAnnotation.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-reason.gif" title="Reason Annotation for Salary Setting Line ${status.index}" alt="Reason Annotation for Salary Setting Line ${status.index}" styleClass="tinybutton" />
                   <br>
                   <c:if test="${!empty item.bcnCalculatedSalaryFoundationTracker && !readOnly}">
-                    <html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
+                    <html:image property="methodToCall.adjustSalarySettingLinePercent.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
                   </c:if>
                 </span></div>
             </td>

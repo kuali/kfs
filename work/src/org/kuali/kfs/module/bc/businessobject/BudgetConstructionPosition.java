@@ -18,7 +18,6 @@ package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,6 +27,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
@@ -73,8 +73,8 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * Default constructor.
      */
     public BudgetConstructionPosition() {
-        budgetConstructionPositionSelect = new ArrayList<BudgetConstructionPositionSelect>();
-        pendingBudgetConstructionAppointmentFunding = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        budgetConstructionPositionSelect = new TypedArrayList(BudgetConstructionPositionSelect.class);
+        pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
     }
 
     /**

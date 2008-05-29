@@ -15,9 +15,12 @@
  */
 package org.kuali.module.budget;
 
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+
 /**
  * Contains constants that refer to a business object property name.
  */
 public class BudgetPropertyConstants {
     public static final String PULL_FLAG = "pullFlag";
+    public static final String PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING = "pendingBudgetConstructionAppointmentFunding";
 }

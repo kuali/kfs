@@ -15,20 +15,27 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.KualiModule;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
-import org.kuali.core.service.KualiModuleService;
+import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
@@ -36,15 +43,22 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.module.budget.bo.BudgetConstructionDetail;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.budget.web.struts.form.DetailSalarySettingForm;
-import org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm;
 
 /**
  * the base struts action for the salary setting
  */
 public abstract class DetailSalarySettingAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
+
+    /**
+     * loads the data for the expansion screen based on the passed in url parameters
+     */
+    public abstract ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
@@ -76,27 +90,23 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
 
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(currentUser, bcAuthorizationType)) {
+        if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
 
-            throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
+            KualiModule module = getKualiModuleService().getResponsibleModule(this.getClass());
+            throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, module);
         }
     }
-
-    /**
-     * This action loads the data for the expansion screen based on the passed in url parameters
-     */
-    public abstract ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
     /**
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
-        IncumbentSalarySettingForm tForm = (IncumbentSalarySettingForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -106,18 +116,32 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      * close the salary setting and return to the caller
      */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
-        // TODO need prompt to save? added
+        // ask the question unless it has not been answered
+        if (StringUtils.isBlank(question)) {
+            String questionText = kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE);
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
+        }
+
+        // save the salary setting if the user answers to the question with "Yes"
+        String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+        if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
+            ActionForward saveAction = this.save(mapping, form, request, response);
+
+            GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+        }
+
+        // return to caller if the current salary setting is in the budget by account mode
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
         if (salarySettingForm.isBudgetByAccountMode()) {
-            return returnToCaller(mapping, form, request, response);
+            return this.returnToCaller(mapping, form, request, response);
         }
-        else {
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-            salarySettingForm.setOrgSalSetClose(true);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
+
+        salarySettingForm.setOrgSalSetClose(true);
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -125,8 +149,6 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
-        // TODO validate and store changes
 
         // setup the return parms for the document and anchor
         Properties parameters = new Properties();
@@ -168,8 +190,8 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     }
 
     /**
-     * This action changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show
-     * all of the descriptions and labels for each of the pbgl line values.
+     * changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show all of the
+     * descriptions and labels for each of the pbgl line values.
      */
     public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
@@ -179,8 +201,8 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     }
 
     /**
-     * This action toggles the value of the hide field in the user interface to "hide" so that when the page is rendered, the UI
-     * displays values without all of the descriptions and labels for each of the pbgl lines.
+     * toggles the value of the hide field in the user interface to "hide" so that when the page is rendered, the UI displays values
+     * without all of the descriptions and labels for each of the pbgl lines.
      */
     public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
@@ -190,43 +212,114 @@ public abstract class DetailSalarySettingAction extends KualiAction {
     }
 
     /**
-     * This action adds an appointment funding line to the set of existing funding lines
+     * adds an appointment funding line to the set of existing funding lines
      */
-    public ActionForward insertBCAFLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward insertSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Salary Setting Line");
+
+        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
+        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
+
+        appointmentFundings.add(newAppointmentFunding);
+        salarySettingForm.populateBCAFLines();
+        salarySettingForm.setNewBCAFLine(this.createNewAppointmentFundingLine(salarySettingForm));
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This action creates a new funding line based on the selected line and sets the emplid to vacant then marks the selected line
-     * delete.
+     * creates a new funding line based on the selected line and sets the emplid to vacant then marks the selected line delete.
      */
-    public ActionForward performVacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward vacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Vacate Salary Setting Line");
+        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+
+        // retrieve the selected funding line
+        int indexOfSelectedLine = this.getSelectedLine(request);
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
+
+        // associated the vacant funding line with current salary setting expansion
+        SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = salarySettingService.vacateAppointmentFunding(appointmentFunding);
+        if (vacantAppointmentFunding != null) {
+            appointmentFundings.add(indexOfSelectedLine + 1, vacantAppointmentFunding);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This action sets the request amount using the CSF amount adjusted by a percent or flat rate
+     * delete the selected salary setting line 
      */
-    public ActionForward performPercentAdjustmentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward purgeSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Percent Adjustment For Salary Setting Line");
+        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
+        
+        // remove the slected line
+        int indexOfSelectedLine = this.getSelectedLine(request);
+        appointmentFundings.remove(indexOfSelectedLine);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This displays the reason code screen for the selected funding line
+     * sets the request amount using the CSF amount adjusted by a percent or flat rate
      */
-    public ActionForward performReasonAnnotation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Reason Annotation For Salary Setting Line");
+        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+
+        // retrieve the selected funding line
+        int indexOfSelectedLine = this.getSelectedLine(request);
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
+
+        this.adjustSalary(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    // adjust the requested salary amount of the given appointment funding line
+    private void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+
+        String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
+        if (BCConstants.SalaryAdjustmentMeasurement.PERCENT.measurement.equals(adjustmentMeasurement)) {
+            salarySettingService.adjustRequestedSalaryByPercent(appointmentFunding);
+        }
+        else if (BCConstants.SalaryAdjustmentMeasurement.AMOUNT.measurement.equals(adjustmentMeasurement)) {
+            salarySettingService.adjustRequestedSalaryByAmount(appointmentFunding);
+        }
+    }
+     
+    /**
+     * sets the default fields not setable by the user for added lines and any other required initialization
+     * 
+     * @param appointmentFunding the given appointment funding line
+     */
+    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
+        
+        appointmentFunding.setUniversityFiscalYear(salarySettingForm.getUniversityFiscalYear());
+        
+        appointmentFunding.setAppointmentFundingDeleteIndicator(false);
+        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        
+        appointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
+        appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
+        appointmentFunding.setAppointmentRequestedTimePercent(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
+        appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
+        
+        appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
+        appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
+        appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
+        
+        appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
+        appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
+        
+        return appointmentFunding;
     }
 }

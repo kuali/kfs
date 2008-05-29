@@ -16,24 +16,19 @@
 package org.kuali.module.budget.web.struts.form;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -45,8 +40,8 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
  * the base struts form for the salary setting
  */
 public abstract class DetailSalarySettingForm extends KualiForm {
-
-    private BudgetConstructionDetail budgetConstructionDetail;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingForm.class);
+    
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
     // TODO probably need to push these and some url parms to new superclass BCExpansionForm??
@@ -97,7 +92,8 @@ public abstract class DetailSalarySettingForm extends KualiForm {
     public DetailSalarySettingForm() {
         super();
 
-        setEditingMode(new HashMap<String, String>());
+        this.setEditingMode(new HashMap<String, String>());
+        this.setNewBCAFLine(new PendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -150,7 +146,6 @@ public abstract class DetailSalarySettingForm extends KualiForm {
         super.populate(request);
 
         this.initializeTotals();
-
         this.populateBCAFLines();
     }
 
@@ -162,10 +157,12 @@ public abstract class DetailSalarySettingForm extends KualiForm {
         bcafAppointmentRequestedCsfTimePercentTotal = BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR);
         bcafAppointmentRequestedCsfStandardHoursTotal = BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         bcafAppointmentRequestedCsfFteQuantityTotal = BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
+
         bcafAppointmentRequestedAmountTotal = KualiInteger.ZERO;
         bcafAppointmentRequestedTimePercentTotal = BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR);
         bcafAppointmentRequestedStandardHoursTotal = BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         bcafAppointmentRequestedFteQuantityTotal = BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
+
         bcsfCsfAmountTotal = KualiInteger.ZERO;
         bcsfCsfTimePercentTotal = BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR);
         bcsfCsfStandardHoursTotal = BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
@@ -176,7 +173,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * This method iterates over all of the BCAF lines for the BudgetConstructionPosition TODO verify this - and calls
      * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
      */
-    protected abstract void populateBCAFLines();
+    public abstract void populateBCAFLines();
 
     /**
      * Gets the budgetConstructionDetail attribute.
@@ -184,7 +181,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * @return Returns the budgetConstructionDetail.
      */
     public abstract BudgetConstructionDetail getBudgetConstructionDetail();
-    
+
     /**
      * get the refresh caller name of the current form
      * 
@@ -196,7 +193,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * Populates the dependent fields of objects contained within the BCAF line
      */
     protected void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        appointmentFunding.refreshNonUpdateableReferences();
+        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
 
         this.addBCAFLineToTotals(appointmentFunding);
     }
@@ -207,6 +204,8 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * @param appointmentFunding the given appointment funding
      */
     private void addBCAFLineToTotals(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("addBCAFLineToTotals start");
+        
         List<BudgetConstructionCalculatedSalaryFoundationTracker> csfTrackers = appointmentFunding.getBcnCalculatedSalaryFoundationTracker();
         if (csfTrackers != null && csfTrackers.size() > 0) {
             KualiInteger csfAmount = csfTrackers.get(0).getCsfAmount();
@@ -262,7 +261,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * @param timePercent the given time percent
      * @return the standard working hour calculated from the given time percent
      */
-    private BigDecimal getStandarHours(BigDecimal timePercent) {
+    protected BigDecimal getStandarHours(BigDecimal timePercent) {
         BigDecimal standarHours = timePercent.multiply(BCConstants.STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         return standarHours;
     }

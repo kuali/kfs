@@ -17,7 +17,6 @@
 package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +25,7 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -76,7 +76,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason;
 
     private KualiDecimal percentChange;
-    
+
     private String adjustmentMeasurement;
     private KualiDecimal adjustmentAmount;
 
@@ -84,9 +84,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * Default constructor.
      */
     public PendingBudgetConstructionAppointmentFunding() {
-        budgetConstructionSalaryFunding = new ArrayList<BudgetConstructionSalaryFunding>();
-        bcnCalculatedSalaryFoundationTracker = new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>();
-
+        budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
+        bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
     }
 
     /**
@@ -812,7 +811,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * Gets the adjustmentAmount attribute. 
+     * Gets the adjustmentAmount attribute.
+     * 
      * @return Returns the adjustmentAmount.
      */
     public KualiDecimal getAdjustmentAmount() {
@@ -821,6 +821,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
     /**
      * Sets the adjustmentAmount attribute value.
+     * 
      * @param adjustmentAmount The adjustmentAmount to set.
      */
     public void setAdjustmentAmount(KualiDecimal adjustmentAmount) {
@@ -828,7 +829,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * Gets the adjustmentMeasurement attribute. 
+     * Gets the adjustmentMeasurement attribute.
+     * 
      * @return Returns the adjustmentMeasurement.
      */
     public String getAdjustmentMeasurement() {
@@ -837,6 +839,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
     /**
      * Sets the adjustmentMeasurement attribute value.
+     * 
      * @param adjustmentMeasurement The adjustmentMeasurement to set.
      */
     public void setAdjustmentMeasurement(String adjustmentMeasurement) {

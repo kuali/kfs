@@ -51,7 +51,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
 
-        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getAssetHeader().getCapitalAssetNumber())) {
+        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
             return false;
         }
 
@@ -67,7 +67,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
 
-        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getAssetHeader().getCapitalAssetNumber())) {
+        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
             return false;
         }
 

@@ -12,6 +12,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.Carrier;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.ReceivingCorrectionItem;
+import org.kuali.module.purap.bo.ReceivingItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
@@ -115,11 +116,11 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
         this.items = items;
     }
 
-    public ReceivingCorrectionItem getItem(int pos) {
-        return (ReceivingCorrectionItem) items.get(pos);
+    public ReceivingItem getItem(int pos) {
+        return (ReceivingItem) items.get(pos);
     }
 
-    public void addItem(ReceivingCorrectionItem item) {
+    public void addItem(ReceivingItem item) {
         getItems().add(item);
     }
 

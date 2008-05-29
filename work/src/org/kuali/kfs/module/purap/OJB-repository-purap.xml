@@ -3715,7 +3715,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.ReceivingLineItem" table="PUR_RCVNG_LN_ITM_T">
-	<field-descriptor name="receivingLineItemIdentifier" column="RCVNG_LN_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_LN_ITM_ID"/>
+	<field-descriptor name="receivingItemIdentifier" column="RCVNG_LN_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_LN_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
@@ -3770,7 +3770,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.ReceivingCorrectionItem" table="PUR_RCVNG_COR_ITM_T">
-	<field-descriptor name="receivingCorrectionItemIdentifier" column="RCVNG_COR_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_COR_ITM_ID"/>
+	<field-descriptor name="receivingItemIdentifier" column="RCVNG_COR_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_COR_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
@@ -3783,9 +3783,9 @@
 	<field-descriptor name="itemOriginalReceivedTotalQuantity" column="ITM_ORIG_RCVD_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemOriginalReturnedTotalQuantity" column="ITM_ORIG_RTRN_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemOriginalDamagedTotalQuantity" column="ITM_ORIG_DMGED_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="itemCorrectedReceivedTotalQuantity" column="ITM_COR_RCVD_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="itemCorrectedReturnedTotalQuantity" column="ITM_COR_RTRN_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="itemCorrectedDamagedTotalQuantity" column="ITM_COR_DMGED_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemReceivedTotalQuantity" column="ITM_COR_RCVD_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemReturnedTotalQuantity" column="ITM_COR_RTRN_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemDamagedTotalQuantity" column="ITM_COR_DMGED_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemReasonAddedCode" column="ITM_REAS_ADD_CD" jdbc-type="VARCHAR"/>
     <reference-descriptor name="receivingCorrectionDocument" class-ref="org.kuali.module.purap.document.ReceivingCorrectionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />

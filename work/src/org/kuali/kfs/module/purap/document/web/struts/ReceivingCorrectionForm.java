@@ -16,6 +16,7 @@
 package org.kuali.module.purap.web.struts.form;
 
 import org.kuali.module.purap.bo.ReceivingCorrectionItem;
+import org.kuali.module.purap.bo.ReceivingItem;
 import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -56,7 +57,7 @@ public class ReceivingCorrectionForm extends ReceivingFormBase {
         return new ReceivingCorrectionItem();
     }
 
-    public ReceivingCorrectionItem getNewReceivingCorrectionItemLine() {
+    public ReceivingItem getNewReceivingCorrectionItemLine() {
         return newReceivingCorrectionItemLine;
     }
 

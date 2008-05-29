@@ -42,9 +42,9 @@
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOriginalReceivedTotalQuantity}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOriginalReturnedTotalQuantity}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOriginalDamagedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCorrectedReceivedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCorrectedReturnedTotalQuantity}" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCorrectedDamagedTotalQuantity}" />
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" />
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReturnedTotalQuantity}" />
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" />
 		</tr>
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 			<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
@@ -106,7 +106,7 @@
 	
 		<tr>				
 			<td class="infoline" nowrap="nowrap">
-			    <html:hidden property="document.item[${ctr}].receivingCorrectionItemIdentifier" /> 
+			    <html:hidden property="document.item[${ctr}].receivingItemIdentifier" /> 
 				<html:hidden property="document.item[${ctr}].itemTypeCode" />
 			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
 
@@ -155,20 +155,20 @@
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemCorrectedReceivedTotalQuantity}"
-				    property="document.item[${ctr}].itemCorrectedReceivedTotalQuantity"
+				    attributeEntry="${itemAttributes.itemReceivedTotalQuantity}"
+				    property="document.item[${ctr}].itemReceivedTotalQuantity"
 				    readOnly="${not (fullEntryMode)}" />
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemCorrectedReturnedTotalQuantity}"
-				    property="document.item[${ctr}].itemCorrectedReturnedTotalQuantity"
+				    attributeEntry="${itemAttributes.itemReturnedTotalQuantity}"
+				    property="document.item[${ctr}].itemReturnedTotalQuantity"
 				    readOnly="${not (fullEntryMode)}" />
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemCorrectedDamagedTotalQuantity}"
-				    property="document.item[${ctr}].itemCorrectedDamagedTotalQuantity"
+				    attributeEntry="${itemAttributes.itemDamagedTotalQuantity}"
+				    property="document.item[${ctr}].itemDamagedTotalQuantity"
 				    readOnly="${not (fullEntryMode)}" />
 			</td>
 		</tr>

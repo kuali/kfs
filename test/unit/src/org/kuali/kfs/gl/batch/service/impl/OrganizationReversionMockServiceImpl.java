@@ -16,6 +16,7 @@
 package org.kuali.module.gl.service.impl;
 
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 import org.kuali.module.chart.service.OrganizationReversionService;
@@ -25,6 +26,8 @@ import org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl;
  * A mock implementation of OrganizationReversionService, used by the OrganizationReversionLogicTest
  * @see org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionLogicTest
  */
+
+@NonTransactional
 public class OrganizationReversionMockService extends OrganizationReversionServiceImpl implements OrganizationReversionService {
     public static final String DEFAULT_BUDGET_REVERSION_CHART = "BL";
     public static final String DEFAULT_BUDGET_REVERSION_ACCOUNT = "0211301";

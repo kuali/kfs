@@ -17,16 +17,17 @@ package org.kuali.kfs.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.dao.AccountingLineDao;
 import org.kuali.kfs.service.AccountingLineService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the AccountingLine structure. This has been created with polymorphism in mind so
  * that this service can be used for performing services for both the Source and Target AccountingLineBase structures. This is the
  * default, Kuali provided implementation.
  */
+
+@NonTransactional
 public class AccountingLineServiceImpl implements AccountingLineService {
     // set up logging
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineServiceImpl.class);

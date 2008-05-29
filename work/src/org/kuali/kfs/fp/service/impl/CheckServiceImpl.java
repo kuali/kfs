@@ -18,6 +18,7 @@ package org.kuali.module.financial.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.dao.CheckDao;
 import org.kuali.module.financial.service.CheckService;
@@ -27,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * This is the default implementation of the CheckService interface.
  */
+
+@NonTransactional
 public class CheckServiceImpl implements CheckService {
     // set up logging
     private static Logger LOG = Logger.getLogger(CheckServiceImpl.class);

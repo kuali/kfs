@@ -33,6 +33,7 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
@@ -63,6 +64,7 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * Contains services relevent to the budget construction import request process
  */
+
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
     private BusinessObjectService businessObjectService;
     private ImportRequestDao importRequestDao;
@@ -76,7 +78,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     /**
      * @see org.kuali.module.budget.service.BudgetRequestImportService#generatePdf(java.util.List, java.io.ByteArrayOutputStream)
      */
-
+    @NonTransactional
     public void generatePdf(List<String> errorMessages, ByteArrayOutputStream baos) throws DocumentException {
         Document document = new Document();
         PdfWriter.getInstance(document, baos);
@@ -164,6 +166,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @param businessObjectService
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -346,6 +349,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     /**
      * @see org.kuali.module.budget.service.BudgetRequestImportService#getImportRequestDao()
      */
+    @NonTransactional
     public ImportRequestDao getImportRequestDao() {
         return this.importRequestDao;
     }
@@ -353,6 +357,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     /**
      * @see org.kuali.module.budget.service.BudgetRequestImportService#setImportRequestDao(org.kuali.module.budget.dao.ImportRequestDao)
      */
+    @NonTransactional
     public void setImportRequestDao(ImportRequestDao dao) {
         this.importRequestDao = dao;
 
@@ -363,6 +368,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @param permissionService
      */
+    @NonTransactional
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
@@ -678,6 +684,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @see org.kuali.module.budget.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.core.service.DictionaryValidationService)
      */
+    @NonTransactional
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
         
@@ -687,6 +694,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @see org.kuali.module.budget.service.BudgetRequestImportService#setLockService(org.kuali.module.budget.service.LockService)
      */
+    @NonTransactional
     public void setLockService(LockService lockService) {
        this.lockService = lockService;
     }
@@ -696,6 +704,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @param budgetDocumentService
      */
+    @NonTransactional
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
 }

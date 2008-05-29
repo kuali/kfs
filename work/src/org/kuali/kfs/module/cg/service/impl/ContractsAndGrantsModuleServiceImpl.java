@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.AccountAwardInformation;
 import org.kuali.module.cg.bo.Award;
@@ -36,7 +37,7 @@ import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+@NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 

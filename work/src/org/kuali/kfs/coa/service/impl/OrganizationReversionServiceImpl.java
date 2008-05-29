@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
@@ -34,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * This service implementation is the default implementation of the OrganizationReversion service that is delivered with Kuali.
  */
+
+@NonTransactional
 public class OrganizationReversionServiceImpl implements OrganizationReversionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 

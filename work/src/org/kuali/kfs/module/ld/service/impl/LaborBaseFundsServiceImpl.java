@@ -18,6 +18,7 @@ package org.kuali.module.labor.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.dao.LaborBaseFundsDao;
 import org.kuali.module.labor.service.LaborBaseFundsService;
@@ -29,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
  */
+
+@NonTransactional
 public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBaseFundsServiceImpl.class);
 

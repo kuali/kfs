@@ -15,6 +15,7 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.dao.ObjectLevelDao;
 import org.kuali.module.chart.service.ObjectLevelService;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the ObjLevel service that is delivered with Kuali.
  */
+
+@NonTransactional
 public class ObjectLevelServiceImpl implements ObjectLevelService {
     private ObjectLevelDao objectLevelDao;
 

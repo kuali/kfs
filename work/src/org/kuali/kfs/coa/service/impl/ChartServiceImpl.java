@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.spring.Cached;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
 import org.kuali.module.chart.service.ChartService;
@@ -32,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
  */
+
+@NonTransactional
 public class ChartServiceImpl implements ChartService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
 

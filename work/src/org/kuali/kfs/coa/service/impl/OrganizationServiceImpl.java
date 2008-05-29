@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Org;
@@ -33,6 +34,8 @@ import org.kuali.module.chart.service.OrganizationService;
 /**
  * This class is the service implementation for the Org structure. This is the default implementation, that is delivered with Kuali.
  */
+
+@NonTransactional
 public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
     private ParameterService parameterService;

@@ -16,6 +16,7 @@
 package org.kuali.kfs.service.impl;
 
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.OptionsDao;
@@ -23,7 +24,7 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Transactional
+@NonTransactional
 public class OptionsServiceImpl implements OptionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OptionsServiceImpl.class);
 

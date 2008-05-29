@@ -16,10 +16,13 @@
 package org.kuali.kfs.service.impl;
 
 import org.kuali.core.util.spring.CacheNoCopy;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.HomeOrigination;
 import org.kuali.kfs.dao.HomeOriginationDao;
 import org.kuali.kfs.service.HomeOriginationService;
+import org.springframework.transaction.annotation.Transactional;
 
+@NonTransactional
 public class HomeOriginationServiceImpl implements HomeOriginationService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HomeOriginationServiceImpl.class);

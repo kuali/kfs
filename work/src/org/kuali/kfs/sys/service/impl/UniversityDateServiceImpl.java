@@ -19,16 +19,17 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.spring.CacheNoCopy;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * This is the default implementation of the UniversityDateService interface.
  */
-//@Transactional
+
+@NonTransactional
 public class UniversityDateServiceImpl implements UniversityDateService {
 
     private static final Logger LOG = Logger.getLogger(UniversityDateServiceImpl.class);

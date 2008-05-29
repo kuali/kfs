@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -41,6 +42,8 @@ import org.kuali.module.purap.util.SummaryAccount;
  * 
  * Contains a number of helper methods to deal with accounts on Purchasing Accounts Payable Documents
  */
+
+@NonTransactional
 public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
 

@@ -18,6 +18,7 @@ package org.kuali.module.chart.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.module.chart.bo.ObjectType;
@@ -29,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the ObjectType service that is delivered with Kuali.
  */
+
+@NonTransactional
 public class ObjectTypeServiceImpl implements ObjectTypeService {
 
     private UniversityDateService universityDateService;

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.util.spring.CacheNoCopy;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.kfs.service.KualiCodeService;
@@ -34,7 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the
  * balance types that are defined in the Kuali database.
  */
-//@Transactional
+
+@NonTransactional
 public class BalanceTypServiceImpl implements BalanceTypService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypServiceImpl.class);
 

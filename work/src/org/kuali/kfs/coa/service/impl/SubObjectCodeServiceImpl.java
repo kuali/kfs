@@ -15,6 +15,7 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.dao.SubObjectCodeDao;
 import org.kuali.module.chart.service.SubObjectCodeService;
@@ -25,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered
  * with Kuali.
  */
+
+@NonTransactional
 public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     private SubObjectCodeDao subObjectCodeDao;
     private UniversityDateService universityDateService;

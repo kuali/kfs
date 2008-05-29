@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
@@ -37,6 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author delyea
  */
+
+@NonTransactional
 public class PaymentDetailSearchServiceImpl implements PaymentDetailSearchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailSearchServiceImpl.class);
 

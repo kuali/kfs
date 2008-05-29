@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.gl.util.TransactionReport.PageHelper;
 import org.kuali.module.pdp.bo.DailyReport;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
@@ -42,7 +43,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-@Transactional
+@NonTransactional
 public class DailyReportServiceImpl implements DailyReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DailyReportServiceImpl.class);
 

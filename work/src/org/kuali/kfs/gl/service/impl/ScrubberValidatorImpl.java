@@ -29,6 +29,7 @@ import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
@@ -64,6 +65,8 @@ import org.springframework.util.StringUtils;
 /**
  * The default GL implementation of ScrubberValidator
  */
+
+@NonTransactional
 public class ScrubberValidatorImpl implements ScrubberValidator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberValidatorImpl.class);
 

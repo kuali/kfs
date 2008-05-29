@@ -18,10 +18,12 @@ package org.kuali.module.purap.service.impl;
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 
+@NonTransactional
 public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativePaymentRequestApprovalLimitService {
     //private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitServiceImpl.class);
 

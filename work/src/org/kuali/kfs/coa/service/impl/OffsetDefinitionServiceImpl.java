@@ -15,6 +15,7 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.dao.OffsetDefinitionDao;
 import org.kuali.module.chart.service.OffsetDefinitionService;
@@ -24,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the OffsetDefinition structure. This is the default implementation, that is
  * delivered with Kuali.
  */
+
+@NonTransactional
 public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
     private OffsetDefinitionDao offsetDefinitionDao;
 

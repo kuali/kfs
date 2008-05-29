@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.spring.Cached;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -35,6 +36,8 @@ import org.kuali.module.chart.service.AccountService;
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
  */
+
+@NonTransactional
 public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
 

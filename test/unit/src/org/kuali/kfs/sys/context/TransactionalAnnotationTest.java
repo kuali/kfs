@@ -32,142 +32,99 @@ import org.kuali.core.service.impl.LookupServiceImpl;
 import org.kuali.core.service.impl.PersistenceServiceImpl;
 import org.kuali.core.service.impl.PostDataLoadEncryptionServiceImpl;
 import org.kuali.core.service.impl.SequenceAccessorServiceImpl;
-import org.kuali.kfs.service.impl.AccountingLineServiceImpl;
-import org.kuali.kfs.service.impl.HomeOriginationServiceImpl;
-import org.kuali.kfs.service.impl.KualiCodeServiceImpl;
-import org.kuali.kfs.service.impl.OptionsServiceImpl;
-import org.kuali.kfs.service.impl.OriginationCodeServiceImpl;
-import org.kuali.module.budget.service.impl.BudgetRequestImportServiceImpl;
-import org.kuali.module.cg.service.impl.CgUserServiceImpl;
-import org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl;
-import org.kuali.module.chart.service.impl.A21SubAccountServiceImpl;
-import org.kuali.module.chart.service.impl.AccountServiceImpl;
-import org.kuali.module.chart.service.impl.BalanceTypServiceImpl;
-import org.kuali.module.chart.service.impl.ChartServiceImpl;
-import org.kuali.module.chart.service.impl.ChartUserServiceImpl;
-import org.kuali.module.chart.service.impl.ObjectCodeServiceImpl;
-import org.kuali.module.chart.service.impl.ObjectConsServiceImpl;
-import org.kuali.module.chart.service.impl.ObjectLevelServiceImpl;
-import org.kuali.module.chart.service.impl.ObjectTypeServiceImpl;
-import org.kuali.module.chart.service.impl.OffsetDefinitionServiceImpl;
-import org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl;
-import org.kuali.module.chart.service.impl.OrganizationServiceImpl;
-import org.kuali.module.chart.service.impl.ProjectCodeServiceImpl;
-import org.kuali.module.chart.service.impl.SubAccountServiceImpl;
 import org.kuali.module.chart.service.impl.SubFundGroupServiceImpl;
-import org.kuali.module.chart.service.impl.SubObjectCodeServiceImpl;
-import org.kuali.module.financial.service.impl.AccountPresenceServiceImpl;
-import org.kuali.module.financial.service.impl.CheckServiceImpl;
-import org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl;
-import org.kuali.module.financial.service.impl.FinancialUserServiceImpl;
-import org.kuali.module.financial.service.impl.UniversityDateServiceImpl;
-import org.kuali.module.gl.service.impl.GlUserServiceImpl;
-import org.kuali.module.gl.service.impl.OrganizationReversionMockService;
-import org.kuali.module.gl.service.impl.ScrubberValidatorImpl;
-import org.kuali.module.kra.service.impl.KraUserServiceImpl;
-import org.kuali.module.labor.service.impl.LaborBaseFundsServiceImpl;
-import org.kuali.module.labor.service.impl.LaborUserServiceImpl;
-import org.kuali.module.pdp.service.impl.BatchSearchServiceImpl;
-import org.kuali.module.pdp.service.impl.DailyReportServiceImpl;
-import org.kuali.module.pdp.service.impl.PaymentDetailSearchServiceImpl;
-import org.kuali.module.pdp.service.impl.PaymentDetailServiceImpl;
-import org.kuali.module.pdp.service.impl.PdpUserServiceImpl;
-import org.kuali.module.purap.service.impl.NegativePaymentRequestApprovalLimitServiceImpl;
-import org.kuali.module.purap.service.impl.PurapAccountingServiceImpl;
-import org.kuali.module.purap.service.impl.PurapUserServiceImpl;
-import org.kuali.module.vendor.service.impl.VendorUserServiceImpl;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.PreCommitSuite;
 import org.springframework.aop.framework.AopProxyUtils;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
+/**
+ * This test checks that services are properly annotated as either Transactional
+ * or @link NonTransactional.  The first test is a superset of the subsequent
+ * test.  The first test will always fail if one of the subsequent test fails.
+ * Acceptable annotations are either at the class level or on each of the public
+ * methods, but not both.
+ */
 public class TransactionalAnnotationTest extends KualiTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionalAnnotationTest.class);
 
     Map<Class, Boolean> seenClasses = new HashMap();
     List<Class> excludedClasses;
+    Map<String, String> doubleAnnotatedTransactionalServices;
+    Map<String, String> nonAnnotatedTransactionalServices;
+    Map<String, Class> incorrectlyAnnotatedTransactionalServices;
     
     public void setUp() throws Exception {
         super.setUp();
+/* TODO services that are in RICE and not annotated are excluded from the test.
+   Annotate these classes */
         excludedClasses = new ArrayList<Class>();
         excludedClasses.add( BusinessObjectServiceImpl.class );
         excludedClasses.add( PersistenceServiceImpl.class );
         excludedClasses.add( SubFundGroupServiceImpl.class );
-        excludedClasses.add( AccountingLineServiceImpl.class );
-        excludedClasses.add( HomeOriginationServiceImpl.class );
-        excludedClasses.add( ObjectTypeServiceImpl.class );
-        excludedClasses.add( ObjectLevelServiceImpl.class );
-        excludedClasses.add( ObjectConsServiceImpl.class );
-        excludedClasses.add( ObjectCodeServiceImpl.class );
-        excludedClasses.add( OrganizationReversionServiceImpl.class );
-        excludedClasses.add( UniversityDateServiceImpl.class );
-        excludedClasses.add( OrganizationReversionMockService.class );
-        excludedClasses.add( SubAccountServiceImpl.class );
-
-        excludedClasses.add( SubObjectCodeServiceImpl.class );
-        excludedClasses.add( ProjectCodeServiceImpl.class );
-        excludedClasses.add( BalanceTypServiceImpl.class );
-        excludedClasses.add( KualiCodeServiceImpl.class );
-        excludedClasses.add( OriginationCodeServiceImpl.class );
-        excludedClasses.add( ChartUserServiceImpl.class );
-        excludedClasses.add( FinancialUserServiceImpl.class );
-        excludedClasses.add( GlUserServiceImpl.class );
-        excludedClasses.add( VendorUserServiceImpl.class );
-        excludedClasses.add( PdpUserServiceImpl.class );
-        excludedClasses.add( PurapUserServiceImpl.class );
-        excludedClasses.add( OffsetDefinitionServiceImpl.class );
-        excludedClasses.add( ChartServiceImpl.class );
-        excludedClasses.add( OptionsServiceImpl.class );
-        excludedClasses.add( CheckServiceImpl.class );
         excludedClasses.add( PostDataLoadEncryptionServiceImpl.class );
         excludedClasses.add( KualiModuleUserPropertyServiceImpl.class );
-        
         excludedClasses.add( KeyValuesServiceImpl.class );
         excludedClasses.add( SequenceAccessorServiceImpl.class );
-        excludedClasses.add( BatchSearchServiceImpl.class );
         excludedClasses.add( LookupResultsServiceImpl.class );
         excludedClasses.add( PostDataLoadEncryptionServiceImpl.class );
-
-        excludedClasses.add( PaymentDetailSearchServiceImpl.class );
         excludedClasses.add( LookupServiceImpl.class );
 
-        excludedClasses.add( A21SubAccountServiceImpl.class );
-        excludedClasses.add( AccountPresenceServiceImpl.class );
-        excludedClasses.add( AccountServiceImpl.class );
-        excludedClasses.add( ContractsAndGrantsModuleServiceImpl.class );
-        excludedClasses.add( CgUserServiceImpl.class );
-        excludedClasses.add( DisbursementVoucherTravelServiceImpl.class );
-        excludedClasses.add( KraUserServiceImpl.class );
-        excludedClasses.add( LaborBaseFundsServiceImpl.class );
-        excludedClasses.add( LaborUserServiceImpl.class );
-        excludedClasses.add( NegativePaymentRequestApprovalLimitServiceImpl.class );
-        excludedClasses.add( OrganizationServiceImpl.class );
-        excludedClasses.add( DailyReportServiceImpl.class );
-        excludedClasses.add( PaymentDetailServiceImpl.class );
-        excludedClasses.add( PurapAccountingServiceImpl.class );
-        excludedClasses.add( ScrubberValidatorImpl.class );
-        
-        excludedClasses.add( BudgetRequestImportServiceImpl.class );
     }
 
     public void testTransactionAnnotations() {
-        Map<String, Class> nonAnnotatedTransactionalServices = getNonAnnotatedTransactionalServices();
+        getNonAnnotatedTransactionalServices();
+        for (String beanName : new TreeSet<String>(incorrectlyAnnotatedTransactionalServices.keySet())) {
+            LOG.error(String.format("Service Bean improperly annotated: %s <%s>\n", beanName, incorrectlyAnnotatedTransactionalServices.get(beanName).getName()));
+        }
+        int count = incorrectlyAnnotatedTransactionalServices.size();
+        StringBuffer failureMessage = new StringBuffer("Transaction support for ").append(count).append(count == 1 ? " Service" : " Services").append(" improperly annotated: ");
+        for (String serviceName : incorrectlyAnnotatedTransactionalServices.keySet()) {
+            failureMessage.append("\t").append(serviceName).append(": ").append(incorrectlyAnnotatedTransactionalServices.get(serviceName));
+        }
+        assertTrue(failureMessage.toString(), incorrectlyAnnotatedTransactionalServices.isEmpty());
+
+    }
+    
+    public void testNoTransactionAnnotations() {
+        getNonAnnotatedTransactionalServices();
         for (String beanName : new TreeSet<String>(nonAnnotatedTransactionalServices.keySet())) {
-            LOG.error(String.format("Service Bean improperly annotated: %s <%s>\n", beanName, nonAnnotatedTransactionalServices.get(beanName).getName()));
+            LOG.error(String.format("Service Bean not annotated: %s <%s>\n", beanName, nonAnnotatedTransactionalServices.get(beanName)));
         }
         int count = nonAnnotatedTransactionalServices.size();
-        StringBuffer failureMessage = new StringBuffer("Transaction support for ").append(count).append(count == 1 ? " Service" : " Services").append(" improperly annotated: ");
+        StringBuffer failureMessage = new StringBuffer("Transaction support for ").append(count).append(count == 1 ? " Service" : " Services").append(" not annotated: ");
         for (String serviceName : nonAnnotatedTransactionalServices.keySet()) {
             failureMessage.append("\t").append(serviceName).append(": ").append(nonAnnotatedTransactionalServices.get(serviceName));
         }
         assertTrue(failureMessage.toString(), nonAnnotatedTransactionalServices.isEmpty());
 
     }
+    
+    public void testDoubleTransactionAnnotations() {
+        getNonAnnotatedTransactionalServices();
+        for (String beanName : new TreeSet<String>(doubleAnnotatedTransactionalServices.keySet())) {
+            LOG.error(String.format("Service Bean improperly annotated: %s <%s>\n", beanName, doubleAnnotatedTransactionalServices.get(beanName)));
+        }
+        int count = doubleAnnotatedTransactionalServices.size();
+        StringBuffer failureMessage = new StringBuffer("Transaction support for ").append(count).append(count == 1 ? " Service" : " Services").append(" double annotated: ");
+        for (String serviceName : doubleAnnotatedTransactionalServices.keySet()) {
+            failureMessage.append("\t").append(serviceName).append(": ").append(doubleAnnotatedTransactionalServices.get(serviceName));
+        }
+        assertTrue(failureMessage.toString(), doubleAnnotatedTransactionalServices.isEmpty());
 
-    public Map getNonAnnotatedTransactionalServices() {
-        Map<String, Class> nonAnnotatedTransactionalServices = new HashMap();
+    }
+
+    public void getNonAnnotatedTransactionalServices() {
+        /* We only want to run getNonAnnotatedTransactionalSerivces once.
+         * The tests actually just read the Maps that are generated here.
+         */
+        if (incorrectlyAnnotatedTransactionalServices != null) return;
+        incorrectlyAnnotatedTransactionalServices = new HashMap();
+        nonAnnotatedTransactionalServices = new HashMap();
+        doubleAnnotatedTransactionalServices = new HashMap();
+       
         String[] beanNames = SpringContext.getBeanNames();
         for (String beanName : beanNames) {
             Object bean = null;
@@ -187,18 +144,17 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                         && !beanClass.getName().endsWith("DaoOjb") 
                         && !beanClass.getName().endsWith("Factory") 
                         && !beanClass.getName().contains("Lookupable") 
-                        && !isClassAnnotated(beanName, beanClass)
-                        && !excludedClasses.contains(beanClass) ) {
-                    nonAnnotatedTransactionalServices.put(beanName, beanClass);
+                        && !isClassAnnotated(beanName, beanClass)) {
+                    incorrectlyAnnotatedTransactionalServices.put(beanName, beanClass);
                 }
             }
         }
-        return nonAnnotatedTransactionalServices;
+        return;
     }
 
     private boolean isClassAnnotated(String beanName, Class beanClass) {
         boolean hasClassAnnotation = false;
-        if (shouldHaveTransaction(beanClass)){
+        if (shouldHaveTransaction(beanClass)&& !excludedClasses.contains(beanClass)){
             if (beanClass.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
                 hasClassAnnotation = true;
             }
@@ -208,19 +164,26 @@ public class TransactionalAnnotationTest extends KualiTestBase {
 
 
             boolean hasMethodAnnotation;
+
             for( Method beanMethod : beanClass.getDeclaredMethods()){
-                hasMethodAnnotation = false;
-                if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) hasMethodAnnotation = true;
-                if (beanMethod.getAnnotation(org.kuali.kfs.annotation.NonTransactional.class) != null) hasMethodAnnotation = true;
-                if (hasMethodAnnotation == false && hasClassAnnotation == false) return false; 
-                if (hasMethodAnnotation == true && hasClassAnnotation == true)return false;
+                if (Modifier.isPublic(beanMethod.getModifiers())){
+                    hasMethodAnnotation = false;
+                    if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) hasMethodAnnotation = true;
+                    if (beanMethod.getAnnotation(org.kuali.kfs.annotation.NonTransactional.class) != null) hasMethodAnnotation = true;
+                    if (hasMethodAnnotation == false && hasClassAnnotation == false) {
+                        nonAnnotatedTransactionalServices.put(beanName, beanMethod.getName());
+                        return false; 
+                    }
+                    if (hasMethodAnnotation == true && hasClassAnnotation == true){
+                        doubleAnnotatedTransactionalServices.put(beanName, beanMethod.getName());
+                        return false;
+                    }
+                }
 
             }
             return true;
         }
         return true;
-
-        //return !shouldHaveTransaction(beanClass);
     }
 
     /*

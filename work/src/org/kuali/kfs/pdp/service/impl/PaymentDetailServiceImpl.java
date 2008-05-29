@@ -18,12 +18,13 @@ package org.kuali.module.pdp.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
 import org.kuali.module.pdp.service.PaymentDetailService;
 import org.springframework.transaction.annotation.Transactional;
 
-
+@NonTransactional
 public class PaymentDetailServiceImpl implements PaymentDetailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailServiceImpl.class);
 

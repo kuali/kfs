@@ -26,6 +26,7 @@ import java.util.List;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
 import org.kuali.module.financial.service.DisbursementVoucherTravelService;
@@ -34,6 +35,8 @@ import org.kuali.module.financial.service.DisbursementVoucherTravelService;
  * This is the default implementation of the DisbursementVoucherTravelService interface.
  * Performs calculations of travel per diem and mileage amounts.
  */
+
+@NonTransactional
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);
 

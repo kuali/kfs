@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.spring.Cached;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.dao.SubAccountDao;
 import org.kuali.module.chart.service.SubAccountService;
@@ -28,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered
  * with Kuali.
  */
+
+@NonTransactional
 public class SubAccountServiceImpl implements SubAccountService {
     private static final Logger LOG = Logger.getLogger(SubAccountServiceImpl.class);
 

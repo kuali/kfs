@@ -15,6 +15,7 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.ObjectCons;
 import org.kuali.module.chart.dao.ObjectConsDao;
 import org.kuali.module.chart.service.ObjectConsService;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali.
  */
+
+@NonTransactional
 public class ObjectConsServiceImpl implements ObjectConsService {
     private ObjectConsDao objectConsDao;
 

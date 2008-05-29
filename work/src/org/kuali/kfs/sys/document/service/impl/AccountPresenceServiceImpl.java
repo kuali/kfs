@@ -15,6 +15,7 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.service.AccountPresenceService;
@@ -26,6 +27,8 @@ import org.kuali.module.gl.dao.BalanceDao;
  * This is the default implementation of the AccountPresenceService interface.
  * 
  */
+
+@NonTransactional
 public class AccountPresenceServiceImpl implements AccountPresenceService {
     private BalanceDao balanceDao;
 

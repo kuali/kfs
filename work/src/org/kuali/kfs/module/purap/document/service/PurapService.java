@@ -173,5 +173,4 @@ public interface PurapService {
      */
     public void saveDocumentNoValidation(Document document);
     
-    public PurchaseOrderService getPurchaseOrderService();
 }

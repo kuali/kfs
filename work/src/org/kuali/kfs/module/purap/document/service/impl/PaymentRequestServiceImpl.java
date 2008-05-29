@@ -79,6 +79,7 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.VendorGroupingHelper;
@@ -1125,7 +1126,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            purapService.getPurchaseOrderService().createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
         }
     }
 

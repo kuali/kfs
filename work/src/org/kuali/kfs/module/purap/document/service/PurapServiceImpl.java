@@ -105,10 +105,6 @@ public class PurapServiceImpl implements PurapService {
         this.persistenceService = persistenceService;
     }
 
-    public PurchaseOrderService getPurchaseOrderService() {
-        return purchaseOrderService;
-    }
-
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }

@@ -205,6 +205,7 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetRetirementGlobalDetail {
+        public static final String ASSET = "asset";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String RETIREMENT_CHART_OF_ACCOUNTS_CODE = "retirementChartOfAccountsCode";
         public static final String RETIREMENT_ACCOUNT_NUMBER = "retirementAccountNumber";

@@ -16,8 +16,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.gl.AssetRetirementGlPoster;
-import org.kuali.module.cams.gl.CamsGlPosterBase;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.PaymentSummaryService;
@@ -152,9 +151,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
         // update for each merge source asset
         for (AssetRetirementGlobalDetail detail : getAssetRetirementGlobalDetails()) {
-            if (detail.getAsset() == null) {
-                detail.refreshReferenceObject("asset");
-            }
+            detail.refreshReferenceObject(CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET);
             sourceAsset = detail.getAsset();
 
             totalCostAmount = totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(sourceAsset));

@@ -140,7 +140,10 @@ public class CamsConstants {
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
-        public static final String FIS_DOC_TYPE_CODE = "AR";
+        public static final String FIS_DOC_TYPE_CODE = "AR"; 
+        public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
+        public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
+        public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
     }
 
     public static class AssetRetirementReasonCodeGroup {

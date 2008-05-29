@@ -107,5 +107,10 @@ public interface GeneralLedgerPendingEntrySource {
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable);
     
+    /**
+     * 
+     * This method returns the financial document type code. It's required to return the appropriate financial document type code only if poster class is not assignable from  org.kuali.core.document.
+     * @return
+     */
     public String getFinancialDocumentTypeCode();
 }

@@ -22,6 +22,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 
 /**
@@ -49,7 +50,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
-        parameters.put(KFSConstants.OVERRIDE_KEYS, "retirementReasonCode");
+        parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE);
         return UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
     }
 

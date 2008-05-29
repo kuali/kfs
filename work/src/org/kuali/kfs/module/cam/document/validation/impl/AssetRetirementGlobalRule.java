@@ -33,7 +33,7 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.gl.AssetRetirementGlPoster;
+import org.kuali.module.cams.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.module.cams.service.AssetRetirementService;
 import org.kuali.module.cams.service.AssetService;
 
@@ -83,7 +83,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             // create poster
-            AssetRetirementGlPoster assetRetirementGlPoster = new AssetRetirementGlPoster(document.getDocumentHeader());
+            AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource(document.getDocumentHeader());
             // create postables
             assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster);
             if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetRetirementGlPoster)) {
@@ -115,17 +115,34 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else {
             success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail, assetRetirementGlobal);
-            success &= assetRetirementService.checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(0), false);
-
-            // Set non persistent values. So the screen can show the value after add one collection line.
-            for (AssetRetirementGlobalDetail oldDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-                assetService.setAssetNonPersistentFields(oldDetail.getAsset());
-            }
+            success &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(0));
         }
 
+        // Calculate summary fields in order to show the values even though add new line fails.
+        for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            assetService.setAssetSummaryFields(detail.getAsset());
+        }
         return success & super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
     }
 
+    /**
+     * 
+     * Check if only single asset is allowed to retire.
+     * @param retirementReasonCode
+     * @param assetRetirementDetails
+     * @param maxNumber
+     * @return
+     */
+    private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber) {
+        boolean success = true;
+
+        if (assetRetirementDetails.size() > maxNumber && !assetRetirementService.isAllowedRetireMultipleAssets(retirementReasonCode) ) {
+            putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
+            success = false;
+        }
+
+        return success;
+    }
 
     /**
      * 
@@ -169,7 +186,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail assetRetirementGlobalDetail, AssetRetirementGlobal assetRetirementGlobal) {
         boolean success = true;
 
-        assetRetirementGlobalDetail.refreshReferenceObject("asset");
+        assetRetirementGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET);
 
         Asset asset = assetRetirementGlobalDetail.getAsset();
 
@@ -186,7 +203,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             }
 
             // Set asset non persistent fields
-            assetService.setAssetNonPersistentFields(asset);
+            assetService.setAssetSummaryFields(asset);
         }
 
         return success;
@@ -236,7 +253,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return
      */
-    private boolean assetRetirementValidation(AssetRetirementGlobal assetRetirementGlobal) {
+    protected boolean assetRetirementValidation(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
 
         valid &= validateRequiredSharedInfoFields(assetRetirementGlobal);
@@ -244,7 +261,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             valid &= validateMergeTargetAsset(assetRetirementGlobal);
         }
         valid &= validateRetirementDetails(assetRetirementGlobal);
-        valid &= assetRetirementService.checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1), true);
+        valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1));
 
         return valid;
     }

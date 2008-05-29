@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.service;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.module.cams.bo.Asset;
 
@@ -118,7 +120,7 @@ public interface AssetService {
      * 
      * @param asset
      */
-    void setAssetNonPersistentFields(Asset asset);
+    void setAssetSummaryFields(Asset asset);
 
     /**
      * This will check the financial object sub type code in system parameters
@@ -130,5 +132,4 @@ public interface AssetService {
      * @return boolean
      */
     public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode);
-
 }

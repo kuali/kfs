@@ -24,16 +24,22 @@ public final class ObjectValueUtils {
     private ObjectValueUtils() {
     }
 
-    public static void copySimpleProperties(Object origin, Object destination) throws Exception {
-        Object[] empty = new Object[] {};
-        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(origin.getClass());
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            if (propertyDescriptor.getReadMethod() != null && propertyDescriptor.getWriteMethod() != null) {
-                Object value = propertyDescriptor.getReadMethod().invoke(origin, empty);
-                if (value != null) {
-                    propertyDescriptor.getWriteMethod().invoke(destination, value);
+    public static void copySimpleProperties(Object origin, Object destination) {
+        try {
+            Object[] empty = new Object[] {};
+            PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(origin.getClass());
+            for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+                if (propertyDescriptor.getReadMethod() != null && propertyDescriptor.getWriteMethod() != null) {
+                    Object value = propertyDescriptor.getReadMethod().invoke(origin, empty);
+                    if (value != null) {
+                        propertyDescriptor.getWriteMethod().invoke(destination, value);
+                    }
                 }
             }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Unexpected error while copying properties.", e);
+
         }
     }
 

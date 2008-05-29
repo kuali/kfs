@@ -15,30 +15,22 @@
  */
 package org.kuali.module.cams.service.impl;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
@@ -46,15 +38,48 @@ import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.gl.CamsGlPosterBase;
+import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
 import org.kuali.module.cams.service.AssetObjectCodeService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetRetirementService;
+import org.kuali.module.cams.util.ObjectValueUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetRetirementServiceImpl implements AssetRetirementService {
+
+    private enum AmountCategory {
+        CAPITALIZATION {
+            void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
+                postable.setCapitalization(true);
+                postable.setFinancialDocumentLineDescription(CamsConstants.AssetRetirementGlobal.LINE_DESCRIPTION_PLANT_FUND_FOR_FMS);
+                postable.setAmount(assetPayment.getAccountChargeAmount());
+                postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
+                postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
+            }
+        },
+        ACCUMMULATE_DEPRECIATION {
+            void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
+                postable.setAccumulatedDepreciation(true);
+                postable.setFinancialDocumentLineDescription(CamsConstants.AssetRetirementGlobal.LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION);
+                postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
+                postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
+                postable.setObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObject());
+            }
+        },
+        OFFSET_AMOUNT {
+            void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
+                postable.setOffset(true);
+                postable.setFinancialDocumentLineDescription(CamsConstants.AssetRetirementGlobal.LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION);
+                postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
+                postable.setFinancialObjectCode(DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
+                postable.setObjectCode(getOffsetFinancialObject(assetPayment.getAsset()));
+            }
+        };
+
+        abstract void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode);
+    }
 
     // TODO: replaced by system parameters
     public static final String MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES = "CM;CF;C1;C2;UC;UF;BR;BY";
@@ -148,10 +173,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         List<AssetPayment> offsetPayments = new TypedArrayList(AssetPayment.class);
         Integer maxSequenceNo = assetPaymentService.getMaxSequenceNumber(sourceAsset.getCapitalAssetNumber());
 
-        AssetPayment offsetPayment = null;
         try {
             for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
-                offsetPayment = (AssetPayment) ObjectUtils.deepCopy(sourcePayment);
+                AssetPayment offsetPayment = new AssetPayment();
+                ObjectValueUtils.copySimpleProperties(sourcePayment, offsetPayment);
                 offsetPayment.setFinancialDocumentTypeCode(AssetRetirementGlobal.ASSET_RETIREMENT_DOCTYPE_CD);
                 offsetPayment.setDocumentNumber(currentDocumentNumber);
                 offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
@@ -172,15 +197,15 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      */
     public Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String currentDocumentNumber) {
         List<AssetPayment> newPayments = new TypedArrayList(AssetPayment.class);
-        AssetPayment newPayment = null;
         try {
             for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
-                newPayment = (AssetPayment) ObjectUtils.deepCopy(sourcePayment);
+                AssetPayment newPayment = new AssetPayment();
+                ObjectValueUtils.copySimpleProperties(sourcePayment, newPayment);
                 newPayment.setCapitalAssetNumber(targetAsset.getCapitalAssetNumber());
                 newPayment.setFinancialDocumentTypeCode(AssetRetirementGlobal.ASSET_RETIREMENT_DOCTYPE_CD);
                 newPayment.setPaymentSequenceNumber(++maxSequenceNo);
                 newPayment.setDocumentNumber(currentDocumentNumber);
-                resetPeriodDepreciationAmount(newPayment);
+                assetPaymentService.adjustPaymentAmounts(newPayment, false, true);
                 newPayments.add(newPayment);
             }
         }
@@ -191,26 +216,6 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         return maxSequenceNo;
     }
 
-    /**
-     * 
-     * Clear setting for periodic depreciation expenses.
-     * 
-     * @param newPayment
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     */
-    private void resetPeriodDepreciationAmount(AssetPayment newPayment) throws IllegalAccessException, InvocationTargetException {
-        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
-
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            Method writeMethod = propertyDescriptor.getWriteMethod();
-
-            if (writeMethod != null && Pattern.matches(CamsConstants.SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
-                Object[] nullVals = new Object[] { null };
-                writeMethod.invoke(newPayment, nullVals);
-            }
-        }
-    }
 
     /**
      * 
@@ -228,22 +233,9 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @see org.kuali.module.cams.service.AssetRetirementService#checkRetireMultipleAssets(java.lang.String, java.util.List,
      *      java.lang.Integer)
      */
-    public boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, boolean addErrorPath) {
-        boolean success = true;
-        String errorPath = RiceConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
-
-        if (addErrorPath) {
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-        }
-        if (isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.SINGLE_RETIRED_ASSET, retirementReasonCode) && assetRetirementDetails.size() > maxNumber) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
-            success = false;
-        }
-        if (addErrorPath) {
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
-        }
-
-        return success;
+    public boolean isAllowedRetireMultipleAssets(String retirementReasonCode) {
+        // TODO: Replaced by system parameters
+        return !isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.SINGLE_RETIRED_ASSET, retirementReasonCode);
     }
 
     /**
@@ -251,7 +243,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @see org.kuali.module.cams.service.AssetRetirementService#createGLPostables(org.kuali.module.cams.bo.AssetRetirementGlobal,
      *      org.kuali.module.cams.gl.CamsGlPosterBase)
      */
-    public void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGlPosterBase assetRetirementGlPoster) {
+    public void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster) {
 
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
@@ -277,73 +269,67 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param assetPayment
      * @return
      */
-    private List<GeneralLedgerPendingEntrySourceDetail> generateGlPostablesForOnePayment(String documentNumber, CamsGlPosterBase assetRetirementGlPoster, Asset asset, AssetPayment assetPayment) {
+    private List<GeneralLedgerPendingEntrySourceDetail> generateGlPostablesForOnePayment(String documentNumber, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster, Asset asset, AssetPayment assetPayment) {
         List<GeneralLedgerPendingEntrySourceDetail> postables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         Account plantAccount = getPlantFundAccount(asset, assetPayment);
 
         if (ObjectUtils.isNotNull(plantAccount)) {
-            AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
-
+            AssetGlpeSourceDetail postable = null;
             KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
             KualiDecimal accumlatedDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
 
             if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
-                AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
-                postable.setFinancialDocumentLineDescription("Plant Fund for FMS");
-                postable.setAmount(accountChargeAmount);
-                postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
-                postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
-                postable.setCapitalization(true);
-
-                setCommonGlPostableAttributes(documentNumber, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment, plantAccount, postable);
-                postables.add(postable);
+                postables.add(createNewPostable(AmountCategory.CAPITALIZATION, asset, assetPayment, documentNumber, plantAccount));
             }
+
             if (accumlatedDepreciationAmount != null && !accumlatedDepreciationAmount.isZero()) {
-                AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
-                postable.setFinancialDocumentLineDescription("Accumulated Depreciation");
-                postable.setAmount(accumlatedDepreciationAmount);
-                postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
-                postable.setObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObject());
-                postable.setAccumulatedDepreciation(true);
-
-                setCommonGlPostableAttributes(documentNumber, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment, plantAccount, postable);
-                postables.add(postable);
+                postables.add(createNewPostable(AmountCategory.ACCUMMULATE_DEPRECIATION, asset, assetPayment, documentNumber, plantAccount));
             }
-            if (accountChargeAmount != null && accumlatedDepreciationAmount != null && !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero()) {
-                AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
 
-                postable.setFinancialDocumentLineDescription("Gain/Loss Disposition of Assets");
-                postable.setAmount(accountChargeAmount.subtract(accumlatedDepreciationAmount));
-                postable.setFinancialObjectCode(DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
-                postable.setObjectCode(getOffsetFinancialObject(asset));
-                postable.setOffset(true);
-                setCommonGlPostableAttributes(documentNumber, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment, plantAccount, postable);
-                postables.add(postable);
+            if (accountChargeAmount != null && accumlatedDepreciationAmount != null && !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero()) {
+                postables.add(createNewPostable(AmountCategory.OFFSET_AMOUNT, asset, assetPayment, documentNumber, plantAccount));
             }
         }
         return postables;
     }
 
-
     /**
-     * Get the offset Object Code.
      * 
+     * This method creates one postable and sets the values.
+     * 
+     * @param category
      * @param asset
+     * @param assetPayment
+     * @param documentNumber
+     * @param plantAccount
      * @return
      */
-    private ObjectCode getOffsetFinancialObject(Asset asset) {
-        Map pkMap = new HashMap();
-        pkMap.put("universityFiscalYear", universityDateService.getCurrentFiscalYear());
-        pkMap.put("chartOfAccountsCode", asset.getOrganizationOwnerChartOfAccountsCode());
-        pkMap.put("financialObjectCode", DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
-        ObjectCode offsetFinancialObject = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, pkMap);
+    private AssetGlpeSourceDetail createNewPostable(AmountCategory category, Asset asset, AssetPayment assetPayment, String documentNumber, Account plantAccount) {
+        AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
 
-        if (ObjectUtils.isNull(offsetFinancialObject)) {
-            throw new ReferentialIntegrityException("Object code is not defined for this universityFiscalYear=" + universityDateService.getCurrentFiscalYear() + ", chartOfAccountsCode=" + asset.getOrganizationOwnerChartOfAccountsCode() + ", financialObjectCode=" + DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
-        }
-
-        return offsetFinancialObject;
+        AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
+        category.setParams(postable, assetPayment, assetObjectCode);
+        setCommonPostableAttributes(documentNumber, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment, plantAccount, postable);
+        return postable;
     }
+
+    /**
+     * 
+     * This method sets specific postable attributes.
+     * 
+     * @param postable
+     * @param lineDescription
+     * @param amount
+     * @param finacialObjectCode
+     * @param objectCode
+     */
+    private void setSpecificPostableAttributes(AssetGlpeSourceDetail postable, String lineDescription, KualiDecimal amount, String finacialObjectCode, ObjectCode objectCode) {
+        postable.setFinancialDocumentLineDescription(lineDescription);
+        postable.setAmount(amount);
+        postable.setFinancialObjectCode(finacialObjectCode);
+        postable.setObjectCode(objectCode);
+    }
+
 
     /**
      * Set Postable attributes which are common among Capitalized, Accumulated Depreciation and gain/loss disposition .
@@ -354,20 +340,42 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param plantAccount
      * @param postable
      */
-    private void setCommonGlPostableAttributes(String documentNumber, String orgOwnerChartOfAccountsCode, AssetPayment assetPayment, Account plantAccount, AssetGlpeSourceDetail postable) {
+    private void setCommonPostableAttributes(String documentNumber, String orgOwnerChartOfAccountsCode, AssetPayment assetPayment, Account plantAccount, AssetGlpeSourceDetail postable) {
         postable.setDocumentNumber(documentNumber);
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
         postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         postable.setChartOfAccountsCode(orgOwnerChartOfAccountsCode);
 
-        postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(universityDateService.getCurrentFiscalYear());
         // Fields copied from payment
+        postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setProjectCode(assetPayment.getProjectCode());
         postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
     }
+
+    /**
+     * Get the offset Object Code.
+     * 
+     * @param asset
+     * @return
+     */
+    static private ObjectCode getOffsetFinancialObject(Asset asset) {
+        Map pkMap = new HashMap();
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        pkMap.put("universityFiscalYear", universityDateService.getCurrentFiscalYear());
+        pkMap.put("chartOfAccountsCode", asset.getOrganizationOwnerChartOfAccountsCode());
+        pkMap.put("financialObjectCode", DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
+        ObjectCode offsetFinancialObject = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pkMap);
+
+        if (ObjectUtils.isNull(offsetFinancialObject)) {
+            throw new ReferentialIntegrityException("Object code is not defined for this universityFiscalYear=" + universityDateService.getCurrentFiscalYear() + ", chartOfAccountsCode=" + asset.getOrganizationOwnerChartOfAccountsCode() + ", financialObjectCode=" + DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
+        }
+
+        return offsetFinancialObject;
+    }
+
 
     /**
      * 
@@ -395,7 +403,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 }
             }
         }
-        
+
         return plantFundAccount;
     }
 }

@@ -20,9 +20,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.gl.CamsGlPosterBase;
+import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
 
 
 /**
@@ -42,6 +40,7 @@ public interface AssetRetirementService {
     /**
      * 
      * This method generates offset payments for each sourceAsset.
+     * 
      * @param sourceAsset
      * @param persistables
      * @param documentNumber
@@ -51,6 +50,7 @@ public interface AssetRetirementService {
     /**
      * 
      * This method generates new payments from sourceAsset for targetAsset.
+     * 
      * @param targetAsset
      * @param sourceAsset
      * @param persistables
@@ -59,27 +59,29 @@ public interface AssetRetirementService {
      * @return
      */
     Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String documentNumber);
-    
+
     /**
      * 
      * Check if reasonCode is in reasonCodeGroup
+     * 
      * @param reasonCodeGroup
      * @param reasonCode
      * @return
      */
     boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode);
-    
+
     /**
      * 
      * Check if the retirement reason code allows to retire multiple assets
+     * 
      * @param retirementReasonCode
      * @param assetDetails
      * @return
      */
-    boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, boolean addErrorPath);
-    
+    boolean isAllowedRetireMultipleAssets(String retirementReasonCode);
+
     /**
-     * Creates GL Postables 
+     * Creates GL Postables
      */
-    void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGlPosterBase assetRetirementGlPoster);
+    void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster);
 }

@@ -15,13 +15,18 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -79,7 +84,7 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetLoaned(Asset asset) {
         return ObjectUtils.isNotNull(asset.getExpectedReturnDate()) && ObjectUtils.isNull(asset.getLoanReturnDate());
     }
-    
+
     /**
      * @see org.kuali.module.cams.service.AssetService#isAssetTaggedInPriorFiscalYear(org.kuali.module.cams.bo.Asset)
      */
@@ -174,7 +179,7 @@ public class AssetServiceImpl implements AssetService {
      * 
      * @param asset
      */
-    public void setAssetNonPersistentFields(Asset asset) {
+    public void setAssetSummaryFields(Asset asset) {
         if (ObjectUtils.isNotNull(asset)) {
             asset.setFederalContribution(paymentSummaryService.calculateFederalContribution(asset));
             asset.setAccumulatedDepreciation(paymentSummaryService.calculatePrimaryAccumulatedDepreciation(asset));
@@ -206,4 +211,5 @@ public class AssetServiceImpl implements AssetService {
             throw new ValidationException("Cound not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
         }
     }
+
 }

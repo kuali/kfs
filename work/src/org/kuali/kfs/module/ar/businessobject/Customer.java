@@ -37,16 +37,13 @@ public class Customer extends PersistableBusinessObjectBase {
     private Customer customerParentCompany;
     private CustomerType customerType;
 
-    private List<CustomerInternalNote> customerInternalNotes;
     private List<CustomerAddress> customerAddresses;
 
     /**
      * Default constructor.
      */
     public Customer() {
-        customerInternalNotes = new TypedArrayList(CustomerInternalNote.class);
         customerAddresses = new TypedArrayList(CustomerAddress.class);
-
     }
 
     /**
@@ -445,24 +442,6 @@ public class Customer extends PersistableBusinessObjectBase {
      */
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
-    }
-
-    /**
-     * Gets the customerInternalNotes attribute.
-     * 
-     * @return Returns the customerInternalNotes.
-     */
-    public List<CustomerInternalNote> getCustomerInternalNotes() {
-        return customerInternalNotes;
-    }
-
-    /**
-     * Sets the customerInternalNotes attribute value.
-     * 
-     * @param customerInternalNotes The customerInternalNotes to set.
-     */
-    public void setCustomerInternalNotes(List<CustomerInternalNote> customerInternalNotes) {
-        this.customerInternalNotes = customerInternalNotes;
     }
 
     /**

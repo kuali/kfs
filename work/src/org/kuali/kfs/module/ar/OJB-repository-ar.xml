@@ -135,10 +135,6 @@
 	<reference-descriptor name="customerType" class-ref="org.kuali.module.ar.bo.CustomerType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerTypeCode" />
 	</reference-descriptor>
-    <collection-descriptor name="customerInternalNotes" element-class-ref="org.kuali.module.ar.bo.CustomerInternalNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="customerInternalNoteCreateTimestamp" sort="ASC" />
-        <inverse-foreignkey field-ref="customerNumber" />
-    </collection-descriptor>
     <collection-descriptor name="customerAddresses" element-class-ref="org.kuali.module.ar.bo.CustomerAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="customerAddressIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="customerNumber" />
@@ -451,10 +447,6 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="customerInternalNoteAuthorIdentifier" column="CUST_INT_AUTHOR_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="customerInternalNoteText" column="CUST_INT_NTE_TXT" jdbc-type="VARCHAR"/>
-	
-    <reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="customerNumber" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.CustomerInvoiceItemCode" table="AR_INV_ITM_CODE_T">

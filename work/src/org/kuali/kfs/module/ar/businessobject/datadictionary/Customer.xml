@@ -10,6 +10,7 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.module.ar.bo.Customer" />
+		<property name="boNotesEnabled" value="true" />
 		<property name="inquiryDefinition">
 			<ref bean="Customer-inquiryDefinition" />
 		</property>
@@ -49,9 +50,8 @@
 					p:name="customerAddresses" p:label="Customer Addresses"
 					p:shortLabel="Customer Addresses"
 					p:elementLabel="Customer Address" />
-				<bean parent="CollectionDefinition"
-					p:name="customerInternalNotes" p:label="Customer Internal Notes"
-					p:shortLabel="Internal Notes" p:elementLabel="Internal Note" />
+				<bean parent="CollectionDefinition" p:name="boNotes"
+					p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes" />
 			</list>
 		</property>
 	</bean>
@@ -555,35 +555,26 @@
 				</bean>
 
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Address" />
+					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
 							<bean
 								parent="InquiryCollectionDefinition">
 								<property name="attributeName"
-									value="customerInternalNotes" />
+									value="boNotes" />
 								<property name="businessObjectClass"
-									value="org.kuali.module.ar.bo.CustomerInternalNote" />
+									value="org.kuali.core.bo.Note" />
 								<property name="numberOfColumns"
 									value="1" />
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition"
-											p:attributeName="customerInternalNoteCreateTimestamp" />
+											p:attributeName="noteText" />
 										<bean parent="FieldDefinition"
-											p:attributeName="customerInternalNoteAuthorIdentifier" />
+											p:attributeName="notePostedTimestamp" />
 										<bean parent="FieldDefinition"
-											p:attributeName="customerInternalNoteText" />
-									</list>
-								</property>
-								<property name="summaryFields">
-									<list>
-										<bean parent="FieldDefinition"
-											p:attributeName="customerInternalNoteCreateTimestamp" />
-										<bean parent="FieldDefinition"
-											p:attributeName="customerInternalNoteAuthorIdentifier" />
-
+											p:attributeName="authorUniversal.personName" />
 									</list>
 								</property>
 							</bean>

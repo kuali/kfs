@@ -13,7 +13,6 @@
       <list>
         <ref bean="CustomerMaintenanceDocument-EditCustomer" />
         <ref bean="CustomerMaintenanceDocument-Addresses" />
-        <ref bean="CustomerMaintenanceDocument-InternalNotes" />
       </list>
     </property>
 
@@ -165,36 +164,6 @@
                     p:required="true" /> 
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressInternationalProvinceName" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-            </list>
-          </property>
-        </bean>
-        </list>
-        </property>
-        </bean>
-        
-        <bean id="CustomerMaintenanceDocument-InternalNotes" parent="CustomerMaintenanceDocument-InternalNotes-parentBean" />
-
-  <bean id="CustomerMaintenanceDocument-InternalNotes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="InternalNotes" />
-    <property name="title" value="Internal Notes" />
-    <property name="maintainableItems" >
-      <list>
-      <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="customerInternalNotes" />
-          <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerInternalNote" />
-          <property name="summaryFields" >
-            <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerInternalNoteText" />
-            </list>
-          </property>
-          <property name="maintainableFields" >
-            <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerInternalNoteText"
-                    p:required="true" />   
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>

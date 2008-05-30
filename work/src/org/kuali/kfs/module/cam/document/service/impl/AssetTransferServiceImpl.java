@@ -47,13 +47,8 @@ import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
-    private static class AmountCategory {
-
-        private AmountCategory() {
-            super();
-        }
-
-        static AmountCategory CAPITALIZATION = new AmountCategory() {
+    private static enum AmountCategory {
+        CAPITALIZATION {
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost");
                 postable.setAmount(assetPayment.getAccountChargeAmount());
@@ -62,8 +57,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 postable.setCapitalization(true);
             };
 
-        };
-        static AmountCategory ACCUM_DEPRECIATION = new AmountCategory() {
+        },
+        ACCUM_DEPRECIATION {
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " accumulated depreciation");
                 postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
@@ -72,8 +67,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 postable.setAccumulatedDepreciation(true);
             };
 
-        };
-        static AmountCategory OFFSET_AMOUNT = new AmountCategory() {
+        },
+        OFFSET_AMOUNT {
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " offset amount");
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
@@ -83,12 +78,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             };
 
         };
-
-        void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
-            throw new UnsupportedOperationException();
-        }
+        abstract void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition);
     }
-
 
     private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
     private AssetService assetService;

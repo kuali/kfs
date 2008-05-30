@@ -64,8 +64,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             handleAssetSharedDetailsCollection(collectionName);
         }
 
-        int pos = assetGlobal.getAssetSharedDetails().size() - 1;
-        if (pos > -1 && (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + pos + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equalsIgnoreCase(collectionName)) {
+        int sharedDetailsIndex = assetGlobal.getAssetSharedDetails().size() - 1;
+        if (sharedDetailsIndex > -1 && (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedDetailsIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equalsIgnoreCase(collectionName)) {
             handleAssetUniqueCollection(collectionName);
         }
         super.addNewLineToCollection(collectionName);
@@ -131,7 +131,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
         AssetGlobalDetail newAssetGlobalDetail = null;
         // clear existing entries
-        clearExistingEntries(assetGlobal);
+        deleteExistingAssetGlobalDetailRecords(assetGlobal);
         if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
             assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber());
 
@@ -177,7 +177,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
     }
 
-    private void clearExistingEntries(AssetGlobal assetGlobal) {
+    private void deleteExistingAssetGlobalDetailRecords(AssetGlobal assetGlobal) {
         LOG.debug("Clearing Global Details, before saving new state");
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, String> params = new HashMap<String, String>();

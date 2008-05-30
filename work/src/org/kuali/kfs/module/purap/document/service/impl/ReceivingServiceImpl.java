@@ -181,12 +181,13 @@ public class ReceivingServiceImpl implements ReceivingService {
     private boolean canCreateReceivingLineDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
 
         boolean canCreate = false;
-        
+       
         if( (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) &&
              !isReceivingLineDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) &&
-             po.isPurchaseOrderCurrentIndicator() ){
+             !isReceivingCorrectionDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null) &&
+             po.isPurchaseOrderCurrentIndicator()){
             
             canCreate = true;
         }
@@ -245,6 +246,34 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isInProcess;
     }
 
+    private boolean isReceivingCorrectionDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+        
+        boolean isInProcess = false;
+        
+        List<String> docNumbers = receivingDao.getReceivingCorrectionDocumentNumbersByPurchaseOrderId(poId);
+        KualiWorkflowDocument workflowDocument = null;
+                
+        for (String docNumber : docNumbers) {
+        
+            try{
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+            }catch(WorkflowException we){
+                throw new RuntimeException(we);
+            }
+            
+            if(!(workflowDocument.stateIsCanceled() ||
+                 workflowDocument.stateIsException() ||
+                 workflowDocument.stateIsFinal()) &&
+                 docNumber.equals(receivingDocumentNumber) == false ){
+                     
+                isInProcess = true;
+                break;
+            }
+        }
+
+        return isInProcess;
+    }
+    
     private boolean isReceivingCorrectionDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
         
         boolean isInProcess = false;

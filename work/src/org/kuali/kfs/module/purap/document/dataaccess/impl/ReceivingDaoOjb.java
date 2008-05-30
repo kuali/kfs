@@ -55,7 +55,21 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         return returnList;
 
     }
-    
+
+    public List<String> getReceivingCorrectionDocumentNumbersByPurchaseOrderId(Integer id) {
+
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("receivingLineDocument.purchaseOrderIdentifier", id);        
+        Iterator<Object[]> iter = getDocumentNumbersOfReceivingCorrectionByCriteria(criteria, false);
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        return returnList;
+
+    }
+
     public List<String> getReceivingCorrectionDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber) {
 
         List<String> returnList = new ArrayList<String>();

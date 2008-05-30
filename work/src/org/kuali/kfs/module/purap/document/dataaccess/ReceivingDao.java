@@ -25,6 +25,8 @@ public interface ReceivingDao {
 
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
 
+    public List<String> getReceivingCorrectionDocumentNumbersByPurchaseOrderId(Integer id);
+    
     public List<String> getReceivingCorrectionDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber);
     
     public List<String> duplicateVendorDate(Integer poId, java.sql.Date vendorDate);

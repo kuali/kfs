@@ -68,10 +68,10 @@ public class AssetPaymentDocumentRuleTest extends KualiTestBase {
         assertFalse(rule.validateFiscalPeriod(2999,"01"));
     }
     
-    public void testValidateAssetEligibilityForPayment() {
+    /*public void testValidateAssetEligibilityForPayment() {
         assertTrue(rule.validateAssetEligibilityForPayment(new Long("376601")));
         //assertFalse(rule.validateAssetEligibilityForPayment(new Long("392212")));
-    }
+    }*/
     
     
     public void testValidateDocumentType() {

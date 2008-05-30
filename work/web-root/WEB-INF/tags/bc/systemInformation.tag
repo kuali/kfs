@@ -32,6 +32,8 @@
     	<tr>
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">System Information</span>
+            <html:hidden property="document.budgetLockUserIdentifier"/>
+            <html:hidden property="document.budgetTransactionLockUserIdentifier"/>
 		    </td>
 		</tr>
 		<tr>

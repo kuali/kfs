@@ -113,14 +113,13 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
             }
             customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
             
-            // TODO: this is not right
+            // TODO: this is not right -> can retrieve it once and then reuse
             docNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
-            customerCreditMemoDetail.setDocumentNumber(docNumber);
             
             itemLineNumber = ((CustomerInvoiceDetail)invoiceDetail).getSequenceNumber();
             customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
             
-            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(docNumber,itemLineNumber);
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(docNumber,itemLineNumber,(CustomerInvoiceDetail)invoiceDetail);
             customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
             
             customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
@@ -151,18 +150,11 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDetailEvent(errorPath, customerCreditMemoDocumentForm.getDocument(), customerCreditMemoDetail));
         if (rulePassed) {
-            
-            String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-            CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            
-            Integer lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
-            CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,lineNumber);
-            
-            KualiDecimal invItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
-
             CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
-            customerCreditMemoDetailService.recalculateCustomerCreditMemoDetail(customerCreditMemoDetail,customerCreditMemoDocument,invItemUnitPrice);
-        }    
+            customerCreditMemoDetailService.recalculateCustomerCreditMemoDetail(customerCreditMemoDetail,customerCreditMemoDocument);
+        } else {
+            customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetail);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -188,6 +180,8 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         customerCreditMemoDetail.setCreditMemoItemTotalAmount(null);
         customerCreditMemoDetail.setCreditMemoItemTaxAmount(KualiDecimal.ZERO);
         customerCreditMemoDetail.setCreditMemoLineTotalAmount(KualiDecimal.ZERO);
+        
+        customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetail);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    

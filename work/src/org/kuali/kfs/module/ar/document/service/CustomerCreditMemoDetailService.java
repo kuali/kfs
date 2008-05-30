@@ -26,6 +26,5 @@ public interface CustomerCreditMemoDetailService {
      * 
      * @return
      */
-    public void recalculateCustomerCreditMemoDetail(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument,KualiDecimal unitPrice);
-
+    public void recalculateCustomerCreditMemoDetail(CustomerCreditMemoDetail customerCreditMemoDetail, CustomerCreditMemoDocument customerCreditMemoDocument);
 }

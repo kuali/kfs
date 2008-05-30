@@ -76,6 +76,9 @@
 			attributeEntry="${customerInvoiceDetailAttributes.amount}"
 			property="${invPropertyName}.amount"
 			readOnly="true" />
+			
+	<!--  Hidden Duplicate Item Amount -->
+	<html:hidden property="${crmPropertyName}.duplicateCreditMemoItemTotalAmount" />
 
 	<!--  Tax Amount -->
 	<td class="${cssClass}" style="text-align:right" >

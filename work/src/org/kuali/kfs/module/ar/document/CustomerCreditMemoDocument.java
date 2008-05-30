@@ -300,5 +300,61 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     public void setInvOutstandingDays(Integer invOutstandingDays) {
         this.invOutstandingDays = invOutstandingDays;
     }
+    
+    public KualiDecimal getTaxRate(){
+        KualiDecimal stateTaxRate = invoice.getStateTaxPercent();
+        KualiDecimal localTaxRate = invoice.getLocalTaxPercent();
+        KualiDecimal taxRate;
+        
+        if (ObjectUtils.isNull(stateTaxRate))
+            stateTaxRate = KualiDecimal.ZERO;
+        
+        if (ObjectUtils.isNull(localTaxRate))
+            localTaxRate = KualiDecimal.ZERO;
+        
+        taxRate = stateTaxRate.add(localTaxRate);
+        
+        return taxRate;
+    }
+    
+    public void recalculateTotalsBasedOnChangedItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail) {
+        KualiDecimal duplicateCreditMemoItemTotalAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
+        KualiDecimal creditMemoItemTotalAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+        
+        // substract the 'old' item amount, tax amount, and total amount accordingly from totals
+        if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount))
+            prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
+
+        // update 'totals' with the recalculated credit memo line amounts
+        if (ObjectUtils.isNotNull(creditMemoItemTotalAmount)) {
+            KualiDecimal taxRate = getTaxRate();
+            
+            crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemTotalAmount);
+            crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoItemTotalAmount.multiply(taxRate));
+            crmTotalAmount = crmTotalAmount.add(crmTotalItemAmount.add(crmTotalTaxAmount));
+        }
+        
+        // update duplicate credit memo item amount with 'new' value
+        customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemTotalAmount);   
+    }
+    
+    public void recalculateTotals(CustomerCreditMemoDetail customerCreditMemoDetail) {
+        KualiDecimal duplicateCreditMemoItemTotalAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
+        
+        // substract the 'old' item amount, tax amount, and total amount accordingly from totals
+        if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount)) {
+            prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
+            customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(null);
+        }
+    }
+    
+    private void prepareTotalsForUpdate(KualiDecimal oldItemAmount){
+        KualiDecimal taxRate = getTaxRate();
+        KualiDecimal oldItemTaxAmount = oldItemAmount.multiply(taxRate);
+        
+        crmTotalItemAmount = crmTotalItemAmount.subtract(oldItemAmount);
+        crmTotalTaxAmount = crmTotalTaxAmount.subtract(oldItemTaxAmount);
+        crmTotalAmount = crmTotalAmount.subtract(oldItemAmount.add(oldItemTaxAmount));
+    }
 
 }

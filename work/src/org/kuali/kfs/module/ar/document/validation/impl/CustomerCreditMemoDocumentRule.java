@@ -84,6 +84,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         // 'Qty' was entered
         if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY,inputKey)) {
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemQuantity());
+            // have to change this rule taking into account discounts
             success &= isCustomerCreditMemoQtyGreaterThanInvoiceQty(customerCreditMemoDetail,customerCreditMemoDocument);
         }
         // 'Item Amount' was entered
@@ -130,6 +131,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         return validValue;
     }
     
+    // have to validate against open invoice amount -> have to change
     private boolean isCustomerCreditMemoItemAmountGreaterThanInvoiceItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument){
         int lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber().intValue();
         KualiDecimal invoiceOpenAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();

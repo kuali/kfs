@@ -18,6 +18,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     private BigDecimal creditMemoItemQuantity;
     private KualiDecimal creditMemoItemTaxAmount;
     private KualiDecimal creditMemoItemTotalAmount;
+    private KualiDecimal duplicateCreditMemoItemTotalAmount;
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
     private KualiDecimal invoiceOpenItemAmount; //not in DB
@@ -225,6 +226,22 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
         
         creditMemoItemTaxAmount = creditMemoItemTotalAmount.multiply(invTaxPercent);
         creditMemoLineTotalAmount = creditMemoItemTotalAmount.add(creditMemoItemTaxAmount);
+    }
+
+    /**
+     * Gets the duplicateCreditMemoItemTotalAmount attribute. 
+     * @return Returns the duplicateCreditMemoItemTotalAmount.
+     */
+    public KualiDecimal getDuplicateCreditMemoItemTotalAmount() {
+        return duplicateCreditMemoItemTotalAmount;
+    }
+
+    /**
+     * Sets the duplicateCreditMemoItemTotalAmount attribute value.
+     * @param duplicateCreditMemoItemTotalAmount The duplicateCreditMemoItemTotalAmount to set.
+     */
+    public void setDuplicateCreditMemoItemTotalAmount(KualiDecimal duplicateCreditMemoItemTotalAmount) {
+        this.duplicateCreditMemoItemTotalAmount = duplicateCreditMemoItemTotalAmount;
     }
 
 }

@@ -111,7 +111,6 @@ public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthor
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         if (workflowDocument.stateIsInitiated()) {
             flags.setCanSave(false);
             flags.setCanClose(true);

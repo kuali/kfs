@@ -90,7 +90,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         // 'Item Amount' was entered
         else if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT,inputKey)) { 
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemTotalAmount());
-            success &= isCustomerCreditMemoItemAmountGreaterThanInvoiceItemAmount(customerCreditMemoDetail,customerCreditMemoDocument);
+            success &= isCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount(customerCreditMemoDetail,customerCreditMemoDocument);
         }
 //      if there is no input or if both 'Qty' and 'Item Amount' were entered -> wrong input
         else
@@ -131,20 +131,18 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         return validValue;
     }
     
-    // have to validate against open invoice amount -> have to change
-    private boolean isCustomerCreditMemoItemAmountGreaterThanInvoiceItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument){
+    private boolean isCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument){
         int lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber().intValue();
-        KualiDecimal invoiceOpenAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
+        KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         
-        boolean validItemAmount = creditMemoItemAmount.isLessEqual(invoiceOpenAmount);
+        boolean validItemAmount = creditMemoItemAmount.isLessEqual(invoiceOpenItemAmount);
         if (!validItemAmount)
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_GREATER_THAN_INVOICE_ITEM_AMOUNT);
             
         return validItemAmount;
     }
     
-    //TODO: I have to take into account applied discount ???
     private boolean isCustomerCreditMemoQtyGreaterThanInvoiceQty(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument) {
         Integer refInvoiceItemNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
         String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
@@ -152,15 +150,25 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
         CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,refInvoiceItemNumber);
 
-        BigDecimal customerInvoiceItemQty = customerInvoiceDetail.getInvoiceItemQuantity();
-        BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
+        //BigDecimal customerInvoiceItemQty = customerInvoiceDetail.getInvoiceItemQuantity();
+        KualiDecimal invoiceOpenItemQty = getInvoiceOpenItemQuantity(customerCreditMemoDetail,customerInvoiceDetail);
+        //BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
+        KualiDecimal customerCreditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
         // customer credit memo quantity must not be greater than parent quantity
-        boolean validQuantity = (customerCreditMemoItemQty.compareTo(customerInvoiceItemQty) < 1?true:false);
+        boolean validQuantity = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1?true:false);
         if (!validQuantity)
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
         
         return validQuantity; 
+    }
+    
+    private KualiDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {
+        KualiDecimal invoiceItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
+        KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
+        KualiDecimal invoiceOpenItemQuantity = invoiceOpenItemAmount.divide(invoiceItemUnitPrice);
+        
+        return invoiceOpenItemQuantity;
     }
     
 }

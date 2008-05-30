@@ -16,7 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
-<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />           
+<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
+<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />          
               
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS}">
     <div class="tab-container" align=center>		
@@ -31,10 +32,10 @@
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitOfMeasureCode}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitPrice}" hideRequiredAsterisk="true" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.amount}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}" hideRequiredAsterisk="true" />
-			    <kul:htmlAttributeHeaderCell literalLabel="Total Amount" />
-				<kul:htmlAttributeHeaderCell literalLabel="Open Invoice Amount" />				
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceLineTotalAmount}" hideRequiredAsterisk="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemAmount}" hideRequiredAsterisk="true" />				
 			    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
 			</tr>
 			<logic:iterate

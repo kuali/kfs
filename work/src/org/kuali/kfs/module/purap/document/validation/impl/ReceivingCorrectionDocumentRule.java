@@ -26,10 +26,9 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurapEnterableItem;
-import org.kuali.module.purap.bo.ReceivingCorrectionItem;
-import org.kuali.module.purap.bo.ReceivingLineItem;
+import org.kuali.module.purap.bo.ReceivingItem;
 import org.kuali.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.service.ReceivingService;
 
 public class ReceivingCorrectionDocumentRule extends DocumentRuleBase {
@@ -44,22 +43,30 @@ public class ReceivingCorrectionDocumentRule extends DocumentRuleBase {
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
         valid &= canCreateReceivingCorrectionDocument(receivingCorrectionDocument);
-        valid &= isReceivingDetailsAvailable(receivingCorrectionDocument);
+        valid &= isAtLeastOneItemEntered(receivingCorrectionDocument);
         
         return valid;
     }
 
-    private boolean isReceivingDetailsAvailable(ReceivingCorrectionDocument receivingCorrectionDocument){
-        for (ReceivingCorrectionItem item : (List<ReceivingCorrectionItem>) receivingCorrectionDocument.getItems()) {
-            if (!((PurapEnterableItem)item).isConsideredEntered()) {
-                String[] parameters = new String[] { item.getItemLineNumber().toString() };
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED,parameters);
-                return false;
+
+    /**
+     * TODO: move this up
+     * This method...
+     * @param receivingDocument
+     * @return
+     */
+    private boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
+        for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
+            if (((PurapEnterableItem)item).isConsideredEntered()) {
+                //if any item is entered return true
+                return true;
             }
         }
-        return true;
-    }
-    
+        //if no items are entered return false
+        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED);
+        return false;
+        
+    }    
     /**
      * Determines if it is valid to create a receiving correction document.  Only one
      * receiving correction document can be active at any time per receiving line document.

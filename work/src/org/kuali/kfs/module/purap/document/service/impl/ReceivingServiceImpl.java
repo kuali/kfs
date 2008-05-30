@@ -30,6 +30,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
@@ -382,8 +383,13 @@ public class ReceivingServiceImpl implements ReceivingService {
             
             //TODO: custom doc specific service hook here for correction to do it's receiving doc update
     
-            //TODO: po save
-            
+            try {
+                documentService.saveDocument(poDoc, DocumentSystemSaveEvent.class);
+            }
+            catch (WorkflowException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e.toString());
+            }
             //TODO: FYI on damaged items
         }
         

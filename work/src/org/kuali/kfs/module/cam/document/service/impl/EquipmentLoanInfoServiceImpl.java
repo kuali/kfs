@@ -16,41 +16,38 @@
 package org.kuali.module.cams.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 
 /**
  * Implements EquipmentLoanInfoService
  */
 public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
-
-    private AssetHeaderService assetHeaderService;
-
-
-    public AssetHeaderService getAssetHeaderService() {
-        return assetHeaderService;
-    }
-
-    public void setAssetHeaderService(AssetHeaderService assetHeaderService) {
-        this.assetHeaderService = assetHeaderService;
-    }
-
+    private BusinessObjectService businessObjectService;
 
     public void setEquipmentLoanInfo(Asset asset) {
+
         if (asset.getExpectedReturnDate() != null && asset.getLoanReturnDate() == null) {
-            List<AssetHeader> assetHeaders = asset.getAssetHeaders();
+            Map<String, Long> params = new HashMap<String, Long>();
+            params.put(CamsPropertyConstants.EquipmentLoanOrReturnDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber());
+            Collection<EquipmentLoanOrReturnDocument> matchingDocs = getBusinessObjectService().findMatching(EquipmentLoanOrReturnDocument.class, params);
+
             List<EquipmentLoanOrReturnDocument> sortableList = new ArrayList<EquipmentLoanOrReturnDocument>();
 
-            for (AssetHeader assetHeader : assetHeaders) {
-                EquipmentLoanOrReturnDocument equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturnDocument();
-                if (equipmentLoanOrReturn != null && assetHeaderService.isDocumentApproved(assetHeader)) {
+            for (EquipmentLoanOrReturnDocument equipmentLoanOrReturn : matchingDocs) {
+                equipmentLoanOrReturn.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.DOCUMENT_HEADER);
+                if (equipmentLoanOrReturn.getDocumentHeader() != null && KFSConstants.DocumentStatusCodes.APPROVED.equals(equipmentLoanOrReturn.getDocumentHeader().getFinancialDocumentStatusCode())) {
                     sortableList.add(equipmentLoanOrReturn);
                 }
             }
@@ -66,6 +63,14 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
                 asset.setLoanOrReturnInfo(sortableList.get(0));
             }
         }
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 

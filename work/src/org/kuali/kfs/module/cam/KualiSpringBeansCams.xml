@@ -247,7 +247,7 @@
     </bean>
     
     <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl">
-    	<property name="assetHeaderService" ref="assetHeaderService"/>
+    	<property name="businessObjectService" ref="businessObjectService" />
     </bean>    
     
     <bean id="assetDateService" class="org.kuali.module.cams.service.impl.AssetDateServiceImpl">
@@ -256,8 +256,6 @@
     </bean>
     
     <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" />
-    
-    <bean id="assetHeaderService" class="org.kuali.module.cams.service.impl.AssetHeaderServiceImpl" />    
     
     <bean id="assetPaymentDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetPaymentDaoOjb"/>
     

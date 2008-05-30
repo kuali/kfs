@@ -136,6 +136,8 @@ public interface PurchaseOrderService {
      * @param po The newly approved purchase order document that we want to complete.
      */
     public void completePurchaseOrder(PurchaseOrderDocument po);
+    
+    public void completePurchaseOrderAmendment(PurchaseOrderDocument po);
 
     /**
      * Obtains the purchase order document whose current indicator is true, given a purchase order id which is the

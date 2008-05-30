@@ -73,7 +73,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
 
             // update indicators
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+            SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrderAmendment(this);
 
             // update vendor commodity code by automatically spawning vendor maintenance document
             SpringContext.getBean(PurchaseOrderService.class).updateVendorCommodityCode(this);

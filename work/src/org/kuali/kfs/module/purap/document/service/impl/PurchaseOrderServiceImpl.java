@@ -51,6 +51,7 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -65,10 +66,13 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
+import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapService;
@@ -693,11 +697,27 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         
         //check thresholds to see if receiving is required for purchase order
-        setReceivingRequiredIndicatorForPurchaseOrder(po);
+        if (!po.isReceivingDocumentRequiredIndicator()){
+            setReceivingRequiredIndicatorForPurchaseOrder(po);
+        }
         
         //update the vendor record if the commodity code used on the PO is not already
         //associated with the vendor.
         updateVendorCommodityCode(po);
+    }
+    
+    public void completePurchaseOrderAmendment(PurchaseOrderDocument poa) {
+        LOG.debug("completePurchaseOrderAmendment() started");
+        
+        setCurrentAndPendingIndicatorsForApprovedPODocuments(poa);
+        
+        if (SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())){
+            poa.setPaymentRequestPositiveApprovalIndicator(true);
+            poa.setReceivingDocumentRequiredIndicator(false);
+        }else{
+            ThresholdHelper thresholdHelper = new ThresholdHelper(poa);
+            poa.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
+        }
     }
 
     /**

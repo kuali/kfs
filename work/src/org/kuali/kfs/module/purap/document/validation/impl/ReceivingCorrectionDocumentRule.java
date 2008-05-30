@@ -26,6 +26,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurapEnterableItem;
+import org.kuali.module.purap.bo.ReceivingCorrectionItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
@@ -49,7 +50,7 @@ public class ReceivingCorrectionDocumentRule extends DocumentRuleBase {
     }
 
     private boolean isReceivingDetailsAvailable(ReceivingCorrectionDocument receivingCorrectionDocument){
-        for (ReceivingLineItem item : (List<ReceivingLineItem>) receivingCorrectionDocument.getItems()) {
+        for (ReceivingCorrectionItem item : (List<ReceivingCorrectionItem>) receivingCorrectionDocument.getItems()) {
             if (!((PurapEnterableItem)item).isConsideredEntered()) {
                 String[] parameters = new String[] { item.getItemLineNumber().toString() };
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED,parameters);

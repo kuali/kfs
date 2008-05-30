@@ -38,6 +38,7 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -99,6 +100,29 @@ public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthor
         }
 
         return editModeMap;
+    }
+
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        if (workflowDocument.stateIsInitiated()) {
+            flags.setCanSave(false);
+            flags.setCanClose(true);
+            flags.setCanCancel(false);
+            flags.setCanDisapprove(false);
+        }        
+
+        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+        this.setAnnotateFlag(flags);
+
+        return flags;
     }
 
 }

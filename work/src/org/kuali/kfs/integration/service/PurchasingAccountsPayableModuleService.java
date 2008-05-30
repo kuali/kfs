@@ -28,41 +28,18 @@ import org.kuali.module.integration.bo.PurchasingAccountsPayableRestrictedMateri
  */
 public interface PurchasingAccountsPayableModuleService {
     /**
-     * Used by CAMs pre asset tagging batch process.
-     * @param chartCodes
-     * @param objectSubTypeCodes
-     * @param subFundGroupCodes
-     * @param purchaseOrderOpenAsOfDate
-     * @param capitalizationLimit
-     * @return
-     */
-    public List<PurchasingAccountsPayableItemBuyerAndSellerSummary> getItemBuyerAndSellerSummarys(List<String> chartCodes, List<String> objectSubTypeCodes, List<String> subFundGroupCodes, Date purchaseOrderOpenAsOfDate, KualiDecimal capitalizationLimit);
-
-    /**
      * Provides the inquiry Url for a purchase order. Used by the PurAp / CAMs document to show user further information about the PO.
      * @param purchaseOrderNumber
      * @return
      */
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber);
-
-    /**
-     * Used by CAMs extract batch job.
-     * @param purchaseOrderOpenAsOfDate
-     * @return
-     */
-    public List<PurchasingAccountsPayableItemCostSummary> getItemCostSummarys(Date purchaseOrderOpenAsOfDate);
-
+    
     /**
      * Adds asset numbers that were created to a Purchase Order that caused the creation.
      * @param purchaseOrderNumber
      * @param assetNumbers
      */
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Integer> assetNumbers);
-
-    /**
-     * Populates Asset Builder PEND tables. These are tables that feed the builder.
-     */
-    public void populateAssetBuilderInformation();
     
     /**
      * Returns a restricted material record associated with the given code

@@ -29,9 +29,14 @@
 	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
 	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
     		
-    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+    <c:choose>
+    <c:when test="${!empty KualiForm.editingMode['fullEntry']}">
     	<c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+    </c:when>
+    <c:otherwise>
+    	<c:set var="fullEntryMode" value="false" scope="request" />
+    </c:otherwise>
+    </c:choose>
     
 	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
     	<purap:receivingLineInit documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}"/>

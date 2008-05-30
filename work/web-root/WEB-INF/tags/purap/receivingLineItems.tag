@@ -33,6 +33,7 @@
 			</td>
 		</tr>
 
+		<c:if test="${fullEntryMode}">
 		<tr>
 			<td colspan="${colCount}" class="datacell" align="right" nowrap="nowrap">
 				<div align="right">
@@ -43,7 +44,8 @@
 				</div>
 			</td>
 		</tr>
-
+		</c:if>
+		
 		<tr>
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
@@ -62,6 +64,8 @@
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReasonAddedCode}" />
 			<kul:htmlAttributeHeaderCell literalLabel="Actions"/>
 		</tr>
+		
+		<c:if test="${fullEntryMode}">
 		<tr>
             <td class="infoline">
                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newReceivingLineItemLine.itemLineNumber" readOnly="${true}"/>
@@ -108,7 +112,8 @@
 			    </div>
 			</td>						
 		</tr>
-
+		</c:if>
+		
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 			<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 			<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />

@@ -19,7 +19,7 @@
           <name>KualiCustomerInvoiceDocumentBillingOrganization</name>
         </attribute>
         <attribute>
-          <name>KualiAccountSearchAttribute</name>
+          <name>KualiCustomerInvoiceDocumentAccount</name>
         </attribute>
       </attributes>
       <policies>

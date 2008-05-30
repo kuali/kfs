@@ -13,6 +13,7 @@
             <type>text</type>
           </display>
           <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <quickfinder appliesTo="customerNumber" draw="true" service="workflow-org.kuali.module.ar.bo.Customer-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/accountsReceivableDocumentHeader/customerNumber')</xpathexpression>
           </fieldEvaluation>

@@ -153,6 +153,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentNextLineNumber" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="assetHeader.versionNumber" />
       </list>
     </property>

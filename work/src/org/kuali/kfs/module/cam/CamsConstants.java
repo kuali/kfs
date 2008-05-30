@@ -42,6 +42,10 @@ public class CamsConstants {
         public static final String TRANSFER = "transfer";
     }
 
+    public static class DocumentTypeCodes {
+        public static final String ASSET_SEPERATE = "ASEP";
+    }
+    
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class Parameters {

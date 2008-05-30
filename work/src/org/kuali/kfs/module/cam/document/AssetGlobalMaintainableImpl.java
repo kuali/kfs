@@ -29,6 +29,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -48,6 +49,24 @@ import org.kuali.module.chart.service.ObjectCodeService;
 public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
+
+    /**
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+        AssetGlobal newAsset = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        
+        // For separate an asset this gets the appropriate code
+        String[] financialDocumentTypeCode = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        if (ObjectUtils.isNotNull(financialDocumentTypeCode)) {
+            assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0]);
+            newAsset.setFinancialDocumentTypeCode(financialDocumentTypeCode[0]);
+        }
+        
+        super.processAfterNew(document, parameters);
+    }
 
     /**
      * Hook for quantity and setting asset numbers.

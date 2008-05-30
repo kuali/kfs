@@ -61,6 +61,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Chart organizationOwnerChartOfAccounts;
     private Account organizationOwnerAccount;
 
+    // field is here so that AssetLookupableHelperServiceImpl can pass action information
+    private String financialDocumentTypeCode;
+    
     /**
      * Default constructor.
      */
@@ -841,5 +844,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.acquisitionType = acquisitionType;
     }
 
+    /**
+     * Gets the financialDocumentTypeCode attribute. 
+     * @return Returns the financialDocumentTypeCode.
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
 
+    /**
+     * Sets the financialDocumentTypeCode attribute value.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
 }

@@ -15,11 +15,18 @@
  */
 package org.kuali.module.cams.lookup;
 
+import java.util.Properties;
+
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.service.AssetService;
 
 /**
@@ -48,7 +55,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         actions.append("&nbsp;&nbsp;");
         actions.append(getPaymentUrl(bo));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.AssetActions.SEPARATE);
+        actions.append(getSeparateUrl(bo));
         actions.append("&nbsp;&nbsp;");
         actions.append(getTransferUrl(bo));
 
@@ -79,6 +86,24 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return url;
     }
 
+    private String getSeparateUrl(BusinessObject bo) {
+        Asset asset = (Asset) bo;
+        
+        Properties parameters = new Properties();
+        parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+        parameters.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
+        
+        // Asset PK
+        parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+
+        // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
+        parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypeCodes.ASSET_SEPERATE);
+
+        String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
+        url = "<a href=\"" + url + "\">" + CamsConstants.AssetActions.SEPARATE + "</a>";
+        return url;
+    }
+    
     private String getTransferUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
         return "<a href=\"../camsAssetTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=AssetTransferDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.TRANSFER + "</a>";

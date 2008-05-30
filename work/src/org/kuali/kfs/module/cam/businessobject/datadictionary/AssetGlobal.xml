@@ -35,6 +35,7 @@
         <ref bean="AssetGlobal-landAcreageSize" />
         <ref bean="AssetGlobal-landParcelNumber" />
         <ref bean="AssetGlobal-financialDocumentNextLineNumber" />
+        <ref bean="AssetGlobal-financialDocumentTypeCode" />
         <ref bean="AssetGlobal-versionNumber" />
       </list>
     </property>
@@ -290,6 +291,25 @@
     <property name="summary" value="financialDocumentNextLineNumber" />
     <property name="description" value="financialDocumentNextLineNumber description..." />
   </bean>
+  
+  <bean id="AssetGlobal-financialDocumentTypeCode" parent="AssetGlobal-financialDocumentTypeCode-parentBean" />
+
+  <bean id="AssetGlobal-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Financial Document Type Code" />
+    <property name="shortLabel" value="financialDocumentTypeCode" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="financialDocumentTypeCode" />
+    <property name="description" value="financialDocumentTypeCode description..." />
+  </bean>
+  
   <bean id="AssetGlobal-versionNumber" parent="AssetGlobal-versionNumber-parentBean" />
 
   <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

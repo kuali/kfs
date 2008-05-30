@@ -18,8 +18,12 @@ package org.kuali.module.purap.document.authorization;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.service.ReceivingService;
@@ -32,6 +36,7 @@ import org.kuali.module.purap.service.ReceivingService;
 public class ReceivingLineDocumentActionAuthorizer {
 
     private ReceivingLineDocument receivingLine;
+    private boolean isUserAuthorized;
     
     /**
      * Constructs a ReceivingLineDocumentActionAuthorizer.
@@ -42,6 +47,17 @@ public class ReceivingLineDocumentActionAuthorizer {
         
         this.receivingLine = rl;
         
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
+
+        try {
+            this.isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
+        }
+        catch (GroupNotFoundException gnfe) {
+            this.isUserAuthorized = false;
+        }
+
+        
     }
 
     /**
@@ -50,6 +66,6 @@ public class ReceivingLineDocumentActionAuthorizer {
      * @return
      */
     public boolean canCreateCorrection() {        
-        return SpringContext.getBean(ReceivingService.class).canCreateReceivingCorrectionDocument(receivingLine);
+        return SpringContext.getBean(ReceivingService.class).canCreateReceivingCorrectionDocument(receivingLine) && isUserAuthorized;
     }
 }

@@ -26,7 +26,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.dao.CustomerAddressDao;
 import org.kuali.module.ar.service.CustomerAddressService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CustomerAddressServiceImpl implements CustomerAddressService {
     private CustomerAddressDao customerAddressDao;
 

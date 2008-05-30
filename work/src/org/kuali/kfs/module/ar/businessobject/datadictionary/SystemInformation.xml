@@ -47,6 +47,7 @@
         <ref bean="SystemInformation-organizationRemitToStateCode" />
         <ref bean="SystemInformation-organizationRemitToZipCode" />
         <ref bean="SystemInformation-versionNumber" />
+        <ref bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
       </list>
     </property>
   </bean>
@@ -360,6 +361,18 @@
     </property>
   </bean>
   
+  <bean id="SystemInformation-universityFederalEmployerIdentificationNumber" parent="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean" />
+  <bean id="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFederalEmployerIdentificationNumber" />
+    <property name="label" value="University FEIN" />
+    <property name="shortLabel" value="University FEIN" />
+    <property name="maxLength" value="9" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+  </bean>  
+  
   <bean id="SystemInformation-organizationCheckPayableToName" parent="SystemInformation-organizationCheckPayableToName-parentBean" />
 
   <bean id="SystemInformation-organizationCheckPayableToName-parentBean" abstract="true" parent="OrganizationOptions-organizationCheckPayableToName">
@@ -412,6 +425,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="universityFiscalYear" />
               <bean parent="FieldDefinition"
+                    p:attributeName="universityFederalEmployerIdentificationNumber" />                    
+              <bean parent="FieldDefinition"
                     p:attributeName="processingChartOfAccountCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="processingOrganizationCode" />
@@ -419,20 +434,14 @@
                     p:attributeName="financialDocumentInitiatorIdentifier" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="lockboxNumber" />
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="salesTaxAccountNumber" />-->
              </list>
           </property>
         </bean>                     
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Object Codes" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
+		<bean parent="InquirySectionDefinition">
+			<property name="title" value="Object Codes" />
+			<property name="numberOfColumns" value="1" />
+			<property name="inquiryFields">
 			<list>                
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="salesTaxFinancialObjectCode" />-->
-<!--              <bean parent="FieldDefinition"-->
-<!--                    p:attributeName="adjustmentObjectCode" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="creditCardObjectCode" />   
               <bean parent="FieldDefinition"
@@ -440,10 +449,10 @@
              </list>
           </property>
         </bean>                      
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="University Clearing Account" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
+		<bean parent="InquirySectionDefinition">
+			<property name="title" value="University Clearing Account" />
+			<property name="numberOfColumns" value="1" />
+			<property name="inquiryFields">
 			<list>                                              
               <bean parent="FieldDefinition"
                     p:attributeName="universityClearingChartOfAccountsCode" />
@@ -458,10 +467,10 @@
              </list>
           </property>
         </bean> 
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Wire Account" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
+		<bean parent="InquirySectionDefinition">
+			<property name="title" value="Wire Account" />
+			<property name="numberOfColumns" value="1" />
+			<property name="inquiryFields">
 			<list>                                              
               <bean parent="FieldDefinition"
                     p:attributeName="wireChartOfAccountsCode" />
@@ -476,11 +485,11 @@
             </list>
           </property>
         </bean>     
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Remit To Information" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-								<list>                                              
+		<bean parent="InquirySectionDefinition">
+			<property name="title" value="Remit To Information" />
+			<property name="numberOfColumns" value="1" />
+			<property name="inquiryFields">
+			<list>                                              
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCheckPayableToName" />
               <bean parent="FieldDefinition"
@@ -539,26 +548,6 @@
               p:attributeName="processingOrganizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="lockboxNumber" />
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="salesTaxAccountNumber" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="salesTaxFinancialObjectCode" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="adjustmentObjectCode" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="universityClearingChartOfAccountsCode" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="universityClearingAccountNumber" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="universityClearingSubAccountNumber" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="universityClearingObjectCode" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="universityClearingSubObjectCode" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="creditCardObjectCode" />-->
-<!--        <bean parent="FieldDefinition"-->
-<!--              p:attributeName="discountObjectCode" />-->
       </list>
     </property>
   </bean>

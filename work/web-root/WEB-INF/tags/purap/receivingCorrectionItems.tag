@@ -29,12 +29,6 @@
 		</tr>
 
 		<tr>
-			<td colspan="6" class="subhead"><span class="subhead-left">&nbsp;</span></td>
-			<td colspan="6" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
-			</td>
-		</tr>
-
-		<tr>
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />				

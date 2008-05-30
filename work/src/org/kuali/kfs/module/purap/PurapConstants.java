@@ -323,7 +323,8 @@ public class PurapConstants extends JstlConstants {
         
         public static final String SPLIT_QUESTION = "POSplit";
         public static final String SPLIT_CONFIRM = "POSplitConfirm";
-        public static final String SPLIT_NOTE_PREFIX = "Note entered while splitting from Purchase Order ";
+        public static final String SPLIT_NOTE_PREFIX_OLD_DOC = "Note entered while splitting this Purchase Order : ";
+        public static final String SPLIT_NOTE_PREFIX_NEW_DOC = "Note entered while being split from Purchase Order ";
         public static final String SPLIT_ADDL_CHARGES_WARNING_LABEL = "WARNING";
         public static final String SPLIT_ADDL_CHARGES_WARNING = "* ADDITIONAL CHARGES EXIST *";
 
@@ -681,6 +682,7 @@ public class PurapConstants extends JstlConstants {
         map.put("PurchaseOrderRemoveHoldDocument", PurchaseOrderDocument.class.getName());
         map.put("PurchaseOrderRetransmitDocument", PurchaseOrderDocument.class.getName());
         map.put("PurchaseOrderVoidDocument", PurchaseOrderDocument.class.getName());
+        map.put("PurchaseOrderSplitDocument", PurchaseOrderDocument.class.getName());
         map.put("PaymentRequestDocument", PaymentRequestDocument.class.getName());
         map.put("CreditMemoDocument", CreditMemoDocument.class.getName());
         return map;

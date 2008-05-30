@@ -21,9 +21,11 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.bo.VendorDetail;
 
@@ -86,6 +88,9 @@ public interface PurchaseOrderService {
      * @return The resulting new purchase order change document created by this method.
      */
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
+    
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber);
+
 
     /**
      * Obtains the internal purchasing dollar limit amount for a purchase order document.
@@ -136,7 +141,7 @@ public interface PurchaseOrderService {
      * @param po The newly approved purchase order document that we want to complete.
      */
     public void completePurchaseOrder(PurchaseOrderDocument po);
-    
+
     public void completePurchaseOrderAmendment(PurchaseOrderDocument po);
 
     /**
@@ -297,4 +302,5 @@ public interface PurchaseOrderService {
      *         already been updated based on our findings on the items' commodity codes.
      */
     public VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po);
+    
 }

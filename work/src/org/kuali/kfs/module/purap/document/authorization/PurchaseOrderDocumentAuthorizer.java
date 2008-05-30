@@ -170,6 +170,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             flags.setCanSave(false);
             flags.setCanReload(false);
             flags.setCanClose(false);
+            flags.setCanCancel(false);
         }
         if (po.isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
             flags.setCanSave(true);

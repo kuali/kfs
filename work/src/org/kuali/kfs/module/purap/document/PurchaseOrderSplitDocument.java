@@ -32,15 +32,4 @@ import org.kuali.module.purap.service.PurapAccountingService;
 
 public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
 
-    @Override
-    public void setItems(List items) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public <T> T getItem(int pos) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

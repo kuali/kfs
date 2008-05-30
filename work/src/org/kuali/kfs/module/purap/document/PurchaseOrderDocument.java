@@ -1181,7 +1181,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public boolean getAdditionalChargesExist() {
         List<PurchaseOrderItem> items = this.getItems();
         for( PurchaseOrderItem item : items ) {
-            if (item.getItemType().isItemTypeBelowTheLineIndicator() && (!KualiDecimal.ZERO.equals(item.getExtendedPrice()))) {
+            if ((item != null) &&
+                (item.getItemType() != null) && 
+                (item.getItemType().isItemTypeBelowTheLineIndicator()) && 
+                (item.getExtendedPrice() != null) && 
+                (!KualiDecimal.ZERO.equals(item.getExtendedPrice()))) {
                 return true;
             }
         }
@@ -1229,7 +1233,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setInternalPurchasingLimit(KualiDecimal internalPurchasingLimit) {
         this.internalPurchasingLimit = internalPurchasingLimit;
     }
-    
+
     public boolean isPendingSplit() {
         return pendingSplit;
     }

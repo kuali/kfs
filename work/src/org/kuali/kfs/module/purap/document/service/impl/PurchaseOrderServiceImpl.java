@@ -55,6 +55,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -70,6 +71,7 @@ import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -568,12 +570,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // we only need to do this once to apply to all items, so we can break out of the loop now
             break;
         }
-        
+
         newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
         
         return newPurchaseOrderChangeDocument;
     }
-    
+
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#createAndSavePotentialChangeDocument(java.lang.String,
      *      java.lang.String, java.lang.String)
@@ -624,7 +626,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
         purapService.updateStatus(currentDocument, currentDocumentStatusCode);
-
+        
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
             newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
@@ -636,7 +638,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                      */
                     currentDocument.setPendingActionIndicator(true);
                     saveDocumentNoValidationUsingClearErrorMap(currentDocument);
-
+                    
                     documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
@@ -661,6 +663,79 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
+    }
+    
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber) {
+        
+        PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);        
+        if (ObjectUtils.isNull(currentDocument)) {
+            String errorMsg = "Attempting to create new PO of type PurchaseOrderSplitDocument from source PO doc that is null";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }       
+        purapService.updateStatus(currentDocument, PurchaseOrderStatuses.IN_PROCESS);
+        
+        try {
+            // Create the new Split PO document (throws WorkflowException)
+            PurchaseOrderSplitDocument newDocument = (PurchaseOrderSplitDocument)documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT);
+
+            if (ObjectUtils.isNotNull(newDocument)) {
+                
+                // Prepare for copying fields over from the current document.
+                Set<Class> classesToExclude = getClassesToExcludeFromCopy();
+                Map<String, Class> uncopyableFields = PurapConstants.UNCOPYABLE_FIELDS_FOR_PO;
+                uncopyableFields.put(PurapPropertyConstants.PURAP_DOC_ID, null);        // We need to have a new PO ID.
+                uncopyableFields.put(PurapPropertyConstants.ITEMS, null);               // Items (including additional charges) are to be excluded from the copy.
+                // TODO: Exclude Quotes fields from copy.
+                
+                // Copy all fields over from the current document except the items.
+                PurApObjectUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);
+                newDocument.getDocumentHeader().setFinancialDocumentDescription(currentDocument.getDocumentHeader().getFinancialDocumentDescription());
+                newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());
+    
+                newDocument.setPurchaseOrderCurrentIndicator(true);
+                newDocument.setPendingActionIndicator(false);
+                
+                // Add in and renumber the items that the new document should have.
+                newDocument.setItems(newPOItems);
+                newDocument.renumberItems(0);
+                
+                newDocument.refreshNonUpdateableReferences();
+                
+                newDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
+                
+                try {
+                    documentService.saveDocument(newDocument, DocumentSystemSaveEvent.class); // Also throws WorkflowException
+                }
+                // If we catch a ValidationException, it means that the new PO doc found errors.
+                catch (ValidationException ve) {
+                    throw ve;
+                }
+                // If no validation exception was thrown, then the rules have passed and we are OK to edit the current PO.                                        
+                return newDocument;
+            }
+            else {
+                String errorMsg = "Attempting to create new PO of type 'PurchaseOrderSplitDocument' from source PO doc id " + documentNumber + " returned null for new document";
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }            
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Workflow Exception caught trying to create and save PO document of type PurchaseOrderSplitDocument using source document with doc id '" + documentNumber + "'";
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+    }
+    
+    private Set<Class> getClassesToExcludeFromCopy() {
+        Set<Class> classesToExclude = new HashSet<Class>();
+        Class sourceObjectClass = DocumentBase.class;
+        classesToExclude.add(sourceObjectClass);
+        while (sourceObjectClass.getSuperclass() != null) {
+            sourceObjectClass = sourceObjectClass.getSuperclass();
+            classesToExclude.add(sourceObjectClass);
+        }
+        return classesToExclude;
     }
 
     /**
@@ -698,14 +773,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         //check thresholds to see if receiving is required for purchase order
         if (!po.isReceivingDocumentRequiredIndicator()){
-            setReceivingRequiredIndicatorForPurchaseOrder(po);
+        setReceivingRequiredIndicatorForPurchaseOrder(po);
         }
         
         //update the vendor record if the commodity code used on the PO is not already
         //associated with the vendor.
         updateVendorCommodityCode(po);
     }
-    
+
     public void completePurchaseOrderAmendment(PurchaseOrderDocument poa) {
         LOG.debug("completePurchaseOrderAmendment() started");
         
@@ -1100,7 +1175,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
     }
-    
+
     public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po) {
         ThresholdHelper thresholdHelper = new ThresholdHelper(po);
         po.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());

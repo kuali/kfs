@@ -261,13 +261,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         
         //if (auth.canSplitPo()){
-        //    ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
+        //   ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
         //    extraButtons.add(splitPoButton);
         //}
         
         if (auth.canContinuePoSplit()){
             ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit");
             extraButtons.add(continueButton);
+            ExtraButton cancelSplitButton = (ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit");
+            extraButtons.add(cancelSplitButton);
         }
         
         return extraButtons;
@@ -353,6 +355,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         continueButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_continue.gif");
         continueButton.setExtraButtonAltText("Continue");
         
+        // Cancel Split button
+        ExtraButton cancelSplitButton = new ExtraButton();
+        cancelSplitButton.setExtraButtonProperty("methodToCall.cancelPurchaseOrderSplit");
+        cancelSplitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancelsplit.gif");
+        cancelSplitButton.setExtraButtonAltText("Cancel Splitting the PO");
+        
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
         result.put(printButton.getExtraButtonProperty(), printButton);
@@ -365,6 +373,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(receivingButton.getExtraButtonProperty(), receivingButton);
         result.put(splitPoButton.getExtraButtonProperty(), splitPoButton);
         result.put(continueButton.getExtraButtonProperty(), continueButton);
+        result.put(cancelSplitButton.getExtraButtonProperty(), cancelSplitButton);
         
         return result;
     }
@@ -390,7 +399,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         
     }
-
+    
     public PurchaseOrderDocumentActionAuthorizer getAuth() {
         return auth;
     }

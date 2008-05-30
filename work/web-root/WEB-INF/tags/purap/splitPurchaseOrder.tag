@@ -72,6 +72,41 @@
         	<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
         		<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
 		        	<tr>
+		        		<nested:iterate indexId="acctCtr" name="itemLine" property="sourceAccountingLines" id="acctLine">
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].documentNumber" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].sequenceNumber" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].postingYear" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].amount" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].referenceOriginCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].referenceNumber" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].referenceTypeCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].overrideCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].accountExpiredOverride" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].accountExpiredOverrideNeeded" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].nonFringeAccountOverride" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].nonFringeAccountOverrideNeeded" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].objectBudgetOverride" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].objectBudgetOverrideNeeded" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].organizationReferenceId" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].debitCreditCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].encumbranceUpdateCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].financialDocumentLineTypeCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].financialDocumentLineDescription" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].salesTaxRequired" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].chartOfAccountsCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].accountNumber" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].financialObjectCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].subAccountNumber" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].financialSubObjectCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].projectCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].balanceTypeCode" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].objectTypeCode" />
+		        		
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].accountIdentifier" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].itemIdentifier" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].accountLinePercent" />
+		        			<html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].alternateAmountForGLEntryCreation" />
+		        		</nested:iterate>
 		        		<td class="datacell">
 		        			<div align="center">
 			        			<kul:htmlControlAttribute

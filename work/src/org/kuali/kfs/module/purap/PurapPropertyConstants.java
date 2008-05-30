@@ -30,6 +30,7 @@ public class PurapPropertyConstants {
     public static final String EXTENDED_PRICE = "extendedPrice";
     public static final String ITEM_TYPE = "itemType";
     public static final String ITEM = "item";
+    public static final String ITEMS = "items";
     public static final String ITEM_CATALOG_NUMBER = "itemCatalogNumber";
     public static final String ITEM_DESCRIPTION = "itemDescription";
     public static final String ITEM_QUANTITY = "itemQuantity";

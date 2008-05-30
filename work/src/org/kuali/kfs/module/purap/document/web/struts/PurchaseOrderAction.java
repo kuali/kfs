@@ -45,6 +45,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.BlankFormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -65,6 +66,7 @@ import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.service.FaxService;
 import org.kuali.module.purap.service.PurapService;
@@ -143,7 +145,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     newPOVendorQuote.setVendorPostalCode(newVendor.getDefaultAddressPostalCode());
                     newPOVendorQuote.setVendorStateCode(newVendor.getDefaultAddressStateCode());
                 }
-                
+
                 String tmpPhoneNumber = null;
                 for (VendorPhoneNumber phone : newVendor.getVendorPhoneNumbers()) {
                     if (VendorConstants.PhoneTypes.PO.equals(phone.getVendorPhoneTypeCode())) {
@@ -537,9 +539,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)poForm.getDocument();
         String poID = poDocument.getDocumentNumber();
-        String splitPrefix = PODocumentsStrings.SPLIT_NOTE_PREFIX + poID + " : ";
         
-        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.SPLIT_QUESTION, PODocumentsStrings.SPLIT_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT, splitPrefix, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.SPLIT_QUESTION, PODocumentsStrings.SPLIT_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT, PODocumentsStrings.SPLIT_NOTE_PREFIX_OLD_DOC, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT, operation);
     }
     
     /**
@@ -558,15 +559,61 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         //TODO: Implement business rules.
         
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument poToSplit = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        List<PurchaseOrderItem> items = (List<PurchaseOrderItem>)poToSplit.getItems();
+        TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        for (PurchaseOrderItem item : items) {
+            if(item.isMovingToSplit()) {
+                movingPOItems.add(item);
+            }          
+            else {
+                remainingPOItems.add(item);
+            }
+        }
+        poToSplit = (PurchaseOrderDocument)SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poToSplit.getPurapDocumentIdentifier());
+        poToSplit.setItems(remainingPOItems);
+        poToSplit.renumberItems(0);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(poToSplit);
         
-        String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT;
-        String newStatus = PurchaseOrderStatuses.IN_PROCESS;
-        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+        PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit.getDocumentNumber());
         
+        kualiDocumentFormBase.setDocument(splitPO);
+        kualiDocumentFormBase.setDocId(splitPO.getDocumentNumber());
+        kualiDocumentFormBase.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        try {
+            loadDocument(kualiDocumentFormBase);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException(we);
+        }
+                      
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward cancelPurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Cancel Purchase Order Split started");
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        
+        po.setPendingSplit(false);
+        po.setCopyingNotesWhenSplitting(false);       
+        ActionForward forward = reload(mapping, kualiDocumentFormBase, request, response);
+        List<Note> notes = po.getBoNotes();
+        po.deleteNote(notes.get(notes.size() - 1));
         kualiDocumentFormBase.setDocument(po);
-        kualiDocumentFormBase.setDocId(po.getDocumentNumber());
-        kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1468,7 +1515,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         return super.save(mapping, form, request, response);
     }
-    
+
     /**
      * Obtains confirmation and records reasons for the manual status changes which can take place before the purchase order has
      * been routed. If confirmation is given, changes the status, saves, and records the given reason in an note on the purchase
@@ -1594,7 +1641,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         po.setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(po));
        
     }
-
+    
     /**
      * Adds a PurchasingItemCapitalAsset (a container for the Capital Asset Number) to the selected 
      * item's list.

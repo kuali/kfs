@@ -62,6 +62,12 @@
                     p:path="sourceAccountingLines.account" />
               <bean parent="WorkflowProperty"
                     p:path="targetAccountingLines.account" />
+<!-- The next two entries are to support a routing attribute that is not in
+the base data set. -->                    
+              <bean parent="WorkflowProperty"
+                    p:path="sourceAccountingLines.objectCode" />
+              <bean parent="WorkflowProperty"
+                    p:path="targetAccountingLines.objectCode" />
             </list>
           </property>
         </bean>

@@ -291,7 +291,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * @return
      */
     public boolean canCreateReceiving() {        
-        return SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(purchaseOrder);
+        return SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(purchaseOrder) && isUserAuthorized;
     }
     
     /**

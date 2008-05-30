@@ -5,13 +5,13 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="ICRTypeCodeMaintenanceDocument" parent="ICRTypeCodeMaintenanceDocument-parentBean" />
-
   <bean id="ICRTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.ICRTypeCode" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.ICRTypeCodeMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="ICRTypeCodeMaintenanceDocument-EditICRTypeCode" />
+        <ref bean="ICRTypeCodeMaintenanceDocument-EditICROtherCodes" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -30,6 +30,7 @@
             p:parameterDetailType="ICRTypeCode" />
     </property>
     <property name="documentTypeName" value="ICRTypeCodeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ICRTypeCodeRule" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ITYP" />
     <property name="workflowProperties" >
@@ -51,9 +52,7 @@
 
 <!-- Maintenance Section Definitions -->
 
-
   <bean id="ICRTypeCodeMaintenanceDocument-EditICRTypeCode" parent="ICRTypeCodeMaintenanceDocument-EditICRTypeCode-parentBean" />
-
   <bean id="ICRTypeCodeMaintenanceDocument-EditICRTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit ICR Type Code" />
     <property name="title" value="Edit ICR Type Code" />
@@ -63,19 +62,51 @@
               p:name="code"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="name"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
+    	<bean parent="MaintainableFieldDefinition"
+    	      p:name="active"
+    	      p:defaultValue="true" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="ICRTypeCodeMaintenanceDocument-EditICROtherCodes" parent="ICRTypeCodeMaintenanceDocument-EditICROtherCodes-parentBean" />
+  <bean id="ICRTypeCodeMaintenanceDocument-EditICROtherCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit ICR Exclusion Codes" />
+    <property name="title" value="Edit ICR Exclusion Codes" />
+    <property name="maintainableItems" >
+      <list>
+      	<bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="indirectCostRecoveryExclusionTypeCollection" />
+          <property name="businessObjectClass" value="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType" />
+          <property name="sourceClassName" value="org.kuali.module.chart.bo.ObjectCode" />
+          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
+          <property name="maintainableFields">
+          	<list>
+			  <bean parent="MaintainableFieldDefinition"
+ 		            p:name="chartOfAccountsCode"
+ 		            p:template="chartOfAccountsCode"
+  		  	        p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="financialObjectCode"
+    		        p:template="financialObjectCode"
+    	    	    p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+					p:name="versionNumber" />
+    		  <bean parent="MaintainableFieldDefinition"
+    		        p:name="active"
+    		        p:defaultValue="true" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
 
 <!-- Exported Workflow Properties -->
 
-
   <bean id="ICRTypeCodeMaintenanceDocument-workflowProperties" parent="ICRTypeCodeMaintenanceDocument-workflowProperties-parentBean" />
-
   <bean id="ICRTypeCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
+  
 </beans>

@@ -62,7 +62,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jasperreports-2.0.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-0.9.3-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar" sourcepath="/Users/kuali/java/projects/kuali_dependencies/rice-kns-0.9.3-SNAPSHOT-sources.zip"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-lang-2.3.jar"/>
@@ -77,6 +77,6 @@
 	<classpathentry kind="lib" path="build/external/appserver/jts1_0.jar"/>
 	<classpathentry kind="lib" path="build/external/appserver/objectweb-datasource.jar"/>
 	<classpathentry kind="lib" path="build/external/appserver/ow_carol.jar"/>
-	<classpathentry kind="lib" path="build/external/appserver/xapool.jar"/>	
+	<classpathentry kind="lib" path="build/external/appserver/xapool.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

@@ -15,11 +15,30 @@
  */
 package org.kuali.module.chart.bo.codes;
 
+import java.util.List;
+
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
 
 /**
  * This class...
  */
-public class ICRTypeCode extends KualiCodeBase {
+public class ICRTypeCode extends KualiCodeBase implements Inactivateable {
+    
+    private List indirectCostRecoveryExclusionTypeCollection;
 
+    public ICRTypeCode () {
+        indirectCostRecoveryExclusionTypeCollection = new TypedArrayList(IndirectCostRecoveryExclusionType.class);
+    }
+
+    public List getIndirectCostRecoveryExclusionTypeCollection() {
+        return indirectCostRecoveryExclusionTypeCollection;
+    }
+
+    public void setIndirectCostRecoveryExclusionTypeCollection(List indirectCostRecoveryExclusionTypeCollection) {
+        this.indirectCostRecoveryExclusionTypeCollection = indirectCostRecoveryExclusionTypeCollection;
+    }
+    
 }

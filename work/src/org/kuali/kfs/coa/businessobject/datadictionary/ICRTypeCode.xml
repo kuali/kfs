@@ -22,15 +22,14 @@
         <ref bean="ICRTypeCode-name" />
         <ref bean="ICRTypeCode-codeAndDescription" />
         <ref bean="ICRTypeCode-versionNumber" />
+        <ref bean="ICRTypeCode-active" />
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-
   <bean id="ICRTypeCode-code" parent="ICRTypeCode-code-parentBean" />
-
   <bean id="ICRTypeCode-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
@@ -46,8 +45,8 @@
             p:size="2" />
     </property>
   </bean>
+  
   <bean id="ICRTypeCode-name" parent="ICRTypeCode-name-parentBean" />
-
   <bean id="ICRTypeCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
@@ -60,8 +59,8 @@
             p:size="40" />
     </property>
   </bean>
+  
   <bean id="ICRTypeCode-codeAndDescription" parent="ICRTypeCode-codeAndDescription-parentBean" />
-
   <bean id="ICRTypeCode-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
     <property name="forceUppercase" value="false" />
@@ -73,16 +72,19 @@
             p:size="45" />
     </property>
   </bean>
+  
   <bean id="ICRTypeCode-versionNumber" parent="ICRTypeCode-versionNumber-parentBean" />
-
   <bean id="ICRTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+  <bean id="ICRTypeCode-active" parent="ICRTypeCode-active-parentBean" />
+  <bean id="ICRTypeCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="ICRTypeCode-inquiryDefinition" parent="ICRTypeCode-inquiryDefinition-parentBean" />
-
   <bean id="ICRTypeCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Indirect Cost Recovery Type Inquiry" />
     <property name="inquirySections" >
@@ -105,11 +107,10 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="ICRTypeCode-lookupDefinition" parent="ICRTypeCode-lookupDefinition-parentBean" />
-
   <bean id="ICRTypeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Indirect Cost Recovery Type Lookup" />
+	<property name="menubar" value="&lt;a href=&quot;lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType&amp;docFormKey=88888888&amp;returnLocation=${application.url}/portal.do&amp;hideReturnLink=true&quot;&gt;ICR Exclusion Type&lt;/a&gt;" />
     <property name="instructions" value="Lookup an Indirect Cost Recovery Type Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
@@ -137,4 +138,5 @@
       </list>
     </property>
   </bean>
+  
 </beans>

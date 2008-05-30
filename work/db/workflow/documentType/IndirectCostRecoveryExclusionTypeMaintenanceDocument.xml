@@ -7,7 +7,7 @@
       <label>Indirect Cost Recovery Exclusion By Type</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <blanketApprovePolicy>NONE</blanketApprovePolicy>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>

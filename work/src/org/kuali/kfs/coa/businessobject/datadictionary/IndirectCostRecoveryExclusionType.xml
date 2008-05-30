@@ -5,7 +5,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="IndirectCostRecoveryExclusionType" parent="IndirectCostRecoveryExclusionType-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType" />
     <property name="inquiryDefinition" >
@@ -21,24 +20,39 @@
         <ref bean="IndirectCostRecoveryExclusionType-chartOfAccountsCode" />
         <ref bean="IndirectCostRecoveryExclusionType-financialObjectCode" />
         <ref bean="IndirectCostRecoveryExclusionType-versionNumber" />
+        <ref bean="IndirectCostRecoveryExclusionType-active" />
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-
   <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode" parent="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="ICRTypeCode-code">
     <property name="name" value="accountIndirectCostRecoveryTypeCode" />
+    <property name="label" value="Type Code" />
+    <property name="shortLabel" value="Type" />
+    <property name="maxLength" value="2" />
   </bean>
+  
   <bean id="IndirectCostRecoveryExclusionType-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionType-chartOfAccountsCode-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Code" />
+    <property name="shortLabel" value="Chart" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
   </bean>
+  
   <bean id="IndirectCostRecoveryExclusionType-financialObjectCode" parent="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="true" />
@@ -51,16 +65,19 @@
             p:size="4" />
     </property>
   </bean>
+  
   <bean id="IndirectCostRecoveryExclusionType-versionNumber" parent="IndirectCostRecoveryExclusionType-versionNumber-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+  <bean id="IndirectCostRecoveryExclusionType-active" parent="IndirectCostRecoveryExclusionType-active-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="IndirectCostRecoveryExclusionType-inquiryDefinition" parent="IndirectCostRecoveryExclusionType-inquiryDefinition-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Indirect Cost Recovery Exclusion By Type Inquiry" />
     <property name="inquirySections" >
@@ -85,9 +102,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="IndirectCostRecoveryExclusionType-lookupDefinition" parent="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" />
-
   <bean id="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Indirect Cost Recovery Exclusion By Type Lookup" />
     <property name="lookupableID" value="indirectCostRecoveryExclusionByTypeLookupable" />
@@ -122,4 +137,5 @@
       </list>
     </property>
   </bean>
+  
 </beans>

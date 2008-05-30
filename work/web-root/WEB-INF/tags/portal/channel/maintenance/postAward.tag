@@ -50,11 +50,6 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Indirect Cost Recovery Exclusion By Type"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
-			<portal:portalLink displayTitle="true"
 				title="Indirect Cost Recovery Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.codes.ICRTypeCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

@@ -50,6 +50,7 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String offsetBalanceSheetObjectCodeNumber;
+    private boolean active;
 
     private Options universityFiscal;
     private BalanceTyp financialBalanceTyp;
@@ -235,6 +236,16 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
         m.put("awardIndrCostRcvyEntryNbr", this.awardIndrCostRcvyEntryNbr);
 
         return m;
+    }
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

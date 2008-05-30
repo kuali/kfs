@@ -1115,6 +1115,9 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="active" column="ACCT_ICR_TYP_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+	<collection-descriptor name="indirectCostRecoveryExclusionTypeCollection" element-class-ref="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+		<inverse-foreignkey field-ref="accountIndirectCostRecoveryTypeCode" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.AccountDescription" table="CA_ACCT_DESC_T">

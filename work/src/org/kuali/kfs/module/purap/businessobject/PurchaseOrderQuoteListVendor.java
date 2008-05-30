@@ -19,7 +19,9 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 
 /**
  * Purchase Order Quote List Vendor Business Object.
@@ -80,6 +82,9 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
     }
 
     public VendorDetail getVendorDetail() {
+        if (vendorHeaderGeneratedIdentifier != null && vendorDetailAssignedIdentifier != null && (vendorDetail == null || vendorDetail.getVendorHeaderGeneratedIdentifier() != vendorHeaderGeneratedIdentifier || vendorDetail.getVendorDetailAssignedIdentifier() != vendorDetailAssignedIdentifier)) {
+            vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderGeneratedIdentifier, vendorDetailAssignedIdentifier);    
+        }
         return vendorDetail;
     }
 

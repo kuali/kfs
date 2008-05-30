@@ -22,12 +22,14 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.module.budget.util.SalarySettingCalculator;
 
 /**
  * TODO is this needed??? probably need to just point OJB repository to PBGL class or this should extend PBGL if something extra is
  * needed
  */
-public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedger {
+public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedger implements PendingBudgetConstructionAppointmentFundingAware{
 
     // Total Fields - First Total Line
     private KualiInteger csfAmountTotal;
@@ -43,20 +45,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      */
     public SalarySettingExpansion() {
         super();
-        zeroTotals();
         pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
-    }
-
-    /**
-     * Zeros the totals appearing on the Salary Setting Screen
-     */
-    public void zeroTotals() {
-
-        csfAmountTotal = new KualiInteger(0);
-        csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
-        appointmentRequestedAmountTotal = new KualiInteger(0);
-        appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
-        percentChangeTotal = new KualiDecimal(0.00);
     }
 
     /**
@@ -65,16 +54,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the appointmentRequestedAmountTotal.
      */
     public KualiInteger getAppointmentRequestedAmountTotal() {
-        return appointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedAmountTotal attribute value.
-     * 
-     * @param appointmentRequestedAmountTotal The appointmentRequestedAmountTotal to set.
-     */
-    public void setAppointmentRequestedAmountTotal(KualiInteger appointmentRequestedAmountTotal) {
-        this.appointmentRequestedAmountTotal = appointmentRequestedAmountTotal;
+        return SalarySettingCalculator.getAppointmentRequestedAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -83,16 +63,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the appointmentRequestedFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedFteQuantityTotal() {
-        return appointmentRequestedFteQuantityTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedFteQuantityTotal attribute value.
-     * 
-     * @param appointmentRequestedFteQuantityTotal The appointmentRequestedFteQuantityTotal to set.
-     */
-    public void setAppointmentRequestedFteQuantityTotal(BigDecimal appointmentRequestedFteQuantityTotal) {
-        this.appointmentRequestedFteQuantityTotal = appointmentRequestedFteQuantityTotal;
+        return SalarySettingCalculator.getAppointmentRequestedFteQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -101,16 +72,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the csfAmountTotal.
      */
     public KualiInteger getCsfAmountTotal() {
-        return csfAmountTotal;
-    }
-
-    /**
-     * Sets the csfAmountTotal attribute value.
-     * 
-     * @param csfAmountTotal The csfAmountTotal to set.
-     */
-    public void setCsfAmountTotal(KualiInteger csfAmountTotal) {
-        this.csfAmountTotal = csfAmountTotal;
+        return SalarySettingCalculator.getCsfAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -119,18 +81,8 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the csfFullTimeEmploymentQuantityTotal.
      */
     public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
-        return csfFullTimeEmploymentQuantityTotal;
+        return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
     }
-
-    /**
-     * Sets the csfFullTimeEmploymentQuantityTotal attribute value.
-     * 
-     * @param csfFullTimeEmploymentQuantityTotal The csfFullTimeEmploymentQuantityTotal to set.
-     */
-    public void setCsfFullTimeEmploymentQuantityTotal(BigDecimal csfFullTimeEmploymentQuantityTotal) {
-        this.csfFullTimeEmploymentQuantityTotal = csfFullTimeEmploymentQuantityTotal;
-    }
-
 
     /**
      * Gets the percentChangeTotal attribute.
@@ -138,26 +90,19 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the percentChangeTotal.
      */
     public KualiDecimal getPercentChangeTotal() {
-
-        if (appointmentRequestedAmountTotal == null || csfAmountTotal.isZero()) {
-            setPercentChangeTotal(new KualiDecimal(0.00));
-        }
-        else {
-            BigDecimal diffRslt = (appointmentRequestedAmountTotal.bigDecimalValue().setScale(4)).subtract(csfAmountTotal.bigDecimalValue().setScale(4));
-            BigDecimal divRslt = diffRslt.divide((csfAmountTotal.bigDecimalValue().setScale(4)), KualiDecimal.ROUND_BEHAVIOR);
-            setPercentChangeTotal(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)));
+        KualiDecimal percentChangeTotal = KualiDecimal.ZERO;
+        
+        KualiInteger csfAmountTotal = this.getCsfAmountTotal();
+        KualiInteger requestedAmountTotal = this.getAppointmentRequestedAmountTotal();
+        
+        if (requestedAmountTotal != null && csfAmountTotal.isNonZero()) {
+            KualiInteger difference = requestedAmountTotal.subtract(csfAmountTotal);
+            BigDecimal percentChangeTotalAsBigDecimal = difference.multiply(KFSConstants.ONE_HUNDRED).divide(csfAmountTotal);
+            
+            percentChangeTotal = new KualiDecimal(percentChangeTotalAsBigDecimal);
         }
 
         return percentChangeTotal;
-    }
-
-    /**
-     * Sets the percentChangeTotal attribute value.
-     * 
-     * @param percentChangeTotal The percentChangeTotal to set.
-     */
-    public void setPercentChangeTotal(KualiDecimal percentChangeTotal) {
-        this.percentChangeTotal = percentChangeTotal;
     }
 
     /**
@@ -171,14 +116,13 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
 
     /**
      * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
-     * 
      * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
      */
     @Deprecated
     public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
     }
-
+    
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
@@ -188,5 +132,45 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.getPendingBudgetConstructionAppointmentFunding());
         return managedLists;
+    }
+
+    /**
+     * Sets the csfAmountTotal attribute value.
+     * @param csfAmountTotal The csfAmountTotal to set.
+     */
+    public void setCsfAmountTotal(KualiInteger csfAmountTotal) {
+        this.csfAmountTotal = csfAmountTotal;
+    }
+
+    /**
+     * Sets the csfFullTimeEmploymentQuantityTotal attribute value.
+     * @param csfFullTimeEmploymentQuantityTotal The csfFullTimeEmploymentQuantityTotal to set.
+     */
+    public void setCsfFullTimeEmploymentQuantityTotal(BigDecimal csfFullTimeEmploymentQuantityTotal) {
+        this.csfFullTimeEmploymentQuantityTotal = csfFullTimeEmploymentQuantityTotal;
+    }
+
+    /**
+     * Sets the appointmentRequestedAmountTotal attribute value.
+     * @param appointmentRequestedAmountTotal The appointmentRequestedAmountTotal to set.
+     */
+    public void setAppointmentRequestedAmountTotal(KualiInteger appointmentRequestedAmountTotal) {
+        this.appointmentRequestedAmountTotal = appointmentRequestedAmountTotal;
+    }
+
+    /**
+     * Sets the appointmentRequestedFteQuantityTotal attribute value.
+     * @param appointmentRequestedFteQuantityTotal The appointmentRequestedFteQuantityTotal to set.
+     */
+    public void setAppointmentRequestedFteQuantityTotal(BigDecimal appointmentRequestedFteQuantityTotal) {
+        this.appointmentRequestedFteQuantityTotal = appointmentRequestedFteQuantityTotal;
+    }
+
+    /**
+     * Sets the percentChangeTotal attribute value.
+     * @param percentChangeTotal The percentChangeTotal to set.
+     */
+    public void setPercentChangeTotal(KualiDecimal percentChangeTotal) {
+        this.percentChangeTotal = percentChangeTotal;
     }
 }

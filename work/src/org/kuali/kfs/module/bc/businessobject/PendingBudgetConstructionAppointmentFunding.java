@@ -846,4 +846,16 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.adjustmentMeasurement = adjustmentMeasurement;
     }
 
+    /**
+     * get the effective calculated salary fundation for current appionment funding if any
+     * 
+     * @return the the effective calculated salary fundation for current appionment funding if any; otherwise, null
+     */
+    public BudgetConstructionCalculatedSalaryFoundationTracker getEffectiveCSFTracker() {
+        if (bcnCalculatedSalaryFoundationTracker == null || bcnCalculatedSalaryFoundationTracker.size() <= 0) {
+            return null;
+        }
+
+        return bcnCalculatedSalaryFoundationTracker.get(0);
+    }
 }

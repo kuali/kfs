@@ -43,7 +43,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionDetail;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.service.SalarySettingService;
@@ -196,7 +196,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
-        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
 
         appointmentFundings.add(newAppointmentFunding);
@@ -211,7 +211,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      */
     public ActionForward vacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
 
         // retrieve the selected funding line
         int indexOfSelectedLine = this.getSelectedLine(request);
@@ -233,7 +233,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      */
     public ActionForward purgeSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
         
         // remove the slected line
@@ -248,7 +248,7 @@ public abstract class DetailSalarySettingAction extends KualiAction {
      */
     public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        BudgetConstructionDetail budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
+        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
 
         // retrieve the selected funding line
         int indexOfSelectedLine = this.getSelectedLine(request);

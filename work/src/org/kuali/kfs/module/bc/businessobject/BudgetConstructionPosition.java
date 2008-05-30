@@ -27,14 +27,16 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.util.SalarySettingCalculator;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
 
-public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements BudgetConstructionDetail{
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware {
 
     private String positionNumber;
     private Integer universityFiscalYear;
@@ -704,5 +706,113 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     @Deprecated
     public void setBudgetConstructionPositionSelect(List<BudgetConstructionPositionSelect> budgetConstructionPositionSelect) {
         this.budgetConstructionPositionSelect = budgetConstructionPositionSelect;
+    }
+
+    /**
+     * Gets the appointmentRequestedCsfAmountTotal.
+     * 
+     * @return Returns the appointmentRequestedCsfAmountTotal.
+     */
+    public KualiInteger getAppointmentRequestedCsfAmountTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedCsfAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedCsfTimePercentTotal.
+     * 
+     * @return Returns the appointmentRequestedCsfTimePercentTotal.
+     */
+    public BigDecimal getAppointmentRequestedCsfTimePercentTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedCsfTimePercentTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedCsfStandardHoursTotal.
+     * 
+     * @return Returns the appointmentRequestedCsfStandardHoursTotal.
+     */
+    public BigDecimal getAppointmentRequestedCsfStandardHoursTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedCsfStandardHoursTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedCsfFteQuantityTotal.
+     * 
+     * @return Returns the appointmentRequestedCsfFteQuantityTotal.
+     */
+    public BigDecimal getAppointmentRequestedCsfFteQuantityTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedCsfFteQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedAmountTotal.
+     * 
+     * @return Returns the appointmentRequestedAmountTotal.
+     */
+    public KualiInteger getAppointmentRequestedAmountTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedTimePercentTotal.
+     * 
+     * @return Returns the appointmentRequestedTimePercentTotal.
+     */
+    public BigDecimal getAppointmentRequestedTimePercentTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedTimePercentTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedStandardHoursTotal.
+     * 
+     * @return Returns the appointmentRequestedStandardHoursTotal.
+     */
+    public BigDecimal getAppointmentRequestedStandardHoursTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedStandardHoursTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the appointmentRequestedFteQuantityTotal.
+     * 
+     * @return Returns the appointmentRequestedFteQuantityTotal.
+     */
+    public BigDecimal getAppointmentRequestedFteQuantityTotal() {
+        return SalarySettingCalculator.getAppointmentRequestedFteQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the csfAmountTotal.
+     * 
+     * @return Returns the csfAmountTotal.
+     */
+    public KualiInteger getCsfAmountTotal() {
+        return SalarySettingCalculator.getCsfAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the csfTimePercentTotal.
+     * 
+     * @return Returns the csfTimePercentTotal.
+     */
+    public BigDecimal getCsfTimePercentTotal() {
+        return SalarySettingCalculator.getCsfTimePercentTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the csfStandardHoursTotal.
+     * 
+     * @return Returns the csfStandardHoursTotal.
+     */
+    public BigDecimal getCsfStandardHoursTotal() {
+        return SalarySettingCalculator.getCsfStandardHoursTotal(this.getPendingBudgetConstructionAppointmentFunding());
+    }
+
+    /**
+     * Gets the csfFullTimeEmploymentQuantityTotal.
+     * 
+     * @return Returns the csfFullTimeEmploymentQuantityTotal.
+     */
+    public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
+        return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
     }
 }

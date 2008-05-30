@@ -32,7 +32,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
-import org.kuali.module.budget.bo.BudgetConstructionDetail;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 
@@ -51,6 +51,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
     // url parameters sent from BCDoc
     private String returnAnchor;
     private String returnFormKey;
+    private boolean hideDetails = false;
 
     // set and pass these when budgetByAccountMode to prefill the add line
     private boolean addLine;
@@ -177,7 +178,7 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      * 
      * @return Returns the budgetConstructionDetail.
      */
-    public abstract BudgetConstructionDetail getBudgetConstructionDetail();
+    public abstract PendingBudgetConstructionAppointmentFundingAware getBudgetConstructionDetail();
 
     /**
      * get the refresh caller name of the current form
@@ -752,5 +753,21 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      */
     public void setEditingMode(Map<String, String> editingMode) {
         this.editingMode = editingMode;
+    }
+
+    /**
+     * Gets the hideDetails attribute. 
+     * @return Returns the hideDetails.
+     */
+    public boolean isHideDetails() {
+        return hideDetails;
+    }
+
+    /**
+     * Sets the hideDetails attribute value.
+     * @param hideDetails The hideDetails to set.
+     */
+    public void setHideDetails(boolean hideDetails) {
+        this.hideDetails = hideDetails;
     }
 }

@@ -36,6 +36,8 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.fixture.AssetPaymentServiceFixture;
 import org.kuali.test.ConfigureContext;
+import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.RicePropertyConstants;
 
 // @ConfigureContext(session = KHUNTLEY)
 @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
@@ -103,7 +105,8 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         document.setSourceAccountingLines(document.getAssetPaymentDetail());
 
         Map key = new HashMap();
-        key.put("capitalAssetNumber", document.getAsset().getCapitalAssetNumber());
+        key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, document.getAsset().getCapitalAssetNumber());
+        
         Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, key);
         document.setAsset(asset);
         document.setCapitalAssetNumber(asset.getCapitalAssetNumber());
@@ -126,15 +129,15 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         // ********** Testing data **********************
         key = new HashMap();
-        key.put("capitalAssetNumber", document.getAsset().getCapitalAssetNumber());
+        key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, document.getAsset().getCapitalAssetNumber());
 
         // Checking that total cost was updated
         asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, key);
         assertEquals(newAssetTotalCost, asset.getTotalCostAmount());
 
         key = new HashMap();
-        key.put("capitalAssetNumber", document.getAsset().getCapitalAssetNumber());
-        key.put("documentNumber", document.getDocumentNumber());
+        key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, document.getAsset().getCapitalAssetNumber());
+        key.put(RicePropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         List<AssetPayment> assetPayments = (List<AssetPayment>) businessObjectService.findMatching(AssetPayment.class, key);
 
         // Checking that all rows were saved

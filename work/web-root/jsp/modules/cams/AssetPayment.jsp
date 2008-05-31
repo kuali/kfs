@@ -62,8 +62,10 @@
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber"
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
 	</fin:accountingLines>
-
+	
+	<!--  Rename assetPaymentHeader to assetPayment_assetInfo -->
 	<cams:assetPaymentHeader defaultTabHide="true" />
+	
 	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />
     <kul:adHocRecipients />

@@ -95,6 +95,24 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
     }
 
+    public AssetPayment(AssetPaymentDetail assetPaymentDetail) {
+        setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
+        setAccountNumber(assetPaymentDetail.getAccountNumber());
+        setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
+        setFinancialObjectCode(assetPaymentDetail.getFinancialObjectCode());
+        setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
+        setFinancialSystemOriginationCode(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode());
+        setFinancialDocumentTypeCode(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
+        setFinancialDocumentPostingYear(assetPaymentDetail.getFinancialDocumentPostingYear());
+        setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
+        setFinancialDocumentPostingDate(assetPaymentDetail.getPaymentApplicationDate());
+        setProjectCode(assetPaymentDetail.getProjectCode());
+        setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
+        setAccountChargeAmount(assetPaymentDetail.getAmount());
+        setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
+        setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
+    }
+    
     /**
      * Gets the capitalAssetNumber attribute.
      * 

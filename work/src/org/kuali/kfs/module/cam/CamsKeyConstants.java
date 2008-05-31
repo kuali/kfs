@@ -66,6 +66,10 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
         public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED = "message.payment.routintCancelled";
+        
+        public static final String TOTAL_LABEL = "label.document.payment.total";
+        public static final String PREVIOUS_COST_LABEL = "label.document.payment.previousCost";
+        public static final String NEW_TOTAL_LABEL = "label.document.payment.newTotal";
     }
 
     public static class Transfer {
@@ -129,8 +133,8 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL = "error.asset.location.no.asset.location.detail.line";
     }
 
-    public static class AssetBarCodeInventory {
-        public static final String MESSAGE_BATCH_UPLOAD_TITLE_BAR_CODE_INVENTORY = "message.batchUpload.title.barCodeInventory";
+    public static class BarCodeInventory {
+        public static final String TITLE_BAR_CODE_INVENTORY = "message.batchUpload.title.barCodeInventory";
     }
 
     public static class EquipmentLoanOrReturn {

@@ -29,6 +29,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -75,7 +76,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public AssetPaymentDocument() {
         super();
         assetPaymentDetail = new ArrayList<AssetPaymentDetail>();
-        asset = new Asset();        
+        //asset = new Asset();        
     }
 
     /**
@@ -102,11 +103,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
      */
     @Override
     public void addSourceAccountingLine(SourceAccountingLine line) {
-        Calendar calendar = new GregorianCalendar();
-        java.sql.Date systemDate = new java.sql.Date(calendar.getTime().getTime());
-
-        //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
 
         //Assigning the line number to the just added accounting line
@@ -114,7 +110,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         assetPaymentDetail.setSequenceNumber(this.getNextSourceLineNumber());
         
         //Assigning the system date to a field is not being edited on the screen.
-        assetPaymentDetail.setPaymentApplicationDate(systemDate);
+        assetPaymentDetail.setPaymentApplicationDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
         line = (SourceAccountingLine) assetPaymentDetail;
 
@@ -146,9 +142,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
     /**
      * 
-     * This method determines whether or not an asset has differents object sub type codes in its documents
+     * This method determines whether or not an asset has different object sub type codes in its documents
+     * This is a validation specifically created for Indiana University
+     * 
      * @return  true when the asset has payments with object codes that point to different object sub type codes
      */
+    
+    //TODO move it into the pre rule class.
     public boolean hasDifferentObjectSubTypes() {
         List<String> subTypes = new ArrayList<String>();
         subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
@@ -156,11 +156,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         List<AssetPayment> assetPayments = this.getAsset().getAssetPayments();
         List<AssetPaymentDetail> assetPaymentDetails_a = this.getSourceAccountingLines();
         List<AssetPaymentDetail> assetPaymentDetails_b = this.getSourceAccountingLines();
-        List<String> validObjectSubTypes;
+        List<String> validObjectSubTypes=new ArrayList<String>();
 
         String objectSubTypeCode=null;
 
-        /* Expected List elements
+        /* Expected system parameter elements (object sub types).          
            [BD,BF]
            [CM,CF,CO] 
            [UC,UF,UO]
@@ -169,23 +169,24 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
         //Comparing all the document payments rows against each other 
         for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
-            String currentSubObjectType=assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode();
+            String paymentSubObjectType=assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode();
 
-            validObjectSubTypes = new ArrayList<String>();
+                validObjectSubTypes=new ArrayList<String>();
             
             for(String subType:subTypes) {
                 validObjectSubTypes = Arrays.asList(StringUtils.split(subType,","));
-                if (validObjectSubTypes.contains(currentSubObjectType)) {
+                if (validObjectSubTypes.contains(paymentSubObjectType)) {
                     break;
                 }
-                validObjectSubTypes = new ArrayList<String>();                
+                validObjectSubTypes = new ArrayList<String>();
             }
             if (validObjectSubTypes.isEmpty())
-                validObjectSubTypes.add(currentSubObjectType);
+                validObjectSubTypes.add(paymentSubObjectType);
 
-            //Comparing the same asset payment document
+            //Comparing object sub type codes with the rest of the asset payment detail records.
             for(AssetPaymentDetail assetPaymentDetail_b:assetPaymentDetails_b){
                 if (!validObjectSubTypes.contains(assetPaymentDetail_b.getObjectCode().getFinancialObjectSubTypeCode())) {
+                    //Differences where found.                    
                     return true;
                 }
             }               
@@ -193,26 +194,28 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
         //Comparing against the already approved asset payments
         for(AssetPayment assetPayment:assetPayments){
-            String currentSubObjectType=assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+            String paymentSubObjectType=assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
 
-            validObjectSubTypes = new ArrayList<String>();
+            validObjectSubTypes=new ArrayList<String>();
             for(String subType:subTypes) {
                 validObjectSubTypes = Arrays.asList(StringUtils.split(subType,","));
-                if (validObjectSubTypes.contains(currentSubObjectType)) {
+                if (validObjectSubTypes.contains(paymentSubObjectType)) {
                     break;
                 }
-                validObjectSubTypes = new ArrayList<String>();                                
+                validObjectSubTypes=new ArrayList<String>();
             }
             if (validObjectSubTypes.isEmpty())
-                validObjectSubTypes.add(currentSubObjectType);
+                validObjectSubTypes.add(paymentSubObjectType);
 
             //Comparing the same asset payment document
             for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
                 if (!validObjectSubTypes.contains(assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode())) {
+                    //Differences where found.
                     return true;
                 }
             }               
         }
+        // If none object sub types are different, return false. 
         return false;
     }
 

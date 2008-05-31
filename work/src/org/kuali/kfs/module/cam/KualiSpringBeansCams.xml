@@ -184,10 +184,10 @@
 	       <value>csv</value>
 	    </property>
 	    <property name="digestorRulesFileName">
-	       <value>org/kuali/module/gl/batch/collector/collectorDigesterRules.xml</value>
+	       <value>org/kuali/module/cams/batch/collector/collectorDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>org/kuali/module/gl/batch/collector/glCollector.xsd</value>
+	       <value>org/kuali/module/cams/batch/collector/glCollector.xsd</value>
 	    </property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -268,13 +268,11 @@
     	<property name="assetService" ref="assetService" />    	
     </bean>
      
-    <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
+     <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
     	<property name="parameterService" ref="parameterService" />
     	<property name="documentLockingService" ref="documentLockingService" />
     	<property name="paymentSummaryService" ref="paymentSummaryService" />
     </bean>
-    
-    <bean id="assetTransferDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetTransferDaoOjb"/>
     
     <bean id="assetTransferService" class="org.kuali.module.cams.service.impl.AssetTransferServiceImpl" >
     	<property name="assetService" ref="assetService" />
@@ -288,8 +286,6 @@
     	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
     </bean>
     
-	<bean id="assetRetirementDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetRetirementDaoOjb"/>
-	    
     <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="assetObjectCodeService" ref="assetObjectCodeService"></property>
@@ -297,10 +293,10 @@
     	<property name="assetPaymentService" ref="assetPaymentService" />
     </bean>
 
-    <bean id="documentLockingService" class="org.kuali.module.cams.service.impl.DocumentLockingServiceImpl">
+	 <bean id="documentLockingService" class="org.kuali.module.cams.service.impl.DocumentLockingServiceImpl">
     	<property name="maintenanceDocumentDao"><ref bean="maintenanceDocumentDao" /></property>
-    </bean>
-    
+    </bean>    
+
     <bean id="assetObjectCodeService" class="org.kuali.module.cams.service.impl.AssetObjectCodeServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="businessObjectService" ref="businessObjectService" />
@@ -309,5 +305,34 @@
     <bean id="equipmentLoanOrReturnService" class="org.kuali.module.cams.service.impl.EquipmentLoanOrReturnServiceImpl" >
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+<!-- Asset Bar Code inventory batch job -->
+	<bean id="assetBarCodeInventoryLoadService" class="org.kuali.module.cams.service.impl.AssetBarCodeInventoryLoadServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<!-- property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="assetBarCodeInventoryInputFileType">
+			<ref bean="assetBarCodeInventoryInputFileType" />
+		</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
+	</bean>
 
+
+	<bean id="assetBarCodeInventoryInputFileType" class="org.kuali.module.cams.batch.barcode.AssetBarCodeInventoryInputFileType"> 
+	    <property name="directoryPath">
+	       <value>${staging.directory}/CM_BARCODE</value>
+	    </property>
+	    <!-- property name="fileExtension">
+	       <value>csv</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property-->
+	</bean>
+<!-- End of Asset Bar Code inventory batch job -->
 </beans>

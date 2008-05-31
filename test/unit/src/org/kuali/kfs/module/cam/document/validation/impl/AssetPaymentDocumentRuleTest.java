@@ -19,7 +19,10 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.Calendar;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.rules.PaymentRequestDocumentRule;
 import org.kuali.test.ConfigureContext;
@@ -46,15 +49,14 @@ public class AssetPaymentDocumentRuleTest extends KualiTestBase {
      * Testing the method that checks that the posted date exists in the university date table
      */
     public void testValidatePostedDate() {
-        java.sql.Date testDate;
-        Calendar cal= Calendar.getInstance();
-        
-        testDate =  new java.sql.Date(cal.getTime().getTime() );        
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        java.sql.Date testDate = dateTimeService.getCurrentSqlDate();
         assertTrue(this.rule.validatePostedDate(testDate));
-        
-        
-        cal.set(2010, 1, 1);        
-        testDate =  new java.sql.Date(cal.getTime().getTime() );        
+                
+        //Validating a posible not existing date.
+        Calendar cal= dateTimeService.getCurrentCalendar();
+        cal.roll(Calendar.YEAR, 500); //adding 500 years       
+        testDate =  new java.sql.Date(cal.getTime().getTime());        
         assertFalse(this.rule.validatePostedDate(testDate));
     }
         
@@ -63,17 +65,16 @@ public class AssetPaymentDocumentRuleTest extends KualiTestBase {
      * Validates the existance of a valid fiscal year and fiscal month in the university date table
      * 
      */
-    public void testValidateFiscalPeriod() {        
-        assertTrue(rule.validateFiscalPeriod(2008,"01"));
-        assertFalse(rule.validateFiscalPeriod(2999,"01"));
+    public void testValidateFiscalPeriod() {
+        Calendar cal= SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
+        String sMonth=StringUtils.leftPad((new Integer(cal.get(Calendar.MONTH)+1)).toString(), 2, "0");
+
+        assertTrue(rule.validateFiscalPeriod(cal.get(Calendar.YEAR),sMonth));
+
+        cal.roll(Calendar.YEAR, 500); //adding 500 years
+        assertFalse(rule.validateFiscalPeriod(cal.get(Calendar.YEAR),sMonth));
     }
-    
-    /*public void testValidateAssetEligibilityForPayment() {
-        assertTrue(rule.validateAssetEligibilityForPayment(new Long("376601")));
-        //assertFalse(rule.validateAssetEligibilityForPayment(new Long("392212")));
-    }*/
-    
-    
+        
     public void testValidateDocumentType() {
         assertTrue(rule.validateDocumentType("MPAY")); // it exists
         assertFalse(rule.validateDocumentType("XXXX")); // it doesnt

@@ -130,27 +130,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         try {
             // Creating a new payment record for each asset payment detail.
             for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
-                AssetPayment assetPayment = new AssetPayment();
+                AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
                 assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
                 assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
-                assetPayment.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
-                assetPayment.setAccountNumber(assetPaymentDetail.getAccountNumber());
-                assetPayment.setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
-                assetPayment.setFinancialObjectCode(assetPaymentDetail.getFinancialObjectCode());
-                assetPayment.setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
-                assetPayment.setFinancialSystemOriginationCode(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode());
-                assetPayment.setFinancialDocumentTypeCode(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
                 assetPayment.setDocumentNumber(document.getDocumentNumber());
-                assetPayment.setFinancialDocumentPostingYear(assetPaymentDetail.getFinancialDocumentPostingYear());
-                assetPayment.setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
-                assetPayment.setFinancialDocumentPostingDate(assetPaymentDetail.getPaymentApplicationDate());
-                assetPayment.setProjectCode(assetPaymentDetail.getProjectCode());
-                assetPayment.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
-                assetPayment.setAccountChargeAmount(assetPaymentDetail.getAmount());
-                assetPayment.setPurchaseOrderNumber(assetPaymentDetail.getPurchaseOrderNumber());
-                assetPayment.setRequisitionNumber(assetPaymentDetail.getReferenceNumber());
-
+                
                 KualiDecimal baseAmount = new KualiDecimal(0);
 
                 // If the object sub type is not in the list of federally owned object sub types, then...

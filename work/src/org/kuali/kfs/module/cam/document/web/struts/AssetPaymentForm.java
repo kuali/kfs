@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -32,6 +33,7 @@ import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
+import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
@@ -139,20 +141,13 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public LinkedHashMap<String, String> getAssetPaymentTotals() {
         LinkedHashMap<String, String> totals = new LinkedHashMap<String, String>();
         CurrencyFormatter cf = new CurrencyFormatter();
-
-        DocumentRouteHeaderValue doc = null;
-        try {
-            doc = KEWServiceLocator.getRouteHeaderService().getRouteHeader(this.getAssetPaymentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Unable to retrieve workflow document.");
-        }
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getAsset().getTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getAsset().getTotalCostAmount());
 
-        totals.put("Total", (String) cf.format(this.getAssetPaymentDocument().getSourceTotal()));
-        totals.put("Previous cost", (String) cf.format(assetTotalCost));
-        totals.put("New total", (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(assetTotalCost)));
+        totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.TOTAL_LABEL), (String) cf.format(this.getAssetPaymentDocument().getSourceTotal()));
+        totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.PREVIOUS_COST_LABEL), (String) cf.format(assetTotalCost));
+        totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.NEW_TOTAL_LABEL), (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(assetTotalCost)));
         return totals;
     }
 }

@@ -32,6 +32,7 @@ import org.kuali.core.bo.DocumentType;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
@@ -45,8 +46,6 @@ import org.kuali.kfs.service.OriginationCodeService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.dao.AssetRetirementDao;
-import org.kuali.module.cams.dao.AssetTransferDao;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -84,13 +83,9 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             return false;
         }
+
         // Validating the asset payment document has at least one accounting line.
-        boolean valid = this.isSourceAccountingLinesRequiredNumberForRoutingMet(assetPaymentDocument);
-
-        // Validating that the asset is not in any pending transfer or a retirement document.
-        valid &= validateAssetEligibilityForPayment(assetPaymentDocument.getAsset().getCapitalAssetNumber());
-
-        return valid;
+        return this.isSourceAccountingLinesRequiredNumberForRoutingMet(assetPaymentDocument);
     }
 
     /**
@@ -117,35 +112,6 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
 
         return result;
     }
-
-    /**
-     * 
-     * Checks the asset has pending transfer and/or retirement documents. If so, then the asset cannot have an asset payment.
-     * 
-     * @param capitalAssetNumber
-     * @return boolean
-     */
-    public boolean validateAssetEligibilityForPayment(Long capitalAssetNumber) {
-        boolean isValid = true;
-        List<String> pendingDocuments = new ArrayList<String>();
-
-        // Getting the list of possible asset transfers where the same asset number in the payment was used.
-        List<String> pendingTransferDocuments = SpringContext.getBean(AssetTransferDao.class).getAssetPendingTransferDocuments(capitalAssetNumber);
-
-        // Getting the list of possible asset retirements where the same asset number in the payment was used.
-        List<String> pendingRetirementDocuments = SpringContext.getBean(AssetRetirementDao.class).getAssetPendingRetirementDocuments(capitalAssetNumber);
-
-        pendingDocuments.addAll(pendingTransferDocuments);
-        pendingDocuments.addAll(pendingRetirementDocuments);
-
-        if (!pendingDocuments.isEmpty()) {
-            // This error will appear at the bottom of the page in the other error section.
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, CamsKeyConstants.Payment.ERROR_ASSET_PAYMENT_DOCS_PENDING, "Document number(s):" + pendingDocuments.toString());
-            isValid = false;
-        }
-        return isValid;
-    }
-
 
     /**
      * 
@@ -226,9 +192,8 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      * @return boolean
      */
     public boolean validatePostedDate(Date postedDate) {
-        Calendar documentPostedDate = Calendar.getInstance();
-        documentPostedDate.setTime(postedDate);
-
+        Calendar documentPostedDate = SpringContext.getBean(DateTimeService.class).getCalendar(postedDate);
+        
         boolean result = true;
         Map<String, Object> keyToFind = new HashMap<String, Object>();
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, postedDate);
@@ -254,13 +219,10 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
      *      org.kuali.kfs.bo.AccountingLine)
      */
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
-        LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
-
         KualiDecimal amount = accountingLine.getAmount();
 
-        // Check for zero amount
-        String correctsDocumentId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
-        if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
+        // Check for zero amounts
+        if (amount.isZero()) { 
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
             return false;
@@ -281,5 +243,4 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         }
         return assetService;
     }
-
 }

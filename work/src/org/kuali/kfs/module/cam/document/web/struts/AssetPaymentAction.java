@@ -68,7 +68,8 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     /**
      * 
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+     *
+    //TODO remove this method.
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AssetPaymentForm apForm = (AssetPaymentForm) form;
         String command = ((AssetPaymentForm) form).getCommand();
@@ -76,7 +77,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();
         LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
         return super.execute(mapping, form, request, response);
-    }
+    }*/
     
     /**
      * 
@@ -96,8 +97,9 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         //asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentForm, assetPaymentDocument, asset);
         asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentDocument);
 
+        //TODO change it because assetHeader table is needed anymore.        
         //Populating the hidden fields in the assetPayment.jsp
-        assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+        assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());        
         assetPaymentDocument.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         assetPaymentDocument.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
         assetPaymentDocument.setCampusCode(asset.getCampusCode());

@@ -207,6 +207,17 @@
   		</action>
 
 		<!-- Capital Assets mappings -->
+        <!-- DELETE ME !!!! action path="/batchUploadFileSet" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/kfs/KualiBatchInputFileSet.jsp" />
+        </action-->
+
+        <!-- action path="/batchUploadBarCodeInventoryFile" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.cams.web.struts.action.AssetBarCodeInventoryInputFileAction"-->
+        <action path="/batchUploadBarCodeInventoryFile" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.cams.web.struts.action.AssetBarCodeInventoryInputFileAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/cams/BatchUploadBarCodeInventory.jsp" />
+        </action>
+		
         <action path="/cams*" name="{1}Form" 	  input="/jsp/modules/cams/{1}.jsp" 	 type="org.kuali.module.cams.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/cams/{1}.jsp" /> 

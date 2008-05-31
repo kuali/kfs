@@ -63,7 +63,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @param fileType the file type
      * @return the file name, starting with the directory path
      */
-    protected String generateFileName(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType) {
+    protected String generateFileName(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType) {        
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
@@ -94,7 +94,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @param fileType the file type
      * @return the file name, starting with the directory path
      */
-    protected String generateDoneFileName(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) {
+    protected String generateDoneFileName(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) {        
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
@@ -209,9 +209,8 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
-
         List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
-
+        
         boolean activeBatchType = false;
         if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileSetType.getFileSetTypeIdentifer())) {
             activeBatchType = true;
@@ -280,8 +279,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         try {
             for (String fileType : inputType.getFileTypes()) {
                 File tempFile = typeToTempFiles.get(fileType);
-                String saveFileName = inputType.getDirectoryPath(fileType) + 
-                        File.separator + tempFile.getName();
+                String saveFileName = inputType.getDirectoryPath(fileType) + File.separator + tempFile.getName();
                 try {
                     InputStream fileContents = new FileInputStream(tempFile);
                     File fileToSave = new File(saveFileName);

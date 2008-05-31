@@ -16,8 +16,9 @@
             <column visible="false" />
           </visibility>
           <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <quickfinder appliesTo="accountNumber" draw="true" service="workflow-org.kuali.module.chart.bo.Account-Lookupable(null)" />          
           <fieldEvaluation>
-			<xpathexpression>wf:xstreamsafe('//document/accountNumber')</xpathexpression>
+	  <xpathexpression>wf:xstreamsafe('//document/accountNumber')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

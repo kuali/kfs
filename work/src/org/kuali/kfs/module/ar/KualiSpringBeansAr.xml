@@ -218,6 +218,21 @@
 			</list>
 		</property>
 	</bean>
+		
+	
+	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.ar.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
+		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+		<property name="documentService"><ref bean="documentService" /></property>
+	    <property name="documentTypeService"><ref bean="documentTypeService" /></property>
+		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+		<property name="cashControlDocumentService"><ref bean="cashControlDocumentService" /></property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
+	
+	<!-- Workflow Lookupables -->
 	
 	<bean id="systemInformationLookupHelperService" class="org.kuali.module.ar.lookup.SystemInformationLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 	
@@ -233,14 +248,9 @@
 		</property>
 	</bean>
 	
-	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.ar.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
-		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
-		<property name="documentService"><ref bean="documentService" /></property>
-	    <property name="documentTypeService"><ref bean="documentTypeService" /></property>
-		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
-		<property name="cashControlDocumentService"><ref bean="cashControlDocumentService" /></property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+	<bean id="workflow-org.kuali.module.ar.bo.Customer-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.module.ar.bo.Customer</value>
 		</property>
 	</bean>
 	

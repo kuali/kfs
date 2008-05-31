@@ -201,54 +201,55 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * 
      * @return
      */
-    private ReportQueryByCriteria getPendingAssetDocumentSubquery() {
-        LOG.debug("getPendingAssetDocumentSubquery() -  started");
+    private List<String> getAssetsWithPendingAssetDocuments() {
+        LOG.debug("getAssetsWithPendingAssetDocuments() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Creating subqueries for assets with pending transfers and retirement documents.");
 
+        Object[] fieldValue;
+        
         List<String> notPendingDocStatuses = new ArrayList<String>();
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
 
-        List<String> excludedAssets = new ArrayList<String>();
+        List<String> capitalAssetNumbers = new ArrayList<String>();
 
-        Criteria arCriteria = new Criteria();
-        Criteria atCriteria = new Criteria();
+        Criteria criteria = new Criteria();
 
         // Retired assets sub query
         ReportQueryByCriteria arSubQuery;
-        arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
+        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, criteria);
+        q.setAttributes(new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER });
 
-        arSubQuery = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, arCriteria);
-        arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
+        Iterator<Object> i= getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         
-        
-        
-        /* Retired assets sub query
-        ReportQueryByCriteria arSubQuery;
-        arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
+        while (i.hasNext()) {
+            fieldValue = (Object[]) i.next();
+            if (fieldValue[0] != null) {
+                capitalAssetNumbers.add((String)fieldValue[0]);                
+            }
+        }
 
-        arSubQuery = QueryFactory.newReportQuery(AssetRetirementGlobal.class, arCriteria);
-        arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
-*/
-        
         // transferred assets sub query
-        ReportQueryByCriteria atSubQuery;
-        atCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
-        atSubQuery = QueryFactory.newReportQuery(AssetTransferDocument.class, atCriteria);
-        atSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
+        criteria = new Criteria();
+        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
-        // Assets header query
-        Criteria criteria = new Criteria();
-        criteria.addIn(CamsPropertyConstants.AssetHeader.DOCUMENT_NUMBER, atSubQuery);
-        criteria.addIn(CamsPropertyConstants.AssetHeader.DOCUMENT_NUMBER, arSubQuery);
+        q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
+        q.setAttributes(new String[] { CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER });
 
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetHeader.class, criteria);
-        q.setAttributes(new String[] { CamsPropertyConstants.AssetHeader.CAPITAL_ASSET_NUMBER });
-
-        LOG.debug("getPendingAssetDocumentSubquery() -  Ended");
+        i= getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        
+        while (i.hasNext()) {
+            fieldValue = (Object[]) i.next();
+            if (fieldValue[0] != null) {
+                capitalAssetNumbers.add((String)fieldValue[0]);                
+            }
+        }
+        
+        LOG.debug("getAssetsWithPendingAssetDocuments() -  Ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished done creating subqueries for assets with pending transfers and retirement documents.");
-        return q;
+        return capitalAssetNumbers;
     }
 
 
@@ -262,47 +263,37 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
 
+        Long count; 
+        
         List<String> notPendingDocStatuses = new ArrayList<String>();
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
 
         List<String> excludedAssets = new ArrayList<String>();
 
-        Criteria arCriteria = new Criteria();
-        Criteria atCriteria = new Criteria();
+        //Criteria arCriteria = new Criteria();
+        Criteria criteria = new Criteria();
+        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
         // Retired assets sub query
-        ReportQueryByCriteria arSubQuery;
-        arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-
-        arSubQuery = QueryFactory.newReportQuery(AssetRetirementGlobal.class, arCriteria);
-        arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
-
-        // transferred assets sub query
-        ReportQueryByCriteria atSubQuery;
-        atCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-
-        atSubQuery = QueryFactory.newReportQuery(AssetTransferDocument.class, atCriteria);
-        atSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
-
-        // Assets header query
-        Criteria criteria = new Criteria();
-        criteria.addIn(CamsPropertyConstants.AssetHeader.DOCUMENT_NUMBER, atSubQuery);
-
-        Criteria criteria2 = new Criteria();
-        criteria2.addIn(CamsPropertyConstants.AssetHeader.DOCUMENT_NUMBER, arSubQuery);
-
-        criteria.addOrCriteria(criteria2);
-
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetHeader.class, criteria);
-        q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER + ")" });
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
+        q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER + ")" });
         Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
 
         Object[] data = (Object[]) i.next();
+        count = (Long)data[0];
 
+        // transferred assets sub query
+        q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
+        q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER + ")" });
+        i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+
+        data = (Object[]) i.next();
+        count+=(Long)data[0];
+        
         LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets being retired or transferred.");
-        return data[0];
+        return (Object)count;        
     }
 
 
@@ -418,7 +409,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         // ************************************************************
 
         // Getting a list of assets being transferred or retired which documents are pending of approval.
-        criteria.addNotIn(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, this.getPendingAssetDocumentSubquery());
+        List<String> assetsWithPendingDocs = this.getAssetsWithPendingAssetDocuments();
+        if (!assetsWithPendingDocs.isEmpty()) {
+            criteria.addNotIn(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, assetsWithPendingDocs);
+        }
 
         LOG.debug("createDepreciationCriteria() -  ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);

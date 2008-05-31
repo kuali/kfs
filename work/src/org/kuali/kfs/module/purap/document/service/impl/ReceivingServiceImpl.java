@@ -17,10 +17,13 @@ package org.kuali.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -30,13 +33,16 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.ItemType;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.ReceivingItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.dao.ReceivingDao;
 import org.kuali.module.purap.document.PurchaseOrderAmendmentDocument;
@@ -399,39 +405,33 @@ public class ReceivingServiceImpl implements ReceivingService {
      */
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
 
-        if(receivingDocument instanceof ReceivingLineDocument){
-            //delete unentered items
-            purapService.deleteUnenteredItems(receivingDocument);
-                    
-            //this should get newest po
-            PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
-            
-            updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
-            
-            spawnPoAmendmentForUnorderedItems(receivingDocument, poDoc);
-            
-            //TODO: custom doc specific service hook here for correction to do it's receiving doc update
-    
-            try {
-                documentService.saveDocument(poDoc, DocumentSystemSaveEvent.class);
-            }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e.toString());
-            }
-            //TODO: FYI on damaged items
-        }
+        //delete unentered items
+        purapService.deleteUnenteredItems(receivingDocument);
+
+        //this should get newest po
+        PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
+
+        updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
         
-        //TODO: save receiving 
+        
+
+        //TODO: custom doc specific service hook here for correction to do it's receiving doc update
+
+        
+        purapService.saveDocumentNoValidation(poDoc);
+
+        sendFyiForItems(receivingDocument);
+        
+        spawnPoAmendmentForUnorderedItems(receivingDocument, poDoc);
+
         purapService.saveDocumentNoValidation(receivingDocument);
     }
 
     private void updateReceivingTotalsOnPurchaseOrder(ReceivingDocument receivingDocument, PurchaseOrderDocument poDoc) {
         for (ReceivingLineItem receivingItem : (List<ReceivingLineItem>)receivingDocument.getItems()) {
-            ItemType itemType = receivingItem.getItemType();
-            if(!StringUtils.equalsIgnoreCase(itemType.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
-                //TODO: Chris - this method of getting the line out of po should be turned into a method that can get an item based on a combo or itemType and line
-                PurchaseOrderItem poItem = (PurchaseOrderItem) poDoc.getItem(receivingItem.getItemLineNumber().intValue() - 1);
+            //if this item has an item line number then it is coming from the po
+            if (ObjectUtils.isNotNull(receivingItem.getItemLineNumber())) {
+                PurchaseOrderItem poItem = (PurchaseOrderItem)poDoc.getItemByLineNumber(receivingItem.getItemLineNumber());
                 if(ObjectUtils.isNotNull(poItem)) {
                     KualiDecimal poItemTotalDamaged = poItem.getItemDamagedTotalQuantity();
                     KualiDecimal receivingItemTotalDamaged = receivingItem.getItemDamagedTotalQuantity();
@@ -568,4 +568,73 @@ public class ReceivingServiceImpl implements ReceivingService {
         return poi;
     }
     
+    /**
+     * Creates a list of fiscal officers for new unordered items added to a purchase order.
+     * 
+     * @param po
+     * @return
+     */
+    private List<AdHocRoutePerson> createFyiFiscalOfficerList(ReceivingDocument recDoc){
+
+        PurchaseOrderDocument po = recDoc.getPurchaseOrderDocument();
+        List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
+        Map fiscalOfficers = new HashMap();
+        AdHocRoutePerson adHocRoutePerson = null;
+
+        for(ReceivingItem recItem: (List<ReceivingItem>)recDoc.getItems()){
+            //if this item has an item line number then it is coming from the po
+            if (ObjectUtils.isNotNull(recItem.getItemLineNumber())) {
+                PurchaseOrderItem poItem = (PurchaseOrderItem)po.getItemByLineNumber(recItem.getItemLineNumber());
+
+                if(poItem.getItemQuantity().isLessThan(poItem.getItemReceivedTotalQuantity())||
+                        recItem.getItemDamagedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
+
+                    // loop through accounts and pull off fiscal officer
+                    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
+
+                        //check for dupes of fiscal officer
+                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier()) == false ){
+
+                            //add fiscal officer to list
+                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier(), account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+
+                            //create AdHocRoutePerson object and add to list
+                            adHocRoutePerson = new AdHocRoutePerson();
+                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            adHocRoutePerson.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
+                            adHocRoutePersons.add(adHocRoutePerson);
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+        return adHocRoutePersons;
+    }
+    /**
+     * Sends an FYI to fiscal officers for new unordered items.
+     * 
+     * @param po
+     */
+    private void sendFyiForItems(ReceivingDocument recDoc){
+
+        List<AdHocRoutePerson> fyiList = createFyiFiscalOfficerList(recDoc);
+        String annotation = "Notification of Item exceeded Quantity or Damaged" + "(document id " + recDoc.getDocumentNumber() + ")";
+        String responsibilityNote = "Please Review";
+        
+        for(AdHocRoutePerson adHocPerson: fyiList){
+            try{
+                recDoc.appSpecificRouteDocumentToUser(
+                        recDoc.getDocumentHeader().getWorkflowDocument(),
+                        adHocPerson.getId(),
+                        annotation,
+                        responsibilityNote);
+            }catch (WorkflowException e) {
+                throw new RuntimeException("Error routing fyi for document with id " + recDoc.getDocumentNumber(), e);
+            }
+
+        }
+    }    
 }

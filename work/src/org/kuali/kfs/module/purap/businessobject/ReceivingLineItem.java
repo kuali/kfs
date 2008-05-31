@@ -164,8 +164,12 @@ public class ReceivingLineItem extends ReceivingItemBase {
 
     public KualiDecimal getItemReceivedToBeQuantity() {
         //lazy loaded
-        if(ObjectUtils.isNull(itemReceivedPriorQuantity)) {
-            setItemReceivedToBeQuantity(this.getItemOrderedQuantity().subtract(getItemReceivedPriorQuantity()));
+        if(ObjectUtils.isNull(itemReceivedToBeQuantity)) {
+            KualiDecimal toBeQuantity = this.getItemOrderedQuantity().subtract(getItemReceivedPriorQuantity());
+            if (toBeQuantity.isNegative()) {
+                toBeQuantity = KualiDecimal.ZERO;
+            }
+            setItemReceivedToBeQuantity(toBeQuantity);
         }
         return itemReceivedToBeQuantity;
     }

@@ -24,6 +24,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.KFSResourceLoader;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.Carrier;
@@ -37,6 +38,10 @@ import org.kuali.module.purap.util.PurApRelatedViews;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.rice.resourceloader.ServiceLocator;
 import org.springframework.ui.velocity.SpringResourceLoader;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public abstract class ReceivingDocumentBase extends TransactionalDocumentBase implements ReceivingDocument {
 
@@ -944,5 +949,39 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
     public void initiateDocument(){
         //initiate code
     }
-
+    /**
+     * FIXME: this is same as PurchaseOrderDoc please move somewhere appropriate
+     * Sends FYI workflow request to the given user on this document.
+     * 
+     * @param workflowDocument the associated workflow document.
+     * @param userNetworkId the network ID of the user to be sent to.
+     * @param annotation the annotation notes contained in this document.
+     * @param responsibility the responsibility specified in the request.
+     * @throws WorkflowException
+     */
+    public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
+        if (ObjectUtils.isNotNull(workflowDocument)) {
+            String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
+            String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
+            String currentNodeName = getCurrentRouteNodeName(workflowDocument);
+            workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+        }
+    }
+    /**
+     * FIXME: this is same as PurchaseOrderDoc please move somewhere appropriate
+     * Returns the name of the current route node.
+     * 
+     * @param wd the current workflow document.
+     * @return the name of the current route node.
+     * @throws WorkflowException
+     */
+    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+        String[] nodeNames = wd.getNodeNames();
+        if ((nodeNames == null) || (nodeNames.length == 0)) {
+            return null;
+        }
+        else {
+            return nodeNames[0];
+        }
+    }
 }

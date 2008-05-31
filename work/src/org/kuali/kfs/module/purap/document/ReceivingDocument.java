@@ -19,11 +19,14 @@ import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.module.purap.bo.Carrier;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.vendor.bo.VendorDetail;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 public interface ReceivingDocument extends TransactionalDocument, PurapItemOperations {
@@ -191,5 +194,6 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
     public PurchaseOrderDocument getPurchaseOrderDocument();
     
     public void setPurchaseOrderDocument(PurchaseOrderDocument po);
-
+    
+    public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException;
 }

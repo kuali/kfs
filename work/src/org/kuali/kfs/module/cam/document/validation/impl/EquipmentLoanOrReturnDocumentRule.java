@@ -38,9 +38,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentRule.class);
 
     private static final String DATEFORMAT = "MM/dd/yyyy";
-    public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
-    public static final String DOCUMENT_PATH = "document";
-    public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
     private AssetService assetService;
     private DateTimeService dateTimeService;
 
@@ -56,8 +53,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
             return false;
         }
-
-        // boolean valid = processValidation(equipmentLoanOrReturnDocument);
 
         return true;
     }
@@ -78,16 +73,21 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         return valid;
     }
 
-
-    private boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+    /**
+     * This method applies business rules
+     * 
+     * @param document equipmentLoanOrReturnDocument Document
+     * @return true if all rules are pass
+     */
+    protected boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
         // validate if both loan return date and expected loan return date are valid
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
+        // validate if borrower id is valid
         valid &= validBorrowerId(equipmentLoanOrReturnDocument);
 
         return valid;
     }
-
 
     /**
      * Implementation of the rule that if a document has a valid expect loan date and loan return date, the both dates should come
@@ -96,7 +96,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
      * @return boolean false if the expect loan date or loan return date is not before the 2 years limit.
      */
-    private boolean validateLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+    protected boolean validateLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
@@ -122,8 +122,13 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         return valid;
     }
 
-
-    private Date CalculateMaxLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+    /**
+     * This method calculate maximum loan date
+     * 
+     * @param equipmentLoanOrReturnDocument
+     * @return maxi loan date which is 2 years limit
+     */
+    protected Date CalculateMaxLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         Date maxDate = null;
         String sLoanDate = new SimpleDateFormat(DATEFORMAT).format(equipmentLoanOrReturnDocument.getLoanDate());
         int sMaxLoanYear = Integer.parseInt(sLoanDate.substring(6, 10));
@@ -155,11 +160,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         return valid;
     }
 
-    /**
-     * Convenience method to append the path prefix public TypedArrayList putError(String propertyName, String errorKey, String...
-     * errorParameters) { return GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + propertyName, errorKey,
-     * errorParameters); }
-     */
     public AssetService getAssetService() {
         if (this.assetService == null) {
             this.assetService = SpringContext.getBean(AssetService.class);

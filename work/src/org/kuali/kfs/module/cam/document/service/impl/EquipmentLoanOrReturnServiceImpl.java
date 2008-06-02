@@ -28,17 +28,17 @@ import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
 public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnServiceImpl.class);
 
-    // private AssetService assetService;
     private BusinessObjectService businessObjectService;
 
     /**
-     * This method is called when the work flow document is reached its final approval
-     * <ol>
-     * <li>Gets the latest equipmentLoanOrReturn details from DB</li>
-     * <li>Save asset data changes</li>
-     * <li>Save borrower's location changes </li>
-     * <li>Save store at location changes</li>
-     * </ol>
+     * @see org.kuali.module.cams.service.EquipmentLoanOrReturnService#processApprovedEquipmentLoanOrReturn(org.kuali.module.cams.document.EquipmentLoanOrReturn)
+     *      This method is called when the work flow document is reached its final approval
+     *      <ol>
+     *      <li>Gets the latest equipmentLoanOrReturn details from DB</li>
+     *      <li>Save asset data changes</li>
+     *      <li>Save borrower's location changes </li>
+     *      <li>Save store at location changes</li>
+     *      </ol>
      */
     public void processApprovedEquipmentLoanOrReturn(EquipmentLoanOrReturnDocument document) {
         Asset updateAsset = new Asset();
@@ -48,16 +48,15 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         updateAsset.setLoanDate(document.getLoanDate());
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
         updateAsset.setSignatureCode(document.isSignatureCode());
-        /*
-         * if (document.isSignatureCode()){ updateAsset.setSignatureCode("T"); } else { updateAsset.setSignatureCode("F"); }
-         */
         updateBorrowerLocation(document, updateAsset);
         updateStoreAtLocation(document, updateAsset);
 
         getBusinessObjectService().save((PersistableBusinessObject) updateAsset);
     }
 
-
+    /**
+     * @see org.kuali.module.cams.service.EquipmentLoanOrReturnService#updateBorrowerLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
+     */
     private void updateBorrowerLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation borrowerLocation = new AssetLocation();
         borrowerLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
@@ -90,6 +89,9 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         }
     }
 
+    /**
+     * @see org.kuali.module.cams.service.EquipmentLoanOrReturnService#updateStoreAtLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
+     */
     private void updateStoreAtLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation storeAtLocation = new AssetLocation();
         storeAtLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());

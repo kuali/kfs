@@ -31,8 +31,11 @@ import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentAuthorizer.class);
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
+     */
     public Map getEditMode(Document document, UniversalUser user) {
-
         Map<String, String> editModeMap = super.getEditMode(document, user);
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
 

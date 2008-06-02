@@ -40,13 +40,10 @@ import org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm;
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
-    /**
-     * public EquipmentLoanOrReturnAction() { super(); // TODO Auto-generated constructor stub }
-     */
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnAction.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnAction.class);
 
     /**
-     * This method had to override because asset information has to be refreshed before display
+     * This method had to override because equipmentLoanOrReturn information has to be refreshed before display
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -74,12 +71,12 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
     /**
      * This method handles when request is from a work flow document search
      * 
-     * @param assetTransferForm Form
-     * @param assetTransferDocument Document
+     * @param equipmentLoanOrReturnForm Form
+     * @param equipmentLoanOrReturnDocument Document
      * @param service BusinessObjectService
      * @return Asset
      */
-    private Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService) {
+    protected Asset handleRequestFromWorkflow(EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService) {
         Asset newAsset = new Asset();
         if (equipmentLoanOrReturnForm.getDocId() != null) {
             newAsset.setCapitalAssetNumber(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
@@ -99,7 +96,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
      * @param asset Asset
      * @return Asset
      */
-    private Asset handleRequestFromLookup(HttpServletRequest request, EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, Asset asset) {
+    protected Asset handleRequestFromLookup(HttpServletRequest request, EquipmentLoanOrReturnForm equipmentLoanOrReturnForm, EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, BusinessObjectService businessObjectService, Asset asset) {
         Asset newAsset = asset;
         if (equipmentLoanOrReturnForm.getDocId() == null && asset == null) {
             newAsset = new Asset();
@@ -108,14 +105,16 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
             keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber);
             newAsset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, keys);
 
-
             if (newAsset != null) {
+                // populate equipmentLoanOrReturn info when loan type is renew or return loan
                 if (!request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN)) {
                     populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, newAsset);
                 }
+                // populate loan return date when loan type is return loan
                 if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RETURN)) {
                     equipmentLoanOrReturnDocument.setLoanReturnDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                 }
+                // reset loan date and expect return date for renew loan
                 if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RENEW)) {
                     equipmentLoanOrReturnDocument.setLoanDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                     equipmentLoanOrReturnDocument.setExpectedReturnDate(null);
@@ -129,15 +128,19 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         return newAsset;
     }
 
-    private void populateEquipmentLoanOrReturnDocument(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, Asset newAsset) {
+    /**
+     * This method populate equipmentloanOrReturn document from asset and asset location
+     * 
+     * @param equipmentLoanOrReturnDocument EquipmentLoanOrReturnDocument
+     * @param newAsset Asset
+     * @return
+     */
+    protected void populateEquipmentLoanOrReturnDocument(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument, Asset newAsset) {
         equipmentLoanOrReturnDocument.setLoanDate(newAsset.getLoanDate());
         equipmentLoanOrReturnDocument.setLoanReturnDate(newAsset.getLoanReturnDate());
         equipmentLoanOrReturnDocument.setExpectedReturnDate(newAsset.getExpectedReturnDate());
         equipmentLoanOrReturnDocument.setSignatureCode(newAsset.isSignatureCode());
-        /*
-         * if (newAsset.getSignatureCode().equals("T")) { equipmentLoanOrReturnDocument.setSignatureCode(true); } else {
-         * equipmentLoanOrReturnDocument.setSignatureCode(false); }
-         */
+        // populate borrower address
         AssetLocation borrowerLocation = new AssetLocation();
         borrowerLocation.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
         borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
@@ -151,7 +154,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
             equipmentLoanOrReturnDocument.setBorrowerCountryCode(borrowerLocation.getAssetLocationCountryCode());
             equipmentLoanOrReturnDocument.setBorrowerPhoneNumber(borrowerLocation.getAssetLocationPhoneNumber());
         }
-
+        // populate stored at address
         AssetLocation storeAtLocation = new AssetLocation();
         storeAtLocation.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());
         storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);

@@ -31,7 +31,7 @@ public class EquipmentLoanOrReturnForm extends KualiTransactionalDocumentFormBas
     private EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument;
 
     /**
-     * Constructs a AdvanceDepositForm.java.
+     * Constructs a EquipmentLoanOrReturnForm.java.
      */
     public EquipmentLoanOrReturnForm() {
         super();
@@ -44,16 +44,26 @@ public class EquipmentLoanOrReturnForm extends KualiTransactionalDocumentFormBas
     }
 
     /**
+     * This method gets the equipmentLoanOrReturn document
+     * 
      * @return EquipmentLoanOrReturnDocument
      */
     public EquipmentLoanOrReturnDocument getEquipmentLoanOrReturnDocument() {
         return this.equipmentLoanOrReturnDocument;
     }
 
+    /**
+     * This method sets the equipmentLoanOrReturnDocument selected
+     * 
+     * @param equipmentLoanOrReturnDocument
+     */
     public void setEquipmentLoanOrReturnDocument(EquipmentLoanOrReturnDocument document) {
         setDocument(document);
     }
 
+    /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);

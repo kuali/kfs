@@ -29,6 +29,7 @@
             p:parameterDetailType="PurchaseOrderQuoteList" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderQuoteListMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderQuoteListRule" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMQT" />
     <property name="workflowProperties" >
@@ -95,7 +96,8 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorDetail.vendorName"
                     p:readOnlyAfterAdd="true"
-                    p:template="vendorName" />
+                    p:template="vendorName" 
+                    p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorDetail.activeIndicator"
                     p:readOnlyAfterAdd="true" />

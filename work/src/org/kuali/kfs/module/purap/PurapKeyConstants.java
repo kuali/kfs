@@ -123,6 +123,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DV_TYPE = "error.purchaseOrder.alternateVendor.dvType";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DEBARRED = "error.purchaseOrder.alternateVendor.debarred";
     public static final String ERROR_PURCHASE_ORDER_RECEIVING_DOC_REQUIRED_ID_PENDING_PREQ = "error.purchaseOrder.receivingDocRequiredId.pendingPreq";
+    public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NO_VENDOR = "error.purchaseOrder.quoteList.no.vendor";
     
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";

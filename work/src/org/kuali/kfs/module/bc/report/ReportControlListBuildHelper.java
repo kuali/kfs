@@ -16,7 +16,9 @@
 package org.kuali.module.budget.util;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.module.budget.BCConstants.Report.BuildMode;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
@@ -27,7 +29,6 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 public class ReportControlListBuildHelper {
     private BuildState currentState;
     private BuildState requestedState;
-
 
     /**
      * Constructs a ReportControlListBuildHelper.java.
@@ -189,7 +190,7 @@ public class ReportControlListBuildHelper {
                         isEqual = false;
                     }
 
-                    if ((this.getSelectedOrganizations().size() != compareState.getSelectedOrganizations().size()) || !this.getSelectedOrganizations().containsAll(compareState.getSelectedOrganizations())) {
+                    if (!this.compareOrganizations(this.getSelectedOrganizations(), compareState.getSelectedOrganizations())) {
                         isEqual = false;
                     }
 
@@ -205,6 +206,33 @@ public class ReportControlListBuildHelper {
             }
         }
 
+        /**
+         * Compares two collections of BudgetConstructionPullup objects for equality. BudgetConstructionPullup objects are compared
+         * by primary key.
+         * 
+         * @param currentOrgs - current org build
+         * @param requestedOrgs - requested org build
+         * @return boolean indicating true if the collections are equal, false otherwise
+         */
+        private boolean compareOrganizations(Collection<BudgetConstructionPullup> currentOrgs, Collection<BudgetConstructionPullup> requestedOrgs) {
+            Set<String> currentOrgSet = new HashSet<String>();
+            for (BudgetConstructionPullup pullup : currentOrgs) {
+                currentOrgSet.add(pullup.getChartOfAccountsCode() + pullup.getOrganizationCode());
+            }
+            
+            for (BudgetConstructionPullup pullup : requestedOrgs) {
+                if (!currentOrgSet.contains(pullup.getChartOfAccountsCode() + pullup.getOrganizationCode())) {
+                    return false;
+                }
+                currentOrgSet.remove(pullup.getChartOfAccountsCode() + pullup.getOrganizationCode());
+            }
+            
+            if (!currentOrgSet.isEmpty()) {
+                return false;
+            }
+            
+            return true;
+        }
     }
 
     /**

@@ -98,7 +98,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param isSource Indicates if postable is for source organization
      * @return GL Postable source detail
      */
-    private AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource, AmountCategory amountCategory) {
+    protected AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource, AmountCategory amountCategory) {
         LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + ")");
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
         postable.setSource(isSource);
@@ -161,7 +161,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param maxSequence Payment sequence number
      * @return Incremented sequence number
      */
-    private Integer createNewPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
+    protected Integer createNewPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
         Integer maxSequenceNo = maxSequence;
         for (AssetPayment assetPayment : originalPayments) {
             if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
@@ -205,7 +205,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param originalPayments Original list of payments
      * @return Incremented sequence number
      */
-    private Integer createOffsetPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
+    protected Integer createOffsetPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         Integer maxSequenceNo = null;
         for (AssetPayment assetPayment : originalPayments) {
             if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
@@ -242,7 +242,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param universityDateService University Date Service to get the current fiscal year and period
      * @param assetPayments Payments for which GL entries needs to be created
      */
-    private void createSourceGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
+    protected void createSourceGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
         Account srcPlantAcct = null;
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
 
@@ -280,7 +280,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param universityDateService University Date Service to get the current fiscal year and period
      * @param assetPayments Payments for which GL entries needs to be created
      */
-    private void createTargetGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
+    protected void createTargetGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
         Account targetPlantAcct = null;
 
         if (movableAsset) {
@@ -331,7 +331,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * 
      * @return true if all accounts are valid
      */
-    private boolean isGLPostable(AssetTransferDocument document, Asset asset, boolean movableAsset) {
+    protected boolean isGLPostable(AssetTransferDocument document, Asset asset, boolean movableAsset) {
         boolean isGLPostable = true;
 
         Account srcPlantAcct = null;
@@ -370,7 +370,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param assetPayment Asset Payment record
      * @return True is record can be used for GL entry creation
      */
-    private boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
+    protected boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
         // Payment transfer code is not "Y", Financial Object Code is active for the Payment and is not a Federal Contribution
         return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && getAssetPaymentService().isPaymentFinancialObjectActive(assetPayment) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
     }
@@ -411,7 +411,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param document Current document
      * @param saveAsset Asset
      */
-    private void saveAssetOwnerData(AssetTransferDocument document, Asset saveAsset) {
+    protected void saveAssetOwnerData(AssetTransferDocument document, Asset saveAsset) {
         saveAsset.setOrganizationOwnerAccountNumber(document.getOrganizationOwnerAccountNumber());
         saveAsset.setOrganizationOwnerChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
     }
@@ -422,7 +422,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param document Current document
      * @param saveAsset Asset
      */
-    private void saveLocationChanges(AssetTransferDocument document, Asset saveAsset) {
+    protected void saveLocationChanges(AssetTransferDocument document, Asset saveAsset) {
         // change inventory date
         saveAsset.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         // save asset location details
@@ -460,7 +460,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param document Current document
      * @param saveAsset Asset
      */
-    private void saveOrganizationChanges(AssetTransferDocument document, Asset saveAsset) {
+    protected void saveOrganizationChanges(AssetTransferDocument document, Asset saveAsset) {
         AssetOrganization assetOrganization = null;
         if ((assetOrganization = saveAsset.getAssetOrganization()) == null) {
             assetOrganization = new AssetOrganization();
@@ -497,7 +497,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param persistableObjects List of saveable objects
      * @param originalPayments Original payments list
      */
-    private void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
+    protected void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         for (AssetPayment assetPayment : originalPayments) {
             if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
                 // change payment code

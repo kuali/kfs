@@ -69,7 +69,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @param assetHeader Asset header object
      * @return Asset
      */
-    private void handleRequestFromWorkflow(AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {
+    protected void handleRequestFromWorkflow(AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {
         LOG.debug("Start- Handle request from workflow");
         if (assetTransferForm.getDocId() != null) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
@@ -94,7 +94,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @param asset Asset
      * @return Asset
      */
-    private void handleRequestFromLookup(HttpServletRequest request, AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {
+    protected void handleRequestFromLookup(HttpServletRequest request, AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {
         LOG.debug("Start - Handle request from asset lookup screen");
         if (assetTransferForm.getDocId() == null) {
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);

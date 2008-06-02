@@ -48,7 +48,7 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
 
-    private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
+    protected static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
         LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE);
         LOCATION_FIELD_MAP.put(LocationField.BUILDING_CODE, CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE);
@@ -109,7 +109,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param document Transfer Document
      * @return true if all rules are pass
      */
-    private boolean applyRules(Document document) {
+    protected boolean applyRules(Document document) {
         boolean valid = true;
         // check if selected account has plant fund accounts
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
@@ -132,7 +132,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param assetTransferDocument Transfer Document
      * @return true is location information is valid for the asset type
      */
-    private boolean validateLocation(AssetTransferDocument assetTransferDocument) {
+    protected boolean validateLocation(AssetTransferDocument assetTransferDocument) {
         GlobalVariables.getErrorMap().addToErrorPath(CamsConstants.DOCUMENT_PATH);
         Asset asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
@@ -149,7 +149,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param assetTransferDocument Transfer document
      * @return true if all objects exists in db
      */
-    private boolean checkReferencesExist(AssetTransferDocument assetTransferDocument) {
+    protected boolean checkReferencesExist(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS);
@@ -223,7 +223,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param assetTransferDocument
      * @return
      */
-    private boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
+    protected boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
         // check if account is active
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();

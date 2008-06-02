@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCustomerCreditMemoDocumentBillingOrganization</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Customer Credit Memo Document Billing Organization</label>
+      <description>Attribute to identify the Billing Organization of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="organizationCode" title="kuali_dd_label(Org)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/billedByOrganization/organizationCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

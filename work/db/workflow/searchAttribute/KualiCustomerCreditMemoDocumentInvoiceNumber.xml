@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCustomerCreditMemoDocumentInvoiceNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Customer Credit Memo Document Invoice Number</label>
+      <description>Attribute to identify the Invoice Number of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="financialDocumentReferenceInvoiceNumber" title="kuali_dd_label(CustomerCreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/financialDocumentReferenceInvoiceNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

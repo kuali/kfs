@@ -490,7 +490,7 @@
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
     <property name="name" value="borrowerUniversalIdentifier" />
     <property name="label" value="Borrower ID" />
-    <property name="shortLabel" value="Borrower Person ID" />
+    <property name="shortLabel" value="Borrower ID" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -501,8 +501,8 @@
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
     <property name="name" value="borrowerUniversalUser.personUserIdentifier" />
-    <property name="label" value="Asset Representative" />
-    <property name="shortLabel" value="UserID" />
+    <property name="label" value="Borrower ID" />
+    <property name="shortLabel" value="Borrower ID" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
@@ -517,7 +517,6 @@
     <property name="name" value="borrowerUniversalUser.personName" />
     <property name="label" value="Borrowed Person Name" />
     <property name="shortLabel" value="Borrowed Person Name" />
-    <property name="required" value="true" />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-versionNumber" parent="EquipmentLoanOrReturnDocument-versionNumber-parentBean" />
 

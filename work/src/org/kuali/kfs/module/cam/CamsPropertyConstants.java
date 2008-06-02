@@ -244,6 +244,7 @@ public class CamsPropertyConstants {
         public static final String LOAN_DATE = "loanDate";
         public static final String EXPECTED_RETURN_DATE = "expectedReturnDate";
         public static final String LOAN_RETURN_DATE = "loanReturnDate";
+        public static final String BORROWER_UNIVERSAL_USER = "borrowerUniversalUser";
         public static final String BORROWER_UNIVERSAL_INDENTIFIER = "borrowerUniversalIdentifier";
         public static final String BORROWER_STATE_CODE = "borrowerStateCode";
         public static final String BORROWER_STAORAGE_STATE_CODE = "borrowerStorageStateCode";

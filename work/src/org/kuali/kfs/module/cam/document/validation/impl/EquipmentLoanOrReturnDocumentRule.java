@@ -26,6 +26,8 @@ import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -105,7 +107,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNotNull(expectReturnDate)) {
             if ((dateTimeService.dateDiff(loanDate, expectReturnDate, false) <= 0) || (dateTimeService.dateDiff(expectReturnDate, maxLoanDate, false) <= 0)) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
             }
         }
 
@@ -113,7 +115,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         if (ObjectUtils.isNotNull(loanReturnDate)) {
             if ((dateTimeService.dateDiff(loanDate, loanReturnDate, false) <= 0) || (dateTimeService.dateDiff(loanReturnDate, maxLoanDate, false) <= 0)) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_RETURN_DATE);
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_RETURN_DATE);
             }
         }
 
@@ -147,7 +149,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         LOG.info("borrower id= " + equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier() + "");
         boolean valid = true;
         if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_INDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_USER + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
             valid = false;
         }
         return valid;

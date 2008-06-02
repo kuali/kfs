@@ -27,7 +27,9 @@
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
+<%--
 	<html:hidden property="document.borrowerUniversalIdentifier" /> 
+--%>
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -49,7 +51,7 @@
       	</div>
 	</kul:tab>
 
-	<kul:tab tabTitle="Equipment Loan" defaultOpen="true"> 
+	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalUser.personUserIdentifier,document.expectedReturnDate,document.loanReturnDate"> 
 	    <div class="tab-container" align="center">
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>
@@ -57,13 +59,19 @@
 			</tr>	
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" /></th>
 		      	<td class="grid" width="25%">
-				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" universalIdFieldName="document.borrowerUniversalIdentifier" userNameFieldName="document.borrowerUniversalUser.personName" label="User" 
-				lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier,document.borrowerUniversalIdentifier:personUniversalIdentifier,document.borrowerUniversalUser.personName:personName" 
-				fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
-				userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" universalId="${KualiForm.document.borrowerUniversalIdentifier}" userName="${KualiForm.document.borrowerUniversalUser.personName}"/>
-		      	<kul:htmlControlAttribute property="document.borrowerUniversalUser.personName" attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" />		      	
-
-
+				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" 
+					      userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" 
+				          universalIdFieldName="document.borrowerUniversalIdentifier" 
+					      universalId="${KualiForm.document.borrowerUniversalIdentifier}" 
+				          userNameFieldName="document.borrowerUniversalUser.personName" label="User" 
+					      userName="${KualiForm.document.borrowerUniversalUser.personName}"
+ 						  renderOtherFields="true"						  
+ 						  lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier" 
+						  fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
+						  hasErrors="${hasErrors}"/>
+<%--
+		      	<kul:htmlControlAttribute property="document.borrowerUniversalUser.personUserIdentifier" attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" />
+--%>
 				</td>
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}"/></th>
@@ -92,7 +100,9 @@
 		</table>   
 	</kul:tab>
 
-	<kul:tab tabTitle="Borrower's Address" defaultOpen="true"> 
+	<kul:tab tabTitle="Borrower's Address" defaultOpen="true" 
+	         tabErrorKey="document.borrowerStateCode,document.borrowerZipCode,document.borrowerCountryCode,document.borrowerPhoneNumber,document.borrowerStorageStateCode,document.borrowerStorageZipCode,document.borrowerStorageCountryCode,document.borrowerStoragePhoneNumber"> 
+
 	    <div class="tab-container" align="center">
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>

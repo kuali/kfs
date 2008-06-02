@@ -37,5 +37,9 @@ public interface CustomerAddressService {
      */
     public boolean customerAddressExists(String customerNumber, Integer customerAddressIdentifier);
 
+    /**
+     * This method gets the next address identifier
+     * @return
+     */
     public Integer getNextCustomerAddressIdentifier();
 }

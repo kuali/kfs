@@ -65,19 +65,28 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         return ObjectUtils.isNotNull(getByPrimaryKey(customerNumber, customerAddressIdentifier));
     }
 
-    public Integer getMaxSquenceNumber(String customerNumber) {
 
-        return customerAddressDao.getMaxSquenceNumber(customerNumber);
-    }
-
+    /**
+     * This method sets customer address dao
+     * 
+     * @return
+     */
     public CustomerAddressDao getCustomerAddressDao() {
         return customerAddressDao;
     }
 
+    /**
+     * This method gets customer address dao
+     * 
+     * @param customerAddressDao
+     */
     public void setCustomerAddressDao(CustomerAddressDao customerAddressDao) {
         this.customerAddressDao = customerAddressDao;
     }
 
+    /**
+     * @see org.kuali.module.ar.service.CustomerAddressService#getNextCustomerAddressIdentifier()
+     */
     public Integer getNextCustomerAddressIdentifier() {
 
         Long nextCustomerAddressIdentifier = sequenceAccessorService.getNextAvailableSequenceNumber(CUST_ADDR_ID_SEQ);
@@ -86,10 +95,20 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
 
     }
 
+    /**
+     * This method gets the sequenceAccessorService
+     * 
+     * @return
+     */
     public SequenceAccessorService getSequenceAccessorService() {
         return sequenceAccessorService;
     }
 
+    /**
+     * This method sets the sequenceAccessorService
+     * 
+     * @param sequenceAccessorService
+     */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }

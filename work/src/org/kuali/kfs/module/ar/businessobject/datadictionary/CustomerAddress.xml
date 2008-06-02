@@ -214,15 +214,16 @@
   <bean id="CustomerAddress-customerStateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerStateCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer State Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="label" value="Customer State" />
+    <property name="shortLabel" value="State" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="customerStateCode" />
     <property name="description" value="customerStateCode description..." />

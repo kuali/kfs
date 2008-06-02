@@ -323,15 +323,17 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerParentCompanyNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Parent Company Number" />
-		<property name="shortLabel" value="Number" />
+		<property name="label" value="Customer Parent Company" />
+		<property name="shortLabel" value="Customer Parent" />
 		<property name="maxLength" value="9" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="11" />
-		</property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.CustomerValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
 		<property name="summary" value="customerParentCompanyNumber" />
 		<property name="description"
 			value="customerParentCompanyNumber description..." />

@@ -789,6 +789,9 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
      * @return Returns the vendorCountry.
      */
     public Country getVendorCountry() {
+        if(ObjectUtils.isNull(vendorCountry)){
+            this.refreshReferenceObject("vendorCountry");
+        }
         return vendorCountry;
     }
 

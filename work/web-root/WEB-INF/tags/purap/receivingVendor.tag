@@ -50,7 +50,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorDetail.vendorNumber" readOnly="true" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorNumber" readOnly="true" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /><br> *required for US</div>
@@ -99,9 +99,11 @@
             	<td align=left valign=middle class="datacell">
 	            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" readOnly="${vendorReadOnly || not(fullEntryMode)}" />
             	</td>
-            	<th align=right valign=middle class="bord-l-b">            		
+            	<th align=right valign=middle class="bord-l-b"> 
+            	&nbsp;           		
             	</th>
             	<td align=left valign=middle class="datacell">
+            	&nbsp;
             	</td>
             </tr>
 

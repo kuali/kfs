@@ -20,29 +20,21 @@ import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NU
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.web.struts.form.AssetTransferForm;
-import org.kuali.rice.KNSServiceLocator;
 
 public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
@@ -108,53 +100,6 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
             assetTransferDocument.setCapitalAssetNumber(Long.valueOf(capitalAssetNumber));
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
-        }
-    }
-
-
-    /**
-     * This method override checks the equipment loan status, and if loaned will display a confirmation message, based on user
-     * response document will be canceled or routed with additional note
-     * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("Start - Handle route document");
-        ActionForward forward = super.route(mapping, form, request, response);
-        AssetTransferForm assetTransferForm = (AssetTransferForm) form;
-        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) assetTransferForm.getDocument();
-        Asset asset = assetTransferDocument.getAsset();
-        if (asset.getExpectedReturnDate() != null && asset.getLoanReturnDate() == null) {
-            insertLoanNote(assetTransferDocument, assetTransferForm);
-        }
-        return forward;
-    }
-
-    /**
-     * This method adds a loan note to the document if it is not already added
-     * 
-     * @param document Asset Transfer document
-     * @param form Form
-     * @throws Exception
-     */
-    private void insertLoanNote(AssetTransferDocument document, AssetTransferForm form) throws Exception {
-        if (!form.isLoanNoteAdded()) {
-            LOG.debug("Adding loan note to the document");
-            Note newNote = form.getNewNote();
-            String propertyName = KNSServiceLocator.getNoteService().extractNoteProperty(newNote);
-            PersistableBusinessObject noteParent = (PersistableBusinessObject) ObjectUtils.getPropertyValue(document, propertyName);
-            Note tmpNote = KNSServiceLocator.getNoteService().createNote(newNote, noteParent);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-            tmpNote.setNoteText(kualiConfiguration.getPropertyString(CamsKeyConstants.Transfer.ASSET_LOAN_NOTE));
-            tmpNote.refresh();
-            DocumentHeader documentHeader = document.getDocumentHeader();
-            noteParent.addNote(tmpNote);
-            if (!documentHeader.getWorkflowDocument().stateIsInitiated() && StringUtils.isNotEmpty(noteParent.getObjectId())) {
-                KNSServiceLocator.getNoteService().save(tmpNote);
-            }
-            form.setNewNote(new Note());
-            form.setLoanNoteAdded(true);
         }
     }
 }

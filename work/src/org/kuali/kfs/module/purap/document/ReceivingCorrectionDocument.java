@@ -54,6 +54,14 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
         
     }
     
+    @Override
+    public void handleRouteStatusChange() {
+        if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            SpringContext.getBean(ReceivingService.class).completeReceivingCorrectionDocument(this);
+        }
+        super.handleRouteStatusChange();
+    }
+    
     /**
      * Gets the receivingLineDocumentNumber attribute.
      * 

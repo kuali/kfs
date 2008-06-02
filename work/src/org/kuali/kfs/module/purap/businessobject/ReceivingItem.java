@@ -94,5 +94,17 @@ public interface ReceivingItem {
      * @deprecated
      */
     public void setItemUnitOfMeasure(UnitOfMeasure itemUnitOfMeasure);
+    
+    public KualiDecimal getItemOriginalReceivedTotalQuantity();
+    
+    public void setItemOriginalReceivedTotalQuantity(KualiDecimal itemOriginalReceivedTotalQuantity);
+
+    public KualiDecimal getItemOriginalReturnedTotalQuantity();
+
+    public void setItemOriginalReturnedTotalQuantity(KualiDecimal itemOriginalReturnedTotalQuantity);
+
+    public KualiDecimal getItemOriginalDamagedTotalQuantity() ;
+
+    public void setItemOriginalDamagedTotalQuantity(KualiDecimal itemOriginalDamagedTotalQuantity);
 
 }

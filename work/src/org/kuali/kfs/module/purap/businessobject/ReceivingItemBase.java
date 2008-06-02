@@ -40,10 +40,14 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
     private KualiDecimal itemReturnedTotalQuantity;
     private KualiDecimal itemDamagedTotalQuantity;
     private String itemReasonAddedCode;
+    protected KualiDecimal itemOriginalReceivedTotalQuantity;
+    protected KualiDecimal itemOriginalReturnedTotalQuantity;
+    protected KualiDecimal itemOriginalDamagedTotalQuantity;
     
     private ItemReasonAdded itemReasonAdded;
     private ItemType itemType;
     private UnitOfMeasure itemUnitOfMeasure;
+    
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -192,5 +196,29 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
      */
     public void setItemUnitOfMeasure(UnitOfMeasure itemUnitOfMeasure) {
         this.itemUnitOfMeasure = itemUnitOfMeasure;
+    }
+
+    public KualiDecimal getItemOriginalReceivedTotalQuantity() { 
+    	return itemOriginalReceivedTotalQuantity;
+    }
+
+    public void setItemOriginalReceivedTotalQuantity(KualiDecimal itemOriginalReceivedTotalQuantity) {
+    	this.itemOriginalReceivedTotalQuantity = itemOriginalReceivedTotalQuantity;
+    }
+
+    public KualiDecimal getItemOriginalReturnedTotalQuantity() { 
+    	return itemOriginalReturnedTotalQuantity;
+    }
+
+    public void setItemOriginalReturnedTotalQuantity(KualiDecimal itemOriginalReturnedTotalQuantity) {
+    	this.itemOriginalReturnedTotalQuantity = itemOriginalReturnedTotalQuantity;
+    }
+
+    public KualiDecimal getItemOriginalDamagedTotalQuantity() { 
+    	return itemOriginalDamagedTotalQuantity;
+    }
+
+    public void setItemOriginalDamagedTotalQuantity(KualiDecimal itemOriginalDamagedTotalQuantity) {
+    	this.itemOriginalDamagedTotalQuantity = itemOriginalDamagedTotalQuantity;
     }
 }

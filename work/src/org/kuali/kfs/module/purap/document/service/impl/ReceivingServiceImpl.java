@@ -34,6 +34,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -42,6 +43,7 @@ import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.ReceivingCorrectionItem;
 import org.kuali.module.purap.bo.ReceivingItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.dao.ReceivingDao;
@@ -398,6 +400,27 @@ public class ReceivingServiceImpl implements ReceivingService {
         //append message
         currentMessage.append( configurationService.getPropertyString(duplicateMessageKey) );                
     }
+    
+    public void completeReceivingCorrectionDocument(ReceivingDocument correctionDocument){
+       
+        ReceivingDocument receivingDoc = ((ReceivingCorrectionDocument)correctionDocument).getReceivingLineDocument();
+        
+        for (ReceivingCorrectionItem correctionItem : (List<ReceivingCorrectionItem>)correctionDocument.getItems()) {
+            if(!StringUtils.equalsIgnoreCase(correctionItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
+
+                ReceivingLineItem recItem = (ReceivingLineItem) receivingDoc.getItem(correctionItem.getItemLineNumber().intValue() - 1);
+                PurchaseOrderItem poItem = (PurchaseOrderItem) receivingDoc.getPurchaseOrderDocument().getItem(correctionItem.getItemLineNumber().intValue() - 1);
+                
+                if(ObjectUtils.isNotNull(recItem)) {
+                    recItem.setItemReceivedTotalQuantity(correctionItem.getItemReceivedTotalQuantity());
+                    recItem.setItemReturnedTotalQuantity(correctionItem.getItemReturnedTotalQuantity());
+                    recItem.setItemDamagedTotalQuantity(correctionItem.getItemDamagedTotalQuantity());
+                }
+            }
+        }
+        
+    }
+    
     /**
      * 
      * This method deletes unneeded items and updates the totals on the po and does any additional processing based on items i.e. FYI etc
@@ -405,18 +428,21 @@ public class ReceivingServiceImpl implements ReceivingService {
      */
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
 
-        //delete unentered items
-        purapService.deleteUnenteredItems(receivingDocument);
+        PurchaseOrderDocument poDoc = null;
 
-        //this should get newest po
-        PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
-
+        if (receivingDocument instanceof ReceivingLineDocument){
+            // delete unentered items
+            purapService.deleteUnenteredItems(receivingDocument);
+            poDoc = receivingDocument.getPurchaseOrderDocument();
+        }else if (receivingDocument instanceof ReceivingCorrectionDocument){
+            ReceivingCorrectionDocument correctionDocument = (ReceivingCorrectionDocument)receivingDocument;
+            poDoc = purchaseOrderService.getCurrentPurchaseOrder(correctionDocument.getReceivingLineDocument().getPurchaseOrderIdentifier());
+        }
+        
         updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
-        
-        
 
+        
         //TODO: custom doc specific service hook here for correction to do it's receiving doc update
-
         
         purapService.saveDocumentNoValidation(poDoc);
 
@@ -428,25 +454,53 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     private void updateReceivingTotalsOnPurchaseOrder(ReceivingDocument receivingDocument, PurchaseOrderDocument poDoc) {
-        for (ReceivingLineItem receivingItem : (List<ReceivingLineItem>)receivingDocument.getItems()) {
-            //if this item has an item line number then it is coming from the po
-            if (ObjectUtils.isNotNull(receivingItem.getItemLineNumber())) {
-                PurchaseOrderItem poItem = (PurchaseOrderItem)poDoc.getItemByLineNumber(receivingItem.getItemLineNumber());
+        for (ReceivingItem receivingItem : (List<ReceivingItem>)receivingDocument.getItems()) {
+            ItemType itemType = receivingItem.getItemType();
+            if(!StringUtils.equalsIgnoreCase(itemType.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
+                //TODO: Chris - this method of getting the line out of po should be turned into a method that can get an item based on a combo or itemType and line
+                PurchaseOrderItem poItem = (PurchaseOrderItem) poDoc.getItem(receivingItem.getItemLineNumber().intValue() - 1);
+                
                 if(ObjectUtils.isNotNull(poItem)) {
-                    KualiDecimal poItemTotalDamaged = poItem.getItemDamagedTotalQuantity();
+                    
+                    KualiDecimal poItemReceivedTotal = poItem.getItemReceivedTotalQuantity();
+                    
+                    KualiDecimal receivingItemReceivedOriginal = receivingItem.getItemOriginalReceivedTotalQuantity();
+                    /**
+                     * FIXME: It's coming as null although we set the default value in the ReceivingLineItem constructor - mpv
+                     */
+                    if (ObjectUtils.isNull(receivingItemReceivedOriginal)){
+                        receivingItemReceivedOriginal = KualiDecimal.ZERO; 
+                    }
+                    KualiDecimal receivingItemReceived = receivingItem.getItemReceivedTotalQuantity(); 
+                    KualiDecimal receivingItemTotalReceivedAdjested = receivingItemReceived.subtract(receivingItemReceivedOriginal); 
+                    
+                    KualiDecimal poItemReceivedTotalAdjusted = poItemReceivedTotal.add(receivingItemTotalReceivedAdjested); 
+                    
+                    KualiDecimal receivingItemReturnedOriginal = receivingItem.getItemOriginalReturnedTotalQuantity();
+                    if (ObjectUtils.isNull(receivingItemReturnedOriginal)){
+                        receivingItemReturnedOriginal = KualiDecimal.ZERO; 
+                    }
+                    KualiDecimal receivingItemReturned = receivingItem.getItemReturnedTotalQuantity();
+                    KualiDecimal receivingItemTotalReturnedAdjusted = receivingItemReturned.subtract(receivingItemReturnedOriginal); 
+                    
+                    poItemReceivedTotalAdjusted = poItemReceivedTotalAdjusted.subtract(receivingItemTotalReturnedAdjusted);
+                    
+                    poItem.setItemReceivedTotalQuantity(poItemReceivedTotalAdjusted);
+                    
+                    KualiDecimal poTotalDamaged = poItem.getItemDamagedTotalQuantity();
+                    KualiDecimal receivingItemTotalDamagedOriginal = receivingItem.getItemOriginalDamagedTotalQuantity();
+                    if (ObjectUtils.isNull(receivingItemTotalDamagedOriginal)){
+                        receivingItemTotalDamagedOriginal = KualiDecimal.ZERO; 
+                    }
                     KualiDecimal receivingItemTotalDamaged = receivingItem.getItemDamagedTotalQuantity();
+                    KualiDecimal receivingItemTotalDamagedAdjusted = receivingItemTotalDamaged.subtract(receivingItemTotalDamagedOriginal);
                     
-                    poItem.setItemDamagedTotalQuantity(poItemTotalDamaged.add(receivingItemTotalDamaged));
+                    poItem.setItemDamagedTotalQuantity(poTotalDamaged.add(receivingItemTotalDamagedAdjusted));
                     
-                    KualiDecimal poTotalReceived = poItem.getItemReceivedTotalQuantity();
-                    KualiDecimal receivingItemTotalReturned = receivingItem.getItemReturnedTotalQuantity();
-                    KualiDecimal receivingItemTotalReceived = receivingItem.getItemReceivedTotalQuantity().subtract(receivingItemTotalReturned);
-                    
-                    poItem.setItemReceivedTotalQuantity(poTotalReceived.add(receivingItemTotalReceived));
                 }
             }
         }
-    }	
+    }
     
     /**
      * Spawns PO amendments for new unordered items on a receiving document.

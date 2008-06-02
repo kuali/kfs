@@ -120,4 +120,10 @@ public interface ReceivingService {
      * @param receivingDocument receiving document
      */
     public void completeReceivingDocument(ReceivingDocument receivingDocument);
+    
+    /**
+     * This method updates the corrected quantities on the receiving document.
+     * @param receivingDocument receivingCorrectionDocument
+     */
+    public void completeReceivingCorrectionDocument(ReceivingDocument correctionDocument);
 }

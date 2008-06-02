@@ -3750,7 +3750,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="receivingLineDocumentNumber" column="RCVNG_LN_FDOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER" autoincrement="true" sequence-name="AP_PUR_DOC_LNK_ID"/>
-    <reference-descriptor name="receivingLineDocument" class-ref="org.kuali.module.purap.document.ReceivingLineDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="receivingLineDocument" class-ref="org.kuali.module.purap.document.ReceivingLineDocument" auto-retrieve="true" auto-update="object" auto-delete="none">
         <foreignkey field-ref="receivingLineDocumentNumber" />
     </reference-descriptor>
 

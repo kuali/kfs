@@ -29,16 +29,12 @@ public class ReceivingLineItem extends ReceivingItemBase {
     
     private ReceivingLineDocument receivingLineDocument;
 
-
-       
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
     
     /**
      * Default constructor.
      */
     public ReceivingLineItem() {
-
     }
     
     public ReceivingLineItem(ReceivingLineDocument rld){
@@ -46,6 +42,9 @@ public class ReceivingLineItem extends ReceivingItemBase {
         this.setItemReceivedTotalQuantity( KualiDecimal.ZERO );
         this.setItemReturnedTotalQuantity( KualiDecimal.ZERO );
         this.setItemDamagedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemOriginalReceivedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemOriginalReturnedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemOriginalDamagedTotalQuantity( KualiDecimal.ZERO );
     }
     
     public ReceivingLineItem(PurchaseOrderItem poi, ReceivingLineDocument rld){
@@ -73,7 +72,12 @@ public class ReceivingLineItem extends ReceivingItemBase {
         this.setItemReceivedTotalQuantity( KualiDecimal.ZERO );
         
         this.setItemReturnedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemDamagedTotalQuantity( KualiDecimal.ZERO );                                
+        this.setItemDamagedTotalQuantity( KualiDecimal.ZERO );         
+        
+        this.setItemOriginalReceivedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemOriginalReturnedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemOriginalDamagedTotalQuantity( KualiDecimal.ZERO );
+        
         //not added
         this.setItemReasonAddedCode(null);
     }

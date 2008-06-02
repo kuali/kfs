@@ -14,12 +14,7 @@ import org.kuali.module.purap.document.ReceivingLineDocument;
  */
 public class ReceivingCorrectionItem extends ReceivingItemBase {
 
-
-	private KualiDecimal itemOriginalReceivedTotalQuantity;
-	private KualiDecimal itemOriginalReturnedTotalQuantity;
-	private KualiDecimal itemOriginalDamagedTotalQuantity;
-    private ReceivingCorrectionDocument receivingCorrectionDocument;
-
+	private ReceivingCorrectionDocument receivingCorrectionDocument;
     
 	/**
 	 * Default constructor.
@@ -42,78 +37,15 @@ public class ReceivingCorrectionItem extends ReceivingItemBase {
         this.setItemOriginalReturnedTotalQuantity( rli.getItemReturnedTotalQuantity() );
         this.setItemOriginalDamagedTotalQuantity( rli.getItemDamagedTotalQuantity() );
 
-        this.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
-        this.setItemReturnedTotalQuantity(KualiDecimal.ZERO);
-        this.setItemDamagedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemReceivedTotalQuantity(rli.getItemReceivedTotalQuantity());
+        this.setItemReturnedTotalQuantity(rli.getItemReturnedTotalQuantity());
+        this.setItemDamagedTotalQuantity(rli.getItemDamagedTotalQuantity());
 
         //not added
         this.setItemReasonAddedCode(null);
     }
 
 	/**
-	 * Gets the itemOriginalReceivedTotalQuantity attribute.
-	 * 
-	 * @return Returns the itemOriginalReceivedTotalQuantity
-	 * 
-	 */
-	public KualiDecimal getItemOriginalReceivedTotalQuantity() { 
-		return itemOriginalReceivedTotalQuantity;
-	}
-
-	/**
-	 * Sets the itemOriginalReceivedTotalQuantity attribute.
-	 * 
-	 * @param itemOriginalReceivedTotalQuantity The itemOriginalReceivedTotalQuantity to set.
-	 * 
-	 */
-	public void setItemOriginalReceivedTotalQuantity(KualiDecimal itemOriginalReceivedTotalQuantity) {
-		this.itemOriginalReceivedTotalQuantity = itemOriginalReceivedTotalQuantity;
-	}
-
-
-	/**
-	 * Gets the itemOriginalReturnedTotalQuantity attribute.
-	 * 
-	 * @return Returns the itemOriginalReturnedTotalQuantity
-	 * 
-	 */
-	public KualiDecimal getItemOriginalReturnedTotalQuantity() { 
-		return itemOriginalReturnedTotalQuantity;
-	}
-
-	/**
-	 * Sets the itemOriginalReturnedTotalQuantity attribute.
-	 * 
-	 * @param itemOriginalReturnedTotalQuantity The itemOriginalReturnedTotalQuantity to set.
-	 * 
-	 */
-	public void setItemOriginalReturnedTotalQuantity(KualiDecimal itemOriginalReturnedTotalQuantity) {
-		this.itemOriginalReturnedTotalQuantity = itemOriginalReturnedTotalQuantity;
-	}
-
-
-	/**
-	 * Gets the itemOriginalDamagedTotalQuantity attribute.
-	 * 
-	 * @return Returns the itemOriginalDamagedTotalQuantity
-	 * 
-	 */
-	public KualiDecimal getItemOriginalDamagedTotalQuantity() { 
-		return itemOriginalDamagedTotalQuantity;
-	}
-
-	/**
-	 * Sets the itemOriginalDamagedTotalQuantity attribute.
-	 * 
-	 * @param itemOriginalDamagedTotalQuantity The itemOriginalDamagedTotalQuantity to set.
-	 * 
-	 */
-	public void setItemOriginalDamagedTotalQuantity(KualiDecimal itemOriginalDamagedTotalQuantity) {
-		this.itemOriginalDamagedTotalQuantity = itemOriginalDamagedTotalQuantity;
-	}
-
-
-    /**
      * Gets the receivingCorrectionDocument attribute. 
      * @return Returns the receivingCorrectionDocument.
      */

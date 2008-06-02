@@ -7,23 +7,29 @@
       <label>Indirect Cost Recovery Type</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <blanketApprovePolicy>NONE</blanketApprovePolicy>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>
       <routePaths>
         <routePath>
-          <start name="Central Review" />
+          <start name="Adhoc Routing" nextNode="Central Review" />
+          <requests name="Central Review" />
         </routePath>
       </routePaths>
       <routeNodes>
-        <start name="Central Review">
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Central Review">
           <activationType>S</activationType>
           <ruleTemplate>KualiCentralRoutingTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-        </start>
+        </requests>
       </routeNodes>
     </documentType>
   </documentTypes>

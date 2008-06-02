@@ -57,7 +57,7 @@ public class ICRTypeCodeMaintainableImpl extends KualiMaintainableImpl {
                 if (!hasBusinessObjectExisted(templatedBo, existingIdentifierList, duplicateIdentifierFieldsFromDataDictionary)) {   
                     maintCollection.add(templatedBo); 
                 }
-                templatedBo.setActive(true);
+                templatedBo.setActive(true); // set to ensure active indicators are set to true by default when returning lookup results
             }
         } 
         catch (Exception e) {

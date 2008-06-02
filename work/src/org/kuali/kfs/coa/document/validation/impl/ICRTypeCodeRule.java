@@ -32,13 +32,6 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 public class ICRTypeCodeRule extends MaintenanceDocumentRuleBase {
-    
-    @Override
-    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
-        boolean isValid = true;
-        isValid &= itemIsValid((IndirectCostRecoveryExclusionType) line);
-        return isValid;
-    }
 
     private ICRTypeCode iCRTypeCode;
     private List indirectCostRecoveryExclusionTypeCollection;
@@ -52,13 +45,30 @@ public class ICRTypeCodeRule extends MaintenanceDocumentRuleBase {
         iCRTypeCode = (ICRTypeCode) super.getNewBo();
         indirectCostRecoveryExclusionTypeCollection = iCRTypeCode.getIndirectCostRecoveryExclusionTypeCollection();
     }
-
+    
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+        boolean isValid = true;
+        isValid &= itemIsValid((IndirectCostRecoveryExclusionType) line);
+        return isValid;
+    }
+    
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
         isValid &= checkCollectionItems();
         GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+        return isValid;
+    }
+    
+    public boolean checkCollectionItems() {
+        boolean isValid = true;
+        for(int i=0;i<indirectCostRecoveryExclusionTypeCollection.size();i++) {
+            GlobalVariables.getErrorMap().addToErrorPath("indirectCostRecoveryExclusionTypeCollection[" + i + "]");
+            isValid &= itemIsValid((IndirectCostRecoveryExclusionType) indirectCostRecoveryExclusionTypeCollection.get(i));
+            GlobalVariables.getErrorMap().removeFromErrorPath("indirectCostRecoveryExclusionTypeCollection[" + i + "]");
+        }
         return isValid;
     }
     
@@ -82,13 +92,4 @@ public class ICRTypeCodeRule extends MaintenanceDocumentRuleBase {
         return isValid;
     }
     
-    public boolean checkCollectionItems() {
-        boolean isValid = true;
-        for(int i=0;i<indirectCostRecoveryExclusionTypeCollection.size();i++) {
-            GlobalVariables.getErrorMap().addToErrorPath("indirectCostRecoveryExclusionTypeCollection[" + i + "]");
-            isValid &= itemIsValid((IndirectCostRecoveryExclusionType) indirectCostRecoveryExclusionTypeCollection.get(i));
-            GlobalVariables.getErrorMap().removeFromErrorPath("indirectCostRecoveryExclusionTypeCollection[" + i + "]");
-        }
-        return isValid;
-    }
 }

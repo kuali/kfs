@@ -81,10 +81,10 @@
 	    						alt="Recalculate Credit Memo Line Amounts"
 	                            styleClass="tinybutton" />
 	                &nbsp;
-					<html:image property=""
+					<html:image property="methodToCall.refreshCustomerCreditMemoDocument"
 	    						src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
-	    						title="Refresh Credit Memo Line"
-	    						alt="Refresh Credit Memo Line"
+	    						title="Refresh Credit Memo Lines"
+	    						alt="Refresh Credit Memo Lines"
 	                            styleClass="tinybutton" />
 	            </div>     
 				</td>

@@ -231,11 +231,13 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         return customerInvoiceDetail;       
     }
     
-    public KualiDecimal getOpenAmount(String documentNumber,Integer invoiceItemNumber,CustomerInvoiceDetail customerInvoiceDetail) {
+    public KualiDecimal getOpenAmount(Integer invoiceItemNumber,CustomerInvoiceDetail customerInvoiceDetail) {
         KualiDecimal totalAppliedAmount = KualiDecimal.ZERO;
         KualiDecimal appliedAmount;
         KualiDecimal openInvoiceAmount;
         KualiDecimal invoiceItemAmount;
+        
+        String documentNumber = customerInvoiceDetail.getDocumentNumber();
         
         Map criteria = new HashMap();
         criteria.put("documentNumber", documentNumber);

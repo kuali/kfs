@@ -113,13 +113,10 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
             }
             customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
             
-            // TODO: this is not right -> can retrieve it once and then reuse
-            docNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
-            
             itemLineNumber = ((CustomerInvoiceDetail)invoiceDetail).getSequenceNumber();
             customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
             
-            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(docNumber,itemLineNumber,(CustomerInvoiceDetail)invoiceDetail);
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(itemLineNumber,(CustomerInvoiceDetail)invoiceDetail);
             customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
             
             customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
@@ -184,6 +181,34 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetail);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }    
+    }
+ 
+    /**
+     * This method refreshes customer credit memo details and line with totals
+     * 
+     * @param mapping action mapping
+     * @param form action form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward refreshCustomerCreditMemoDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerCreditMemoDocumentForm customerCreditMemoDocForm = (CustomerCreditMemoDocumentForm) form;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocForm.getDocument();
     
+        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+        for( CustomerCreditMemoDetail customerCreditMemoDetail : customerCreditMemoDetails ){
+            customerCreditMemoDetail.setCreditMemoItemQuantity(null);
+            customerCreditMemoDetail.setCreditMemoItemTotalAmount(null);
+            customerCreditMemoDetail.setCreditMemoItemTaxAmount(KualiDecimal.ZERO);
+            customerCreditMemoDetail.setCreditMemoLineTotalAmount(KualiDecimal.ZERO);
+            customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(null);
+        }
+        customerCreditMemoDocument.setCrmTotalItemAmount(KualiDecimal.ZERO);
+        customerCreditMemoDocument.setCrmTotalTaxAmount(KualiDecimal.ZERO);
+        customerCreditMemoDocument.setCrmTotalAmount(KualiDecimal.ZERO);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

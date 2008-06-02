@@ -380,7 +380,6 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         target.setAmount(source.getAmount());
         target.setEmplid(source.getEmplid());
         target.setPayrollEndDateFiscalPeriodCode(source.getPayrollEndDateFiscalPeriodCode());
-        target.setObjectTypeCode(source.getObjectTypeCode());
         target.setOverrideCode(source.getOverrideCode());
         target.setPayrollTotalHours(source.getPayrollTotalHours());
     }
@@ -402,7 +401,6 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         line.setPostingYear(bo.getUniversityFiscalYear());
         line.setPayrollEndDateFiscalYear(bo.getUniversityFiscalYear());
         line.setFinancialObjectCode(bo.getFinancialObjectCode());
-        line.setObjectTypeCode(bo.getFinancialObjectTypeCode());
 
         if (!KFSConstants.getDashFinancialSubObjectCode().equals(bo.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());

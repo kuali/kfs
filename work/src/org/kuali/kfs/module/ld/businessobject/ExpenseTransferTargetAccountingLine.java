@@ -33,6 +33,14 @@ public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine im
     private String payrollEndDateFiscalPeriodCode;
     private String emplid;
     private LaborObject laborObject;
+    
+    /**
+     * Constructs a ExpenseTransferTargetAccountingLine.java.
+     */
+    public ExpenseTransferTargetAccountingLine() {
+        super();
+        payrollTotalHours = new BigDecimal(0);
+    }
 
     /**
      * Gets the positionNumber.

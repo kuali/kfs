@@ -33,6 +33,14 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
     private String payrollEndDateFiscalPeriodCode;
     private String emplid;
     private LaborObject laborObject;
+    
+    /**
+     * Constructs a ExpenseTransferSourceAccountingLine.java.
+     */
+    public ExpenseTransferSourceAccountingLine() {
+        super();
+        payrollTotalHours = new BigDecimal(0);
+    }
 
     /**
      * Gets the positionNumber.

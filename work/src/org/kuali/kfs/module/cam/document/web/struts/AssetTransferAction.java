@@ -30,12 +30,10 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -121,37 +119,14 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Start - Handle route document");
-        ActionForward forward = null;
+        ActionForward forward = super.route(mapping, form, request, response);
         AssetTransferForm assetTransferForm = (AssetTransferForm) form;
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) assetTransferForm.getDocument();
         Asset asset = assetTransferDocument.getAsset();
         if (asset.getExpectedReturnDate() != null && asset.getLoanReturnDate() == null) {
-            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-            // ask the question only once
-            if (question == null && !assetTransferForm.isLoanNoteAdded()) {
-                // Ask question
-                forward = performQuestionWithoutInput(mapping, form, request, response, "AssetTransferLoanConfirmation", kualiConfiguration.getPropertyString(CamsKeyConstants.Transfer.WARN_TRFR_AST_LOAN_ACTIVE), KFSConstants.CONFIRMATION_QUESTION, "AssetTransfer", "AssetTransfer");
-            }
-            else {
-                Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-                if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-                    // cancel if answer is NO
-                    KNSServiceLocator.getDocumentService().cancelDocument(assetTransferDocument, assetTransferForm.getAnnotation());
-                    forward = returnToSender(mapping, assetTransferForm);
-                }
-                else {
-                    // if YES, add a loan note and route the document
-                    insertLoanNote(assetTransferDocument, assetTransferForm);
-                    forward = super.route(mapping, form, request, response);
-                }
-            }
-        }
-        else {
-            forward = super.route(mapping, form, request, response);
+            insertLoanNote(assetTransferDocument, assetTransferForm);
         }
         return forward;
     }

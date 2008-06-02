@@ -115,6 +115,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                 if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() == 0) {
                     section.setSectionTitle(section.getSectionTitle() + CamsConstants.Asset.SECTION_TITLE_NO_PAYMENT + asset.getCapitalAssetNumber());
                 }
+                // If asset is not loaned, hide the section
+                if (CamsConstants.Asset.SECTION_ID_LOAN_INFORMATION.equals(section.getSectionId()) && (asset.getExpectedReturnDate() == null || asset.getLoanReturnDate() != null)) {
+                    section.setHidden(true);
+                }
+
             }
         }
 

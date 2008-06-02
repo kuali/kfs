@@ -45,7 +45,7 @@ public class CamsConstants {
     public static class DocumentTypeCodes {
         public static final String ASSET_SEPERATE = "ASEP";
     }
-    
+
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class Parameters {
@@ -144,7 +144,7 @@ public class CamsConstants {
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
-        public static final String FIS_DOC_TYPE_CODE = "AR"; 
+        public static final String FIS_DOC_TYPE_CODE = "AR";
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
@@ -157,7 +157,6 @@ public class CamsConstants {
         public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
         public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F;S";
         public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";
-
     }
 
     public static class AssetRetirementReasonCode {
@@ -187,6 +186,7 @@ public class CamsConstants {
         public static final String SECTION_ID_WARRENTY = "warrenty";
         public static final String SECTION_ID_REPAIR_HISTORY = "repairHistory";
         public static final String SECTION_ID_COMPONENTS = "components";
+        public static final String SECTION_ID_LOAN_INFORMATION = "equipmentLoanInformation";
 
         public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_YEAR, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.LAST_INVENTORY_DATE, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE };
         public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER, CamsPropertyConstants.Asset.ESTIMATED_SELLING_PRICE, CamsPropertyConstants.Asset.RECEIVE_DATE, CamsPropertyConstants.Asset.REPLACEMENT_AMOUNT };
@@ -213,13 +213,13 @@ public class CamsConstants {
 
     public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetPaymentDifferentObjectSubTypeQuestion";
 
-    public static class BarCodeInventory {    
+    public static class BarCodeInventory {
         public static final String FILE_TYPE_INDENTIFIER = "assetBarCodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";
-        public static final String DATA_FILE_EXTENSION = ".csv";        
+        public static final String DATA_FILE_EXTENSION = ".csv";
         public static final String DONE_FILE_EXTENSION = ".done";
     }
-    
+
     public static final String ACQUISITION_TYPE_CODE_N = "N";
 
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
@@ -232,4 +232,5 @@ public class CamsConstants {
     public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
     public static final String DOCUMENT_PATH = "document";
     public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
+    public static final String ASSET_LOAN_CONFIRM_QN_ID = "AssetTransferLoanConfirmation";
 }

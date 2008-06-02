@@ -55,14 +55,14 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
-        AssetGlobal newAsset = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        
+        document.getNewMaintainableObject().setGenerateDefaultValues(false);
         
         // For separate an asset this gets the appropriate code
         String[] financialDocumentTypeCode = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
         if (ObjectUtils.isNotNull(financialDocumentTypeCode)) {
             assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0]);
-            newAsset.setFinancialDocumentTypeCode(financialDocumentTypeCode[0]);
         }
         
         super.processAfterNew(document, parameters);

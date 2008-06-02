@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -78,8 +77,8 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
         FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
         Map editModeMap = new HashMap();
-        String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-        /*String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, u);
+//        String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, u);
         editModeMap.put(editMode, "TRUE");
         
         // adding the case where system is in view only mode in case we need this fact for functionality
@@ -87,7 +86,7 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
         // so we may or may not need this extra map row
         if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)){
             editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
-        }*/
+        }
 
         return editModeMap;
     }

@@ -331,7 +331,7 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
             
             crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemTotalAmount);
             crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoItemTotalAmount.multiply(taxRate));
-            crmTotalAmount = crmTotalAmount.add(crmTotalItemAmount.add(crmTotalTaxAmount));
+            crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
         }
         
         // update duplicate credit memo item amount with 'new' value

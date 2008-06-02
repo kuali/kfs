@@ -533,9 +533,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         String chartAcct = null;
         RequisitionItem item = (RequisitionItem) this.getItem(0);
         if (ObjectUtils.isNotNull(item)) {
-            PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
-            if (ObjectUtils.isNotNull(accountLine) && ObjectUtils.isNotNull(accountLine.getChartOfAccountsCode()) && ObjectUtils.isNotNull(accountLine.getAccountNumber())) {
-                chartAcct = accountLine.getChartOfAccountsCode() + "-" + accountLine.getAccountNumber();
+            if (item.getSourceAccountingLines().size() > 0) {
+                PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
+                if (ObjectUtils.isNotNull(accountLine) && ObjectUtils.isNotNull(accountLine.getChartOfAccountsCode()) && ObjectUtils.isNotNull(accountLine.getAccountNumber())) {
+                    chartAcct = accountLine.getChartOfAccountsCode() + "-" + accountLine.getAccountNumber();
+                }
             }
         }
         return chartAcct;

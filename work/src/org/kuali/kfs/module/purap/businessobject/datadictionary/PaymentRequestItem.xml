@@ -62,7 +62,7 @@
     <property name="name" value="itemLineNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Line Number" />
-    <property name="shortLabel" value="Item Line #" />
+    <property name="shortLabel" value="#" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -180,8 +180,8 @@
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
-            p:rows="4"
-            p:cols="50" />
+            p:rows="2"
+            p:cols="20" />
     </property>
   </bean>
   <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode" parent="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" />

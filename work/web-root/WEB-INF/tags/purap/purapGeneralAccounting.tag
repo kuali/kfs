@@ -67,7 +67,6 @@
 <%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map" description="map containing accounting line field names that should be marked as read only."%>
 <%@ attribute name="accountingLineAttributes" required="false" type="java.util.Map" description="A parameter to specify an data dictionary entry for a sub-classed accounting line."%>
 <%@ attribute name="itemsAttributes" required="false" type="java.util.Map" description="A parameter to specify an data dictionary entry for items to get cams fields."%>
-<%@ attribute name="camsAttributes" required="false" type="java.util.Map" description="A parameter to specify an data dictionary entry for a sub-classed cams data."%>
 <%@ attribute name="inherit" required="false" type="java.lang.Boolean" description="Should the default Financial Transactions Accounting Line tags be used?"%>
 <%@ attribute name="groupsOverride" required="false" fragment="true" description="Fragment of code to override the default accountingline groups"%>
 <%@ attribute name="accountPrefix" required="false" description="an optional prefix to specify a different location for acocunting lines rather than just on the document."%>
@@ -75,8 +74,6 @@
 <%@ attribute name="hideFields" required="false" description="comma delimited list of fields to hide for this type of accounting line"%>
 <%@ attribute name="accountingAddLineIndex" required="false" description="index for multiple add new source lines"%>
 <%@ attribute name="ctr" required="true" description="item count"%>
-
-<tr>
 
     <c:if test="${!accountingLineScriptsLoaded}">
         <script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -101,12 +98,11 @@
     </c:forEach>
     
     <c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}" />
-    <c:set var="columnCountUntilAmount" value="${8 + (includeObjectTypeCode ? 1 : 0) + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
+    <c:set var="columnCountUntilAmount" value="${6 + (includeObjectTypeCode ? 1 : 0) + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
     <c:set var="arrHideFields" value="${fn:split(hideFields,',') }" />
     <c:set var="numHideFields" value="${fn:length(numHideFields) }" />
     <%-- add extra columns count for the "Action" button and/or dual amounts --%>
-    <c:set var="columnCount" value="${columnCountUntilAmount + (debitCreditAmount || currentBaseAmount ? 2 : 1) - (not empty hideFields ? 0 : numHideFields) + (empty editingMode['viewOnly'] ? 1 : 0)}" />
-    
+    <c:set var="columnCount" value="${columnCountUntilAmount + (debitCreditAmount || currentBaseAmount ? 2 : 1) - (not empty hideFields ? 0 : numHideFields) + (empty editingMode['viewOnly'] ? 0 : 1)}" />
     <%@ include file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag"%>
     
     <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
@@ -129,15 +125,20 @@
 	
     <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
+	<tr>
+	<td colspan="${columnCount}">
+	<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+
     <th colspan="${columnCount}" style="padding: 0px; border-right: none;">
-        <div align=left>Accounting Line
-        	<c:if test="${!empty camsAttributes}"> and Capital Asset</c:if> Info
-	        <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+        <div align=left>
+      	    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 	        </c:if>
 	        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 	        </c:if>
+        	Accounting Lines
         </div>
     </th>
 </tr>
@@ -146,20 +147,18 @@
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
     <tr style="display: none;"  id="tab-${tabKey}-div">
 </c:if>   
-        <th colspan="${columnCount}" style="padding: 20px;">
+        <th colspan="${columnCount}" style="padding:0;">
             <purap:puraccountingLines editingMode="${editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="${sourceAccountingLinesOnly}" optionalFields="${optionalFields}" extraHiddenFields="${extraHiddenFields}"
                 accountingLineAttributes="${accountingLineAttributes}" accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}" hideFields="${hideFields}" accountingAddLineIndex="${accountingAddLineIndex}" />
-            
-            <br><br>
-            <c:if test="${!empty camsAttributes}">
-            	<purap:purCams itemsAttributes="${itemsAttributes}" camsAttributes="${camsAttributes}" ctr="${ctr}" />
-            </c:if>
         </th>
     
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
     </tr>
 </c:if>
 
+</table>
+</td>
+</tr>
 
 
 

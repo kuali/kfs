@@ -78,7 +78,7 @@
 
 <tr>
 	<td colspan="11" class="subhead">
-		<span class="subhead-left"><c:out value="${overrideTitle}" /></span>
+		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
 		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
 				onclick="javascript: return toggleTab(document, '${tabKey}'); " />

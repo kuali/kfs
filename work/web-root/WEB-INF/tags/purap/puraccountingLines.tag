@@ -149,8 +149,6 @@
 	<c:if test="${empty inherit || inherit == true}">
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"
 			class="datatable">
-			<fin:subheadingWithDetailToggleRow columnCount="${columnCount}"
-				subheading="Accounting Lines" />
 			<fin:accountingLineGroup isSource="true"
 				columnCountUntilAmount="${columnCountUntilAmount}"
 				columnCount="${columnCount}" optionalFields="${optionalFields}"

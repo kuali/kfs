@@ -106,7 +106,6 @@
 		
 		    <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
 		        accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
-		        camsAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}" 
 		        extraHiddenItemFields="documentNumber"/> 
 		     
 		    <purap:paymentinfo

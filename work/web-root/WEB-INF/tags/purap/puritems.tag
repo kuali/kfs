@@ -18,7 +18,6 @@
 <%@ attribute name="displayRequisitionFields" required="false" description="Boolean to indicate if REQ specific fields should be displayed"%>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's accounting line fields."%>
-<%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields for capital assets."%>
 <%@ attribute name="extraHiddenItemFields" required="false"
               description="A comma seperated list of names to be added to the list of normally hidden fields
               for the existing misc items." %>
@@ -95,16 +94,16 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" nowrap="true" />
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" /></kul:htmlAttributeHeaderCell>
-				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" /></kul:htmlAttributeHeaderCell>				
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
+				<kul:htmlAttributeHeaderCell nowrap="true"> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" /></kul:htmlAttributeHeaderCell>				
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" nowrap="true" />
 				<c:if test="${displayRequisitionFields}">
-					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" nowrap="true" />
 				</c:if>
 				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
-				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2"/>
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2" nowrap="true"/>
 			</tr>
 			<tr>
                 <td class="infoline">
@@ -183,39 +182,17 @@
 		<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 		<tr>
 			<td colspan="11" class="subhead">
-			    <span class="subhead-left">Items</span>
+			    <span class="subhead-left">Current Items</span>
 			</td>
 		</tr>
 
 		<c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
-			<tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
-				<c:if test="${displayRequisitionFields}">
-					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
-				</c:if>
-				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
-				    <c:choose>
-                        <c:when test="${((documentType != 'PurchaseOrderDocument') && !(fullEntryMode or amendmentEntry))}">
-                            <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
-                        </c:when>
-                        <c:otherwise>
-                            <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
-                        </c:otherwise>
-                    </c:choose>
+                    <c:if test="${((documentType != 'PurchaseOrderDocument') && !(fullEntryMode or amendmentEntry))}">
+                        <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
+                    </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Amount Paid" />
-                </c:if>
-                <c:if test="${!isATypeOfPODoc}">
-                    <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
                 </c:if>
 			</tr>
 		</c:if>
@@ -262,23 +239,7 @@
 
 				<tr>
 					<td colspan="11" class="tab-subhead" style="border-right: none;">
-					    Item ${ctr+1} 
-					    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-						    <html:image
-							    property="methodToCall.toggleTab.tab${tabKey}"
-							    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif"
-							    alt="hide" title="toggle" styleClass="tinybutton"
-							    styleId="tab-${tabKey}-imageToggle"
-							    onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-					    </c:if> 
-					    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-						    <html:image
-				  			    property="methodToCall.toggleTab.tab${tabKey}"
-							    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif"
-							    alt="show" title="toggle" styleClass="tinybutton"
-							    styleId="tab-${tabKey}-imageToggle"
-							    onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-					    </c:if>
+					    Item ${ctr+1}
 					</td>
 				</tr>
 
@@ -288,7 +249,7 @@
 				<!-- table class="datatable" style="width: 100%;" -->
 
 				<tr>
-					<td class="infoline" nowrap="nowrap">
+					<td class="infoline" nowrap="nowrap" rowspan="2">
 					    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
 					    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" />
 					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
@@ -401,7 +362,7 @@
                             </div>
                         </td -->
 					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null))}">
-						<td class="infoline">
+						<td class="infoline" rowspan="2">
 						    <div align="center">
 						        <html:image
 							        property="methodToCall.deleteItem.line${ctr}"
@@ -414,7 +375,7 @@
 					<c:if test="${amendmentEntry}">
 					    <c:choose>
 					        <c:when test="${(itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null)}">
-						<td class="infoline">
+						<td class="infoline" rowspan="2">
 						    <div align="center">
 						        <html:image
 							        property="methodToCall.inactivateItem.line${ctr}"
@@ -426,27 +387,27 @@
 					        </c:when>
 					        <c:otherwise>
 					            <c:if test="${(itemLine.itemInvoicedTotalAmount != null and itemLine.itemActiveIndicator)}">
-					                <td class="infoline">&nbsp;</td>
+					                <td class="infoline" rowspan="2">&nbsp;</td>
 								</c:if>
 					        </c:otherwise>
 					    </c:choose>
 					</c:if>
 					<c:choose>
 					    <c:when test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
-						    <td class="infoline">
+						    <td class="infoline" rowspan="2">
 						        <div align="center">Inactive</div>
 						    </td>
 					    </c:when>
 					    <c:otherwise>
                             <c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
-						        <td class="infoline">
+						        <td class="infoline" rowspan="2">
 						            <div align="center">&nbsp;</div>
 						        </td>
 					        </c:if>
 					    </c:otherwise>
 					</c:choose>
 					<c:if test="${isATypeOfPODoc}">
-					    <td class="infoline">
+					    <td class="infoline" rowspan="2">
 					        <div align="right">
 					            <kul:htmlControlAttribute
 						            attributeEntry="${itemAttributes.itemInvoicedTotalAmount}"
@@ -469,8 +430,7 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}" />
+						itemsAttributes="${itemAttributes}" ctr="${ctr}" />
     				    </c:when>
 	        			<c:otherwise>
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
@@ -482,8 +442,7 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}" />
+						itemsAttributes="${itemAttributes}" ctr="${ctr}" />
 				        </c:otherwise>
 				    </c:choose>
 				</c:if>
@@ -499,8 +458,7 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}" />
+						itemsAttributes="${itemAttributes}" ctr="${ctr}" />
 				</c:if>
 
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
@@ -578,7 +536,7 @@
                     <html:hidden property="document.internalPurchasingLimit" />
 			    </c:if>
 			</td>
-			<td colspan=3 class="datacell">&nbsp;</td>
+			<td colspan="3" class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 

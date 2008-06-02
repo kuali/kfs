@@ -158,8 +158,8 @@
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
-            p:rows="4"
-            p:cols="50" />
+            p:rows="2"
+            p:cols="20" />
     </property>
   </bean>
   <bean id="CreditMemoItem-versionNumber" parent="CreditMemoItem-versionNumber-parentBean" />

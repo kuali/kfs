@@ -261,9 +261,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // Start in logic for confirming the close.
             if (ObjectUtils.isNull(question)) {
-                String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
-                String message = StringUtils.replace(key, "{0}", operation);
-
+                String message = "";
+                if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
+                    message = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_SPLIT_QUESTION_TEXT);
+                }
+                else {
+                    String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+                    message = StringUtils.replace(key, "{0}", operation); 
+                }
                 // Ask question if not already asked.
                 return this.performQuestionWithInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
             }

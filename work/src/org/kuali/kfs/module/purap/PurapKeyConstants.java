@@ -83,6 +83,7 @@ public class PurapKeyConstants {
         
     // Purchase Order
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
+    public static final String PURCHASE_ORDER_SPLIT_QUESTION_TEXT = "purchaseOrder.split.question.text";
     public static final String PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT = "purchaseOrder.route.message.close.text";
     public static final String ERROR_PURCHASE_ORDER_REASON_REQUIRED = "error.purchaseOrder.reasonRequired";
     public static final String ERROR_PURCHASE_ORDER_STATUS_INCORRECT = "error.purchaseOrder.status.incorrect";

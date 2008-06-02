@@ -19,7 +19,7 @@
     <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderSplitDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderSplitDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderSplitDocumentAuthorizer" />
-    <property name="documentTypeCode" value="POC" />
+    <property name="documentTypeCode" value="POSP" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderSplitDocument-workflowProperties" />
     </property>

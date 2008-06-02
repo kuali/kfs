@@ -146,7 +146,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
      * This is a validation specifically created for Indiana University
      * 
      * @return  true when the asset has payments with object codes that point to different object sub type codes
-     */
+     *
     
     //TODO move it into the pre rule class.
     public boolean hasDifferentObjectSubTypes() {
@@ -160,12 +160,12 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
         String objectSubTypeCode=null;
 
-        /* Expected system parameter elements (object sub types).          
-           [BD,BF]
-           [CM,CF,CO] 
-           [UC,UF,UO]
-           [LI,LF]
-         */
+//         Expected system parameter elements (object sub types).          
+//           [BD,BF]
+//           [CM,CF,CO] 
+//           [UC,UF,UO]
+//           [LI,LF]
+//         
 
         //Comparing all the document payments rows against each other 
         for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
@@ -217,7 +217,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         }
         // If none object sub types are different, return false. 
         return false;
-    }
+    }*/
 
     /**
      * 

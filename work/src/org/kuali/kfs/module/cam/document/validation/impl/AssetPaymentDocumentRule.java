@@ -21,6 +21,7 @@ import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +44,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OriginationCodeService;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
@@ -224,13 +229,13 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         // Check for zero amounts
         if (amount.isZero()) { 
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
-            LOG.info("failing isAmountValid - zero check");
             return false;
         }
         return true;
     }
 
 
+    
     /**
      * 
      * This method returns the assetService bean

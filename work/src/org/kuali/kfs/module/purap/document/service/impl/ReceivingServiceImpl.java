@@ -458,7 +458,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             ItemType itemType = receivingItem.getItemType();
             if(!StringUtils.equalsIgnoreCase(itemType.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
                 //TODO: Chris - this method of getting the line out of po should be turned into a method that can get an item based on a combo or itemType and line
-                PurchaseOrderItem poItem = (PurchaseOrderItem) poDoc.getItem(receivingItem.getItemLineNumber().intValue() - 1);
+                PurchaseOrderItem poItem = (PurchaseOrderItem)poDoc.getItemByLineNumber(receivingItem.getItemLineNumber());
                 
                 if(ObjectUtils.isNotNull(poItem)) {
                     

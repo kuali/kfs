@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.BCConstants;
@@ -36,6 +38,10 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
     private Integer universityFiscalYear;
     
+    // passed parms
+    private String returnAnchor;
+    private String returnFormKey;
+    
     public BudgetConstructionRequestImportForm() {
         super();
         this.budgetConstructionRequestImport = new BudgetConstructionRequestImport();
@@ -43,24 +49,6 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
         this.setTitle("BC Request Import Tool");
         this.setReportMode("requestImport");
     }
-    
-    /**
-     * Gets the field delimiter
-     * 
-     * @return
-     */
-    /*public String getFieldDelimiter() {
-        return this.budgetConstructionRequestImport.getFieldDelimiter();
-    }*/
-    
-    /**
-     * Sets the field delimiter
-     * 
-     * @param fieldDelimiter
-     */
-    /*public void setFieldDelimiter(String fieldDelimiter) {
-        this.budgetConstructionRequestImport.setFieldDelimiter(fieldDelimiter);
-    }*/
     
     /**
      * Gets the file name to import
@@ -104,92 +92,39 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
     }
     
     /**
-     * Gets the text field delimiter
+     * Gets the returnAnchor attribute.
      * 
-     * @return
+     * @return Returns the returnAnchor.
      */
-    /*public String getTextFieldDelimiter() {
-        return this.budgetConstructionRequestImport.getTextFieldDelimiter();
-    }*/
+    public String getReturnAnchor() {
+        return returnAnchor;
+    }
 
     /**
-     * Sets the text field delimiter
+     * Sets the returnAnchor attribute value.
      * 
-     * @param textFieldDelimiter
+     * @param returnAnchor The returnAnchor to set.
      */
-    /*public void setTextFieldDelimiter(String textFieldDelimiter) {
-        this.budgetConstructionRequestImport.setTextFieldDelimiter(textFieldDelimiter);
-    }*/
-    
-    /**
-     * Gets Field delimiter
-     * 
-     * @return
-     */
-    /*public String getOtherFieldDelimiter() {
-        return this.budgetConstructionRequestImport.getOtherFieldDelimiter();
-    }*/
-    
-    /**
-     * Sets field delimiter
-     * 
-     * @param otherFieldDelimiter
-     */
-    /*public void setOtherFieldDelimiter(String otherFieldDelimiter) {
-        this.budgetConstructionRequestImport.setOtherFieldDelimiter(otherFieldDelimiter);
-    }*/
-    
-    /**
-     * gets text field delimiter
-     * 
-     * @return
-     */
-    /*public String getOtherTextFieldDelimiter() {
-        return this.budgetConstructionRequestImport.getOtherTextFieldDelimiter();
-    }*/
-    
-    /**
-     * Sets text field delimiter
-     * 
-     * @param otherTextFieldDelimiter
-     */
-    /*public void setOtherTextFieldDelimiter(String otherTextFieldDelimiter) {
-        this.budgetConstructionRequestImport.setOtherTextFieldDelimiter(otherTextFieldDelimiter);
-    }*/
-    
-    /**
-     * 
-     * 
-     * @return
-     */
-    /*public BudgetConstructionRequestImport getBudgetConstructionRequestImport() {
-        return budgetConstructionRequestImport;
-    }*/
+    public void setReturnAnchor(String returnAnchor) {
+        this.returnAnchor = returnAnchor;
+    }
 
     /**
+     * Gets the returnFormKey attribute.
      * 
-     * 
-     * @param budgetConstructionRequestImport
+     * @return Returns the returnFormKey.
      */
-    /*public void setBudgetConstructionRequestImport(BudgetConstructionRequestImport budgetConstructionRequestImport) {
-        this.budgetConstructionRequestImport = budgetConstructionRequestImport;
-    }*/
-    
+    public String getReturnFormKey() {
+        return returnFormKey;
+    }
+
     /**
-     * Sets the universityFiscalYear attribute value.
+     * Sets the returnFormKey attribute value.
      * 
-     * @param universityFiscalYear The universityFiscalYear to set.
+     * @param returnFormKey The returnFormKey to set.
      */
-    /*public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }*/
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    /*public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }*/
+    public void setReturnFormKey(String returnFormKey) {
+        this.returnFormKey = returnFormKey;
+    }
 
 }

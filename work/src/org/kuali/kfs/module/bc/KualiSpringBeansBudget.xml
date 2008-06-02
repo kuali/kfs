@@ -703,6 +703,15 @@
 		<property name="budgetDocumentService">
 			<ref bean="budgetDocumentService" />
 		</property>
+		<property name="laborModuleService">
+			<ref bean="laborModuleService" />
+		</property>
+		<property name="budgetParameterService">
+			<ref bean="budgetParameterService" />
+		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
 		<property name="importRequestDao">
 			<ref bean="importRequestDao" />
 		</property>					

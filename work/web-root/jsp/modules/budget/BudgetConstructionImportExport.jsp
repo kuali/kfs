@@ -29,8 +29,12 @@
     <!-- kul:tab tabTitle="Select File to Import" defaultOpen="false" tabErrorKey="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}"-->
     	<!-- div class="tab-container" align=center-->
 		    <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
+		    
 		    <html:hidden name="KualiForm" property="universityFiscalYear" />
 		    <html:hidden name="KualiForm" property="reportMode" />
+		    <html:hidden property="returnAnchor" />
+            <html:hidden property="returnFormKey" />
+            
 		    	<c:if test="${KualiForm.reportMode == 'requestImport'}">  
 					<tr>
 			        	<th class="grid" align="right" colspan="1"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.fileName}" noColon="false" /></th>

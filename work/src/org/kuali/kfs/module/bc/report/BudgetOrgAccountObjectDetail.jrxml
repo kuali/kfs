@@ -119,10 +119,11 @@
 	<field name="financialObjectName" class="java.lang.String"/>
 	<field name="subAccountNumber" class="java.lang.String"/>
 	<field name="financialSubObjectCode" class="java.lang.String"/>
+	<field name="pageBreak" class="java.lang.String"/>
 
 
-		<group  name="SubFundGroup" isStartNewPage="true" >
-			<groupExpression><![CDATA[$F{subFundGroupCode}]]></groupExpression>
+		<group  name="PageBreakGroup" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{pageBreak}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

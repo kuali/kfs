@@ -56,6 +56,8 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private String financialLevelSortCode;
     private String financialObjectCode;
     private String financialSubObjectCode;
+    // page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
+    private String pageBreak;
    
     
     // Body parts
@@ -1139,6 +1141,14 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+    public String getPageBreak() {
+        return pageBreak;
+    }
+
+    public void setPageBreak(String pageBreak) {
+        this.pageBreak = pageBreak;
     }
 
 }

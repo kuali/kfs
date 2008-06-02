@@ -77,12 +77,12 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         
 
-        // 
-        List listForCalculateObject = deleteDuplicated((List) accountObjectDetailList, 1);
-        List listForCalculateLevel = deleteDuplicated((List) accountObjectDetailList, 2);
-        List listForCalculateGexpAndType = deleteDuplicated((List) accountObjectDetailList, 3);
-        List listForCalculateAccountTotal = deleteDuplicated((List) accountObjectDetailList, 4);
-        List listForCalculateSubFundTotal = deleteDuplicated((List) accountObjectDetailList, 5);
+        // BudgetConstructionReportHelper.deleteDuplicated((List) positionFundingDetailList, fieldsForSubFundTotal())
+        List listForCalculateObject = BudgetConstructionReportHelper.deleteDuplicated((List) accountObjectDetailList, fieldsForObject());
+        List listForCalculateLevel = BudgetConstructionReportHelper.deleteDuplicated((List) accountObjectDetailList, fieldsForLevel());
+        List listForCalculateGexpAndType = BudgetConstructionReportHelper.deleteDuplicated((List) accountObjectDetailList, fieldsForGexpAndType());
+        List listForCalculateAccountTotal = BudgetConstructionReportHelper.deleteDuplicated((List) accountObjectDetailList, fieldsForAccountTotal());
+        List listForCalculateSubFundTotal = BudgetConstructionReportHelper.deleteDuplicated((List) accountObjectDetailList, fieldsForSubFundTotal());
 
         // Calculate Total Section
         List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalObjectList;
@@ -196,6 +196,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         orgAccountObjectDetailReportEntry.setIncomeExpenseCode(accountBalance.getIncomeExpenseCode());
         //orgAccountObjectDetailReportEntry.setFinancialConsolidationSortCode(accountBalance.getFinancialConsolidationSortCode());
         orgAccountObjectDetailReportEntry.setFinancialLevelSortCode(accountBalance.getFinancialLevelSortCode());
+        
+        // page break
+        
+        //page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
+        orgAccountObjectDetailReportEntry.setPageBreak(accountBalance.getOrganizationChartOfAccountsCode() + accountBalance.getOrganizationCode() + accountBalance.getSubFundGroupCode());
     }
 
     
@@ -256,7 +261,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailSubFundTotalList) {
         
         for (BudgetConstructionOrgAccountObjectDetailReportTotal objectTotal : accountObjectDetailTotalObjectList) {
-            if (isSameAccountObjectDetailEntryForObject(accountBalance, objectTotal.getBudgetConstructionAccountBalance())) {
+            if (BudgetConstructionReportHelper.isSameEntry(accountBalance, objectTotal.getBudgetConstructionAccountBalance(), fieldsForObject())) {
                 orgObjectSummaryReportEntry.setTotalObjectDescription(accountBalance.getFinancialObject().getFinancialObjectCodeName());
 
                 // The total part shouldn't have null value, so just checking '0'
@@ -282,7 +287,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
         
         for (BudgetConstructionOrgAccountObjectDetailReportTotal levelTotal : accountObjectDetailTotalLevelList) {
-            if (isSameAccountObjectDetailEntryForLevel(accountBalance, levelTotal.getBudgetConstructionAccountBalance())) {
+            if (BudgetConstructionReportHelper.isSameEntry(accountBalance, levelTotal.getBudgetConstructionAccountBalance(), fieldsForLevel())) {
                 orgObjectSummaryReportEntry.setTotalLevelDescription(accountBalance.getFinancialObjectLevel().getFinancialObjectLevelName());
 
                 // The total part shouldn't have null value, so just checking '0'
@@ -310,7 +315,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         
 
         for (BudgetConstructionOrgAccountObjectDetailReportTotal gexpAndTypeTotal : accountObjectDetailTotalGexpAndTypeList) {
-            if (isSameAccountObjectDetailEntryForGexpAndType(accountBalance, gexpAndTypeTotal.getBudgetConstructionAccountBalance())) {
+            if (BudgetConstructionReportHelper.isSameEntry(accountBalance, gexpAndTypeTotal.getBudgetConstructionAccountBalance(), fieldsForGexpAndType())) {
 
                 orgObjectSummaryReportEntry.setGrossFinancialBeginningBalanceLineAmount(gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setGrossAccountLineAnnualBalanceAmount(gexpAndTypeTotal.getGrossAccountLineAnnualBalanceAmount());
@@ -346,7 +351,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         for (BudgetConstructionOrgAccountObjectDetailReportTotal accountTotal : accountObjectDetailAccountTotalList) {
-            if (isSameAccountObjectDetailEntryForAccountTotal(accountBalance, accountTotal.getBudgetConstructionAccountBalance())) {
+            if (BudgetConstructionReportHelper.isSameEntry(accountBalance, accountTotal.getBudgetConstructionAccountBalance(), fieldsForAccountTotal())) {
                 
                 orgObjectSummaryReportEntry.setAccountRevenueFinancialBeginningBalanceLineAmount(accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setAccountRevenueAccountLineAnnualBalanceAmount(accountTotal.getAccountRevenueAccountLineAnnualBalanceAmount());
@@ -369,7 +374,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         
         for (BudgetConstructionOrgAccountObjectDetailReportTotal subFundTotal : accountObjectDetailSubFundTotalList) {
-            if (isSameAccountObjectDetailEntryForSubFundTotal(accountBalance, subFundTotal.getBudgetConstructionAccountBalance())) {
+            if (BudgetConstructionReportHelper.isSameEntry(accountBalance, subFundTotal.getBudgetConstructionAccountBalance(), fieldsForSubFundTotal())) {
                 
                 orgObjectSummaryReportEntry.setSubFundRevenueFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setSubFundRevenueAccountLineAnnualBalanceAmount(subFundTotal.getSubFundRevenueAccountLineAnnualBalanceAmount());
@@ -411,7 +416,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcosListEntry : bcosList) {
-                if (isSameAccountObjectDetailEntryForObject(simpleBcosEntry, bcosListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForObject())) {
                     totalObjectFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     totalObjectAccountLineAnnualBalanceAmount += new Integer(bcosListEntry.getAccountLineAnnualBalanceAmount().intValue());
                     totalObjectPositionCsfLeaveFteQuantity = totalObjectPositionCsfLeaveFteQuantity.add(bcosListEntry.getPositionCsfLeaveFteQuantity());
@@ -467,7 +472,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcosListEntry : bcosList) {
-                if (isSameAccountObjectDetailEntryForLevel(simpleBcosEntry, bcosListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForLevel())) {
                     totalLevelFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     totalLevelAccountLineAnnualBalanceAmount += new Integer(bcosListEntry.getAccountLineAnnualBalanceAmount().intValue());
                     totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity.add(bcosListEntry.getPositionCsfLeaveFteQuantity());
@@ -524,7 +529,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         for (BudgetConstructionAccountBalance simpleBcosEntry : simpleList) {
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcabListEntry : bcabList) {
-                if (isSameAccountObjectDetailEntryForGexpAndType(simpleBcosEntry, bcabListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcabListEntry, fieldsForGexpAndType())) {
 
                     typeFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     typeAccountLineAnnualBalanceAmount += new Integer(bcabListEntry.getAccountLineAnnualBalanceAmount().intValue());
@@ -598,7 +603,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         for (BudgetConstructionAccountBalance simpleBcosEntry : simpleList) {
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcabListEntry : bcabList) {
-                if (isSameAccountObjectDetailEntryForAccountTotal(simpleBcosEntry, bcabListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcabListEntry, fieldsForAccountTotal())) {
 
                     if (bcabListEntry.getIncomeExpenseCode().equals("A")) {
                         accountRevenueFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
@@ -679,7 +684,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         for (BudgetConstructionAccountBalance simpleBcosEntry : simpleList) {
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcabListEntry : bcabList) {
-                if (isSameAccountObjectDetailEntryForAccountTotal(simpleBcosEntry, bcabListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcabListEntry, fieldsForSubFundTotal())) {
 
                     if (bcabListEntry.getIncomeExpenseCode().equals("A")) {
                         subFundRevenueFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
@@ -737,131 +742,64 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     
     
     
+    /**
+     * builds list of fields for comparing entry of Object
+     * @return List<String>
+     */
+    private List<String> fieldsForObject() {
+        List<String> fieldList = new ArrayList();
+        fieldList.addAll(fieldsForLevel());
+        fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        fieldList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        return fieldList;
+    }    
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    private boolean isSameAccountObjectDetailEntryForObject(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (isSameAccountObjectDetailEntryForLevel(firstBcab, secondBcab) && firstBcab.getFinancialObjectCode().equals(secondBcab.getFinancialObjectCode()) && firstBcab.getFinancialSubObjectCode().equals(secondBcab.getFinancialSubObjectCode())) {
-            return true;
-        }
-        else
-            return false;
-    }
-    
-    
-    
-    private boolean isSameAccountObjectDetailEntryForLevel(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (isSameAccountObjectDetailEntryForGexpAndType(firstBcab, secondBcab) && firstBcab.getFinancialLevelSortCode().equals(secondBcab.getFinancialLevelSortCode())) {
-            return true;
-        }
-        else
-            return false;
-    }
-
-    private boolean isSameAccountObjectDetailEntryForGexpAndType(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (isSameAccountObjectDetailEntryForAccountTotal(firstBcab, secondBcab) && firstBcab.getIncomeExpenseCode().equals(secondBcab.getIncomeExpenseCode())) {
-            return true;
-        }
-
-        else
-            return false;
-    }
-    
-    private boolean isSameAccountObjectDetailEntryForAccountTotal(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (firstBcab.getChartOfAccountsCode().equals(secondBcab.getChartOfAccountsCode()) && firstBcab.getAccountNumber().equals(secondBcab.getAccountNumber()) && firstBcab.getSubAccountNumber().equals(secondBcab.getSubAccountNumber())) {
-            return true;
-        }
-
-        else
-            return false;
-    }
-    
-    private boolean isSameAccountObjectDetailEntryForSubFundTotal(BudgetConstructionAccountBalance firstBcab, BudgetConstructionAccountBalance secondBcab) {
-        if (firstBcab.getOrganizationChartOfAccountsCode().equals(secondBcab.getOrganizationChartOfAccountsCode()) && firstBcab.getOrganizationCode().equals(secondBcab.getOrganizationCode()) && firstBcab.getSubFundGroupCode().equals(secondBcab.getSubFundGroupCode())) {
-            return true;
-        }
-
-        else
-            return false;
-    }
+    /**
+     * builds list of fields for comparing entry of Level
+     * @return List<String>
+     */
+    private List<String> fieldsForLevel() {
+        List<String> fieldList = new ArrayList();
+        fieldList.addAll(fieldsForGexpAndType());
+        fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
+        return fieldList;
+    }    
 
     /**
-     * Deletes duplicated entry from list
-     * 
-     * @param List list
-     * @return a list that all duplicated entries were deleted
+     * builds list of fields for comparing entry of GexpAndType
+     * @return List<String>
      */
-    private List deleteDuplicated(List list, int mode) {
-
-        // mode 1 is for getting a list of level
-        // mode 2 is for getting a list of cons
-        // mode 3 is for getting a list of gexp and type
-        // mode 4 is for getting a list of total
-
-        int count = 0;
-        BudgetConstructionAccountBalance accountObjectDetailEntry = null;
-        BudgetConstructionAccountBalance accountObjectDetailEntryAux = null;
-        List returnList = new ArrayList();
-        if ((list != null) && (list.size() > 0)) {
-            accountObjectDetailEntry = (BudgetConstructionAccountBalance) list.get(count);
-            accountObjectDetailEntryAux = (BudgetConstructionAccountBalance) list.get(count);
-            returnList.add(accountObjectDetailEntry);
-            count++;
-            while (count < list.size()) {
-                accountObjectDetailEntry = (BudgetConstructionAccountBalance) list.get(count);
-                switch (mode) {
-                    case 1: {
-                        if (!isSameAccountObjectDetailEntryForObject(accountObjectDetailEntry, accountObjectDetailEntryAux)) {
-                            returnList.add(accountObjectDetailEntry);
-                            accountObjectDetailEntryAux = accountObjectDetailEntry;
-                        }
-                    }
-                    case 2: {
-                        if (!isSameAccountObjectDetailEntryForLevel(accountObjectDetailEntry, accountObjectDetailEntryAux)) {
-                            returnList.add(accountObjectDetailEntry);
-                            accountObjectDetailEntryAux = accountObjectDetailEntry;
-                        }
-                    }
-                    case 3: {
-                        if (!isSameAccountObjectDetailEntryForGexpAndType(accountObjectDetailEntry, accountObjectDetailEntryAux)) {
-                            returnList.add(accountObjectDetailEntry);
-                            accountObjectDetailEntryAux = accountObjectDetailEntry;
-                        }
-                    }
-                    case 4: {
-                        if (!isSameAccountObjectDetailEntryForAccountTotal(accountObjectDetailEntry, accountObjectDetailEntryAux)) {
-                            returnList.add(accountObjectDetailEntry);
-                            accountObjectDetailEntryAux = accountObjectDetailEntry;
-                        }
-                    }
-                    case 5: {
-                        if (!isSameAccountObjectDetailEntryForSubFundTotal(accountObjectDetailEntry, accountObjectDetailEntryAux)) {
-                            returnList.add(accountObjectDetailEntry);
-                            accountObjectDetailEntryAux = accountObjectDetailEntry;
-                        }
-                    }
-                }
-                count++;
-            }
-        }
-        return returnList;
+    private List<String> fieldsForGexpAndType() {
+        List<String> fieldList = new ArrayList();
+        fieldList.addAll(fieldsForAccountTotal());
+        fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
+        return fieldList;
+    }
+    
+    /**
+     * builds list of fields for comparing entry of AccountTotal
+     * @return List<String>
+     */
+    private List<String> fieldsForAccountTotal() {
+        List<String> fieldList = new ArrayList();
+        //fieldList.addAll(fieldsForSubFundTotal());
+        fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        fieldList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        fieldList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        return fieldList;
+    }
+    
+    /**
+     * builds list of fields for comparing entry of SubFundTotal total
+     * @return List<String>
+     */
+    private List<String> fieldsForSubFundTotal() {
+        List<String> fieldList = new ArrayList();
+        
+        fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+        fieldList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
+        return fieldList;
     }
 
     

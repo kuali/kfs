@@ -231,6 +231,7 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetLocationGlobal {
+        public static final String ASSET_LOCATION_GLOBAL_DETAILS = "assetLocationGlobalDetails";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String CAMPUS_CODE = "campusCode";
         public static final String BUILDING_CODE = "buildingCode";

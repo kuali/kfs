@@ -225,12 +225,19 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
             Collection<Asset> tagNumbers = getBoService().findMatching(Asset.class, primaryKey);
 
+            int index = 0;
             for (Asset asset : tagNumbers) {
                 if (asset.getCampusTagNumber().equals(assetLocationGlobalDetail.getCampusTagNumber())) {
-                    success = false;
+                    String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetLocationGlobal.ASSET_LOCATION_GLOBAL_DETAILS + "[" + index + "]";
+                    GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { assetLocationGlobalDetail.getCampusTagNumber(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+
+                    success = false;
                     break;
                 }
+                
+                index++;
             }
         }
 

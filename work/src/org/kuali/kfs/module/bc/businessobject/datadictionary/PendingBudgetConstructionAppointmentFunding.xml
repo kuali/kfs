@@ -39,7 +39,9 @@
         <ref bean="PendingBudgetConstructionAppointmentFunding-positionSalaryChangeIndicator" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-subAccountNumber" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-universityFiscalYear" />
-        <ref bean="PendingBudgetConstructionAppointmentFunding-versionNumber" />        
+        <ref bean="PendingBudgetConstructionAppointmentFunding-versionNumber" /> 
+        <ref bean="PendingBudgetConstructionAppointmentFunding-adjustmentMeasurement" />
+        <ref bean="PendingBudgetConstructionAppointmentFunding-adjustmentAmount" />       
       </list>
     </property>
   </bean>
@@ -455,6 +457,44 @@
   <bean id="PendingBudgetConstructionAppointmentFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
+  <bean id="PendingBudgetConstructionAppointmentFunding-adjustmentAmount" parent="PendingBudgetConstructionAppointmentFunding-adjustmentAmount-parentBean" />
+
+  <bean id="PendingBudgetConstructionAppointmentFunding-adjustmentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adjustmentAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Adjustment Amount" />
+    <property name="shortLabel" value="Adjustment Amount" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="adjustmentAmount" />
+    <property name="description" value="adjustmentAmount description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionAppointmentFunding-adjustmentMeasurement" parent="PendingBudgetConstructionAppointmentFunding-adjustmentMeasurement-parentBean" />
+
+  <bean id="PendingBudgetConstructionAppointmentFunding-adjustmentMeasurement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adjustmentMeasurement" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Adjustment" />
+    <property name="shortLabel" value="Adjustment" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+	<property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.SalaryAdjustmentMeasurementValueFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="adjustmentMeasurement" />
+    <property name="description" value="adjustmentMeasurement description..." />
+  </bean>  
+      
 <!-- Business Object Inquiry Definition -->
 
 

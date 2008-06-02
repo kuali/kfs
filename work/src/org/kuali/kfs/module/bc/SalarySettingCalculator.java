@@ -18,7 +18,9 @@ package org.kuali.module.budget.util;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
@@ -239,5 +241,25 @@ public class SalarySettingCalculator {
             }
         }
         return csfFullTimeEmploymentQuantityTotal;
+    }
+
+    /**
+     * calculate the changing percent between the requested amount and the base amount
+     * 
+     * @param baseAmount the given base amount
+     * @param requestedAmount the requested amount
+     * @return the changing percent between the requested amount and the base amount if both of amounts are numbers; otherwise, return null 
+     */
+    public static KualiDecimal getPercentChange(KualiInteger baseAmount, KualiInteger requestedAmount) {
+        KualiDecimal percentChange = null;
+
+        if (requestedAmount != null && baseAmount != null && baseAmount.isNonZero()) {
+            KualiInteger difference = requestedAmount.subtract(baseAmount);
+            BigDecimal percentChangeAsBigDecimal = difference.multiply(KFSConstants.ONE_HUNDRED).divide(baseAmount);
+
+            percentChange = new KualiDecimal(percentChangeAsBigDecimal);
+        }
+
+        return percentChange;
     }
 }

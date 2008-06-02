@@ -16,7 +16,6 @@
 
 package org.kuali.module.budget.bo;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,6 +28,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.util.SalarySettingCalculator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -36,16 +36,10 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-//import org.kuali.module.labor.bo.LaborObject;
-//import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.module.integration.service.LaborModuleService;
 
-
-/**
- * 
- */
 public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessObjectBase {
 
     private String documentNumber;
@@ -69,7 +63,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private BalanceTyp balanceType;
     private ObjectType objectType;
 
-    private List budgetConstructionMonthly;
+    private List<BudgetConstructionMonthly> budgetConstructionMonthly;
 
     // TODO These are only used by PBGLExpenditureLines so should probably put these in an extension class
     // These are not defined under ojb since not all expenditure line objects have these
@@ -84,9 +78,9 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * Default constructor.
      */
     public PendingBudgetConstructionGeneralLedger() {
-        setBudgetConstructionMonthly(new TypedArrayList(BudgetConstructionMonthly.class));
-        setPercentChange(null);
-
+        super();
+        
+        budgetConstructionMonthly = new TypedArrayList(BudgetConstructionMonthly.class);
     }
 
     /**
@@ -95,23 +89,16 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return Returns percentChange
      */
     public KualiDecimal getPercentChange() {
-
-        if (financialBeginningBalanceLineAmount == null || financialBeginningBalanceLineAmount.isZero()) {
-            setPercentChange(null);
-        }
-        else {
-            BigDecimal diffRslt = (getAccountLineAnnualBalanceAmount().bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
-            BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)), KualiDecimal.ROUND_BEHAVIOR);
-            setPercentChange(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)));
-        }
-        return percentChange;
+        KualiInteger baseAmount = this.getFinancialBeginningBalanceLineAmount();
+        KualiInteger requestedAmount = this.getAccountLineAnnualBalanceAmount();
+        
+        return SalarySettingCalculator.getPercentChange(baseAmount, requestedAmount);
     }
 
     /**
      * Sets the percentChange attribute value.
      * 
      * @param percentChange The percentChange to set.
-     * @deprecated
      */
     public void setPercentChange(KualiDecimal percentChange) {
         this.percentChange = percentChange;

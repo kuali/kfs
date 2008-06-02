@@ -109,6 +109,12 @@
                     p:template="vendorDetailAssignedIdentifier" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" />
+                <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" />
+            </list>
+          </property>
         </bean>
       </list>
     </property>

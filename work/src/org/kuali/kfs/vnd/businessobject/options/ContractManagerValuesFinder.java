@@ -44,7 +44,7 @@ public class ContractManagerValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ContractManager ContractManager = (ContractManager) iter.next();
-            labels.add(new KeyLabelPair(ContractManager.getContractManagerCode(), ContractManager.getContractManagerName()));
+            labels.add(new KeyLabelPair(ContractManager.getContractManagerCode().toString(), ContractManager.getContractManagerName()));
         }
 
         return labels;

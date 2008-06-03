@@ -38,9 +38,7 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
     private Integer universityFiscalYear;
     
-    // passed parms
-    private String returnAnchor;
-    private String returnFormKey;
+    
     
     public BudgetConstructionRequestImportForm() {
         super();
@@ -89,42 +87,6 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
     
     public String getHtmlFormAction() {
         return "budgetBudgetConstructionRequestImport";
-    }
-    
-    /**
-     * Gets the returnAnchor attribute.
-     * 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the returnFormKey attribute.
-     * 
-     * @return Returns the returnFormKey.
-     */
-    public String getReturnFormKey() {
-        return returnFormKey;
-    }
-
-    /**
-     * Sets the returnFormKey attribute value.
-     * 
-     * @param returnFormKey The returnFormKey to set.
-     */
-    public void setReturnFormKey(String returnFormKey) {
-        this.returnFormKey = returnFormKey;
     }
 
 }

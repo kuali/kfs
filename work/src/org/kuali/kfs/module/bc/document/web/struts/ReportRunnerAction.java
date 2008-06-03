@@ -43,6 +43,7 @@ import org.kuali.kfs.KFSConstants.ReportGeneration;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ReportGenerationService;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BudgetConstructionReportMode;
 import org.kuali.module.budget.service.BudgetConstructionAccountMonthlyDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
 import org.kuali.module.budget.web.struts.form.ReportRunnerForm;
@@ -154,24 +155,45 @@ public class ReportRunnerAction extends KualiAction {
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
             }
             case 3:{
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                baos.write("we are running report: ".getBytes());
-                baos.write(reportModeName.getBytes());
-                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+                String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+                Properties parameters = new Properties();
+                parameters.put("universityFiscalYear", reportRunnerForm.getUniversityFiscalYear().toString());
+                parameters.put("chartOfAccountsCode", reportRunnerForm.getChartOfAccountsCode());
+                parameters.put("accountNumber", reportRunnerForm.getAccountNumber());
+                parameters.put("subAccountNumber", reportRunnerForm.getSubAccountNumber());
+                parameters.put("reportMode", BudgetConstructionReportMode.ACCOUNT_DUMP.reportModeName);
+                parameters.put("methodToCall", "start");
+                String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportDump.do", parameters);
+                
+                return new ActionForward(lookupUrl, true);
             }
                 
             case 4: {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                baos.write("we are running report: ".getBytes());
-                baos.write(reportModeName.getBytes());
-                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+                String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+                Properties parameters = new Properties();
+                parameters.put("universityFiscalYear", reportRunnerForm.getUniversityFiscalYear().toString());
+                parameters.put("chartOfAccountsCode", reportRunnerForm.getChartOfAccountsCode());
+                parameters.put("accountNumber", reportRunnerForm.getAccountNumber());
+                parameters.put("subAccountNumber", reportRunnerForm.getSubAccountNumber());
+                parameters.put("reportMode", BudgetConstructionReportMode.FUNDING_DUMP.reportModeName);
+                parameters.put("methodToCall", "start");
+                String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportDump.do", parameters);
+
+                return new ActionForward(lookupUrl, true);
             }
                 
             case 5: {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                baos.write("we are running report: ".getBytes());
-                baos.write(reportModeName.getBytes());
-                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "tgary.txt");
+                String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+                Properties parameters = new Properties();
+                parameters.put("universityFiscalYear", reportRunnerForm.getUniversityFiscalYear().toString());
+                parameters.put("chartOfAccountsCode", reportRunnerForm.getChartOfAccountsCode());
+                parameters.put("accountNumber", reportRunnerForm.getAccountNumber());
+                parameters.put("subAccountNumber", reportRunnerForm.getSubAccountNumber());
+                parameters.put("reportMode", BudgetConstructionReportMode.MONTHLY_DUMP.reportModeName);
+                parameters.put("methodToCall", "start");
+                String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportDump.do", parameters);
+
+                return new ActionForward(lookupUrl, true);
             }
                 
         }

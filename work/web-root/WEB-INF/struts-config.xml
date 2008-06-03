@@ -282,6 +282,7 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/budget/{1}.jsp" /> 
             <forward name="import_export" path="/jsp/modules/budget/BudgetConstructionImportExport.jsp"/>
+            <forward name="report_dump" path="/jsp/modules/budget/BudgetConstructionImportExport.jsp"/>
         </action> 
 
         <action path="/researchBudget*" name="BudgetForm" input="/jsp/modules/research/budget/Budget{1}.jsp" type="org.kuali.module.kra.budget.web.struts.action.Budget{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

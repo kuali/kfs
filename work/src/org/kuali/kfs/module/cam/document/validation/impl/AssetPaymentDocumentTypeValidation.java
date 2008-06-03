@@ -33,18 +33,18 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 
 public class AssetPaymentDocumentTypeValidation extends GenericValidation {
-    private AccountingLine accountingLine;
+    private AccountingLine accountingLineForValidation;
 
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
+    public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
+        this.accountingLineForValidation = accountingLineForValidation;
     }
 
     public boolean validate(AttributedDocumentEvent event) {
-        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLine();
+        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
         String label;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {

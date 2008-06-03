@@ -31,10 +31,10 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 
 public class AssetPaymentOrginCodeValidation extends GenericValidation {
 
-    private AccountingLine accountingLine;
+    private AccountingLine accountingLineForValidation;
 
     public boolean validate(AttributedDocumentEvent event) {
-        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLine();
+        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode())) {
             if (SpringContext.getBean(OriginationCodeService.class).getByPrimaryKey(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) == null) {
@@ -46,12 +46,12 @@ public class AssetPaymentOrginCodeValidation extends GenericValidation {
         return result;
     }
 
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
+    public void setAccountingLineForValidation(AccountingLine accountingLine) {
+        this.accountingLineForValidation = accountingLine;
     }
 
 

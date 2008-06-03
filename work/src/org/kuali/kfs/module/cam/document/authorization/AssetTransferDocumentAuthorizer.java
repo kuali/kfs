@@ -46,17 +46,8 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
         DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
-        boolean transferable = true;
         if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
-            transferable &= false;
             GlobalVariables.getErrorMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
-        }
-        if (transferable && SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
-            transferable &= false;
-            GlobalVariables.getErrorMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING);
-        }
-        // Disable the buttons, if not transferable
-        if (!transferable) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);

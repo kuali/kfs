@@ -37,10 +37,10 @@ import org.kuali.module.gl.bo.UniversityDate;
 
 public class AssetPaymentPostingDateValidation extends GenericValidation {
 
-    private AccountingLine accountingLine;
+    private AccountingLine accountingLineForValidation;
 
     public boolean validate(AttributedDocumentEvent event) {
-        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLine();
+        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         Calendar documentPostedDate = SpringContext.getBean(DateTimeService.class).getCalendar(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
 
         boolean result = true;
@@ -62,12 +62,12 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
         return result;
     }
 
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
+    public void setAccountingLineForValidation(AccountingLine accountingLine) {
+        this.accountingLineForValidation = accountingLine;
     }
 
 

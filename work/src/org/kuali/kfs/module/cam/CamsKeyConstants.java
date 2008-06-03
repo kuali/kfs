@@ -73,7 +73,6 @@ public class CamsKeyConstants {
     }
 
     public static class Transfer {
-        public static final String ERROR_ASSET_DOCS_PENDING = "error.asset.pending.docs";
         public static final String ERROR_ASSET_RETIRED_NOTRANSFER = "error.asset.retired.notransfer";
         public static final String ERROR_CAMPUS_PLANT_FUND_UNKNOWN = "error.campus.plant.fund.unknown";
         public static final String ERROR_ORG_PLANT_FUND_UNKNOWN = "error.org.plant.fund.unknown";

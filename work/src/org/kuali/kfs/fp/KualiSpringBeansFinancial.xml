@@ -392,7 +392,7 @@
 	<bean id="cashManagementDao" class="org.kuali.module.financial.dao.ojb.CashManagementDaoOjb" parent="platformAwareDao" />
 
 	<bean id="disbursementVoucherDao" class="org.kuali.module.financial.dao.ojb.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
-		
+	
 	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.financial.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
 		<property name="documentService"><ref bean="documentService" /></property>
@@ -413,5 +413,6 @@
 	<import resource="document/validation/configuration/TransferOfFundsValidation.xml" />
 	<import resource="document/validation/configuration/AuxiliaryVoucherValidation.xml" />
 	<import resource="document/validation/configuration/CashReceiptValidation.xml" />
+	<import resource="document/validation/configuration/AssetPaymentValidation.xml" />
 	
 </beans>

@@ -25,10 +25,10 @@ import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 
 public class AssetPaymentZeroAmountValidation extends GenericValidation {
-    private AccountingLine accountingLine;
+    private AccountingLine accountingLineForValidation;
 
     public boolean validate(AttributedDocumentEvent event) {
-        KualiDecimal amount = accountingLine.getAmount();
+        KualiDecimal amount = accountingLineForValidation.getAmount();
         if (amount.isZero()) {
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
@@ -36,12 +36,12 @@ public class AssetPaymentZeroAmountValidation extends GenericValidation {
         return true;
     }
 
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
+    public void setAccountingLineForValidation(AccountingLine accountingLine) {
+        this.accountingLineForValidation = accountingLine;
     }
 
 }

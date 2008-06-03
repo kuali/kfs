@@ -13,7 +13,7 @@
     <property name="description" value="Asset Payment Document" />
     <property name="documentTypeName" value="AssetPaymentDocument" />
     <property name="documentClass" value="org.kuali.module.cams.document.AssetPaymentDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetPaymentDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.cams.rules.AssetPaymentDocumentPreRules" />    
     <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.AssetPaymentDocumentAuthorizer" />
     <property name="documentTypeCode" value="MPAY" />
@@ -40,6 +40,7 @@
         <ref bean="AssetPaymentDocument-buildingCode" />
       </list>
     </property>
+    <property name="validationMap" ref="AssetPaymentDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -72,5 +73,47 @@
   <bean id="AssetPaymentDocument-buildingCode" parent="AssetPaymentDocument-buildingCode-parentBean" />
 
   <bean id="AssetPaymentDocument-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
+  </bean>
+  <!-- Validations -->
+  
+  <bean id="AssetPaymentDocument-validations" parent="AssetPaymentDocument-validations-parentBean" />
+  
+  <bean id="AssetPaymentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedSaveDocumentEvent</value></key>
+				<value>AssetPayment-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>AssetPayment-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>AssetPayment-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>AssetPayment-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>AssetPayment-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>AssetPayment-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>AssetPayment-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>AssetPayment-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
   </bean>
 </beans>

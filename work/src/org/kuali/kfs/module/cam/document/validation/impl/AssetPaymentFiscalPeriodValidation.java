@@ -33,19 +33,19 @@ import org.kuali.module.gl.bo.UniversityDate;
 
 public class AssetPaymentFiscalPeriodValidation extends GenericValidation {
 
-    private AccountingLine accountingLine;
+    private AccountingLine accountingLineForValidation;
 
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
+    public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
+        this.accountingLineForValidation = accountingLineForValidation;
     }
 
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLine();
+        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         Map<String, Object> keyToFind = new HashMap<String, Object>();
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, assetPaymentDetail.getFinancialDocumentPostingYear());
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, assetPaymentDetail.getFinancialDocumentPostingPeriodCode());

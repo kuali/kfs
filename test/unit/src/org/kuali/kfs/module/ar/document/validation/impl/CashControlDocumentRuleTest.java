@@ -42,10 +42,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
 @ConfigureContext(session = KHUNTLEY)
 public class CashControlDocumentRuleTest extends KualiTestBase {
 
-    CashControlDocumentRule rule;
-    CashControlDocument document;
-    DocumentService documentService;
-    PaymentApplicationDocument appDoc;
+    private CashControlDocumentRule rule;
+    private CashControlDocument document;
+    private DocumentService documentService;
+    private PaymentApplicationDocument appDoc;
 
     private static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
     private static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-1);

@@ -24,7 +24,7 @@ import org.kuali.test.ConfigureContext;
 @ConfigureContext(session = KHUNTLEY)
 public class CustomerTypeRuleTest extends MaintenanceRuleTestBase {
 
-    CustomerType customerType;
+    private CustomerType customerType;
 
     private static String CUSTOMER_TYPE_CODE = "XY";    
     private static String CUSTOMER_TYPE_DESC_FEDERAL = "Federal";

@@ -75,6 +75,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     public boolean checkCustomerHasAddress(Customer newCustomer) {
         boolean success = true;
         if (newCustomer.getCustomerAddresses().isEmpty()) {
+            success = false;
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArConstants.CustomerConstants.ERROR_AT_LEAST_ONE_ADDRESS);
         }
         return success;
@@ -168,6 +169,12 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                     hasPrimaryAddress = true;
                 }
             }
+        }
+
+        // customer must have at least one primary address
+        if (!hasPrimaryAddress) {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
         }
         return isValid;
     }

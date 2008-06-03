@@ -152,7 +152,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         // clear existing entries
         deleteExistingAssetGlobalDetailRecords(assetGlobal);
         if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
-            assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber());
+          //  assetGlobal.getAssetHeader().setCapitalAssetNumber(assetSharedDetails.get(0).getAssetGlobalUniqueDetails().get(0).getCapitalAssetNumber());
 
             for (AssetGlobalDetail locationDetail : assetSharedDetails) {
                 List<AssetGlobalDetail> assetGlobalUniqueDetails = locationDetail.getAssetGlobalUniqueDetails();

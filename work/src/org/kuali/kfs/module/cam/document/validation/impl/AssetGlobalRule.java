@@ -40,7 +40,6 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
@@ -131,19 +130,21 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private boolean checkReferenceExists(AssetHeader assetHeader) {
+    //TODO: Is this needed any more or not (we are deleting assetHeader)?
+    private boolean checkReferenceExists(AssetGlobal assetGlobal) {
         boolean valid = true;
-        if (StringUtils.isNotBlank(assetHeader.getOrganizationOwnerChartOfAccountsCode())) {
-            assetHeader.refreshReferenceObject(CamsPropertyConstants.AssetHeader.ORGANIZATION_OWNER_CHART);
-            if (ObjectUtils.isNull(assetHeader.getOrganizationOwnerChartOfAccounts())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS, CamsKeyConstants.AssetGlobal.ERROR_OWNER_CHART_INVALID, new String[] { assetHeader.getOrganizationOwnerChartOfAccountsCode() });
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerChartOfAccountsCode())) {
+            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_CHART);
+            if (ObjectUtils.isNull(assetGlobal.getOrganizationOwnerChartOfAccounts())) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS, CamsKeyConstants.AssetGlobal.ERROR_OWNER_CHART_INVALID, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode() });
                 valid &= false;
             }
         }
-        if (StringUtils.isNotBlank(assetHeader.getOrganizationOwnerAccountNumber())) {
-            assetHeader.refreshReferenceObject(CamsPropertyConstants.AssetHeader.ORGANIZATION_OWNER_ACCOUNT);
-            if (ObjectUtils.isNull(assetHeader.getOrganizationOwnerAccount())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NUMBER_INVALID, new String[] { assetHeader.getOrganizationOwnerChartOfAccountsCode(), assetHeader.getOrganizationOwnerAccountNumber() });
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber())) {
+            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
+            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
+            if (ObjectUtils.isNull(assetGlobal.getOrganizationOwnerAccount())) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NUMBER_INVALID, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
                 valid &= false;
             }
         }
@@ -179,7 +180,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
             if (success &= checkRequiredFieldExists(assetGlobal)) {
-            AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+                AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
                 success = validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
         }
@@ -201,13 +202,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             // amount should be positive
             if (assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
                 success = false;
-            }
-            // if financial doc num is not same as current doc number, then posting date is required
-            if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() == null && StringUtils.isNotBlank(assetPaymentDetail.getExpenditureFinancialDocumentNumber()) && !assetPaymentDetail.getExpenditureFinancialDocumentNumber().equalsIgnoreCase(assetGlobal.getDocumentNumber())) {
-                success = false;
-            }
-        return success;
         }
+        // if financial doc num is not same as current doc number, then posting date is required
+        if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() == null && StringUtils.isNotBlank(assetPaymentDetail.getExpenditureFinancialDocumentNumber()) && !assetPaymentDetail.getExpenditureFinancialDocumentNumber().equalsIgnoreCase(assetGlobal.getDocumentNumber())) {
+            success = false;
+        }
+        return success;
+    }
 
     private boolean validateDocumentType(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
@@ -331,19 +332,21 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     public boolean processSaveDocument(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         AssetGlobal assetGlobal = (AssetGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+   /*
         if (!checkReferenceExists(assetGlobal.getAssetHeader())) {
             return false;
         }
+        */
         return super.processSaveDocument(document);
     }
 
     private boolean validateAccount(AssetGlobal assetGlobal) {
         boolean success = true;
-        AssetHeader assetHeader = assetGlobal.getAssetHeader();
-        assetHeader.refreshReferenceObject(CamsPropertyConstants.AssetHeader.ORGANIZATION_OWNER_ACCOUNT);
-        Account organizationOwnerAccount = assetHeader.getOrganizationOwnerAccount();
-        if (StringUtils.isNotBlank(assetHeader.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || organizationOwnerAccount.isAccountClosedIndicator() || organizationOwnerAccount.isExpired())) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetHeader.getOrganizationOwnerChartOfAccountsCode(), assetHeader.getOrganizationOwnerAccountNumber() });
+    //    AssetHeader assetHeader = assetGlobal.getAssetHeader();
+        assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
+        Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || organizationOwnerAccount.isAccountClosedIndicator() || organizationOwnerAccount.isExpired())) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;
         }
         return success;
@@ -361,7 +364,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success = false;
         }
         if (success) {
-            boolean isCapitalAsset = isCapitalStatus(assetGlobal);
+        	boolean isCapitalAsset = isCapitalStatus(assetGlobal);
             success = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetGlobalDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
         }
         else {

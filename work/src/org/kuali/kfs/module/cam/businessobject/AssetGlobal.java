@@ -11,8 +11,12 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
@@ -48,9 +52,12 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String agencyNumber;
     private Integer financialDocumentNextLineNumber;    
     
+    
     // Not Presisted
     private Date lastInventoryDate;
-    private AssetHeader assetHeader;
+   // private AssetHeader assetHeader;
+    private Agency agency;
+    private UniversalUser assetRepresentative;
     private AssetType capitalAssetType;
     private AssetCondition assetCondition;
     private AssetStatus inventoryStatus;
@@ -625,25 +632,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
         this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
     }
-
-    /**
-     * Gets the assetHeader attribute.
-     * 
-     * @return Returns the assetHeader.
-     */
-    public AssetHeader getAssetHeader() {
-        return assetHeader;
-    }
-
-    /**
-     * Sets the assetHeader attribute value.
-     * 
-     * @param assetHeader The assetHeader to set.
-     */
-    public void setAssetHeader(AssetHeader assetHeader) {
-        this.assetHeader = assetHeader;
-    }
-
+ 
     /**
      * Gets the assetGlobalDetails attribute.
      * 
@@ -707,6 +696,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setCapitalAssetDescription(capitalAssetDescription);
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
             asset.setConditionCode(conditionCode);
+            asset.setAcquisitionTypeCode(acquisitionTypeCode);
             asset.setCampusCode(detail.getCampusCode());
             asset.setBuildingCode(detail.getBuildingCode());
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
@@ -780,7 +770,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        assetHeader.setDocumentNumber(documentNumber);
+     //   assetHeader.setDocumentNumber(documentNumber);
         super.beforeUpdate(persistenceBroker);
     }
 
@@ -789,7 +779,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        assetHeader.setDocumentNumber(documentNumber);
+   //     assetHeader.setDocumentNumber(documentNumber);
         super.beforeInsert(persistenceBroker);
     }
 
@@ -858,5 +848,40 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
+    
+    /**
+     * Gets the assetRepresentative attribute.
+     * 
+     * @return Returns the assetRepresentative.
+     */
+    public UniversalUser getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        return assetRepresentative;
+    }
+
+    /**
+     * Sets the assetRepresentative attribute value.
+     * 
+     * @param assetRepresentative The assetRepresentative to set.
+     */
+    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+        this.assetRepresentative = assetRepresentative;
+    }
+
+    /**
+     * Gets the agency attribute. 
+     * @return Returns the agency.
+     */
+    public Agency getAgency() {
+        return agency;
+    }
+
+    /**
+     * Sets the agency attribute value.
+     * @param agency The agency to set.
+     */
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 }

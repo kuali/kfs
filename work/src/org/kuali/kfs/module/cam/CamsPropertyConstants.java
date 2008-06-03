@@ -256,14 +256,19 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetGlobal {
+        
+        public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
+        public static final String ORGANIZATION_OWNER_CHART = "organizationOwnerChartOfAccounts";
+        
         public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
         public static final String ASSET_SHARED_DETAILS = "assetSharedDetails";
-        public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "assetHeader.organizationOwnerAccountNumber";
+        public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
         public static final String VENDOR_NAME = "vendorName";
         public static final String MFR_NAME = "manufacturerName";
         public static final String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
-        public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "assetHeader.organizationOwnerChartOfAccountsCode";
-        public static final String ORGANIZATION_OWNER_ACCT_NUMBER = "assetHeader.organizationOwnerAccountNumber";
+        public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "organizationOwnerChartOfAccountsCode";
+        public static final String ORGANIZATION_OWNER_ACCT_NUMBER = "organizationOwnerAccountNumber";
         public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
         public static final String ASSET_PAYMENT_DETAILS = "assetPaymentDetails";
         public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";

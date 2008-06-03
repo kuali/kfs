@@ -19,11 +19,11 @@
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"
-              p:attributeName="assetHeader.organizationOwnerChartOfAccounts"
-              p:attributeToHighlightOnFail="assetHeader.organizationOwnerChartOfAccountsCode" />
+              p:attributeName="organizationOwnerChartOfAccounts"
+              p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
-              p:attributeName="assetHeader.organizationOwnerAccount"
-              p:attributeToHighlightOnFail="assetHeader.organizationOwnerAccountNumber" />
+              p:attributeName="organizationOwnerAccount"
+              p:attributeToHighlightOnFail="organizationOwnerAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="assetCondition"
               p:attributeToHighlightOnFail="conditionCode" />
@@ -34,8 +34,8 @@
               p:attributeName="acquisitionType"
               p:attributeToHighlightOnFail="acquisitionTypeCode" />
         <bean parent="ReferenceDefinition"
-              p:attributeName="assetHeader.agency"
-              p:attributeToHighlightOnFail="assetHeader.agencyNumber" />
+              p:attributeName="agency"
+              p:attributeToHighlightOnFail="agencyNumber" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -82,15 +82,15 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.organizationOwnerChartOfAccountsCode"
+              p:name="organizationOwnerChartOfAccountsCode"
               p:required="true"
               p:webUILeaveFieldFunction="accountNameLookup" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.organizationOwnerAccountNumber"
+              p:name="organizationOwnerAccountNumber"
               p:required="true"
               p:webUILeaveFieldFunction="accountNameLookup" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.agencyNumber"
+              p:name="agencyNumber"
               p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
@@ -118,12 +118,12 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationText" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.representativeUniversalIdentifier"
+              p:name="representativeUniversalIdentifier"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.assetRepresentative.personUserIdentifier" />
+              p:name="assetRepresentative.personUserIdentifier" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.assetRepresentative.personName"
+              p:name="assetRepresentative.personName"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="lastInventoryDate"
@@ -149,13 +149,11 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="landParcelNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentNextLineNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentTypeCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetHeader.versionNumber" />
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

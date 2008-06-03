@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
@@ -61,7 +59,6 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -69,6 +66,7 @@ import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.rule.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
@@ -634,6 +632,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         PurchasingDocument purDocument = (PurchasingDocument) purapDocument;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (!purDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+            
+            //If there is a vendor and the transmission method is FAX and the fax number is blank, display
+            //error that the fax number is required.
+            if (purDocument.getVendorHeaderGeneratedIdentifier() != null && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX) && StringUtils.isBlank(purDocument.getVendorFaxNumber())) {
+                valid &= false;
+                String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
+                getDataDictionary().getBusinessObjectEntry(VendorAddress.class.getName()).
+                getAttributeDefinition(VendorPropertyConstants.VENDOR_FAX_NUMBER).getLabel();
+                errorMap.putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, KFSKeyConstants.ERROR_REQUIRED, attributeLabel);
+            }
             if (StringUtils.isNotBlank(purDocument.getVendorFaxNumber())) {
                 PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
                 if (!phonePattern.matches(purDocument.getVendorFaxNumber())) {

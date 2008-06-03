@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
@@ -219,7 +218,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public List<AssetGlpeSourceDetail> getSourceAssetGlpeSourceDetails() {
         return this.sourceAssetGlpeSourceDetails;
     }
-    
+
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(this, postable, sequenceHelper, explicitEntry);
@@ -795,5 +794,12 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public void setSourceAssetGlpeSourceDetails(List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails) {
         this.sourceAssetGlpeSourceDetails = sourceAssetGlpeSourceDetails;
+    }
+
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);
+        generalLedgerPostables.addAll(this.targetAssetGlpeSourceDetails);
+        return generalLedgerPostables;
     }
 }

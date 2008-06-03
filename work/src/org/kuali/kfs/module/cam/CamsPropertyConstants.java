@@ -71,7 +71,7 @@ public class CamsPropertyConstants {
         public static final String FABRICATION_ESTIMATED_RETENTION_YEARS = "fabricationEstimatedRetentionYears";
         public static final String FINANCIAL_OBJECT_SUB_TYP_CODE = "financialObjectSubTypeCode";
         public static final String CONDITION_CODE = "conditionCode";
-        public static final String INVENTORY_STATUS_CODE="inventoryStatusCode";
+        public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
 
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
@@ -193,7 +193,7 @@ public class CamsPropertyConstants {
         public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM = "transferOfFundsFinancialDocumentNumber";
         public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
         public static final String ASSET = "asset";
-        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";        
+        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     }
 
     public static class AssetComponent {
@@ -240,7 +240,7 @@ public class CamsPropertyConstants {
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
     }
-    
+
     public static class EquipmentLoanOrReturnDocument {
         public static final String LOAN_DATE = "loanDate";
         public static final String EXPECTED_RETURN_DATE = "expectedReturnDate";
@@ -266,6 +266,8 @@ public class CamsPropertyConstants {
         public static final String ORGANIZATION_OWNER_ACCT_NUMBER = "assetHeader.organizationOwnerAccountNumber";
         public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
         public static final String ASSET_PAYMENT_DETAILS = "assetPaymentDetails";
+        public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
+        public static final String VERSION_NUMBER = "versionNumber";
     }
 
     public static class AssetGlobalDetail {

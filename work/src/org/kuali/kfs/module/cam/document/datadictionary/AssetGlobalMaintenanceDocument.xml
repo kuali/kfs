@@ -63,7 +63,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>CM_ADMINISTRATORS</value>
+              <value>kualiUniversalGroup</value>
             </set>
           </property>
         </bean>

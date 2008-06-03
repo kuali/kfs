@@ -66,7 +66,7 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
         public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED = "message.payment.routintCancelled";
-        
+
         public static final String TOTAL_LABEL = "label.document.payment.total";
         public static final String PREVIOUS_COST_LABEL = "label.document.payment.previousCost";
         public static final String NEW_TOTAL_LABEL = "label.document.payment.newTotal";
@@ -107,7 +107,7 @@ public class CamsKeyConstants {
         public static final String ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED = "error.location.oncampus.not.permitted";
         public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.room.number.not.permitted";
         public static final String ERROR_ONCAMPUS_SUB_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.sub.room.number.not.permitted";
-        public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";        
+        public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";
     }
 
     public static class Retirement {
@@ -148,6 +148,7 @@ public class CamsKeyConstants {
     }
 
     public static class AssetGlobal {
+
         public static final String ERROR_INVENTORY_STATUS_REQUIRED = "error.asset.inventory.status.code.required";
         public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.asset.owner.account.not.active";
         public static final String MIN_ONE_ASSET_REQUIRED = "error.document.min.one.asset.required";
@@ -163,5 +164,9 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED = "error.capital.object.code.not.allowed";
         public static final String ERROR_CAPITAL_OBJECT_CODE_REQUIRED = "error.capital.object.code.required";
         public static final String ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED = "error.document.type.code.not.allowed";
+        public static final String ERROR_ASSET_TYPE_REQUIRED = "error.capital.asset.type.required";
+        public static final String ERROR_ASSET_LOCATION_DEPENDENCY = "error.asset.location.validation.dependecy";
+        public static final String ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN = "error.capital.asset.payment.min.limit";
+        public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";
     }
 }

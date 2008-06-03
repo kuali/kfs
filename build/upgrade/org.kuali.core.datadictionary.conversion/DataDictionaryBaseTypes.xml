@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="AttributeDefinition" class="org.kuali.core.datadictionary.AttributeDefinition" abstract="true" />
+    <bean id="FixedPointValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.FixedPointValidationPattern" abstract="true" />
+    <bean id="LookupDefinition" class="org.kuali.core.datadictionary.LookupDefinition" abstract="true" />
+    <bean id="MaintainableCollectionDefinition" class="org.kuali.core.datadictionary.MaintainableCollectionDefinition" abstract="true" />
+    <bean id="HeaderNavigation" class="org.kuali.core.datadictionary.HeaderNavigation" abstract="true" />
+    <bean id="CharsetValidationPattern" class="org.kuali.core.datadictionary.validation.charlevel.CharsetValidationPattern" abstract="true" />
+    <bean id="EmailAddressValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.EmailAddressValidationPattern" abstract="true" />
+    <bean id="InquiryDefinition" class="org.kuali.core.datadictionary.InquiryDefinition" abstract="true" />
+    <bean id="InquirySubSectionHeaderDefinition" class="org.kuali.core.datadictionary.InquirySubSectionHeaderDefinition" abstract="true" />
+    <bean id="MaskFormatter" class="org.kuali.core.datadictionary.mask.MaskFormatter" abstract="true" />
+    <bean id="AlphaValidationPattern" class="org.kuali.core.datadictionary.validation.charlevel.AlphaValidationPattern" abstract="true" />
+    <bean id="AuthorizationDefinition" class="org.kuali.core.datadictionary.AuthorizationDefinition" abstract="true" />
+    <bean id="TextControlDefinition" class="org.kuali.core.datadictionary.control.TextControlDefinition" abstract="true" />
+    <bean id="ApcSelectControlDefinition" class="org.kuali.core.datadictionary.control.ApcSelectControlDefinition" abstract="true" />
+    <bean id="SelectControlDefinition" class="org.kuali.core.datadictionary.control.SelectControlDefinition" abstract="true" />
+    <bean id="ApcRuleDefinition" class="org.kuali.core.datadictionary.ApcRuleDefinition" abstract="true" />
+    <bean id="MaintenanceDocumentEntry" class="org.kuali.core.datadictionary.MaintenanceDocumentEntry" abstract="true" />
+    <bean id="FieldPairDefinition" class="org.kuali.core.datadictionary.FieldPairDefinition" abstract="true" />
+    <bean id="WorkflowWorkgroupControlDefinition" class="org.kuali.core.datadictionary.control.WorkflowWorkgroupControlDefinition" abstract="true" />
+    <bean id="CurrencyControlDefinition" class="org.kuali.core.datadictionary.control.CurrencyControlDefinition" abstract="true" />
+    <bean id="MaskFormatterLiteral" class="org.kuali.core.datadictionary.mask.MaskFormatterLiteral" abstract="true" />
+    <bean id="Mask" class="org.kuali.core.datadictionary.mask.Mask" abstract="true" />
+    <bean id="PrimitiveAttributeDefinition" class="org.kuali.core.datadictionary.PrimitiveAttributeDefinition" abstract="true" />
+    <bean id="LookupReadonlyControlDefinition" class="org.kuali.core.datadictionary.control.LookupReadonlyControlDefinition" abstract="true" />
+    <bean id="RadioControlDefinition" class="org.kuali.core.datadictionary.control.RadioControlDefinition" abstract="true" />
+    <bean id="AlphaNumericValidationPattern" class="org.kuali.core.datadictionary.validation.charlevel.AlphaNumericValidationPattern" abstract="true" />
+    <bean id="MonthValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.MonthValidationPattern" abstract="true" />
+    <bean id="JavaClassValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.JavaClassValidationPattern" abstract="true" />
+    <bean id="MaintainableSectionDefinition" class="org.kuali.core.datadictionary.MaintainableSectionDefinition" abstract="true" />
+    <bean id="ZipcodeValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern" abstract="true" />
+    <bean id="KualiUserControlDefinition" class="org.kuali.core.datadictionary.control.KualiUserControlDefinition" abstract="true" />
+    <bean id="LookupHiddenControlDefinition" class="org.kuali.core.datadictionary.control.LookupHiddenControlDefinition" abstract="true" />
+    <bean id="BusinessObjectEntry" class="org.kuali.core.datadictionary.BusinessObjectEntry" abstract="true" />
+    <bean id="HiddenControlDefinition" class="org.kuali.core.datadictionary.control.HiddenControlDefinition" abstract="true" />
+    <bean id="InquirySectionDefinition" class="org.kuali.core.datadictionary.InquirySectionDefinition" abstract="true" />
+    <bean id="FieldDefinition" class="org.kuali.core.datadictionary.FieldDefinition" abstract="true" />
+    <bean id="HelpDefinition" class="org.kuali.core.datadictionary.HelpDefinition" abstract="true" />
+    <bean id="InquiryCollectionDefinition" class="org.kuali.core.datadictionary.InquiryCollectionDefinition" abstract="true" />
+    <bean id="NumericValidationPattern" class="org.kuali.core.datadictionary.validation.charlevel.NumericValidationPattern" abstract="true" />
+    <bean id="ReferenceDefinition" class="org.kuali.core.datadictionary.ReferenceDefinition" abstract="true" />
+    <bean id="YearValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.YearValidationPattern" abstract="true" />
+    <bean id="MaintainableSubSectionHeaderDefinition" class="org.kuali.core.datadictionary.MaintainableSubSectionHeaderDefinition" abstract="true" />
+    <bean id="TransactionalDocumentEntry" class="org.kuali.core.datadictionary.TransactionalDocumentEntry" abstract="true" />
+    <bean id="AnyCharacterValidationPattern" class="org.kuali.core.datadictionary.validation.charlevel.AnyCharacterValidationPattern" abstract="true" />
+    <bean id="DateValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.DateValidationPattern" abstract="true" />
+    <bean id="MaskFormatterCustom" class="org.kuali.core.datadictionary.mask.MaskFormatterCustom" abstract="true" />
+    <bean id="TextareaControlDefinition" class="org.kuali.core.datadictionary.control.TextareaControlDefinition" abstract="true" />
+    <bean id="FloatingPointValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.FloatingPointValidationPattern" abstract="true" />
+    <bean id="PhoneNumberValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern" abstract="true" />
+    <bean id="MaskFormatterSubString" class="org.kuali.core.datadictionary.mask.MaskFormatterSubString" abstract="true" />
+    <bean id="CollectionDefinition" class="org.kuali.core.datadictionary.CollectionDefinition" abstract="true" />
+    <bean id="MaintainableFieldDefinition" class="org.kuali.core.datadictionary.MaintainableFieldDefinition" abstract="true" />
+    <bean id="CheckboxControlDefinition" class="org.kuali.core.datadictionary.control.CheckboxControlDefinition" abstract="true" />
+    <bean id="RelationshipDefinition" class="org.kuali.core.datadictionary.RelationshipDefinition" abstract="true" />
+    <bean id="TimestampValidationPattern" class="org.kuali.core.datadictionary.validation.fieldlevel.TimestampValidationPattern" abstract="true" />
+    <bean id="SupportAttributeDefinition" class="org.kuali.core.datadictionary.SupportAttributeDefinition" abstract="true" />
+    <bean id="SortDefinition" class="org.kuali.core.datadictionary.SortDefinition" abstract="true" />
+
+</beans>
+

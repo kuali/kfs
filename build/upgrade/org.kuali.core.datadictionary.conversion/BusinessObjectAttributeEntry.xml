@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.BusinessObjectAttributeEntry">
+
+
+        <lookup>
+            <title>Data Dictionary Attribute Lookup</title>
+
+            <instructions>Lookup attributes for a Business Object.</instructions>
+
+            <defaultSort attributeName="attributeName" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="dictionaryBusinessObjectName" required="true" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="attributeName" />
+                <field attributeName="attributeLabel" />
+                <field attributeName="attributeSummary" />
+                <field attributeName="attributeMaxLength" />
+                <field attributeName="attributeValidatingExpression" />
+                <field attributeName="attributeControlType" />
+                <field attributeName="attributeFormatterClassName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attribute name="dictionaryBusinessObjectName" forceUppercase="false">
+                <label>Business Object</label>
+                <shortLabel>BO</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BusinessObjectDictionaryEntriesFinder" />
+                </control>
+
+                <summary>Business Object Dictionary Entry</summary>
+                <description>Business Object Dictionary Entry</description>
+
+            </attribute>
+            <attribute name="attributeName" forceUppercase="false">
+                <label>Tech Name</label>
+                <shortLabel>Tech</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Attribute Tech Name</summary>
+                <description>Attribute Tech Name</description>
+
+            </attribute>
+            <attribute name="attributeLabel" forceUppercase="false">
+                <label>Label</label>
+                <shortLabel>Label</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Attribute Label</summary>
+                <description>Attribute Label</description>
+            </attribute>
+            <attribute name="attributeShortLabel" forceUppercase="false">
+                <label>Short Label</label>
+                <shortLabel>Short Label</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Attribute Short Label</summary>
+                <description>Attribute Short Label</description>
+            </attribute>
+            <attribute name="attributeMaxLength" forceUppercase="false">
+                <label>Max Length</label>
+                <shortLabel>Max</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Max Length</summary>
+                <description>Max Length</description>
+            </attribute>
+            <attribute name="attributeValidatingExpression" forceUppercase="false">
+                <label>Regex</label>
+                <shortLabel>Regex</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Validation Regular Expression</summary>
+                <description>Validation Regular Expression</description>
+
+            </attribute>
+            <attribute name="attributeControlType" forceUppercase="false">
+                <label>Control Type</label>
+                <shortLabel>Type</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Control Type</summary>
+                <description>Control Type</description>
+
+            </attribute>
+            <attribute name="attributeSummary" forceUppercase="false">
+                <label>Summary</label>
+                <shortLabel>Summary</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Attribute Summary</summary>
+                <description>Attribute Summary</description>
+
+            </attribute>
+            <attribute name="attributeDescription" forceUppercase="false">
+                <label>Description</label>
+                <shortLabel>Desc</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>Attribute Description</summary>
+                <description>Attribute Description</description>
+
+            </attribute>
+            <attribute name="attributeFormatterClassName" forceUppercase="false">
+                <label>Formatter Class</label>
+                <shortLabel>Formatter</shortLabel>
+
+                <maxLength>100</maxLength>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Formatter Class</summary>
+                <description>Formatter Class</description>
+
+            </attribute>
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

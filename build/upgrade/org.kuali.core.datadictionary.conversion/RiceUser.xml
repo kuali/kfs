@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.core.bo.user.RiceUser">
+
+		<inquiry>
+			<title>Universal User Inquiry</title>
+
+			<inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="personUniversalIdentifier" />
+						<field attributeName="universityId" />
+						<field attributeName="personUserIdentifier" />
+						<field attributeName="personName" />
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
+
+		<lookup>
+			<title>User Lookup</title>
+			<instructions>Lookup a User</instructions>
+
+			<defaultSort attributeName="personUniversalIdentifier" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="personUniversalIdentifier" required="false" />
+				<lookupField attributeName="universityId" required="false" />
+				<lookupField attributeName="personUserIdentifier" required="false" />
+				<lookupField attributeName="personName" required="false" />
+				<lookupField attributeName="emailAddress" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="personUniversalIdentifier" />
+				<field attributeName="universityId" />
+				<field attributeName="personUserIdentifier" />
+				<field attributeName="personName" />
+				<field attributeName="emailAddress" />
+			</resultFields>
+		</lookup>
+
+		<titleAttribute>personUniversalIdentifier</titleAttribute>
+
+		<attributes>
+			<attribute name="personUniversalIdentifier">
+				<label>User ID</label>
+				<shortLabel>User Id</shortLabel>
+
+				<maxLength>10</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<required>true</required>
+
+				<control>
+					<text size="10" />
+				</control>
+
+				<summary>User ID</summary>
+				<description>User ID</description>
+			</attribute>
+
+			<attribute name="universityId">
+				<label>University ID</label>
+				<shortLabel>University ID</shortLabel>
+
+				<maxLength>11</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<required>false</required>
+
+				<control>
+					<text size="13" />
+				</control>
+
+				<summary>University ID</summary>
+				<description>University ID</description>
+			</attribute>
+			
+			<attribute name="personUserIdentifier">
+				<label>Authentication User ID</label>
+				<shortLabel>Authentication User ID</shortLabel>
+
+				<maxLength>15</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<required>true</required>
+
+				<control>
+					<text size="15" />
+				</control>
+
+				<summary>Authentication User ID</summary>
+				<description>Authentication User ID</description>
+			</attribute>
+
+			<attribute name="personName">
+				<label>Name</label>
+				<shortLabel>Name</shortLabel>
+
+				<maxLength>255</maxLength>
+
+				<control>
+					<text size="25" />
+				</control>
+
+				<summary>Name</summary>
+				<description>Name</description>
+
+			</attribute>
+			
+			<attribute name="emailAddress">
+				<label>Email</label>
+				<shortLabel>Email</shortLabel>
+
+				<maxLength>255</maxLength>
+
+				<control>
+					<text size="25" />
+				</control>
+
+				<summary>Email</summary>
+				<description>Email</description>
+			</attribute>
+	
+		</attributes>
+	</businessObject>
+</dictionaryEntry>

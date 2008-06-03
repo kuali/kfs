@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.core.bo.DocumentType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiDocumentTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DTYP</documentTypeCode>
+
+        <label>Document Type</label>
+
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>Document used to create or update a document types in the system.</description>
+        <help parameterNamespace="KR-NS" parameterDetailType="DocumentType" parameterName="DOCUMENT_TYPE" />
+
+        <lockingKeys>
+            <field attributeName="financialDocumentTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Document Type">
+                <maintainableItems>
+                    <maintainableField name="financialDocumentTypeCode" required="true" />
+                    <maintainableField name="financialDocumentGroupCode" required="true" />
+                    <maintainableField name="financialDocumentName" required="true" />
+                    <maintainableField name="finEliminationsEligibilityIndicator"  />
+                    <maintainableField name="finDocumentTypeActiveIndicator"  />
+                    <maintainableField name="finDocumentRoutingRuleCode" required="true" />
+                    <maintainableField name="finDocAutomaticApprovalDays" required="true" />
+                    <maintainableField name="financialDocumentBalancedIndicator"  />
+                    <maintainableField name="transactionScrubberOffsetGenerationIndicator" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

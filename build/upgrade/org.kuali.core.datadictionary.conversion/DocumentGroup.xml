@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.DocumentGroup">
+ 
+        <inquiry>
+            <title>Document Group Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="financialDocumentClassCode" />
+                        <field attributeName="financialDocumentGroupCode" />
+                        <field attributeName="financialDocumentGroupName" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Document Group Lookup</title>
+
+            <instructions>Look up a Document Group</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="financialDocumentGroupCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="financialDocumentClassCode" required="false" />
+                <lookupField attributeName="financialDocumentGroupCode" required="false" />
+                <lookupField attributeName="financialDocumentGroupName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="financialDocumentClassCode" />
+                <field attributeName="financialDocumentGroupCode" />
+                <field attributeName="financialDocumentGroupName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="financialDocumentClassCode" forceUppercase="true">
+                <label>Financial Document Class Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentClassCode</summary>
+                <description>financialDocumentClassCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentGroupCode" forceUppercase="true">
+                <label>Financial Document Group Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentGroupCode</summary>
+                <description>financialDocumentGroupCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentGroupName" forceUppercase="true">
+                <label>Financial Document Group Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>financialDocumentGroupName</summary>
+                <description>financialDocumentGroupName description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

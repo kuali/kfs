@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.DocumentStatus">
+ 
+        <inquiry>
+            <title>Document Status Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="financialDocumentStatusCode" />
+                        <field attributeName="financialDocumentStatusName" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Document Status Lookup</title>
+
+            <instructions>Look up a Document Status</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="financialDocumentStatusCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="financialDocumentStatusCode" required="false" />
+                <lookupField attributeName="financialDocumentStatusName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="financialDocumentStatusCode" />
+                <field attributeName="financialDocumentStatusName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="financialDocumentStatusCode" forceUppercase="true">
+                <label>Financial Document Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentStatusCode</summary>
+                <description>financialDocumentStatusCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentStatusName" forceUppercase="true">
+                <label>Financial Document Status Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>financialDocumentStatusName</summary>
+                <description>financialDocumentStatusName description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

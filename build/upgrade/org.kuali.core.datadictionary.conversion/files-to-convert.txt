@@ -1,0 +1,17 @@
+classpath:/org/kuali/core/datadictionary/conversion
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/kfs/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/ar/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/budget/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/cams/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/cg/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/chart/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/effort/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/financial/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/gl/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/labor/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/pdp/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/purap/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/vendor/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/kra/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/kra/budget/datadictionary
+file:C:/kuali/projects/kuali_project/work/src/org/kuali/module/kra/routingform/datadictionary

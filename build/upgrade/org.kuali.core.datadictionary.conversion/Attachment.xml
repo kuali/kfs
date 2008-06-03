@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.Attachment">
+
+
+        <inquiry>
+            <title>Attachment Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="attachmentFileName" />
+                        <field attributeName="attachmentFileSize" />
+                        <field attributeName="attachmentIdentifier" />
+                        <field attributeName="attachmentMimeTypeCode" />
+                        <field attributeName="attachmentTypeCode" />
+                        <field attributeName="noteIdentifier" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Attachment Lookup</title>
+
+            <instructions>Lookup an Attachment</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="noteIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="attachmentFileName" required="false" />
+                <lookupField attributeName="attachmentFileSize" required="false" />
+                <lookupField attributeName="attachmentIdentifier" required="false" />
+                <lookupField attributeName="attachmentMimeTypeCode" required="false" />
+                <lookupField attributeName="attachmentTypeCode" required="false" />
+                <lookupField attributeName="noteIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="attachmentFileName" />
+                <field attributeName="attachmentFileSize" />
+                <field attributeName="attachmentIdentifier" />
+                <field attributeName="attachmentMimeTypeCode" />
+                <field attributeName="attachmentTypeCode" />
+                <field attributeName="noteIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="attachmentFileName" forceUppercase="true">
+                <label>Attachment File Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>250</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>attachmentFileName</summary>
+                <description>attachmentFileName description...</description>
+			</attribute>
+
+            <attribute name="attachmentFileSize" forceUppercase="true">
+                <label>Attachment File Size</label>
+                <shortLabel>Size</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>attachmentFileSize</summary>
+                <description>attachmentFileSize description...</description>
+			</attribute>
+
+            <attribute name="attachmentIdentifier" forceUppercase="true">
+                <label>Attachment Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>36</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="38" />
+                </control>
+
+                <summary>attachmentIdentifier</summary>
+                <description>attachmentIdentifier description...</description>
+			</attribute>
+
+            <attribute name="attachmentMimeTypeCode" forceUppercase="true">
+                <label>Attachment Mime Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>attachmentMimeTypeCode</summary>
+                <description>attachmentMimeTypeCode description...</description>
+			</attribute>
+
+            <attribute name="attachmentTypeCode" forceUppercase="true">
+                <label>Attachment Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>attachmentTypeCode</summary>
+                <description>attachmentTypeCode description...</description>
+			</attribute>
+
+            <attribute name="noteIdentifier" forceUppercase="true">
+                <label>Note Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>noteIdentifier</summary>
+                <description>noteIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

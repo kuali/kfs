@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2007 The Kuali Foundation.
+    
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl1.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.core.bo.Parameter</businessObjectClass>
+        <maintainableClass>
+            org.kuali.core.maintenance.KualiMaintainableImpl
+        </maintainableClass>
+        <businessRulesClass>
+            org.kuali.core.rules.ParameterRule
+        </businessRulesClass>
+        <documentAuthorizerClass>
+            org.kuali.core.document.authorization.ParameterMaintenanceDocumentAuthorizer
+        </documentAuthorizerClass>
+        <authorizations>
+            <!-- initiation is controlled by the workgroup stored on the system parameter table rather than the DD -->
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+        <documentTypeName>ParameterMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PARM</documentTypeCode>
+        <label>Parameter Maintenance Document</label>
+        <shortLabel>Parm Maint. Doc.</shortLabel>
+        <summary>Parameter Maintenance Document</summary>
+        <description>
+            This document can be used to create or update system parameters.
+        </description>
+        <help parameterNamespace="KR-NS" parameterDetailType="N/A"
+            parameterName="NERVOUS_SYSTEM_HELP_PARAMETER"
+        />
+
+        <lockingKeys>
+            <field attributeName="parameterNamespaceCode" />
+            <field attributeName="parameterDetailTypeCode" />
+            <field attributeName="parameterName" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="parameterNamespace"
+                attributeToHighlightOnFail="parameterNamespaceCode"
+                activeIndicatorAttributeName="active"
+            />
+            <reference attributeName="parameterType"
+                attributeToHighlightOnFail="parameterTypeCode"
+                activeIndicatorAttributeName="active"
+            />
+            <reference attributeName="parameterDetailType"
+                attributeToHighlightOnFail="parameterDetailTypeCode"
+                activeIndicatorAttributeName="active"
+            />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Parameter">
+                <maintainableItems>
+                    <maintainableField name="parameterNamespaceCode" required="true" />
+                    <maintainableField name="parameterDetailTypeCode" required="true" />
+                    <maintainableField name="parameterName" required="true" />
+                    <maintainableField name="parameterValue" required="true" />
+                    <maintainableField name="parameterDescription" required="true" />
+                    <maintainableField name="parameterTypeCode" required="true" />
+                    <maintainableField name="parameterConstraintCode" required="true" />
+                    <maintainableField name="parameterWorkgroupName" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

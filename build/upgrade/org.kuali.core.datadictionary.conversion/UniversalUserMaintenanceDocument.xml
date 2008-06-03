@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.core.bo.user.UniversalUser</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.UniversalUserMaintainable</maintainableClass>
+		<businessRulesClass>org.kuali.core.rules.UniversalUserRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.core.rules.UniversalUserPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.UniversalUserDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>UniversalUserMaintenanceDocument</documentTypeName>
+        <documentTypeCode>UNVL</documentTypeCode>
+
+        <label>User</label>
+
+        <summary>User maintenance document</summary>
+        <description>Document used to create or update User objects</description>
+        <help parameterNamespace="KR-NS" parameterDetailType="UniversalUser" parameterName="UNIVERSAL_USER" />
+
+        <lockingKeys>
+            <field attributeName="personUniversalIdentifier" />
+        </lockingKeys>
+
+		<allowsNewOrCopy>true</allowsNewOrCopy>
+
+		<defaultExistenceChecks>
+            <reference attributeName="campus" attributeToHighlightOnFail="campusCode" />
+            <reference attributeName="employeeStatus" attributeToHighlightOnFail="employeeStatusCode" />
+            <reference attributeName="employeeType" attributeToHighlightOnFail="employeeTypeCode" />
+        </defaultExistenceChecks>
+        
+        <maintainableSections>
+            <maintainableSection title="Edit User">
+                <maintainableItems>
+	                <maintainableField name="personUserIdentifier" required="true"/>
+	                <maintainableField name="personUniversalIdentifier" required="true" />
+   	                <maintainableField name="personFirstName" required="true"/>
+   	                <maintainableField name="personMiddleName" />
+   	                <maintainableField name="personLastName" required="true"/>
+	                <maintainableField name="personName" />
+   	                <maintainableField name="personEmailAddress" />
+	                <maintainableField name="staff" />
+	                <maintainableField name="faculty" />
+	                <maintainableField name="student" />
+	                <maintainableField name="affiliate" />
+	                <maintainableField name="employeeStatusCode">
+	                	<defaultValue>A</defaultValue>
+	                </maintainableField>
+	                <maintainableField name="employeeTypeCode">
+	                	<defaultValue>P</defaultValue>
+	                </maintainableField>
+	                <maintainableField name="campusCode" />
+	                <maintainableField name="primaryDepartmentCode" />
+	                <maintainableField name="personPayrollIdentifier" />
+	                <maintainableField name="personTaxIdentifierTypeCode" />
+	                <maintainableField name="personTaxIdentifier" >
+	                  <fieldAuthorization>
+	                    <displayEditMode>ssnEditEntry</displayEditMode>
+	                    <displayMask><maskLiteral literal="***************"/></displayMask>
+	                  </fieldAuthorization>
+	                </maintainableField>
+   	                <maintainableField name="financialSystemsEncryptedPasswordText" />
+   	                <maintainableField name="personCampusAddress" />
+   	                <maintainableField name="personLocalPhoneNumber" />
+   	                <maintainableField name="personBaseSalaryAmount" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+        
+        
+        
+    </maintenanceDocument>
+</dictionaryEntry>

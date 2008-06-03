@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2007 The Kuali Foundation.
+    
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl1.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.Parameter">
+
+        <inquiry>
+            <title>Parameter Inquiry</title>
+            <inquirySections>
+                <inquirySection title="Parameter Information">
+                    <inquiryFields>
+                        <field attributeName="parameterNamespace.codeAndDescription" />
+                        <field attributeName="parameterDetailTypeCode" noInquiry="true" />
+                        <field attributeName="parameterName" noInquiry="true" />
+                        <field attributeName="parameterValue" />
+                        <field attributeName="parameterConstraintCode" />
+                        <field attributeName="parameterDescription" />
+                        <field attributeName="parameterType.name" />
+                        <field attributeName="parameterWorkgroupName" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>
+        </inquiry>
+        <lookup>
+            <lookupableID>parameterLookupable</lookupableID>
+            <title>Parameter Lookup</title>
+
+            <instructions>Look up a system parameter.</instructions>
+            <defaultSort attributeName="parameterName" sortAscending="true" />
+            <lookupFields>
+                <lookupField attributeName="parameterNamespaceCode" required="false" />
+                <lookupField attributeName="parameterDetailTypeCode" />
+                <lookupField attributeName="parameterName" noLookup="true" />
+                <lookupField attributeName="parameterValue" />
+                <lookupField attributeName="parameterTypeCode" />
+                <lookupField attributeName="parameterWorkgroupName" />
+            </lookupFields>
+            <resultFields>
+                <field attributeName="parameterNamespaceCode" forceInquiry="true" />
+                <field attributeName="parameterDetailTypeCode" noInquiry="true"/>
+                <field attributeName="parameterName" forceInquiry="true" />
+                <field attributeName="parameterValue" />
+                <field attributeName="parameterConstraintCode" />
+                <field attributeName="parameterDescription" />
+                <field attributeName="parameterType.name" forceInquiry="true" />
+                <field attributeName="parameterWorkgroupName" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>parameterName</titleAttribute>
+
+        <attributes>
+            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="code">
+                <required>true</required>
+                <control>
+                    <select
+                        valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"
+                    />
+                        <!--  
+                            script="this.form.submit();"
+                            if ( typeof refreshAfterNamespaceChange == 'function' )  
+                        -->
+                </control>
+                <summary>The namespace that the parameter is associated with.</summary>
+                <description>
+                    This value is used to categorize parameters by namespace.
+                </description>
+            </attributeReference>
+            <attributeReference name="parameterDetailTypeCode" sourceClassName="org.kuali.core.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeCode" >
+                <required>true</required>
+            
+            </attributeReference>
+            <attribute name="parameterName" forceUppercase="false">
+                <label>Parameter Name</label>
+                <shortLabel>Parm Nm</shortLabel>
+                <maxLength>100</maxLength>
+                <validationPattern>
+                    <alphaNumeric allowUnderscore="true" allowWhitespace="false" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="50" />
+                </control>
+                <summary>The name of the parameter.</summary>
+                <description>
+                    This will be used as the identifier for the parameter. Parameter
+                    values will be accessed using this field and the namespace as the key.
+                </description>
+            </attribute>
+            <attribute name="parameterValue" forceUppercase="false">
+                <label>Parameter Value</label>
+                <shortLabel>Parm Val</shortLabel>
+                <maxLength>4000</maxLength>
+                <control>
+                    <textarea rows="3" cols="40" />
+                </control>
+                <summary>The text associated with this parameter.</summary>
+                <description>
+                    This field houses the actual value associated with the parameter. This
+                    is what's returned by the KualiConfigurationService.
+                </description>
+            </attribute>
+            <attribute name="parameterDescription"
+                forceUppercase="false"
+            >
+                <label>Parameter Description</label>
+                <shortLabel>Desc</shortLabel>
+                <maxLength>4000</maxLength>
+                <required>true</required>
+                <control>
+                    <textarea rows="3" cols="40" />
+                </control>
+                <summary>The description of this parameter.</summary>
+                <description>
+                    This field houses the purpose of this parameter.
+                </description>
+            </attribute>
+            
+            <attribute name="parameterConstraintCode" >
+                <label>Parameter Constraint Code</label>
+                <shortLabel>Cons. Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterOperatorValuesFinder" />
+                </control>
+
+                <summary>parameterConstraintCode</summary>
+                <description>parameterConstraintCode description...</description>
+            </attribute>
+            
+            
+            <attributeReference name="parameterTypeCode" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="code" >
+                <required>true</required>
+                <control>
+                	<radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterTypeValuesFinder" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="parameterType.name" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="name">
+                <label>Parameter Type</label>
+                <required>false</required>
+            </attributeReference>
+            
+            <attribute name="parameterWorkgroupName">
+                <label>Workgroup</label>
+                <shortLabel>Workgroup</shortLabel>
+
+                <maxLength>70</maxLength>
+                <required>true</required>
+                <control>
+                	<workflowWorkgroup size="20"/>
+                </control>
+
+                <summary>
+                    ID of workgroup which can edit this parameter.
+                </summary>
+                <description>
+                    ID of workgroup which can edit this parameter.
+                </description>
+            </attribute>
+            
+            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
+            
+            <attributeReference name="objectId"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="objectId"
+            />
+            <attributeReference name="versionNumber"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="versionNumber"
+            />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

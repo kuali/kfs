@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.AttributeReferenceDummy">
+
+
+        <attributes>
+
+            <!-- This can be used to simplify declaration of 
+                one-digit textual codes that are used in the system.
+                The descriptive elements will all need to be overriden. -->
+            <attribute name="oneDigitTextCode" forceUppercase="true">
+                <label>Generic One-Digit Text Code</label>
+                <shortLabel>TextCode1</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <anyCharacter exactLength="1" />
+                </validationPattern>
+
+                <control>
+                    <text size="1" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This should always be overriden on all of the descriptive elements.</description>
+            </attribute>
+
+            <!-- This can be used to simplify declaration of 
+                two-digit textual codes that are used in the system.
+                The descriptive elements will all need to be overriden. -->
+            <attribute name="twoDigitTextCode" forceUppercase="true">
+                <label>Generic Two-Digit Text Code</label>
+                <shortLabel>TextCode2</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This should always be overriden on all of the descriptive elements.</description>
+            </attribute>
+
+            <!--  This should be used/overridden wherever an attribute is 
+                a SystemId.  Note that this means you'll definitely need to 
+                override all the textual descriptions (ie, label, shortLabel, 
+                summary and description.  Having this centralized will make it 
+                much simpler to change the nature of a 'SystemId' if we need 
+                to down the road. -->
+            <attribute name="genericSystemId" forceUppercase="false">
+                <label>Generic SystemID Attribute</label>
+                <shortLabel>GenericSysId</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This is a generic implementation of a 'SystemId' attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders.</description>
+            </attribute>
+
+            <!--  This should be used/overridden anytime a standard 
+                date format is being used, so the way to style & validate 
+                date types of entry can be centralized. -->
+            <attribute name="genericDate" forceUppercase="false">
+                <label>Generic Date Style Attribute</label>
+                <shortLabel>GenericDate</shortLabel>
+
+                <maxLength>21</maxLength>
+                <validationPattern>
+                    <date />
+                </validationPattern>
+
+                <control>
+                    <text size="10" datePicker="true" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
+            </attribute>
+
+            <!--  This should be used/overridden anytime a standard 
+                timestamp format is being used, so the way to style & validate 
+                timestamp types can be centralized. -->
+            <attribute name="genericTimestamp" forceUppercase="false">
+                <label>Generic Timestamp Style Attribute</label>
+                <shortLabel>GenericTimestamp</shortLabel>
+
+                <maxLength>21</maxLength>
+                <validationPattern>
+                    <timestamp />
+                </validationPattern>
+
+                <control>
+                    <text size="10" datePicker="true" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
+            </attribute>
+
+            <!--  This should be used/overridden anytime a standard 
+                boolean format is being used, so the way to style & validate 
+                boolean types of entry can be centralized. -->
+            <attribute name="genericBoolean" forceUppercase="false">
+                <label>Generic Boolean Attribute</label>
+                <shortLabel>GenericBool</shortLabel>
+
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+            <attribute name="activeIndicator" forceUppercase="false">
+                <label>Active Indicator</label>
+                <shortLabel>active</shortLabel>
+
+                <maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Active Indicator</summary>
+                <description>This attribute is used to describe whether the associated object is active or inactive.</description>
+
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+            <!--  This should be used/overridden anytime a standard 
+                large-money format is being used, so the way to style & validate 
+                large-money types of entry can be centralized. -->
+            <attribute name="genericAmount" forceUppercase="false">
+                <label>Amount</label>
+                <shortLabel>Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="true" precision="19" scale="2" />
+                </validationPattern>
+
+                <control>
+                    <currency size="10" formattedMaxLength="26" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+            </attribute>
+
+            <!-- 
+            -->
+            <attribute name="genericBigText" forceUppercase="false">
+                <label>Generic Big Text Attribute</label>
+                <shortLabel>GenericBigText</shortLabel>
+
+                <maxLength>400</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+            </attribute>
+
+            <attribute name="emailAddress" forceUppercase="false">
+                <label>Email</label>
+                <shortLabel>Email</shortLabel>
+                <maxLength>200</maxLength>
+                <validationPattern>
+                    <emailAddress />
+                </validationPattern>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The email address of the university user.</description>
+            </attribute>
+
+            <attribute name="universityFiscalAccountingPeriod" forceUppercase="true">
+                <label>University Fiscal Accounting Period</label>
+                <shortLabel>Period</shortLabel>
+
+                <maxLength>2</maxLength>
+                
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>
+                    University Fiscal Accounting Period
+                </description>
+            </attribute>
+
+            <attribute name="transactionEntrySequenceId" forceUppercase="true">
+                <label>Transaction Entry Sequence Id</label>
+                <shortLabel>Seq #</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The sequential entry Id for the transaction.
+                </description>
+            </attribute>
+
+            <attribute name="genericFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <year />
+                </validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>
+                    The institutional Fiscal Year.
+                </description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The assigned version number
+                </description>
+            </attribute>
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>Id</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The assigned Id of the object.
+                </description>
+            </attribute>
+
+            <!-- This is displayed (read-only) by page.tag from the Workflow header (KualiWorkflowDocument),
+                which is not a BO so the attribute is here for shortLabel and help. -->
+            <attribute name="createDate" forceUppercase="false">
+                <label>Creation Timestamp</label>
+                <shortLabel>Created</shortLabel>
+
+                <!-- this is required but not used and may be wrong -->
+                <maxLength>21</maxLength>
+
+                <!-- this is required but not used and may be wrong -->
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The time when the document was created.</description>
+            </attribute>
+
+            <!-- This is displayed (read-only) by page.tag from the Workflow header (KualiWorkflowDocument),
+                which is not a BO so the attribute is here for shortLabel and help. -->
+            <attribute name="initiatorNetworkId" forceUppercase="true">
+                <label>Initiator Network Id</label>
+                <shortLabel>Initiator</shortLabel>
+
+                <!-- this is required but not used and may be wrong -->
+                <maxLength>36</maxLength>
+
+                <!-- this is required but not used and may be wrong -->
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The user name of the person who created the document.</description>
+            </attribute>
+
+            <attribute name="percent" forceUppercase="false">
+                <label>Percent</label>
+                <shortLabel>Pct</shortLabel>
+
+                <maxLength>20</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Percent for ICR percent.</description>
+            </attribute>
+            
+			<attribute name="maxDollarAmount" forceUppercase="false">
+				<label>Maximum Amount</label>
+				<shortLabel>Max Amt</shortLabel>
+				<maxLength>20</maxLength>
+				<control>
+					<text size="10"/>
+				</control>
+				<summary>
+                     <![CDATA[&nbsp;]]>
+                </summary>
+				<description>Maximum amount for dollar range.</description>
+			</attribute>
+			
+			<attribute name="minDollarAmount" forceUppercase="false">
+				<label>Minimum Amount</label>
+				<shortLabel>Min Amt</shortLabel>
+				<maxLength>20</maxLength>
+				<control>
+					<text size="10"/>
+				</control>
+				<summary>
+                     <![CDATA[&nbsp;]]>
+                </summary>
+				<description>Minimum amount for dollar range.</description>
+			</attribute>
+			
+			<attribute name="totalDollarAmount" forceUppercase="false">
+				<label>Total Amount</label>
+				<shortLabel>Total Amt</shortLabel>
+				<maxLength>20</maxLength>
+				<control>
+					<text size="10"/>
+				</control>
+				<summary>
+                     <![CDATA[&nbsp;]]>
+                </summary>
+				<description>Total dollar amount.</description>
+			</attribute>
+			
+			<attribute name="newCollectionRecord" forceUppercase="false">
+                <label>New Collection Record Indicator</label>
+                <shortLabel>NewRecord</shortLabel>
+
+                <maxLength>1</maxLength>
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute indicates whether the object is a new record for a collection.</description>
+
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2007 The Kuali Foundation.
+    
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+    http://www.opensource.org/licenses/ecl1.php
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.ParameterDetailType">
+
+        <inquiry>
+            <title>Parameter Detail Type Inquiry</title>
+            <inquirySections>
+                <inquirySection title="Parameter Detail Type Information">
+                    <inquiryFields>
+                        <field attributeName="parameterDetailTypeCode" />
+                        <field attributeName="parameterDetailTypeName" />
+                        <field attributeName="parameterNamespace.codeAndDescription" noInquiry="true" />
+                        <field attributeName="active" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>
+        </inquiry>
+        <lookup>
+        	<!-- 
+            <lookupableID>parameterDetailTypeLookupable</lookupableID>
+            -->
+            <title>Parameter Detail Type Lookup</title>
+
+            <instructions>Look up a Parameter Detail Type.</instructions>
+            <defaultSort attributeName="parameterDetailTypeName" sortAscending="true" />
+            <lookupFields>
+                <lookupField attributeName="parameterNamespaceCode" required="false" />
+                <lookupField attributeName="parameterDetailTypeCode" required="false"
+                    noLookup="true"
+                />
+                <lookupField attributeName="parameterDetailTypeName" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+            </lookupFields>
+            <resultFields>
+                <field attributeName="parameterDetailTypeName" noInquiry="true" />
+                <field attributeName="parameterDetailTypeCode" noInquiry="true" />
+                <field attributeName="parameterNamespace.codeAndDescription" noInquiry="true" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>parameterDetailTypeName</titleAttribute>
+
+        <attributes>
+            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="code">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"/>
+                </control>
+            </attributeReference>
+            <attribute name="parameterDetailTypeCode" forceUppercase="false">
+                <label>Parameter Detail Type Code</label>
+                <shortLabel>Dtl Type Cd</shortLabel>
+                <maxLength>100</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>Code identifying the parameter detail type.</summary>
+                <description>
+                    Code identifying the parameter detail type.
+                </description>
+            </attribute>
+            <attribute name="parameterDetailTypeName" forceUppercase="false">
+                <label>Parameter Detail Type Name</label>
+                <shortLabel>Dtl Type Nm</shortLabel>
+                <maxLength>255</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="50" />
+                </control>
+                <summary>The name of the parameter detail type.</summary>
+                <description>
+                    The name of the parameter detail type.
+                </description>
+            </attribute>
+            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
+            <attributeReference name="active"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="activeIndicator"
+            >
+            </attributeReference>
+            <attributeReference name="objectId"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="objectId"
+            />
+            <attributeReference name="versionNumber"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="versionNumber"
+            />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.bo.DocumentType">
+
+
+        <inquiry>
+            <title>Document Type Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="financialDocumentTypeCode" />
+                <field attributeName="financialDocumentGroupCode" />
+                <field attributeName="financialDocumentName" />
+                <field attributeName="finEliminationsEligibilityIndicator" />
+                <field attributeName="finDocumentTypeActiveIndicator" />
+                <field attributeName="finDocumentRoutingRuleCode" />
+                <field attributeName="finDocAutomaticApprovalDays" />
+                <field attributeName="financialDocumentBalancedIndicator" />
+                <field attributeName="transactionScrubberOffsetGenerationIndicator" />
+                <!--field attributeName="financialDocumentGroup"/-->
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Document Type Lookup</title>
+
+            <instructions>Lookup a Document Type</instructions>
+
+            <defaultSort attributeName="financialDocumentTypeCode" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="financialDocumentTypeCode" required="false" />
+                <lookupField attributeName="financialDocumentGroupCode" required="false" />
+                <lookupField attributeName="financialDocumentName" required="false" />
+                <lookupField attributeName="finEliminationsEligibilityIndicator" required="false" />
+                <lookupField attributeName="finDocumentTypeActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+                <lookupField attributeName="finDocumentRoutingRuleCode" required="false" />
+                <lookupField attributeName="finDocAutomaticApprovalDays" required="false" />
+                <lookupField attributeName="financialDocumentBalancedIndicator" required="false" />
+                <lookupField attributeName="transactionScrubberOffsetGenerationIndicator" required="false" />
+                <!--lookupField attributeName="financialDocumentGroup" required="false/-->
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="financialDocumentTypeCode" />
+                <field attributeName="financialDocumentGroupCode" />
+                <field attributeName="financialDocumentName" />
+                <field attributeName="finEliminationsEligibilityIndicator" />
+                <field attributeName="finDocumentTypeActiveIndicator" />
+                <field attributeName="finDocumentRoutingRuleCode" />
+                <field attributeName="finDocAutomaticApprovalDays" />
+                <field attributeName="financialDocumentBalancedIndicator" />
+                <field attributeName="transactionScrubberOffsetGenerationIndicator" />
+                <!--field attributeName="financialDocumentGroup"/-->
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>financialDocumentTypeCode</titleAttribute>
+
+        <attributes>
+
+            <attribute name="financialDocumentTypeCode" forceUppercase="true">
+                <label>Document Type Code</label>
+                <shortLabel>Doc Type Code</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>Document Type Code</summary>
+                <description>The code for the business function of all documents of this type.</description>
+            </attribute>
+
+            <attribute name="financialDocumentGroupCode" forceUppercase="true">
+                <label>Document Group Code</label>
+                <shortLabel>Doc Group Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentGroupCode</summary>
+                <description>financialDocumentGroupCode description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentName" forceUppercase="true">
+                <label>Document Name</label>
+                <shortLabel>Doc Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+ 
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>financialDocumentName</summary>
+                <description>financialDocumentName Description...</description>
+            </attribute>
+
+            <attribute name="finEliminationsEligibilityIndicator" forceUppercase="true">
+                <label>Eliminations Eligibility</label>
+                <shortLabel>Elim Eligible</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+ 
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>finEliminationsEligibilityIndicator</summary>
+                <description>finEliminationsEligibilityIndicator Description...</description>
+            </attribute>
+
+            <attribute name="finDocumentTypeActiveIndicator" forceUppercase="false">
+                <label>Document Type Active</label>
+                <shortLabel>Active</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+ 
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>finDocumentTypeActiveIndicator</summary>
+                <description>finDocumentTypeActiveIndicator Description...</description>
+            </attribute>
+
+            <attribute name="finDocumentRoutingRuleCode" forceUppercase="true">
+                <label>Routing Rule Code</label>
+                <shortLabel>Rule Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>finDocumentRoutingRuleCode</summary>
+                <description>finDocumentRoutingRuleCode description...</description>
+            </attribute>
+
+            <attribute name="finDocAutomaticApprovalDays" forceUppercase="false">
+                <label>Automatic Approval Days</label>
+                <shortLabel>Auto Approve Days</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+ 
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>finDocAutomaticApprovalDays</summary>
+                <description>finDocAutomaticApprovalDays ...</description>
+            </attribute>
+
+            <attribute name="financialDocumentBalancedIndicator" forceUppercase="true">
+                <label>Document Balanced</label>
+                <shortLabel>Balanced</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+ 
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>financialDocumentBalancedIndicator</summary>
+                <description>financialDocumentBalancedIndicator Description...</description>
+            </attribute>
+
+            <attribute name="transactionScrubberOffsetGenerationIndicator" forceUppercase="true">
+                <label>Transaction Scrubber Offset Generation</label>
+                <shortLabel>Scrubber Offset</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+ 
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>transactionScrubberOffsetGenerationIndicator</summary>
+                <description>transactionScrubberOffsetGenerationIndicator Description...</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

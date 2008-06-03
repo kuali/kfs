@@ -320,45 +320,29 @@
   </bean>
   
   <bean id="SystemInformation-wireChartOfAccountsCode" parent="SystemInformation-wireChartOfAccountsCode-parentBean" />
-  <bean id="SystemInformation-wireChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-wireChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="wireChartOfAccountsCode" />
     <property name="label" value="Chart Of Account" />
     <property name="shortLabel" value="Wire Chart Of Accounts Code" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   
   <bean id="SystemInformation-wireAccountNumber" parent="SystemInformation-wireAccountNumber-parentBean" />
-  <bean id="SystemInformation-wireAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-wireAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="wireAccountNumber" />
     <property name="label" value="Account Number" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   
   <bean id="SystemInformation-wireObjectCode" parent="SystemInformation-wireObjectCode-parentBean" />
-  <bean id="SystemInformation-wireObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-wireObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="wireObjectCode" />
     <property name="label" value="Object Code" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   
   <bean id="SystemInformation-wireSubObjectCode" parent="SystemInformation-wireSubObjectCode-parentBean" />
-  <bean id="SystemInformation-wireSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-wireSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="name" value="wireSubObjectCode" />
     <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="Wire Sub Object Code" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   
   <bean id="SystemInformation-universityFederalEmployerIdentificationNumber" parent="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean" />

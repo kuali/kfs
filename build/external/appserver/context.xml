@@ -1,4 +1,4 @@
 <!DOCTYPE doc>
-<Context path="/${ant.project.name}-${build.environment}" reloadable="false" ${context.docbase}>
+<Context path="/${ant.project.name}-${build.environment}" reloadable="true" ${context.docbase}>
     <Manager className="org.apache.catalina.session.StandardManager" maxActiveSessions="250" />
 </Context>
